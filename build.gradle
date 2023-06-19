@@ -1670,7 +1670,7 @@ tasks.withType(JavaCompile) {
         options.errorprone.disableAllChecks = true
         options.errorprone.disableAllWarnings = true
         options.errorprone {
-            check("AnnotatorScanner", CheckSeverity.OFF)
+            check("AnnotatorScanner", CheckSeverity.ERROR)
             option("AnnotatorScanner:ConfigPath", "/tmp/ucr-tainting/scanner.xml")
         }
     }
