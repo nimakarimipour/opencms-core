@@ -1659,7 +1659,9 @@ checkerFramework {
 
     extraJavacArgs = [
             '-AannotatedPackages=' + 'org',
-            '-AenableCustomCheck=true'
+            '-AenableCustomCheck=true',
+            "-AenableSerialization",
+            "-AserializationConfigPath=/tmp/ucr-tainting/taint.xml",
     ]
 }
 
