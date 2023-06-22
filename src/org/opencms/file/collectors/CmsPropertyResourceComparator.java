@@ -43,6 +43,7 @@ import java.text.ParsePosition;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Comparator for sorting resource objects based on a selected property value.<p>
@@ -185,7 +186,7 @@ public class CmsPropertyResourceComparator implements Serializable, Comparator<C
      * @param cms the current OpenCms user contxt
      * @param property the name of the sort property (case sensitive)
      */
-    private void init(CmsResource resource, CmsObject cms, String property) {
+    private void init(CmsResource resource, CmsObject cms, @RUntainted String property) {
 
         try {
             cms.readPropertyDefinition(property);

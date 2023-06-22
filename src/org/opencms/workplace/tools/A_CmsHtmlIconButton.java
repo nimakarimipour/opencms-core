@@ -33,6 +33,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplace;
 
 import java.io.File;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default skeleton for an html icon button.<p>
@@ -109,14 +110,14 @@ public abstract class A_CmsHtmlIconButton implements I_CmsHtmlIconButton {
      *
      * @return html code
      */
-    public static String defaultButtonHtml(
+    public static @RUntainted String defaultButtonHtml(
         CmsHtmlIconButtonStyleEnum style,
         String id,
         String name,
         String helpText,
         boolean enabled,
         String iconPath,
-        String confirmationMessage,
+        @RUntainted String confirmationMessage,
         String onClick) {
 
         return defaultButtonHtml(
@@ -150,7 +151,7 @@ public abstract class A_CmsHtmlIconButton implements I_CmsHtmlIconButton {
      *
      * @return html code
      */
-    public static String defaultButtonHtml(
+    public static @RUntainted String defaultButtonHtml(
         CmsHtmlIconButtonStyleEnum style,
         String id,
         String helpId,
@@ -158,12 +159,12 @@ public abstract class A_CmsHtmlIconButton implements I_CmsHtmlIconButton {
         String helpText,
         boolean enabled,
         String iconPath,
-        String confirmationMessage,
+        @RUntainted String confirmationMessage,
         String onClick,
         boolean singleHelp,
         String rightHtml) {
 
-        StringBuffer html = new StringBuffer(1024);
+        @RUntainted StringBuffer html = new StringBuffer(1024);
         if (style == CmsHtmlIconButtonStyleEnum.BIG_ICON_TEXT) {
             html.append("<div class='bigLink' id='img");
             html.append(id);

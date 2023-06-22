@@ -34,6 +34,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.QName;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides generic wrappers for XML library methods that do not support Java 5 generic types.<p>
@@ -117,7 +118,7 @@ public final class CmsXmlGenericWrapper {
      * @return type safe access to {@link Element#elements()}.<p>
      */
     @SuppressWarnings("unchecked")
-    public static List<Element> elements(Element element) {
+    public static @RUntainted List<@RUntainted Element> elements(Element element) {
 
         return element.elements();
     }
@@ -145,7 +146,7 @@ public final class CmsXmlGenericWrapper {
      * @return type safe access to {@link Element#elements(String)}.<p>
      */
     @SuppressWarnings("unchecked")
-    public static List<Element> elements(Element element, String name) {
+    public static @RUntainted List<@RUntainted Element> elements(Element element, String name) {
 
         return element.elements(name);
     }

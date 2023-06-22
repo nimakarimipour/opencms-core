@@ -66,6 +66,7 @@ import org.dom4j.Element;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manager class for user data requests.<p>
@@ -310,7 +311,7 @@ public class CmsUserDataRequestManager {
      * @param path the site path of the configuration
      * @return the configuration for the given path
      */
-    public Optional<CmsUserDataRequestConfig> loadConfig(CmsObject cms, String path) {
+    public Optional<CmsUserDataRequestConfig> loadConfig(CmsObject cms, @RUntainted String path) {
 
         LOG.debug("loading user data request config for path " + path);
         if (path == null) {
@@ -375,7 +376,7 @@ public class CmsUserDataRequestManager {
      * @throws EmailException if sending the email fails
      * @throws AddressException if parsing the email address fails
      */
-    public void startUserDataRequest(CmsObject cms, CmsUserDataRequestConfig config, String email)
+    public void startUserDataRequest(CmsObject cms, CmsUserDataRequestConfig config, @RUntainted String email)
     throws CmsUserDataRequestException, EmailException, AddressException {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(email)) {
@@ -463,7 +464,7 @@ public class CmsUserDataRequestManager {
 
         List<CmsUser> users = getUsersByEmail(m_adminCms, email);
         boolean foundDomain = false;
-        int i = 0;
+        @RUntainted int i = 0;
         for (I_CmsUserDataDomain userDomain : getAllDomains()) {
             i += 1;
             report.print(
@@ -517,7 +518,7 @@ public class CmsUserDataRequestManager {
 
         Document doc = root.ownerDocument();
         String oldHtml = doc.toString();
-        int i = 0;
+        @RUntainted int i = 0;
         for (I_CmsUserDataDomain userDomain : getAllDomains()) {
             i += 1;
             report.print(
@@ -584,7 +585,7 @@ public class CmsUserDataRequestManager {
      * @throws EmailException if sending the email fails
      * @throws AddressException if parsing the address fails
      */
-    private void sendMail(CmsObject cms, CmsUserDataRequestConfig config, String email, String id)
+    private void sendMail(CmsObject cms, CmsUserDataRequestConfig config, @RUntainted String email, String id)
     throws EmailException, AddressException {
 
         CmsHtmlMail mail = new CmsHtmlMail();

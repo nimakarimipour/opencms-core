@@ -29,6 +29,7 @@ package org.opencms.search;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,7 +39,7 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_ANALYZER_NOT_FOUND_1 = "ERR_ANALYZER_NOT_FOUND_1";
+    public static final @RUntainted String ERR_ANALYZER_NOT_FOUND_1 = "ERR_ANALYZER_NOT_FOUND_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_CONFIGURATION_FIELD_DELETE_2 = "ERR_CONFIGURATION_FIELD_DELETE_2";
@@ -47,22 +48,22 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_CREATING_INDEX_DOC_0 = "ERR_CREATING_INDEX_DOC_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_DOCCLASS_INIT_1 = "ERR_DOCCLASS_INIT_1";
+    public static final @RUntainted String ERR_DOCCLASS_INIT_1 = "ERR_DOCCLASS_INIT_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_DOCCLASS_NOT_FOUND_1 = "ERR_DOCCLASS_NOT_FOUND_1";
+    public static final @RUntainted String ERR_DOCCLASS_NOT_FOUND_1 = "ERR_DOCCLASS_NOT_FOUND_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_DOCTYPE_NO_CLASS_DEF_0 = "ERR_DOCTYPE_NO_CLASS_DEF_0";
+    public static final @RUntainted String ERR_DOCTYPE_NO_CLASS_DEF_0 = "ERR_DOCTYPE_NO_CLASS_DEF_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_SPELLCHECK_CORE_NOT_AVAILABLE_1 = "ERR_SPELLCHECK_CORE_NOT_AVAILABLE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_DOCTYPE_NO_NAME_0 = "ERR_DOCTYPE_NO_NAME_0";
+    public static final @RUntainted String ERR_DOCTYPE_NO_NAME_0 = "ERR_DOCTYPE_NO_NAME_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_DOCTYPE_NO_RESOURCETYPE_DEF_0 = "ERR_DOCTYPE_NO_RESOURCETYPE_DEF_0";
+    public static final @RUntainted String ERR_DOCTYPE_NO_RESOURCETYPE_DEF_0 = "ERR_DOCTYPE_NO_RESOURCETYPE_DEF_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_EVENT_REBUILD_SEARCHINDEX_1 = "ERR_EVENT_REBUILD_SEARCHINDEX_1";
@@ -77,34 +78,34 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_EVENT_REINDEX_FAILED_1 = "ERR_EVENT_REINDEX_FAILED_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_FIELD_CONFIGURATION_UNKNOWN_2 = "ERR_FIELD_CONFIGURATION_UNKNOWN_2";
+    public static final @RUntainted String ERR_FIELD_CONFIGURATION_UNKNOWN_2 = "ERR_FIELD_CONFIGURATION_UNKNOWN_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_FIELD_MAPPING_DELETE_2 = "ERR_FIELD_MAPPING_DELETE_2";
+    public static final @RUntainted String ERR_FIELD_MAPPING_DELETE_2 = "ERR_FIELD_MAPPING_DELETE_2";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_FIELD_TYPE_UNKNOWN_1 = "ERR_FIELD_TYPE_UNKNOWN_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INDEX_CONFIGURATION_DELETE_2 = "ERR_INDEX_CONFIGURATION_DELETE_2";
+    public static final @RUntainted String ERR_INDEX_CONFIGURATION_DELETE_2 = "ERR_INDEX_CONFIGURATION_DELETE_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INDEX_CONFIGURATION_DELETE_STANDARD_1 = "ERR_INDEX_CONFIGURATION_DELETE_STANDARD_1";
+    public static final @RUntainted String ERR_INDEX_CONFIGURATION_DELETE_STANDARD_1 = "ERR_INDEX_CONFIGURATION_DELETE_STANDARD_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_INDEX_LOCK_FAILED_1 = "ERR_INDEX_LOCK_FAILED_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INDEX_NOT_FOUND_1 = "ERR_INDEX_NOT_FOUND_1";
+    public static final @RUntainted String ERR_INDEX_NOT_FOUND_1 = "ERR_INDEX_NOT_FOUND_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INDEX_NULL_0 = "ERR_INDEX_NULL_0";
+    public static final @RUntainted String ERR_INDEX_NULL_0 = "ERR_INDEX_NULL_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_INDEX_REBUILD_ALL_1 = "ERR_INDEX_REBUILD_ALL_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INDEX_RESOURCE_FAILED_2 = "ERR_INDEX_RESOURCE_FAILED_2";
+    public static final @RUntainted String ERR_INDEX_RESOURCE_FAILED_2 = "ERR_INDEX_RESOURCE_FAILED_2";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_INDEX_SEARCHER_1 = "ERR_INDEX_SEARCHER_1";
@@ -119,52 +120,52 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_INDEX_SHUTDOWN_1 = "ERR_INDEX_SHUTDOWN_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INDEX_SOURCE_ASSOCIATION_1 = "ERR_INDEX_SOURCE_ASSOCIATION_1";
+    public static final @RUntainted String ERR_INDEX_SOURCE_ASSOCIATION_1 = "ERR_INDEX_SOURCE_ASSOCIATION_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INDEX_SOURCE_DELETE_2 = "ERR_INDEX_SOURCE_DELETE_2";
+    public static final @RUntainted String ERR_INDEX_SOURCE_DELETE_2 = "ERR_INDEX_SOURCE_DELETE_2";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_INDEX_WRONG_CLASS_2 = "ERR_INDEX_WRONG_CLASS_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INDEXSOURCE_CREATE_INVALID_NAME_1 = "ERR_INDEXSOURCE_CREATE_INVALID_NAME_1";
+    public static final @RUntainted String ERR_INDEXSOURCE_CREATE_INVALID_NAME_1 = "ERR_INDEXSOURCE_CREATE_INVALID_NAME_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INDEXSOURCE_CREATE_MISSING_NAME_0 = "ERR_INDEXSOURCE_CREATE_MISSING_NAME_0";
+    public static final @RUntainted String ERR_INDEXSOURCE_CREATE_MISSING_NAME_0 = "ERR_INDEXSOURCE_CREATE_MISSING_NAME_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INDEXSOURCE_INDEXER_CLASS_NAME_2 = "ERR_INDEXSOURCE_INDEXER_CLASS_NAME_2";
+    public static final @RUntainted String ERR_INDEXSOURCE_INDEXER_CLASS_NAME_2 = "ERR_INDEXSOURCE_INDEXER_CLASS_NAME_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IO_INDEX_WRITER_OPEN_2 = "ERR_IO_INDEX_WRITER_OPEN_2";
+    public static final @RUntainted String ERR_IO_INDEX_WRITER_OPEN_2 = "ERR_IO_INDEX_WRITER_OPEN_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_LOAD_ANALYZER_1 = "ERR_LOAD_ANALYZER_1";
+    public static final @RUntainted String ERR_LOAD_ANALYZER_1 = "ERR_LOAD_ANALYZER_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_QUERY_TOO_SHORT_1 = "ERR_QUERY_TOO_SHORT_1";
+    public static final @RUntainted String ERR_QUERY_TOO_SHORT_1 = "ERR_QUERY_TOO_SHORT_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_SEARCH_NOT_INITIALIZED_0 = "ERR_SEARCH_NOT_INITIALIZED_0";
+    public static final @RUntainted String ERR_SEARCH_NOT_INITIALIZED_0 = "ERR_SEARCH_NOT_INITIALIZED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_SEARCH_PARAMS_1 = "ERR_SEARCH_PARAMS_1";
+    public static final @RUntainted String ERR_SEARCH_PARAMS_1 = "ERR_SEARCH_PARAMS_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_SEARCHINDEX_CREATE_INVALID_NAME_1 = "ERR_SEARCHINDEX_CREATE_INVALID_NAME_1";
+    public static final @RUntainted String ERR_SEARCHINDEX_CREATE_INVALID_NAME_1 = "ERR_SEARCHINDEX_CREATE_INVALID_NAME_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_SEARCHINDEX_CREATE_MISSING_NAME_0 = "ERR_SEARCHINDEX_CREATE_MISSING_NAME_0";
+    public static final @RUntainted String ERR_SEARCHINDEX_CREATE_MISSING_NAME_0 = "ERR_SEARCHINDEX_CREATE_MISSING_NAME_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_SOLR_CORE_CONTAINER_NOT_CREATED_1 = "ERR_SOLR_CORE_CONTAINER_NOT_CREATED_1";
 
     /** Name of the used resource bundle. */
-    public static final String ERR_SOLR_NOT_ENABLED_0 = "ERR_SOLR_NOT_ENABLED_0";
+    public static final @RUntainted String ERR_SOLR_NOT_ENABLED_0 = "ERR_SOLR_NOT_ENABLED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_SOLR_SERVER_NOT_CREATED_3 = "ERR_SOLR_SERVER_NOT_CREATED_3";
+    public static final @RUntainted String ERR_SOLR_SERVER_NOT_CREATED_3 = "ERR_SOLR_SERVER_NOT_CREATED_3";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_HELP_BUTTON_BACK_0 = "GUI_HELP_BUTTON_BACK_0";
@@ -314,7 +315,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_INDEXING_WITH_FACTORY_2 = "LOG_INDEXING_WITH_FACTORY_2";
 
     /** Name of the used resource bundle. */
-    public static final String LOG_INVALID_FIELD_CLASS_1 = "LOG_INVALID_FIELD_CLASS_1";
+    public static final @RUntainted String LOG_INVALID_FIELD_CLASS_1 = "LOG_INVALID_FIELD_CLASS_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_INVALID_PARAM_3 = "LOG_INVALID_PARAM_3";
@@ -338,7 +339,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_IO_INDEX_READER_OPEN_2 = "LOG_IO_INDEX_READER_OPEN_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_IO_INDEX_WRITER_CLOSE_2 = "LOG_IO_INDEX_WRITER_CLOSE_2";
+    public static final @RUntainted String LOG_IO_INDEX_WRITER_CLOSE_2 = "LOG_IO_INDEX_WRITER_CLOSE_2";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_IO_INDEX_WRITER_COMMIT_2 = "LOG_IO_INDEX_WRITER_COMMIT_2";
@@ -463,34 +464,34 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_WRITING_INDEX_TO_WRITER_1 = "LOG_WRITING_INDEX_TO_WRITER_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SEARCH_INDEXING_FAILED_0 = "RPT_SEARCH_INDEXING_FAILED_0";
+    public static final @RUntainted String RPT_SEARCH_INDEXING_FAILED_0 = "RPT_SEARCH_INDEXING_FAILED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SEARCH_INDEXING_FILE_BEGIN_0 = "RPT_SEARCH_INDEXING_FILE_BEGIN_0";
+    public static final @RUntainted String RPT_SEARCH_INDEXING_FILE_BEGIN_0 = "RPT_SEARCH_INDEXING_FILE_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String RPT_SEARCH_INDEXING_LOCK_WAIT_2 = "RPT_SEARCH_INDEXING_LOCK_WAIT_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SEARCH_INDEXING_REBUILD_BEGIN_1 = "RPT_SEARCH_INDEXING_REBUILD_BEGIN_1";
+    public static final @RUntainted String RPT_SEARCH_INDEXING_REBUILD_BEGIN_1 = "RPT_SEARCH_INDEXING_REBUILD_BEGIN_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SEARCH_INDEXING_REBUILD_END_1 = "RPT_SEARCH_INDEXING_REBUILD_END_1";
+    public static final @RUntainted String RPT_SEARCH_INDEXING_REBUILD_END_1 = "RPT_SEARCH_INDEXING_REBUILD_END_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SEARCH_INDEXING_STATS_4 = "RPT_SEARCH_INDEXING_STATS_4";
+    public static final @RUntainted String RPT_SEARCH_INDEXING_STATS_4 = "RPT_SEARCH_INDEXING_STATS_4";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SEARCH_INDEXING_TIMEOUT_1 = "RPT_SEARCH_INDEXING_TIMEOUT_1";
+    public static final @RUntainted String RPT_SEARCH_INDEXING_TIMEOUT_1 = "RPT_SEARCH_INDEXING_TIMEOUT_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SEARCH_INDEXING_UPDATE_BEGIN_1 = "RPT_SEARCH_INDEXING_UPDATE_BEGIN_1";
+    public static final @RUntainted String RPT_SEARCH_INDEXING_UPDATE_BEGIN_1 = "RPT_SEARCH_INDEXING_UPDATE_BEGIN_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SEARCH_INDEXING_UPDATE_END_1 = "RPT_SEARCH_INDEXING_UPDATE_END_1";
+    public static final @RUntainted String RPT_SEARCH_INDEXING_UPDATE_END_1 = "RPT_SEARCH_INDEXING_UPDATE_END_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_UNABLE_TO_READ_SOURCE_2 = "RPT_UNABLE_TO_READ_SOURCE_2";
+    public static final @RUntainted String RPT_UNABLE_TO_READ_SOURCE_2 = "RPT_UNABLE_TO_READ_SOURCE_2";
 
     /** Name of the used resource bundle. */
     private static final String BUNDLE_NAME = "org.opencms.search.messages";

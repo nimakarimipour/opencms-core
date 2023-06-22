@@ -33,6 +33,7 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsLocale".<p>
@@ -42,7 +43,7 @@ import org.dom4j.Element;
 public class CmsXmlLocaleValue extends A_CmsXmlValueTextBase {
 
     /** The name of this type as used in the XML schema. */
-    public static final String TYPE_NAME = "OpenCmsLocale";
+    public static final @RUntainted String TYPE_NAME = "OpenCmsLocale";
 
     /** The validation rule used for this schema type. */
     public static final String TYPE_RULE = "[a-z]{2,3}(_[A-Z]{2}(_[a-zA-Z0-9]+){0,1}){0,1}";

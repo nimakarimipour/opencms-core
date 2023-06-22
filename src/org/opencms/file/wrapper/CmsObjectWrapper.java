@@ -59,6 +59,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class contains a subset of the methods of {@link CmsObject} and uses the
@@ -123,7 +124,7 @@ public class CmsObjectWrapper {
      * @throws CmsException if something goes wrong
      * @throws CmsIllegalArgumentException if the <code>destination</code> argument is null or of length 0
      */
-    public void copyResource(String source, String destination, CmsResourceCopyMode siblingMode)
+    public void copyResource(@RUntainted String source, @RUntainted String destination, CmsResourceCopyMode siblingMode)
     throws CmsException, CmsIllegalArgumentException {
 
         boolean exec = false;
@@ -159,7 +160,7 @@ public class CmsObjectWrapper {
      * @throws CmsException if something goes wrong
      * @throws CmsIllegalArgumentException if the given <code>resourcename</code> is null or of length 0
      */
-    public CmsResource createResource(String resourcename, int type) throws CmsException, CmsIllegalArgumentException {
+    public CmsResource createResource(@RUntainted String resourcename, int type) throws CmsException, CmsIllegalArgumentException {
 
         return createResource(resourcename, type, new byte[0], new ArrayList<CmsProperty>(0));
     }
@@ -182,7 +183,7 @@ public class CmsObjectWrapper {
      * @throws CmsException if something goes wrong
      * @throws CmsIllegalArgumentException if the <code>resourcename</code> argument is null or of length 0
      */
-    public CmsResource createResource(String resourcename, int type, byte[] content, List<CmsProperty> properties)
+    public CmsResource createResource(@RUntainted String resourcename, int type, byte[] content, List<CmsProperty> properties)
     throws CmsException, CmsIllegalArgumentException {
 
         CmsResource res = null;
@@ -219,7 +220,7 @@ public class CmsObjectWrapper {
      *
      * @throws CmsException if something goes wrong
      */
-    public void deleteResource(String resourcename, CmsResourceDeleteMode siblingMode) throws CmsException {
+    public void deleteResource(@RUntainted String resourcename, CmsResourceDeleteMode siblingMode) throws CmsException {
 
         boolean exec = false;
 
@@ -254,7 +255,7 @@ public class CmsObjectWrapper {
      *
      * @return <code>true</code> if the resource is available
      */
-    public boolean existsResource(String resourcename) {
+    public boolean existsResource(@RUntainted String resourcename) {
 
         // first try to find the resource
         boolean ret = m_cms.existsResource(resourcename);
@@ -352,7 +353,7 @@ public class CmsObjectWrapper {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResource> getResourcesInFolder(String resourcename, CmsResourceFilter filter) throws CmsException {
+    public List<CmsResource> getResourcesInFolder(@RUntainted String resourcename, CmsResourceFilter filter) throws CmsException {
 
         List<CmsResource> list = new ArrayList<CmsResource>();
 
@@ -419,7 +420,7 @@ public class CmsObjectWrapper {
      *
      * @return the absolute resource path adjusted for the current site
      */
-    public String getSitePath(CmsResource resource) {
+    public @RUntainted String getSitePath(CmsResource resource) {
 
         return m_cms.getSitePath(resource);
     }
@@ -447,7 +448,7 @@ public class CmsObjectWrapper {
      *
      * @throws CmsException if something goes wrong
      */
-    public void lockResource(String resourcename) throws CmsException {
+    public void lockResource(@RUntainted String resourcename) throws CmsException {
 
         boolean exec = false;
 
@@ -475,7 +476,7 @@ public class CmsObjectWrapper {
      *
      * @throws CmsException if something goes wrong
      */
-    public void lockResourceTemporary(String resourceName) throws CmsException {
+    public void lockResourceTemporary(@RUntainted String resourceName) throws CmsException {
 
         boolean exec = false;
         // iterate through all wrappers and call "lockResource" till one does not return false
@@ -506,7 +507,7 @@ public class CmsObjectWrapper {
      *
      * @throws CmsException if something goes wrong
      */
-    public void moveResource(String source, String destination) throws CmsException {
+    public void moveResource(@RUntainted String source, @RUntainted String destination) throws CmsException {
 
         boolean exec = false;
 
@@ -547,7 +548,7 @@ public class CmsObjectWrapper {
      *
      * @throws CmsException if the file resource could not be read for any reason
      */
-    public CmsFile readFile(String resourcename, CmsResourceFilter filter) throws CmsException {
+    public CmsFile readFile(@RUntainted String resourcename, CmsResourceFilter filter) throws CmsException {
 
         CmsFile res = null;
 
@@ -589,7 +590,7 @@ public class CmsObjectWrapper {
      *
      * @throws CmsException if something goes wrong
      */
-    public Map<String, CmsProperty> readProperties(String path) throws CmsException {
+    public Map<String, CmsProperty> readProperties(@RUntainted String path) throws CmsException {
 
         if (m_cms.existsResource(path, CmsResourceFilter.IGNORE_EXPIRATION)) {
             return CmsProperty.toObjectMap(m_cms.readPropertyObjects(path, false));
@@ -651,7 +652,7 @@ public class CmsObjectWrapper {
      *
      * @throws CmsException if the resource could not be read for any reason
      */
-    public CmsResource readResource(String resourcename, CmsResourceFilter filter) throws CmsException {
+    public CmsResource readResource(@RUntainted String resourcename, CmsResourceFilter filter) throws CmsException {
 
         CmsResource res = null;
 
@@ -714,7 +715,7 @@ public class CmsObjectWrapper {
      *
      * @return the path for the resource which exists in the VFS
      */
-    public String restoreLink(String path) {
+    public String restoreLink(@RUntainted String path) {
 
         if ((path != null) && (path.startsWith("#"))) {
             return path;
@@ -758,14 +759,14 @@ public class CmsObjectWrapper {
      *
      * @return the rewritten link for the resource
      */
-    public String rewriteLink(String path) {
+    public @RUntainted String rewriteLink(@RUntainted String path) {
 
         CmsResource res = null;
 
         try {
             res = readResource(m_cms.getRequestContext().removeSiteRoot(path), CmsResourceFilter.ALL);
             if (res != null) {
-                String ret = null;
+                @RUntainted String ret = null;
 
                 // iterate through all wrappers and call "rewriteLink" till one does not return null
                 List<I_CmsResourceWrapper> wrappers = getWrappers();
@@ -807,7 +808,7 @@ public class CmsObjectWrapper {
      *
      * @throws CmsException if something goes wrong
      */
-    public void unlockResource(String resourcename) throws CmsException {
+    public void unlockResource(@RUntainted String resourcename) throws CmsException {
 
         boolean exec = false;
 
@@ -884,7 +885,7 @@ public class CmsObjectWrapper {
      *
      * @throws CmsException if something goes wrong
      */
-    public void writeProperties(String path, Map<String, CmsProperty> props) throws CmsException {
+    public void writeProperties(@RUntainted String path, Map<String, CmsProperty> props) throws CmsException {
 
         if (m_cms.existsResource(path, CmsResourceFilter.IGNORE_EXPIRATION)) {
             m_cms.writePropertyObjects(path, new ArrayList<>(props.values()));

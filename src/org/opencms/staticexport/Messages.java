@@ -29,6 +29,7 @@ package org.opencms.staticexport;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -47,19 +48,19 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_EXPORT_FILE_FAILED_1 = "ERR_EXPORT_FILE_FAILED_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_EXPORT_NOT_SUCCESSFUL_0 = "ERR_EXPORT_NOT_SUCCESSFUL_0";
+    public static final @RUntainted String ERR_EXPORT_NOT_SUCCESSFUL_0 = "ERR_EXPORT_NOT_SUCCESSFUL_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_EXPORT_NOT_SUPPORTED_2 = "ERR_EXPORT_NOT_SUPPORTED_2";
+    public static final @RUntainted String ERR_EXPORT_NOT_SUPPORTED_2 = "ERR_EXPORT_NOT_SUPPORTED_2";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_INVALID_ENCODING_1 = "ERR_INVALID_ENCODING_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_EXPORT_PATH_0 = "ERR_INVALID_EXPORT_PATH_0";
+    public static final @RUntainted String ERR_INVALID_EXPORT_PATH_0 = "ERR_INVALID_EXPORT_PATH_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_EXPORT_PATH_1 = "ERR_INVALID_EXPORT_PATH_1";
+    public static final @RUntainted String ERR_INVALID_EXPORT_PATH_1 = "ERR_INVALID_EXPORT_PATH_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_OUTPUT_STREAM_1 = "ERR_OUTPUT_STREAM_1";
@@ -317,25 +318,25 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String RPT_DELETING_EXPORT_FOLDERS_END_0 = "RPT_DELETING_EXPORT_FOLDERS_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_EXPORTING_0 = "RPT_EXPORTING_0";
+    public static final @RUntainted String RPT_EXPORTING_0 = "RPT_EXPORTING_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_STATICEXPORT_BEGIN_0 = "RPT_STATICEXPORT_BEGIN_0";
+    public static final @RUntainted String RPT_STATICEXPORT_BEGIN_0 = "RPT_STATICEXPORT_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_STATICEXPORT_END_0 = "RPT_STATICEXPORT_END_0";
+    public static final @RUntainted String RPT_STATICEXPORT_END_0 = "RPT_STATICEXPORT_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_STATICEXPORT_NONTEMPLATE_RESOURCES_BEGIN_0 = "RPT_STATICEXPORT_NONTEMPLATE_RESOURCES_BEGIN_0";
+    public static final @RUntainted String RPT_STATICEXPORT_NONTEMPLATE_RESOURCES_BEGIN_0 = "RPT_STATICEXPORT_NONTEMPLATE_RESOURCES_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_STATICEXPORT_NONTEMPLATE_RESOURCES_END_0 = "RPT_STATICEXPORT_NONTEMPLATE_RESOURCES_END_0";
+    public static final @RUntainted String RPT_STATICEXPORT_NONTEMPLATE_RESOURCES_END_0 = "RPT_STATICEXPORT_NONTEMPLATE_RESOURCES_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_STATICEXPORT_TEMPLATE_RESOURCES_BEGIN_0 = "RPT_STATICEXPORT_TEMPLATE_RESOURCES_BEGIN_0";
+    public static final @RUntainted String RPT_STATICEXPORT_TEMPLATE_RESOURCES_BEGIN_0 = "RPT_STATICEXPORT_TEMPLATE_RESOURCES_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_STATICEXPORT_TEMPLATE_RESOURCES_END_0 = "RPT_STATICEXPORT_TEMPLATE_RESOURCES_END_0";
+    public static final @RUntainted String RPT_STATICEXPORT_TEMPLATE_RESOURCES_END_0 = "RPT_STATICEXPORT_TEMPLATE_RESOURCES_END_0";
 
     /** Name of the used resource bundle. */
     private static final String BUNDLE_NAME = "org.opencms.staticexport.messages";

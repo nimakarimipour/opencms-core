@@ -38,6 +38,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface representing a configured formatter.<p>
@@ -135,7 +136,7 @@ public interface I_CmsFormatterBean {
      *
      * @return the root path of the formatter JSP in the OpenCms VFS.<p>
      */
-    String getJspRootPath();
+    @RUntainted String getJspRootPath();
 
     /**
      * Returns the structure id of the JSP resource for this formatter.<p>
@@ -160,7 +161,7 @@ public interface I_CmsFormatterBean {
      *
      * @return the formatter key or id
      */
-    default String getKeyOrId() {
+    default @RUntainted String getKeyOrId() {
 
         if (getKey() != null) {
             return getKey();

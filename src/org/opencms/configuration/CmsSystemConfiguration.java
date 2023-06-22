@@ -91,6 +91,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Element;
 import org.w3c.dom.Document;
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * System master configuration class.<p>
@@ -2499,13 +2500,13 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      */
     public void setCmsDefaultUsers(
 
-        String userAdmin,
-        String userGuest,
-        String userExport,
-        String userDeletedResource,
-        String groupAdministrators,
-        String groupUsers,
-        String groupGuests) {
+        @RUntainted String userAdmin,
+        @RUntainted String userGuest,
+        @RUntainted String userExport,
+        @RUntainted String userDeletedResource,
+        @RUntainted String groupAdministrators,
+        @RUntainted String groupUsers,
+        @RUntainted String groupGuests) {
 
         if (CmsLog.INIT.isInfoEnabled()) {
             CmsLog.INIT.info(Messages.get().getBundle().key(Messages.INIT_CHECKING_DEFAULT_USER_NAMES_0));
@@ -2675,7 +2676,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
         String passwordChangeInterval,
         String userDataCheckInterval,
         String requireOrgUnitStr,
-        String logoutUri) {
+        @RUntainted String logoutUri) {
 
         int disableMinutes;
         try {

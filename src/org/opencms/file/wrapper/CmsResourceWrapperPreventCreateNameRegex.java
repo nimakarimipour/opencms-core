@@ -37,6 +37,7 @@ import org.opencms.security.CmsPermissionViolationException;
 
 import java.util.List;
 import java.util.regex.Pattern;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource wrapper class which is used to prevent resources with names matching a given regex from being created.<p>
@@ -61,7 +62,7 @@ public class CmsResourceWrapperPreventCreateNameRegex extends A_CmsResourceWrapp
     @Override
     public CmsResource createResource(
         CmsObject cms,
-        String resourcepath,
+        @RUntainted String resourcepath,
         int type,
         byte[] content,
         List<CmsProperty> properties)
@@ -89,7 +90,7 @@ public class CmsResourceWrapperPreventCreateNameRegex extends A_CmsResourceWrapp
      * @see org.opencms.file.wrapper.A_CmsResourceWrapper#moveResource(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
     @Override
-    public boolean moveResource(CmsObject cms, String source, String destination)
+    public boolean moveResource(CmsObject cms, String source, @RUntainted String destination)
     throws CmsException, CmsIllegalArgumentException {
 
         String name = CmsResource.getName(destination);

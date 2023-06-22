@@ -40,6 +40,7 @@ import java.util.Locale;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Converts legacy pages (OpenCms 5 and earlier) to XML pages (OpenCms 6).<p>
@@ -71,7 +72,7 @@ public final class CmsXmlPageConverter {
      * @throws CmsXmlException if there is an error reading xml contents from the byte array into a document
      */
     @SuppressWarnings("unchecked")
-    public static CmsXmlPage convertToXmlPage(CmsObject cms, byte[] content, Locale locale, String encoding)
+    public static CmsXmlPage convertToXmlPage(CmsObject cms, byte[] content, Locale locale, @RUntainted String encoding)
     throws CmsImportExportException, CmsXmlException {
 
         CmsXmlPage xmlPage = null;
@@ -102,7 +103,7 @@ public final class CmsXmlPageConverter {
                 // no template name found, use the parameter body name
                 bodyName = "body";
             }
-            String bodyContent = null;
+            @RUntainted String bodyContent = null;
 
             if (useEditTemplates) {
                 // no content manipulation needed for edittemplates

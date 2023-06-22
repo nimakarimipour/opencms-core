@@ -80,6 +80,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "xmlcontent".<p>
@@ -107,7 +108,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
     private static final long serialVersionUID = 2271469830431937731L;
 
     /** The (optional) schema of this resource. */
-    private String m_schema;
+    private @RUntainted String m_schema;
 
     /**
      * Returns the possible model files for the new resource.<p>
@@ -117,7 +118,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
      * @param newResourceTypeName the resource type name for the new resource to create
      * @return the possible model files for the new resource
      */
-    public static List<CmsResource> getModelFiles(CmsObject cms, String currentFolder, String newResourceTypeName) {
+    public static List<CmsResource> getModelFiles(CmsObject cms, @RUntainted String currentFolder, String newResourceTypeName) {
 
         try {
 
@@ -215,7 +216,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
     public CmsResource createResource(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        String resourcename,
+        @RUntainted String resourcename,
         byte[] content,
         List<CmsProperty> properties)
     throws CmsException {
@@ -399,7 +400,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
      *
      * @return the configured xsd schema uri, or <code>null</code> if not set
      */
-    public String getSchema() {
+    public @RUntainted String getSchema() {
 
         return m_schema;
     }
@@ -438,7 +439,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource resource,
-        String destination)
+        @RUntainted String destination)
     throws CmsException, CmsIllegalArgumentException {
 
         super.moveResource(cms, securityManager, resource, destination);
@@ -593,7 +594,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource resource,
-        long dateExpired,
+        @RUntainted long dateExpired,
         boolean recursive)
     throws CmsException {
 
@@ -617,7 +618,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource resource,
-        long dateReleased,
+        @RUntainted long dateReleased,
         boolean recursive)
     throws CmsException {
 
@@ -692,7 +693,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
      */
     protected CmsLink getXsdLink(CmsObject cms, CmsXmlContent xmlContent) {
 
-        String schema = xmlContent.getContentDefinition().getSchemaLocation();
+        @RUntainted String schema = xmlContent.getContentDefinition().getSchemaLocation();
         if (schema.startsWith(CmsXmlEntityResolver.OPENCMS_SCHEME)) {
             if (CmsXmlEntityResolver.isInternalId(schema)) {
                 return null;
@@ -751,7 +752,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
         CmsObject cms,
         CmsResource resource,
         CmsMappingResolutionContext.AttributeType attr,
-        long date)
+        @RUntainted long date)
     throws CmsException {
 
         Object obj = cms.getRequestContext().getAttribute(ATTR_REVERSE_AVAILABILITY_MAPPING);

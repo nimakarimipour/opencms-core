@@ -61,6 +61,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource wrapper used to import/export modules by copying them to/from virtual folders.<p>
@@ -71,16 +72,16 @@ public class CmsResourceWrapperModules extends A_CmsResourceWrapper {
     private static final Log LOG = CmsLog.getLog(CmsResourceWrapperModules.class);
 
     /** The base folder under which the virtual resources from this resource wrapper are available. */
-    public static final String BASE_PATH = "/modules";
+    public static final @RUntainted String BASE_PATH = "/modules";
 
     /** The virtual folder which can be used to import modules. */
-    public static final String IMPORT_PATH = BASE_PATH + "/import";
+    public static final @RUntainted String IMPORT_PATH = BASE_PATH + "/import";
 
     /** The virtual folder which can be used to export modules. */
-    public static final String EXPORT_PATH = BASE_PATH + "/export";
+    public static final @RUntainted String EXPORT_PATH = BASE_PATH + "/export";
 
     /** The virtual folder which can be used to provide logs for module operations. */
-    public static final String LOG_PATH = BASE_PATH + "/log";
+    public static final @RUntainted String LOG_PATH = BASE_PATH + "/log";
 
     /** List of virtual folders made available by this resource wrapper. */
     public static final List<String> FOLDERS = Collections.unmodifiableList(
@@ -130,7 +131,7 @@ public class CmsResourceWrapperModules extends A_CmsResourceWrapper {
     @Override
     public CmsResource createResource(
         CmsObject cms,
-        String resourcename,
+        @RUntainted String resourcename,
         int type,
         byte[] content,
         List<CmsProperty> properties)
@@ -154,7 +155,7 @@ public class CmsResourceWrapperModules extends A_CmsResourceWrapper {
      * @see org.opencms.file.wrapper.A_CmsResourceWrapper#deleteResource(org.opencms.file.CmsObject, java.lang.String, org.opencms.file.CmsResource.CmsResourceDeleteMode)
      */
     @Override
-    public boolean deleteResource(CmsObject cms, String resourcename, CmsResource.CmsResourceDeleteMode siblingMode)
+    public boolean deleteResource(CmsObject cms, @RUntainted String resourcename, CmsResource.CmsResourceDeleteMode siblingMode)
     throws CmsException {
 
         if (checkAccess(cms) && matchParentPath(EXPORT_PATH, resourcename)) {
@@ -200,7 +201,7 @@ public class CmsResourceWrapperModules extends A_CmsResourceWrapper {
      * @see org.opencms.file.wrapper.A_CmsResourceWrapper#readFile(org.opencms.file.CmsObject, java.lang.String, org.opencms.file.CmsResourceFilter)
      */
     @Override
-    public CmsFile readFile(CmsObject cms, String resourcename, CmsResourceFilter filter) throws CmsException {
+    public CmsFile readFile(CmsObject cms, @RUntainted String resourcename, CmsResourceFilter filter) throws CmsException {
 
         // this method isn't actually called when using the JLAN repository, because readResource already returns a CmsFile when needed
         cms.getRequestContext().removeAttribute(CmsJlanDiskInterface.NO_FILESIZE_REQUIRED);
@@ -214,14 +215,14 @@ public class CmsResourceWrapperModules extends A_CmsResourceWrapper {
      * @see org.opencms.file.wrapper.A_CmsResourceWrapper#readResource(org.opencms.file.CmsObject, java.lang.String, org.opencms.file.CmsResourceFilter)
      */
     @Override
-    public CmsResource readResource(CmsObject cms, String resourcepath, CmsResourceFilter filter) throws CmsException {
+    public CmsResource readResource(CmsObject cms, @RUntainted String resourcepath, CmsResourceFilter filter) throws CmsException {
 
         if (resourcepath.endsWith("desktop.ini")) {
             return null;
         }
 
         if (checkAccess(cms)) {
-            for (String folder : FOLDERS) {
+            for (@RUntainted String folder : FOLDERS) {
                 if (matchPath(resourcepath, folder)) {
                     return createFakeFolder(folder);
                 }
@@ -325,7 +326,7 @@ public class CmsResourceWrapperModules extends A_CmsResourceWrapper {
      */
     protected CmsResource createFakeBinaryFile(String rootPath, long dateLastModified) throws CmsLoaderException {
 
-        CmsUUID structureId = CmsUUID.getConstantUUID("s-" + rootPath);
+        @RUntainted CmsUUID structureId = CmsUUID.getConstantUUID("s-" + rootPath);
         CmsUUID resourceId = CmsUUID.getConstantUUID("r-" + rootPath);
         @SuppressWarnings("deprecation")
         int type = OpenCms.getResourceManager().getResourceType(CmsResourceTypeBinary.getStaticTypeName()).getTypeId();
@@ -375,13 +376,13 @@ public class CmsResourceWrapperModules extends A_CmsResourceWrapper {
      *
      * @throws CmsLoaderException if the 'folder' type can not be found
      */
-    protected CmsResource createFakeFolder(String rootPath) throws CmsLoaderException {
+    protected CmsResource createFakeFolder(@RUntainted String rootPath) throws CmsLoaderException {
 
         if (rootPath.endsWith("/")) {
             rootPath = CmsFileUtil.removeTrailingSeparator(rootPath);
         }
 
-        CmsUUID structureId = CmsUUID.getConstantUUID("s-" + rootPath);
+        @RUntainted CmsUUID structureId = CmsUUID.getConstantUUID("s-" + rootPath);
         CmsUUID resourceId = CmsUUID.getConstantUUID("r-" + rootPath);
         @SuppressWarnings("deprecation")
         int type = OpenCms.getResourceManager().getResourceType(CmsResourceTypeFolder.getStaticTypeName()).getTypeId();

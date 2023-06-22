@@ -43,6 +43,7 @@ import java.util.List;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;cms:resourceload/&gt;</code> tag,
@@ -62,7 +63,7 @@ public class CmsJspTagResourceLoad extends CmsJspScopedVarBodyTagSuport implemen
     protected String m_collector;
 
     /** The name of the resource collector used. */
-    protected String m_collectorName;
+    protected @RUntainted String m_collectorName;
 
     /** The parameters of the resource collector uses. */
     protected String m_collectorParam;
@@ -98,7 +99,7 @@ public class CmsJspTagResourceLoad extends CmsJspScopedVarBodyTagSuport implemen
     protected transient CmsResource m_resource;
 
     /** The file name to load the current content value from. */
-    protected String m_resourceName;
+    protected @RUntainted String m_resourceName;
 
     /**
      * Empty constructor, required for JSP tags.<p>

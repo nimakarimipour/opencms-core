@@ -3,6 +3,7 @@ package org.opencms.ui.editors.messagebundle;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -15,7 +16,7 @@ public final class Messages extends A_CmsMessageBundle {
     private static final String BUNDLE_NAME = "org.opencms.ui.editors.messagebundle.messages";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_LOADING_BUNDLE_CMS_OBJECT_NULL_0 = "ERR_LOADING_BUNDLE_CMS_OBJECT_NULL_0";
+    public static final @RUntainted String ERR_LOADING_BUNDLE_CMS_OBJECT_NULL_0 = "ERR_LOADING_BUNDLE_CMS_OBJECT_NULL_0";
 
     /** Static instance member. */
     private static final I_CmsMessageBundle INSTANCE = new Messages();
@@ -23,7 +24,7 @@ public final class Messages extends A_CmsMessageBundle {
     /** Message constant for key in the resource bundle. */
     public static final String ERR_FILE_NOT_A_BUNDLE_1 = "ERR_FILE_NOT_A_BUNDLE_1";
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_LOADING_BUNDLE_FILENAME_NULL_0 = "ERR_LOADING_BUNDLE_FILENAME_NULL_0";
+    public static final @RUntainted String ERR_LOADING_BUNDLE_FILENAME_NULL_0 = "ERR_LOADING_BUNDLE_FILENAME_NULL_0";
     /** Message constant for key in the resource bundle. */
     public static final String GUI_COLUMN_HEADER_KEY_0 = "GUI_COLUMN_HEADER_KEY_0";
     /** Message constant for key in the resource bundle. */
@@ -44,7 +45,7 @@ public final class Messages extends A_CmsMessageBundle {
     /** Message constant for key in the resource bundle. */
     public static final String ERR_BUNDLE_DESCRIPTOR_NOT_UNIQUE_1 = "ERR_BUNDLE_DESCRIPTOR_NOT_UNIQUE_1";
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_UNSUPPORTED_BUNDLE_TYPE_1 = "ERR_UNSUPPORTED_BUNDLE_TYPE_1";
+    public static final @RUntainted String ERR_UNSUPPORTED_BUNDLE_TYPE_1 = "ERR_UNSUPPORTED_BUNDLE_TYPE_1";
     /** Message constant for key in the resource bundle. */
     public static final String GUI_LANGUAGE_SWITCHER_LABEL_0 = "GUI_LANGUAGE_SWITCHER_LABEL_0";
     /** Message constant for key in the resource bundle. */

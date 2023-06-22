@@ -65,6 +65,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility to login users to the OpenCms workplace.<p>
@@ -89,13 +90,13 @@ public class CmsLoginHelper extends CmsJspLoginBean {
         private boolean m_logout;
 
         /** The value of the organizational unit parameter. */
-        private String m_oufqn;
+        private @RUntainted String m_oufqn;
 
         /** The value of the PC type parameter. */
         private String m_pcType;
 
         /** The redirect URL after a successful login. */
-        private String m_requestedResource;
+        private @RUntainted String m_requestedResource;
 
         /** The value of the user name parameter. */
         private String m_username;
@@ -118,8 +119,8 @@ public class CmsLoginHelper extends CmsJspLoginBean {
         public LoginParameters(
             String username,
             String pcType,
-            String oufqn,
-            String requestedResource,
+            @RUntainted String oufqn,
+            @RUntainted String requestedResource,
             Locale locale,
             String authToken,
             boolean logout,
@@ -160,7 +161,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
          *
          * @return the ou fqn
          */
-        public String getOufqn() {
+        public @RUntainted String getOufqn() {
 
             return m_oufqn;
         }
@@ -180,7 +181,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
          *
          * @return the requested resource
          */
-        public String getRequestedResource() {
+        public @RUntainted String getRequestedResource() {
 
             return m_requestedResource;
         }
@@ -325,7 +326,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      *
      * @return the direct edit path
      */
-    public static String getDirectEditPath(CmsObject cms, CmsUserSettings userSettings, boolean forceDirectEdit) {
+    public static @RUntainted String getDirectEditPath(CmsObject cms, CmsUserSettings userSettings, boolean forceDirectEdit) {
 
         if (forceDirectEdit
             || (userSettings.getStartView().equals(CmsWorkplace.VIEW_DIRECT_EDIT)
@@ -333,9 +334,9 @@ public class CmsLoginHelper extends CmsJspLoginBean {
 
             try {
                 CmsObject cloneCms = OpenCms.initCmsObject(cms);
-                String startSite = CmsWorkplace.getStartSiteRoot(cloneCms, userSettings);
+                @RUntainted String startSite = CmsWorkplace.getStartSiteRoot(cloneCms, userSettings);
                 cloneCms.getRequestContext().setSiteRoot(startSite);
-                String projectName = userSettings.getStartProject();
+                @RUntainted String projectName = userSettings.getStartProject();
                 if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(projectName)) {
                     cloneCms.getRequestContext().setCurrentProject(cloneCms.readProject(projectName));
                 }
@@ -363,7 +364,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      *
      * @return the login parameters
      */
-    public static LoginParameters getLoginParameters(
+    public static @RUntainted LoginParameters getLoginParameters(
         CmsObject cms,
         HttpServletRequest request,
         boolean workplaceUiRequest) {
@@ -440,7 +441,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      *
      * @return the list of organizational units for the OU selector
      */
-    public static List<CmsOrganizationalUnit> getOrgUnitsForLoginDialog(CmsObject cms, String predefOu) {
+    public static List<CmsOrganizationalUnit> getOrgUnitsForLoginDialog(CmsObject cms, @RUntainted String predefOu) {
 
         List<CmsOrganizationalUnit> result = new ArrayList<CmsOrganizationalUnit>();
         try {
@@ -471,10 +472,10 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      *
      * @return the start view
      */
-    public static String getStartView(CmsObject cms) {
+    public static @RUntainted String getStartView(CmsObject cms) {
 
         CmsUserSettings settings = new CmsUserSettings(cms);
-        String targetView = getDirectEditPath(cms, settings, false);
+        @RUntainted String targetView = getDirectEditPath(cms, settings, false);
         if (targetView == null) {
             if (settings.getStartView().startsWith("/")) {
                 if (CmsWorkplace.VIEW_WORKPLACE.equals(settings.getStartView())) {
@@ -506,10 +507,10 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      * @param cms the CMS context which should be initialized
      * @return the workplace set
      */
-    public static CmsWorkplaceSettings initSiteAndProject(CmsObject cms) {
+    public static @RUntainted CmsWorkplaceSettings initSiteAndProject(CmsObject cms) {
 
-        CmsWorkplaceSettings workplaceSettings = CmsWorkplace.initWorkplaceSettings(cms, null, false);
-        String startSite = CmsWorkplace.getStartSiteRoot(cms, workplaceSettings);
+        @RUntainted CmsWorkplaceSettings workplaceSettings = CmsWorkplace.initWorkplaceSettings(cms, null, false);
+        @RUntainted String startSite = CmsWorkplace.getStartSiteRoot(cms, workplaceSettings);
         // switch to the preferred site
         workplaceSettings.setSite(startSite);
         cms.getRequestContext().setSiteRoot(startSite);
@@ -548,9 +549,9 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      * @param response the current response
      */
     public static void setCookieData(
-        String pcType,
-        String username,
-        String oufqn,
+        @RUntainted String pcType,
+        @RUntainted String username,
+        @RUntainted String oufqn,
         HttpServletRequest request,
         HttpServletResponse response) {
 
@@ -692,7 +693,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      *
      * @return the pc type
      */
-    private static String getPcType(HttpServletRequest request) {
+    private static String getPcType(@RUntainted HttpServletRequest request) {
 
         String pcType = null;
         if (!OpenCms.getLoginManager().isEnableSecurity()) {

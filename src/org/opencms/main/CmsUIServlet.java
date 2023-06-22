@@ -83,6 +83,7 @@ import com.vaadin.server.VaadinServletService;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ApplicationConstants;
 import com.vaadin.ui.UI;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Servlet for workplace UI requests.<p>
@@ -171,7 +172,7 @@ public class CmsUIServlet extends VaadinServlet implements SystemMessagesProvide
 
             if (shouldShowLogin() && !isLoginUIRequest(request)) {
 
-                String link = OpenCms.getLinkManager().substituteLinkForUnknownTarget(
+                @RUntainted String link = OpenCms.getLinkManager().substituteLinkForUnknownTarget(
                     ((CmsUIServlet)getCurrent()).getCmsObject(),
                     CmsWorkplaceLoginHandler.LOGIN_FORM);
                 String requestedUri = ((HttpServletRequest)request).getRequestURI();

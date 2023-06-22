@@ -42,6 +42,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The result of a document text extraction.<p>
@@ -208,7 +209,7 @@ public class CmsExtractionResult implements I_CmsExtractionResult, Serializable 
     /**
      * @see org.opencms.search.extractors.I_CmsExtractionResult#getContent()
      */
-    public String getContent() {
+    public @RUntainted String getContent() {
 
         return m_contentItems.get(m_defaultLocale).get(ITEM_CONTENT);
     }
@@ -269,7 +270,7 @@ public class CmsExtractionResult implements I_CmsExtractionResult, Serializable 
     public I_CmsExtractionResult merge(List<I_CmsExtractionResult> extractionResults) {
 
         //prepare copy
-        Map<Locale, LinkedHashMap<String, String>> contentItems = new HashMap<Locale, LinkedHashMap<String, String>>(
+        Map<Locale, LinkedHashMap<String, String>> contentItems = new HashMap<@RUntainted Locale, @RUntainted LinkedHashMap<@RUntainted String, @RUntainted String>>(
             m_locales.size());
         for (Locale locale : m_locales) {
             LinkedHashMap<String, String> originalLocalValues = m_contentItems.get(locale);

@@ -87,6 +87,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles all RPC services related to the gallery preview dialog.<p>
@@ -120,7 +121,7 @@ public class CmsPreviewService extends CmsGwtService implements I_CmsPreviewServ
         HttpServletResponse response,
         CmsObject cms,
         CmsResource resource,
-        Locale locale) {
+        @RUntainted Locale locale) {
 
         try {
             if (CmsResourceTypeXmlContent.isXmlContent(resource)) {
@@ -220,7 +221,7 @@ public class CmsPreviewService extends CmsGwtService implements I_CmsPreviewServ
         CmsImageInfoBean resInfo = new CmsImageInfoBean();
         try {
             int pos = resourcePath.indexOf("?");
-            String resName = resourcePath;
+            @RUntainted String resName = resourcePath;
             if (pos > -1) {
                 resName = resourcePath.substring(0, pos);
             }
@@ -263,7 +264,7 @@ public class CmsPreviewService extends CmsGwtService implements I_CmsPreviewServ
         CmsResourceInfoBean resInfo = new CmsResourceInfoBean();
         try {
             int pos = resourcePath.indexOf("?");
-            String resName = resourcePath;
+            @RUntainted String resName = resourcePath;
             if (pos > -1) {
                 resName = resourcePath.substring(0, pos);
             }
@@ -409,13 +410,13 @@ public class CmsPreviewService extends CmsGwtService implements I_CmsPreviewServ
      * @return the resource which was read
      * @throws CmsException if something goes wrong
      */
-    private CmsResource readResourceFromCurrentOrRootSite(CmsObject cms, String name) throws CmsException {
+    private CmsResource readResourceFromCurrentOrRootSite(CmsObject cms, @RUntainted String name) throws CmsException {
 
         CmsResource resource = null;
         try {
             resource = cms.readResource(name, CmsResourceFilter.IGNORE_EXPIRATION);
         } catch (CmsVfsResourceNotFoundException e) {
-            String originalSiteRoot = cms.getRequestContext().getSiteRoot();
+            @RUntainted String originalSiteRoot = cms.getRequestContext().getSiteRoot();
             try {
                 cms.getRequestContext().setSiteRoot("");
                 resource = cms.readResource(name, CmsResourceFilter.IGNORE_EXPIRATION);
@@ -440,7 +441,7 @@ public class CmsPreviewService extends CmsGwtService implements I_CmsPreviewServ
         CmsResource resource;
         CmsObject cms = getCmsObject();
         int pos = resourcePath.indexOf("?");
-        String resName = resourcePath;
+        @RUntainted String resName = resourcePath;
         if (pos > -1) {
             resName = resourcePath.substring(0, pos);
         }

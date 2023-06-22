@@ -62,6 +62,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Context for dialogs embedded into plain GWT modules.<p>
@@ -153,7 +154,7 @@ public class CmsEmbeddedDialogContext implements I_CmsDialogContext {
     public void finish(CmsProject project, String siteRoot) {
 
         if ((project != null) || (siteRoot != null)) {
-            String sitePath = null;
+            @RUntainted String sitePath = null;
             if (siteRoot != null) {
                 CmsQuickLaunchLocationCache locationCache = CmsQuickLaunchLocationCache.getLocationCache(
                     A_CmsUI.get().getHttpSession());

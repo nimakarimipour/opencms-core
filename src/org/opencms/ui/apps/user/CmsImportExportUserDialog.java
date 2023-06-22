@@ -83,6 +83,7 @@ import com.vaadin.ui.Upload.Receiver;
 import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog for CSV im- and export.<p>
@@ -186,7 +187,7 @@ implements Receiver, I_CmsPasswordFetcher {
      * @param allowTechnicalFieldsExport flag indicates if technical field export option should be available
      */
     private CmsImportExportUserDialog(
-        final String ou,
+        final @RUntainted String ou,
         CmsUUID groupID,
         Window window,
         boolean allowTechnicalFieldsExport) {
@@ -339,7 +340,7 @@ implements Receiver, I_CmsPasswordFetcher {
      * @return a map with the users to export added
      * @throws CmsException if getting users failed
      */
-    public static Map<CmsUUID, CmsUser> addExportAllUsers(CmsObject cms, String ou, Map<CmsUUID, CmsUser> exportUsers)
+    public static Map<CmsUUID, CmsUser> addExportAllUsers(CmsObject cms, @RUntainted String ou, Map<CmsUUID, CmsUser> exportUsers)
     throws CmsException {
 
         List<CmsUser> users = OpenCms.getOrgUnitManager().getUsers(cms, ou, false);
@@ -367,12 +368,12 @@ implements Receiver, I_CmsPasswordFetcher {
      */
     public static Map<CmsUUID, CmsUser> addExportUsersFromGroups(
         CmsObject cms,
-        List<String> groups,
+        @RUntainted List<@RUntainted String> groups,
         Map<CmsUUID, CmsUser> exportUsers)
     throws CmsException {
 
         if ((groups != null) && (groups.size() > 0)) {
-            Iterator<String> itGroups = groups.iterator();
+            @RUntainted Iterator<@RUntainted String> itGroups = groups.iterator();
             while (itGroups.hasNext()) {
                 List<CmsUser> groupUsers = cms.getUsersOfGroup(itGroups.next());
                 Iterator<CmsUser> itGroupUsers = groupUsers.iterator();
@@ -401,13 +402,13 @@ implements Receiver, I_CmsPasswordFetcher {
      */
     public static Map<CmsUUID, CmsUser> addExportUsersFromRoles(
         CmsObject cms,
-        String ou,
-        List<String> roles,
+        @RUntainted String ou,
+        @RUntainted List<@RUntainted String> roles,
         Map<CmsUUID, CmsUser> exportUsers)
     throws CmsException {
 
         if ((roles != null) && (roles.size() > 0)) {
-            Iterator<String> itRoles = roles.iterator();
+            @RUntainted Iterator<@RUntainted String> itRoles = roles.iterator();
             while (itRoles.hasNext()) {
                 List<CmsUser> roleUsers = OpenCms.getRoleManager().getUsersOfRole(
                     cms,
@@ -438,7 +439,7 @@ implements Receiver, I_CmsPasswordFetcher {
          */
     public static CmsImportExportUserDialog getExportUserDialogForGroup(
         CmsUUID groupID,
-        String ou,
+        @RUntainted String ou,
         Window window,
         boolean allowTechnicalFieldsExport) {
 
@@ -455,7 +456,7 @@ implements Receiver, I_CmsPasswordFetcher {
      * @return an instance of this class
      */
     public static CmsImportExportUserDialog getExportUserDialogForOU(
-        String ou,
+        @RUntainted String ou,
         Window window,
         boolean allowTechnicalFieldsExport) {
 
@@ -516,7 +517,7 @@ implements Receiver, I_CmsPasswordFetcher {
      * @param ou name
      * @return ComboBox
      */
-    protected ComboBox<CmsRole> getRoleComboBox(String ou) {
+    protected ComboBox<CmsRole> getRoleComboBox(@RUntainted String ou) {
 
         ComboBox<CmsRole> box = new ComboBox<CmsRole>();
         CmsUserEditDialog.iniRole(A_CmsUI.getCmsObject(), ou, box, null);
@@ -670,7 +671,7 @@ implements Receiver, I_CmsPasswordFetcher {
     Map<CmsUUID, CmsUser> getUserToExport() {
 
         // get the data object from session
-        List<String> groups = getGroupsList(m_exportGroups, false);
+        @RUntainted List<@RUntainted String> groups = getGroupsList(m_exportGroups, false);
 
         Iterator<I_CmsEditableGroupRow> it = m_exportRolesGroup.getRows().iterator();
         List<String> roles = new ArrayList<String>();

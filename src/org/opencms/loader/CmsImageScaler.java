@@ -59,6 +59,7 @@ import javax.imageio.ImageReader;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Creates scaled images, acting as it's own parameter container.<p>
@@ -80,7 +81,7 @@ public class CmsImageScaler {
     public static final List<String> FILTERS = Arrays.asList(new String[] {FILTER_GRAYSCALE, FILTER_SHADOW});
 
     /** The (optional) parameter used for sending the scale information of an image in the http request. */
-    public static final String PARAM_SCALE = "__scale";
+    public static final @RUntainted String PARAM_SCALE = "__scale";
 
     /** The default maximum image size (width * height) to apply image blurring when down scaling (setting this to high may case "out of memory" errors). */
     public static final int SCALE_DEFAULT_MAX_BLUR_SIZE = 2500 * 2500;
@@ -205,7 +206,7 @@ public class CmsImageScaler {
      * @param content the image to calculate the dimensions for
      * @param rootPath the root path of the resource (for error logging)
      */
-    public CmsImageScaler(byte[] content, String rootPath) {
+    public CmsImageScaler(byte[] content, @RUntainted String rootPath) {
 
         init();
         try {
@@ -370,7 +371,7 @@ public class CmsImageScaler {
      * @return dimensions of image
      * @throws IOException if the file is not a known image
      */
-    public static Dimension getImageDimensions(String path, byte[] content) throws IOException {
+    public static Dimension getImageDimensions(@RUntainted String path, byte[] content) throws IOException {
 
         String name = CmsResource.getName(path);
         int pos = name.lastIndexOf(".");
@@ -1575,9 +1576,9 @@ public class CmsImageScaler {
      *
      * @return a request parameter configured with the values from this image scaler
      */
-    public String toRequestParam() {
+    public @RUntainted String toRequestParam() {
 
-        StringBuffer result = new StringBuffer(128);
+        @RUntainted StringBuffer result = new StringBuffer(128);
         result.append('?');
         result.append(PARAM_SCALE);
         result.append('=');
@@ -1590,7 +1591,7 @@ public class CmsImageScaler {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         if (m_scaleParameters != null) {
             return m_scaleParameters;

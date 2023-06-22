@@ -93,6 +93,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.IOContext;
 import org.apache.solr.uninverting.UninvertingReader;
 import org.apache.solr.uninverting.UninvertingReader.Type;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract search index implementation.<p>
@@ -685,7 +686,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      * @return the path where this index stores it's data in the "real" file system
      */
     @Override
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         if (super.getPath() == null) {
             setPath(generateIndexDirectory());
@@ -869,7 +870,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @throws CmsSearchException if something goes wrong
      */
-    public CmsSearchResultList search(CmsObject cms, CmsSearchParameters params) throws CmsSearchException {
+    public CmsSearchResultList search(CmsObject cms, @RUntainted CmsSearchParameters params) throws CmsSearchException {
 
         long timeTotal = -System.currentTimeMillis();
         long timeLucene;
@@ -1322,7 +1323,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @return the extended filter clause
      */
-    protected BooleanQuery.Builder appendPathFilter(CmsObject cms, BooleanQuery.Builder filter, List<String> roots) {
+    protected BooleanQuery.Builder appendPathFilter(CmsObject cms, BooleanQuery.Builder filter, @RUntainted List<@RUntainted String> roots) {
 
         // complete the search root
         List<Term> terms = new ArrayList<Term>();

@@ -38,6 +38,7 @@ import org.opencms.main.OpenCms;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action element class for opening the ADE properties dialog.<p>
@@ -57,7 +58,7 @@ public class CmsPropertiesActionElement extends CmsGwtActionElement {
      * @param req the request
      * @param res the response
      */
-    public CmsPropertiesActionElement(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsPropertiesActionElement(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         super(context, req, res);
     }
@@ -68,7 +69,7 @@ public class CmsPropertiesActionElement extends CmsGwtActionElement {
     @Override
     public String export() throws Exception {
 
-        String resourcePath = getRequest().getParameter(I_CmsAdePropertiesConstants.PARAM_RESOURCE);
+        @RUntainted String resourcePath = getRequest().getParameter(I_CmsAdePropertiesConstants.PARAM_RESOURCE);
         CmsObject cms = getCmsObject();
         CmsResource resource = cms.readResource(resourcePath, CmsResourceFilter.IGNORE_EXPIRATION);
         StringBuffer buffer = new StringBuffer();

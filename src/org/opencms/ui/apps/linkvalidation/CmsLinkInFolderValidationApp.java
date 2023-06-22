@@ -67,6 +67,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * App to check relations of resources in folder to other folder.<p>
@@ -91,7 +92,7 @@ public class CmsLinkInFolderValidationApp extends A_CmsWorkplaceApp implements I
                 CmsObject cms = OpenCms.initCmsObject(A_CmsUI.getCmsObject());
                 cms.getRequestContext().setSiteRoot("");
                 List<CmsResource> res = new ArrayList<CmsResource>();
-                for (String resource : resources) {
+                for (@RUntainted String resource : resources) {
                     if (cms.existsResource(resource)) {
                         res.add(cms.readResource(resource));
                     }
@@ -320,7 +321,7 @@ public class CmsLinkInFolderValidationApp extends A_CmsWorkplaceApp implements I
             String res = "";
             try {
 
-                for (String resource : m_resources) {
+                for (@RUntainted String resource : m_resources) {
                     res += m_cms.readResource(resource).getStructureId().getStringValue() + RESOURCE_SEPERATOR;
                 }
 

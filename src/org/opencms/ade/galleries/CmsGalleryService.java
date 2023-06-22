@@ -140,6 +140,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles all RPC services related to the gallery dialog.<p>
@@ -408,7 +409,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
             rootCms = OpenCms.initCmsObject(cms);
             rootCms.getRequestContext().setSiteRoot("");
             if (!((folders == null) || folders.isEmpty())) {
-                for (String folder : folders) {
+                for (@RUntainted String folder : folders) {
                     try {
                         folderSetResources.add(rootCms.readResource(folder, CmsResourceFilter.ONLY_VISIBLE_NO_DELETED));
                     } catch (CmsException e) {
@@ -484,7 +485,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      *
      * @return the attribute name for the tree
      */
-    public static String getTreeOpenStateAttributeName(String treeName, String treeToken) {
+    public static @RUntainted String getTreeOpenStateAttributeName(@RUntainted String treeName, @RUntainted String treeToken) {
 
         return "tree_" + treeName + "_" + treeToken;
     }
@@ -497,7 +498,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      *
      * @return the saved tree open state (may be null)
      */
-    public static CmsTreeOpenState getVfsTreeState(HttpServletRequest request, String treeToken) {
+    public static CmsTreeOpenState getVfsTreeState(HttpServletRequest request, @RUntainted String treeToken) {
 
         return (CmsTreeOpenState)request.getSession().getAttribute(
             getTreeOpenStateAttributeName(I_CmsGalleryProviderConstants.TREE_VFS, treeToken));
@@ -528,7 +529,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
         boolean isMatch)
     throws CmsException {
 
-        String rootPath = resource.getRootPath();
+        @RUntainted String rootPath = resource.getRootPath();
         CmsUUID structureId = resource.getStructureId();
         CmsVfsEntryBean result = new CmsVfsEntryBean(
             rootPath,
@@ -662,7 +663,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     /**
      * @see org.opencms.ade.galleries.shared.rpc.I_CmsGalleryService#deleteResource(java.lang.String)
      */
-    public void deleteResource(String resourcePath) throws CmsRpcException {
+    public void deleteResource(@RUntainted String resourcePath) throws CmsRpcException {
 
         try {
             ensureLock(resourcePath);
@@ -709,7 +710,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     /**
      * @see org.opencms.ade.galleries.shared.rpc.I_CmsGalleryService#getGalleryActionInfo(java.lang.String)
      */
-    public CmsGalleryActionInfo getGalleryActionInfo(String sitePath) throws CmsRpcException {
+    public CmsGalleryActionInfo getGalleryActionInfo(@RUntainted String sitePath) throws CmsRpcException {
 
         try {
             CmsObject cms = getCmsObject();
@@ -732,7 +733,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     /**
      * @see org.opencms.ade.galleries.shared.rpc.I_CmsGalleryService#getInfoForResource(java.lang.String, java.lang.String)
      */
-    public CmsResultItemBean getInfoForResource(String linkPath, String locale) throws CmsRpcException {
+    public CmsResultItemBean getInfoForResource(@RUntainted String linkPath, String locale) throws CmsRpcException {
 
         CmsResultItemBean result = null;
         CmsObject cms = getCmsObject();
@@ -754,9 +755,9 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
                     CmsIconUtil.getIconClasses(CmsResourceTypeBinary.getStaticTypeName(), null, false));
             } else {
                 boolean notFound = false;
-                String path = linkPath;
+                @RUntainted String path = linkPath;
                 String siteRoot = OpenCms.getSiteManager().getSiteRoot(linkPath);
-                String oldSite = cms.getRequestContext().getSiteRoot();
+                @RUntainted String oldSite = cms.getRequestContext().getSiteRoot();
                 try {
                     if (siteRoot != null) {
                         // only switch the site if needed
@@ -981,7 +982,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
             case view:
             case adeView:
             case widget:
-                String currentelement = data.getCurrentElement();
+                @RUntainted String currentelement = data.getCurrentElement();
                 try {
                     CmsSitemapEntryBean sitemapPreloadData = null;
                     CmsVfsEntryBean vfsPreloadData = null;
@@ -1104,7 +1105,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     /**
      * @see org.opencms.ade.galleries.shared.rpc.I_CmsGalleryService#getSubEntries(java.lang.String, boolean, java.lang.String)
      */
-    public List<CmsSitemapEntryBean> getSubEntries(String rootPath, boolean isRoot, String filter)
+    public List<CmsSitemapEntryBean> getSubEntries(@RUntainted String rootPath, boolean isRoot, String filter)
     throws CmsRpcException {
 
         try {
@@ -1118,7 +1119,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     /**
      * @see org.opencms.ade.galleries.shared.rpc.I_CmsGalleryService#getSubFolders(java.lang.String)
      */
-    public List<CmsVfsEntryBean> getSubFolders(String rootPath) throws CmsRpcException {
+    public List<CmsVfsEntryBean> getSubFolders(@RUntainted String rootPath) throws CmsRpcException {
 
         try {
             CmsObject cms = OpenCms.initCmsObject(getCmsObject());
@@ -1153,7 +1154,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     /**
      * @see org.opencms.ade.galleries.shared.rpc.I_CmsGalleryService#loadVfsEntryBean(java.lang.String, java.lang.String)
      */
-    public CmsVfsEntryBean loadVfsEntryBean(String path, String filter) throws CmsRpcException {
+    public CmsVfsEntryBean loadVfsEntryBean(@RUntainted String path, String filter) throws CmsRpcException {
 
         try {
             if (CmsStringUtil.isEmpty(filter)) {
@@ -1286,20 +1287,20 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     /**
      * @see org.opencms.ade.galleries.shared.rpc.I_CmsGalleryService#saveTreeOpenState(java.lang.String, java.lang.String, java.lang.String, java.util.Set)
      */
-    public void saveTreeOpenState(String treeName, String treeToken, String siteRoot, Set<CmsUUID> openItems)
+    public void saveTreeOpenState(@RUntainted String treeName, @RUntainted String treeToken, @RUntainted String siteRoot, @RUntainted Set<@RUntainted CmsUUID> openItems)
     throws CmsRpcException {
 
         try {
             HttpServletRequest request = getRequest();
             HttpSession session = request.getSession();
-            String attributeName = getTreeOpenStateAttributeName(treeName, treeToken);
+            @RUntainted String attributeName = getTreeOpenStateAttributeName(treeName, treeToken);
             if (openItems.isEmpty()) {
                 CmsObject cms = OpenCms.initCmsObject(getCmsObject());
                 cms.getRequestContext().setSiteRoot("");
                 CmsResource resource = cms.readResource(siteRoot);
                 openItems = Sets.newHashSet(resource.getStructureId());
             }
-            CmsTreeOpenState treeState = new CmsTreeOpenState(treeName, siteRoot, openItems);
+            @RUntainted CmsTreeOpenState treeState = new CmsTreeOpenState(treeName, siteRoot, openItems);
             session.setAttribute(attributeName, treeState);
         } catch (Throwable e) {
             error(e);
@@ -1343,7 +1344,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      * @return the sitemap sub entry resources
      * @throws CmsException if something goes wrong
      */
-    protected List<CmsResource> getSitemapSubEntryResources(String rootPath) throws CmsException {
+    protected List<CmsResource> getSitemapSubEntryResources(@RUntainted String rootPath) throws CmsException {
 
         CmsObject rootCms = OpenCms.initCmsObject(getCmsObject());
         List<CmsResource> result = new ArrayList<CmsResource>();
@@ -1370,7 +1371,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      *
      * @throws CmsException if something goes wrong
      */
-    protected List<CmsSitemapEntryBean> getSubEntriesInternal(String rootPath, boolean isRoot, String filter)
+    protected List<CmsSitemapEntryBean> getSubEntriesInternal(@RUntainted String rootPath, boolean isRoot, String filter)
     throws CmsException {
 
         CmsObject rootCms = OpenCms.initCmsObject(getCmsObject());
@@ -1528,7 +1529,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      *
      * @return the sitemap tree open state
      */
-    CmsTreeOpenState getSitemapTreeState(String treeToken) {
+    CmsTreeOpenState getSitemapTreeState(@RUntainted String treeToken) {
 
         return (CmsTreeOpenState)(getRequest().getSession().getAttribute(
             getTreeOpenStateAttributeName(I_CmsGalleryProviderConstants.TREE_SITEMAP, treeToken)));
@@ -1541,7 +1542,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      *
      * @return the VFS tree open state
      */
-    CmsTreeOpenState getVfsTreeState(String treeToken) {
+    CmsTreeOpenState getVfsTreeState(@RUntainted String treeToken) {
 
         return (CmsTreeOpenState)(getRequest().getSession().getAttribute(
             getTreeOpenStateAttributeName(I_CmsGalleryProviderConstants.TREE_VFS, treeToken)));
@@ -1765,7 +1766,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
             bean.setPreset(true);
         }
         bean.setReleasedAndNotExpired(sResult.isReleaseAndNotExpired(cms));
-        String path = sResult.getPath();
+        @RUntainted String path = sResult.getPath();
         path = cms.getRequestContext().removeSiteRoot(path);
 
         // resource path as id
@@ -1977,7 +1978,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
             // otherwise childBeans remains an empty list
         }
 
-        String rootPath = resource.getRootPath();
+        @RUntainted String rootPath = resource.getRootPath();
         CmsVfsEntryBean result = new CmsVfsEntryBean(
             rootPath,
             resource.getStructureId(),
@@ -2112,18 +2113,18 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      *
      * @throws CmsException if the search fails
      */
-    private CmsGallerySearchBean findResourceInGallery(String resourceName, CmsGalleryDataBean data)
+    private CmsGallerySearchBean findResourceInGallery(@RUntainted String resourceName, CmsGalleryDataBean data)
     throws CmsException {
 
         CmsResource resource = null;
         int pos = resourceName.indexOf("?");
-        String resName = resourceName;
+        @RUntainted String resName = resourceName;
         String query = "";
         if (pos > -1) {
             query = resourceName.substring(pos);
             resName = resourceName.substring(0, pos);
         }
-        String resNameWithoutServer = OpenCms.getLinkManager().getRootPath(getCmsObject(), resName);
+        @RUntainted String resNameWithoutServer = OpenCms.getLinkManager().getRootPath(getCmsObject(), resName);
         if (resNameWithoutServer != null) {
             // also cut off fragment if it has one
             resName = resNameWithoutServer.replaceFirst("#.*$", "");
@@ -2133,7 +2134,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
             log("reading resource: " + resName);
             resource = cms.readResource(resName, CmsResourceFilter.ONLY_VISIBLE_NO_DELETED);
         } catch (CmsException e) {
-            String originalSiteRoot = cms.getRequestContext().getSiteRoot();
+            @RUntainted String originalSiteRoot = cms.getRequestContext().getSiteRoot();
             try {
                 cms.getRequestContext().setSiteRoot("");
                 resource = cms.readResource(resName, CmsResourceFilter.ONLY_VISIBLE_NO_DELETED);
@@ -2181,7 +2182,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
         }
         ArrayList<String> galleries = new ArrayList<String>();
         for (CmsGalleryFolderBean gallery : data.getGalleries()) {
-            String galleryPath = gallery.getPath();
+            @RUntainted String galleryPath = gallery.getPath();
             String galleryRootPath = cms.addSiteRoot(galleryPath);
             String folderPath = CmsResource.getFolderPath(resName);
             if (galleryPath.equals(folderPath) || galleryRootPath.equals(folderPath)) {
@@ -2438,7 +2439,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
                     galleryTypeInfos = infos;
                 }
                 data.setGalleries(buildGalleriesList(galleryTypeInfos));
-                String startGallery = conf.getGalleryPath();
+                @RUntainted String startGallery = conf.getGalleryPath();
                 // check if the configured gallery path really is an existing gallery
                 boolean galleryAvailable = false;
                 for (CmsGalleryFolderBean folderBean : data.getGalleries()) {
@@ -2582,7 +2583,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
         Map<String, I_CmsPreviewProvider> previewProviderMap = new HashMap<String, I_CmsPreviewProvider>();
         Map<I_CmsResourceType, I_CmsPreviewProvider> typeProviderMapping = new HashMap<I_CmsResourceType, I_CmsPreviewProvider>();
         for (I_CmsResourceType type : types) {
-            String providerClass = type.getGalleryPreviewProvider();
+            @RUntainted String providerClass = type.getGalleryPreviewProvider();
             if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(providerClass)) {
                 providerClass = providerClass.trim();
                 try {
@@ -2758,7 +2759,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
         // set the selected galleries to the parameters
         if (searchData.getGalleries() != null) {
             List<String> paramGalleries = new ArrayList<String>();
-            for (String gallerySitePath : searchData.getGalleries()) {
+            for (@RUntainted String gallerySitePath : searchData.getGalleries()) {
                 paramGalleries.add(cms.getRequestContext().addSiteRoot(gallerySitePath));
             }
             params.setGalleries(paramGalleries);
@@ -2919,7 +2920,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
                 title = title.substring(0, title.indexOf("/"));
             }
         }
-        String childPath = navElement.getResource().getRootPath();
+        @RUntainted String childPath = navElement.getResource().getRootPath();
         boolean noChildren = true;
 
         if (checkHasChildren) {

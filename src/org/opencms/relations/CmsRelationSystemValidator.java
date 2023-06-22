@@ -53,6 +53,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.HashMultimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Validates relations of resources in the OpenCms VFS.<p>
@@ -196,7 +197,7 @@ public class CmsRelationSystemValidator {
         }
 
         boolean foundBrokenLinks = false;
-        for (int index = 0, size = resources.size(); index < size; index++) {
+        for (@RUntainted int index = 0, size = resources.size(); index < size; index++) {
 
             // set progress in thread (next 20 percent; leave rest for creating the list and the html)
             if (thread != null) {
@@ -210,7 +211,7 @@ public class CmsRelationSystemValidator {
             }
 
             CmsResource resource = resources.get(index);
-            String resourceName = resource.getRootPath();
+            @RUntainted String resourceName = resource.getRootPath();
 
             if (report != null) {
                 report.print(
@@ -428,7 +429,7 @@ public class CmsRelationSystemValidator {
         Iterator<CmsRelation> itRelations = relations.iterator();
         while (itRelations.hasNext()) {
             CmsRelation relation = itRelations.next();
-            String link;
+            @RUntainted String link;
             if (!resource.getState().isDeleted()) {
                 link = relation.getTargetPath();
             } else {

@@ -46,6 +46,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Util class to find broken links in a bundle of resources to be deleted.<p>
@@ -70,7 +71,7 @@ public class CmsRelationDeleteValidator {
      * @param resourceNames a list of resource names to be deleted
      * @param includeSiblings if the siblings should also be deleted
      */
-    public CmsRelationDeleteValidator(CmsObject cms, List<String> resourceNames, boolean includeSiblings) {
+    public CmsRelationDeleteValidator(CmsObject cms, @RUntainted List<@RUntainted String> resourceNames, boolean includeSiblings) {
 
         m_cms = cms;
         m_brokenRelations = getBrokenRelations(resourceNames, includeSiblings);
@@ -83,9 +84,9 @@ public class CmsRelationDeleteValidator {
      *
      * @return the information bean for the given entry
      */
-    public CmsRelationValidatorInfoEntry getInfoEntry(String resourceName) {
+    public CmsRelationValidatorInfoEntry getInfoEntry(@RUntainted String resourceName) {
 
-        String resName = resourceName;
+        @RUntainted String resName = resourceName;
         String siteRoot = m_cms.getRequestContext().getSiteRoot();
         String siteName = null;
         if (resName.startsWith(m_cms.getRequestContext().getSiteRoot())) {
@@ -94,7 +95,7 @@ public class CmsRelationDeleteValidator {
             siteRoot = OpenCms.getSiteManager().getSiteRoot(resName);
             siteName = siteRoot;
             if (siteRoot != null) {
-                String oldSite = m_cms.getRequestContext().getSiteRoot();
+                @RUntainted String oldSite = m_cms.getRequestContext().getSiteRoot();
                 try {
                     m_cms.getRequestContext().setSiteRoot("/");
                     siteName = m_cms.readPropertyObject(siteRoot, CmsPropertyDefinition.PROPERTY_TITLE, false).getValue(
@@ -164,17 +165,17 @@ public class CmsRelationDeleteValidator {
      *
      * @return a map of broken relations
      */
-    private Map<String, List<CmsRelation>> getBrokenRelations(List<String> resourceNames, boolean includeSiblings) {
+    private Map<String, List<CmsRelation>> getBrokenRelations(@RUntainted List<@RUntainted String> resourceNames, boolean includeSiblings) {
 
         Map<String, List<CmsRelation>> brokenRelations = new HashMap<String, List<CmsRelation>>();
         Set<String> resources = new HashSet<String>();
         // expand the folders to single resources
-        String site = m_cms.getRequestContext().getSiteRoot();
-        String oldSite = site;
+        @RUntainted String site = m_cms.getRequestContext().getSiteRoot();
+        @RUntainted String oldSite = site;
         try {
             m_cms.getRequestContext().setSiteRoot("/");
             List<CmsResource> resourceList = new ArrayList<CmsResource>();
-            Iterator<String> itResourceNames = resourceNames.iterator();
+            @RUntainted Iterator<@RUntainted String> itResourceNames = resourceNames.iterator();
             while (itResourceNames.hasNext()) {
                 // get the root path
                 String resName = m_cms.getRequestContext().addSiteRoot(site, itResourceNames.next());

@@ -53,6 +53,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.Label;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog for delete of principals and ous.<p>
@@ -84,7 +85,7 @@ public class CmsDeleteOUDialog extends CmsBasicDialog {
     private CmsObject m_cms;
 
     /**The name of the ou which should be deleted, may be null.*/
-    private String m_ouName;
+    private @RUntainted String m_ouName;
 
     /**vaadin component. */
     private Panel m_dependencyPanel;
@@ -97,7 +98,7 @@ public class CmsDeleteOUDialog extends CmsBasicDialog {
      * @param window window showing dialog
      * @param app
      */
-    public CmsDeleteOUDialog(CmsObject cms, String ouName, Window window, CmsAccountsApp app) {
+    public CmsDeleteOUDialog(CmsObject cms, @RUntainted String ouName, Window window, CmsAccountsApp app) {
 
         m_ouName = ouName;
         init(cms, window, app);

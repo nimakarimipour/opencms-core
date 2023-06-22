@@ -32,6 +32,7 @@ import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.Tree;
 import com.vaadin.ui.UI;
 import com.vaadin.util.ReflectTools;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * ContextMenu is an extension which can be attached to any Vaadin component to
@@ -1249,7 +1250,7 @@ public class CmsContextMenu extends AbstractExtension {
      * @param entries the entries
      * @param data the context data
      */
-    public <T> void setEntries(Collection<I_CmsSimpleContextMenuEntry<T>> entries, T data) {
+    public <T> void setEntries(Collection<I_CmsSimpleContextMenuEntry<T>> entries, @RUntainted T data) {
 
         removeAllItems();
         Locale locale = UI.getCurrent().getLocale();

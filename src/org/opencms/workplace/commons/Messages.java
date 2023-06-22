@@ -29,6 +29,7 @@ package org.opencms.workplace.commons;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -62,13 +63,13 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_COPY_MULTI_0 = "ERR_COPY_MULTI_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_COPY_MULTI_TARGET_NOFOLDER_1 = "ERR_COPY_MULTI_TARGET_NOFOLDER_1";
+    public static final @RUntainted String ERR_COPY_MULTI_TARGET_NOFOLDER_1 = "ERR_COPY_MULTI_TARGET_NOFOLDER_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_COPY_ONTO_ITSELF_1 = "ERR_COPY_ONTO_ITSELF_1";
+    public static final @RUntainted String ERR_COPY_ONTO_ITSELF_1 = "ERR_COPY_ONTO_ITSELF_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_COPY_TARGET_PARENT_FOLDER_MISSING_1 = "ERR_COPY_TARGET_PARENT_FOLDER_MISSING_1";
+    public static final @RUntainted String ERR_COPY_TARGET_PARENT_FOLDER_MISSING_1 = "ERR_COPY_TARGET_PARENT_FOLDER_MISSING_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_DELETE_MULTI_0 = "ERR_DELETE_MULTI_0";
@@ -110,7 +111,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_MOVE_FAILED_TARGET_EXISTS_2 = "ERR_MOVE_FAILED_TARGET_EXISTS_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MOVE_FORCES_OVERWRITE_EXISTING_RESOURCE_0 = "ERR_MOVE_FORCES_OVERWRITE_EXISTING_RESOURCE_0";
+    public static final @RUntainted String ERR_MOVE_FORCES_OVERWRITE_EXISTING_RESOURCE_0 = "ERR_MOVE_FORCES_OVERWRITE_EXISTING_RESOURCE_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_MOVE_MULTI_0 = "ERR_MOVE_MULTI_0";
@@ -140,7 +141,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_PREF_UPLOAD_VARIANT_NOT_FOUND_0 = "ERR_PREF_UPLOAD_VARIANT_NOT_FOUND_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PROGRESS_INTERRUPTED_0 = "ERR_PROGRESS_INTERRUPTED_0";
+    public static final @RUntainted String ERR_PROGRESS_INTERRUPTED_0 = "ERR_PROGRESS_INTERRUPTED_0";
     /** Message constant for key in the resource bundle. */
     public static final String ERR_PROGRESS_START_INVALID_LIST_0 = "ERR_PROGRESS_START_INVALID_LIST_0";
     /** Message constant for key in the resource bundle. */
@@ -149,7 +150,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_PUBLISH_LIST_CREATION_0 = "ERR_PUBLISH_LIST_CREATION_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PUBLISH_SCHEDULED_DATE_IN_PAST_1 = "ERR_PUBLISH_SCHEDULED_DATE_IN_PAST_1";
+    public static final @RUntainted String ERR_PUBLISH_SCHEDULED_DATE_IN_PAST_1 = "ERR_PUBLISH_SCHEDULED_DATE_IN_PAST_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_REDIRECT_INDEXPAGE_DIALOG_1 = "ERR_REDIRECT_INDEXPAGE_DIALOG_1";

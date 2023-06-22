@@ -33,6 +33,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 
 import java.util.Collection;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for classes which can find the detail page for a given resource,
@@ -75,7 +76,7 @@ public interface I_CmsDetailPageHandler extends I_CmsConfigurationParameterHandl
      *
      * @return the detail page link, or null
      */
-    String getDetailPage(CmsObject cms, String rootPath, String linkSource, String targetDetailPage);
+    @RUntainted String getDetailPage(CmsObject cms, String rootPath, @RUntainted String linkSource, @RUntainted String targetDetailPage);
 
     /**
      * Initializes the detail page handler.

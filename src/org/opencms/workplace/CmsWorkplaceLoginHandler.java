@@ -37,6 +37,7 @@ import org.opencms.ui.login.CmsLoginHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource init handler that loads the login form with the right parameters.<p>
@@ -52,10 +53,10 @@ import javax.servlet.http.HttpServletResponse;
 public class CmsWorkplaceLoginHandler implements I_CmsResourceInit {
 
     /** The login handler path. */
-    public static final String LOGIN_HANDLER = "/system/login";
+    public static final @RUntainted String LOGIN_HANDLER = "/system/login";
 
     /** The login form path. */
-    public static final String LOGIN_FORM = "/system/login/index.html";
+    public static final @RUntainted String LOGIN_FORM = "/system/login/index.html";
 
     /**
      * @see org.opencms.main.I_CmsResourceInit#initResource(org.opencms.file.CmsResource, org.opencms.file.CmsObject, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -75,7 +76,7 @@ public class CmsWorkplaceLoginHandler implements I_CmsResourceInit {
         if (!uri.startsWith(LOGIN_HANDLER)) {
             return resource;
         }
-        String storedSiteRoot = cms.getRequestContext().getSiteRoot();
+        @RUntainted String storedSiteRoot = cms.getRequestContext().getSiteRoot();
         try {
             // we now must switch to the root site to read the resource
             cms.getRequestContext().setSiteRoot("/");

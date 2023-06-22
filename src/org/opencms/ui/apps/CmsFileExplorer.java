@@ -127,6 +127,7 @@ import com.vaadin.v7.ui.Tree.ExpandEvent;
 import com.vaadin.v7.ui.Tree.ExpandListener;
 import com.vaadin.v7.ui.Tree.ItemStyleGenerator;
 import com.vaadin.v7.ui.Tree.TreeDragMode;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The file explorer app.<p>
@@ -797,7 +798,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
         });
 
         m_locationCache = CmsQuickLaunchLocationCache.getLocationCache(CmsAppWorkplaceUi.get().getHttpSession());
-        String startSite = CmsWorkplace.getStartSiteRoot(
+        @RUntainted String startSite = CmsWorkplace.getStartSiteRoot(
             A_CmsUI.getCmsObject(),
             CmsAppWorkplaceUi.get().getWorkplaceSettings());
         // remove trailing slashes
@@ -839,7 +840,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
      * @param siteRoot the site root
      * @param path the path inside the site
      */
-    public void changeSite(String siteRoot, String path) {
+    public void changeSite(@RUntainted String siteRoot, @RUntainted String path) {
 
         changeSite(siteRoot, path, false);
 
@@ -852,7 +853,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
      * @param path the folder path to open
      * @param force force the path change, even if we are currently in the same site
      */
-    public void changeSite(String siteRoot, String path, boolean force) {
+    public void changeSite(@RUntainted String siteRoot, @RUntainted String path, boolean force) {
 
         CmsObject cms = A_CmsUI.getCmsObject();
         String currentSiteRoot = cms.getRequestContext().getSiteRoot();
@@ -1036,7 +1037,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
      * @param project the project
      * @param siteRoot the site root
      */
-    public void onSiteOrProjectChange(CmsProject project, String siteRoot) {
+    public void onSiteOrProjectChange(CmsProject project, @RUntainted String siteRoot) {
 
         if ((siteRoot != null) && !siteRoot.equals(getSiteRootFromState())) {
             changeSite(siteRoot, null, true);
@@ -1102,7 +1103,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
      *
      * @param sitePath a folder site path
      */
-    public void populateFileTable(String sitePath) {
+    public void populateFileTable(@RUntainted String sitePath) {
 
         CmsObject cms = A_CmsUI.getCmsObject();
         m_searchField.clear();
@@ -1296,7 +1297,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
         }
         CmsResource folder = cms.readResource(folderId, FOLDERS);
         m_currentFolder = folderId;
-        String folderPath = cms.getSitePath(folder);
+        @RUntainted String folderPath = cms.getSitePath(folder);
         if (OpenCms.getSiteManager().isSharedFolder(cms.getRequestContext().getSiteRoot())) {
             folderPath = folderPath.substring(cms.getRequestContext().getSiteRoot().length());
         }
@@ -1311,7 +1312,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
             }
         }
         m_treeContainer.setChildrenAllowed(folderId, hasFolderChild);
-        String sitePath = folder.getRootPath().equals(cms.getRequestContext().getSiteRoot() + "/") ? "" : folderPath;
+        @RUntainted String sitePath = folder.getRootPath().equals(cms.getRequestContext().getSiteRoot() + "/") ? "" : folderPath;
         String state = new StateBean(
             cms.getRequestContext().getSiteRoot(),
             sitePath,
@@ -1458,7 +1459,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
      *
      * @param path the path
      */
-    void openPath(String path) {
+    void openPath(@RUntainted String path) {
 
         openPath(path, false);
     }
@@ -1469,7 +1470,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
      * @param path the path
      * @param initTree <code>true</code> in case the tree needs to be initialized
      */
-    void openPath(String path, boolean initTree) {
+    void openPath(@RUntainted String path, boolean initTree) {
 
         CmsObject cms = A_CmsUI.getCmsObject();
         if (path == null) {

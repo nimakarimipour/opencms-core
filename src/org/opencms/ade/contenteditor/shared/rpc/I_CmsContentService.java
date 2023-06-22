@@ -37,6 +37,7 @@ import org.opencms.util.CmsUUID;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The content editor service interface.<p>
@@ -197,5 +198,5 @@ public interface I_CmsContentService extends org.opencms.acacia.shared.rpc.I_Cms
      * @return not used
      * @throws CmsRpcException if something goes wrong
      */
-    String saveValue(String contentId, String contentPath, String locale, String value) throws CmsRpcException;
+    String saveValue(String contentId, String contentPath, String locale, @RUntainted String value) throws CmsRpcException;
 }

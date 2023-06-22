@@ -60,6 +60,7 @@ import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table with resources for which a given principal has permissions.<p>
@@ -74,7 +75,7 @@ public class CmsShowResourceTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(@RUntainted Set<@RUntainted String> data) {
 
             CmsResource res;
             try {

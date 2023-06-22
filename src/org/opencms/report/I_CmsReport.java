@@ -31,6 +31,7 @@ import org.opencms.i18n.CmsMessageContainer;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is the interface for the report classes which are used for the output
@@ -84,7 +85,7 @@ public interface I_CmsReport {
      *
      * @return the runtime formatted as "hh:mm:ss"
      */
-    String formatRuntime();
+    @RUntainted String formatRuntime();
 
     /**
      * Returns a list of all errors that occurred during the report.<p>
@@ -215,7 +216,7 @@ public interface I_CmsReport {
      *
      * @param t the exception to add
      */
-    void println(Throwable t);
+    void println(@RUntainted Throwable t);
 
     /**
      * Prints a localized message followed by a parametera and dots to the report.<p>
@@ -252,7 +253,7 @@ public interface I_CmsReport {
      *
      * @see org.opencms.file.CmsRequestContext#removeSiteRoot(String)
      */
-    String removeSiteRoot(String resourcename);
+    @RUntainted String removeSiteRoot(@RUntainted String resourcename);
 
     /**
      * Resets the runtime to 0 milliseconds.<p>

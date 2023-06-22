@@ -32,6 +32,7 @@ import org.opencms.ui.CmsCssIcon;
 import java.util.Locale;
 
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The app hierarchy configuration.<p>
@@ -39,7 +40,7 @@ import com.vaadin.server.Resource;
 public class CmsAppHierarchyConfiguration extends A_CmsWorkplaceAppConfiguration {
 
     /** The app id. */
-    public static final String APP_ID = "launchpad";
+    public static final @RUntainted String APP_ID = "launchpad";
 
     /** The app icon resource (size 32x32). */
     public static final CmsCssIcon ICON = new CmsCssIcon("oc-icon-32-launchpad");

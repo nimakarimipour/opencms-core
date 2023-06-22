@@ -29,6 +29,7 @@ package org.opencms.workplace.threads;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -47,10 +48,10 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_LINK_VALIDATION_0 = "ERR_LINK_VALIDATION_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_VALUE_EMPTY_0 = "ERR_VALUE_EMPTY_0";
+    public static final @RUntainted String ERR_VALUE_EMPTY_0 = "ERR_VALUE_EMPTY_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_XMLCONTENT_VFSFOLDER_1 = "ERR_XMLCONTENT_VFSFOLDER_1";
+    public static final @RUntainted String ERR_XMLCONTENT_VFSFOLDER_1 = "ERR_XMLCONTENT_VFSFOLDER_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_DB_IMPORT_THREAD_NAME_1 = "GUI_DB_IMPORT_THREAD_NAME_1";
@@ -110,7 +111,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_REPLACE_THREAD_START_IMPORT_0 = "LOG_REPLACE_THREAD_START_IMPORT_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_PROCESSING_XMLCONTENT_0 = "RPT_PROCESSING_XMLCONTENT_0";
+    public static final @RUntainted String RPT_PROCESSING_XMLCONTENT_0 = "RPT_PROCESSING_XMLCONTENT_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String RPT_RELATIONS_DELETION_BEGIN_0 = "RPT_RELATIONS_DELETION_BEGIN_0";
@@ -152,28 +153,28 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String RPT_RELATIONS_DELETION_VALIDATION_END_0 = "RPT_RELATIONS_DELETION_VALIDATION_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SYNCHRONIZE_BEGIN_0 = "RPT_SYNCHRONIZE_BEGIN_0";
+    public static final @RUntainted String RPT_SYNCHRONIZE_BEGIN_0 = "RPT_SYNCHRONIZE_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SYNCHRONIZE_END_0 = "RPT_SYNCHRONIZE_END_0";
+    public static final @RUntainted String RPT_SYNCHRONIZE_END_0 = "RPT_SYNCHRONIZE_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SYNCHRONIZE_FOLDERS_2 = "RPT_SYNCHRONIZE_FOLDERS_2";
+    public static final @RUntainted String RPT_SYNCHRONIZE_FOLDERS_2 = "RPT_SYNCHRONIZE_FOLDERS_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_XMLCONTENTREPAIR_BEGIN_2 = "RPT_XMLCONTENTREPAIR_BEGIN_2";
+    public static final @RUntainted String RPT_XMLCONTENTREPAIR_BEGIN_2 = "RPT_XMLCONTENTREPAIR_BEGIN_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_XMLCONTENTREPAIR_END_0 = "RPT_XMLCONTENTREPAIR_END_0";
+    public static final @RUntainted String RPT_XMLCONTENTREPAIR_END_0 = "RPT_XMLCONTENTREPAIR_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_XMLCONTENTREPAIR_NOTLOCKED_0 = "RPT_XMLCONTENTREPAIR_NOTLOCKED_0";
+    public static final @RUntainted String RPT_XMLCONTENTREPAIR_NOTLOCKED_0 = "RPT_XMLCONTENTREPAIR_NOTLOCKED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_XMLCONTENTREPAIR_REPAIRED_0 = "RPT_XMLCONTENTREPAIR_REPAIRED_0";
+    public static final @RUntainted String RPT_XMLCONTENTREPAIR_REPAIRED_0 = "RPT_XMLCONTENTREPAIR_REPAIRED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_XMLCONTENTREPAIR_SKIPFILE_0 = "RPT_XMLCONTENTREPAIR_SKIPFILE_0";
+    public static final @RUntainted String RPT_XMLCONTENTREPAIR_SKIPFILE_0 = "RPT_XMLCONTENTREPAIR_SKIPFILE_0";
 
     /** Name of the used resource bundle. */
     private static final String BUNDLE_NAME = "org.opencms.workplace.threads.messages";

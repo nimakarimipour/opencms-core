@@ -67,6 +67,7 @@ import java.util.concurrent.TimeoutException;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The default implementation of the workflow manager interface, which offers only publish functionality.<p>
@@ -142,7 +143,7 @@ public class CmsDefaultWorkflowManager extends A_CmsWorkflowManager {
      *
      * @return the simple name if the ou is the same as the current user's ou
      */
-    protected static String getOuAwareName(CmsObject cms, String name) {
+    protected static String getOuAwareName(CmsObject cms, @RUntainted String name) {
 
         String ou = CmsOrganizationalUnit.getParentFqn(name);
         if (ou.equals(cms.getRequestContext().getCurrentUser().getOuFqn())) {

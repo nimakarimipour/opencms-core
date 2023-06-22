@@ -58,6 +58,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
 import org.xml.sax.EntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides basic XML document handling functions useful when dealing
@@ -80,7 +81,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
     protected Map<Locale, Set<String>> m_elementNames;
 
     /** The encoding to use for this XML document. */
-    protected String m_encoding;
+    protected @RUntainted String m_encoding;
 
     /** The file that contains the document data (note: is not set when creating an empty or document based document). */
     protected CmsFile m_file;
@@ -124,7 +125,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
     /**
      * @see org.opencms.xml.I_CmsXmlDocument#copyLocale(java.util.List, java.util.Locale)
      */
-    public void copyLocale(List<Locale> possibleSources, Locale destination) throws CmsXmlException {
+    public void copyLocale(List<Locale> possibleSources, @RUntainted Locale destination) throws CmsXmlException {
 
         if (hasLocale(destination)) {
             throw new CmsXmlException(Messages.get().container(Messages.ERR_LOCALE_ALREADY_EXISTS_1, destination));
@@ -154,7 +155,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
     /**
      * @see org.opencms.xml.I_CmsXmlDocument#copyLocale(java.util.Locale, java.util.Locale)
      */
-    public void copyLocale(Locale source, Locale destination) throws CmsXmlException {
+    public void copyLocale(@RUntainted Locale source, @RUntainted Locale destination) throws CmsXmlException {
 
         if (!hasLocale(source)) {
             throw new CmsXmlException(Messages.get().container(Messages.ERR_LOCALE_NOT_AVAILABLE_1, source));
@@ -207,7 +208,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
         Attribute schema = m_document.getRootElement().attribute(
             I_CmsXmlSchemaType.XSI_NAMESPACE_ATTRIBUTE_NO_SCHEMA_LOCATION);
         if (schema != null) {
-            String schemaLocation = schema.getValue();
+            @RUntainted String schemaLocation = schema.getValue();
             String translatedSchema = OpenCms.getResourceManager().getXsdTranslator().translateResource(schemaLocation);
             if (!schemaLocation.equals(translatedSchema)) {
                 schema.setValue(translatedSchema);
@@ -339,7 +340,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
         }
 
         boolean removedCategoryField = false;
-        for (Locale locale : getLocales()) {
+        for (@RUntainted Locale locale : getLocales()) {
             for (I_CmsXmlContentValue value : getValues(locale)) {
                 if ((value instanceof CmsXmlDynamicCategoryValue) && (value.getMinOccurs() == 0)) {
                     value.getElement().detach();
@@ -401,7 +402,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
     /**
      * @see org.opencms.xml.I_CmsXmlDocument#getEncoding()
      */
-    public String getEncoding() {
+    public @RUntainted String getEncoding() {
 
         return m_encoding;
     }
@@ -443,7 +444,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
      * @param path the element to look up the locale List for
      * @return a List of all Locales that have the named element set in this document
      */
-    public List<Locale> getLocales(String path) {
+    public List<Locale> getLocales(@RUntainted String path) {
 
         Set<Locale> locales = m_elementLocales.get(CmsXmlUtils.createXpath(path, 1));
         if (locales != null) {
@@ -467,7 +468,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
     /**
      * @see org.opencms.xml.I_CmsXmlDocument#getStringValue(org.opencms.file.CmsObject, java.lang.String, java.util.Locale)
      */
-    public String getStringValue(CmsObject cms, String path, Locale locale) {
+    public @RUntainted String getStringValue(CmsObject cms, @RUntainted String path, Locale locale) {
 
         I_CmsXmlContentValue value = getValueInternal(CmsXmlUtils.createXpath(path, 1), locale);
         if (value != null) {
@@ -479,7 +480,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
     /**
      * @see org.opencms.xml.I_CmsXmlDocument#getStringValue(CmsObject, java.lang.String, Locale, int)
      */
-    public String getStringValue(CmsObject cms, String path, Locale locale, int index) {
+    public String getStringValue(CmsObject cms, @RUntainted String path, Locale locale, int index) {
 
         // directly calling getValueInternal() is more efficient then calling getStringValue(CmsObject, String, Locale)
         // since the most costs are generated in resolving the xpath name
@@ -493,7 +494,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
     /**
      * @see org.opencms.xml.I_CmsXmlDocument#getSubValues(java.lang.String, java.util.Locale)
      */
-    public List<I_CmsXmlContentValue> getSubValues(String path, Locale locale) {
+    public List<I_CmsXmlContentValue> getSubValues(@RUntainted String path, Locale locale) {
 
         List<I_CmsXmlContentValue> result = new ArrayList<I_CmsXmlContentValue>();
         String bookmark = getBookmarkName(CmsXmlUtils.createXpath(path, 1), locale);
@@ -526,7 +527,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
     /**
      * @see org.opencms.xml.I_CmsXmlDocument#getValue(java.lang.String, java.util.Locale)
      */
-    public I_CmsXmlContentValue getValue(String path, Locale locale) {
+    public I_CmsXmlContentValue getValue(@RUntainted String path, Locale locale) {
 
         return getValueInternal(CmsXmlUtils.createXpath(path, 1), locale);
     }
@@ -534,7 +535,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
     /**
      * @see org.opencms.xml.I_CmsXmlDocument#getValue(java.lang.String, java.util.Locale, int)
      */
-    public I_CmsXmlContentValue getValue(String path, Locale locale, int index) {
+    public I_CmsXmlContentValue getValue(@RUntainted String path, Locale locale, int index) {
 
         return getValueInternal(CmsXmlUtils.createXpath(path, index + 1), locale);
     }
@@ -587,7 +588,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
             } else {
                 // selected value belongs to a xsd:sequence
                 int index = 1;
-                String bm = CmsXmlUtils.removeXpathIndex(bookmark);
+                @RUntainted String bm = CmsXmlUtils.removeXpathIndex(bookmark);
                 while (value != null) {
                     result.add(value);
                     index++;
@@ -614,7 +615,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
     /**
      * @see org.opencms.xml.I_CmsXmlDocument#hasValue(java.lang.String, java.util.Locale)
      */
-    public boolean hasValue(String path, Locale locale) {
+    public boolean hasValue(@RUntainted String path, Locale locale) {
 
         return null != getBookmark(CmsXmlUtils.createXpath(path, 1), locale);
     }
@@ -622,7 +623,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
     /**
      * @see org.opencms.xml.I_CmsXmlDocument#hasValue(java.lang.String, java.util.Locale, int)
      */
-    public boolean hasValue(String path, Locale locale, int index) {
+    public boolean hasValue(@RUntainted String path, Locale locale, int index) {
 
         return null != getBookmark(CmsXmlUtils.createXpath(path, index + 1), locale);
     }
@@ -666,7 +667,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
     /**
      * @see org.opencms.xml.I_CmsXmlDocument#moveLocale(java.util.Locale, java.util.Locale)
      */
-    public void moveLocale(Locale source, Locale destination) throws CmsXmlException {
+    public void moveLocale(@RUntainted Locale source, @RUntainted Locale destination) throws CmsXmlException {
 
         copyLocale(source, destination);
         removeLocale(source);
@@ -675,7 +676,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
     /**
      * @see org.opencms.xml.I_CmsXmlDocument#removeLocale(java.util.Locale)
      */
-    public void removeLocale(Locale locale) throws CmsXmlException {
+    public void removeLocale(@RUntainted Locale locale) throws CmsXmlException {
 
         if (!hasLocale(locale)) {
             throw new CmsXmlException(Messages.get().container(Messages.ERR_LOCALE_NOT_AVAILABLE_1, locale));
@@ -873,7 +874,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
      * @param encoding the encoding to use when marshalling the document later
      * @param contentDefinition the content definition to use
      */
-    protected abstract void initDocument(Document document, String encoding, CmsXmlContentDefinition contentDefinition);
+    protected abstract void initDocument(Document document, @RUntainted String encoding, CmsXmlContentDefinition contentDefinition);
 
     /**
      * Returns <code>true</code> if the auto correction feature is enabled for saving this XML content.<p>

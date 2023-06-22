@@ -126,6 +126,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility class to generate the element data objects used within the container-page editor.<p>
@@ -144,13 +145,13 @@ public class CmsElementUtil {
     private CmsADEConfigData m_adeConfig;
 
     /** The cms context. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** The current page uri. */
-    private String m_currentPageUri;
+    private @RUntainted String m_currentPageUri;
 
     /** The content locale. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** The current container page. */
     private CmsResource m_page;
@@ -160,7 +161,7 @@ public class CmsElementUtil {
     private Map<String, Object> m_parameterMap;
 
     /** The http request. */
-    private HttpServletRequest m_req;
+    private @RUntainted HttpServletRequest m_req;
 
     /** The http response. */
     private HttpServletResponse m_res;
@@ -185,10 +186,10 @@ public class CmsElementUtil {
      */
     public CmsElementUtil(
         CmsObject cms,
-        String currentPageUri,
+        @RUntainted String currentPageUri,
         CmsContainerPageBean containerPage,
         CmsUUID detailContentId,
-        HttpServletRequest req,
+        @RUntainted HttpServletRequest req,
         HttpServletResponse res,
         boolean isDragMode,
         Locale locale)
@@ -231,9 +232,9 @@ public class CmsElementUtil {
      */
     public CmsElementUtil(
         CmsObject cms,
-        String currentPageUri,
+        @RUntainted String currentPageUri,
         CmsUUID detailContentId,
-        HttpServletRequest req,
+        @RUntainted HttpServletRequest req,
         HttpServletResponse res,
         Locale locale)
     throws CmsException {
@@ -271,10 +272,10 @@ public class CmsElementUtil {
      */
     public CmsElementUtil(
         CmsObject cms,
-        String currentPageUri,
+        @RUntainted String currentPageUri,
         CmsUUID detailContentId,
         String requestParameters,
-        HttpServletRequest req,
+        @RUntainted HttpServletRequest req,
         HttpServletResponse res,
         Locale locale)
     throws CmsException {
@@ -788,7 +789,7 @@ public class CmsElementUtil {
                         }
                         CmsFormatterConfig config = new CmsFormatterConfig(id);
                         Set<String> cssResources = new LinkedHashSet<String>();
-                        for (String cssSitePath : formatter.getCssHeadIncludes()) {
+                        for (@RUntainted String cssSitePath : formatter.getCssHeadIncludes()) {
                             cssResources.add(OpenCms.getLinkManager().getOnlineLink(m_cms, cssSitePath));
                         }
                         config.setCssResources(cssResources);
@@ -952,7 +953,7 @@ public class CmsElementUtil {
                 if (CmsStringUtil.isEmptyOrWhitespaceOnly(permissionInfo.getNoEditReason())
                     && elementBean.isInheritedContainer(m_cms)) {
                     String requestUri = m_cms.getRequestContext().getUri();
-                    String folderPath = CmsResource.getFolderPath(requestUri);
+                    @RUntainted String folderPath = CmsResource.getFolderPath(requestUri);
                     String configPath = CmsStringUtil.joinPaths(
                         folderPath,
                         CmsContainerConfigurationCache.INHERITANCE_CONFIG_FILE_NAME);

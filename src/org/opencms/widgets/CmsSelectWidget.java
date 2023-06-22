@@ -32,6 +32,7 @@ import org.opencms.util.CmsMacroResolver;
 
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget for a standard HTML form select box.<p>

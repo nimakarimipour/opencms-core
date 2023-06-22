@@ -30,6 +30,7 @@ package org.opencms.ade.containerpage.shared;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The inheritance container data.<p>
@@ -40,7 +41,7 @@ public class CmsInheritanceContainer implements IsSerializable {
     private String m_clientId;
 
     /** The description. */
-    private String m_description;
+    private @RUntainted String m_description;
 
     /** The elements of the container. */
     private List<CmsContainerElement> m_elements;
@@ -52,13 +53,13 @@ public class CmsInheritanceContainer implements IsSerializable {
     private boolean m_elementsMoved;
 
     /** The name of the inheritance line. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** Flag indicating if this is a new inheritance reference. */
     private boolean m_new;
 
     /** The title. */
-    private String m_title;
+    private @RUntainted String m_title;
 
     /**
      * Returns the clientId.<p>
@@ -75,7 +76,7 @@ public class CmsInheritanceContainer implements IsSerializable {
      *
      * @return the description
      */
-    public String getDescription() {
+    public @RUntainted String getDescription() {
 
         return m_description;
     }
@@ -115,7 +116,7 @@ public class CmsInheritanceContainer implements IsSerializable {
      *
      * @return the name
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -125,7 +126,7 @@ public class CmsInheritanceContainer implements IsSerializable {
      *
      * @return the title
      */
-    public String getTitle() {
+    public @RUntainted String getTitle() {
 
         return m_title;
     }
@@ -155,7 +156,7 @@ public class CmsInheritanceContainer implements IsSerializable {
      *
      * @param description the description to set
      */
-    public void setDescription(String description) {
+    public void setDescription(@RUntainted String description) {
 
         m_description = description;
     }
@@ -195,7 +196,7 @@ public class CmsInheritanceContainer implements IsSerializable {
      *
      * @param name the name to set
      */
-    public void setName(String name) {
+    public void setName(@RUntainted String name) {
 
         m_name = name;
     }
@@ -215,7 +216,7 @@ public class CmsInheritanceContainer implements IsSerializable {
      *
      * @param title the title to set
      */
-    public void setTitle(String title) {
+    public void setTitle(@RUntainted String title) {
 
         m_title = title;
     }

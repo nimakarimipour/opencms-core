@@ -44,6 +44,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource init handler that loads historical versions of resources.<p>
@@ -56,7 +57,7 @@ public class CmsHistoryResourceHandler implements I_CmsResourceInit {
     public static final String ATTRIBUTE_NAME = "org.opencms.file.history.CmsHistoryResourceHandler";
 
     /** The historical version handler path. */
-    public static final String HISTORY_HANDLER = "/system/config/showversion";
+    public static final @RUntainted String HISTORY_HANDLER = "/system/config/showversion";
 
     /** Request parameter name for the version number. */
     public static final String PARAM_VERSION = "version";
@@ -109,7 +110,7 @@ public class CmsHistoryResourceHandler implements I_CmsResourceInit {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsResource getResourceWithHistory(CmsObject cms, String resourceUri) throws CmsException {
+    public static CmsResource getResourceWithHistory(CmsObject cms, @RUntainted String resourceUri) throws CmsException {
 
         CmsResource resource = null;
 
@@ -118,7 +119,7 @@ public class CmsHistoryResourceHandler implements I_CmsResourceInit {
             Map<String, String[]> params = CmsRequestUtil.createParameterMap(resourceUri.substring(pos));
             if (params.containsKey(CmsHistoryResourceHandler.PARAM_VERSION)) {
                 int version = Integer.parseInt(params.get(CmsHistoryResourceHandler.PARAM_VERSION)[0]);
-                String sitemapPath = resourceUri.substring(0, pos);
+                @RUntainted String sitemapPath = resourceUri.substring(0, pos);
                 resource = cms.readResource(sitemapPath);
                 resource = (CmsResource)cms.readResource(resource.getStructureId(), version);
             }
@@ -155,10 +156,10 @@ public class CmsHistoryResourceHandler implements I_CmsResourceInit {
         // during a real request and NOT during a dummy-request while doing
         // a static export
         if (req != null) {
-            String uri = cms.getRequestContext().getUri();
+            @RUntainted String uri = cms.getRequestContext().getUri();
             // check if the resource starts with the HISTORY_HANDLER
             if (uri.startsWith(HISTORY_HANDLER)) {
-                String version = req.getParameter(PARAM_VERSION);
+                @RUntainted String version = req.getParameter(PARAM_VERSION);
 
                 // only do something if the resource was not found and there was a "versionid" parameter included
                 if ((resource == null) && (version != null)) {
@@ -166,7 +167,7 @@ public class CmsHistoryResourceHandler implements I_CmsResourceInit {
                     // test if the current user is allowed to read historical versions of resources
                     // this can be done by trying to read the history handler resource
                     if (cms.existsResource(HISTORY_HANDLER)) {
-                        String storedSiteRoot = cms.getRequestContext().getSiteRoot();
+                        @RUntainted String storedSiteRoot = cms.getRequestContext().getSiteRoot();
                         try {
                             // we now must switch to the root site to read the history resource
                             cms.getRequestContext().setSiteRoot("/");

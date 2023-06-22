@@ -29,6 +29,7 @@ package org.opencms.publish;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,34 +39,34 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CONFIG_FROZEN_0 = "ERR_CONFIG_FROZEN_0";
+    public static final @RUntainted String ERR_CONFIG_FROZEN_0 = "ERR_CONFIG_FROZEN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PUBLISH_ENGINE_ABORT_DENIED_1 = "ERR_PUBLISH_ENGINE_ABORT_DENIED_1";
+    public static final @RUntainted String ERR_PUBLISH_ENGINE_ABORT_DENIED_1 = "ERR_PUBLISH_ENGINE_ABORT_DENIED_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_PUBLISH_ENGINE_CREATE_REPORT_FILE_1 = "ERR_PUBLISH_ENGINE_CREATE_REPORT_FILE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PUBLISH_ENGINE_DISABLED_0 = "ERR_PUBLISH_ENGINE_DISABLED_0";
+    public static final @RUntainted String ERR_PUBLISH_ENGINE_DISABLED_0 = "ERR_PUBLISH_ENGINE_DISABLED_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_PUBLISH_ENGINE_ERROR_0 = "ERR_PUBLISH_ENGINE_ERROR_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PUBLISH_ENGINE_MISSING_PUBLISH_JOB_0 = "ERR_PUBLISH_ENGINE_MISSING_PUBLISH_JOB_0";
+    public static final @RUntainted String ERR_PUBLISH_ENGINE_MISSING_PUBLISH_JOB_0 = "ERR_PUBLISH_ENGINE_MISSING_PUBLISH_JOB_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PUBLISH_ENGINE_NOT_INITIALIZED_0 = "ERR_PUBLISH_ENGINE_NOT_INITIALIZED_0";
+    public static final @RUntainted String ERR_PUBLISH_ENGINE_NOT_INITIALIZED_0 = "ERR_PUBLISH_ENGINE_NOT_INITIALIZED_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_PUBLISH_ENGINE_PERM_DENIED_1 = "ERR_PUBLISH_ENGINE_PERM_DENIED_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PUBLISH_ENGINE_QUEUE_1 = "ERR_PUBLISH_ENGINE_QUEUE_1";
+    public static final @RUntainted String ERR_PUBLISH_ENGINE_QUEUE_1 = "ERR_PUBLISH_ENGINE_QUEUE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PUBLISH_FORBIDDEN_PARENT_FOLDER_3 = "ERR_PUBLISH_FORBIDDEN_PARENT_FOLDER_3";
+    public static final @RUntainted String ERR_PUBLISH_FORBIDDEN_PARENT_FOLDER_3 = "ERR_PUBLISH_FORBIDDEN_PARENT_FOLDER_3";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_PUBLISH_JOB_ABORT_ERROR_1 = "ERR_PUBLISH_JOB_ABORT_ERROR_1";
@@ -74,10 +75,10 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_PUBLISH_JOB_ALREADY_ENQUEUED_0 = "ERR_PUBLISH_JOB_ALREADY_ENQUEUED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PUBLISH_JOB_ALREADY_FINISHED_0 = "ERR_PUBLISH_JOB_ALREADY_FINISHED_0";
+    public static final @RUntainted String ERR_PUBLISH_JOB_ALREADY_FINISHED_0 = "ERR_PUBLISH_JOB_ALREADY_FINISHED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PUBLISH_JOB_ALREADY_STARTED_0 = "ERR_PUBLISH_JOB_ALREADY_STARTED_0";
+    public static final @RUntainted String ERR_PUBLISH_JOB_ALREADY_STARTED_0 = "ERR_PUBLISH_JOB_ALREADY_STARTED_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_PUBLISH_JOB_ENQUEUE_ERROR_1 = "ERR_PUBLISH_JOB_ENQUEUE_ERROR_1";
@@ -170,16 +171,16 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_THREADSTORE_PUBLISH_THREAD_INTERRUPT_2 = "LOG_THREADSTORE_PUBLISH_THREAD_INTERRUPT_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_JSPLOADER_UPDATE_CACHE_0 = "RPT_JSPLOADER_UPDATE_CACHE_0";
+    public static final @RUntainted String RPT_JSPLOADER_UPDATE_CACHE_0 = "RPT_JSPLOADER_UPDATE_CACHE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_JSPLOADER_UPDATE_CACHE_BEGIN_0 = "RPT_JSPLOADER_UPDATE_CACHE_BEGIN_0";
+    public static final @RUntainted String RPT_JSPLOADER_UPDATE_CACHE_BEGIN_0 = "RPT_JSPLOADER_UPDATE_CACHE_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_JSPLOADER_UPDATE_CACHE_END_0 = "RPT_JSPLOADER_UPDATE_CACHE_END_0";
+    public static final @RUntainted String RPT_JSPLOADER_UPDATE_CACHE_END_0 = "RPT_JSPLOADER_UPDATE_CACHE_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_PUBLISH_JOB_ABORT_SHUTDOWN_0 = "RPT_PUBLISH_JOB_ABORT_SHUTDOWN_0";
+    public static final @RUntainted String RPT_PUBLISH_JOB_ABORT_SHUTDOWN_0 = "RPT_PUBLISH_JOB_ABORT_SHUTDOWN_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String RPT_PUBLISH_PROJECT_BEGIN_0 = "RPT_PUBLISH_PROJECT_BEGIN_0";
@@ -188,10 +189,10 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String RPT_PUBLISH_PROJECT_END_0 = "RPT_PUBLISH_PROJECT_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_PUBLISH_RESOURCE_BEGIN_0 = "RPT_PUBLISH_RESOURCE_BEGIN_0";
+    public static final @RUntainted String RPT_PUBLISH_RESOURCE_BEGIN_0 = "RPT_PUBLISH_RESOURCE_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_PUBLISH_RESOURCE_END_0 = "RPT_PUBLISH_RESOURCE_END_0";
+    public static final @RUntainted String RPT_PUBLISH_RESOURCE_END_0 = "RPT_PUBLISH_RESOURCE_END_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String RPT_PUBLISH_RESOURCE_SWITCH_PROJECT_1 = "RPT_PUBLISH_RESOURCE_SWITCH_PROJECT_1";

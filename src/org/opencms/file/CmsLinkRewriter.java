@@ -72,6 +72,7 @@ import org.dom4j.Document;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class used to rewrite links and relations in one subtree such that relations from that subtree to another given subtree
@@ -104,7 +105,7 @@ public class CmsLinkRewriter {
     private List<CmsPair<String, String>> m_sourceTargetPairs = new ArrayList<CmsPair<String, String>>();
 
     /** The target folder root path. */
-    private String m_targetPath;
+    private @RUntainted String m_targetPath;
 
     /**
      * Creates a link rewriter for use after a multi-copy operation.<p>
@@ -116,7 +117,7 @@ public class CmsLinkRewriter {
     public CmsLinkRewriter(CmsObject cms, List<String> sources, String target) {
 
         m_sourceTargetPairs = new ArrayList<CmsPair<String, String>>();
-        for (String source : sources) {
+        for (@RUntainted String source : sources) {
             checkNotSubPath(source, target);
             String targetSub = CmsStringUtil.joinPaths(target, CmsResource.getName(source));
             m_sourceTargetPairs.add(CmsPair.create(source, targetSub));
@@ -349,7 +350,7 @@ public class CmsLinkRewriter {
      * @return a pair (content, encoding)
      * @throws CmsException if something goes wrong
      */
-    protected CmsPair<String, String> decode(CmsFile file) throws CmsException {
+    protected @RUntainted CmsPair<@RUntainted String, @RUntainted String> decode(CmsFile file) throws CmsException {
 
         String content = null;
         String encoding = getConfiguredEncoding(m_cms, file);
@@ -432,7 +433,7 @@ public class CmsLinkRewriter {
      *
      * @throws CmsException if something goes wrong
      */
-    protected List<CmsPair<CmsResource, CmsResource>> getMatchingResources(String source, String target)
+    protected List<CmsPair<CmsResource, CmsResource>> getMatchingResources(@RUntainted String source, @RUntainted String target)
     throws CmsException {
 
         List<CmsResource> sourceResources = readTree(source);
@@ -515,7 +516,7 @@ public class CmsLinkRewriter {
         //m_cms.getRequestContext().setAttribute(CmsXmlContent.AUTO_CORRECTION_ATTRIBUTE, Boolean.TRUE);
         m_cms.getRequestContext().setSiteRoot("");
         List<CmsPair<CmsResource, CmsResource>> allMatchingResources = Lists.newArrayList();
-        for (CmsPair<String, String> pair : m_sourceTargetPairs) {
+        for (@RUntainted CmsPair<@RUntainted String, @RUntainted String> pair : m_sourceTargetPairs) {
             List<CmsPair<CmsResource, CmsResource>> matchingResources = getMatchingResources(
                 pair.getFirst(),
                 pair.getSecond());
@@ -574,7 +575,7 @@ public class CmsLinkRewriter {
      *
      * @throws CmsException if something goes wrong
      */
-    protected List<CmsResource> readTree(String rootPath) throws CmsException {
+    protected List<CmsResource> readTree(@RUntainted String rootPath) throws CmsException {
 
         rootPath = CmsFileUtil.removeTrailingSeparator(rootPath);
         CmsResource base = m_cms.readResource(rootPath);
@@ -607,9 +608,9 @@ public class CmsLinkRewriter {
     protected void rewriteContent(CmsFile file, Collection<CmsRelation> relations) throws CmsException {
 
         LOG.info("Rewriting in-content links for " + file.getRootPath());
-        CmsPair<String, String> contentAndEncoding = decode(file);
+        @RUntainted CmsPair<@RUntainted String, @RUntainted String> contentAndEncoding = decode(file);
 
-        String content = "";
+        @RUntainted String content = "";
 
         if (OpenCms.getResourceManager().getResourceType(file) instanceof CmsResourceTypeXmlContent) {
             CmsXmlContent contentXml = CmsXmlContentFactory.unmarshal(m_cms, file);
@@ -651,7 +652,7 @@ public class CmsLinkRewriter {
      *
      * @return the content with the new structure ids
      */
-    protected String rewriteContentString(String originalContent) {
+    protected String rewriteContentString(@RUntainted String originalContent) {
 
         Pattern uuidPattern = Pattern.compile(CmsUUID.UUID_REGEX);
         I_CmsRegexSubstitution substitution = new I_CmsRegexSubstitution() {

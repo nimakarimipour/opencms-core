@@ -51,6 +51,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This resource handler handles URLs of the form /pdflink/{locale}/{formatter-id}/{detailname} and format
@@ -66,7 +67,7 @@ public class CmsPdfResourceHandler implements I_CmsResourceInit {
     public static final String IMAGE_MIMETYPECONFIG = "png:image/png|gif:image/gif|jpg:image/jpeg";
 
     /** Map of mime types for different file extensions. */
-    public static final Map<String, String> IMAGE_MIMETYPES = Collections.unmodifiableMap(
+    public static final @RUntainted Map<@RUntainted String, @RUntainted String> IMAGE_MIMETYPES = Collections.unmodifiableMap(
         CmsStringUtil.splitAsMap(IMAGE_MIMETYPECONFIG, "|", ":"));
 
     /** The logger instance for this class. */
@@ -164,7 +165,7 @@ public class CmsPdfResourceHandler implements I_CmsResourceInit {
         CmsResource formatter = linkObj.getFormatter();
         CmsResource content = linkObj.getContent();
         LOG.info("Trying to render " + content.getRootPath() + " using " + formatter.getRootPath());
-        Locale locale = linkObj.getLocale();
+        @RUntainted Locale locale = linkObj.getLocale();
         CmsObject cmsForJspExecution = OpenCms.initCmsObject(cms);
         cmsForJspExecution.getRequestContext().setLocale(locale);
         cmsForJspExecution.getRequestContext().setSiteRoot("");

@@ -41,6 +41,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the data of the currently logged in user.<p>
@@ -84,7 +85,7 @@ public class CmsJspTagUser extends TagSupport {
      * @param req the current request
      * @return String the value of the selected user property
      */
-    public static String userTagAction(String property, ServletRequest req) {
+    public static String userTagAction(@RUntainted String property, ServletRequest req) {
 
         CmsFlexController controller = CmsFlexController.getController(req);
 

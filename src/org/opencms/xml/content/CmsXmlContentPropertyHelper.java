@@ -76,6 +76,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Element;
 
 import com.google.common.base.Supplier;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides common methods on XML property configuration.<p>
@@ -195,7 +196,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsUUID getIdForUri(CmsObject cms, String uri) throws CmsException {
+    public static CmsUUID getIdForUri(CmsObject cms, @RUntainted String uri) throws CmsException {
 
         return cms.readResource(uri).getStructureId();
     }
@@ -364,7 +365,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @return the configuration JSON
      */
-    public static JSONObject getWidgetConfigurationAsJSON(String widgetConfiguration) {
+    public static JSONObject getWidgetConfigurationAsJSON(@RUntainted String widgetConfiguration) {
 
         JSONObject result = new JSONObject();
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(widgetConfiguration)) {
@@ -921,7 +922,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @throws CmsException if something goes wrong
      */
-    protected static CmsVfsFileValueBean getFileValueForIdOrUri(CmsObject cms, String idOrUri) throws CmsException {
+    protected static CmsVfsFileValueBean getFileValueForIdOrUri(CmsObject cms, @RUntainted String idOrUri) throws CmsException {
 
         CmsVfsFileValueBean result;
         if (CmsUUID.isValidUUID(idOrUri)) {

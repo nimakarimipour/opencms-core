@@ -76,6 +76,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Collects all available resource loaders, resource types and resource collectors at startup and provides
@@ -228,13 +229,13 @@ public class CmsResourceManager {
     }
 
     /** The path to the default template. */
-    public static final String DEFAULT_TEMPLATE = CmsWorkplace.VFS_PATH_COMMONS + "template/default.jsp";
+    public static final @RUntainted String DEFAULT_TEMPLATE = CmsWorkplace.VFS_PATH_COMMONS + "template/default.jsp";
 
     /** The MIME type <code>"text/html"</code>. */
-    public static final String MIMETYPE_HTML = "text/html";
+    public static final @RUntainted String MIMETYPE_HTML = "text/html";
 
     /** The MIME type <code>"text/plain"</code>. */
-    public static final String MIMETYPE_TEXT = "text/plain";
+    public static final @RUntainted String MIMETYPE_TEXT = "text/plain";
 
     /** The log object for this class. */
     private static final Log LOG = CmsLog.getLog(CmsResourceManager.class);
@@ -276,7 +277,7 @@ public class CmsResourceManager {
     private I_CmsResourceLoader[] m_loaders;
 
     /** The OpenCms map of configured MIME types. */
-    private Map<String, String> m_mimeTypes;
+    private @RUntainted Map<@RUntainted String, @RUntainted String> m_mimeTypes;
 
     /** The URL name generator for XML contents. */
     private I_CmsFileNameGenerator m_nameGenerator = new CmsDefaultFileNameGenerator();
@@ -324,7 +325,7 @@ public class CmsResourceManager {
      *
      * @throws CmsConfigurationException in case the collector could not be properly initialized
      */
-    public synchronized I_CmsResourceCollector addContentCollector(String className, String order)
+    public synchronized I_CmsResourceCollector addContentCollector(@RUntainted String className, String order)
     throws CmsConfigurationException {
 
         Class<?> classClazz;
@@ -422,7 +423,7 @@ public class CmsResourceManager {
      *
      * @throws CmsConfigurationException in case the HTML converter could not be properly initialized
      */
-    public I_CmsHtmlConverter addHtmlConverter(String name, String className) throws CmsConfigurationException {
+    public I_CmsHtmlConverter addHtmlConverter(String name, @RUntainted String className) throws CmsConfigurationException {
 
         // check if new conversion option can still be added
         if (m_frozen) {
@@ -787,7 +788,7 @@ public class CmsResourceManager {
      *
      * @return the MIME type for a specified file
      */
-    public String getMimeType(String filename, String encoding) {
+    public @RUntainted String getMimeType(String filename, String encoding) {
 
         return getMimeType(filename, encoding, MIMETYPE_HTML);
     }
@@ -807,9 +808,9 @@ public class CmsResourceManager {
      *
      * @return the MIME type for a specified file
      */
-    public String getMimeType(String filename, String encoding, String defaultMimeType) {
+    public @RUntainted String getMimeType(String filename, String encoding, @RUntainted String defaultMimeType) {
 
-        String mimeType = null;
+        @RUntainted String mimeType = null;
         int lastDot = filename.lastIndexOf('.');
         // check the MIME type for the file extension
         if ((lastDot > 0) && (lastDot < (filename.length() - 1))) {
@@ -822,7 +823,7 @@ public class CmsResourceManager {
                 return null;
             }
         }
-        StringBuffer result = new StringBuffer(mimeType);
+        @RUntainted StringBuffer result = new StringBuffer(mimeType);
         if ((encoding != null)
             && (mimeType.startsWith("text") || mimeType.endsWith("javascript"))
             && (mimeType.indexOf("charset") == -1)) {
@@ -915,7 +916,7 @@ public class CmsResourceManager {
      *
      * @throws CmsLoaderException if no resource type is available for the given id
      */
-    public I_CmsResourceType getResourceType(int typeId) throws CmsLoaderException {
+    public I_CmsResourceType getResourceType(@RUntainted int typeId) throws CmsLoaderException {
 
         I_CmsResourceType result = m_configuration.getResourceTypeById(typeId);
         if (result == null) {
@@ -934,7 +935,7 @@ public class CmsResourceManager {
      *
      * @throws CmsLoaderException if no resource type is available for the given name
      */
-    public I_CmsResourceType getResourceType(String typeName) throws CmsLoaderException {
+    public I_CmsResourceType getResourceType(@RUntainted String typeName) throws CmsLoaderException {
 
         I_CmsResourceType result = m_configuration.getResourceTypeByName(typeName);
         if (result != null) {
@@ -1012,10 +1013,10 @@ public class CmsResourceManager {
         CmsObject cms,
         HttpServletRequest request,
         CmsResource resource,
-        String templateProperty)
+        @RUntainted String templateProperty)
     throws CmsException {
 
-        String templateProp = cms.readPropertyObject(resource, templateProperty, true).getValue();
+        @RUntainted String templateProp = cms.readPropertyObject(resource, templateProperty, true).getValue();
         CmsTemplateContext templateContext = null;
         String templateName = null;
         if (templateProp == null) {
@@ -1186,7 +1187,7 @@ public class CmsResourceManager {
      * @throws IOException if something goes wrong
      * @throws CmsException if something goes wrong
      */
-    public void loadResource(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+    public void loadResource(@RUntainted CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
     throws ServletException, IOException, CmsException {
 
         res.setContentType(getMimeType(resource.getName(), cms.getRequestContext().getEncoding()));
@@ -1552,7 +1553,7 @@ public class CmsResourceManager {
      *
      * @return the template together with its name, or null if the template couldn't be read
      */
-    private NamedTemplate readTemplateWithName(CmsObject cms, String path) {
+    private NamedTemplate readTemplateWithName(CmsObject cms, @RUntainted String path) {
 
         try {
             CmsResource resource = cms.readResource(path, CmsResourceFilter.IGNORE_EXPIRATION);

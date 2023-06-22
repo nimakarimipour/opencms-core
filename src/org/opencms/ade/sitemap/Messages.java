@@ -29,6 +29,7 @@ package org.opencms.ade.sitemap;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -47,7 +48,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_ALIAS_RESOURCE_NOT_FOUND_0 = "ERR_ALIAS_RESOURCE_NOT_FOUND_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CREATING_SUB_SITEMAP_WRONG_CONFIG_FILE_TYPE_2 = "ERR_CREATING_SUB_SITEMAP_WRONG_CONFIG_FILE_TYPE_2";
+    public static final @RUntainted String ERR_CREATING_SUB_SITEMAP_WRONG_CONFIG_FILE_TYPE_2 = "ERR_CREATING_SUB_SITEMAP_WRONG_CONFIG_FILE_TYPE_2";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_DEFAULT_DETAIL_PAGE_DESCRIPTION_0 = "GUI_DEFAULT_DETAIL_PAGE_DESCRIPTION_0";
@@ -56,7 +57,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String GUI_DEFAULT_DETAIL_PAGE_TITLE_0 = "GUI_DEFAULT_DETAIL_PAGE_TITLE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_NO_FUNCTION_DETAIL_CONTAINER_1 = "ERR_NO_FUNCTION_DETAIL_CONTAINER_1";
+    public static final @RUntainted String ERR_NO_FUNCTION_DETAIL_CONTAINER_1 = "ERR_NO_FUNCTION_DETAIL_CONTAINER_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_TITLE_MUST_NOT_BE_EMPTY_0 = "ERR_TITLE_MUST_NOT_BE_EMPTY_0";

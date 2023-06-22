@@ -40,6 +40,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.BooleanUtils;
 
 import com.google.common.collect.ComparisonChain;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Maintains a table of links for an element of a CmsXmlPage.<p>
@@ -115,7 +116,7 @@ public class CmsLinkTable {
      *
      * @return the new link entry
      */
-    public CmsLink addLink(CmsRelationType type, String targetUri, boolean internal) {
+    public CmsLink addLink(CmsRelationType type, @RUntainted String targetUri, boolean internal) {
 
         CmsLink link = new CmsLink(LINK_PREFIX + m_linkTable.size(), type, targetUri, internal);
         m_linkTable.put(link.getName(), link);

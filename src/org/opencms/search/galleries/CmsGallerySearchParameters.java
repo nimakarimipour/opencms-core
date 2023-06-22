@@ -54,6 +54,7 @@ import java.util.stream.Collectors;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 
 import com.google.common.base.Joiner;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parameters used for the gallery search index.<p>
@@ -237,7 +238,7 @@ public class CmsGallerySearchParameters {
     private int m_matchesPerPage;
 
     /** The sitemap reference path. */
-    private String m_referencePath;
+    private @RUntainted String m_referencePath;
 
     /** The resource types to search for. */
     private List<String> m_resourceTypes;
@@ -527,7 +528,7 @@ public class CmsGallerySearchParameters {
      *
      * @return the gallery reference path
      */
-    public String getReferencePath() {
+    public @RUntainted String getReferencePath() {
 
         return m_referencePath;
     }
@@ -777,7 +778,7 @@ public class CmsGallerySearchParameters {
      *
      * @param referencePath the gallery reference path
      */
-    public void setReferencePath(String referencePath) {
+    public void setReferencePath(@RUntainted String referencePath) {
 
         m_referencePath = referencePath;
     }

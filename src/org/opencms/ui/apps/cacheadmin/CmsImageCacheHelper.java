@@ -47,6 +47,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Image Cache helper.<p>
@@ -132,7 +133,7 @@ public class CmsImageCacheHelper {
      * @return a String representation of the dimension of the given image
      * @throws CmsException if something goes wrong
      */
-    public String getSingleSize(CmsObject cms, String resPath) throws CmsException {
+    public String getSingleSize(CmsObject cms, @RUntainted String resPath) throws CmsException {
 
         CmsResource res = getClonedCmsObject(cms).readResource(resPath);
         return getSingleSize(cms, res);
@@ -277,7 +278,7 @@ public class CmsImageCacheHelper {
         if (!oName.startsWith("/")) {
             oName = "/" + oName;
         }
-        String imgName = oName;
+        @RUntainted String imgName = oName;
         CmsResource res = null;
         boolean found = false;
         while (!found) {

@@ -51,6 +51,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a Flex bucket configuration.<p>
@@ -200,7 +201,7 @@ public class CmsFlexBucketConfiguration {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsFlexBucketConfiguration loadFromVfsFile(CmsObject cms, String path) throws CmsException {
+    public static CmsFlexBucketConfiguration loadFromVfsFile(CmsObject cms, @RUntainted String path) throws CmsException {
 
         if (!cms.existsResource(path)) {
             return null;

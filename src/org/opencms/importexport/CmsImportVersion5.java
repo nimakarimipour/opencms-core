@@ -70,6 +70,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the OpenCms Import Interface ({@link org.opencms.importexport.I_CmsImport}) for
@@ -236,8 +237,8 @@ public class CmsImportVersion5 extends A_CmsImport {
         Iterator<Entry<String, List<CmsRelation>>> it = m_importedRelations.entrySet().iterator();
         while (it.hasNext()) {
             Entry<String, List<CmsRelation>> entry = it.next();
-            String resourcePath = entry.getKey();
-            List<CmsRelation> relations = entry.getValue();
+            @RUntainted String resourcePath = entry.getKey();
+            @RUntainted List<@RUntainted CmsRelation> relations = entry.getValue();
 
             m_report.print(
                 org.opencms.report.Messages.get().container(
@@ -351,14 +352,14 @@ public class CmsImportVersion5 extends A_CmsImport {
      */
     protected CmsResource importResource(
         String source,
-        String destination,
+        @RUntainted String destination,
         I_CmsResourceType type,
-        String uuidstructure,
+        @RUntainted String uuidstructure,
         String uuidresource,
         long datelastmodified,
-        String userlastmodified,
+        @RUntainted String userlastmodified,
         long datecreated,
-        String usercreated,
+        @RUntainted String usercreated,
         long datereleased,
         long dateexpired,
         String flags,
@@ -398,7 +399,7 @@ public class CmsImportVersion5 extends A_CmsImport {
             }
 
             // get UUID for the structure
-            CmsUUID newUuidstructure = null;
+            @RUntainted CmsUUID newUuidstructure = null;
             if (uuidstructure != null) {
                 // create a UUID from the provided string
                 newUuidstructure = new CmsUUID(uuidstructure);
@@ -464,7 +465,7 @@ public class CmsImportVersion5 extends A_CmsImport {
      */
     @Override
     protected void importUser(
-        String name,
+        @RUntainted String name,
         String flags,
         String password,
         String firstname,
@@ -472,7 +473,7 @@ public class CmsImportVersion5 extends A_CmsImport {
         String email,
         long dateCreated,
         Map<String, Object> userInfo,
-        List<String> userGroups)
+        @RUntainted List<@RUntainted String> userGroups)
     throws CmsImportExportException {
 
         boolean convert = false;
@@ -498,7 +499,7 @@ public class CmsImportVersion5 extends A_CmsImport {
     @SuppressWarnings("unchecked")
     protected void readResourcesFromManifest() throws CmsImportExportException {
 
-        String source = null, destination = null, uuidstructure = null, uuidresource = null, userlastmodified = null,
+        @RUntainted String source = null, destination = null, uuidstructure = null, uuidresource = null, userlastmodified = null,
         usercreated = null, flags = null, timestamp = null;
         long datelastmodified = 0, datecreated = 0, datereleased = 0, dateexpired = 0;
 
@@ -617,7 +618,7 @@ public class CmsImportVersion5 extends A_CmsImport {
                 flags = getChildElementTextValue(currentElement, A_CmsImport.N_FLAGS);
 
                 // apply name translation and import path
-                String translatedName = m_cms.getRequestContext().addSiteRoot(m_importPath + destination);
+                @RUntainted String translatedName = m_cms.getRequestContext().addSiteRoot(m_importPath + destination);
                 if (type.isFolder()) {
                     // ensure folders end with a "/"
                     if (!CmsResource.isFolder(translatedName)) {
@@ -676,7 +677,7 @@ public class CmsImportVersion5 extends A_CmsImport {
                                     currentEntry,
                                     A_CmsImport.N_ACCESSCONTROL_PRINCIPAL);
                                 String principalId = new CmsUUID().toString();
-                                String principal = id.substring(id.indexOf('.') + 1, id.length());
+                                @RUntainted String principal = id.substring(id.indexOf('.') + 1, id.length());
 
                                 try {
                                     if (id.startsWith(I_CmsPrincipal.PRINCIPAL_GROUP)) {

@@ -51,6 +51,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.logging.Log;
 
 import com.google.common.cache.CacheBuilder;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Creates a repository session to access OpenCms.<p>
@@ -148,7 +149,7 @@ public class CmsRepository extends A_CmsRepository {
      * @see org.opencms.repository.A_CmsRepository#login(java.lang.String, java.lang.String)
      */
     @Override
-    public I_CmsRepositorySession login(String userName, String password) throws CmsException {
+    public I_CmsRepositorySession login(@RUntainted String userName, String password) throws CmsException {
 
         CmsObject cms;
         // Cache CmsObjects for 30 seconds to avoid expensive password checks
@@ -157,7 +158,7 @@ public class CmsRepository extends A_CmsRepository {
         CmsObject origCms = m_cmsObjectCache.get(cacheKey);
         String configuredProject = getConfiguration().getString("project", null);
         String configuredSite = getConfiguration().getString("root", null);
-        String roleStr = getConfiguration().getString("role", CmsRole.WORKPLACE_USER.getRoleName());
+        @RUntainted String roleStr = getConfiguration().getString("role", CmsRole.WORKPLACE_USER.getRoleName());
         CmsRole requiredRole = null;
         if (!"any".equals(roleStr)) {
             if (roleStr.indexOf("/") == -1) {
@@ -166,8 +167,8 @@ public class CmsRepository extends A_CmsRepository {
                 requiredRole = CmsRole.valueOfRoleName(roleStr);
             }
         }
-        String project = configuredProject;
-        String site = configuredSite;
+        @RUntainted String project = configuredProject;
+        @RUntainted String site = configuredSite;
         if (origCms != null) {
             cms = OpenCms.initCmsObject(origCms);
         } else {

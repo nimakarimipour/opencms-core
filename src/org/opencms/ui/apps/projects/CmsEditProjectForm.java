@@ -70,6 +70,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The edit project form component.<p>
@@ -145,7 +146,7 @@ public class CmsEditProjectForm extends CmsBasicDialog {
     private static final long serialVersionUID = 2345799706922671537L;
 
     /** The OU field. */
-    TextField m_fieldOU;
+    @RUntainted TextField m_fieldOU;
 
     /** The add resources button. */
     private Button m_addResource;
@@ -468,7 +469,7 @@ public class CmsEditProjectForm extends CmsBasicDialog {
         // change the current project
         cms.getRequestContext().setCurrentProject(m_project);
         // store the current site root
-        String currentSite = cms.getRequestContext().getSiteRoot();
+        @RUntainted String currentSite = cms.getRequestContext().getSiteRoot();
         // copy the resources to the current project
         try {
             // switch to the root site
@@ -482,7 +483,7 @@ public class CmsEditProjectForm extends CmsBasicDialog {
             // read project resources again!
             List<String> currentResNames = cms.readProjectResources(m_project);
             // copy missing resources
-            for (String resName : resourceRootPaths) {
+            for (@RUntainted String resName : resourceRootPaths) {
                 if (!currentResNames.contains(resName)) {
                     cms.copyResourceToProject(resName);
                 }

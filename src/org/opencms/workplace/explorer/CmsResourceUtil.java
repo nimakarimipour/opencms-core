@@ -69,6 +69,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.Maps;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides {@link CmsResource} utility functions.<p>
@@ -277,7 +278,7 @@ public final class CmsResourceUtil {
      *
      * @return the icon resource
      */
-    public static Resource getBigIconResource(CmsExplorerTypeSettings explorerType, String resourceName) {
+    public static Resource getBigIconResource(CmsExplorerTypeSettings explorerType, @RUntainted String resourceName) {
 
         if (explorerType == null) {
             explorerType = OpenCms.getWorkplaceManager().getExplorerTypeSetting(
@@ -312,7 +313,7 @@ public final class CmsResourceUtil {
      *
      * @return the icon resource
      */
-    public static Resource getSmallIconResource(CmsExplorerTypeSettings explorerType, String resourceName) {
+    public static Resource getSmallIconResource(CmsExplorerTypeSettings explorerType, @RUntainted String resourceName) {
 
         if (explorerType == null) {
             explorerType = OpenCms.getWorkplaceManager().getExplorerTypeSetting(
@@ -702,7 +703,7 @@ public final class CmsResourceUtil {
                 CmsPropertyDefinition.PROPERTY_NAVTEXT,
                 false).getValue();
         } catch (Throwable e) {
-            String storedSiteRoot = getCms().getRequestContext().getSiteRoot();
+            @RUntainted String storedSiteRoot = getCms().getRequestContext().getSiteRoot();
             try {
                 getCms().getRequestContext().setSiteRoot("");
                 navText = getCms().readPropertyObject(
@@ -1053,7 +1054,7 @@ public final class CmsResourceUtil {
     public String getSiteTitle() {
 
         String title = getSite();
-        String rootSite = getCms().getRequestContext().getSiteRoot();
+        @RUntainted String rootSite = getCms().getRequestContext().getSiteRoot();
         try {
             getCms().getRequestContext().setSiteRoot("");
             title = getCms().readPropertyObject(title, CmsPropertyDefinition.PROPERTY_TITLE, false).getValue(title);
@@ -1243,7 +1244,7 @@ public final class CmsResourceUtil {
                 CmsPropertyDefinition.PROPERTY_TITLE,
                 false).getValue();
         } catch (Throwable e) {
-            String storedSiteRoot = getCms().getRequestContext().getSiteRoot();
+            @RUntainted String storedSiteRoot = getCms().getRequestContext().getSiteRoot();
             try {
                 getCms().getRequestContext().setSiteRoot("");
                 title = getCms().readPropertyObject(
@@ -1317,7 +1318,7 @@ public final class CmsResourceUtil {
             if (rightSite == null) {
                 rightSite = "";
             }
-            String currentSite = getCms().getRequestContext().getSiteRoot();
+            @RUntainted String currentSite = getCms().getRequestContext().getSiteRoot();
             try {
                 getCms().getRequestContext().setSiteRoot(rightSite);
                 return settings.isEditable(getCms(), getResource());
@@ -1454,7 +1455,7 @@ public final class CmsResourceUtil {
      *
      * @return the simple name if the ou is the same as the current user's ou
      */
-    private String getCurrentOuRelativeName(String name) {
+    private String getCurrentOuRelativeName(@RUntainted String name) {
 
         if (m_request == null) {
             return CmsOrganizationalUnit.SEPARATOR + name;

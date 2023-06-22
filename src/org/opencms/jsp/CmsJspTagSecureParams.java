@@ -39,6 +39,7 @@ import java.util.Set;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.jsp.tagext.TagSupport;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This tag is used to enable parameter escaping for a single Flex Request.<p>
@@ -66,7 +67,7 @@ public class CmsJspTagSecureParams extends TagSupport {
      * @param allowHtml the comma-separated list of parameters for which HTML will be allowed, but be escaped
      * @param policy  the site path of an AntiSamy policy file
      */
-    public static void secureParamsTagAction(ServletRequest request, String allowXml, String allowHtml, String policy) {
+    public static void secureParamsTagAction(ServletRequest request, String allowXml, String allowHtml, @RUntainted String policy) {
 
         if (request instanceof CmsFlexRequest) {
             CmsFlexRequest flexRequest = (CmsFlexRequest)request;

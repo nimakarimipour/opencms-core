@@ -30,6 +30,7 @@ package org.opencms.xml.content;
 import org.opencms.file.CmsObject;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface representing an XML content location which corresponds to an actual content value.<p>

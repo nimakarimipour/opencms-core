@@ -51,6 +51,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Super class for workplace apps to help implementing the app navigation and layout.<p>
@@ -180,7 +181,7 @@ public abstract class A_CmsWorkplaceApp implements I_CmsWorkplaceApp {
      *
      * @return the parameter value
      */
-    public static String getParamFromState(String state, String paramName) {
+    public static @RUntainted String getParamFromState(String state, String paramName) {
 
         String prefix = PARAM_SEPARATOR + paramName + PARAM_ASSIGN;
         if (state.contains(prefix)) {
@@ -200,7 +201,7 @@ public abstract class A_CmsWorkplaceApp implements I_CmsWorkplaceApp {
      *
      * @return the parameters
      */
-    public static Map<String, String> getParamsFromState(String state) {
+    public static @RUntainted Map<@RUntainted String, @RUntainted String> getParamsFromState(String state) {
 
         Map<String, String> result = new HashMap<String, String>();
         int separatorIndex = state.indexOf(PARAM_SEPARATOR);

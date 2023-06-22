@@ -37,6 +37,7 @@ import org.opencms.xml.types.I_CmsXmlContentValue;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the API to access the values of a XML content document.<p>
@@ -195,7 +196,7 @@ public interface I_CmsXmlDocument {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    String getStringValue(CmsObject cms, String path, Locale locale) throws CmsXmlException;
+    @RUntainted String getStringValue(CmsObject cms, String path, Locale locale) throws CmsXmlException;
 
     /**
      * Returns the content value for the given path and the selected index as a String,
@@ -372,7 +373,7 @@ public interface I_CmsXmlDocument {
      * @throws CmsXmlException in case either the source locale does not exist,
      *      or the destination locale already exists in the document, or if something else goes wrong
      */
-    void moveLocale(Locale source, Locale destination) throws CmsXmlException;
+    void moveLocale(@RUntainted Locale source, @RUntainted Locale destination) throws CmsXmlException;
 
     /**
      * Removes the given locale from this XML document.
@@ -381,7 +382,7 @@ public interface I_CmsXmlDocument {
      *
      * @throws CmsXmlException in case the locale did not exist in the document, or if something else goes wrong
      */
-    void removeLocale(Locale locale) throws CmsXmlException;
+    void removeLocale(@RUntainted Locale locale) throws CmsXmlException;
 
     /**
      * Validates the content of this XML document.<p>

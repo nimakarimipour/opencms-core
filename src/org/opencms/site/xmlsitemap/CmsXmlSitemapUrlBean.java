@@ -36,6 +36,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean which represents an entry in an XML sitemap for SEO purposes.<p>
@@ -67,7 +68,7 @@ public class CmsXmlSitemapUrlBean {
     private String m_subsite;
 
     /** The URL. */
-    private String m_url;
+    private @RUntainted String m_url;
 
     /**
      * Creates a new instance.<p>
@@ -77,7 +78,7 @@ public class CmsXmlSitemapUrlBean {
      * @param changeFrequency the change frequency string
      * @param priority the priority
      */
-    public CmsXmlSitemapUrlBean(String url, long lastModified, String changeFrequency, double priority) {
+    public CmsXmlSitemapUrlBean(@RUntainted String url, long lastModified, String changeFrequency, double priority) {
 
         m_url = url;
 
@@ -189,7 +190,7 @@ public class CmsXmlSitemapUrlBean {
      *
      * @return the page URL
      */
-    public String getUrl() {
+    public @RUntainted String getUrl() {
 
         return m_url;
     }

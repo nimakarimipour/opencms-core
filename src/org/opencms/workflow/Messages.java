@@ -29,6 +29,7 @@ package org.opencms.workflow;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The message bundle for the workflow package.<p>
@@ -37,10 +38,10 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message key for the resource bundle. */
-    public static final String ERR_INVALID_WORKFLOW_ACTION_1 = "ERR_INVALID_WORKFLOW_ACTION_1";
+    public static final @RUntainted String ERR_INVALID_WORKFLOW_ACTION_1 = "ERR_INVALID_WORKFLOW_ACTION_1";
 
     /** Message key for the resource bundle. */
-    public static final String ERR_NEW_PARENT_NOT_IN_WORKFLOW_1 = "ERR_NEW_PARENT_NOT_IN_WORKFLOW_1";
+    public static final @RUntainted String ERR_NEW_PARENT_NOT_IN_WORKFLOW_1 = "ERR_NEW_PARENT_NOT_IN_WORKFLOW_1";
 
     /** Message key for the resource bundle. */
     public static final String GUI_ALREADY_IN_WORKFLOW_0 = "GUI_ALREADY_IN_WORKFLOW_0";

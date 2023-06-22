@@ -39,6 +39,7 @@ import org.opencms.report.I_CmsReport;
 import org.opencms.util.CmsUUID;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Publish job information bean.<p>
@@ -243,7 +244,7 @@ public final class CmsPublishJobInfoBean {
      *
      * @return the publish history id
      */
-    public CmsUUID getPublishHistoryId() {
+    public @RUntainted CmsUUID getPublishHistoryId() {
 
         return m_publishHistoryId;
     }

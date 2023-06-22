@@ -71,6 +71,7 @@ import org.apache.commons.logging.Log;
 import com.google.web.bindery.autobean.shared.AutoBean;
 import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.vm.AutoBeanFactorySource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provider for the OpenCms AdvancedDirectEdit.<p>
@@ -205,7 +206,7 @@ public class CmsAdvancedDirectEditProvider extends A_CmsDirectEditProvider {
      * Similar to the method in the superclass, but removes the write permission check, as this is handled differently.
      */
     @Override
-    public CmsDirectEditResourceInfo getResourceInfo(CmsDirectEditParams params, String resourceName) {
+    public CmsDirectEditResourceInfo getResourceInfo(CmsDirectEditParams params, @RUntainted String resourceName) {
 
         try {
             // first check some simple preconditions for direct edit
@@ -520,7 +521,7 @@ public class CmsAdvancedDirectEditProvider extends A_CmsDirectEditProvider {
                 isUploadType = uploadTypes.contains(typePart);
             }
         }
-        String uploadFolder = params.getUploadFolder();
+        @RUntainted String uploadFolder = params.getUploadFolder();
         hasNew = params.getButtonSelection().isShowNew();
         if (isUploadType) {
             if (!CmsStringUtil.isEmptyOrWhitespaceOnly(uploadFolder) && !"none".equals(uploadFolder)) {

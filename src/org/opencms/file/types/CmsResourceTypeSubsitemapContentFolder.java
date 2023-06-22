@@ -33,6 +33,7 @@ import org.opencms.util.CmsMacroResolver;
 
 import java.util.Arrays;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Content type class for subsitemap content folders.
@@ -45,7 +46,7 @@ public class CmsResourceTypeSubsitemapContentFolder extends CmsResourceTypeFolde
     private static final long serialVersionUID = -4763516920316525304L;
 
     /** The default value for the config file copy source. */
-    public static final String DEFAULT_CONFIG_SOURCE = "/system/modules/org.opencms.base/copyresources/sitemap.config";
+    public static final @RUntainted String DEFAULT_CONFIG_SOURCE = "/system/modules/org.opencms.base/copyresources/sitemap.config";
 
     /** True if the 'use formatter keys' option should be enabled by default in newly created sitemap configurations. */
     private static boolean m_enableNewPageFormatByDefault = true;
@@ -79,7 +80,7 @@ public class CmsResourceTypeSubsitemapContentFolder extends CmsResourceTypeFolde
         String resourcename,
         CmsMacroResolver resolver) {
 
-        String source = DEFAULT_CONFIG_SOURCE;
+        @RUntainted String source = DEFAULT_CONFIG_SOURCE;
         if (!m_enableNewPageFormatByDefault) {
             source = source + ".nokeys";
         }

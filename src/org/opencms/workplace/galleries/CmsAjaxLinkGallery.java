@@ -48,6 +48,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the specific constants, members and helper methods to generate the content of the external link gallery dialog
@@ -96,7 +97,7 @@ public class CmsAjaxLinkGallery extends A_CmsAjaxGallery {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsAjaxLinkGallery(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsAjaxLinkGallery(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
 
@@ -186,7 +187,7 @@ public class CmsAjaxLinkGallery extends A_CmsAjaxGallery {
      *
      */
     @Override
-    protected void changeItemLinkUrl(String itemUrl) {
+    protected void changeItemLinkUrl(@RUntainted String itemUrl) {
 
         try {
             JspWriter out = getJsp().getJspContext().getOut();

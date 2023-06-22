@@ -48,6 +48,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for formatter beans which delegates all methods to the wrapped formatter bean except those
@@ -191,7 +192,7 @@ public class CmsSchemaFormatterBeanWrapper implements I_CmsFormatterBean {
     /**
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getJspRootPath()
      */
-    public String getJspRootPath() {
+    public @RUntainted String getJspRootPath() {
 
         return m_wrappedFormatter.getJspRootPath();
     }

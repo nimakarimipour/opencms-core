@@ -73,6 +73,7 @@ import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the Export dialog.<p>
@@ -92,7 +93,7 @@ public class CmsDbExportView extends VerticalLayout {
          */
         public void validate(Object value) throws InvalidValueException {
 
-            String resourcePath = (String)value;
+            @RUntainted String resourcePath = (String)value;
             if ((value == null)) {
                 throw new InvalidValueException(
                     CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_EXPORT_INVALID_RESOURCE_EMPTY_0));
@@ -457,7 +458,7 @@ public class CmsDbExportView extends VerticalLayout {
         m_exportParams.setIncludeSystemFolder(m_includeSystem.getValue().booleanValue());
         m_exportParams.setIncludeUnchangedResources(m_includeUnchanged.getValue().booleanValue());
         m_exportParams.setSkipParentFolders(m_skipParentFolders.getValue().booleanValue());
-        String exportFileName = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(
+        @RUntainted String exportFileName = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(
             OpenCms.getSystemInfo().getPackagesRfsPath() + File.separator + (String)m_target.getValue());
         m_exportParams.setPath(exportFileName);
         m_exportParams.setRecursive(m_recursive.getValue().booleanValue());
@@ -490,7 +491,7 @@ public class CmsDbExportView extends VerticalLayout {
             m_resourcesGroup.init();
         }
 
-        for (String line : lines) {
+        for (@RUntainted String line : lines) {
             if (!exResources.contains(line)) {
                 // folders may have been entered without trailing slashes,
                 // but to correct that, we have to read the resources

@@ -60,6 +60,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for manipulating locale groups.<p>
@@ -403,7 +404,7 @@ public class CmsLocaleGroupService {
         if (site == null) {
             return null;
         }
-        String siteroot = site.getSiteRoot();
+        @RUntainted String siteroot = site.getSiteRoot();
         List<String> ancestors = Lists.newArrayList();
         while ((currentPath != null) && CmsStringUtil.isPrefixPath(siteroot, currentPath)) {
             ancestors.add(currentPath);
@@ -423,7 +424,7 @@ public class CmsLocaleGroupService {
                 iter.remove();
             }
         }
-        for (String ancestor : ancestors) {
+        for (@RUntainted String ancestor : ancestors) {
             try {
                 CmsResource ancestorRes = cms.readResource(ancestor, CmsResourceFilter.IGNORE_EXPIRATION);
                 CmsLocaleGroup group = readLocaleGroup(ancestorRes);
@@ -435,7 +436,7 @@ public class CmsLocaleGroupService {
             }
         }
         // there is at least one ancestor: the site root
-        String result = ancestors.get(0);
+        @RUntainted String result = ancestors.get(0);
         LOG.debug("result = " + result);
         return cms.readResource(result, CmsResourceFilter.IGNORE_EXPIRATION);
 

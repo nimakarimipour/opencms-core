@@ -57,6 +57,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Synchronization layout class.<p>
@@ -76,7 +77,7 @@ public class CmsDbSynchronizationView extends VerticalLayout {
          */
         public void validate(Object value) throws InvalidValueException {
 
-            String resourceName = (String)value;
+            @RUntainted String resourceName = (String)value;
             if (synchroEnabled() & (resourceName == null)) {
                 throw new InvalidValueException(
                     CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_SYNC_VALIDATION_EMPTY_RESOURCES_0));

@@ -29,6 +29,7 @@ package org.opencms.site;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,25 +39,25 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CONFIG_FROZEN_0 = "ERR_CONFIG_FROZEN_0";
+    public static final @RUntainted String ERR_CONFIG_FROZEN_0 = "ERR_CONFIG_FROZEN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_DUPLICATE_SERVER_NAME_1 = "ERR_DUPLICATE_SERVER_NAME_1";
+    public static final @RUntainted String ERR_DUPLICATE_SERVER_NAME_1 = "ERR_DUPLICATE_SERVER_NAME_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_EMPTY_SERVER_URL_0 = "ERR_EMPTY_SERVER_URL_0";
+    public static final @RUntainted String ERR_EMPTY_SERVER_URL_0 = "ERR_EMPTY_SERVER_URL_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_SITE_ROOT_1 = "ERR_INVALID_SITE_ROOT_1";
+    public static final @RUntainted String ERR_INVALID_SITE_ROOT_1 = "ERR_INVALID_SITE_ROOT_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_PATH_FOR_SHARED_FOLDER_1 = "ERR_INVALID_PATH_FOR_SHARED_FOLDER_1";
+    public static final @RUntainted String ERR_INVALID_PATH_FOR_SHARED_FOLDER_1 = "ERR_INVALID_PATH_FOR_SHARED_FOLDER_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_SECURESERVER_MISSING_1 = "ERR_SECURESERVER_MISSING_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_SITE_ALREADY_CONFIGURED_1 = "ERR_SITE_ALREADY_CONFIGURED_1";
+    public static final @RUntainted String ERR_SITE_ALREADY_CONFIGURED_1 = "ERR_SITE_ALREADY_CONFIGURED_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_SITE_NOT_CONFIGURED_1 = "ERR_SITE_NOT_CONFIGURED_1";

@@ -35,6 +35,7 @@ import org.opencms.module.CmsModuleImportExportHandler;
 import org.opencms.module.CmsModuleManager;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean representing a module zip file to be imported.<p>
@@ -45,7 +46,7 @@ public class CmsModuleImportFile {
     private CmsModule m_module;
 
     /** The path of the zip fiile. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /**
      * Creates a new instance.<p>
@@ -89,7 +90,7 @@ public class CmsModuleImportFile {
             module,
             CmsModuleManager.DEPENDENCY_MODE_IMPORT);
         if (!dependencies.isEmpty()) {
-            StringBuffer dep = new StringBuffer(32);
+            @RUntainted StringBuffer dep = new StringBuffer(32);
             for (int i = 0; i < dependencies.size(); i++) {
                 CmsModuleDependency dependency = dependencies.get(i);
                 dep.append("\n - ");

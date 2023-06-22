@@ -50,6 +50,7 @@ import org.apache.commons.logging.Log;
 
 import org.dom4j.Attribute;
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsVarLink".<p>
@@ -79,7 +80,7 @@ public class CmsXmlVarLinkValue extends A_CmsXmlContentValue implements I_CmsJso
     private CmsLink m_linkValue;
 
     /** The String value of the element node. */
-    private String m_stringValue;
+    private @RUntainted String m_stringValue;
 
     /**
      * Creates a new, empty schema type descriptor of type "OpenCmsVfsFile".<p>
@@ -131,7 +132,7 @@ public class CmsXmlVarLinkValue extends A_CmsXmlContentValue implements I_CmsJso
         Element element = root.addElement(getName());
 
         // get the default value from the content handler
-        String defaultValue = document.getHandler().getDefault(cms, this, locale);
+        @RUntainted String defaultValue = document.getHandler().getDefault(cms, this, locale);
         if (defaultValue != null) {
             I_CmsXmlContentValue value = createValue(document, element, locale);
             value.setStringValue(cms, defaultValue);
@@ -199,7 +200,7 @@ public class CmsXmlVarLinkValue extends A_CmsXmlContentValue implements I_CmsJso
     /**
      * @see org.opencms.xml.types.I_CmsXmlContentValue#getStringValue(CmsObject)
      */
-    public String getStringValue(CmsObject cms) throws CmsRuntimeException {
+    public @RUntainted String getStringValue(CmsObject cms) throws CmsRuntimeException {
 
         if (m_stringValue == null) {
             m_stringValue = createStringValue(cms);
@@ -236,7 +237,7 @@ public class CmsXmlVarLinkValue extends A_CmsXmlContentValue implements I_CmsJso
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#setStringValue(org.opencms.file.CmsObject, java.lang.String)
      */
-    public void setStringValue(CmsObject cms, String value) throws CmsIllegalArgumentException {
+    public void setStringValue(CmsObject cms, @RUntainted String value) throws CmsIllegalArgumentException {
 
         // element is rebuild from given String value below
         m_element.clearContent();
@@ -252,7 +253,7 @@ public class CmsXmlVarLinkValue extends A_CmsXmlContentValue implements I_CmsJso
         String path = value;
         if (cms != null) {
             String siteRoot = OpenCms.getSiteManager().getSiteRoot(value);
-            String oldSite = cms.getRequestContext().getSiteRoot();
+            @RUntainted String oldSite = cms.getRequestContext().getSiteRoot();
             try {
                 if (siteRoot != null) {
                     // only switch the site if needed
@@ -343,7 +344,7 @@ public class CmsXmlVarLinkValue extends A_CmsXmlContentValue implements I_CmsJso
      *
      * @return the String value for this VarLink value element
      */
-    private String createStringValue(CmsObject cms) {
+    private @RUntainted String createStringValue(CmsObject cms) {
 
         Attribute enabled = m_element.attribute(CmsXmlPage.ATTRIBUTE_ENABLED);
 

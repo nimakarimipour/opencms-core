@@ -57,6 +57,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 
 import com.cybozu.labs.langdetect.DetectorFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the locales configured for this OpenCms installation.<p>
@@ -78,7 +79,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
     public static final String PARAMETER_ENCODING = "__encoding";
 
     /** Request parameter to force locale selection. */
-    public static final String PARAMETER_LOCALE = "__locale";
+    public static final @RUntainted String PARAMETER_LOCALE = "__locale";
 
     /** The log object for this class. */
     private static final Log LOG = CmsLog.getLog(CmsLocaleManager.class);
@@ -155,7 +156,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
      *
      * @return the default locale configured in <code>opencms-system.xml</code>
      */
-    public static Locale getDefaultLocale() {
+    public static @RUntainted Locale getDefaultLocale() {
 
         return m_defaultLocale;
     }
@@ -173,13 +174,13 @@ public class CmsLocaleManager implements I_CmsEventListener {
      * @param localeName the full locale name
      * @return the locale or <code>null</code> if not available
      */
-    public static Locale getLocale(String localeName) {
+    public static @RUntainted Locale getLocale(String localeName) {
 
         if (CmsStringUtil.isEmpty(localeName)) {
             return getDefaultLocale();
         }
 
-        Locale locale = null;
+        @RUntainted Locale locale = null;
         if (OpenCms.getMemoryMonitor() != null) {
             // this may be used AFTER shutdown
             locale = OpenCms.getMemoryMonitor().getCachedLocale(localeName);
@@ -217,7 +218,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
      *
      * @return the locale names from the given List of locales as a comma separated String
      */
-    public static String getLocaleNames(List<Locale> locales) {
+    public static @RUntainted String getLocaleNames(List<Locale> locales) {
 
         StringBuffer result = new StringBuffer();
         if (locales != null) {
@@ -362,7 +363,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
      *
      * @return the content encoding set for the given resource
      */
-    public static final String getResourceEncoding(CmsObject cms, CmsResource res) {
+    public static final @RUntainted String getResourceEncoding(CmsObject cms, CmsResource res) {
 
         String encoding = null;
         // get the encoding
@@ -578,7 +579,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
      *
      * @see #getAvailableLocales()
      */
-    public List<Locale> getAvailableLocales(CmsObject cms, String resourceName) {
+    public List<Locale> getAvailableLocales(CmsObject cms, @RUntainted String resourceName) {
 
         String availableNames = null;
         try {
@@ -590,7 +591,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
             LOG.debug("Could not read available locales property for resource " + resourceName, exc);
         }
 
-        List<Locale> result = null;
+        @RUntainted List<@RUntainted Locale> result = null;
         if (availableNames != null) {
             result = getAvailableLocales(availableNames);
         }
@@ -667,7 +668,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
      *
      * @return the best matching locale name or null if no name matches
      */
-    public Locale getBestMatchingLocale(Locale requestedLocale, List<Locale> defaults, List<Locale> available) {
+    public Locale getBestMatchingLocale(Locale requestedLocale, @RUntainted List<@RUntainted Locale> defaults, List<Locale> available) {
 
         if ((available == null) || available.isEmpty()) {
             // no locales are available at all
@@ -730,8 +731,8 @@ public class CmsLocaleManager implements I_CmsEventListener {
      */
     public Locale getDefaultLocale(CmsObject cms, CmsResource resource) {
 
-        List<Locale> defaultLocales = getDefaultLocales(cms, resource);
-        Locale result;
+        @RUntainted List<@RUntainted Locale> defaultLocales = getDefaultLocales(cms, resource);
+        @RUntainted Locale result;
         if (defaultLocales.size() > 0) {
             result = defaultLocales.get(0);
         } else {
@@ -764,7 +765,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
      * @see #getDefaultLocales()
      * @see #getDefaultLocales(CmsObject, String)
      */
-    public Locale getDefaultLocale(CmsObject cms, String resourceName) {
+    public Locale getDefaultLocale(CmsObject cms, @RUntainted String resourceName) {
 
         List<Locale> defaultLocales = getDefaultLocales(cms, resourceName);
         Locale result;
@@ -838,7 +839,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
      *
      * @since 7.0.2
      */
-    public List<Locale> getDefaultLocales(CmsObject cms, CmsResource resource) {
+    public @RUntainted List<@RUntainted Locale> getDefaultLocales(CmsObject cms, CmsResource resource) {
 
         String defaultNames = null;
         try {
@@ -877,7 +878,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
      * @see #getDefaultLocale(CmsObject, String)
      * @see #getDefaultLocales(CmsObject, CmsResource)
      */
-    public List<Locale> getDefaultLocales(CmsObject cms, String resourceName) {
+    public List<Locale> getDefaultLocales(CmsObject cms, @RUntainted String resourceName) {
 
         String defaultNames = null;
         try {
@@ -898,9 +899,9 @@ public class CmsLocaleManager implements I_CmsEventListener {
      *
      * @return the first precise or simplified match, or <code>null</code> in case no match is found
      */
-    public Locale getFirstMatchingLocale(List<Locale> locales, List<Locale> available) {
+    public Locale getFirstMatchingLocale(@RUntainted List<@RUntainted Locale> locales, List<Locale> available) {
 
-        Iterator<Locale> i;
+        @RUntainted Iterator<@RUntainted Locale> i;
         // first try a precise match
         i = locales.iterator();
         while (i.hasNext()) {
@@ -928,7 +929,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
         // finally try a match only with language
         i = locales.iterator();
         while (i.hasNext()) {
-            Locale locale = i.next();
+            @RUntainted Locale locale = i.next();
             if (locale.getCountry().length() > 0) {
                 // the locale has a country, try to match without the country
                 locale = new Locale(locale.getLanguage(), "", "");
@@ -959,7 +960,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
      *
      * @return the i18n information to use for the given request context
      */
-    public CmsI18nInfo getI18nInfo(HttpServletRequest req, CmsUser user, CmsProject project, String resource) {
+    public CmsI18nInfo getI18nInfo(@RUntainted HttpServletRequest req, CmsUser user, CmsProject project, @RUntainted String resource) {
 
         CmsI18nInfo i18nInfo = null;
 
@@ -982,7 +983,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
 
         // check the request for special parameters overriding the locale handler
         Locale locale = null;
-        String encoding = null;
+        @RUntainted String encoding = null;
         if (req != null) {
             String localeParam = req.getParameter(CmsLocaleManager.PARAMETER_LOCALE);
             // check request for parameters
@@ -1189,7 +1190,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
      *
      * @return an array of default locales for the given default names
      */
-    private List<Locale> getDefaultLocales(String defaultNames) {
+    private @RUntainted List<@RUntainted Locale> getDefaultLocales(String defaultNames) {
 
         List<Locale> result = null;
         if (defaultNames != null) {

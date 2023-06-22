@@ -55,6 +55,7 @@ import com.vaadin.v7.shared.ui.combobox.FilteringMode;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to change OU of given user.<p>
@@ -73,7 +74,7 @@ public class CmsMoveUserToOU extends CmsBasicDialog {
          */
         public void validate(Object value) throws InvalidValueException {
 
-            String ou = (String)value;
+            @RUntainted String ou = (String)value;
 
             if (m_user.getOuFqn().equals(ou)) {
                 throw new InvalidValueException(

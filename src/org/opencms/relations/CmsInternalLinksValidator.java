@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Util class to find broken links in a bundle of resources.<p>
@@ -112,19 +113,19 @@ public class CmsInternalLinksValidator {
 
         if (m_resourcesWithBrokenLinks == null) {
             // sort the resulting hash map
-            List<String> resources = new ArrayList<String>(m_brokenRelations.keySet());
+            List<String> resources = new ArrayList<@RUntainted String>(m_brokenRelations.keySet());
             Collections.sort(resources);
 
             m_resourcesWithBrokenLinks = new ArrayList<CmsResource>(resources.size());
             m_notVisibleResourcesCount = 0;
             // remove not visible resources
             CmsResourceFilter filter = CmsResourceFilter.IGNORE_EXPIRATION.addRequireVisible();
-            String storedSiteRoot = m_cms.getRequestContext().getSiteRoot();
+            @RUntainted String storedSiteRoot = m_cms.getRequestContext().getSiteRoot();
             try {
                 m_cms.getRequestContext().setSiteRoot("/");
-                Iterator<String> itResources = resources.iterator();
+                @RUntainted Iterator<@RUntainted String> itResources = resources.iterator();
                 while (itResources.hasNext()) {
-                    String resourceName = itResources.next();
+                    @RUntainted String resourceName = itResources.next();
                     try {
                         m_resourcesWithBrokenLinks.add(m_cms.readResource(resourceName, filter));
                     } catch (Exception e) {
@@ -166,7 +167,7 @@ public class CmsInternalLinksValidator {
 
         Iterator<String> itFolders = resourceNames.iterator();
         while (itFolders.hasNext()) {
-            String folderName = itFolders.next();
+            @RUntainted String folderName = itFolders.next();
             List<CmsRelation> relations;
             try {
                 relations = m_cms.getRelationsForResource(folderName, filter);

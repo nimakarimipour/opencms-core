@@ -40,6 +40,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for
@@ -204,7 +205,7 @@ public final class CmsRelationType implements Serializable {
     private final int m_id;
 
     /** Some name for this relation type, ie. for &lt;link&gt; tag representation. */
-    private final String m_name;
+    private final @RUntainted String m_name;
 
     /** Flag to indicate if the relations of this type are strong or weak. */
     private final boolean m_strong;
@@ -448,7 +449,7 @@ public final class CmsRelationType implements Serializable {
      * @throws CmsIllegalArgumentException if the given value could not be matched against a
      *         <code>{@link CmsRelationType}</code> object.
      */
-    public static CmsRelationType valueOf(int id) throws CmsIllegalArgumentException {
+    public static CmsRelationType valueOf(@RUntainted int id) throws CmsIllegalArgumentException {
 
         if ((id > 0) && (id <= VALUE_ARRAY.length)) {
             return VALUE_ARRAY[id - 1];
@@ -477,7 +478,7 @@ public final class CmsRelationType implements Serializable {
      * @see #valueOfXml(String)
      * @see #valueOfJsp(String)
      */
-    public static CmsRelationType valueOf(String name) throws CmsIllegalArgumentException {
+    public static CmsRelationType valueOf(@RUntainted String name) throws CmsIllegalArgumentException {
 
         CmsRelationType result = valueOfInternal(name);
         if (result == null) {
@@ -621,7 +622,7 @@ public final class CmsRelationType implements Serializable {
      *
      * @return a localized name
      */
-    public String getLocalizedName(Locale locale) {
+    public @RUntainted String getLocalizedName(Locale locale) {
 
         return getLocalizedName(Messages.get().getBundle(locale));
     }

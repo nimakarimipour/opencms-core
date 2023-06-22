@@ -47,6 +47,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.List;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Definitions of all required project driver methods. <p>
@@ -59,10 +60,10 @@ public interface I_CmsProjectDriver {
     int DRIVER_TYPE_ID = 1;
 
     /** Name of the setup project. */
-    String SETUP_PROJECT_NAME = "_setupProject";
+    @RUntainted String SETUP_PROJECT_NAME = "_setupProject";
 
     /** The name of the temp file project. */
-    String TEMP_FILE_PROJECT_NAME = "tempFileProject";
+    @RUntainted String TEMP_FILE_PROJECT_NAME = "tempFileProject";
 
     /**
      * Cleans up the publish history entries according to the given filter.
@@ -95,11 +96,11 @@ public interface I_CmsProjectDriver {
      */
     CmsProject createProject(
         CmsDbContext dbc,
-        CmsUUID id,
+        @RUntainted CmsUUID id,
         CmsUser owner,
         CmsGroup group,
         CmsGroup managergroup,
-        String name,
+        @RUntainted String name,
         String description,
         int flags,
         CmsProjectType type)
@@ -114,7 +115,7 @@ public interface I_CmsProjectDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    void createProjectResource(CmsDbContext dbc, CmsUUID projectId, String resourceName) throws CmsDataAccessException;
+    void createProjectResource(CmsDbContext dbc, CmsUUID projectId, @RUntainted String resourceName) throws CmsDataAccessException;
 
     /**
      * Inserts an entry for a publish job .<p>
@@ -474,7 +475,7 @@ public interface I_CmsProjectDriver {
      * @return the project with the given name
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsProject readProject(CmsDbContext dbc, String name) throws CmsDataAccessException;
+    CmsProject readProject(CmsDbContext dbc, @RUntainted String name) throws CmsDataAccessException;
 
     /**
      * Reads the project resource path for a given project and resource path,

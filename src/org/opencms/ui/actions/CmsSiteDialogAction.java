@@ -37,6 +37,7 @@ import org.opencms.ui.dialogs.CmsSiteSelectDialog;
 
 import java.util.HashMap;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The switch site dialog action.<p>
@@ -73,7 +74,7 @@ public class CmsSiteDialogAction extends A_CmsToolbarAction implements I_CmsADEA
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
      */
-    public String getJspPath() {
+    public @RUntainted String getJspPath() {
 
         return null;
     }

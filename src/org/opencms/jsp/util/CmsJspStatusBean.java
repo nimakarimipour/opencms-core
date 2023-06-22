@@ -55,6 +55,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This bean provides methods to generate customized http status error pages, e.g. to handle 404 (not found) errors.<p>
@@ -78,10 +79,10 @@ public class CmsJspStatusBean extends CmsJspActionElement {
     public static final String ERROR_STATUS_CODE = "javax.servlet.error.status_code";
 
     /** Default name for an unknown error status code. */
-    public static final String UNKKNOWN_STATUS_CODE = "unknown";
+    public static final @RUntainted String UNKKNOWN_STATUS_CODE = "unknown";
 
     /** The OpenCms VFS path containing the handler files. */
-    public static final String VFS_FOLDER_HANDLER = CmsWorkplace.VFS_PATH_SYSTEM + "handler/";
+    public static final @RUntainted String VFS_FOLDER_HANDLER = CmsWorkplace.VFS_PATH_SYSTEM + "handler/";
 
     /** The log object for this class. */
     private static final Log LOG = CmsLog.getLog(CmsJspStatusBean.class);
@@ -93,7 +94,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
     private Throwable m_exception;
 
     /** The Locale to use for displayed messages. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** Contains all possible parameters usable by localized messages. */
     private Object[] m_localizeParameters;
@@ -134,7 +135,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsJspStatusBean(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsJspStatusBean(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         super(context, req, res);
         initMembers(req, null);
@@ -148,7 +149,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
      * @param res the JSP response
      * @param t the exception that lead to the error
      */
-    public CmsJspStatusBean(PageContext context, HttpServletRequest req, HttpServletResponse res, Throwable t) {
+    public CmsJspStatusBean(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res, Throwable t) {
 
         super(context, req, res);
         initMembers(req, t);
@@ -164,7 +165,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
      * @deprecated will not work for container pages and other pages using cms:include tags
      */
     @Deprecated
-    public boolean forwardToErrorPage(String rootPath) {
+    public boolean forwardToErrorPage(@RUntainted String rootPath) {
 
         try {
 
@@ -176,7 +177,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
             if (site != null) {
                 clone.getRequestContext().setSiteRoot(site.getSiteRoot());
             }
-            String relPath = clone.getRequestContext().removeSiteRoot(rootPath);
+            @RUntainted String relPath = clone.getRequestContext().removeSiteRoot(rootPath);
             clone.getRequestContext().setUri(relPath);
 
             // create a new flex controller together with its flex request/response
@@ -256,13 +257,13 @@ public class CmsJspStatusBean extends CmsJspActionElement {
     public String getPageContent(String element) {
 
         // Determine the folder to read the contents from
-        String contentFolder = property(CmsPropertyDefinition.PROPERTY_TEMPLATE_ELEMENTS, "search", "");
+        @RUntainted String contentFolder = property(CmsPropertyDefinition.PROPERTY_TEMPLATE_ELEMENTS, "search", "");
         if (CmsStringUtil.isEmpty(contentFolder)) {
             contentFolder = VFS_FOLDER_HANDLER + "contents/";
         }
 
         // determine the file to read the contents from
-        String fileName = "content" + getStatusCodeMessage() + ".html";
+        @RUntainted String fileName = "content" + getStatusCodeMessage() + ".html";
         if (!getCmsObject().existsResource(contentFolder + fileName)) {
             // special file does not exist, use generic one
             fileName = "content" + UNKKNOWN_STATUS_CODE + ".html";
@@ -368,7 +369,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
      *
      * @throws JspException in case there were problems including the target
      */
-    public void includeTemplatePart(String target, String element) throws JspException {
+    public void includeTemplatePart(@RUntainted String target, String element) throws JspException {
 
         includeTemplatePart(target, element, null);
     }
@@ -382,11 +383,11 @@ public class CmsJspStatusBean extends CmsJspActionElement {
      *
      * @throws JspException in case there were problems including the target
      */
-    public void includeTemplatePart(String target, String element, Map<String, Object> parameterMap)
+    public void includeTemplatePart(@RUntainted String target, String element, Map<String, Object> parameterMap)
     throws JspException {
 
         // store current site root and URI
-        String currentSiteRoot = getRequestContext().getSiteRoot();
+        @RUntainted String currentSiteRoot = getRequestContext().getSiteRoot();
         String currentUri = getRequestContext().getUri();
 
         try {

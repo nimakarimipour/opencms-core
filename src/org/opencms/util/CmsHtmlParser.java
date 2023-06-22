@@ -41,6 +41,7 @@ import org.htmlparser.lexer.Lexer;
 import org.htmlparser.lexer.Page;
 import org.htmlparser.util.ParserException;
 import org.htmlparser.visitors.NodeVisitor;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base utility class for OpenCms <code>{@link org.htmlparser.visitors.NodeVisitor}</code>
@@ -177,7 +178,7 @@ public class CmsHtmlParser extends NodeVisitor implements I_CmsHtmlNodeVisitor {
     /**
      * @see org.opencms.util.I_CmsHtmlNodeVisitor#process(java.lang.String, java.lang.String)
      */
-    public String process(String html, String encoding) throws ParserException {
+    public @RUntainted String process(String html, String encoding) throws ParserException {
 
         m_result = new StringBuffer();
         Parser parser = new Parser();

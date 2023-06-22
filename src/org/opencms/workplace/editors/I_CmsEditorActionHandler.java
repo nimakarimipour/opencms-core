@@ -35,6 +35,7 @@ import org.opencms.workplace.editors.directedit.CmsDirectEditPermissions;
 import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a method for performing an individual action if the user pressed a special button in the editor.<p>
@@ -215,5 +216,5 @@ public interface I_CmsEditorActionHandler {
      * @param resourceName the name of the edited resource
      * @return true if the customized button should be active, otherwise false
      */
-    boolean isButtonActive(CmsJspActionElement jsp, String resourceName);
+    boolean isButtonActive(CmsJspActionElement jsp, @RUntainted String resourceName);
 }

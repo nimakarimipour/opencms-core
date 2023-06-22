@@ -29,6 +29,7 @@ package org.opencms.relations;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,13 +39,13 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CATEGORY_INVALID_LOCATION_1 = "ERR_CATEGORY_INVALID_LOCATION_1";
+    public static final @RUntainted String ERR_CATEGORY_INVALID_LOCATION_1 = "ERR_CATEGORY_INVALID_LOCATION_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_RELATION_TYPE_INIT_1 = "ERR_RELATION_TYPE_INIT_1";
+    public static final @RUntainted String ERR_RELATION_TYPE_INIT_1 = "ERR_RELATION_TYPE_INIT_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_LINK_POINTING_TO_0 = "GUI_LINK_POINTING_TO_0";
+    public static final @RUntainted String GUI_LINK_POINTING_TO_0 = "GUI_LINK_POINTING_TO_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_LINK_POINTING_TO_2 = "GUI_LINK_POINTING_TO_2";
@@ -92,7 +93,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String GUI_RELATIONS_VALIDATION_DEFAULT_SUBJECT_0 = "GUI_RELATIONS_VALIDATION_DEFAULT_SUBJECT_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_RELATIONS_VALIDATION_PROJECT_1 = "GUI_RELATIONS_VALIDATION_PROJECT_1";
+    public static final @RUntainted String GUI_RELATIONS_VALIDATION_PROJECT_1 = "GUI_RELATIONS_VALIDATION_PROJECT_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_BROKEN_LINK_BY_ID_2 = "LOG_BROKEN_LINK_BY_ID_2";
@@ -101,7 +102,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_BROKEN_LINK_BY_NAME_1 = "LOG_BROKEN_LINK_BY_NAME_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_BROKEN_LINK_NO_ID_0 = "LOG_BROKEN_LINK_NO_ID_0";
+    public static final @RUntainted String LOG_BROKEN_LINK_NO_ID_0 = "LOG_BROKEN_LINK_NO_ID_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_BROKEN_LINK_UPDATED_BY_ID_3 = "LOG_BROKEN_LINK_UPDATED_BY_ID_3";
@@ -113,7 +114,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_ERR_CREATE_CATEGORY_FOLDER_1 = "LOG_ERR_CREATE_CATEGORY_FOLDER_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_LINK_SEARCH_1 = "LOG_LINK_SEARCH_1";
+    public static final @RUntainted String LOG_LINK_SEARCH_1 = "LOG_LINK_SEARCH_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_LINK_VALIDATION_READBYID_FAILED_2 = "LOG_LINK_VALIDATION_READBYID_FAILED_2";
@@ -134,7 +135,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_RETRIEVAL_RESOURCETYPE_1 = "LOG_RETRIEVAL_RESOURCETYPE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_BROKEN_0 = "RPT_BROKEN_0";
+    public static final @RUntainted String RPT_BROKEN_0 = "RPT_BROKEN_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String RPT_BROKEN_LINKS_IN_1 = "RPT_BROKEN_LINKS_IN_1";
@@ -146,37 +147,37 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String RPT_BROKEN_LINKS_SUMMARY_END_0 = "RPT_BROKEN_LINKS_SUMMARY_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_HTMLLINK_BROKEN_SOURCE_2 = "RPT_HTMLLINK_BROKEN_SOURCE_2";
+    public static final @RUntainted String RPT_HTMLLINK_BROKEN_SOURCE_2 = "RPT_HTMLLINK_BROKEN_SOURCE_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_HTMLLINK_BROKEN_TARGET_2 = "RPT_HTMLLINK_BROKEN_TARGET_2";
+    public static final @RUntainted String RPT_HTMLLINK_BROKEN_TARGET_2 = "RPT_HTMLLINK_BROKEN_TARGET_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_HTMLLINK_FOUND_BROKEN_LINKS_0 = "RPT_HTMLLINK_FOUND_BROKEN_LINKS_0";
+    public static final @RUntainted String RPT_HTMLLINK_FOUND_BROKEN_LINKS_0 = "RPT_HTMLLINK_FOUND_BROKEN_LINKS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_HTMLLINK_VALIDATING_0 = "RPT_HTMLLINK_VALIDATING_0";
+    public static final @RUntainted String RPT_HTMLLINK_VALIDATING_0 = "RPT_HTMLLINK_VALIDATING_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_HTMLLINK_VALIDATOR_BEGIN_0 = "RPT_HTMLLINK_VALIDATOR_BEGIN_0";
+    public static final @RUntainted String RPT_HTMLLINK_VALIDATOR_BEGIN_0 = "RPT_HTMLLINK_VALIDATOR_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_HTMLLINK_VALIDATOR_END_0 = "RPT_HTMLLINK_VALIDATOR_END_0";
+    public static final @RUntainted String RPT_HTMLLINK_VALIDATOR_END_0 = "RPT_HTMLLINK_VALIDATOR_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_HTMLLINK_VALIDATOR_ERROR_0 = "RPT_HTMLLINK_VALIDATOR_ERROR_0";
+    public static final @RUntainted String RPT_HTMLLINK_VALIDATOR_ERROR_0 = "RPT_HTMLLINK_VALIDATOR_ERROR_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_LINK_VALIDATION_STAT_2 = "RPT_LINK_VALIDATION_STAT_2";
+    public static final @RUntainted String RPT_LINK_VALIDATION_STAT_2 = "RPT_LINK_VALIDATION_STAT_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_VALIDATE_EXTERNAL_LINKS_BEGIN_0 = "RPT_VALIDATE_EXTERNAL_LINKS_BEGIN_0";
+    public static final @RUntainted String RPT_VALIDATE_EXTERNAL_LINKS_BEGIN_0 = "RPT_VALIDATE_EXTERNAL_LINKS_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_VALIDATE_EXTERNAL_LINKS_END_0 = "RPT_VALIDATE_EXTERNAL_LINKS_END_0";
+    public static final @RUntainted String RPT_VALIDATE_EXTERNAL_LINKS_END_0 = "RPT_VALIDATE_EXTERNAL_LINKS_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_VALIDATE_LINK_0 = "RPT_VALIDATE_LINK_0";
+    public static final @RUntainted String RPT_VALIDATE_LINK_0 = "RPT_VALIDATE_LINK_0";
 
     /** Name of the used resource bundle. */
     private static final String BUNDLE_NAME = "org.opencms.relations.messages";

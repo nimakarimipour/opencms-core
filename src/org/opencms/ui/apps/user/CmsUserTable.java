@@ -79,6 +79,7 @@ import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table for user.<p>
@@ -667,7 +668,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> context) {
+        public CmsMenuItemVisibilityMode getVisibility(@RUntainted Set<@RUntainted String> context) {
 
             if (!m_app.canRemoveGroupMemebers(m_group)) {
                 return CmsMenuItemVisibilityMode.VISIBILITY_INACTIVE;
@@ -815,7 +816,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
     private static final long serialVersionUID = 7863356514060544048L;
 
     /**Name of group to show user for, or null. */
-    protected String m_group;
+    protected @RUntainted String m_group;
 
     /**Type to be shown. */
     protected I_CmsOuTreeType m_type;
@@ -866,7 +867,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
      * @param app the app
      */
     public CmsUserTable(
-        String ou,
+        @RUntainted String ou,
         CmsUUID groupID,
         I_CmsOuTreeType cmsOuTreeType,
         boolean showAll,
@@ -913,7 +914,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
      * @param app the app
      * @param showAll boolean
      */
-    public CmsUserTable(String ou, I_CmsOuTreeType type, CmsAccountsApp app, boolean showAll) {
+    public CmsUserTable(@RUntainted String ou, I_CmsOuTreeType type, CmsAccountsApp app, boolean showAll) {
 
         m_ou = ou.equals("/") ? "" : ou;
         m_app = app;

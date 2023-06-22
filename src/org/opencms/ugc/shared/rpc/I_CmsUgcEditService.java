@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The form edit service interface.<p>
@@ -69,7 +70,7 @@ public interface I_CmsUgcEditService extends RemoteService {
      *
      * @return the link for the path
      */
-    String getLink(String path);
+    String getLink(@RUntainted String path);
 
     /**
      * Saves the given content values to the edited content.<p>
@@ -81,7 +82,7 @@ public interface I_CmsUgcEditService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    Map<String, String> saveContent(CmsUUID sessionId, Map<String, String> contentValues) throws CmsRpcException;
+    Map<String, String> saveContent(CmsUUID sessionId, @RUntainted Map<@RUntainted String, @RUntainted String> contentValues) throws CmsRpcException;
 
     /**
      * Uploads multiple files.<p>
@@ -106,6 +107,6 @@ public interface I_CmsUgcEditService extends RemoteService {
      *
      * @throws CmsUgcException if something goes wrong
      */
-    Map<String, String> validateContent(CmsUUID sessionId, Map<String, String> contentValues) throws CmsUgcException;
+    Map<String, String> validateContent(CmsUUID sessionId, @RUntainted Map<@RUntainted String, @RUntainted String> contentValues) throws CmsUgcException;
 
 }

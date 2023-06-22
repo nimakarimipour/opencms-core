@@ -72,6 +72,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This tag includes required CSS or JavaScript resources that are to be places in the HTML head.<p>
@@ -648,7 +649,7 @@ public class CmsJspTagHeadIncludes extends BodyTagSupport implements I_CmsJspTag
      * @return the link with the added parameters
      * @throws UnsupportedEncodingException if something goes wrong encoding the request parameters
      */
-    private String addParams(String link) throws UnsupportedEncodingException {
+    private @RUntainted String addParams(String link) throws UnsupportedEncodingException {
 
         int pos = link.indexOf("?");
         List<String> queryParts = new ArrayList<>();
@@ -672,7 +673,7 @@ public class CmsJspTagHeadIncludes extends BodyTagSupport implements I_CmsJspTag
                 }
             }
         }
-        String result = target + (queryParts.isEmpty() ? "" : "?" + Joiner.on("&").join(queryParts));
+        @RUntainted String result = target + (queryParts.isEmpty() ? "" : "?" + Joiner.on("&").join(queryParts));
         return result;
     }
 

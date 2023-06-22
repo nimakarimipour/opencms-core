@@ -31,6 +31,7 @@ import org.opencms.ade.galleries.CmsGalleryService;
 import org.opencms.configuration.CmsDefaultUserSettings;
 import org.opencms.i18n.CmsLocaleManager;
 import org.opencms.main.CmsContextInfo;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean used to access the built-in preferences via reflection.<p>
@@ -1074,7 +1075,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new start folder
      */
-    public void setStartFolder(String s) {
+    public void setStartFolder(@RUntainted String s) {
 
         m_settings.setStartFolder(s);
     }
@@ -1084,7 +1085,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new start project
      */
-    public void setStartProject(String s) {
+    public void setStartProject(@RUntainted String s) {
 
         m_settings.setStartProject(s);
     }
@@ -1094,7 +1095,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new start site
      */
-    public void setStartSite(String s) {
+    public void setStartSite(@RUntainted String s) {
 
         m_settings.setStartSite(s);
     }

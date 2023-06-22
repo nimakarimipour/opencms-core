@@ -51,6 +51,7 @@ import org.apache.commons.logging.Log;
 
 import org.dom4j.Attribute;
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsVfsFile".<p>
@@ -77,7 +78,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
     private static String m_schemaDefinition;
 
     /** The String value of the element node. */
-    private String m_stringValue;
+    private @RUntainted String m_stringValue;
 
     /**
      * Creates a new, empty schema type descriptor of type "OpenCmsVfsFile".<p>
@@ -120,7 +121,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
      * @param rootPath the path to use
      * @param type the relation type to use
      */
-    public static void fillEntry(Element element, CmsUUID id, String rootPath, CmsRelationType type) {
+    public static void fillEntry(Element element, CmsUUID id, @RUntainted String rootPath, CmsRelationType type) {
 
         CmsLink link = new CmsLink(CmsXmlVfsFileValue.TYPE_VFS_LINK, type, id, rootPath, true);
         // get xml node
@@ -150,7 +151,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
         Element element = root.addElement(getName());
 
         // get the default value from the content handler
-        String defaultValue = document.getHandler().getDefault(cms, this, locale);
+        @RUntainted String defaultValue = document.getHandler().getDefault(cms, this, locale);
         if (defaultValue != null) {
             I_CmsXmlContentValue value = createValue(document, element, locale);
             value.setStringValue(cms, defaultValue);
@@ -169,7 +170,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
 
         Element linkElement = m_element.element(CmsXmlPage.NODE_LINK);
         if (linkElement == null) {
-            String textValue = m_element.getText();
+            @RUntainted String textValue = m_element.getText();
             if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(textValue)) {
                 if (CmsUUID.isValidUUID(textValue)) {
                     setIdValue(cms, new CmsUUID(textValue));
@@ -215,7 +216,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
     /**
      * @see org.opencms.xml.types.I_CmsXmlContentValue#getStringValue(CmsObject)
      */
-    public String getStringValue(CmsObject cms) throws CmsRuntimeException {
+    public @RUntainted String getStringValue(CmsObject cms) throws CmsRuntimeException {
 
         if (m_stringValue == null) {
             m_stringValue = createStringValue(cms);
@@ -284,7 +285,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#setStringValue(org.opencms.file.CmsObject, java.lang.String)
      */
-    public void setStringValue(CmsObject cms, String value) throws CmsIllegalArgumentException {
+    public void setStringValue(CmsObject cms, @RUntainted String value) throws CmsIllegalArgumentException {
 
         m_element.clearContent();
         // ensure the String value is re-calculated next time it's needed
@@ -297,10 +298,10 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
             setIdValue(cms, new CmsUUID(value));
             return;
         }
-        String path = value;
+        @RUntainted String path = value;
         if (cms != null) {
             String siteRoot = OpenCms.getSiteManager().getSiteRoot(value);
-            String oldSite = cms.getRequestContext().getSiteRoot();
+            @RUntainted String oldSite = cms.getRequestContext().getSiteRoot();
             try {
                 if (siteRoot != null) {
                     // only switch the site if needed
@@ -376,7 +377,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
      *
      * @return the String value for this vfs file value element
      */
-    private String createStringValue(CmsObject cms) {
+    private @RUntainted String createStringValue(CmsObject cms) {
 
         Attribute enabled = m_element.attribute(CmsXmlPage.ATTRIBUTE_ENABLED);
 

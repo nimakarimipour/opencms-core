@@ -42,6 +42,7 @@ import java.util.Date;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Scheduled job for time based publishing.<p>
@@ -74,7 +75,7 @@ public class CmsPublishJob implements I_CmsScheduledJob {
     /**
      * @see org.opencms.scheduler.I_CmsScheduledJob#launch(org.opencms.file.CmsObject, java.util.Map)
      */
-    public synchronized String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+    public synchronized String launch(CmsObject cms, @RUntainted Map<@RUntainted String, @RUntainted String> parameters) throws Exception {
 
         Date jobStart = new Date();
         String finishMessage;
@@ -125,7 +126,7 @@ public class CmsPublishJob implements I_CmsScheduledJob {
             // send publish notification
             if (report.hasWarning() || report.hasError()) {
                 try {
-                    String userName = parameters.get(PARAM_USER);
+                    @RUntainted String userName = parameters.get(PARAM_USER);
                     CmsUser user = cms.readUser(userName);
 
                     CmsPublishNotification notification = new CmsPublishNotification(cms, user, report);

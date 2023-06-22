@@ -48,6 +48,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>{@link javax.servlet.RequestDispatcher}</code> interface to allow JSPs to be loaded
@@ -75,7 +76,7 @@ public class CmsFlexRequestDispatcher implements RequestDispatcher {
     private RequestDispatcher m_rd;
 
     /** The OpenCms VFS target that will be included by the RequestDispatcher. */
-    private String m_vfsTarget;
+    private @RUntainted String m_vfsTarget;
 
     /**
      * Creates a new instance of CmsFlexRequestDispatcher.<p>
@@ -84,7 +85,7 @@ public class CmsFlexRequestDispatcher implements RequestDispatcher {
      * @param vfs_target the cms resource that represents the external target
      * @param ext_target the external target that the request will be dispatched to
      */
-    public CmsFlexRequestDispatcher(RequestDispatcher rd, String vfs_target, String ext_target) {
+    public CmsFlexRequestDispatcher(RequestDispatcher rd, @RUntainted String vfs_target, String ext_target) {
 
         m_rd = rd;
         m_vfsTarget = vfs_target;

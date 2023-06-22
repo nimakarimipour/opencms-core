@@ -67,6 +67,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A form editing session is required to create and edit contents from the web front-end.<p>
@@ -241,12 +242,12 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      *
      * @throws CmsUgcException if creating the resource fails
      */
-    public CmsResource createUploadResource(String fieldName, String rawFileName, byte[] content)
+    public CmsResource createUploadResource(String fieldName, @RUntainted String rawFileName, byte[] content)
     throws CmsUgcException {
 
         CmsResource result = null;
         CmsUgcSessionSecurityUtil.checkCreateUpload(m_cms, m_configuration, rawFileName, content.length);
-        String baseName = rawFileName;
+        @RUntainted String baseName = rawFileName;
 
         // if the given name is a path, make sure we only get the last segment
 
@@ -270,7 +271,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
 
         // now prepend the upload folder's path
 
-        String uploadRootPath = m_configuration.getUploadParentFolder().get().getRootPath();
+        @RUntainted String uploadRootPath = m_configuration.getUploadParentFolder().get().getRootPath();
         String sitePath = CmsStringUtil.joinPaths(m_cms.getRequestContext().removeSiteRoot(uploadRootPath), baseName);
 
         // ... and replace the macro with random strings until we find a path that isn't already used
@@ -379,7 +380,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      *
      * @return the session id
      */
-    public CmsUUID getId() {
+    public @RUntainted CmsUUID getId() {
 
         return getProject().getUuid();
     }
@@ -452,7 +453,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      *
      * @throws CmsUgcException if reading the resource fails
      */
-    public CmsResource loadXmlContent(String fileName) throws CmsUgcException {
+    public CmsResource loadXmlContent(@RUntainted String fileName) throws CmsUgcException {
 
         checkNotFinished();
         checkEditResourceNotSet();
@@ -497,7 +498,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      *
      * @throws CmsUgcException if writing the content fails
      */
-    public CmsXmlContentErrorHandler saveContent(Map<String, String> contentValues) throws CmsUgcException {
+    public CmsXmlContentErrorHandler saveContent(@RUntainted Map<@RUntainted String, @RUntainted String> contentValues) throws CmsUgcException {
 
         checkNotFinished();
         try {
@@ -527,7 +528,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      *
      * @throws CmsUgcException if reading the content file fails
      */
-    public CmsXmlContentErrorHandler validateContent(Map<String, String> contentValues) throws CmsUgcException {
+    public CmsXmlContentErrorHandler validateContent(@RUntainted Map<@RUntainted String, @RUntainted String> contentValues) throws CmsUgcException {
 
         checkNotFinished();
         try {
@@ -548,7 +549,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      * @param path the value XPath
      * @param value the value
      */
-    protected void addContentValue(CmsXmlContent content, Locale locale, String path, String value) {
+    protected void addContentValue(CmsXmlContent content, Locale locale, String path, @RUntainted String value) {
 
         boolean hasValue = content.hasValue(path, locale);
         if (!hasValue) {
@@ -577,7 +578,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      *
      * @throws CmsException if writing the XML fails
      */
-    protected CmsXmlContent addContentValues(CmsFile file, Map<String, String> contentValues) throws CmsException {
+    protected CmsXmlContent addContentValues(CmsFile file, @RUntainted Map<@RUntainted String, @RUntainted String> contentValues) throws CmsException {
 
         CmsXmlContent content = unmarshalXmlContent(file);
         Locale locale = m_cms.getRequestContext().getLocale();
@@ -595,7 +596,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      *
      * @throws CmsXmlException if writing the XML fails
      */
-    protected void addContentValues(CmsXmlContent content, Locale locale, Map<String, String> contentValues)
+    protected void addContentValues(CmsXmlContent content, Locale locale, @RUntainted Map<@RUntainted String, @RUntainted String> contentValues)
     throws CmsXmlException {
 
         if (!content.hasLocale(locale)) {
@@ -618,7 +619,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
         // use regular ordering
         Collections.sort(paths, new PathComparator(false));
         for (String path : paths) {
-            String value = contentValues.get(path);
+            @RUntainted String value = contentValues.get(path);
             if (value != null) {
                 addContentValue(content, locale, path, value);
             }

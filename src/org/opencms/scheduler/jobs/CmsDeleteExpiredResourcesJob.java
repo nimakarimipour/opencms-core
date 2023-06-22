@@ -49,6 +49,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A schedulable OpenCms job to delete expired resources.<p>
@@ -131,7 +132,7 @@ public class CmsDeleteExpiredResourcesJob implements I_CmsScheduledJob {
             }
 
             // read the optional parameter for the time range to keep versions
-            String[] topFoldersArr = new String[] {"/"};
+            @RUntainted String[] topFoldersArr = new String[] {"/"};
             String topfolders = parameters.get(PARAM_FOLDER);
             if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(topfolders)) {
                 topFoldersArr = CmsStringUtil.splitAsArray(topfolders, ',');
@@ -201,7 +202,7 @@ public class CmsDeleteExpiredResourcesJob implements I_CmsScheduledJob {
         final CmsObject cms,
         final I_CmsReport report,
         final List<CmsResource> resources,
-        final int expirationdays,
+        final @RUntainted int expirationdays,
         final long currenttime) {
 
         int result = 0;
@@ -210,7 +211,7 @@ public class CmsDeleteExpiredResourcesJob implements I_CmsScheduledJob {
         CmsProperty property;
         String propertyValue;
         long expirationdate;
-        int expirationDaysPropertyOverride;
+        @RUntainted int expirationDaysPropertyOverride;
         Iterator<CmsResource> it = resources.iterator();
         String resourcePath;
         while (it.hasNext()) {

@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Original detail page handler implementing the detail page logic from OpenCms versions up to 11.0.
@@ -63,12 +64,12 @@ public class CmsPermissiveDetailPageHandler implements I_CmsDetailPageHandler {
      *
      * @return the detail page for the content element
      */
-    public static String getDetailPage(
+    public static @RUntainted String getDetailPage(
         CmsADEManager manager,
         CmsObject cms,
         String pageRootPath,
-        String originPath,
-        String targetDetailPage) {
+        @RUntainted String originPath,
+        @RUntainted String targetDetailPage) {
 
         boolean online = cms.getRequestContext().getCurrentProject().isOnlineProject();
         String resType = manager.getParentFolderType(online, pageRootPath);
@@ -88,8 +89,8 @@ public class CmsPermissiveDetailPageHandler implements I_CmsDetailPageHandler {
         : Arrays.asList(configData, targetConfigData);
         for (CmsADEConfigData config : configs) {
             CmsDetailPageFilter filter = new CmsDetailPageFilter(cms, pageRootPath);
-            List<CmsDetailPageInfo> pageInfo = config.getDetailPagesForType(resType);
-            String uri = filter.filterDetailPages(pageInfo).map(detailPage -> detailPage.getUri()).findFirst().orElse(
+            @RUntainted List<@RUntainted CmsDetailPageInfo> pageInfo = config.getDetailPagesForType(resType);
+            @RUntainted String uri = filter.filterDetailPages(pageInfo).map(detailPage -> detailPage.getUri()).findFirst().orElse(
                 null);
             if (uri != null) {
                 return uri;
@@ -132,7 +133,7 @@ public class CmsPermissiveDetailPageHandler implements I_CmsDetailPageHandler {
     /**
      * @see org.opencms.ade.detailpage.I_CmsDetailPageHandler#getDetailPage(org.opencms.file.CmsObject, java.lang.String, java.lang.String, java.lang.String)
      */
-    public String getDetailPage(CmsObject cms, String rootPath, String linkSource, String targetDetailPage) {
+    public @RUntainted String getDetailPage(CmsObject cms, String rootPath, @RUntainted String linkSource, @RUntainted String targetDetailPage) {
 
         CmsADEManager manager = OpenCms.getADEManager();
         if (!manager.isInitialized()) {
@@ -143,7 +144,7 @@ public class CmsPermissiveDetailPageHandler implements I_CmsDetailPageHandler {
             // exclude these for performance reasons
             return null;
         }
-        String result = getDetailPage(manager, cms, rootPath, linkSource, targetDetailPage);
+        @RUntainted String result = getDetailPage(manager, cms, rootPath, linkSource, targetDetailPage);
         if (result == null) {
             return null;
         }

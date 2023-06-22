@@ -33,6 +33,7 @@ import java.util.Comparator;
 import java.util.StringTokenizer;
 
 import com.google.common.base.Objects;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An access control entry defines the permissions of a user or group for a distinct resource.<p>
@@ -145,16 +146,16 @@ public class CmsAccessControlEntry {
     };
 
     /** The used id for ace's that apply to all other principals. */
-    public static final CmsUUID PRINCIPAL_ALL_OTHERS_ID;
+    public static final @RUntainted CmsUUID PRINCIPAL_ALL_OTHERS_ID;
 
     /** The used name for ace's that apply to all other principals. */
-    public static final String PRINCIPAL_ALL_OTHERS_NAME = "ALL_OTHERS";
+    public static final @RUntainted String PRINCIPAL_ALL_OTHERS_NAME = "ALL_OTHERS";
 
     /** The used id for ace's that overwrites all inherited permissions. */
-    public static final CmsUUID PRINCIPAL_OVERWRITE_ALL_ID;
+    public static final @RUntainted CmsUUID PRINCIPAL_OVERWRITE_ALL_ID;
 
     /** The used name for ace's that overwrites all inherited permissions. */
-    public static final String PRINCIPAL_OVERWRITE_ALL_NAME = "OVERWRITE_ALL";
+    public static final @RUntainted String PRINCIPAL_OVERWRITE_ALL_NAME = "OVERWRITE_ALL";
 
     /** UUID which is used to read all access control entries, should never be written to the database. */
     public static final CmsUUID PRINCIPAL_READALL_ID;
@@ -166,7 +167,7 @@ public class CmsAccessControlEntry {
     private CmsPermissionSetCustom m_permissions;
 
     /** Id of the principal. */
-    private CmsUUID m_principal;
+    private @RUntainted CmsUUID m_principal;
 
     /** Id of the resource. */
     private CmsUUID m_resource;
@@ -195,7 +196,7 @@ public class CmsAccessControlEntry {
      * @param permissions the set of allowed and denied permissions as permission set
      * @param flags additional flags of the access control entry
      */
-    public CmsAccessControlEntry(CmsUUID resource, CmsUUID principal, CmsPermissionSet permissions, int flags) {
+    public CmsAccessControlEntry(CmsUUID resource, @RUntainted CmsUUID principal, CmsPermissionSet permissions, int flags) {
 
         m_resource = resource;
         m_principal = principal;
@@ -215,7 +216,7 @@ public class CmsAccessControlEntry {
      * @param denied set set of explicitly denied permissions
      * @param flags additional flags of the access control entry
      */
-    public CmsAccessControlEntry(CmsUUID resource, CmsUUID principal, int allowed, int denied, int flags) {
+    public CmsAccessControlEntry(CmsUUID resource, @RUntainted CmsUUID principal, int allowed, int denied, int flags) {
 
         m_resource = resource;
         m_principal = principal;
@@ -231,7 +232,7 @@ public class CmsAccessControlEntry {
      * @param principal the id of a principal (user or group)
      * @param acPermissionString allowed and denied permissions and also flags
      */
-    public CmsAccessControlEntry(CmsUUID resource, CmsUUID principal, String acPermissionString) {
+    public CmsAccessControlEntry(CmsUUID resource, @RUntainted CmsUUID principal, String acPermissionString) {
 
         m_resource = resource;
         m_principal = principal;
@@ -387,7 +388,7 @@ public class CmsAccessControlEntry {
      *
      * @return the principal
      */
-    public CmsUUID getPrincipal() {
+    public @RUntainted CmsUUID getPrincipal() {
 
         return m_principal;
     }

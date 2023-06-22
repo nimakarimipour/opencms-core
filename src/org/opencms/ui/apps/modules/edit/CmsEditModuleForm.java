@@ -99,6 +99,7 @@ import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Form for editing a module.<p>
@@ -112,7 +113,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
     public static final String ID_EMPTY_SITE = "!empty";
 
     /** Classes folder within the module. */
-    public static final String PATH_CLASSES = "classes/";
+    public static final @RUntainted String PATH_CLASSES = "classes/";
 
     /** Elements folder within the module. */
     public static final String PATH_ELEMENTS = "elements/";
@@ -147,7 +148,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
     /**I18n path. */
     private static final String PATH_i18n = "i18n/";
 
-    public static final String CONFIG_FILE = ".config";
+    public static final @RUntainted String CONFIG_FILE = ".config";
 
     /** Text box for the action class. */
     private TextField m_actionClass;
@@ -281,7 +282,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
 
         m_oldModuleInstance = module;
         m_module = (module.clone());
-        String site = m_module.getSite();
+        @RUntainted String site = m_module.getSite();
         if (!CmsStringUtil.isEmptyOrWhitespaceOnly(site)) {
             site = site.trim();
             if (!site.equals("/")) {
@@ -480,7 +481,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
             @SuppressWarnings("synthetic-access")
             public void valueChange(ValueChangeEvent event) {
 
-                String siteRoot = (String)(event.getProperty().getValue());
+                @RUntainted String siteRoot = (String)(event.getProperty().getValue());
                 updateSiteInfo(siteRoot);
 
             }
@@ -810,7 +811,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
      */
     private CmsModule createModuleFolders(CmsObject cms, CmsModule module) throws CmsException {
 
-        String modulePath = CmsWorkplace.VFS_PATH_MODULES + module.getName() + "/";
+        @RUntainted String modulePath = CmsWorkplace.VFS_PATH_MODULES + module.getName() + "/";
         List<CmsExportPoint> exportPoints = module.getExportPoints();
         List<String> resources = module.getResources();
 
@@ -940,7 +941,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
 
         // check if we have to create the classes folder
         if (module.isCreateClassesFolder()) {
-            String path = modulePath + PATH_CLASSES;
+            @RUntainted String path = modulePath + PATH_CLASSES;
             CmsResource resource = cms.createResource(path, folderType);
             try {
                 cms.unlockResource(resource);
@@ -974,7 +975,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
      *
      * @param siteRoot the new module site root
      */
-    private void updateSiteInfo(final String siteRoot) {
+    private void updateSiteInfo(final @RUntainted String siteRoot) {
 
         String top = "";
         String bottom = "";

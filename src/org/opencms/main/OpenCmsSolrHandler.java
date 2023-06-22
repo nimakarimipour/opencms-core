@@ -52,6 +52,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.solr.common.params.CommonParams;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The OpenCms Solr handler.<p>
@@ -218,10 +219,10 @@ public class OpenCmsSolrHandler extends HttpServlet implements I_CmsRequestHandl
         // use the guest user as fall back
         if (cms == null) {
             cms = OpenCmsCore.getInstance().initCmsObject(OpenCms.getDefaultUsers().getUserGuest());
-            String siteRoot = OpenCmsCore.getInstance().getSiteManager().matchRequest(req).getSiteRoot();
+            @RUntainted String siteRoot = OpenCmsCore.getInstance().getSiteManager().matchRequest(req).getSiteRoot();
             cms.getRequestContext().setSiteRoot(siteRoot);
         }
-        String baseUri = getBaseUri(req, cms);
+        @RUntainted String baseUri = getBaseUri(req, cms);
         if (baseUri != null) {
             cms.getRequestContext().setUri(baseUri);
         }
@@ -292,7 +293,7 @@ public class OpenCmsSolrHandler extends HttpServlet implements I_CmsRequestHandl
      *
      * @return the base URI
      */
-    private String getBaseUri(HttpServletRequest req, CmsObject cms) {
+    private @RUntainted String getBaseUri(HttpServletRequest req, CmsObject cms) {
 
         String baseUri = req.getParameter(PARAM_BASE_URI);
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(baseUri)) {

@@ -34,6 +34,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for
@@ -89,7 +90,7 @@ public final class CmsHtmlIconButtonStyleEnum {
      *
      * @throws CmsIllegalArgumentException if the given instance for the argument is not found
      */
-    public static CmsHtmlIconButtonStyleEnum valueOf(String value) throws CmsIllegalArgumentException {
+    public static CmsHtmlIconButtonStyleEnum valueOf(@RUntainted String value) throws CmsIllegalArgumentException {
 
         Iterator<CmsHtmlIconButtonStyleEnum> iter = VALUES.iterator();
         while (iter.hasNext()) {

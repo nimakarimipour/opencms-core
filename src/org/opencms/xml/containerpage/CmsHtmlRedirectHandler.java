@@ -45,6 +45,7 @@ import java.util.Arrays;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Content handler for HTML redirects.<p>
@@ -62,7 +63,7 @@ public class CmsHtmlRedirectHandler extends CmsDefaultXmlContentHandler {
 
         CmsFile result = super.prepareForWrite(cms, content, file);
         try {
-            String linkStr = getStringValue(cms, content, "Link");
+            @RUntainted String linkStr = getStringValue(cms, content, "Link");
             String typeStr = getStringValue(cms, content, "Type");
 
             if ("sublevel".equals(typeStr)) {
@@ -95,7 +96,7 @@ public class CmsHtmlRedirectHandler extends CmsDefaultXmlContentHandler {
         return result;
     }
 
-    private String getStringValue(CmsObject cms, CmsXmlContent content, String node) {
+    private @RUntainted String getStringValue(CmsObject cms, CmsXmlContent content, String node) {
 
         I_CmsXmlContentValue val = content.getValue(node, Locale.ENGLISH);
         if (val == null) {

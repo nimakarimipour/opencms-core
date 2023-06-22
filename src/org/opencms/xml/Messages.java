@@ -29,6 +29,7 @@ package org.opencms.xml;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,10 +39,10 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CD_BAD_INCLUDE_3 = "ERR_CD_BAD_INCLUDE_3";
+    public static final @RUntainted String ERR_CD_BAD_INCLUDE_3 = "ERR_CD_BAD_INCLUDE_3";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CD_COMPLEX_TYPE_COUNT_1 = "ERR_CD_COMPLEX_TYPE_COUNT_1";
+    public static final @RUntainted String ERR_CD_COMPLEX_TYPE_COUNT_1 = "ERR_CD_COMPLEX_TYPE_COUNT_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_CD_ELEMENT_NAME_3 = "ERR_CD_ELEMENT_NAME_3";
@@ -50,103 +51,103 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_CD_ELEMENT_NAME_4 = "ERR_CD_ELEMENT_NAME_4";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CD_FIRST_INCLUDE_2 = "ERR_CD_FIRST_INCLUDE_2";
+    public static final @RUntainted String ERR_CD_FIRST_INCLUDE_2 = "ERR_CD_FIRST_INCLUDE_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CD_NO_SCHEMA_NODE_0 = "ERR_CD_NO_SCHEMA_NODE_0";
+    public static final @RUntainted String ERR_CD_NO_SCHEMA_NODE_0 = "ERR_CD_NO_SCHEMA_NODE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CD_ONE_INCLUDE_REQUIRED_0 = "ERR_CD_ONE_INCLUDE_REQUIRED_0";
+    public static final @RUntainted String ERR_CD_ONE_INCLUDE_REQUIRED_0 = "ERR_CD_ONE_INCLUDE_REQUIRED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CD_ROOT_ELEMENT_COUNT_1 = "ERR_CD_ROOT_ELEMENT_COUNT_1";
+    public static final @RUntainted String ERR_CD_ROOT_ELEMENT_COUNT_1 = "ERR_CD_ROOT_ELEMENT_COUNT_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CORRECT_NO_CONTENT_DEF_3 = "ERR_CORRECT_NO_CONTENT_DEF_3";
+    public static final @RUntainted String ERR_CORRECT_NO_CONTENT_DEF_3 = "ERR_CORRECT_NO_CONTENT_DEF_3";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_EL_ATTRIBUTE_TOOFEW_3 = "ERR_EL_ATTRIBUTE_TOOFEW_3";
+    public static final @RUntainted String ERR_EL_ATTRIBUTE_TOOFEW_3 = "ERR_EL_ATTRIBUTE_TOOFEW_3";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_EL_ATTRIBUTE_TOOMANY_3 = "ERR_EL_ATTRIBUTE_TOOMANY_3";
+    public static final @RUntainted String ERR_EL_ATTRIBUTE_TOOMANY_3 = "ERR_EL_ATTRIBUTE_TOOMANY_3";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_EL_BAD_ATTRIBUTE_3 = "ERR_EL_BAD_ATTRIBUTE_3";
+    public static final @RUntainted String ERR_EL_BAD_ATTRIBUTE_3 = "ERR_EL_BAD_ATTRIBUTE_3";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_EL_BAD_ATTRIBUTE_VALUE_4 = "ERR_EL_BAD_ATTRIBUTE_VALUE_4";
+    public static final @RUntainted String ERR_EL_BAD_ATTRIBUTE_VALUE_4 = "ERR_EL_BAD_ATTRIBUTE_VALUE_4";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_EL_BAD_ATTRIBUTE_WS_3 = "ERR_EL_BAD_ATTRIBUTE_WS_3";
+    public static final @RUntainted String ERR_EL_BAD_ATTRIBUTE_WS_3 = "ERR_EL_BAD_ATTRIBUTE_WS_3";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_EL_INVALID_ATTRIBUTE_2 = "ERR_EL_INVALID_ATTRIBUTE_2";
+    public static final @RUntainted String ERR_EL_INVALID_ATTRIBUTE_2 = "ERR_EL_INVALID_ATTRIBUTE_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_EL_MISSING_ATTRIBUTE_2 = "ERR_EL_MISSING_ATTRIBUTE_2";
+    public static final @RUntainted String ERR_EL_MISSING_ATTRIBUTE_2 = "ERR_EL_MISSING_ATTRIBUTE_2";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_EL_OF_TYPE_MUST_OCCUR_EXACTLY_ONCE_2 = "ERR_EL_OF_TYPE_MUST_OCCUR_EXACTLY_ONCE_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_EL_OF_TYPE_MUST_OCCUR_AT_MOST_ONCE_2 = "ERR_EL_OF_TYPE_MUST_OCCUR_AT_MOST_ONCE_2";
+    public static final @RUntainted String ERR_EL_OF_TYPE_MUST_OCCUR_AT_MOST_ONCE_2 = "ERR_EL_OF_TYPE_MUST_OCCUR_AT_MOST_ONCE_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INIT_TYPE_MANAGER_0 = "ERR_INIT_TYPE_MANAGER_0";
+    public static final @RUntainted String ERR_INIT_TYPE_MANAGER_0 = "ERR_INIT_TYPE_MANAGER_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_CD_SCHEMA_STRUCTURE_0 = "ERR_INVALID_CD_SCHEMA_STRUCTURE_0";
+    public static final @RUntainted String ERR_INVALID_CD_SCHEMA_STRUCTURE_0 = "ERR_INVALID_CD_SCHEMA_STRUCTURE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_CONTENT_HANDLER_1 = "ERR_INVALID_CONTENT_HANDLER_1";
+    public static final @RUntainted String ERR_INVALID_CONTENT_HANDLER_1 = "ERR_INVALID_CONTENT_HANDLER_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_INVALID_INIT_USER_1 = "ERR_INVALID_INIT_USER_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_XCC_TYPE_REGISTERED_0 = "ERR_INVALID_XCC_TYPE_REGISTERED_0";
+    public static final @RUntainted String ERR_INVALID_XCC_TYPE_REGISTERED_0 = "ERR_INVALID_XCC_TYPE_REGISTERED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_LOCALE_ALREADY_EXISTS_1 = "ERR_LOCALE_ALREADY_EXISTS_1";
+    public static final @RUntainted String ERR_LOCALE_ALREADY_EXISTS_1 = "ERR_LOCALE_ALREADY_EXISTS_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_LOCALE_NOT_AVAILABLE_1 = "ERR_LOCALE_NOT_AVAILABLE_1";
+    public static final @RUntainted String ERR_LOCALE_NOT_AVAILABLE_1 = "ERR_LOCALE_NOT_AVAILABLE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MARSHALLING_XML_DOC_0 = "ERR_MARSHALLING_XML_DOC_0";
+    public static final @RUntainted String ERR_MARSHALLING_XML_DOC_0 = "ERR_MARSHALLING_XML_DOC_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MARSHALLING_XML_DOC_TO_STRING_0 = "ERR_MARSHALLING_XML_DOC_TO_STRING_0";
+    public static final @RUntainted String ERR_MARSHALLING_XML_DOC_TO_STRING_0 = "ERR_MARSHALLING_XML_DOC_TO_STRING_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_NULL_CMSOBJECT_0 = "ERR_NULL_CMSOBJECT_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_NULL_LOCALE_0 = "ERR_NULL_LOCALE_0";
+    public static final @RUntainted String ERR_NULL_LOCALE_0 = "ERR_NULL_LOCALE_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_TS_SUBELEMENT_COUNT_2 = "ERR_TS_SUBELEMENT_COUNT_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_TS_SUBELEMENT_TOOFEW_3 = "ERR_TS_SUBELEMENT_TOOFEW_3";
+    public static final @RUntainted String ERR_TS_SUBELEMENT_TOOFEW_3 = "ERR_TS_SUBELEMENT_TOOFEW_3";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_UNKNOWN_SCHEMA_1 = "ERR_UNKNOWN_SCHEMA_1";
+    public static final @RUntainted String ERR_UNKNOWN_SCHEMA_1 = "ERR_UNKNOWN_SCHEMA_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_UNMARSHALLING_XML_DOC_1 = "ERR_UNMARSHALLING_XML_DOC_1";
+    public static final @RUntainted String ERR_UNMARSHALLING_XML_DOC_1 = "ERR_UNMARSHALLING_XML_DOC_1";
 
-    public static final String ERR_UNMARSHALLING_XML_SCHEMA_NOT_FOUND_2 = "ERR_UNMARSHALLING_XML_SCHEMA_NOT_FOUND_2";
+    public static final @RUntainted String ERR_UNMARSHALLING_XML_SCHEMA_NOT_FOUND_2 = "ERR_UNMARSHALLING_XML_SCHEMA_NOT_FOUND_2";
 
-
-    /** Message constant for key in the resource bundle. */
-    public static final String ERR_UNREGISTERED_TYPE_1 = "ERR_UNREGISTERED_TYPE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_WRITE_XML_DOC_TO_STRING_0 = "ERR_WRITE_XML_DOC_TO_STRING_0";
+    public static final @RUntainted String ERR_UNREGISTERED_TYPE_1 = "ERR_UNREGISTERED_TYPE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_XML_VALIDATION_1 = "ERR_XML_VALIDATION_1";
+    public static final @RUntainted String ERR_WRITE_XML_DOC_TO_STRING_0 = "ERR_WRITE_XML_DOC_TO_STRING_0";
+
+    /** Message constant for key in the resource bundle. */
+    public static final @RUntainted String ERR_XML_VALIDATION_1 = "ERR_XML_VALIDATION_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String INIT_ADD_ST_USING_WIDGET_2 = "INIT_ADD_ST_USING_WIDGET_2";

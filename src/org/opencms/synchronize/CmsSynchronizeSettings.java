@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the settings for the synchronization.<p>
@@ -83,9 +84,9 @@ public class CmsSynchronizeSettings implements Serializable {
             // if enabled, it's required to have at last one source folder
             throw new CmsSynchronizeException(Messages.get().container(Messages.ERR_NO_VFS_SOURCE_0));
         }
-        Iterator<String> i = m_sourceListInVfs.iterator();
+        @RUntainted Iterator<@RUntainted String> i = m_sourceListInVfs.iterator();
         // store the current site root
-        String currentSite = cms.getRequestContext().getSiteRoot();
+        @RUntainted String currentSite = cms.getRequestContext().getSiteRoot();
         // switch to root site
         cms.getRequestContext().setSiteRoot("");
         try {
@@ -151,7 +152,7 @@ public class CmsSynchronizeSettings implements Serializable {
      */
     public void setDestinationPathInRfs(String destinationPathInRfs) {
 
-        String destination;
+        @RUntainted String destination;
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(destinationPathInRfs)) {
             destination = null;
         } else {

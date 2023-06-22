@@ -34,6 +34,7 @@ import org.opencms.security.CmsSecurityException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This interface checks the requested resource from the OpenCms request context

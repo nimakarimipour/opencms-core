@@ -46,6 +46,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration for the template mapper.<p>
@@ -129,8 +130,8 @@ public class CmsTemplateMapperConfiguration {
             }
             for (Node node : root.selectNodes("//" + N_FORMATTER_JSP)) {
                 Element formatterElem = (Element)node;
-                String oldPath = formatterElem.attributeValue(A_OLD);
-                String newPath = formatterElem.attributeValue(A_NEW);
+                @RUntainted String oldPath = formatterElem.attributeValue(A_OLD);
+                @RUntainted String newPath = formatterElem.attributeValue(A_NEW);
                 try {
                     CmsResource oldFormatter = cms.readResource(oldPath, CmsResourceFilter.IGNORE_EXPIRATION);
                     CmsResource newFormatter = cms.readResource(newPath, CmsResourceFilter.IGNORE_EXPIRATION);

@@ -32,6 +32,7 @@ import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.util.A_CmsModeIntEnumeration;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines a property name, so that <code>{@link CmsProperty}</code> instances can be created with that name.<p>
@@ -88,7 +89,7 @@ public class CmsPropertyDefinition implements Cloneable, Comparable<CmsPropertyD
     }
 
     /** The name constraints when generating new properties. */
-    public static final String NAME_CONSTRAINTS = "-._~$";
+    public static final @RUntainted String NAME_CONSTRAINTS = "-._~$";
 
     /** Property for the active method in the administration view. */
     public static final String PROPERTY_ACTIV = "activemethod";
@@ -184,7 +185,7 @@ public class CmsPropertyDefinition implements Cloneable, Comparable<CmsPropertyD
     public static final String PROPERTY_LINKS_FORCEABSOLUTE_ENABLED = "links.forceabsolute.enabled";
 
     /** Property for the current locale. */
-    public static final String PROPERTY_LOCALE = "locale";
+    public static final @RUntainted String PROPERTY_LOCALE = "locale";
 
     /** Property to mark detail pages to have locale independent detail only containers. */
     public static final String PROPERTY_LOCALE_INDEPENDENT_DETAILS = "locale.independent-details";
@@ -259,7 +260,7 @@ public class CmsPropertyDefinition implements Cloneable, Comparable<CmsPropertyD
     public static final String PROPERTY_UDR_DEFAULTOU = "udr.defaultou";
 
     /** Name of the property used to control whether mapped URL names should replace previous URL names. */
-    public static final String PROPERTY_URLNAME_REPLACE = "urlname.replace";
+    public static final @RUntainted String PROPERTY_URLNAME_REPLACE = "urlname.replace";
 
     /** Property for the visible method in the administration view. */
     public static final String PROPERTY_VISIBLE = "visiblemethod";
@@ -331,7 +332,7 @@ public class CmsPropertyDefinition implements Cloneable, Comparable<CmsPropertyD
      *
      * @throws CmsIllegalArgumentException if the given property name is not valid
      */
-    public static void checkPropertyName(String name) throws CmsIllegalArgumentException {
+    public static void checkPropertyName(@RUntainted String name) throws CmsIllegalArgumentException {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(name)) {
             throw new CmsIllegalArgumentException(
@@ -403,7 +404,7 @@ public class CmsPropertyDefinition implements Cloneable, Comparable<CmsPropertyD
      *
      * @return name The name of this property definition
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }

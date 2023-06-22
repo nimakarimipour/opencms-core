@@ -41,6 +41,7 @@ import java.util.Date;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.v7.ui.CheckBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a row of the file history table.<p>
@@ -140,7 +141,7 @@ public class CmsHistoryRow {
     @Column(header = Messages.GUI_HISTORY_DIALOG_COL_PATH_0, order = 40, expandRatio = 1.0f, view = "wide")
     public String getPath() {
 
-        String rootPath = m_bean.getRootPath();
+        @RUntainted String rootPath = m_bean.getRootPath();
         CmsObject cms = A_CmsUI.getCmsObject();
         String result = cms.getRequestContext().removeSiteRoot(rootPath);
         return result;

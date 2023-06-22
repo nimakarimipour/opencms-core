@@ -3,6 +3,7 @@ package org.opencms.report.wrapper;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bundle with the keys of report messages<p>
@@ -22,19 +23,19 @@ public final class DefaultReportMessages extends A_CmsMessageBundle {
     private static final I_CmsMessageBundle INSTANCE = new DefaultReportMessages();
 
     /** Message key. */
-    public static final String REPORT_OK_0 = "REPORT_OK_0";
+    public static final @RUntainted String REPORT_OK_0 = "REPORT_OK_0";
 
     /** Message key. */
     public static final String REPORT_OK_NO_DOTS_0 = "REPORT_OK_NO_DOTS_0";
 
     /** Message key. */
-    public static final String REPORT_FAILED_0 = "REPORT_FAILED_0";
+    public static final @RUntainted String REPORT_FAILED_0 = "REPORT_FAILED_0";
 
     /** Message key. */
     public static final String REPORT_FAILED_NO_DOTS_0 = "REPORT_FAILED_NO_DOTS_0";
 
     /** Message key. */
-    public static final String REPORT_SKIPPED_0 = "REPORT_SKIPPED_0";
+    public static final @RUntainted String REPORT_SKIPPED_0 = "REPORT_SKIPPED_0";
 
     /** Message key. */
     public static final String REPORT_SKIPPED_NO_DOTS_0 = "REPORT_SKIPPED_NO_DOTS_0";

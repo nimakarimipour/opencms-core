@@ -26,6 +26,7 @@
  */
 
 package org.opencms.i18n;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -35,7 +36,7 @@ package org.opencms.i18n;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CANT_FIND_RESOURCE_FOR_BUNDLE_2 = "ERR_CANT_FIND_RESOURCE_FOR_BUNDLE_2";
+    public static final @RUntainted String ERR_CANT_FIND_RESOURCE_FOR_BUNDLE_2 = "ERR_CANT_FIND_RESOURCE_FOR_BUNDLE_2";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_CREATING_MESSAGES_2 = "ERR_CREATING_MESSAGES_2";
@@ -44,13 +45,13 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_ENCODING_ISSUES_1 = "ERR_ENCODING_ISSUES_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MESSAGE_BUNDLE_NOT_INITIALIZED_1 = "ERR_MESSAGE_BUNDLE_NOT_INITIALIZED_1";
+    public static final @RUntainted String ERR_MESSAGE_BUNDLE_NOT_INITIALIZED_1 = "ERR_MESSAGE_BUNDLE_NOT_INITIALIZED_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MULTIMSG_EMPTY_LIST_0 = "ERR_MULTIMSG_EMPTY_LIST_0";
+    public static final @RUntainted String ERR_MULTIMSG_EMPTY_LIST_0 = "ERR_MULTIMSG_EMPTY_LIST_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MULTIMSG_LOCALE_DOES_NOT_MATCH_2 = "ERR_MULTIMSG_LOCALE_DOES_NOT_MATCH_2";
+    public static final @RUntainted String ERR_MULTIMSG_LOCALE_DOES_NOT_MATCH_2 = "ERR_MULTIMSG_LOCALE_DOES_NOT_MATCH_2";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_READ_ENCODING_PROP_1 = "ERR_READ_ENCODING_PROP_1";

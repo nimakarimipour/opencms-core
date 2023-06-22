@@ -45,6 +45,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to build easily other admin tool handlers.<p>
@@ -78,7 +79,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
     private static final Log LOG = CmsLog.getLog(A_CmsToolHandler.class);
 
     /** Confirmation message. */
-    private String m_confirmationMessage;
+    private @RUntainted String m_confirmationMessage;
 
     /** Help text or description if disabled. */
     private String m_disabledHelpText;
@@ -93,7 +94,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
     private String m_iconPath;
 
     /** Link pointer. */
-    private String m_link;
+    private @RUntainted String m_link;
 
     /** Display name. */
     private String m_name;
@@ -118,7 +119,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
      *
      * @return the confirmation Message
      */
-    public String getConfirmationMessage() {
+    public @RUntainted String getConfirmationMessage() {
 
         return m_confirmationMessage;
     }
@@ -158,7 +159,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
     /**
      * @see org.opencms.workplace.tools.I_CmsToolHandler#getLink()
      */
-    public String getLink() {
+    public @RUntainted String getLink() {
 
         return m_link;
     }
@@ -244,7 +245,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
      *
      * @param confirmationMessage the confirmation Message to set
      */
-    public void setConfirmationMessage(String confirmationMessage) {
+    public void setConfirmationMessage(@RUntainted String confirmationMessage) {
 
         m_confirmationMessage = confirmationMessage;
     }
@@ -294,7 +295,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
      *
      * @param link the link to set
      */
-    public void setLink(String link) {
+    public void setLink(@RUntainted String link) {
 
         m_link = link;
     }
@@ -388,7 +389,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
      *
      * @see org.opencms.workplace.tools.I_CmsToolHandler#setup(org.opencms.file.CmsObject, CmsToolRootHandler, java.lang.String)
      */
-    public boolean setup(CmsObject cms, CmsToolRootHandler root, String resourcePath) {
+    public boolean setup(CmsObject cms, CmsToolRootHandler root, @RUntainted String resourcePath) {
 
         try {
             resourcePath = cms.getSitePath(cms.readResource(resourcePath));
@@ -490,9 +491,9 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
      * @param cms the cms context
      * @param resourcePath the path to the resource to set the link for
      */
-    protected void setLink(CmsObject cms, String resourcePath) {
+    protected void setLink(CmsObject cms, @RUntainted String resourcePath) {
 
-        String link = resourcePath;
+        @RUntainted String link = resourcePath;
         try {
             // make sure the res is a folder
             cms.readFolder(resourcePath);
@@ -507,7 +508,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
 
             // try to use the folder default file as link
             CmsProperty prop = cms.readPropertyObject(resourcePath, CmsPropertyDefinition.PROPERTY_DEFAULT_FILE, false);
-            String defFile = "index.jsp";
+            @RUntainted String defFile = "index.jsp";
             if (!prop.isNullProperty()) {
                 defFile = prop.getValue();
             }
@@ -535,7 +536,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
      * @param cms the cms context
      * @param resourcePath the path to the resource to read the property from
      */
-    protected void setParameters(CmsObject cms, String resourcePath) {
+    protected void setParameters(CmsObject cms, @RUntainted String resourcePath) {
 
         try {
             CmsProperty prop = cms.readPropertyObject(resourcePath, ARGS_PROPERTY_DEFINITION, false);

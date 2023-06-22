@@ -41,6 +41,7 @@ import java.util.List;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import/export handler implementation for VFS data.<p>
@@ -309,7 +310,7 @@ public class CmsVfsImportExportHandler implements I_CmsImportExportHandler {
     public void setContentAge(long contentAge) {
 
         if (contentAge < 0) {
-            String ageString = Long.toString(contentAge);
+            @RUntainted String ageString = Long.toString(contentAge);
             throw new CmsIllegalArgumentException(Messages.get().container(Messages.ERR_BAD_CONTENT_AGE_1, ageString));
         }
         m_contentAge = contentAge;
@@ -367,7 +368,7 @@ public class CmsVfsImportExportHandler implements I_CmsImportExportHandler {
      * @deprecated use {@link #setExportParams(CmsExportParameters)} instead
      */
     @Deprecated
-    public void setFileName(String fileName) {
+    public void setFileName(@RUntainted String fileName) {
 
         if (CmsStringUtil.isEmpty(fileName) || !fileName.trim().equals(fileName)) {
             throw new CmsIllegalArgumentException(Messages.get().container(Messages.ERR_BAD_FILE_NAME_1, fileName));

@@ -71,6 +71,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles all model group specific tasks.<p>
@@ -202,7 +203,7 @@ public class CmsModelGroupHelper {
                 }
                 if (group.getName().endsWith(".xml")) {
                     // renaming model groups so they will be rendered correctly by the browser
-                    String targetPath = cms.getSitePath(group);
+                    @RUntainted String targetPath = cms.getSitePath(group);
                     targetPath = targetPath.substring(0, targetPath.length() - 4) + ".html";
                     cms.renameResource(cms.getSitePath(group), targetPath);
                     group = cms.readResource(group.getStructureId());
@@ -234,7 +235,7 @@ public class CmsModelGroupHelper {
     public static void updateModelGroupResources(
         HttpServletRequest request,
         HttpServletResponse response,
-        String basePath,
+        @RUntainted String basePath,
         String baseContainerName)
     throws IOException {
 
@@ -325,7 +326,7 @@ public class CmsModelGroupHelper {
         List<String> foundGroups,
         CmsContainerPageBean page,
         boolean alwaysCopy,
-        Locale locale)
+        @RUntainted Locale locale)
     throws CmsException {
 
         for (Entry<String, CmsContainerElementBean> entry : elements.entrySet()) {
@@ -769,7 +770,7 @@ public class CmsModelGroupHelper {
     private List<CmsContainerBean> createNewElementsForModelGroup(
         CmsObject cms,
         List<CmsContainerBean> modelContainers,
-        Locale locale)
+        @RUntainted Locale locale)
     throws CmsException {
 
         Map<CmsUUID, CmsResource> newResources = new HashMap<CmsUUID, CmsResource>();

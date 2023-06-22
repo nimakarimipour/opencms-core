@@ -91,6 +91,7 @@ import javax.servlet.jsp.tagext.TryCatchFinally;
 
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the page container elements.<p>
@@ -132,7 +133,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
     private boolean m_detailView;
 
     /** The editable by tag attribute. A comma separated list of OpenCms principals. */
-    private String m_editableBy;
+    private @RUntainted String m_editableBy;
 
     /** Indicating that the container page editor is active for the current request. */
     private boolean m_editableRequest;
@@ -206,9 +207,9 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
             containerName,
             containerType,
             containerWidth);
-        String settingsKey = CmsFormatterConfig.getSettingsKeyForContainer(containerName);
+        @RUntainted String settingsKey = CmsFormatterConfig.getSettingsKeyForContainer(containerName);
         if (formatterBean != null) {
-            String keyOrId = formatterBean.getKeyOrId();
+            @RUntainted String keyOrId = formatterBean.getKeyOrId();
             if (keyOrId == null) {
                 keyOrId = CmsFormatterConfig.SCHEMA_FORMATTER_ID + formatterBean.getJspStructureId().toString();
             }
@@ -299,7 +300,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
         CmsObject cms,
         CmsContainerElementBean element,
         ServletRequest req,
-        String containerType)
+        @RUntainted String containerType)
     throws CmsException {
 
         List<CmsContainerElementBean> subElements;
@@ -466,7 +467,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
 
             try {
                 CmsFlexController controller = CmsFlexController.getController(req);
-                CmsObject cms = controller.getCmsObject();
+                @RUntainted CmsObject cms = controller.getCmsObject();
                 String requestUri = cms.getRequestContext().getUri();
                 Locale locale = cms.getRequestContext().getLocale();
                 CmsJspStandardContextBean standardContext = CmsJspStandardContextBean.getInstance(req);
@@ -803,7 +804,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
      *
      * @param editableBy the editable by tag attribute to set
      */
-    public void setEditableby(String editableBy) {
+    public void setEditableby(@RUntainted String editableBy) {
 
         m_editableBy = editableBy;
     }
@@ -966,12 +967,12 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
 
         boolean result = false;
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_editableBy)) {
-            String[] principals = m_editableBy.split(",");
+            @RUntainted String[] principals = m_editableBy.split(",");
             List<CmsGroup> groups = null;
             for (int i = 0; i < principals.length; i++) {
-                String key = principals[i];
+                @RUntainted String key = principals[i];
                 // get the principal name from the principal String
-                String principal = key.substring(key.indexOf('.') + 1, key.length());
+                @RUntainted String principal = key.substring(key.indexOf('.') + 1, key.length());
 
                 if (CmsGroup.hasPrefix(key)) {
                     // read the group
@@ -1243,7 +1244,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
      *
      * @return the maximum number of elements of the container
      */
-    private int getMaxElements(String requestUri) {
+    private int getMaxElements(@RUntainted String requestUri) {
 
         String containerMaxElements = getMaxElements();
 
@@ -1276,7 +1277,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
      *
      * @return the session cache
      */
-    private CmsADESessionCache getSessionCache(CmsObject cms) {
+    private CmsADESessionCache getSessionCache(@RUntainted CmsObject cms) {
 
         return m_editableRequest
         ? CmsADESessionCache.getCache((HttpServletRequest)(pageContext.getRequest()), cms)
@@ -1370,7 +1371,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
      */
     private boolean renderContainerElement(
         HttpServletRequest request,
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsJspStandardContextBean standardContext,
         CmsContainerElementBean element,
         Locale locale,

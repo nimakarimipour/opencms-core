@@ -44,6 +44,7 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import helper.<p>
@@ -136,7 +137,7 @@ public class CmsImportHelper {
      *
      * @throws CmsImportExportException if something goes wrong
      */
-    public byte[] getFileBytes(String filename) throws CmsImportExportException {
+    public byte[] getFileBytes(@RUntainted String filename) throws CmsImportExportException {
 
         try {
             // is this a zip-file?
@@ -168,7 +169,7 @@ public class CmsImportHelper {
         }
     }
 
-    public long getFileModification(String filename) throws CmsImportExportException {
+    public long getFileModification(@RUntainted String filename) throws CmsImportExportException {
 
         long modificationTime = 0;
 
@@ -231,7 +232,7 @@ public class CmsImportHelper {
      *
      * @throws CmsImportExportException if something goes wrong
      */
-    public InputStream getFileStream(String fileName) throws CmsImportExportException {
+    public InputStream getFileStream(@RUntainted String fileName) throws CmsImportExportException {
 
         try {
             InputStream stream = null;

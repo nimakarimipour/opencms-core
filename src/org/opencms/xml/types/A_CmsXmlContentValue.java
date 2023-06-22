@@ -46,6 +46,7 @@ import java.util.Locale;
 import org.apache.commons.logging.Log;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for XML content value implementations.<p>
@@ -58,7 +59,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
     private static final Log LOG = CmsLog.getLog(A_CmsXmlContentValue.class);
 
     /** The default value for nodes of this value. */
-    protected String m_defaultValue;
+    protected @RUntainted String m_defaultValue;
 
     /** The XML content instance this value belongs to. */
     protected I_CmsXmlDocument m_document;
@@ -224,7 +225,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
 
         Element element = root.addElement(getName());
         // get the default value from the content handler
-        String defaultValue = document.getHandler().getDefault(cms, this, locale);
+        @RUntainted String defaultValue = document.getHandler().getDefault(cms, this, locale);
         if (defaultValue != null) {
             try {
                 I_CmsXmlContentValue value = createValue(document, element, locale);
@@ -267,7 +268,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
     /**
      * @see org.opencms.xml.types.I_CmsXmlSchemaType#getDefault(java.util.Locale)
      */
-    public String getDefault(Locale locale) {
+    public @RUntainted String getDefault(Locale locale) {
 
         return m_defaultValue;
     }
@@ -291,13 +292,13 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
     /**
      * @see org.opencms.widgets.I_CmsWidgetParameter#getId()
      */
-    public String getId() {
+    public @RUntainted String getId() {
 
         if (m_element == null) {
             return null;
         }
 
-        StringBuffer result = new StringBuffer(128);
+        @RUntainted StringBuffer result = new StringBuffer(128);
         result.append(getTypeName());
         result.append('.');
         // the '[', ']' and '/' chars from the xpath are invalid for html id's
@@ -611,7 +612,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
      *
      * @throws CmsRuntimeException if something goes wrong
      */
-    protected String readSchemaDefinition(String schemaUri) throws CmsRuntimeException {
+    protected String readSchemaDefinition(@RUntainted String schemaUri) throws CmsRuntimeException {
 
         // the schema definition is located in a separate file for easier editing
         String schemaDefinition;

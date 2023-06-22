@@ -29,6 +29,7 @@ package org.opencms.ui;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Message bundle class.<p>
@@ -36,13 +37,13 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PAGECOPY_INVALID_PAGE_0 = "ERR_PAGECOPY_INVALID_PAGE_0";
+    public static final @RUntainted String ERR_PAGECOPY_INVALID_PAGE_0 = "ERR_PAGECOPY_INVALID_PAGE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PAGECOPY_SOURCE_IS_TARGET_0 = "ERR_PAGECOPY_SOURCE_IS_TARGET_0";
+    public static final @RUntainted String ERR_PAGECOPY_SOURCE_IS_TARGET_0 = "ERR_PAGECOPY_SOURCE_IS_TARGET_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_USER_NOT_SELF_MANAGED_1 = "ERR_USER_NOT_SELF_MANAGED_1";
+    public static final @RUntainted String ERR_USER_NOT_SELF_MANAGED_1 = "ERR_USER_NOT_SELF_MANAGED_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_ACTION_DISPLAY_0 = "GUI_ACTION_DISPLAY_0";

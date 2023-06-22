@@ -71,6 +71,7 @@ import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table to show entries of image cache.<p>
@@ -127,7 +128,7 @@ public class CmsImageCacheTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(@RUntainted Set<@RUntainted String> data) {
 
             CmsResource res;
             try {
@@ -407,7 +408,7 @@ public class CmsImageCacheTable extends Table {
      *
      * @param resource to show variations for
      */
-    void showVariationsWindow(String resource) {
+    void showVariationsWindow(@RUntainted String resource) {
 
         final Window window = CmsBasicDialog.prepareWindow(DialogWidth.max);
         CmsVariationsDialog variationsDialog = new CmsVariationsDialog(resource, new Runnable() {

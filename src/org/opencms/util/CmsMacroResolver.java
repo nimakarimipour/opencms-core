@@ -73,6 +73,7 @@ import org.apache.commons.collections.Factory;
 import org.apache.commons.logging.Log;
 
 import com.google.common.base.Function;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resolves macros in the form of <code>%(key)</code> or <code>${key}</code> in an input String.<p>
@@ -270,8 +271,8 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
 
     public static void copyAndResolveMacro(
         CmsObject cms,
-        String source,
-        String destination,
+        @RUntainted String source,
+        @RUntainted String destination,
         Map<String, String> keyValue,
         boolean adjustLinks,
         CmsResource.CmsResourceCopyMode copyMode)
@@ -295,8 +296,8 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
      */
     public static void copyAndResolveMacro(
         CmsObject cms,
-        String source,
-        String destination,
+        @RUntainted String source,
+        @RUntainted String destination,
         Map<String, String> keyValue,
         boolean adjustLinks,
         CmsResource.CmsResourceCopyMode copyMode,
@@ -556,7 +557,7 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
      *
      * @return the input with all macros resolved
      */
-    public static String resolveMacros(final String input, I_CmsMacroResolver resolver) {
+    public static @RUntainted String resolveMacros(final @RUntainted String input, I_CmsMacroResolver resolver) {
 
         if ((input == null) || (input.length() < 3)) {
             // macro must have at last 3 chars "${}" or "%()"
@@ -572,7 +573,7 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
         }
 
         int len = input.length();
-        StringBuffer result = new StringBuffer(len << 1);
+        @RUntainted StringBuffer result = new StringBuffer(len << 1);
         int np, pp1, pp2, e;
         String macro, value;
         boolean keep = resolver.isKeepEmptyMacros();
@@ -694,7 +695,7 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
      * @return the validated folder name
      * @throws CmsIllegalArgumentException if the folder name is empty or <code>null</code>
      */
-    private static String ensureFoldername(String resourcename) throws CmsIllegalArgumentException {
+    private static String ensureFoldername(@RUntainted String resourcename) throws CmsIllegalArgumentException {
 
         if (CmsStringUtil.isEmpty(resourcename)) {
             throw new CmsIllegalArgumentException(
@@ -814,7 +815,7 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
     /**
      * @see org.opencms.util.I_CmsMacroResolver#getMacroValue(java.lang.String)
      */
-    public String getMacroValue(String macro) {
+    public String getMacroValue(@RUntainted String macro) {
 
         if (m_messages != null) {
             if (macro.startsWith(CmsMacroResolver.KEY_LOCALIZED_PREFIX)) {
@@ -1204,7 +1205,7 @@ public class CmsMacroResolver implements I_CmsMacroResolver {
      *
      * @see org.opencms.util.I_CmsMacroResolver#resolveMacros(java.lang.String)
      */
-    public String resolveMacros(String input) {
+    public @RUntainted String resolveMacros(String input) {
 
         String result = input;
 

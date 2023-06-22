@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.htmlparser.Tag;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The CmsDecoratorConfiguration initalizes and stores the text decorations.<p>
@@ -89,7 +90,7 @@ public class CmsDecoratorConfiguration implements I_CmsDecoratorConfiguration {
     private CmsObject m_cms;
 
     /** The config file. */
-    private String m_configFile;
+    private @RUntainted String m_configFile;
 
     /** The locale for extracting the configuration data. */
     private Locale m_configurationLocale = CmsLocaleManager.getLocale("en");

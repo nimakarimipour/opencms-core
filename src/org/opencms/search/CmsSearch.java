@@ -48,6 +48,7 @@ import org.apache.commons.logging.Log;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.Sort;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to access the search facility within a jsp.<p>
@@ -755,7 +756,7 @@ public class CmsSearch {
      *
      * @param indexName the name of the index
      */
-    public void setIndex(String indexName) {
+    public void setIndex(@RUntainted String indexName) {
 
         resetLastResult();
         if (CmsStringUtil.isNotEmpty(indexName)) {
@@ -853,7 +854,7 @@ public class CmsSearch {
      *
      * @param parsedQuery the parsed query to set
      */
-    public void setParsedQuery(String parsedQuery) {
+    public void setParsedQuery(@RUntainted String parsedQuery) {
 
         try {
             m_parsedQuerySet = true;
@@ -871,7 +872,7 @@ public class CmsSearch {
      *
      * @param query the search query (escaped format)
      */
-    public void setQuery(String query) {
+    public void setQuery(@RUntainted String query) {
 
         try {
             m_parameters.setQuery(CmsEncoder.decodeParameter(query));

@@ -29,6 +29,7 @@ package org.opencms.file.types;
 
 import org.opencms.configuration.CmsConfigurationException;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for unknown folder types.<p>
@@ -46,7 +47,7 @@ public class CmsResourceTypeUnknownFolder extends A_CmsResourceTypeFolderBase {
     public static final int RESOURCE_TYPE_ID = -2;
 
     /** The name of this resource type. */
-    public static final String RESOURCE_TYPE_NAME = "unknown_folder";
+    public static final @RUntainted String RESOURCE_TYPE_NAME = "unknown_folder";
 
     /** Indicates that the static configuration of the resource type has been frozen. */
     private static boolean m_staticFrozen;
@@ -91,7 +92,7 @@ public class CmsResourceTypeUnknownFolder extends A_CmsResourceTypeFolderBase {
      * @see org.opencms.file.types.A_CmsResourceType#initConfiguration(java.lang.String, java.lang.String, String)
      */
     @Override
-    public void initConfiguration(String name, String id, String className) throws CmsConfigurationException {
+    public void initConfiguration(@RUntainted String name, String id, String className) throws CmsConfigurationException {
 
         if ((OpenCms.getRunLevel() > OpenCms.RUNLEVEL_2_INITIALIZING) && m_staticFrozen) {
             // configuration already frozen

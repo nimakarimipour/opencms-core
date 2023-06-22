@@ -29,6 +29,7 @@ package org.opencms.jsp.util;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,10 +39,10 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_FILE_READ_1 = "ERR_FILE_READ_1";
+    public static final @RUntainted String ERR_FILE_READ_1 = "ERR_FILE_READ_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_XML_CONTENT_UNMARSHAL_1 = "ERR_XML_CONTENT_UNMARSHAL_1";
+    public static final @RUntainted String ERR_XML_CONTENT_UNMARSHAL_1 = "ERR_XML_CONTENT_UNMARSHAL_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_CLOSE_0 = "GUI_CLOSE_0";

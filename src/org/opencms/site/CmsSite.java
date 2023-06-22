@@ -50,6 +50,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a configured site in OpenCms.<p>
@@ -123,7 +124,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
     private CmsSiteMatcher m_siteMatcher;
 
     /** Root directory of this site in the OpenCms VFS. */
-    private String m_siteRoot;
+    private @RUntainted String m_siteRoot;
 
     /** UUID of this site's root directory in the OpenCms VFS. */
     private CmsUUID m_siteRootUUID;
@@ -511,7 +512,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
      *
      * @return the secure server url
      */
-    public String getSecureUrl() {
+    public @RUntainted String getSecureUrl() {
 
         if (m_secureServer != null) {
             return m_secureServer.getUrl();
@@ -613,7 +614,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
      *
      * @return the path of this site's root directory in the OpenCms VFS without tailing slash
      */
-    public String getSiteRoot() {
+    public @RUntainted String getSiteRoot() {
 
         return m_siteRoot;
     }
@@ -643,7 +644,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
      *
      * @return the display title of this site
      */
-    public String getTitle() {
+    public @RUntainted String getTitle() {
 
         return m_title;
     }

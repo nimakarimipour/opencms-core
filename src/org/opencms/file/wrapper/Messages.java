@@ -29,6 +29,7 @@ package org.opencms.file.wrapper;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,7 +39,7 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_BAD_RESOURCE_EXTENSION_1 = "ERR_BAD_RESOURCE_EXTENSION_1";
+    public static final @RUntainted String ERR_BAD_RESOURCE_EXTENSION_1 = "ERR_BAD_RESOURCE_EXTENSION_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_ADD_UTF8_MARKER_1 = "LOG_ADD_UTF8_MARKER_1";

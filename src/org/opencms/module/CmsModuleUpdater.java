@@ -74,6 +74,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class used for updating modules.<p>
@@ -193,7 +194,7 @@ public class CmsModuleUpdater {
      *
      * @return the normalized path
      */
-    public static String normalizePath(String... pathComponents) {
+    public static @RUntainted String normalizePath(String... pathComponents) {
 
         return CmsFileUtil.removeTrailingSeparator(CmsStringUtil.joinPaths(pathComponents));
     }
@@ -214,11 +215,11 @@ public class CmsModuleUpdater {
         CmsModule module = CmsModuleImportExportHandler.readModuleFromImport(importFile);
         cms = OpenCms.initCmsObject(cms);
 
-        String importSite = module.getImportSite();
+        @RUntainted String importSite = module.getImportSite();
         if (!CmsStringUtil.isEmptyOrWhitespaceOnly(importSite)) {
             cms.getRequestContext().setSiteRoot(importSite);
         } else {
-            String siteToSet = cms.getRequestContext().getSiteRoot();
+            @RUntainted String siteToSet = cms.getRequestContext().getSiteRoot();
             if ("".equals(siteToSet)) {
                 siteToSet = "/";
             }
@@ -516,7 +517,7 @@ public class CmsModuleUpdater {
      * @param resData the resource data from the module import
      * @param index index of the current import resource
      */
-    protected void processImportResource(CmsObject cms, CmsResourceImportData resData, int index) {
+    protected void processImportResource(CmsObject cms, CmsResourceImportData resData, @RUntainted int index) {
 
         boolean changed = false;
         m_report.print(

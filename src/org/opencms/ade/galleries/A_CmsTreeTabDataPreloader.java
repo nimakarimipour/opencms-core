@@ -49,6 +49,7 @@ import com.google.common.base.Objects;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract class which is used to generate the data for showing an already opened tree in the gallery dialog.<p>
@@ -64,7 +65,7 @@ public abstract class A_CmsTreeTabDataPreloader<T extends I_CmsGalleryTreeEntry<
     private CmsObject m_cms;
 
     /** The common root path. */
-    private String m_commonRoot;
+    private @RUntainted String m_commonRoot;
 
     /** The filter used for reading resources. */
     private CmsResourceFilter m_filter = CmsResourceFilter.ONLY_VISIBLE_NO_DELETED;
@@ -190,9 +191,9 @@ public abstract class A_CmsTreeTabDataPreloader<T extends I_CmsGalleryTreeEntry<
      *
      * @return the common site root (may also be the shared folder or root folder)
      */
-    protected String getCommonSite(Collection<CmsResource> resourceSet) {
+    protected @RUntainted String getCommonSite(Collection<CmsResource> resourceSet) {
 
-        String commonPath = getCommonAncestorPath(resourceSet);
+        @RUntainted String commonPath = getCommonAncestorPath(resourceSet);
         String result = null;
         CmsSiteManagerImpl siteManager = OpenCms.getSiteManager();
         if (siteManager.startsWithShared(commonPath)) {
@@ -247,12 +248,12 @@ public abstract class A_CmsTreeTabDataPreloader<T extends I_CmsGalleryTreeEntry<
      *
      * @return the common ancestor path for the resources
      */
-    private String getCommonAncestorPath(Collection<CmsResource> resources) {
+    private @RUntainted String getCommonAncestorPath(Collection<CmsResource> resources) {
 
         if (resources.isEmpty()) {
             return "/";
         }
-        String commonPath = null;
+        @RUntainted String commonPath = null;
         for (CmsResource resource : resources) {
             commonPath = getCommonAncestorPath(commonPath, resource.getRootPath());
         }

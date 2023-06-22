@@ -39,6 +39,7 @@ import org.opencms.util.CmsUUID;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for all OpenCms VFS resources like <code>{@link CmsFile}</code> or <code>{@link CmsFolder}</code>.<p>
@@ -287,10 +288,10 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
     public static final CmsResourceCopyMode COPY_PRESERVE_SIBLING = CmsResourceCopyMode.MODE_COPY_PRESERVE_SIBLING;
 
     /** The default expiration date of a resource, which is: never expires. */
-    public static final long DATE_EXPIRED_DEFAULT = Long.MAX_VALUE;
+    public static final @RUntainted long DATE_EXPIRED_DEFAULT = Long.MAX_VALUE;
 
     /** The default release date of a resource, which is: always released. */
-    public static final long DATE_RELEASED_DEFAULT = 0;
+    public static final @RUntainted long DATE_RELEASED_DEFAULT = 0;
 
     /** A special date that indicates release and expiration information are to be ignored. */
     public static final long DATE_RELEASED_EXPIRED_IGNORE = Long.MIN_VALUE;
@@ -311,7 +312,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
     public static final int FLAG_TEMPFILE = 1024;
 
     /** The name constraints when generating new resources. */
-    public static final String NAME_CONSTRAINTS = "-._~$";
+    public static final @RUntainted String NAME_CONSTRAINTS = "-._~$";
 
     /** Indicates if a resource has been changed in the offline version when compared to the online version. */
     public static final CmsResourceState STATE_CHANGED = CmsResourceState.STATE_CHANGED;
@@ -397,7 +398,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
     private CmsUUID m_resourceId;
 
     /** The name of a resource with it's full path from the root folder including the current site root. */
-    private String m_rootPath;
+    private @RUntainted String m_rootPath;
 
     /** The number of links that point to this resource. */
     private int m_siblingCount;
@@ -406,7 +407,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
     private CmsResourceState m_state;
 
     /** The id of the structure database record. */
-    private CmsUUID m_structureId;
+    private @RUntainted CmsUUID m_structureId;
 
     /** The resource type id of this resource. */
     private int m_typeId;
@@ -442,9 +443,9 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @param version the version number of this resource
      */
     public CmsResource(
-        CmsUUID structureId,
+        @RUntainted CmsUUID structureId,
         CmsUUID resourceId,
-        String rootPath,
+        @RUntainted String rootPath,
         I_CmsResourceType type,
         int flags,
         CmsUUID projectId,
@@ -504,9 +505,9 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @param version the version number of this resource
      */
     public CmsResource(
-        CmsUUID structureId,
+        @RUntainted CmsUUID structureId,
         CmsUUID resourceId,
-        String rootPath,
+        @RUntainted String rootPath,
         int type,
         boolean isFolder,
         int flags,
@@ -556,7 +557,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @throws CmsIllegalArgumentException if the given resource name is not valid
      */
-    public static void checkResourceName(String name) throws CmsIllegalArgumentException {
+    public static void checkResourceName(@RUntainted String name) throws CmsIllegalArgumentException {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(name)) {
             throw new CmsIllegalArgumentException(
@@ -590,7 +591,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the extension or <code>null</code> if not available
      */
-    public static String getExtension(String resourceName) {
+    public static String getExtension(@RUntainted String resourceName) {
 
         String result = null;
         if (!resourceName.endsWith("/")) {
@@ -622,7 +623,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @param resource the name of a resource
      * @return the folder of the given resource
      */
-    public static String getFolderPath(String resource) {
+    public static String getFolderPath(@RUntainted String resource) {
 
         return resource.substring(0, resource.lastIndexOf('/') + 1);
     }
@@ -639,7 +640,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @param resource the resource to get the name for
      * @return the name of a resource without the path information
      */
-    public static String getName(String resource) {
+    public static @RUntainted String getName(@RUntainted String resource) {
 
         if ("/".equals(resource)) {
             return "/";
@@ -662,13 +663,13 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @param resource the resource to find the parent folder for
      * @return the calculated parent absolute folder path, or <code>null</code> for the root folder
      */
-    public static String getParentFolder(String resource) {
+    public static @RUntainted String getParentFolder(String resource) {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(resource) || "/".equals(resource)) {
             return null;
         }
         // remove the last char, for a folder this will be "/", for a file it does not matter
-        String parent = (resource.substring(0, resource.length() - 1));
+        @RUntainted String parent = (resource.substring(0, resource.length() - 1));
         // now as the name does not end with "/", check for the last "/" which is the parent folder name
         return parent.substring(0, parent.lastIndexOf('/') + 1);
     }
@@ -704,10 +705,10 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @param level of levels to walk up or down
      * @return the name of a parent folder of the given resource
      */
-    public static String getPathPart(String resource, int level) {
+    public static @RUntainted String getPathPart(@RUntainted String resource, int level) {
 
         resource = getFolderPath(resource);
-        String result = null;
+        @RUntainted String result = null;
         int pos = 0, count = 0;
         if (level >= 0) {
             // Walk down from the root folder /
@@ -757,7 +758,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @see #isTemporaryFile()
      */
-    public static boolean isTemporaryFileName(String path) {
+    public static boolean isTemporaryFileName(@RUntainted String path) {
 
         return (path != null) && getName(path).startsWith(TEMP_FILE_PREFIX);
     }
@@ -1040,7 +1041,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the resource type id of this resource
      */
-    public int getTypeId() {
+    public @RUntainted int getTypeId() {
 
         return m_typeId;
     }
@@ -1070,7 +1071,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the current version number of this resource
      */
-    public int getVersion() {
+    public @RUntainted int getVersion() {
 
         return m_version;
     }

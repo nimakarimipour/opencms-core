@@ -29,6 +29,7 @@ package org.opencms.util;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,58 +39,58 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CHARSET_ILLEGAL_NAME_1 = "ERR_CHARSET_ILLEGAL_NAME_1";
+    public static final @RUntainted String ERR_CHARSET_ILLEGAL_NAME_1 = "ERR_CHARSET_ILLEGAL_NAME_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CHARSET_UNSUPPORTED_1 = "ERR_CHARSET_UNSUPPORTED_1";
+    public static final @RUntainted String ERR_CHARSET_UNSUPPORTED_1 = "ERR_CHARSET_UNSUPPORTED_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CONTROL_STRING_LENGTH_0 = "ERR_CONTROL_STRING_LENGTH_0";
+    public static final @RUntainted String ERR_CONTROL_STRING_LENGTH_0 = "ERR_CONTROL_STRING_LENGTH_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CONTROL_STRING_START_0 = "ERR_CONTROL_STRING_START_0";
+    public static final @RUntainted String ERR_CONTROL_STRING_START_0 = "ERR_CONTROL_STRING_START_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CSV_XML_TRANSFORMATION_FAILED_0 = "ERR_CSV_XML_TRANSFORMATION_FAILED_0";
+    public static final @RUntainted String ERR_CSV_XML_TRANSFORMATION_FAILED_0 = "ERR_CSV_XML_TRANSFORMATION_FAILED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_FILE_ARG_ACCESS_1 = "ERR_FILE_ARG_ACCESS_1";
+    public static final @RUntainted String ERR_FILE_ARG_ACCESS_1 = "ERR_FILE_ARG_ACCESS_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_FILE_ARG_EMPTY_1 = "ERR_FILE_ARG_EMPTY_1";
+    public static final @RUntainted String ERR_FILE_ARG_EMPTY_1 = "ERR_FILE_ARG_EMPTY_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_FILE_ARG_IS_FOLDER_1 = "ERR_FILE_ARG_IS_FOLDER_1";
+    public static final @RUntainted String ERR_FILE_ARG_IS_FOLDER_1 = "ERR_FILE_ARG_IS_FOLDER_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_FILE_ARG_NOT_FOUND_1 = "ERR_FILE_ARG_NOT_FOUND_1";
+    public static final @RUntainted String ERR_FILE_ARG_NOT_FOUND_1 = "ERR_FILE_ARG_NOT_FOUND_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_FILE_ARG_NOT_READ_1 = "ERR_FILE_ARG_NOT_READ_1";
+    public static final @RUntainted String ERR_FILE_ARG_NOT_READ_1 = "ERR_FILE_ARG_NOT_READ_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_FILE_VIEW_SETTINGS_FROZEN_0 = "ERR_FILE_VIEW_SETTINGS_FROZEN_0";
+    public static final @RUntainted String ERR_FILE_VIEW_SETTINGS_FROZEN_0 = "ERR_FILE_VIEW_SETTINGS_FROZEN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_CONVERSION_SPEC_1 = "ERR_INVALID_CONVERSION_SPEC_1";
+    public static final @RUntainted String ERR_INVALID_CONVERSION_SPEC_1 = "ERR_INVALID_CONVERSION_SPEC_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_DOUBLE_FMT_CHAR_2 = "ERR_INVALID_DOUBLE_FMT_CHAR_2";
+    public static final @RUntainted String ERR_INVALID_DOUBLE_FMT_CHAR_2 = "ERR_INVALID_DOUBLE_FMT_CHAR_2";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_INVALID_ETHERNET_ADDRESS_0 = "ERR_INVALID_ETHERNET_ADDRESS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_ETHERNET_ADDRESS_1 = "ERR_INVALID_ETHERNET_ADDRESS_1";
+    public static final @RUntainted String ERR_INVALID_ETHERNET_ADDRESS_1 = "ERR_INVALID_ETHERNET_ADDRESS_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_UUID_1 = "ERR_INVALID_UUID_1";
+    public static final @RUntainted String ERR_INVALID_UUID_1 = "ERR_INVALID_UUID_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_IOERROR_0 = "ERR_IOERROR_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MISSING_RESOURCES_1 = "ERR_MISSING_RESOURCES_1";
+    public static final @RUntainted String ERR_MISSING_RESOURCES_1 = "ERR_MISSING_RESOURCES_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_UNABLE_TO_PARSE_COLOR_2 = "ERR_UNABLE_TO_PARSE_COLOR_2";
@@ -98,10 +99,10 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_UNABLE_TO_PARSE_INT_2 = "ERR_UNABLE_TO_PARSE_INT_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_UNBALANCED_CLOSING_TAG_1 = "ERR_UNBALANCED_CLOSING_TAG_1";
+    public static final @RUntainted String ERR_UNBALANCED_CLOSING_TAG_1 = "ERR_UNBALANCED_CLOSING_TAG_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_UNBALANCED_OPENING_TAG_1 = "ERR_UNBALANCED_OPENING_TAG_1";
+    public static final @RUntainted String ERR_UNBALANCED_OPENING_TAG_1 = "ERR_UNBALANCED_OPENING_TAG_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_FILE_VIEW_NO_PREVIEW_0 = "GUI_FILE_VIEW_NO_PREVIEW_0";
@@ -143,7 +144,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_PARSING_RUNS_2 = "LOG_PARSING_RUNS_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_PROPERTY_READING_FAILED_2 = "LOG_PROPERTY_READING_FAILED_2";
+    public static final @RUntainted String LOG_PROPERTY_READING_FAILED_2 = "LOG_PROPERTY_READING_FAILED_2";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_READ_UUID_1 = "LOG_READ_UUID_1";

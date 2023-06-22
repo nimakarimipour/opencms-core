@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action for showing locked resources by opening the GWT lock report.<p>
@@ -94,7 +95,7 @@ public final class CmsLockedResourcesAction extends A_CmsWorkplaceAction impleme
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
      */
-    public String getJspPath() {
+    public @RUntainted String getJspPath() {
 
         return null;
     }

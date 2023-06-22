@@ -50,6 +50,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.CustomField;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The category select field.<p>
@@ -156,7 +157,7 @@ implements I_CmsSelectionHandler<Collection<CmsCategory>> {
             if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(newValue)) {
                 CmsObject cms = A_CmsUI.getCmsObject();
                 CmsCategoryService catService = CmsCategoryService.getInstance();
-                for (String path : newValue.split(",")) {
+                for (@RUntainted String path : newValue.split(",")) {
                     try {
                         CmsCategory cat = catService.getCategory(cms, path);
                         categories.add(cat);

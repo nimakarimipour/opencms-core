@@ -51,6 +51,7 @@ import org.opencms.util.CmsUUID;
 import java.nio.ByteBuffer;
 import java.text.ParseException;
 import java.util.*;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A search document implementation for Solr indexes.<p>
@@ -198,7 +199,7 @@ public class CmsSolrDocument implements I_CmsSearchDocument {
     /**
      * @see org.opencms.search.I_CmsSearchDocument#addPathField(java.lang.String)
      */
-    public void addPathField(String rootPath) {
+    public void addPathField(@RUntainted String rootPath) {
 
         String folderName = CmsResource.getFolderPath(rootPath);
         for (int i = 0; i < folderName.length(); i++) {
@@ -356,13 +357,13 @@ public class CmsSolrDocument implements I_CmsSearchDocument {
     /**
      * @see org.opencms.search.I_CmsSearchDocument#getFieldValueAsString(java.lang.String)
      */
-    public String getFieldValueAsString(String fieldName) {
+    public @RUntainted String getFieldValueAsString(String fieldName) {
 
         List<String> values = getMultivaluedFieldAsStringList(fieldName);
         if ((values != null) && !values.isEmpty()) {
             return CmsStringUtil.listAsString(values, "\n");
         } else {
-            Object o = m_doc.getFieldValue(fieldName);
+            @RUntainted Object o = m_doc.getFieldValue(fieldName);
             if (o != null) {
                 return o.toString();
             }
@@ -391,7 +392,7 @@ public class CmsSolrDocument implements I_CmsSearchDocument {
     /**
      * @see org.opencms.search.I_CmsSearchDocument#getPath()
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return getFieldValueAsString(CmsSearchField.FIELD_PATH);
     }

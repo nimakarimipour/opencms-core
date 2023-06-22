@@ -59,6 +59,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.text.StringEscapeUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget for a category based dependent select boxes.<p>
@@ -215,7 +216,7 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
         // get select box options from default value String
         CmsCategory selected = null;
         try {
-            String name = param.getStringValue(cms);
+            @RUntainted String name = param.getStringValue(cms);
             selected = CmsCategoryService.getInstance().getCategory(cms, name);
         } catch (CmsException e) {
             // ignore
@@ -381,7 +382,7 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
      *
      * @return the starting category
      */
-    public String getStartingCategory(CmsObject cms, String referencePath) {
+    public String getStartingCategory(CmsObject cms, @RUntainted String referencePath) {
 
         String ret = "";
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(m_category) && CmsStringUtil.isEmptyOrWhitespaceOnly(m_property)) {
@@ -484,7 +485,7 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
     @Override
     public void setEditorValue(
         CmsObject cms,
-        Map<String, String[]> formParameters,
+        @RUntainted Map<@RUntainted String, @RUntainted String[]> formParameters,
         I_CmsWidgetDialog widgetDialog,
         I_CmsWidgetParameter param) {
 
@@ -525,7 +526,7 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
      * @return html code
      */
     protected String buildSelectBox(
-        String baseId,
+        @RUntainted String baseId,
         int level,
         List<CmsSelectWidgetOption> options,
         String selected,
@@ -604,7 +605,7 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
 
         I_CmsXmlContentValue value = (I_CmsXmlContentValue)param;
         CmsFile file = value.getDocument().getFile();
-        String resourceName = cms.getSitePath(file);
+        @RUntainted String resourceName = cms.getSitePath(file);
         if (CmsWorkplace.isTemporaryFile(file)) {
             StringBuffer result = new StringBuffer(resourceName.length() + 2);
             result.append(CmsResource.getFolderPath(resourceName));

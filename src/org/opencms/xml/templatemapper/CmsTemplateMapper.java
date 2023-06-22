@@ -60,6 +60,7 @@ import org.apache.commons.logging.Log;
 
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Responsible for mapping formatters, containers and settings to different formatters, containers and settings according to
@@ -75,7 +76,7 @@ public final class CmsTemplateMapper {
     protected boolean m_enabled;
 
     /** The path to the mapper configuration. */
-    protected String m_configPath;
+    protected @RUntainted String m_configPath;
 
     /** Flag to enable mode for saving. */
     private boolean m_forSave;

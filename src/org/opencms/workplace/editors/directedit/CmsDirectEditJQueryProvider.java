@@ -35,6 +35,7 @@ import org.opencms.main.CmsException;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.editors.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provider for the OpenCms graphical "direct edit" buttons. <p>
@@ -48,7 +49,7 @@ import org.opencms.workplace.editors.Messages;
 public class CmsDirectEditJQueryProvider extends CmsDirectEditDefaultProvider {
 
     /** Default direct edit include file URI for the jQuery direct edit provider. */
-    protected static final String INCLUDE_FILE_JQUERY = "/system/workplace/editors/jquery_direct_edit_include.txt";
+    protected static final @RUntainted String INCLUDE_FILE_JQUERY = "/system/workplace/editors/jquery_direct_edit_include.txt";
 
     /** Contains the close link. */
     private String m_closeLink;
@@ -68,7 +69,7 @@ public class CmsDirectEditJQueryProvider extends CmsDirectEditDefaultProvider {
      * @see org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider#init(org.opencms.file.CmsObject, org.opencms.workplace.editors.directedit.CmsDirectEditMode, java.lang.String)
      */
     @Override
-    public void init(CmsObject cms, CmsDirectEditMode mode, String fileName) {
+    public void init(CmsObject cms, CmsDirectEditMode mode, @RUntainted String fileName) {
 
         if (CmsStringUtil.isEmpty(fileName)) {
             fileName = INCLUDE_FILE_JQUERY;

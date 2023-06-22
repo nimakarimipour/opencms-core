@@ -60,6 +60,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.shared.ui.combobox.FilteringMode;
 import com.vaadin.v7.ui.ComboBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The project select dialog.<p>
@@ -138,7 +139,7 @@ public class CmsProjectSelectDialog extends CmsBasicDialog {
         CmsUUID projectId,
         SiteSelectorOption siteOption) {
 
-        String siteRoot = null;
+        @RUntainted String siteRoot = null;
         try {
             CmsProject project = null;
             if (projectId != null) {

@@ -74,6 +74,7 @@ import org.dom4j.io.XMLWriter;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration manager for digesting the OpenCms XML configuration.<p>
@@ -92,7 +93,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
     public static final String DEFAULT_XSLT_FILENAME = "opencms-configuration.xslt";
 
     /** The default prefix for the OpenCms configuration DTD. */
-    public static final String DEFAULT_DTD_PREFIX = "http://www.opencms.org/dtd/6.0/";
+    public static final @RUntainted String DEFAULT_DTD_PREFIX = "http://www.opencms.org/dtd/6.0/";
 
     /** The name of the default XML file for this configuration. */
     public static final String DEFAULT_XML_FILE_NAME = "opencms.xml";

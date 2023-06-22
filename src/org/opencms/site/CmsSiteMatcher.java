@@ -34,6 +34,7 @@ import java.io.Serializable;
 import java.net.URI;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A matcher object to compare request data against the configured sites.<p>
@@ -105,16 +106,16 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
     private transient Integer m_hashCode;
 
     /** The hostname (e.g. localhost) which is required to access this site. */
-    private String m_serverName;
+    private @RUntainted String m_serverName;
 
     /** The port (e.g. 80) which is required to access this site. */
-    private int m_serverPort;
+    private @RUntainted int m_serverPort;
 
     /** The protocol (e.g. "http", "https") which is required to access this site. */
     private String m_serverProtocol;
 
     /** The time offset. */
-    private long m_timeOffset;
+    private @RUntainted long m_timeOffset;
 
     /**Redirect (only for aliase). */
     private RedirectMode m_redirect = RedirectMode.none;
@@ -308,7 +309,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      *
      * @return the hostname (e.g. localhost) which is required to access this site
      */
-    public String getServerName() {
+    public @RUntainted String getServerName() {
 
         return m_serverName;
     }
@@ -318,7 +319,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      *
      * @return the port (e.g. 80) which is required to access this site
      */
-    public int getServerPort() {
+    public @RUntainted int getServerPort() {
 
         return m_serverPort;
     }
@@ -338,7 +339,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      *
      * @return the time Offset
      */
-    public long getTimeOffset() {
+    public @RUntainted long getTimeOffset() {
 
         return m_timeOffset;
     }
@@ -348,7 +349,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      *
      * @return the url, i.e. {protocol}://{servername}[:{port}], port appened only if != 80
      */
-    public String getUrl() {
+    public @RUntainted String getUrl() {
 
         return m_serverProtocol
             + "://"

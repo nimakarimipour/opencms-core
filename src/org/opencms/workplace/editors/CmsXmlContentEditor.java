@@ -82,6 +82,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Creates the editor for XML content definitions.<p>
@@ -363,10 +364,10 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
             m_content.removeLocale(loc);
             //write the modified xml content
             writeContent();
-            List<Locale> locales = m_content.getLocales();
+            @RUntainted List<@RUntainted Locale> locales = m_content.getLocales();
             if (locales.size() > 0) {
                 // set first locale as new display locale
-                Locale newLoc = locales.get(0);
+                @RUntainted Locale newLoc = locales.get(0);
                 setParamElementlanguage(newLoc.toString());
                 m_elementLocale = newLoc;
             } else {
@@ -481,7 +482,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
      */
     public void actionNew() throws JspException {
 
-        String newFileName = "";
+        @RUntainted String newFileName = "";
         try {
             newFileName = A_CmsResourceCollector.createResourceForCollector(
                 getCms(),
@@ -550,10 +551,10 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
         }
 
         // get preview uri from content handler
-        String previewUri = m_content.getHandler().getPreview(getCms(), m_content, getParamTempfile());
+        @RUntainted String previewUri = m_content.getHandler().getPreview(getCms(), m_content, getParamTempfile());
 
         // create locale request parameter
-        StringBuffer param = new StringBuffer(8);
+        @RUntainted StringBuffer param = new StringBuffer(8);
         if (previewUri.indexOf('?') != -1) {
             param.append("&");
         } else {
@@ -1305,7 +1306,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
      *
      * @param paramNewLink the "new link" parameter to set
      */
-    public void setParamNewLink(String paramNewLink) {
+    public void setParamNewLink(@RUntainted String paramNewLink) {
 
         m_paramNewLink = CmsEncoder.decode(paramNewLink);
     }
@@ -1417,7 +1418,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
 
         // get the default locale for the resource
         List<Locale> locales = OpenCms.getLocaleManager().getDefaultLocales(getCms(), getParamResource());
-        Locale locale = locales.get(0);
+        @RUntainted Locale locale = locales.get(0);
         locale = ensureLocale(locale);
         setParamElementlanguage(locale.toString());
     }
@@ -1426,7 +1427,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
      * @see org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings, javax.servlet.http.HttpServletRequest)
      */
     @Override
-    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
+    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
         // fill the parameter values in the get/set methods
         fillParamValues(request);

@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A VFS indexer that resolves locale dependent documents.<p>
@@ -129,7 +130,7 @@ public class CmsDependencyIndexer extends CmsVfsIndexer {
         Iterator<String> i = resourceNames.iterator();
         while (i.hasNext()) {
             // read the resources from all configured source folders
-            String resourceName = i.next();
+            @RUntainted String resourceName = i.next();
             List<CmsResource> resources = null;
             try {
                 // read all resources (only files) below the given path

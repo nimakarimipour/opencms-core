@@ -30,6 +30,7 @@ package org.opencms.file.types;
 import org.opencms.configuration.CmsConfigurationException;
 import org.opencms.loader.CmsPointerLoader;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "pointer".<p>
@@ -96,7 +97,7 @@ public class CmsResourceTypePointer extends A_CmsResourceType {
      * @see org.opencms.file.types.A_CmsResourceType#initConfiguration(java.lang.String, java.lang.String, String)
      */
     @Override
-    public void initConfiguration(String name, String id, String className) throws CmsConfigurationException {
+    public void initConfiguration(@RUntainted String name, String id, String className) throws CmsConfigurationException {
 
         if ((OpenCms.getRunLevel() > OpenCms.RUNLEVEL_2_INITIALIZING) && m_staticFrozen) {
             // configuration already frozen

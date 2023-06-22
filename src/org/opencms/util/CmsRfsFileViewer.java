@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The representation of a RFS file along with the settings to provide
@@ -67,7 +68,7 @@ public class CmsRfsFileViewer implements Cloneable {
     protected static final Log LOG = CmsLog.getLog(CmsRfsFileViewer.class);
 
     /** The path to the underlying file. */
-    protected String m_filePath;
+    protected @RUntainted String m_filePath;
 
     /** The path to the root for all accessible files. */
     protected String m_rootPath;
@@ -361,7 +362,7 @@ public class CmsRfsFileViewer implements Cloneable {
      *
      * @param fileEncoding the character encoding of the underlying file to set
      */
-    public void setFileEncoding(String fileEncoding) {
+    public void setFileEncoding(@RUntainted String fileEncoding) {
 
         checkFrozen();
         try {

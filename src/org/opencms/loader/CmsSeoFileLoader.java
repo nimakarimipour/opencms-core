@@ -38,6 +38,7 @@ import org.opencms.xml.content.CmsXmlContentFactory;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The SEO file loader.<p>
@@ -48,7 +49,7 @@ public class CmsSeoFileLoader extends A_CmsXmlDocumentLoader {
     public static final int LOADER_ID = 14;
 
     /** The SEO file template JSP path. */
-    public static final String TEMPLATE_PATH = "/system/modules/org.opencms.base/pages/render-seo-file.jsp";
+    public static final @RUntainted String TEMPLATE_PATH = "/system/modules/org.opencms.base/pages/render-seo-file.jsp";
 
     /**
      * @see org.opencms.loader.I_CmsResourceLoader#getLoaderId()

@@ -70,6 +70,7 @@ import java.util.stream.Collectors;
 import org.apache.solr.common.params.CommonParams;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Search configuration parser using a list configuration file as the base configuration with additional JSON.<p>
@@ -590,7 +591,7 @@ public class CmsSimpleSearchConfigurationParser extends CmsJSONSearchConfigurati
         String result = "";
         if (!m_config.getCategories().isEmpty()) {
             List<String> categoryVals = Lists.newArrayList();
-            for (String path : m_config.getCategories()) {
+            for (@RUntainted String path : m_config.getCategories()) {
                 try {
                     path = CmsCategoryService.getInstance().getCategory(
                         m_cms,

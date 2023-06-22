@@ -42,6 +42,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "folder".<p>
@@ -87,7 +88,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource source,
-        String destination,
+        @RUntainted String destination,
         CmsResource.CmsResourceCopyMode siblingMode)
     throws CmsIllegalArgumentException, CmsException {
 
@@ -109,7 +110,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
             // now walk through all sub-resources in the folder
             for (int i = 0; i < resources.size(); i++) {
                 CmsResource childResource = resources.get(i);
-                String childDestination = destination.concat(childResource.getName());
+                @RUntainted String childDestination = destination.concat(childResource.getName());
                 // handle child resources
                 getResourceType(
                     childResource).copyResource(cms, securityManager, childResource, childDestination, siblingMode);
@@ -124,7 +125,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
     public CmsResource createResource(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        String resourcename,
+        @RUntainted String resourcename,
         byte[] content,
         List<CmsProperty> properties)
     throws CmsException {
@@ -160,7 +161,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource resource,
-        String destination)
+        @RUntainted String destination)
     throws CmsException, CmsIllegalArgumentException {
 
         String dest = cms.getRequestContext().addSiteRoot(destination);
@@ -232,7 +233,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource resource,
-        long dateLastModified,
+        @RUntainted long dateLastModified,
         boolean recursive)
     throws CmsException {
 
@@ -304,7 +305,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource resource,
-        long dateLastModified,
+        @RUntainted long dateLastModified,
         boolean recursive)
     throws CmsException {
 
@@ -458,7 +459,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
      *
      * @throws CmsIllegalArgumentException if the folder name is empty or <code>null</code>
      */
-    private String validateFoldername(String resourcename) throws CmsIllegalArgumentException {
+    private String validateFoldername(@RUntainted String resourcename) throws CmsIllegalArgumentException {
 
         if (CmsStringUtil.isEmpty(resourcename)) {
             throw new CmsIllegalArgumentException(

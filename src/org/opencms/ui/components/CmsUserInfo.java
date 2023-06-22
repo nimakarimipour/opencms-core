@@ -69,6 +69,7 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Displays the current user info.<p>
@@ -329,7 +330,7 @@ public class CmsUserInfo extends VerticalLayout {
             if (!info.getField().equals(Field.firstname)
                 && !info.getField().equals(Field.lastname)
                 && !Field.email.equals(info.getField())) {
-                String value = info.getValue(m_user);
+                @RUntainted String value = info.getValue(m_user);
                 if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(value)) {
                     infoHtml.append(CmsStringUtil.escapeHtml(value)).append(LINE_BREAK);
                 }

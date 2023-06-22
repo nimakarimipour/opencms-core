@@ -90,6 +90,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class which represents the accessible configuration data at a given point in a sitemap.<p>
@@ -112,7 +113,7 @@ public class CmsADEConfigData {
         private CmsDetailPageInfo m_detailPageInfo;
 
         /** The content folder path. */
-        private String m_folderPath;
+        private @RUntainted String m_folderPath;
 
         /** The detail type. */
         private String m_type;
@@ -125,7 +126,7 @@ public class CmsADEConfigData {
          * @param type the detail type
          * @param basePath the base path of the sitemap configuration
          */
-        public DetailInfo(String folderPath, CmsDetailPageInfo detailPageInfo, String type, String basePath) {
+        public DetailInfo(@RUntainted String folderPath, CmsDetailPageInfo detailPageInfo, String type, String basePath) {
 
             m_folderPath = folderPath;
             m_detailPageInfo = detailPageInfo;
@@ -159,7 +160,7 @@ public class CmsADEConfigData {
          *
          * @return the content folder path
          */
-        public String getFolderPath() {
+        public @RUntainted String getFolderPath() {
 
             return m_folderPath;
         }
@@ -703,7 +704,7 @@ public class CmsADEConfigData {
      *
      * @return the base path of the configuration
      */
-    public String getBasePath() {
+    public @RUntainted String getBasePath() {
 
         return m_data.getBasePath();
     }
@@ -772,7 +773,7 @@ public class CmsADEConfigData {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResourceTypeConfig> getCreatableTypes(CmsObject cms, String pageFolderRootPath) throws CmsException {
+    public List<CmsResourceTypeConfig> getCreatableTypes(CmsObject cms, @RUntainted String pageFolderRootPath) throws CmsException {
 
         List<CmsResourceTypeConfig> result = new ArrayList<CmsResourceTypeConfig>();
         for (CmsResourceTypeConfig typeConfig : getResourceTypes()) {
@@ -836,7 +837,7 @@ public class CmsADEConfigData {
             String typeName = typeConfig.getTypeName();
             if (((typeConfig.getFolderOrName() == null) || !typeConfig.getFolderOrName().isPageRelative())
                 && primaryDetailPageMapByType.containsKey(typeName)) {
-                String folderPath = typeConfig.getFolderPath(cms, null);
+                @RUntainted String folderPath = typeConfig.getFolderPath(cms, null);
                 CmsDetailPageInfo pageInfo = primaryDetailPageMapByType.get(typeName);
                 result.add(new DetailInfo(folderPath, pageInfo, typeName, getBasePath()));
             }
@@ -1744,7 +1745,7 @@ public class CmsADEConfigData {
         CmsObject cms = OpenCms.initCmsObject(getCms());
         if (m_data.isModuleConfig()) {
             Set<String> siteRoots = OpenCms.getSiteManager().getSiteRoots();
-            for (String siteRoot : siteRoots) {
+            for (@RUntainted String siteRoot : siteRoots) {
                 cms.getRequestContext().setSiteRoot(siteRoot);
                 for (CmsResourceTypeConfig config : getResourceTypes()) {
                     if (!config.isDetailPagesDisabled()) {
@@ -1934,7 +1935,7 @@ public class CmsADEConfigData {
         for (CmsDetailPageInfo page : detailPages) {
             CmsUUID structureId = page.getId();
             try {
-                String rootPath = OpenCms.getADEManager().getRootPath(
+                @RUntainted String rootPath = OpenCms.getADEManager().getRootPath(
                     structureId,
                     getCms().getRequestContext().getCurrentProject().isOnlineProject());
                 String iconClasses;

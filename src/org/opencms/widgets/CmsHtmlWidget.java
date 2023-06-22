@@ -64,6 +64,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget that creates a rich input field using the matching component, for use on a widget dialog.<p>
@@ -148,7 +149,7 @@ public class CmsHtmlWidget extends A_CmsHtmlWidget implements I_CmsADEWidget {
             }
             // set CSS style sheet for current editor widget if configured
             boolean cssConfigured = false;
-            String cssPath = "";
+            @RUntainted String cssPath = "";
             if (widgetOptions.useCss()) {
                 cssPath = widgetOptions.getCssPath();
                 // set the CSS path to null (the created configuration String passed to JS will not include this path then)
@@ -220,7 +221,7 @@ public class CmsHtmlWidget extends A_CmsHtmlWidget implements I_CmsADEWidget {
                 result.put("link_default_protocol", linkDefaultProtocol);
             }
 
-            String editorOptions = widgetOptions.getEditorConfigPath();
+            @RUntainted String editorOptions = widgetOptions.getEditorConfigPath();
             if (editorOptions != null) {
                 try {
                     CmsResource editorOptionsRes = cms.readResource(editorOptions, CmsResourceFilter.IGNORE_EXPIRATION);
@@ -397,11 +398,11 @@ public class CmsHtmlWidget extends A_CmsHtmlWidget implements I_CmsADEWidget {
     @Override
     public void setEditorValue(
         CmsObject cms,
-        Map<String, String[]> formParameters,
+        @RUntainted Map<@RUntainted String, @RUntainted String[]> formParameters,
         I_CmsWidgetDialog widgetDialog,
         I_CmsWidgetParameter param) {
 
-        String[] values = formParameters.get(param.getId());
+        @RUntainted String[] values = formParameters.get(param.getId());
         if ((values != null) && (values.length > 0)) {
             String val = CmsEncoder.decode(values[0], CmsEncoder.ENCODING_UTF_8);
             param.setStringValue(cms, val);
@@ -505,7 +506,7 @@ public class CmsHtmlWidget extends A_CmsHtmlWidget implements I_CmsADEWidget {
 
         if (m_editorWidget == null) {
             // get HTML widget to use from editor manager
-            String widgetClassName = OpenCms.getWorkplaceManager().getWorkplaceEditorManager().getWidgetEditor(
+            @RUntainted String widgetClassName = OpenCms.getWorkplaceManager().getWorkplaceEditorManager().getWidgetEditor(
                 cms.getRequestContext(),
                 widgetDialog.getUserAgent());
             boolean foundWidget = true;

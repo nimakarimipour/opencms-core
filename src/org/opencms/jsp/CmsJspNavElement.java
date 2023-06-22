@@ -42,6 +42,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean to collect navigation information from a resource in the OpenCms VFS.<p>
@@ -96,7 +97,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
     private CmsResource m_resource;
 
     /** The site path. */
-    private String m_sitePath;
+    private @RUntainted String m_sitePath;
 
     /** The navigation text. */
     private String m_text;
@@ -129,7 +130,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      * @param resource the resource
      * @param properties will be passed to <code>init</code>
      */
-    public CmsJspNavElement(String sitePath, CmsResource resource, Map<String, String> properties) {
+    public CmsJspNavElement(@RUntainted String sitePath, CmsResource resource, Map<String, String> properties) {
 
         setResource(resource);
         init(sitePath, properties);
@@ -146,7 +147,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      *
      * @see #init(String, Map, int, Locale)
      */
-    public CmsJspNavElement(String sitePath, CmsResource resource, Map<String, String> properties, int navTreeLevel) {
+    public CmsJspNavElement(@RUntainted String sitePath, CmsResource resource, Map<String, String> properties, int navTreeLevel) {
 
         this(sitePath, resource, properties, navTreeLevel, null);
     }
@@ -164,7 +165,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      * @see #init(String, Map, int, Locale)
      */
     public CmsJspNavElement(
-        String sitePath,
+        @RUntainted String sitePath,
         CmsResource resource,
         Map<String, String> properties,
         int navTreeLevel,
@@ -186,7 +187,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      * @deprecated use {@link #CmsJspNavElement(String, CmsResource, Map)}
      */
     @Deprecated
-    public CmsJspNavElement(String sitePath, Map<String, String> properties) {
+    public CmsJspNavElement(@RUntainted String sitePath, Map<String, String> properties) {
 
         init(sitePath, properties, -1, null);
     }
@@ -204,7 +205,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      * @deprecated use {@link #CmsJspNavElement(String, CmsResource, Map, int)}
      */
     @Deprecated
-    public CmsJspNavElement(String sitePath, Map<String, String> properties, int navTreeLevel) {
+    public CmsJspNavElement(@RUntainted String sitePath, Map<String, String> properties, int navTreeLevel) {
 
         init(sitePath, properties, navTreeLevel, null);
     }
@@ -429,7 +430,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      *
      * @return the resource name this navigation element was initialized with
      */
-    public String getResourceName() {
+    public @RUntainted String getResourceName() {
 
         return m_sitePath;
     }
@@ -505,7 +506,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      *     information from
      * @param properties the properties of the resource read from the vfs
      */
-    public void init(String resource, Map<String, String> properties) {
+    public void init(@RUntainted String resource, Map<String, String> properties) {
 
         init(resource, properties, -1, null);
     }
@@ -531,7 +532,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      *
      * @see CmsJspNavBuilder#getNavigationForResource()
      */
-    public void init(String resource, Map<String, String> properties, int navTreeLevel) {
+    public void init(@RUntainted String resource, Map<String, String> properties, int navTreeLevel) {
 
         init(resource, properties, navTreeLevel, null);
     }
@@ -558,7 +559,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      *
      * @see CmsJspNavBuilder#getNavigationForResource()
      */
-    public void init(String resource, Map<String, String> properties, int navTreeLevel, Locale locale) {
+    public void init(@RUntainted String resource, Map<String, String> properties, int navTreeLevel, Locale locale) {
 
         m_sitePath = resource;
         m_properties = properties;
@@ -706,7 +707,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      *
      * @return the target resource site path
      */
-    protected String getSitePath() {
+    protected @RUntainted String getSitePath() {
 
         return m_sitePath;
     }

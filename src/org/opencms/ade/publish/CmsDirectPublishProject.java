@@ -47,6 +47,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  *  Virtual project for 'direct publishing' of resources.<p>
@@ -109,7 +110,7 @@ public class CmsDirectPublishProject implements I_CmsVirtualProject {
         Set<String> paths = getPaths(params);
         boolean includeContents = shouldIncludeContents(params);
         Set<CmsResource> result = Sets.newHashSet();
-        for (String path : paths) {
+        for (@RUntainted String path : paths) {
             try {
                 result.add(cms.readResource(path, CmsResourceFilter.ALL));
             } catch (CmsException e) {

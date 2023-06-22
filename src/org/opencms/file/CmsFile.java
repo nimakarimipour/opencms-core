@@ -29,6 +29,7 @@ package org.opencms.file;
 
 import org.opencms.db.CmsResourceState;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A file resource in the OpenCms VFS.<p>
@@ -46,7 +47,7 @@ public class CmsFile extends CmsResource {
     private static final long serialVersionUID = -5201022482708455620L;
 
     /** The content of this file. */
-    private byte[] m_fileContent;
+    private @RUntainted byte[] m_fileContent;
 
     /**
      * Constructor, creates a new file Object from the given resource with
@@ -102,9 +103,9 @@ public class CmsFile extends CmsResource {
      * @param content the binary content data of this file
      */
     public CmsFile(
-        CmsUUID structureId,
+        @RUntainted CmsUUID structureId,
         CmsUUID resourceId,
-        String path,
+        @RUntainted String path,
         int type,
         int flags,
         CmsUUID projectId,
@@ -119,7 +120,7 @@ public class CmsFile extends CmsResource {
         int length,
         long dateContent,
         int version,
-        byte[] content) {
+        @RUntainted byte[] content) {
 
         super(
             structureId,
@@ -155,7 +156,7 @@ public class CmsFile extends CmsResource {
     @Override
     public Object clone() {
 
-        byte[] newContent = new byte[getContents().length];
+        @RUntainted byte[] newContent = new byte[getContents().length];
         System.arraycopy(getContents(), 0, newContent, 0, getContents().length);
 
         CmsFile clone = new CmsFile(

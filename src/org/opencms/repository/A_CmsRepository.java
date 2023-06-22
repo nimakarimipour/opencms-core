@@ -31,6 +31,7 @@ import org.opencms.configuration.CmsConfigurationException;
 import org.opencms.configuration.CmsParameterConfiguration;
 import org.opencms.main.CmsException;
 import org.opencms.util.CmsResourceTranslator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract implementation of the repository interface {@link I_CmsRepository}.<p>
@@ -145,7 +146,7 @@ public abstract class A_CmsRepository implements I_CmsRepository {
      *
      * @throws CmsException if the login was not succesful
      */
-    public abstract I_CmsRepositorySession login(String userName, String password) throws CmsException;
+    public abstract I_CmsRepositorySession login(@RUntainted String userName, String password) throws CmsException;
 
     /**
      * Sets the filter.<p>

@@ -105,6 +105,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides additional commands for the CmsShell.<p>
@@ -147,7 +148,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @throws Exception if something goes wrong
      */
-    public void addBookmark(String user, String siteRoot, String sitePath, String project) throws Exception {
+    public void addBookmark(@RUntainted String user, @RUntainted String siteRoot, @RUntainted String sitePath, @RUntainted String project) throws Exception {
 
         CmsObject cms = OpenCms.initCmsObject(m_cms);
         if (project != null) {
@@ -185,7 +186,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @throws Exception if something goes wrong
      */
-    public void addResourceToOU(String ouFqn, String resource) throws Exception {
+    public void addResourceToOU(@RUntainted String ouFqn, String resource) throws Exception {
 
         CmsObject cms = m_cms;
         CmsOrgUnitManager ouManager = OpenCms.getOrgUnitManager();
@@ -201,7 +202,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @throws CmsException if something goes wrong
      */
-    public void addUserToRole(String user, String role) throws CmsException {
+    public void addUserToRole(@RUntainted String user, @RUntainted String role) throws CmsException {
 
         OpenCms.getRoleManager().addUserToRole(m_cms, CmsRole.valueOfRoleName(role), user);
     }
@@ -213,13 +214,13 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @throws Exception if something goes wrong
      * @see org.opencms.file.CmsRequestContext#setUri(String)
      */
-    public void cd(String target) throws Exception {
+    public void cd(@RUntainted String target) throws Exception {
 
         String folder = CmsResource.getFolderPath(m_cms.getRequestContext().getUri());
         if (!target.endsWith("/")) {
             target += "/";
         }
-        String resolvedTarget = CmsLinkManager.getAbsoluteUri(target, folder);
+        @RUntainted String resolvedTarget = CmsLinkManager.getAbsoluteUri(target, folder);
         CmsResource res = m_cms.readResource(resolvedTarget);
         if (!res.isFolder()) {
             throw new CmsIllegalArgumentException(
@@ -241,7 +242,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @throws CmsException if something goes wrong
      * @see CmsObject#chacc(String, String, String, String)
      */
-    public void chacc(String resourceName, String principalType, String principalName, String permissionString)
+    public void chacc(@RUntainted String resourceName, String principalType, @RUntainted String principalName, String permissionString)
     throws CmsException {
 
         m_cms.lockResource(resourceName);
@@ -267,10 +268,10 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @throws CmsException thrown if user can't be read or settings can't be saved.
      */
     public void changeUserSettingsStartParameters(
-        String username,
-        String startProject,
-        String startSite,
-        String startFolder,
+        @RUntainted String username,
+        @RUntainted String startProject,
+        @RUntainted String startSite,
+        @RUntainted String startFolder,
         String startView)
     throws CmsException {
 
@@ -328,9 +329,9 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @param description the description for the new project
      * @throws Exception if something goes wrong
      */
-    public void createDefaultProject(String name, String description) throws Exception {
+    public void createDefaultProject(@RUntainted String name, String description) throws Exception {
 
-        String storedSiteRoot = m_cms.getRequestContext().getSiteRoot();
+        @RUntainted String storedSiteRoot = m_cms.getRequestContext().getSiteRoot();
         try {
             m_cms.getRequestContext().setSiteRoot("/");
             CmsProject project = m_cms.createProject(
@@ -359,7 +360,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @throws Exception if somthing goes wrong
      */
     @SuppressWarnings("deprecation")
-    public CmsResource createFolder(String targetFolder, String folderName) throws Exception {
+    public CmsResource createFolder(@RUntainted String targetFolder, @RUntainted String folderName) throws Exception {
 
         if (m_cms.existsResource(targetFolder + folderName)) {
             m_shell.getOut().println(
@@ -378,7 +379,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @throws Exception if something goes wrong
      * @see CmsObject#createGroup(String, String, int, String)
      */
-    public CmsGroup createGroup(String name, String description) throws Exception {
+    public CmsGroup createGroup(@RUntainted String name, String description) throws Exception {
 
         return m_cms.createGroup(name, description, I_CmsPrincipal.FLAG_ENABLED, null);
     }
@@ -393,7 +394,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @return the created OU, or <code>null</code> if creation fails.
      * @throws Exception if something goes wrong
      */
-    public CmsOrganizationalUnit createOU(String ouFqn, String description, boolean hideLogin, String resource)
+    public CmsOrganizationalUnit createOU(@RUntainted String ouFqn, String description, boolean hideLogin, String resource)
     throws Exception {
 
         return OpenCms.getOrgUnitManager().createOrganizationalUnit(
@@ -429,7 +430,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @see CmsObject#createUser(String, String, String, java.util.Map)
      * @return the created user
      */
-    public CmsUser createUser(String name, String password, String description) throws Exception {
+    public CmsUser createUser(@RUntainted String name, String password, String description) throws Exception {
 
         if (existsUser(name)) {
             m_shell.getOut().println(getMessages().key(Messages.GUI_SHELL_USER_ALREADY_EXISTS_1, name));
@@ -454,12 +455,12 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @see CmsObject#createUser(String, String, String, java.util.Map)
      */
     public CmsUser createUser(
-        String name,
+        @RUntainted String name,
         String password,
         String description,
-        String firstname,
-        String lastname,
-        String email)
+        @RUntainted String firstname,
+        @RUntainted String lastname,
+        @RUntainted String email)
     throws Exception {
 
         if (existsUser(name)) {
@@ -482,7 +483,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @return the created OU, or <code>null</code> if creation fails.
      */
-    public CmsOrganizationalUnit createWebOU(String ouFqn, String description, boolean hideLogin) {
+    public CmsOrganizationalUnit createWebOU(@RUntainted String ouFqn, String description, boolean hideLogin) {
 
         try {
             return OpenCms.getOrgUnitManager().createOrganizationalUnit(
@@ -543,7 +544,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @see CmsObject#deleteProject(CmsUUID)
      */
-    public void deleteProject(String name) throws Exception {
+    public void deleteProject(@RUntainted String name) throws Exception {
 
         m_cms.deleteProject(m_cms.readProject(name).getUuid());
     }
@@ -569,7 +570,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @throws Exception if something goes wrong
      */
-    public void deleteResource(String name) throws Exception {
+    public void deleteResource(@RUntainted String name) throws Exception {
 
         m_cms.lockResource(name);
         m_cms.deleteResource(name, CmsResource.DELETE_PRESERVE_SIBLINGS);
@@ -582,7 +583,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @throws Exception if something goes wrong
      */
-    public void deleteResourceWithSiblings(String name) throws Exception {
+    public void deleteResourceWithSiblings(@RUntainted String name) throws Exception {
 
         m_cms.lockResource(name);
         m_cms.deleteResource(name, CmsResource.DELETE_REMOVE_SIBLINGS);
@@ -629,7 +630,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @param exportFile the name (absolute path) of the ZIP file to export to
      * @throws Exception if something goes wrong
      */
-    public void exportAllResources(String exportFile) throws Exception {
+    public void exportAllResources(@RUntainted String exportFile) throws Exception {
 
         exportAllResources(exportFile, false);
     }
@@ -641,7 +642,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @param isReducedExportMode flag, indicating if the reduced export mode should be used
      * @throws Exception if something goes wrong
      */
-    public void exportAllResources(String exportFile, boolean isReducedExportMode) throws Exception {
+    public void exportAllResources(@RUntainted String exportFile, boolean isReducedExportMode) throws Exception {
 
         List<String> exportPaths = new ArrayList<String>(1);
         exportPaths.add("/");
@@ -675,7 +676,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @throws Exception if something goes wrong
      */
-    public void exportModule(String moduleName) throws Exception {
+    public void exportModule(@RUntainted String moduleName) throws Exception {
 
         CmsModule module = OpenCms.getModuleManager().getModule(moduleName);
 
@@ -720,7 +721,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @param pathList the list of resource to export, separated with a ";"
      * @throws Exception if something goes wrong
      */
-    public void exportResources(String exportFile, String pathList) throws Exception {
+    public void exportResources(@RUntainted String exportFile, String pathList) throws Exception {
 
         exportResources(exportFile, pathList, false);
     }
@@ -735,7 +736,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @param isReducedExportMode flag, indicating if the reduced export mode should be used
      * @throws Exception if something goes wrong
      */
-    public void exportResources(String exportFile, String pathList, boolean isReducedExportMode) throws Exception {
+    public void exportResources(@RUntainted String exportFile, String pathList, boolean isReducedExportMode) throws Exception {
 
         exportResources(exportFile, pathList, isReducedExportMode, false);
     }
@@ -752,7 +753,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @throws Exception if something goes wrong
      */
     public void exportResources(
-        String exportFile,
+        @RUntainted String exportFile,
         String pathList,
         boolean isReducedExportMode,
         boolean skipParentFolders)
@@ -801,7 +802,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @param pathList the list of resource to export, separated with a ";"
      * @throws Exception if something goes wrong
      */
-    public void exportResourcesAndUserdata(String exportFile, String pathList) throws Exception {
+    public void exportResourcesAndUserdata(@RUntainted String exportFile, String pathList) throws Exception {
 
         exportResourcesAndUserdata(exportFile, pathList, false);
     }
@@ -816,7 +817,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @param isReducedExportMode flag, indicating if the reduced export mode should be used
      * @throws Exception if something goes wrong
      */
-    public void exportResourcesAndUserdata(String exportFile, String pathList, boolean isReducedExportMode)
+    public void exportResourcesAndUserdata(@RUntainted String exportFile, String pathList, boolean isReducedExportMode)
     throws Exception {
 
         exportResourcesAndUserdata(exportFile, pathList, isReducedExportMode, false);
@@ -834,7 +835,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @throws Exception if something goes wrong
      */
     public void exportResourcesAndUserdata(
-        String exportFile,
+        @RUntainted String exportFile,
         String pathList,
         boolean isReducedExportMode,
         boolean skipParentFolders)
@@ -1119,7 +1120,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @param username the name of the user to log in
      * @param password the password of the user
      */
-    public void login(String username, String password) {
+    public void login(@RUntainted String username, String password) {
 
         username = OpenCms.getImportExportManager().translateUser(username);
         try {
@@ -1145,7 +1146,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      */
     public void ls() throws Exception {
 
-        String folder = CmsResource.getFolderPath(m_cms.getRequestContext().getUri());
+        @RUntainted String folder = CmsResource.getFolderPath(m_cms.getRequestContext().getUri());
         List<CmsResource> resources = m_cms.getResourcesInFolder(folder, CmsResourceFilter.IGNORE_EXPIRATION);
         m_shell.getOut().println(
             "\n" + getMessages().key(Messages.GUI_SHELL_LS_2, folder, new Integer(resources.size())));
@@ -1181,7 +1182,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @param principalName the name of the principal
      * @throws Exception if something goes wrong
      */
-    public void lsacc(String resourceName, String principalName) throws Exception {
+    public void lsacc(String resourceName, @RUntainted String principalName) throws Exception {
 
         I_CmsPrincipal principal = m_cms.lookupPrincipal(principalName);
         List<CmsAccessControlEntry> acList = m_cms.getAccessControlEntries(resourceName);
@@ -1216,7 +1217,7 @@ class CmsShellCommands implements I_CmsShellCommands {
     public void perf() throws Exception {
 
         int maxTests = 50000;
-        String storedSiteRoot = m_cms.getRequestContext().getSiteRoot();
+        @RUntainted String storedSiteRoot = m_cms.getRequestContext().getSiteRoot();
         try {
             m_cms.getRequestContext().setSiteRoot("/");
             Random random = new Random();
@@ -1260,7 +1261,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @param prompt the prompt to set
      * @see CmsShell#setPrompt(String)
      */
-    public void prompt(String prompt) {
+    public void prompt(@RUntainted String prompt) {
 
         m_shell.setPrompt(prompt);
     }
@@ -1319,7 +1320,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @throws CmsException if something goes wrong
      * @return the selected files contents
      */
-    public String readFileContent(String filename) throws CmsException {
+    public String readFileContent(@RUntainted String filename) throws CmsException {
 
         filename = CmsLinkManager.getAbsoluteUri(
             filename,
@@ -1396,7 +1397,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @param reindexRelated true if related resources should be reindexed
      * @throws CmsException if something goes wrong
      */
-    public void reindexResources(String path, boolean reindexRelated) throws CmsException {
+    public void reindexResources(@RUntainted String path, boolean reindexRelated) throws CmsException {
 
         CmsObject cms = OpenCms.initCmsObject(m_cms);
         Map<String, Object> eventData = new HashMap<>(3);
@@ -1427,10 +1428,10 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @param ignoreSubSites ignore subsites?
      */
     public void renameNestedContainers(
-        String elementPath,
-        String oldName,
-        String newName,
-        String project,
+        @RUntainted String elementPath,
+        @RUntainted String oldName,
+        @RUntainted String newName,
+        @RUntainted String project,
         String basePath,
         boolean ignoreSubSites) {
 
@@ -1480,9 +1481,9 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @param ignoreSubSites ignore subsites?
      */
     public void replaceElementsInPages(
-        String elementPath,
-        String targetElementPath,
-        String project,
+        @RUntainted String elementPath,
+        @RUntainted String targetElementPath,
+        @RUntainted String project,
         String basePath,
         boolean ignoreSubSites) {
 
@@ -1628,7 +1629,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @return the project set
      * @throws Exception if something goes wrong
      */
-    public CmsProject setCurrentProject(String name) throws Exception {
+    public CmsProject setCurrentProject(@RUntainted String name) throws Exception {
 
         return m_cms.getRequestContext().setCurrentProject(m_cms.readProject(name));
     }
@@ -1724,7 +1725,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @throws CmsException if something goes wrong
      */
-    public void setUserInfo(String username, String infoName, String value) throws CmsException {
+    public void setUserInfo(@RUntainted String username, String infoName, String value) throws CmsException {
 
         CmsUser user = m_cms.readUser(username);
         user.setAdditionalInfo(infoName, value);
@@ -1842,7 +1843,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @throws Exception if something goes wrong
      */
-    public void touchResource(String resourcePath) throws Exception {
+    public void touchResource(@RUntainted String resourcePath) throws Exception {
 
         CmsResource resource = m_cms.readResource(resourcePath);
         CmsLockActionRecord action = CmsLockUtil.ensureLock(m_cms, resource);
@@ -1965,7 +1966,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *         <code>folder</code> and <code>localfile</code> is of length 0
      *
      */
-    public CmsResource uploadFile(String localfile, String folder, String filename, String type)
+    public CmsResource uploadFile(String localfile, @RUntainted String folder, @RUntainted String filename, String type)
     throws Exception, CmsIllegalArgumentException {
 
         I_CmsResourceType t = OpenCms.getResourceManager().getResourceType(type);
@@ -2011,7 +2012,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @throws CmsException if something goes wrong
      */
-    public void writeProperty(String resourceName, String propertyName, String value) throws CmsException {
+    public void writeProperty(@RUntainted String resourceName, String propertyName, String value) throws CmsException {
 
         m_cms.lockResource(resourceName);
         m_cms.writePropertyObject(resourceName, new CmsProperty(propertyName, value, null));
@@ -2034,7 +2035,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @return <code>true</code> if the given user already exists
      */
-    private boolean existsUser(String name) {
+    private boolean existsUser(@RUntainted String name) {
 
         CmsUser user = null;
         try {
@@ -2076,7 +2077,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      */
     private void touchSingleResource(
         CmsObject cms,
-        String resourceName,
+        @RUntainted String resourceName,
         long timeStamp,
         boolean recursive,
         boolean correctDate,

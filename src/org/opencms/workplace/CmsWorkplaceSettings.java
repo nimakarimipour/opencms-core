@@ -46,6 +46,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Object to conveniently access and modify the state of the workplace for a user,
@@ -62,7 +63,7 @@ public class CmsWorkplaceSettings {
     private I_CmsResourceCollector m_collector;
 
     /** The current site. */
-    private String m_currentSite;
+    private @RUntainted String m_currentSite;
 
     /** The diaolg object. */
     private Object m_dialogObject;
@@ -86,10 +87,10 @@ public class CmsWorkplaceSettings {
     private CmsUUID m_explorerProjectId;
 
     /** The explorer resource. */
-    private Map<String, String> m_explorerResource;
+    private @RUntainted Map<@RUntainted String, @RUntainted String> m_explorerResource;
 
     /** The frame URIs. */
-    private Map<String, String> m_frameUris;
+    private @RUntainted Map<@RUntainted String, @RUntainted String> m_frameUris;
 
     /** The gallery type. */
     private String m_galleryType;
@@ -98,7 +99,7 @@ public class CmsWorkplaceSettings {
     private SortParams m_lastGalleryResultOrder;
 
     /** The last used galleries. */
-    private Map<String, String> m_lastUsedGalleries;
+    private @RUntainted Map<@RUntainted String, @RUntainted String> m_lastUsedGalleries;
 
     /** The list object. */
     private Object m_listObject;
@@ -251,7 +252,7 @@ public class CmsWorkplaceSettings {
      *
      * @return the current resource to be displayed in the explorer
      */
-    public String getExplorerResource() {
+    public @RUntainted String getExplorerResource() {
 
         // get the current explorer mode
         String mode = getExplorerMode();
@@ -263,7 +264,7 @@ public class CmsWorkplaceSettings {
             mode += "_" + getSite() + "/";
         }
         // get the resource for the given mode
-        String resource = m_explorerResource.get(mode);
+        @RUntainted String resource = m_explorerResource.get(mode);
         if (resource == null) {
             resource = "/";
         }
@@ -275,7 +276,7 @@ public class CmsWorkplaceSettings {
      *
      * @return the frame URIs of the currently loaded frameset
      */
-    public Map<String, String> getFrameUris() {
+    public @RUntainted Map<@RUntainted String, @RUntainted String> getFrameUris() {
 
         return m_frameUris;
     }
@@ -322,9 +323,9 @@ public class CmsWorkplaceSettings {
      * @param galleryKey the key for which to look up the gallery
      * @return the last saved gallery for the given gallery key
      **/
-    public String getLastUsedGallery(String galleryKey) {
+    public @RUntainted String getLastUsedGallery(String galleryKey) {
 
-        String result = m_lastUsedGalleries.get(galleryKey);
+        @RUntainted String result = m_lastUsedGalleries.get(galleryKey);
         LOG.info("user=" + m_user.getName() + ": getLastUsedGallery " + galleryKey + " : returning " + result);
         return result;
     }
@@ -381,7 +382,7 @@ public class CmsWorkplaceSettings {
      *
      * @return the current site for the user
      */
-    public String getSite() {
+    public @RUntainted String getSite() {
 
         return m_currentSite;
     }
@@ -581,7 +582,7 @@ public class CmsWorkplaceSettings {
      * @deprecated use {@link #setExplorerResource(String, CmsObject)} instead
      */
     @Deprecated
-    public void setExplorerResource(String value) {
+    public void setExplorerResource(@RUntainted String value) {
 
         setExplorerResource(value, null);
     }
@@ -593,13 +594,13 @@ public class CmsWorkplaceSettings {
      *
      * @param cms needed for validation / normalization of the given path
      */
-    public void setExplorerResource(String value, CmsObject cms) {
+    public void setExplorerResource(@RUntainted String value, CmsObject cms) {
 
         if (value == null) {
             return;
         }
         // get the current explorer mode
-        String mode = getExplorerMode();
+        @RUntainted String mode = getExplorerMode();
         if (mode == null) {
             mode = CmsWorkplace.VIEW_EXPLORER;
         }
@@ -666,7 +667,7 @@ public class CmsWorkplaceSettings {
      * @param galleryKey the gallery key
      * @param gallerypath the resourcepath of the gallery
      */
-    public void setLastUsedGallery(String galleryKey, String gallerypath) {
+    public void setLastUsedGallery(@RUntainted String galleryKey, @RUntainted String gallerypath) {
 
         m_lastUsedGalleries.put(galleryKey, gallerypath);
         LOG.info("user=" + m_user.getName() + ": setLastUsedGallery " + galleryKey + " -> " + gallerypath);
@@ -724,7 +725,7 @@ public class CmsWorkplaceSettings {
      *
      * @param value the current site for the user
      */
-    public void setSite(String value) {
+    public void setSite(@RUntainted String value) {
 
         if ((value != null) && !value.equals(m_currentSite)) {
             m_currentSite = value;

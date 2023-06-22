@@ -41,6 +41,7 @@ import org.opencms.ui.apps.A_CmsWorkplaceApp;
 import org.opencms.ui.apps.CmsFileExplorerConfiguration;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents an entry in the favorite location list.

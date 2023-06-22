@@ -51,6 +51,7 @@ import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog for deleting Sites.<p>
@@ -88,7 +89,7 @@ public class CmsDeleteSiteDialog extends CmsBasicDialog {
 
         m_manager = manager;
 
-        for (String site : data) {
+        for (@RUntainted String site : data) {
             m_sitesToDelete.add(manager.getElement(site));
         }
 

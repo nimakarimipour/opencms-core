@@ -58,6 +58,7 @@ import com.vaadin.v7.data.Property.ValueChangeListener;
 import com.vaadin.v7.shared.ui.combobox.FilteringMode;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the Download dialog.<p>
@@ -240,7 +241,7 @@ public class CmsLogDownloadDialog extends CmsBasicDialog {
      */
     protected Resource getDownloadResource() {
 
-        String pathToDownload = (String)m_file.getValue();
+        @RUntainted String pathToDownload = (String)m_file.getValue();
         if (pathToDownload == null) {
             return null;
         }

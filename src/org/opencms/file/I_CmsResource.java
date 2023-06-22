@@ -31,6 +31,7 @@ import org.opencms.db.CmsResourceState;
 import org.opencms.util.CmsUUID;
 
 import java.util.Comparator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Common ancestor interface for {@link CmsFile} and {@link CmsFolder}
@@ -269,7 +270,7 @@ public interface I_CmsResource {
      *
      * @return the file name of this resource without parent folders
      */
-    String getName();
+    @RUntainted String getName();
 
     /**
      * Returns the id of the {@link CmsProject} where this resource has been last modified.<p>
@@ -291,7 +292,7 @@ public interface I_CmsResource {
      *
      * @return name of this resource with it's full path from the top level root folder
      */
-    String getRootPath();
+    @RUntainted String getRootPath();
 
     /**
      * Returns the number of siblings of this resource, also counting this resource.<p>

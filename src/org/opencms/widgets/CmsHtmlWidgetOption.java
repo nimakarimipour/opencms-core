@@ -45,6 +45,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An option of a HTML type widget.<p>
@@ -382,7 +383,7 @@ public class CmsHtmlWidgetOption {
     private String m_configuration;
 
     /** The CSS style sheet path. */
-    private String m_cssPath;
+    private @RUntainted String m_cssPath;
 
     /** The editor height. */
     private String m_editorHeight;
@@ -540,7 +541,7 @@ public class CmsHtmlWidgetOption {
      *
      * @return a map containing both the string resulting from removing the embedded configurations, and the embedded configurations as a a map
      */
-    public static CmsPair<String, Map<String, String>> parseEmbeddedGalleryOptions(String configuration) {
+    public static CmsPair<String, Map<String, String>> parseEmbeddedGalleryOptions(@RUntainted String configuration) {
 
         final Map<String, String> galleryOptions = Maps.newHashMap();
         String resultConfig = CmsStringUtil.substitute(
@@ -822,7 +823,7 @@ public class CmsHtmlWidgetOption {
      *
      * @return the CSS style sheet VFS path to use in the widget area
      */
-    public String getCssPath() {
+    public @RUntainted String getCssPath() {
 
         return m_cssPath;
     }
@@ -832,7 +833,7 @@ public class CmsHtmlWidgetOption {
      *
      * @return the path of a JSON with direct TinyMCE options
      */
-    public String getEditorConfigPath() {
+    public @RUntainted String getEditorConfigPath() {
 
         return m_editorConfigPath;
     }

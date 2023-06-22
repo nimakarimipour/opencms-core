@@ -121,6 +121,7 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Vaadin utility functions.<p>
@@ -393,7 +394,7 @@ public final class CmsVaadinUtils {
      */
     public static IndexedContainer getAvailableGroupsContainerWithout(
         CmsObject cms,
-        String ouFqn,
+        @RUntainted String ouFqn,
         String propCaption,
         String propIcon,
         String propOu,
@@ -661,7 +662,7 @@ public final class CmsVaadinUtils {
      *
      * @return the message text for the current locale
      */
-    public static String getMessageText(String key, Object... args) {
+    public static @RUntainted String getMessageText(String key, Object... args) {
 
         return getWpMessagesForCurrentLocale().key(key, args);
     }
@@ -694,7 +695,7 @@ public final class CmsVaadinUtils {
         try {
             IndexedContainer container = new IndexedContainer();
             container.addContainerProperty("desc", String.class, "");
-            for (String ou : CmsOUHandler.getManagableOUs(cms)) {
+            for (@RUntainted String ou : CmsOUHandler.getManagableOUs(cms)) {
                 if (includeWebOU | !OpenCms.getOrgUnitManager().readOrganizationalUnit(cms, ou).hasFlagWebuser()) {
                     Item item = container.addItem(ou);
                     if (ou == "") {
@@ -965,7 +966,7 @@ public final class CmsVaadinUtils {
      *
      * @return the link to the workplace
      */
-    public static String getWorkplaceLink() {
+    public static @RUntainted String getWorkplaceLink() {
 
         return OpenCms.getSystemInfo().getWorkplaceContext();
     }

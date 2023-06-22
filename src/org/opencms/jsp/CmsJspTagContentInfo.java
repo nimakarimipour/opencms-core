@@ -44,6 +44,7 @@ import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used to access and display XML content item information from the VFS.<p>
@@ -227,7 +228,7 @@ public class CmsJspTagContentInfo extends CmsJspScopedVarBodyTagSuport implement
     /**
      * @see org.opencms.util.I_CmsMacroResolver#resolveMacros(java.lang.String)
      */
-    public String resolveMacros(String input) {
+    public String resolveMacros(@RUntainted String input) {
 
         return CmsMacroResolver.resolveMacros(input, this);
     }

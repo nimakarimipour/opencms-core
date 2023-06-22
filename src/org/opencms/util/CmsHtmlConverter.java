@@ -45,6 +45,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * HTML cleaner and pretty printer.<p>
@@ -56,7 +57,7 @@ import org.apache.commons.logging.Log;
 public class CmsHtmlConverter {
 
     /** Parameter value for disabled mode. **/
-    public static final String PARAM_DISABLED = CmsStringUtil.FALSE;
+    public static final @RUntainted String PARAM_DISABLED = CmsStringUtil.FALSE;
 
     /** Parameter value for enabled mode. **/
     public static final String PARAM_ENABLED = CmsStringUtil.TRUE;

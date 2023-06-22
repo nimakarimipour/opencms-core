@@ -43,6 +43,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resolves link macros for jsp pages.<p>
@@ -225,7 +226,7 @@ public class CmsJspLinkMacroResolver implements I_CmsMacroResolver {
      *
      * @see org.opencms.util.I_CmsMacroResolver#resolveMacros(java.lang.String)
      */
-    public String resolveMacros(String input) {
+    public String resolveMacros(@RUntainted String input) {
 
         // clear the list of links
         m_links.clear();

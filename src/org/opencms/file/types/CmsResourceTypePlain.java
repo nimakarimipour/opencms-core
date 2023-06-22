@@ -44,6 +44,7 @@ import org.opencms.main.OpenCms;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "plain".<p>
@@ -149,7 +150,7 @@ public class CmsResourceTypePlain extends A_CmsResourceType {
      * @see org.opencms.file.types.A_CmsResourceType#initConfiguration(java.lang.String, java.lang.String, String)
      */
     @Override
-    public void initConfiguration(String name, String id, String className) throws CmsConfigurationException {
+    public void initConfiguration(@RUntainted String name, String id, String className) throws CmsConfigurationException {
 
         super.initConfiguration(name, id, className);
         if (name.equals(RESOURCE_TYPE_NAME)) {
@@ -179,7 +180,7 @@ public class CmsResourceTypePlain extends A_CmsResourceType {
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource resource,
-        String destination)
+        @RUntainted String destination)
     throws CmsException, CmsIllegalArgumentException {
 
         Set<String> references = getReferencingStrongLinks(cms, resource);
@@ -225,7 +226,7 @@ public class CmsResourceTypePlain extends A_CmsResourceType {
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource resource,
-        long dateExpired,
+        @RUntainted long dateExpired,
         boolean recursive)
     throws CmsException {
 
@@ -259,7 +260,7 @@ public class CmsResourceTypePlain extends A_CmsResourceType {
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource resource,
-        long dateReleased,
+        @RUntainted long dateReleased,
         boolean recursive)
     throws CmsException {
 

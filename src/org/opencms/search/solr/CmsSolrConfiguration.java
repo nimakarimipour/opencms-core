@@ -49,6 +49,7 @@ import org.apache.solr.core.SolrConfig;
 import org.apache.solr.core.SolrResourceLoader;
 import org.apache.solr.schema.IndexSchema;
 import org.apache.solr.schema.IndexSchemaFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The Solr configuration class.<p>
@@ -58,12 +59,12 @@ import org.apache.solr.schema.IndexSchemaFactory;
 public class CmsSolrConfiguration {
 
     /** The default config set path. */
-    public static final String DEFAULT_CONFIGSET_FOLDER = File.separatorChar
+    public static final @RUntainted String DEFAULT_CONFIGSET_FOLDER = File.separatorChar
         + "configsets"
         + File.separatorChar
         + "default";
     /** The 'conf' folder inside the Solr home directory. */
-    public static final String CONF_FOLDER = File.separatorChar + "conf" + File.separatorChar;
+    public static final @RUntainted String CONF_FOLDER = File.separatorChar + "conf" + File.separatorChar;
 
     /** The Solr configuration file name. */
     public static final String SOLR_CONFIG_FILE = "solr.xml";
@@ -100,10 +101,10 @@ public class CmsSolrConfiguration {
     private boolean m_enabled;
 
     /** The Solr home. */
-    private String m_home;
+    private @RUntainted String m_home;
 
     /** The configured path to the Solr home. */
-    private String m_homeFolderPath;
+    private @RUntainted String m_homeFolderPath;
 
     /** The schema file. */
     private IndexSchema m_schema;
@@ -136,7 +137,7 @@ public class CmsSolrConfiguration {
      *
      * @return the home directory of Solr as String
      */
-    public String getHome() {
+    public @RUntainted String getHome() {
 
         if (m_homeFolderPath == null) {
             if (CmsStringUtil.isNotEmpty(System.getProperty(SOLR_HOME_PROPERTY))) {
@@ -234,7 +235,7 @@ public class CmsSolrConfiguration {
      *
      * @return the solr configuration file
      */
-    public File getSolrConfigFile() {
+    public @RUntainted File getSolrConfigFile() {
 
         return new File(getHome() + DEFAULT_CONFIGSET_FOLDER + CONF_FOLDER + SolrConfig.DEFAULT_CONF_FILE);
     }
@@ -340,7 +341,7 @@ public class CmsSolrConfiguration {
      *
      * @param homeFolderPath the Solr home folder to set
      */
-    public void setHomeFolderPath(String homeFolderPath) {
+    public void setHomeFolderPath(@RUntainted String homeFolderPath) {
 
         m_homeFolderPath = homeFolderPath;
     }

@@ -43,6 +43,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the settings of an ADE container element.<p>
@@ -58,7 +59,7 @@ public class CmsJspTagElementSetting extends TagSupport {
     private static final long serialVersionUID = -7847101480288189549L;
 
     /** The default value. */
-    private String m_defaultValue;
+    private @RUntainted String m_defaultValue;
 
     /** The name of the element setting to read. */
     private String m_elementSetting;
@@ -73,7 +74,7 @@ public class CmsJspTagElementSetting extends TagSupport {
      *
      * @return a map that contains the element settings
      */
-    public static Map<String, String> elementSettingTagAction(ServletRequest req) {
+    public static @RUntainted Map<@RUntainted String, @RUntainted String> elementSettingTagAction(ServletRequest req) {
 
         CmsFlexController controller = CmsFlexController.getController(req);
 
@@ -102,11 +103,11 @@ public class CmsJspTagElementSetting extends TagSupport {
      */
     public static String elementSettingTagAction(
         String setting,
-        String defaultValue,
+        @RUntainted String defaultValue,
         boolean escape,
         ServletRequest req) {
 
-        String value = elementSettingTagAction(req).get(setting);
+        @RUntainted String value = elementSettingTagAction(req).get(setting);
         if (value == null) {
             value = defaultValue;
         }
@@ -196,7 +197,7 @@ public class CmsJspTagElementSetting extends TagSupport {
      *
      * @param def the default value
      */
-    public void setDefault(String def) {
+    public void setDefault(@RUntainted String def) {
 
         if (def != null) {
             m_defaultValue = def;

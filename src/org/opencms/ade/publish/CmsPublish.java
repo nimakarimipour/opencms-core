@@ -64,6 +64,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * ADE publishing features.<p>
@@ -190,7 +191,7 @@ public class CmsPublish {
      *
      * @return the simple name if the ou is the same as the current user's ou
      */
-    protected static String getOuAwareName(CmsObject cms, String name) {
+    protected static String getOuAwareName(CmsObject cms, @RUntainted String name) {
 
         String ou = CmsOrganizationalUnit.getParentFqn(name);
         if (ou.equals(cms.getRequestContext().getCurrentUser().getOuFqn())) {
@@ -231,7 +232,7 @@ public class CmsPublish {
 
         CmsRelationPublishValidator validator = new CmsRelationPublishValidator(m_cms, publishList);
         m_relationValidator = validator;
-        for (String resourceName : validator.keySet()) {
+        for (@RUntainted String resourceName : validator.keySet()) {
             CmsRelationValidatorInfoEntry infoEntry = validator.getInfoEntry(resourceName);
             try {
                 CmsResource resource = m_cms.readResource(

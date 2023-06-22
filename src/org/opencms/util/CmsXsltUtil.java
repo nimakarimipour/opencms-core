@@ -42,6 +42,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides utility functions for XSLT transformations.<p>
@@ -241,7 +242,7 @@ public final class CmsXsltUtil {
             StringTokenizer t = new StringTokenizer(line, delimiter, true);
             boolean hasValue = false;
             while (t.hasMoreElements()) {
-                String item = (String)t.nextElement();
+                @RUntainted String item = (String)t.nextElement();
                 if (!hasValue) {
                     xml.append("\t<td>");
                     hasValue = true;

@@ -29,6 +29,7 @@ package org.opencms.workplace.list;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -44,7 +45,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_LIST_COLUMN_EXISTS_1 = "ERR_LIST_COLUMN_EXISTS_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_LIST_ENUM_PARSE_2 = "ERR_LIST_ENUM_PARSE_2";
+    public static final @RUntainted String ERR_LIST_ENUM_PARSE_2 = "ERR_LIST_ENUM_PARSE_2";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_LIST_FILL_1 = "ERR_LIST_FILL_1";

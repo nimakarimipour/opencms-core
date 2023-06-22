@@ -29,6 +29,7 @@ package org.opencms.file;
 
 import org.opencms.db.CmsResourceState;
 import org.opencms.file.types.I_CmsResourceType;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides filters for resource result sets obtained from requests to the OpenCms VFS.<p>

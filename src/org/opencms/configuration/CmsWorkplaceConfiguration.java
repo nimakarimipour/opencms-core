@@ -70,6 +70,7 @@ import org.xml.sax.Attributes;
 import com.google.common.base.Function;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import/Export master configuration class.<p>
@@ -1061,7 +1062,7 @@ public class CmsWorkplaceConfiguration extends A_CmsXmlConfiguration {
         digester.addRule("*/" + N_WORKPLACE + "/" + N_SITEMAP_CONFIG_EDIT_ROLE, new Rule() {
 
             @Override
-            public void body(String namespace, String name, String text) throws Exception {
+            public void body(String namespace, String name, @RUntainted String text) throws Exception {
 
                 CmsWorkplaceManager wpManager = (CmsWorkplaceManager)(digester.peek());
                 wpManager.setSitemapConfigEditRole(text);

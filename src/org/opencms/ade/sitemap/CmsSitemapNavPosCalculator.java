@@ -38,6 +38,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for recalculating navigation positions when a user has changed the order of navigation entries in the sitemap
@@ -115,7 +116,7 @@ public class CmsSitemapNavPosCalculator {
     }
 
     /** Dummy file name for the inserted dummy navigation element. */
-    public static final String DUMMY_PATH = "@moved@";
+    public static final @RUntainted String DUMMY_PATH = "@moved@";
 
     /** The logger instance for this class. */
     private static final Log LOG = CmsLog.getLog(CmsSitemapNavPosCalculator.class);

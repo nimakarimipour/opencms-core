@@ -54,6 +54,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods for the editor elements dialog.<p>
@@ -120,7 +121,7 @@ public class CmsDialogElements extends CmsDialog {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsDialogElements(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsDialogElements(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
         m_changeElement = "";
@@ -139,7 +140,7 @@ public class CmsDialogElements extends CmsDialog {
     public static List<CmsDialogElement> computeElements(
         CmsObject cms,
         CmsXmlPage xmlPage,
-        String xmlPageUri,
+        @RUntainted String xmlPageUri,
         Locale locale) {
 
         List<CmsDialogElement> result = new ArrayList<CmsDialogElement>();
@@ -223,7 +224,7 @@ public class CmsDialogElements extends CmsDialog {
      * @param locale the current element locale
      * @return the list of elements in a String array with element name, nice name (if present) and mandatory flag
      */
-    public static List<CmsDialogElement> computeElements(CmsObject cms, String xmlPageUri, Locale locale) {
+    public static List<CmsDialogElement> computeElements(CmsObject cms, @RUntainted String xmlPageUri, Locale locale) {
 
         CmsXmlPage page = null;
         try {
@@ -465,7 +466,7 @@ public class CmsDialogElements extends CmsDialog {
      * @see org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings, javax.servlet.http.HttpServletRequest)
      */
     @Override
-    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
+    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
         // fill the parameter values in the get/set methods
         fillParamValues(request);

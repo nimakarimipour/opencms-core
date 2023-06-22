@@ -52,6 +52,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ImmutableList;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean containing formatter configuration data as strings.<p>
@@ -121,7 +122,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
     protected List<String> m_javascriptHeadIncludes = new ArrayList<String>();
 
     /** The formatter JSP. */
-    protected String m_jspRootPath;
+    protected @RUntainted String m_jspRootPath;
 
     /** The UUID of the JSP resource for this formatter. */
     protected CmsUUID m_jspStructureId;
@@ -214,7 +215,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      */
     public CmsFormatterBean(
         Set<String> containerTypes,
-        String jspRootPath,
+        @RUntainted String jspRootPath,
         CmsUUID jspStructureId,
         String key,
         Set<String> aliasKeys,
@@ -302,7 +303,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      */
     public CmsFormatterBean(
         String containerType,
-        String rootPath,
+        @RUntainted String rootPath,
         CmsUUID structureId,
         int minWidth,
         int maxWidth,
@@ -358,7 +359,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      */
     public CmsFormatterBean(
         String containerType,
-        String jspRootPath,
+        @RUntainted String jspRootPath,
         String minWidthStr,
         String maxWidthStr,
         String preview,
@@ -407,7 +408,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      * @param location the formatter location
      * @param preview the preview formatter flag
      */
-    CmsFormatterBean(String jspRootPath, CmsUUID jspStructureId, String location, boolean preview) {
+    CmsFormatterBean(@RUntainted String jspRootPath, CmsUUID jspStructureId, String location, boolean preview) {
 
         this(
             Collections.<String> emptySet(),
@@ -573,7 +574,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getJspRootPath()
      */
     @Override
-    public String getJspRootPath() {
+    public @RUntainted String getJspRootPath() {
 
         return m_jspRootPath;
     }

@@ -31,6 +31,7 @@ import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.util.CmsStringUtil;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default implementation for the validation handler.<p>
@@ -43,7 +44,7 @@ public class CmsDefaultValidationHandler implements I_CmsValidationHandler {
     public static final String EMAIL_REGEX = "\\A[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9äöüÄÖÜ](?:[a-z0-9äöüÄÖÜ-]*[a-z0-9äöüÄÖÜ])?\\.)+[a-z0-9äöüÄÖÜ](?:[a-z0-9äöüÄÖÜ-]*[a-z0-9äöüÄÖÜ])?\\z";
 
     /** The user name constraints. */
-    public static final String USERNAME_CONSTRAINTS = "-._~$@";
+    public static final @RUntainted String USERNAME_CONSTRAINTS = "-._~$@";
 
     /** The zipcode regular expression. */
     public static final String ZIPCODE_REGEX = "[\\w]*";
@@ -54,7 +55,7 @@ public class CmsDefaultValidationHandler implements I_CmsValidationHandler {
      *
      * @see org.opencms.security.I_CmsValidationHandler#checkEmail(java.lang.String)
      */
-    public void checkEmail(String email) throws CmsIllegalArgumentException {
+    public void checkEmail(@RUntainted String email) throws CmsIllegalArgumentException {
 
         if (CmsStringUtil.isNotEmpty(email)) {
             email = email.trim();
@@ -101,7 +102,7 @@ public class CmsDefaultValidationHandler implements I_CmsValidationHandler {
      *
      * @see org.opencms.security.I_CmsValidationHandler#checkUserName(java.lang.String)
      */
-    public void checkUserName(String userName) throws CmsIllegalArgumentException {
+    public void checkUserName(@RUntainted String userName) throws CmsIllegalArgumentException {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(userName)) {
             throw new CmsIllegalArgumentException(
@@ -116,7 +117,7 @@ public class CmsDefaultValidationHandler implements I_CmsValidationHandler {
      *
      * @see org.opencms.security.I_CmsValidationHandler#checkZipCode(java.lang.String)
      */
-    public void checkZipCode(String zipcode) throws CmsIllegalArgumentException {
+    public void checkZipCode(@RUntainted String zipcode) throws CmsIllegalArgumentException {
 
         if (!CmsStringUtil.validateRegex(zipcode, ZIPCODE_REGEX, true)) {
             throw new CmsIllegalArgumentException(Messages.get().container(Messages.ERR_ZIPCODE_VALIDATION_1, zipcode));

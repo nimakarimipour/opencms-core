@@ -28,6 +28,7 @@
 package org.opencms.repository;
 
 import org.opencms.file.CmsResource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract implementation of the interface {@link I_CmsRepositorySession} to provide
@@ -67,7 +68,7 @@ public abstract class A_CmsRepositorySession implements I_CmsRepositorySession {
      * @return true if the name matches one of the given filter patterns
      */
 
-    protected boolean isFiltered(String path) {
+    protected boolean isFiltered(@RUntainted String path) {
 
         // filter all temporary files
         if (CmsResource.isTemporaryFileName(path)) {

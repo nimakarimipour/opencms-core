@@ -50,6 +50,7 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widget used to display a colorized diff view for two texts.<p>
@@ -72,7 +73,7 @@ public class CmsTextDiffPanel extends VerticalLayout {
     private OptionGroup m_diffModeSelect;
 
     /** First text used for comparison. */
-    private String m_text1;
+    private @RUntainted String m_text1;
 
     /** Second text used for comparison. */
     private String m_text2;
@@ -92,7 +93,7 @@ public class CmsTextDiffPanel extends VerticalLayout {
      * @param selectTextOrHtml true if the option to select between comparison as text and comparison as HTML should be shown
      * @param selectDiffMode true if the option to select between showing only the changed lines or all the lines should be displayed
      */
-    public CmsTextDiffPanel(String text1, String text2, boolean selectTextOrHtml, boolean selectDiffMode) {
+    public CmsTextDiffPanel(@RUntainted String text1, String text2, boolean selectTextOrHtml, boolean selectDiffMode) {
         CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
         m_text1 = text1;
         m_text2 = text2;

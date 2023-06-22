@@ -29,6 +29,7 @@ package org.opencms.report;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,16 +39,16 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_ARGUMENT_1 = "RPT_ARGUMENT_1";
+    public static final @RUntainted String RPT_ARGUMENT_1 = "RPT_ARGUMENT_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_ARGUMENT_HTML_ITAG_1 = "RPT_ARGUMENT_HTML_ITAG_1";
+    public static final @RUntainted String RPT_ARGUMENT_HTML_ITAG_1 = "RPT_ARGUMENT_HTML_ITAG_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DOTS_0 = "RPT_DOTS_0";
+    public static final @RUntainted String RPT_DOTS_0 = "RPT_DOTS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_ERROR_0 = "RPT_ERROR_0";
+    public static final @RUntainted String RPT_ERROR_0 = "RPT_ERROR_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String RPT_ERROR_DETAILS_0 = "RPT_ERROR_DETAILS_0";
@@ -56,31 +57,31 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String RPT_EXCEPTION_0 = "RPT_EXCEPTION_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_FAILED_0 = "RPT_FAILED_0";
+    public static final @RUntainted String RPT_FAILED_0 = "RPT_FAILED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_GENERIC_1 = "RPT_GENERIC_1";
+    public static final @RUntainted String RPT_GENERIC_1 = "RPT_GENERIC_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_IGNORED_0 = "RPT_IGNORED_0";
+    public static final @RUntainted String RPT_IGNORED_0 = "RPT_IGNORED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_OK_0 = "RPT_OK_0";
+    public static final @RUntainted String RPT_OK_0 = "RPT_OK_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SKIPPED_0 = "RPT_SKIPPED_0";
+    public static final @RUntainted String RPT_SKIPPED_0 = "RPT_SKIPPED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_STAT_0 = "RPT_STAT_0";
+    public static final @RUntainted String RPT_STAT_0 = "RPT_STAT_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_STAT_DURATION_1 = "RPT_STAT_DURATION_1";
+    public static final @RUntainted String RPT_STAT_DURATION_1 = "RPT_STAT_DURATION_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SUCCESSION_1 = "RPT_SUCCESSION_1";
+    public static final @RUntainted String RPT_SUCCESSION_1 = "RPT_SUCCESSION_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SUCCESSION_2 = "RPT_SUCCESSION_2";
+    public static final @RUntainted String RPT_SUCCESSION_2 = "RPT_SUCCESSION_2";
 
     /** Name of the used resource bundle. */
     private static final String BUNDLE_NAME = "org.opencms.report.messages";

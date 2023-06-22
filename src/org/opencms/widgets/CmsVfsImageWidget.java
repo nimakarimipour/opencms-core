@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget for an extended image selection using the advanced gallery dialog.<p>
@@ -123,7 +124,7 @@ public class CmsVfsImageWidget extends CmsAdeImageGalleryWidget {
         }
         // cast parameter to xml value to access the specific methods
         CmsXmlVfsImageValue value = (CmsXmlVfsImageValue)param;
-        String imageLink = value.getRequestLink(cms);
+        @RUntainted String imageLink = value.getRequestLink(cms);
         if (imageLink == null) {
             imageLink = "";
         }
@@ -388,7 +389,7 @@ public class CmsVfsImageWidget extends CmsAdeImageGalleryWidget {
     @Override
     public void setEditorValue(
         CmsObject cms,
-        Map<String, String[]> formParameters,
+        @RUntainted Map<@RUntainted String, @RUntainted String[]> formParameters,
         I_CmsWidgetDialog widgetDialog,
         I_CmsWidgetParameter param) {
 
@@ -399,7 +400,7 @@ public class CmsVfsImageWidget extends CmsAdeImageGalleryWidget {
 
         CmsXmlVfsImageValue value = (CmsXmlVfsImageValue)param;
 
-        String[] descValues = formParameters.get(PREFIX_DESCRIPTION + param.getId());
+        @RUntainted String[] descValues = formParameters.get(PREFIX_DESCRIPTION + param.getId());
         value.setDescription(cms, descValues[0]);
 
         String[] formatValues = formParameters.get(PREFIX_FORMAT + param.getId());

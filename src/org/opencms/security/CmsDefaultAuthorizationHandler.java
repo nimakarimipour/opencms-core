@@ -57,6 +57,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.codec.binary.Base64;
 
 import com.google.common.base.Joiner;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines default authorization methods.<p>
@@ -125,7 +126,7 @@ public class CmsDefaultAuthorizationHandler extends A_CmsAuthorizationHandler {
 
         Set<String> groupsOfUser = null; // lazily initialized
         String[] entries = userSpec.split(",");
-        for (String userSpecEntry : entries) {
+        for (@RUntainted String userSpecEntry : entries) {
             userSpecEntry = userSpecEntry.trim();
             if ("*".equals(userSpecEntry)) {
                 return true;
@@ -135,7 +136,7 @@ public class CmsDefaultAuthorizationHandler extends A_CmsAuthorizationHandler {
                     return true;
                 }
             } else if (userSpecEntry.startsWith(CmsRole.PRINCIPAL_ROLE)) {
-                String actualRole = CmsRole.removePrefix(userSpecEntry);
+                @RUntainted String actualRole = CmsRole.removePrefix(userSpecEntry);
                 CmsRole roleObj = null;
                 if (actualRole.contains("/")) {
                     roleObj = CmsRole.valueOfRoleName(actualRole);
@@ -169,11 +170,11 @@ public class CmsDefaultAuthorizationHandler extends A_CmsAuthorizationHandler {
     /**
      * @see org.opencms.security.I_CmsAuthorizationHandler#getLoginFormURL(java.lang.String, java.lang.String, java.lang.String)
      */
-    public String getLoginFormURL(String loginFormURL, String params, String callbackURL) {
+    public @RUntainted String getLoginFormURL(@RUntainted String loginFormURL, String params, @RUntainted String callbackURL) {
 
         if (loginFormURL != null) {
 
-            StringBuffer fullURL = new StringBuffer(loginFormURL);
+            @RUntainted StringBuffer fullURL = new StringBuffer(loginFormURL);
             if (callbackURL != null) {
                 fullURL.append("?");
                 fullURL.append(CmsWorkplaceManager.PARAM_LOGIN_REQUESTED_RESOURCE);
@@ -238,7 +239,7 @@ public class CmsDefaultAuthorizationHandler extends A_CmsAuthorizationHandler {
     /**
      * @see I_CmsAuthorizationHandler#initCmsObject(HttpServletRequest, String, String)
      */
-    public CmsObject initCmsObject(HttpServletRequest request, String userName, String pwd) throws CmsException {
+    public CmsObject initCmsObject(HttpServletRequest request, @RUntainted String userName, String pwd) throws CmsException {
 
         // first, try to validate the session
         CmsObject cms = initCmsObjectFromSession(request);
@@ -264,7 +265,7 @@ public class CmsDefaultAuthorizationHandler extends A_CmsAuthorizationHandler {
      *
      * @throws IOException if something goes wrong
      */
-    public void requestAuthorization(HttpServletRequest req, HttpServletResponse res, String loginFormURL)
+    public void requestAuthorization(HttpServletRequest req, HttpServletResponse res, @RUntainted String loginFormURL)
     throws IOException {
 
         CmsHttpAuthenticationSettings httpAuthenticationSettings = OpenCms.getSystemInfo().getHttpAuthenticationSettings();
@@ -335,7 +336,7 @@ public class CmsDefaultAuthorizationHandler extends A_CmsAuthorizationHandler {
 
             // decode it, using base 64 decoder
             String token = new String(Base64.decodeBase64(base64Token.getBytes()));
-            String username = null;
+            @RUntainted String username = null;
             String password = null;
             int pos = token.indexOf(SEPARATOR_CREDENTIALS);
             if (pos != -1) {
@@ -357,7 +358,7 @@ public class CmsDefaultAuthorizationHandler extends A_CmsAuthorizationHandler {
             LOG.debug("initStartSettings = " + initStartSettings);
             OpenCms.getSiteManager().isWorkplaceRequest(req);
             if (initStartSettings) {
-                CmsWorkplaceSettings settings = CmsLoginHelper.initSiteAndProject(cms);
+                @RUntainted CmsWorkplaceSettings settings = CmsLoginHelper.initSiteAndProject(cms);
                 session.setAttribute(CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS, settings);
             }
 

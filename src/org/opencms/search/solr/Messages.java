@@ -29,6 +29,7 @@ package org.opencms.search.solr;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -68,25 +69,25 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_SOLR_INFO_REMOVING_EXPAND_2 = "LOG_SOLR_INFO_REMOVING_EXPAND_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_SOLR_ERR_CONFIG_XML_NOT_FOUND_1 = "LOG_SOLR_ERR_CONFIG_XML_NOT_FOUND_1";
+    public static final @RUntainted String LOG_SOLR_ERR_CONFIG_XML_NOT_FOUND_1 = "LOG_SOLR_ERR_CONFIG_XML_NOT_FOUND_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_SOLR_ERR_CONFIG_XML_NOT_READABLE_1 = "LOG_SOLR_ERR_CONFIG_XML_NOT_READABLE_1";
+    public static final @RUntainted String LOG_SOLR_ERR_CONFIG_XML_NOT_READABLE_1 = "LOG_SOLR_ERR_CONFIG_XML_NOT_READABLE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_SOLR_ERR_POST_PROCESSOR_NOT_EXIST_1 = "LOG_SOLR_ERR_POST_PROCESSOR_NOT_EXIST_1";
+    public static final @RUntainted String LOG_SOLR_ERR_POST_PROCESSOR_NOT_EXIST_1 = "LOG_SOLR_ERR_POST_PROCESSOR_NOT_EXIST_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_SOLR_ERR_RESULT_ITERATION_FAILED_0 = "LOG_SOLR_ERR_RESULT_ITERATION_FAILED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_SOLR_ERR_SCHEMA_XML_NOT_FOUND_1 = "LOG_SOLR_ERR_SCHEMA_XML_NOT_FOUND_1";
+    public static final @RUntainted String LOG_SOLR_ERR_SCHEMA_XML_NOT_FOUND_1 = "LOG_SOLR_ERR_SCHEMA_XML_NOT_FOUND_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_SOLR_ERR_SEARCH_EXECUTION_FAILD_1 = "LOG_SOLR_ERR_SEARCH_EXECUTION_FAILD_1";
+    public static final @RUntainted String LOG_SOLR_ERR_SEARCH_EXECUTION_FAILD_1 = "LOG_SOLR_ERR_SEARCH_EXECUTION_FAILD_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_SOLR_ERR_SEARCH_PERMISSION_VIOLATION_2 = "LOG_SOLR_ERR_SEARCH_PERMISSION_VIOLATION_2";
+    public static final @RUntainted String LOG_SOLR_ERR_SEARCH_PERMISSION_VIOLATION_2 = "LOG_SOLR_ERR_SEARCH_PERMISSION_VIOLATION_2";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_SOLR_ERR_SPELL_EXECUTION_FAILD_1 = "LOG_SOLR_ERR_SPELL_EXECUTION_FAILD_1";
@@ -122,16 +123,16 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_SOLR_ERR_MAPPING_UNREADABLE_CONTENT_3 = "LOG_SOLR_ERR_MAPPING_UNREADABLE_CONTENT_3";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_HANDLER_REQUEST_NOT_ALLOWED_0 = "GUI_HANDLER_REQUEST_NOT_ALLOWED_0";
+    public static final @RUntainted String GUI_HANDLER_REQUEST_NOT_ALLOWED_0 = "GUI_HANDLER_REQUEST_NOT_ALLOWED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_HANDLER_REQUESTED_FIELD_NOT_ALLOWED_2 = "GUI_HANDLER_REQUESTED_FIELD_NOT_ALLOWED_2";
+    public static final @RUntainted String GUI_HANDLER_REQUESTED_FIELD_NOT_ALLOWED_2 = "GUI_HANDLER_REQUESTED_FIELD_NOT_ALLOWED_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_HANDLER_TOO_MANY_RESULTS_REQUESTED_AT_ALL_2 = "GUI_HANDLER_TOO_MANY_RESULTS_REQUESTED_AT_ALL_2";
+    public static final @RUntainted String GUI_HANDLER_TOO_MANY_RESULTS_REQUESTED_AT_ALL_2 = "GUI_HANDLER_TOO_MANY_RESULTS_REQUESTED_AT_ALL_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_HANDLER_TOO_MANY_RESULTS_REQUESTED_PER_PAGE_2 = "GUI_HANDLER_TOO_MANY_RESULTS_REQUESTED_PER_PAGE_2";
+    public static final @RUntainted String GUI_HANDLER_TOO_MANY_RESULTS_REQUESTED_PER_PAGE_2 = "GUI_HANDLER_TOO_MANY_RESULTS_REQUESTED_PER_PAGE_2";
 
     /** Name of the used resource bundle. */
     private static final String BUNDLE_NAME = "org.opencms.search.solr.messages";

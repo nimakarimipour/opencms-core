@@ -35,6 +35,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsWaitHandle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type class for the second version of dynamic functions.<p>
@@ -42,7 +43,7 @@ import org.opencms.util.CmsWaitHandle;
 public class CmsResourceTypeFunctionConfig extends CmsResourceTypeXmlAdeConfiguration {
 
     /** The path of the JSP used for rendering v2 functions. */
-    public static final String FORMATTER_PATH = "/system/modules/org.opencms.base/formatters/function.jsp";
+    public static final @RUntainted String FORMATTER_PATH = "/system/modules/org.opencms.base/formatters/function.jsp";
 
     /** The type name. */
     public static final String TYPE_NAME = "function_config";

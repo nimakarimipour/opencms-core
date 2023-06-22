@@ -48,6 +48,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class uses information from the detail page information stored in the sitemap to find/recognize the detail pages for
@@ -72,7 +73,7 @@ public class CmsDefaultDetailPageHandler implements I_CmsDetailPageHandler {
         private CmsADEConfigData m_targetConfig;
 
         /** The detail pages. */
-        private List<CmsDetailPageInfo> m_detailPages = new ArrayList<>();
+        private @RUntainted List<@RUntainted CmsDetailPageInfo> m_detailPages = new ArrayList<>();
 
         /**
          * Gets the config for detail pages.
@@ -89,7 +90,7 @@ public class CmsDefaultDetailPageHandler implements I_CmsDetailPageHandler {
          *
          * @return the detail pages
          */
-        public List<CmsDetailPageInfo> getDetailPages() {
+        public @RUntainted List<@RUntainted CmsDetailPageInfo> getDetailPages() {
 
             return m_detailPages;
         }
@@ -131,7 +132,7 @@ public class CmsDefaultDetailPageHandler implements I_CmsDetailPageHandler {
          *
          * @param detailPages the new detail pages
          */
-        public void setDetailPages(List<CmsDetailPageInfo> detailPages) {
+        public void setDetailPages(@RUntainted List<@RUntainted CmsDetailPageInfo> detailPages) {
 
             m_detailPages = detailPages;
         }
@@ -227,12 +228,12 @@ public class CmsDefaultDetailPageHandler implements I_CmsDetailPageHandler {
      *
      * @return the detail page for the content element
      */
-    public String getDetailPage(
+    public @RUntainted String getDetailPage(
         CmsADEManager manager,
         CmsObject cms,
         String contentRootPath,
-        String originPath,
-        String targetDetailPage) {
+        @RUntainted String originPath,
+        @RUntainted String targetDetailPage) {
 
         boolean online = cms.getRequestContext().getCurrentProject().isOnlineProject();
         String resType = manager.getParentFolderType(online, contentRootPath);
@@ -262,7 +263,7 @@ public class CmsDefaultDetailPageHandler implements I_CmsDetailPageHandler {
         }
 
         DetailPageConfigData context = lookupDetailPageConfigData(manager, cms, contentRootPath, originPath, resType);
-        List<CmsDetailPageInfo> relevantPages = context.getDetailPages();
+        @RUntainted List<@RUntainted CmsDetailPageInfo> relevantPages = context.getDetailPages();
         if (context.getConfigForDetailPages() == null) {
             return null;
         }
@@ -277,7 +278,7 @@ public class CmsDefaultDetailPageHandler implements I_CmsDetailPageHandler {
             contentRootPath)) {
             return null;
         }
-        String result = new CmsDetailPageFilter(cms, contentRootPath).filterDetailPages(relevantPages).map(
+        @RUntainted String result = new CmsDetailPageFilter(cms, contentRootPath).filterDetailPages(relevantPages).map(
             info -> info.getUri()).findFirst().orElse(null);
         return result;
     }
@@ -292,7 +293,7 @@ public class CmsDefaultDetailPageHandler implements I_CmsDetailPageHandler {
      * @return the detail page
      * @see org.opencms.ade.detailpage.I_CmsDetailPageHandler#getDetailPage(org.opencms.file.CmsObject, java.lang.String, java.lang.String, java.lang.String)
      */
-    public String getDetailPage(CmsObject cms, String rootPath, String linkSource, String targetDetailPage) {
+    public @RUntainted String getDetailPage(CmsObject cms, String rootPath, @RUntainted String linkSource, String targetDetailPage) {
 
         CmsADEManager manager = OpenCms.getADEManager();
         if (!manager.isInitialized()) {
@@ -303,7 +304,7 @@ public class CmsDefaultDetailPageHandler implements I_CmsDetailPageHandler {
             // exclude these for performance reasons
             return null;
         }
-        String result = getDetailPage(manager, cms, rootPath, linkSource, targetDetailPage);
+        @RUntainted String result = getDetailPage(manager, cms, rootPath, linkSource, targetDetailPage);
         if (result == null) {
             return null;
         }
@@ -412,7 +413,7 @@ public class CmsDefaultDetailPageHandler implements I_CmsDetailPageHandler {
         CmsADEManager manager,
         CmsObject cms,
         String contentPath,
-        String originPath,
+        @RUntainted String originPath,
         String resType) {
 
         DetailPageConfigData context = new DetailPageConfigData();
@@ -428,7 +429,7 @@ public class CmsDefaultDetailPageHandler implements I_CmsDetailPageHandler {
         ? Arrays.asList(targetConfigData, configData)
         : Arrays.asList(configData, targetConfigData);
         for (CmsADEConfigData config : configs) {
-            List<CmsDetailPageInfo> pageInfo = config.getDetailPagesForType(resType);
+            @RUntainted List<@RUntainted CmsDetailPageInfo> pageInfo = config.getDetailPagesForType(resType);
             if ((pageInfo != null) && !pageInfo.isEmpty()) {
                 context.setConfigForDetailPages(config);
                 context.setDetailPages(pageInfo);

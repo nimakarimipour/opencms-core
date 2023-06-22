@@ -92,6 +92,7 @@ import com.vaadin.server.VaadinServletResponse;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Controller class which actually handles the login dialog logic.<p>
@@ -349,7 +350,7 @@ public class CmsLoginController {
      *
      * @return the login form link
      */
-    public static String getFormLink(CmsObject cms) {
+    public static @RUntainted String getFormLink(CmsObject cms) {
 
         return OpenCms.getLinkManager().substituteLinkForUnknownTarget(
             cms,
@@ -368,11 +369,11 @@ public class CmsLoginController {
      *
      * @throws CmsException in case the user has insufficient permissions to access the login target
      */
-    public static String getLoginTarget(CmsObject currentCms, CmsWorkplaceSettings settings, String requestedResource)
+    public static @RUntainted String getLoginTarget(CmsObject currentCms, CmsWorkplaceSettings settings, @RUntainted String requestedResource)
     throws CmsException {
 
-        String directEditPath = CmsLoginHelper.getDirectEditPath(currentCms, settings.getUserSettings(), false);
-        String target = "";
+        @RUntainted String directEditPath = CmsLoginHelper.getDirectEditPath(currentCms, settings.getUserSettings(), false);
+        @RUntainted String target = "";
         boolean checkRole = false;
         String fragment = UI.getCurrent() != null ? UI.getCurrent().getPage().getUriFragment() : "";
         boolean workplace2 = false;
@@ -445,7 +446,7 @@ public class CmsLoginController {
         }
         String loggedInUser = cms.getRequestContext().getCurrentUser().getName();
         UI.getCurrent().getSession().close();
-        String logoutUri = OpenCms.getLoginManager().getLogoutUri();
+        @RUntainted String logoutUri = OpenCms.getLoginManager().getLogoutUri();
         if (logoutUri != null) {
             String target = OpenCms.getLinkManager().substituteLinkForUnknownTarget(cms, logoutUri, false);
             // open in top frame, so it still works when the Vaadin dialog is embedded
@@ -486,7 +487,7 @@ public class CmsLoginController {
         CmsUserLog.logLogout(cms);
         String loggedInUser = cms.getRequestContext().getCurrentUser().getName();
         HttpSession session = request.getSession(false);
-        String logoutUri = OpenCms.getLoginManager().getLogoutUri();
+        @RUntainted String logoutUri = OpenCms.getLoginManager().getLogoutUri();
         if (logoutUri == null) {
             if (session != null) {
                 session.invalidate();
@@ -562,9 +563,9 @@ public class CmsLoginController {
      */
     public void onClickLogin() {
 
-        String user = m_ui.getUser();
+        @RUntainted String user = m_ui.getUser();
         String password = m_ui.getPassword();
-        String ou = m_ui.getOrgUnit();
+        @RUntainted String ou = m_ui.getOrgUnit();
         if (CmsLoginOuSelector.OU_NONE.equals(ou)) {
             displayError(
                 CmsVaadinUtils.getMessageText(Messages.GUI_LOGIN_NO_OU_SELECTED_WARNING_0) + "\n\n",
@@ -582,7 +583,7 @@ public class CmsLoginController {
         }
 
         String realUser = CmsStringUtil.joinPaths(ou, user);
-        String pcType = m_ui.getPcType();
+        @RUntainted String pcType = m_ui.getPcType();
         CmsObject currentCms = A_CmsUI.getCmsObject();
         CmsUser userObj = null;
 
@@ -810,7 +811,7 @@ public class CmsLoginController {
      * @param user the user being logged in
      * @param e the error
      */
-    protected void handleError(CmsObject currentCms, String user, Exception e) {
+    protected void handleError(CmsObject currentCms, @RUntainted String user, Exception e) {
 
         CmsMessageContainer message = null;
 

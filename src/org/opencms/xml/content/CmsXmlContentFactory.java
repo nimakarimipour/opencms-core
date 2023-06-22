@@ -50,6 +50,7 @@ import javax.servlet.ServletRequest;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.xml.sax.EntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides factory methods to unmarshal (read) an XML content object.<p>
@@ -128,7 +129,7 @@ public final class CmsXmlContentFactory {
     public static CmsXmlContent createDocument(
         CmsObject cms,
         Locale locale,
-        String encoding,
+        @RUntainted String encoding,
         CmsXmlContentDefinition contentDefinition) {
 
         // create the XML content
@@ -158,7 +159,7 @@ public final class CmsXmlContentFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlContent unmarshal(CmsObject cms, byte[] xmlData, String encoding, EntityResolver resolver)
+    public static CmsXmlContent unmarshal(CmsObject cms, byte[] xmlData, @RUntainted String encoding, EntityResolver resolver)
     throws CmsXmlException {
 
         return unmarshal(cms, CmsXmlUtils.unmarshalHelper(xmlData, resolver), encoding, resolver);
@@ -325,7 +326,7 @@ public final class CmsXmlContentFactory {
      *
      * @return a XML content instance unmarshalled from the String
      */
-    public static CmsXmlContent unmarshal(CmsObject cms, Document document, String encoding, EntityResolver resolver) {
+    public static CmsXmlContent unmarshal(CmsObject cms, Document document, @RUntainted String encoding, EntityResolver resolver) {
 
         CmsXmlContent content = new CmsXmlContent(cms, document, encoding, resolver);
         // call prepare for use content handler and return the result
@@ -352,7 +353,7 @@ public final class CmsXmlContentFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlContent unmarshal(CmsObject cms, String xmlData, String encoding, EntityResolver resolver)
+    public static CmsXmlContent unmarshal(CmsObject cms, String xmlData, @RUntainted String encoding, EntityResolver resolver)
     throws CmsXmlException {
 
         // create the XML content object from the provided String
@@ -380,7 +381,7 @@ public final class CmsXmlContentFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlContent unmarshal(String xmlData, String encoding, EntityResolver resolver)
+    public static CmsXmlContent unmarshal(String xmlData, @RUntainted String encoding, EntityResolver resolver)
     throws CmsXmlException {
 
         return unmarshal(null, xmlData, encoding, resolver);

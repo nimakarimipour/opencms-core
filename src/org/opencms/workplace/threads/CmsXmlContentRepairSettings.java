@@ -33,6 +33,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Settings object that provides the settings to repair XML content resources in the OpenCms virtual file system (VFS).<p>
@@ -54,7 +55,7 @@ public final class CmsXmlContentRepairSettings {
     private String m_resourceType;
 
     /** The VFS folder of all XML content files to process. */
-    private String m_vfsFolder;
+    private @RUntainted String m_vfsFolder;
 
     /**
      * Default constructor with cms object that is used for VFS path validation.<p>
@@ -71,7 +72,7 @@ public final class CmsXmlContentRepairSettings {
      *
      * @return the resource type name of the XML contents to process
      */
-    public String getResourceType() {
+    public @RUntainted String getResourceType() {
 
         return m_resourceType;
     }
@@ -81,7 +82,7 @@ public final class CmsXmlContentRepairSettings {
      *
      * @return the VFS folder under which XML contents will be processed recursively
      */
-    public String getVfsFolder() {
+    public @RUntainted String getVfsFolder() {
 
         return m_vfsFolder;
     }
@@ -146,7 +147,7 @@ public final class CmsXmlContentRepairSettings {
      *
      * @throws CmsIllegalArgumentException if the given VFS path is not valid
      */
-    public void setVfsFolder(String vfsFolder) throws CmsIllegalArgumentException {
+    public void setVfsFolder(@RUntainted String vfsFolder) throws CmsIllegalArgumentException {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(vfsFolder)) {
             throw new CmsIllegalArgumentException(Messages.get().container(Messages.ERR_VALUE_EMPTY_0));

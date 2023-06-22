@@ -32,6 +32,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.main.OpenCms;
 import org.opencms.site.CmsSite;
 import org.opencms.ui.A_CmsUI;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * File path select field. This field will also allow paths that are not pointing to any VFS resource.<p>

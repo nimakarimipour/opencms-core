@@ -39,6 +39,7 @@ import org.opencms.xml.content.CmsXmlContent;
 import java.util.Locale;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * XML value type for display formatters.<p>
@@ -139,7 +140,7 @@ public class CmsXmlDisplayFormatterValue extends A_CmsXmlValueTextBase {
      * @see org.opencms.xml.types.A_CmsXmlValueTextBase#getStringValue(org.opencms.file.CmsObject)
      */
     @Override
-    public String getStringValue(CmsObject cms) throws CmsRuntimeException {
+    public @RUntainted String getStringValue(CmsObject cms) throws CmsRuntimeException {
 
         // always try to return the value with the formatter key (rather than id) if possible
         // (this matches the handling of options in the display formatter widget)

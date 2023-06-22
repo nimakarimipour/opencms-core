@@ -37,6 +37,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A helper class used for calculating which paths need to be included or excluded from the XML sitemap generation.<p>
@@ -58,7 +59,7 @@ public class CmsPathIncludeExcludeSet {
      *
      * @param exclude the path to add
      */
-    public void addExclude(String exclude) {
+    public void addExclude(@RUntainted String exclude) {
 
         exclude = normalizePath(exclude);
         m_excludes.add(exclude);
@@ -70,7 +71,7 @@ public class CmsPathIncludeExcludeSet {
      *
      * @param include the path to add
      */
-    public void addInclude(String include) {
+    public void addInclude(@RUntainted String include) {
 
         include = normalizePath(include);
         m_includes.add(include);
@@ -109,7 +110,7 @@ public class CmsPathIncludeExcludeSet {
      *
      * @return true if the path is excluded
      */
-    public boolean isExcluded(String path) {
+    public boolean isExcluded(@RUntainted String path) {
 
         path = normalizePath(path);
         List<String> pathList = new ArrayList<String>(m_allPaths);
@@ -131,7 +132,7 @@ public class CmsPathIncludeExcludeSet {
      *
      * @return the normalized path
      */
-    protected String normalizePath(String path) {
+    protected String normalizePath(@RUntainted String path) {
 
         if (path.equals("/")) {
             return path;

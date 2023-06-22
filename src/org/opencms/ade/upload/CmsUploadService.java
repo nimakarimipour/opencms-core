@@ -43,6 +43,7 @@ import java.util.List;
 
 import org.apache.commons.fileupload.InvalidFileNameException;
 import org.apache.commons.fileupload.util.Streams;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles all RPC services related to the upload dialog.<p>
@@ -79,7 +80,7 @@ public class CmsUploadService extends CmsGwtService implements I_CmsUploadServic
     /**
      * @see org.opencms.gwt.shared.rpc.I_CmsUploadService#checkUploadFiles(java.util.List, java.lang.String, boolean)
      */
-    public CmsUploadFileBean checkUploadFiles(List<String> fileNames, String targetFolder, boolean isRootPath) {
+    public CmsUploadFileBean checkUploadFiles(List<String> fileNames, @RUntainted String targetFolder, boolean isRootPath) {
 
         List<String> existingResourceNames = new ArrayList<String>();
         List<String> invalidFileNames = new ArrayList<String>();
@@ -90,7 +91,7 @@ public class CmsUploadService extends CmsGwtService implements I_CmsUploadServic
         if (getRequest().getSession().getAttribute(CmsUploadBean.SESSION_ATTRIBUTE_LISTENER_ID) == null) {
 
             // check for existing files
-            for (String fileName : fileNames) {
+            for (@RUntainted String fileName : fileNames) {
 
                 try {
                     Streams.checkFileName(fileName);
@@ -137,11 +138,11 @@ public class CmsUploadService extends CmsGwtService implements I_CmsUploadServic
      *
      * @return true if a resource already exists
      */
-    private boolean existsResource(String path, boolean rootPath) {
+    private boolean existsResource(@RUntainted String path, boolean rootPath) {
 
         CmsObject cms = getCmsObject();
         if (rootPath) {
-            String origSiteRoot = cms.getRequestContext().getSiteRoot();
+            @RUntainted String origSiteRoot = cms.getRequestContext().getSiteRoot();
             try {
                 cms.getRequestContext().setSiteRoot("");
                 if (cms.existsResource(path, CmsResourceFilter.ALL)) {
@@ -166,13 +167,13 @@ public class CmsUploadService extends CmsGwtService implements I_CmsUploadServic
      *
      * @return true is the resource exists but is marked as deleted
      */
-    private boolean isDeletedResource(String path, boolean rootPath) {
+    private boolean isDeletedResource(@RUntainted String path, boolean rootPath) {
 
         CmsObject cms = getCmsObject();
         CmsResource res = null;
         try {
             if (rootPath) {
-                String origSiteRoot = cms.getRequestContext().getSiteRoot();
+                @RUntainted String origSiteRoot = cms.getRequestContext().getSiteRoot();
                 try {
                     cms.getRequestContext().setSiteRoot("");
                     res = cms.readResource(path, CmsResourceFilter.ALL);

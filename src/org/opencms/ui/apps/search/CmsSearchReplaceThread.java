@@ -74,6 +74,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Searches in sources.
@@ -93,16 +94,16 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
     public static final long ABANDON_TIMEOUT = TimeUnit.MINUTES.toMillis(5);
 
     /** Number of errors while searching. */
-    private int m_errorSearch;
+    private @RUntainted int m_errorSearch;
 
     /** Number of errors while updating. */
-    private int m_errorUpdate;
+    private @RUntainted int m_errorUpdate;
 
     /** Number of locked files during updating. */
-    private int m_lockedFiles;
+    private @RUntainted int m_lockedFiles;
 
     /** The found resources. */
-    private Set<CmsResource> m_matchedResources = new LinkedHashSet<CmsResource>();
+    private @RUntainted Set<@RUntainted CmsResource> m_matchedResources = new LinkedHashSet<CmsResource>();
 
     /** The replace flag. */
     private boolean m_replace;
@@ -224,7 +225,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
             // iterate over the paths
             Iterator<String> iter = m_settings.getPaths().iterator();
             while (iter.hasNext()) {
-                String path = iter.next();
+                @RUntainted String path = iter.next();
                 report.println(
                     Messages.get().container(Messages.RPT_SOURCESEARCH_PARAMETERS_RESOURCE_PATH_1, path),
                     I_CmsReport.FORMAT_NOTE);
@@ -700,7 +701,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
      *
      * @param nrOfFiles the total number of files
      */
-    private void reportResults(int nrOfFiles) {
+    private void reportResults(@RUntainted int nrOfFiles) {
 
         I_CmsReport report = getReport();
         // report entries
@@ -892,7 +893,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
             }
 
             // iterate over all selected paths
-            Iterator<String> iterPaths = m_settings.getPaths().iterator();
+            @RUntainted Iterator<@RUntainted String> iterPaths = m_settings.getPaths().iterator();
 
             if (!m_settings.getType().isPropertySearch()) {
                 filter = filter.addRequireFile();

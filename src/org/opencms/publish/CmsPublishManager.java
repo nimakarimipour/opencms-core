@@ -56,6 +56,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This manager provide access to the publish engine runtime information.<p>
@@ -705,7 +706,7 @@ public class CmsPublishManager {
      *
      * @see CmsShellReport
      */
-    public CmsUUID publishResource(CmsObject cms, String resourcename) throws Exception {
+    public CmsUUID publishResource(CmsObject cms, @RUntainted String resourcename) throws Exception {
 
         return publishResource(cms, resourcename, false, new CmsShellReport(cms.getRequestContext().getLocale()));
     }
@@ -722,7 +723,7 @@ public class CmsPublishManager {
      *
      * @throws Exception if something goes wrong
      */
-    public CmsUUID publishResource(CmsObject cms, String resourcename, boolean publishSiblings, I_CmsReport report)
+    public CmsUUID publishResource(CmsObject cms, @RUntainted String resourcename, boolean publishSiblings, I_CmsReport report)
     throws Exception {
 
         CmsResource resource = cms.readResource(resourcename, CmsResourceFilter.ALL);

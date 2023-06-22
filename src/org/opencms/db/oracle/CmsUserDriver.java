@@ -50,6 +50,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.google.common.base.Joiner;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Oracle implementation of the user driver methods.<p>
@@ -183,7 +184,7 @@ public class CmsUserDriver extends org.opencms.db.generic.CmsUserDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    protected void internalUpdateUserInfoData(CmsDbContext dbc, CmsUUID userId, String key, Object value)
+    protected void internalUpdateUserInfoData(CmsDbContext dbc, @RUntainted CmsUUID userId, String key, Object value)
     throws CmsDataAccessException {
 
         PreparedStatement stmt = null;

@@ -55,6 +55,7 @@ import org.apache.commons.logging.Log;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manager class for registered OpenCms XML content types and content collectors.<p>
@@ -287,7 +288,7 @@ public class CmsXmlContentTypeManager {
         buffer.append(schemaLocation);
         buffer.append('#');
         buffer.append(className);
-        String key = buffer.toString();
+        @RUntainted String key = buffer.toString();
 
         // look up the content handler from the cache
         I_CmsXmlContentHandler contentHandler = m_contentHandlers.get(key);
@@ -334,7 +335,7 @@ public class CmsXmlContentTypeManager {
         }
 
         String elementName = typeElement.attributeValue(CmsXmlContentDefinition.XSD_ATTRIBUTE_NAME);
-        String typeName = typeElement.attributeValue(CmsXmlContentDefinition.XSD_ATTRIBUTE_TYPE);
+        @RUntainted String typeName = typeElement.attributeValue(CmsXmlContentDefinition.XSD_ATTRIBUTE_TYPE);
         String defaultValue = typeElement.attributeValue(CmsXmlContentDefinition.XSD_ATTRIBUTE_DEFAULT);
         String maxOccrs = typeElement.attributeValue(CmsXmlContentDefinition.XSD_ATTRIBUTE_MAX_OCCURS);
         String minOccrs = typeElement.attributeValue(CmsXmlContentDefinition.XSD_ATTRIBUTE_MIN_OCCURS);
@@ -406,7 +407,7 @@ public class CmsXmlContentTypeManager {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public I_CmsXmlContentHandler getFreshContentHandler(String className) throws CmsXmlException {
+    public I_CmsXmlContentHandler getFreshContentHandler(@RUntainted String className) throws CmsXmlException {
 
         I_CmsXmlContentHandler contentHandler;
         // generate an instance for the content handler

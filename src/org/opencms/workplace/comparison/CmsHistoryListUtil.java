@@ -37,6 +37,7 @@ import org.opencms.util.CmsUUID;
 import org.opencms.workplace.commons.Messages;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility methods for the history list.<p>
@@ -82,7 +83,7 @@ public final class CmsHistoryListUtil {
      *
      * @return the link to an historical file
      */
-    public static String getHistoryLink(CmsObject cms, CmsUUID structureId, String version) {
+    public static @RUntainted String getHistoryLink(CmsObject cms, CmsUUID structureId, String version) {
 
         String resourcePath;
         CmsResource resource;

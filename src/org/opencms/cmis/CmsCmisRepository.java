@@ -126,6 +126,7 @@ import org.apache.chemistry.opencmis.commons.impl.dataobjects.RepositoryCapabili
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.RepositoryInfoImpl;
 import org.apache.chemistry.opencmis.commons.spi.Holder;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Repository instance for CMIS repositories.<p>
@@ -287,7 +288,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
         try {
             CmsObject cms = getCmsObject(context);
             Map<String, PropertyData<?>> properties = propertiesObj.getProperties();
-            String newDocName = (String)properties.get(PropertyIds.NAME).getFirstValue();
+            @RUntainted String newDocName = (String)properties.get(PropertyIds.NAME).getFirstValue();
             String defaultType = OpenCms.getResourceManager().getDefaultTypeForName(newDocName).getTypeName();
             String resTypeName = getResourceTypeFromProperties(properties, defaultType);
             I_CmsResourceType cmsResourceType = OpenCms.getResourceManager().getResourceType(resTypeName);
@@ -353,7 +354,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
             String sourcePath = source.getRootPath();
 
             PropertyData<?> nameProp = properties.get(PropertyIds.NAME);
-            String newDocName;
+            @RUntainted String newDocName;
             if (nameProp != null) {
                 newDocName = (String)nameProp.getFirstValue();
                 checkResourceName(newDocName);
@@ -421,7 +422,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
                 throw new CmisConstraintException("Invalid folder type: " + resTypeName);
             }
             List<CmsProperty> cmsProperties = getOpenCmsProperties(properties);
-            String newFolderName = (String)properties.get(PropertyIds.NAME).getFirstValue();
+            @RUntainted String newFolderName = (String)properties.get(PropertyIds.NAME).getFirstValue();
             checkResourceName(newFolderName);
             CmsUUID parentFolderId = new CmsUUID(folderId);
             CmsResource parentFolder = cms.readResource(parentFolderId);
@@ -853,7 +854,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
      */
     public synchronized ObjectData getObjectByPath(
         CmsCmisCallContext context,
-        String path,
+        @RUntainted String path,
         String filter,
         boolean includeAllowableActions,
         IncludeRelationships includeRelationships,
@@ -1392,9 +1393,9 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
             try {
                 cms.writePropertyObjects(resource, cmsProperties);
                 @SuppressWarnings("unchecked")
-                PropertyData<String> nameProperty = (PropertyData<String>)propertyMap.get(PropertyIds.NAME);
+                @RUntainted PropertyData<@RUntainted String> nameProperty = (PropertyData<String>)propertyMap.get(PropertyIds.NAME);
                 if (nameProperty != null) {
-                    String newName = nameProperty.getFirstValue();
+                    @RUntainted String newName = nameProperty.getFirstValue();
                     checkResourceName(newName);
                     String parentFolder = CmsResource.getParentFolder(resource.getRootPath());
                     String newPath = CmsStringUtil.joinPaths(parentFolder, newName);

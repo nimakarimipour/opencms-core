@@ -29,6 +29,7 @@ package org.opencms.widgets;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -50,7 +51,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_EDITOR_MESSAGE_NOSELECTION_0 = "ERR_EDITOR_MESSAGE_NOSELECTION_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MALFORMED_SELECT_OPTIONS_1 = "ERR_MALFORMED_SELECT_OPTIONS_1";
+    public static final @RUntainted String ERR_MALFORMED_SELECT_OPTIONS_1 = "ERR_MALFORMED_SELECT_OPTIONS_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_MAP_DUPLICATE_KEY_3 = "ERR_MAP_DUPLICATE_KEY_3";
@@ -140,7 +141,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String GUI_SCHEMA_FORMATTER_OPTION_1 = "GUI_SCHEMA_FORMATTER_OPTION_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_CREATE_HTMLWIDGET_INSTANCE_FAILED_1 = "LOG_CREATE_HTMLWIDGET_INSTANCE_FAILED_1";
+    public static final @RUntainted String LOG_CREATE_HTMLWIDGET_INSTANCE_FAILED_1 = "LOG_CREATE_HTMLWIDGET_INSTANCE_FAILED_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_DEBUG_WIDGETCOLLECTOR_ADD_1 = "LOG_DEBUG_WIDGETCOLLECTOR_ADD_1";

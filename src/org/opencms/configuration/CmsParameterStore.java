@@ -51,6 +51,7 @@ import org.dom4j.Element;
 import org.dom4j.Node;
 
 import com.google.common.primitives.Doubles;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for accessing global 'weighted' configuration parameters defined in parameter files in the VFS. Used as a singleton.
@@ -188,7 +189,7 @@ public class CmsParameterStore {
      *
      * @throws CmsException if something goes wrong
      */
-    public static Map<String, WeightedValue> parse(CmsObject cms, String path) throws CmsException {
+    public static Map<String, WeightedValue> parse(CmsObject cms, @RUntainted String path) throws CmsException {
 
         CmsFile file = cms.readFile(path, CmsResourceFilter.IGNORE_EXPIRATION);
         return parse(file.getContents(), file.getRootPath());
@@ -280,7 +281,7 @@ public class CmsParameterStore {
             String paramConfigsStr = module.getParameter(PARAM_PARAMFILE);
             if (paramConfigsStr != null) {
                 String[] paths = paramConfigsStr.trim().split(" *, *");
-                for (String path : paths) {
+                for (@RUntainted String path : paths) {
                     result.add(getConfigurationWithCache(cms, path));
                 }
             }
@@ -296,7 +297,7 @@ public class CmsParameterStore {
      * @return the parameter map
      */
     @SuppressWarnings("unchecked")
-    private Map<String, WeightedValue> getConfigurationWithCache(CmsObject cms, String path) {
+    private Map<String, WeightedValue> getConfigurationWithCache(CmsObject cms, @RUntainted String path) {
 
         String rootPath = cms.getRequestContext().addSiteRoot(path);
         Map<String, WeightedValue> result;

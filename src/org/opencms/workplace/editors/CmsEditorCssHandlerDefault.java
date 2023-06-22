@@ -38,6 +38,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A default editor CSS handler to obtain the CSS style sheet path from the template property value of the template itself.<p>
@@ -58,7 +59,7 @@ public class CmsEditorCssHandlerDefault implements I_CmsEditorCssHandler {
     /**
      * @see org.opencms.workplace.editors.I_CmsEditorCssHandler#getUriStyleSheet(org.opencms.file.CmsObject, java.lang.String)
      */
-    public String getUriStyleSheet(CmsObject cms, String editedResourcePath) {
+    public @RUntainted String getUriStyleSheet(CmsObject cms, String editedResourcePath) {
 
         String editContext = (String)(cms.getRequestContext().getAttribute(CmsXmlContentEditor.ATTRIBUTE_EDITCONTEXT));
         String result = "";
@@ -106,7 +107,7 @@ public class CmsEditorCssHandlerDefault implements I_CmsEditorCssHandler {
             CmsADEConfigData config = OpenCms.getADEManager().lookupConfigurationWithCache(
                 cms,
                 cms.getRequestContext().addSiteRoot(editedResourcePath));
-            String cssPathFromSitemapConfig = config.getAttribute(ATTR_TEMPLATE_EDITOR_CSS, null);
+            @RUntainted String cssPathFromSitemapConfig = config.getAttribute(ATTR_TEMPLATE_EDITOR_CSS, null);
             if ((cssPathFromSitemapConfig != null) && cms.existsResource(cssPathFromSitemapConfig)) {
                 return cssPathFromSitemapConfig;
             }

@@ -44,6 +44,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Oracle implementation of the VFS driver methods.<p>
@@ -185,7 +186,7 @@ public class CmsVfsDriver extends org.opencms.db.generic.CmsVfsDriver {
     protected void internalWriteContent(
         CmsDbContext dbc,
         CmsUUID projectId,
-        CmsUUID resourceId,
+        @RUntainted CmsUUID resourceId,
         byte[] contents,
         int publishTag)
     throws CmsDataAccessException {

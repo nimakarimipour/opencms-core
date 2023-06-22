@@ -33,6 +33,7 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsColor".<p>
@@ -95,7 +96,7 @@ public class CmsXmlColorValue extends A_CmsXmlValueTextBase {
      * @see org.opencms.xml.types.A_CmsXmlContentValue#getDefault(Locale)
      */
     @Override
-    public String getDefault(Locale locale) {
+    public @RUntainted String getDefault(Locale locale) {
 
         if (m_defaultValue != null) {
             return m_defaultValue;

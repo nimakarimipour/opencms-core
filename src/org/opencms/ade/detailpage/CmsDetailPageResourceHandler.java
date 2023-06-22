@@ -50,6 +50,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource init handler for detail-pages.<p>
@@ -128,7 +129,7 @@ public class CmsDetailPageResourceHandler implements I_CmsResourceInit {
             // skip in all cases above
             return resource;
         }
-        String path = cms.getRequestContext().getUri();
+        @RUntainted String path = cms.getRequestContext().getUri();
         path = CmsFileUtil.removeTrailingSeparator(path);
         try {
             cms.readResource(path, CmsResourceFilter.IGNORE_EXPIRATION);

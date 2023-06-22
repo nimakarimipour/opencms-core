@@ -50,6 +50,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to create new element. (User, Group or OU).
@@ -84,7 +85,7 @@ public class CmsNewElementDialog extends CmsBasicDialog {
     private Label m_ouLabel;
 
     /**The ou. */
-    private String m_ou;
+    private @RUntainted String m_ou;
 
     /**Accounts app. */
     private CmsAccountsApp m_app;
@@ -96,7 +97,7 @@ public class CmsNewElementDialog extends CmsBasicDialog {
      *
      * @param window window holding the dialog
      */
-    public CmsNewElementDialog(CmsObject cms, String ou, final Window window, CmsAccountsApp app) {
+    public CmsNewElementDialog(CmsObject cms, @RUntainted String ou, final Window window, CmsAccountsApp app) {
 
         m_app = app;
         m_window = window;

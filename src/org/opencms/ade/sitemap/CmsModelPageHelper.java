@@ -72,6 +72,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for model page operations in the sitemap editor.<p>
@@ -91,7 +92,7 @@ public class CmsModelPageHelper {
     private CmsResource m_rootResource;
 
     /** The site root. */
-    private String m_siteRoot;
+    private @RUntainted String m_siteRoot;
 
     /**
      * Creates a new instance.<p>
@@ -125,7 +126,7 @@ public class CmsModelPageHelper {
      *
      * @throws CmsException if something goes wrong
      */
-    public void addModelPageToSitemapConfiguration(CmsResource sitemapConfig, CmsResource modelPage, boolean disabled)
+    public void addModelPageToSitemapConfiguration(CmsResource sitemapConfig, CmsResource modelPage, @RUntainted boolean disabled)
     throws CmsException {
 
         CmsFile sitemapConfigFile = m_cms.readFile(sitemapConfig);
@@ -135,7 +136,7 @@ public class CmsModelPageHelper {
         List<CmsModelPageConfigWithoutResource> modelPageConfigs = reader.getModelPageConfigs();
 
         int i = 0;
-        boolean isDefault = false;
+        @RUntainted boolean isDefault = false;
         for (CmsModelPageConfigWithoutResource config : modelPageConfigs) {
             if (config.getStructureId().equals(modelPage.getStructureId())) {
                 isDefault = config.isDefault();

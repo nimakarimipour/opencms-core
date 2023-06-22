@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for storing query results.<p>
@@ -117,7 +118,7 @@ public class CmsSqlConsoleResults {
      *
      * @return the row data
      */
-    public List<List<Object>> getData() {
+    public @RUntainted List<@RUntainted List<@RUntainted Object>> getData() {
 
         return m_data;
     }

@@ -61,6 +61,7 @@ import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides information about how to handle imported resources.<p>
@@ -118,7 +119,7 @@ public class CmsImportExportManager {
     public static final String A_TYPE = A_CmsImport.A_TYPE;
 
     /** The name of the XML manifest file used for the description of exported OpenCms VFS properties and attributes. */
-    public static final String EXPORT_MANIFEST = "manifest.xml";
+    public static final @RUntainted String EXPORT_MANIFEST = "manifest.xml";
 
     /** The current version of the OpenCms export (appears in the {@link #EXPORT_MANIFEST} header). */
     public static final String EXPORT_VERSION = "" + CmsImportVersion10.IMPORT_VERSION10; //TODO: when changing this to a newer import version, need to refactor the module updater so it dynamically uses the correct import version
@@ -427,10 +428,10 @@ public class CmsImportExportManager {
     private List<I_CmsImportExportHandler> m_importExportHandlers;
 
     /** Import principal group translations. */
-    private Map<String, String> m_importGroupTranslations;
+    private @RUntainted Map<@RUntainted String, @RUntainted String> m_importGroupTranslations;
 
     /** Import principal user translations. */
-    private Map<String, String> m_importUserTranslations;
+    private @RUntainted Map<@RUntainted String, @RUntainted String> m_importUserTranslations;
 
     /** The configured import versions class names. */
     private List<I_CmsImport> m_importVersionClasses;
@@ -558,7 +559,7 @@ public class CmsImportExportManager {
      * @param from the "from" translation source
      * @param to the "to" translation target
      */
-    public void addImportPrincipalTranslation(String type, String from, String to) {
+    public void addImportPrincipalTranslation(String type, @RUntainted String from, @RUntainted String to) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(
@@ -1072,12 +1073,12 @@ public class CmsImportExportManager {
      * @param name the group name to translate
      * @return the translated name for the given group name
      */
-    public String translateGroup(String name) {
+    public @RUntainted String translateGroup(@RUntainted String name) {
 
         if (m_importGroupTranslations == null) {
             return name;
         }
-        String match = m_importGroupTranslations.get(name);
+        @RUntainted String match = m_importGroupTranslations.get(name);
         if (match != null) {
             return match;
         } else {
@@ -1093,12 +1094,12 @@ public class CmsImportExportManager {
      * @param name the user name to translate
      * @return the translated name for the given user name
      */
-    public String translateUser(String name) {
+    public @RUntainted String translateUser(@RUntainted String name) {
 
         if (m_importUserTranslations == null) {
             return name;
         }
-        String match = m_importUserTranslations.get(name);
+        @RUntainted String match = m_importUserTranslations.get(name);
         if (match != null) {
             return match;
         } else {

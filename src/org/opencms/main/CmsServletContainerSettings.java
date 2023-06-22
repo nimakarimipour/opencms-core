@@ -38,6 +38,7 @@ import java.net.URL;
 import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Stores specific servlet container options, that might influence OpenCms behavior.<p>
@@ -172,7 +173,7 @@ public class CmsServletContainerSettings {
     private CmsServletContainerCfgMode m_mode = CFG_MODE_NONE;
 
     /** The OpenCms context and servlet path, e.g. <code>/opencms/opencms</code>. */
-    private String m_openCmsContext;
+    private @RUntainted String m_openCmsContext;
 
     /** If the flex response has to prevent buffer flushing, for instance, Websphere does not allow to set headers afterwards, so we have to prevent it. */
     private boolean m_preventResponseFlush;
@@ -311,7 +312,7 @@ public class CmsServletContainerSettings {
      * @see #getServletPath()
      * @see #getOpenCmsContext()
      */
-    public String getContextPath() {
+    public @RUntainted String getContextPath() {
 
         return m_contextPath;
     }
@@ -346,7 +347,7 @@ public class CmsServletContainerSettings {
      * @see #getContextPath()
      * @see #getServletPath()
      */
-    public String getOpenCmsContext() {
+    public @RUntainted String getOpenCmsContext() {
 
         return m_openCmsContext;
     }
@@ -385,7 +386,7 @@ public class CmsServletContainerSettings {
      * @see #getWebApplicationName()
      * @see #getOpenCmsContext()
      */
-    public String getServletPath() {
+    public @RUntainted String getServletPath() {
 
         return m_servletPath;
     }

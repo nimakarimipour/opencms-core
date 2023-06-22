@@ -38,6 +38,7 @@ import org.opencms.security.I_CmsPrincipal;
 import org.opencms.util.CmsUUID;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Definitions of all required history driver methods.<p>
@@ -230,7 +231,7 @@ public interface I_CmsHistoryDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsHistoryPrincipal readPrincipal(CmsDbContext dbc, CmsUUID principalId) throws CmsDataAccessException;
+    CmsHistoryPrincipal readPrincipal(CmsDbContext dbc, @RUntainted CmsUUID principalId) throws CmsDataAccessException;
 
     /**
      * Reads the latest historical project version with the given id.<p>

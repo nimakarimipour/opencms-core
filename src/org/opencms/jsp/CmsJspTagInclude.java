@@ -60,6 +60,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;cms:include/&gt;</code> tag,
@@ -94,7 +95,7 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
     private String m_suffix;
 
     /** The value of the "page" attribute. */
-    private String m_target;
+    private @RUntainted String m_target;
 
     /**
      * Empty constructor, required for attribute value initialization.<p>
@@ -155,7 +156,7 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
      */
     public static void includeTagAction(
         PageContext context,
-        String target,
+        @RUntainted String target,
         String element,
         boolean editable,
         Map<String, String[]> paramMap,
@@ -188,7 +189,7 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
      */
     public static void includeTagAction(
         PageContext context,
-        String target,
+        @RUntainted String target,
         String element,
         Locale locale,
         boolean editable,
@@ -298,7 +299,7 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
     private static void includeActionNoCache(
         CmsFlexController controller,
         PageContext context,
-        String target,
+        @RUntainted String target,
         String element,
         Locale locale,
         ServletRequest req,
@@ -391,7 +392,7 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
     private static void includeActionWithCache(
         CmsFlexController controller,
         PageContext context,
-        String target,
+        @RUntainted String target,
         Map<String, String[]> parameterMap,
         Map<String, Object> attributeMap,
         ServletRequest req,
@@ -469,7 +470,7 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
         if (CmsFlexController.isCmsRequest(req)) {
             // this will always be true if the page is called through OpenCms
             CmsObject cms = CmsFlexController.getCmsObject(req);
-            String target = null;
+            @RUntainted String target = null;
 
             // try to find out what to do
             if (m_target != null) {
@@ -478,7 +479,7 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
             } else if (m_property != null) {
                 // option 2: target is set with "property" parameter
                 try {
-                    String prop = cms.readPropertyObject(cms.getRequestContext().getUri(), m_property, true).getValue();
+                    @RUntainted String prop = cms.readPropertyObject(cms.getRequestContext().getUri(), m_property, true).getValue();
                     if (prop != null) {
                         target = prop + getSuffix();
                     }
@@ -492,7 +493,7 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
             } else if (m_attribute != null) {
                 // option 3: target is set in "attribute" parameter
                 try {
-                    String attr = (String)req.getAttribute(m_attribute);
+                    @RUntainted String attr = (String)req.getAttribute(m_attribute);
                     if (attr != null) {
                         target = attr + getSuffix();
                     }
@@ -703,7 +704,7 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
      * @param file the file to set
      * @see #setPage(String)
      */
-    public void setFile(String file) {
+    public void setFile(@RUntainted String file) {
 
         setPage(file);
     }
@@ -713,7 +714,7 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
      *
      * @param target the target to set
      */
-    public void setPage(String target) {
+    public void setPage(@RUntainted String target) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(target)) {
             m_target = target;

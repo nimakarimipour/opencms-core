@@ -35,6 +35,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines general authorization methods.<p>
@@ -85,7 +86,7 @@ public interface I_CmsAuthorizationHandler {
      *
      * @return the full URL used to call a login form
      */
-    String getLoginFormURL(String loginFormURL, String params, String callbackURL);
+    @RUntainted String getLoginFormURL(@RUntainted String loginFormURL, String params, @RUntainted String callbackURL);
 
     /**
      * Creates a new cms object from the given request object.<p>
@@ -125,7 +126,7 @@ public interface I_CmsAuthorizationHandler {
      *
      * @throws CmsException if something goes wrong
      */
-    CmsObject initCmsObject(HttpServletRequest request, String userName, String pwd) throws CmsException;
+    CmsObject initCmsObject(HttpServletRequest request, @RUntainted String userName, String pwd) throws CmsException;
 
     /**
      * This method sends a request to the client to display a login form,
@@ -137,7 +138,7 @@ public interface I_CmsAuthorizationHandler {
      *
      * @throws IOException if something goes wrong
      */
-    void requestAuthorization(HttpServletRequest req, HttpServletResponse res, String loginFormURL) throws IOException;
+    void requestAuthorization(HttpServletRequest req, HttpServletResponse res, @RUntainted String loginFormURL) throws IOException;
 
     /**
      * Sets parameters which can be configured additionally for an authorization handler.<p>

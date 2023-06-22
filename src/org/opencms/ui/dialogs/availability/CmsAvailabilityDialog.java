@@ -77,6 +77,7 @@ import com.vaadin.v7.data.Validator;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Availability dialog.<p>
@@ -197,7 +198,7 @@ public class CmsAvailabilityDialog extends CmsBasicDialog {
             if (!responsibles.isEmpty()) {
                 m_responsiblesPanel.setVisible(true);
                 m_notificationPanel.setVisible(true);
-                for (Map.Entry<CmsPrincipalBean, String> entry : responsibles.entrySet()) {
+                for (Map.@RUntainted Entry<@RUntainted CmsPrincipalBean, @RUntainted String> entry : responsibles.entrySet()) {
                     CmsPrincipalBean principal = entry.getKey();
                     String icon = principal.isGroup()
                     ? CmsWorkplace.getResourceUri("buttons/group.png")
@@ -421,7 +422,7 @@ public class CmsAvailabilityDialog extends CmsBasicDialog {
         }
 
         for (CmsResource resource : parentResources) {
-            String storedSiteRoot = cms.getRequestContext().getSiteRoot();
+            @RUntainted String storedSiteRoot = cms.getRequestContext().getSiteRoot();
             String sitePath = cms.getRequestContext().removeSiteRoot(resource.getRootPath());
             try {
                 cms.getRequestContext().setSiteRoot("/");
@@ -486,9 +487,9 @@ public class CmsAvailabilityDialog extends CmsBasicDialog {
      */
     private void changeAvailability(
         CmsResource resource,
-        Date released,
+        @RUntainted Date released,
         boolean resetReleased,
-        Date expired,
+        @RUntainted Date expired,
         boolean resetExpired,
         boolean modifySubresources)
     throws CmsException {
@@ -499,12 +500,12 @@ public class CmsAvailabilityDialog extends CmsBasicDialog {
             cms.getRequestContext().setAttribute(
                 CmsResourceTypeXmlContent.ATTR_REVERSE_AVAILABILITY_MAPPING,
                 Boolean.TRUE);
-            long newDateReleased;
+            @RUntainted long newDateReleased;
             if (resetReleased || (released != null)) {
                 newDateReleased = released != null ? released.getTime() : CmsResource.DATE_RELEASED_DEFAULT;
                 cms.setDateReleased(resource, newDateReleased, modifySubresources);
             }
-            long newDateExpired;
+            @RUntainted long newDateExpired;
             if (resetExpired || (expired != null)) {
                 newDateExpired = expired != null ? expired.getTime() : CmsResource.DATE_EXPIRED_DEFAULT;
                 cms.setDateExpired(resource, newDateExpired, modifySubresources);
@@ -560,7 +561,7 @@ public class CmsAvailabilityDialog extends CmsBasicDialog {
      */
     private void performSingleResourceNotification(
         CmsObject cms,
-        String resName,
+        @RUntainted String resName,
         boolean enableNotification,
         int notificationInterval,
         boolean modifySiblings)

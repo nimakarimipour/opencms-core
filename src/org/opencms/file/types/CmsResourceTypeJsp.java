@@ -59,6 +59,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "jsp".<p>
@@ -278,7 +279,7 @@ public class CmsResourceTypeJsp extends A_CmsResourceTypeLinkParseable {
      * @see org.opencms.file.types.A_CmsResourceType#initConfiguration(java.lang.String, java.lang.String, String)
      */
     @Override
-    public void initConfiguration(String name, String id, String className) throws CmsConfigurationException {
+    public void initConfiguration(@RUntainted String name, String id, String className) throws CmsConfigurationException {
 
         super.initConfiguration(name, id, className);
         // set static members with values from the configuration
@@ -307,7 +308,7 @@ public class CmsResourceTypeJsp extends A_CmsResourceTypeLinkParseable {
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource resource,
-        String destination)
+        @RUntainted String destination)
     throws CmsException, CmsIllegalArgumentException {
 
         Set<String> references = getReferencingStrongLinks(cms, resource);
@@ -365,7 +366,7 @@ public class CmsResourceTypeJsp extends A_CmsResourceTypeLinkParseable {
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource resource,
-        long dateExpired,
+        @RUntainted long dateExpired,
         boolean recursive)
     throws CmsException {
 
@@ -399,7 +400,7 @@ public class CmsResourceTypeJsp extends A_CmsResourceTypeLinkParseable {
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource resource,
-        long dateReleased,
+        @RUntainted long dateReleased,
         boolean recursive)
     throws CmsException {
 

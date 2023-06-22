@@ -72,6 +72,7 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifDirectoryBase;
 import com.drew.metadata.exif.ExifIFD0Directory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "image".<p>
@@ -499,7 +500,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
     public CmsResource createResource(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        String resourcename,
+        @RUntainted String resourcename,
         byte[] content,
         List<CmsProperty> properties)
     throws CmsException {
@@ -553,7 +554,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
         CmsObject cms,
         CmsSecurityManager securityManager,
         I_CmsReport report,
-        String resourcename,
+        @RUntainted String resourcename,
         CmsResource resource,
         byte[] content,
         List<CmsProperty> properties)
@@ -603,7 +604,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
      * @see org.opencms.file.types.A_CmsResourceType#initConfiguration(java.lang.String, java.lang.String, String)
      */
     @Override
-    public void initConfiguration(String name, String id, String className) throws CmsConfigurationException {
+    public void initConfiguration(@RUntainted String name, String id, String className) throws CmsConfigurationException {
 
         if ((OpenCms.getRunLevel() > OpenCms.RUNLEVEL_2_INITIALIZING) && m_staticFrozen) {
             // configuration already frozen

@@ -50,6 +50,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Basic functions for direct edit providers.<p>
@@ -59,7 +60,7 @@ import org.apache.commons.logging.Log;
 public abstract class A_CmsDirectEditProvider implements I_CmsDirectEditProvider {
 
     /** Default direct edit include file URI for post 6.2.3 direct edit providers. */
-    protected static final String INCLUDE_FILE_DEFAULT = "/system/workplace/editors/direct_edit_include.txt";
+    protected static final @RUntainted String INCLUDE_FILE_DEFAULT = "/system/workplace/editors/direct_edit_include.txt";
 
     /** The log object for this class. */
     private static final Log LOG = CmsLog.getLog(A_CmsDirectEditProvider.class);
@@ -74,7 +75,7 @@ public abstract class A_CmsDirectEditProvider implements I_CmsDirectEditProvider
     protected int m_editButtonStyle;
 
     /** Value of the "fileName" parameter. */
-    protected String m_fileName;
+    protected @RUntainted String m_fileName;
 
     /** Used to access the editor messages. */
     protected CmsMessages m_messages;
@@ -117,7 +118,7 @@ public abstract class A_CmsDirectEditProvider implements I_CmsDirectEditProvider
      *
      * @return the direct edit resource information for the given VFS resource
      */
-    public CmsDirectEditResourceInfo getResourceInfo(CmsDirectEditParams params, String resourceName) {
+    public CmsDirectEditResourceInfo getResourceInfo(CmsDirectEditParams params, @RUntainted String resourceName) {
 
         try {
             // first check some simple preconditions for direct edit
@@ -177,7 +178,7 @@ public abstract class A_CmsDirectEditProvider implements I_CmsDirectEditProvider
     /**
      * @see org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider#init(org.opencms.file.CmsObject, org.opencms.workplace.editors.directedit.CmsDirectEditMode, java.lang.String)
      */
-    public void init(CmsObject cms, CmsDirectEditMode mode, String fileName) {
+    public void init(CmsObject cms, CmsDirectEditMode mode, @RUntainted String fileName) {
 
         m_cms = cms;
         m_fileName = fileName;
@@ -254,7 +255,7 @@ public abstract class A_CmsDirectEditProvider implements I_CmsDirectEditProvider
      *
      * @return the given link resolved according to the OpenCms context and export rules
      */
-    protected String getLink(String target) {
+    protected String getLink(@RUntainted String target) {
 
         return OpenCms.getLinkManager().substituteLink(m_cms, target);
     }

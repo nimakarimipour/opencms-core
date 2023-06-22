@@ -30,6 +30,7 @@ package org.opencms.workplace;
 import org.opencms.db.CmsResourceState;
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -45,7 +46,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_DEFAULT_TEMPLATE_WARNING_0 = "ERR_DEFAULT_TEMPLATE_WARNING_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INITIALIZE_WORKPLACE_0 = "ERR_INITIALIZE_WORKPLACE_0";
+    public static final @RUntainted String ERR_INITIALIZE_WORKPLACE_0 = "ERR_INITIALIZE_WORKPLACE_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_JSON_MISSING_PARAMETER_1 = "ERR_JSON_MISSING_PARAMETER_1";
@@ -66,7 +67,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_WORKPLACE_DIALOG_PARAMS_1 = "ERR_WORKPLACE_DIALOG_PARAMS_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_WORKPLACE_LOCK_RESOURCE_1 = "ERR_WORKPLACE_LOCK_RESOURCE_1";
+    public static final @RUntainted String ERR_WORKPLACE_LOCK_RESOURCE_1 = "ERR_WORKPLACE_LOCK_RESOURCE_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_WORKPLACE_SERVER_CHECK_FAILED_0 = "ERR_WORKPLACE_SERVER_CHECK_FAILED_0";
@@ -183,7 +184,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String GUI_EDITOR_WIDGET_VALIDATION_WARNING_2 = "GUI_EDITOR_WIDGET_VALIDATION_WARNING_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_ERR_RESOURCE_PERMISSIONS_2 = "GUI_ERR_RESOURCE_PERMISSIONS_2";
+    public static final @RUntainted String GUI_ERR_RESOURCE_PERMISSIONS_2 = "GUI_ERR_RESOURCE_PERMISSIONS_2";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_EXPLORER_STATE0_0 = "GUI_EXPLORER_STATE0_0";
@@ -237,22 +238,22 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String GUI_LOGIN_BUTTON_ALREADY_IN_0 = "GUI_LOGIN_BUTTON_ALREADY_IN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOGIN_FAILED_0 = "GUI_LOGIN_FAILED_0";
+    public static final @RUntainted String GUI_LOGIN_FAILED_0 = "GUI_LOGIN_FAILED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOGIN_FAILED_DISABLED_0 = "GUI_LOGIN_FAILED_DISABLED_0";
+    public static final @RUntainted String GUI_LOGIN_FAILED_DISABLED_0 = "GUI_LOGIN_FAILED_DISABLED_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_LOGIN_FAILED_NO_TARGET_PERMISSIONS_1 = "GUI_LOGIN_FAILED_NO_TARGET_PERMISSIONS_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOGIN_FAILED_NO_WORKPLACE_PERMISSIONS_0 = "GUI_LOGIN_FAILED_NO_WORKPLACE_PERMISSIONS_0";
+    public static final @RUntainted String GUI_LOGIN_FAILED_NO_WORKPLACE_PERMISSIONS_0 = "GUI_LOGIN_FAILED_NO_WORKPLACE_PERMISSIONS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOGIN_FAILED_TEMP_DISABLED_0 = "GUI_LOGIN_FAILED_TEMP_DISABLED_0";
+    public static final @RUntainted String GUI_LOGIN_FAILED_TEMP_DISABLED_0 = "GUI_LOGIN_FAILED_TEMP_DISABLED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOGIN_FAILED_WITH_MESSAGE_1 = "GUI_LOGIN_FAILED_WITH_MESSAGE_1";
+    public static final @RUntainted String GUI_LOGIN_FAILED_WITH_MESSAGE_1 = "GUI_LOGIN_FAILED_WITH_MESSAGE_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_LOGIN_HEADLINE_0 = "GUI_LOGIN_HEADLINE_0";
@@ -270,13 +271,13 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String GUI_LOGIN_MESSAGE_ALREADY_IN_0 = "GUI_LOGIN_MESSAGE_ALREADY_IN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOGIN_NO_DATA_0 = "GUI_LOGIN_NO_DATA_0";
+    public static final @RUntainted String GUI_LOGIN_NO_DATA_0 = "GUI_LOGIN_NO_DATA_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOGIN_NO_NAME_0 = "GUI_LOGIN_NO_NAME_0";
+    public static final @RUntainted String GUI_LOGIN_NO_NAME_0 = "GUI_LOGIN_NO_NAME_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOGIN_NO_PASSWORD_0 = "GUI_LOGIN_NO_PASSWORD_0";
+    public static final @RUntainted String GUI_LOGIN_NO_PASSWORD_0 = "GUI_LOGIN_NO_PASSWORD_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_LOGIN_NOSCRIPT_1 = "GUI_LOGIN_NOSCRIPT_1";
@@ -315,10 +316,10 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String GUI_LOGIN_SECURITY_0 = "GUI_LOGIN_SECURITY_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOGIN_SUCCESS_WITH_MESSAGE_2 = "GUI_LOGIN_SUCCESS_WITH_MESSAGE_2";
+    public static final @RUntainted String GUI_LOGIN_SUCCESS_WITH_MESSAGE_2 = "GUI_LOGIN_SUCCESS_WITH_MESSAGE_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_LOGIN_SUCCESS_WITH_MESSAGE_WITHOUT_TIME_1 = "GUI_LOGIN_SUCCESS_WITH_MESSAGE_WITHOUT_TIME_1";
+    public static final @RUntainted String GUI_LOGIN_SUCCESS_WITH_MESSAGE_WITHOUT_TIME_1 = "GUI_LOGIN_SUCCESS_WITH_MESSAGE_WITHOUT_TIME_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_LOGIN_TITLE_0 = "GUI_LOGIN_TITLE_0";

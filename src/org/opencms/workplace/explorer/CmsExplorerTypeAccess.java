@@ -50,6 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Explorer type access object, encapsulates access control entries and lists of a explorer type.<p>
@@ -137,7 +138,7 @@ public class CmsExplorerTypeAccess implements Serializable {
             if (!PRINCIPAL_DEFAULT.equals(key)) {
                 String value = m_accessControl.get(key);
                 // get the principal name from the principal String
-                String principal = key.substring(key.indexOf('.') + 1, key.length());
+                @RUntainted String principal = key.substring(key.indexOf('.') + 1, key.length());
 
                 // create an OpenCms user context with "Guest" permissions
                 CmsObject cms = OpenCms.initCmsObject(OpenCms.getDefaultUsers().getUserGuest());

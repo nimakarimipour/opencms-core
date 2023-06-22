@@ -73,6 +73,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class to parse ADE sitemap or module configuration files and create configuration objects from them.<p>
@@ -507,7 +508,7 @@ public class CmsConfigurationReader {
      * @return the created configuration object with the data from the XML content
      * @throws CmsException if something goes wrong
      */
-    public CmsADEConfigDataInternal parseConfiguration(String basePath, CmsXmlContent content) throws CmsException {
+    public CmsADEConfigDataInternal parseConfiguration(@RUntainted String basePath, CmsXmlContent content) throws CmsException {
 
         m_detailPageConfigs = Lists.newArrayList();
         m_functionReferences = Lists.newArrayList();
@@ -731,7 +732,7 @@ public class CmsConfigurationReader {
                 basePath == null ? null : CmsStringUtil.joinPaths(basePath, CmsADEManager.CONTENT_FOLDER_NAME),
                 name);
         } else if (pathLoc != null) {
-            String path = pathLoc.asString(m_cms);
+            @RUntainted String path = pathLoc.asString(m_cms);
             CmsResource folder = m_cms.readResource(path);
             return new CmsContentFolderDescriptor(folder);
         } else if (pageRelativeLoc != null) {
@@ -786,7 +787,7 @@ public class CmsConfigurationReader {
         I_CmsXmlContentValueLocation disabledLoc = node.getSubValue(N_DISABLED);
         boolean disabled = (disabledLoc != null) && Boolean.parseBoolean(disabledLoc.asString(m_cms));
         I_CmsXmlContentValueLocation defaultLoc = node.getSubValue(N_IS_DEFAULT);
-        boolean isDefault = (defaultLoc != null) && Boolean.parseBoolean(defaultLoc.asString(m_cms));
+        @RUntainted boolean isDefault = (defaultLoc != null) && Boolean.parseBoolean(defaultLoc.asString(m_cms));
         CmsModelPageConfigWithoutResource modelPage = new CmsModelPageConfigWithoutResource(
             link.getStructureId(),
             isDefault,
@@ -976,7 +977,7 @@ public class CmsConfigurationReader {
      * @return the parsed configuration data
      * @throws CmsException if something goes wrong
      */
-    public CmsADEConfigDataInternal parseSitemapConfiguration(String basePath, CmsResource configRes)
+    public CmsADEConfigDataInternal parseSitemapConfiguration(@RUntainted String basePath, CmsResource configRes)
     throws CmsException {
 
         LOG.info("Parsing configuration " + configRes.getRootPath());
@@ -1045,7 +1046,7 @@ public class CmsConfigurationReader {
      *
      * @return the string value of that XML content location
      */
-    protected String getString(I_CmsXmlContentValueLocation location) {
+    protected @RUntainted String getString(I_CmsXmlContentValueLocation location) {
 
         return getString(m_cms, location);
     }

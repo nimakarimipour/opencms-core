@@ -66,6 +66,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the OpenCms Import Interface ({@link org.opencms.importexport.I_CmsImport}) for
@@ -179,7 +180,7 @@ public class CmsImportVersion3 extends A_CmsImport {
      */
     @Override
     protected void importUser(
-        String name,
+        @RUntainted String name,
         String flags,
         String password,
         String firstname,
@@ -187,7 +188,7 @@ public class CmsImportVersion3 extends A_CmsImport {
         String email,
         long dateCreated,
         Map<String, Object> userInfo,
-        List<String> userGroups)
+        @RUntainted List<@RUntainted String> userGroups)
     throws CmsImportExportException {
 
         boolean convert = false;
@@ -285,7 +286,7 @@ public class CmsImportVersion3 extends A_CmsImport {
                 // <flags>
                 flags = getChildElementTextValue(currentElement, A_CmsImport.N_FLAGS);
 
-                String translatedName = m_cms.getRequestContext().addSiteRoot(m_importPath + destination);
+                @RUntainted String translatedName = m_cms.getRequestContext().addSiteRoot(m_importPath + destination);
                 if (CmsResourceTypeFolder.RESOURCE_TYPE_NAME.equals(type)) {
                     translatedName += "/";
                 }
@@ -343,7 +344,7 @@ public class CmsImportVersion3 extends A_CmsImport {
                             // get the correct principal
                             try {
                                 String principalId = new CmsUUID().toString();
-                                String principal = id.substring(id.indexOf('.') + 1, id.length());
+                                @RUntainted String principal = id.substring(id.indexOf('.') + 1, id.length());
 
                                 if (id.startsWith(I_CmsPrincipal.PRINCIPAL_GROUP)) {
                                     principal = OpenCms.getImportExportManager().translateGroup(principal);
@@ -411,13 +412,13 @@ public class CmsImportVersion3 extends A_CmsImport {
      */
     private CmsResource importResource(
         String source,
-        String destination,
+        @RUntainted String destination,
         String type,
         String uuidresource,
         long datelastmodified,
-        String userlastmodified,
+        @RUntainted String userlastmodified,
         long datecreated,
-        String usercreated,
+        @RUntainted String usercreated,
         String flags,
         List<CmsProperty> properties) {
 

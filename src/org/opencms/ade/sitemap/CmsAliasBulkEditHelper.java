@@ -62,6 +62,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class used by a service to edit or import aliases for a whole site.<p>
@@ -91,14 +92,14 @@ public class CmsAliasBulkEditHelper {
      * @param response the response
      * @throws Exception if something goes wrong
      */
-    public void importAliases(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void importAliases(@RUntainted HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         FileItemFactory factory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(factory);
         @SuppressWarnings("unchecked")
         List<FileItem> items = upload.parseRequest(request);
         byte[] data = null;
-        String siteRoot = null;
+        @RUntainted String siteRoot = null;
         String separator = ",";
         for (FileItem fileItem : items) {
             String name = fileItem.getFieldName();
@@ -313,7 +314,7 @@ public class CmsAliasBulkEditHelper {
 
         Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
         if (row.getStructureId() == null) {
-            String path = row.getResourcePath();
+            @RUntainted String path = row.getResourcePath();
             try {
                 CmsResource resource = cms.readResource(path, CmsResourceFilter.ALL);
                 row.setStructureId(resource.getStructureId());

@@ -56,6 +56,7 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The E-Mail to be written to responsibles of resources.<p>
@@ -78,14 +79,14 @@ public class CmsContentNotification extends A_CmsNotification {
     private CmsUser m_responsible;
 
     /** Server name and opencms context. */
-    private String m_serverAndContext = OpenCms.getSiteManager().getWorkplaceServer()
+    private @RUntainted String m_serverAndContext = OpenCms.getSiteManager().getWorkplaceServer()
         + OpenCms.getSystemInfo().getOpenCmsContext();
 
     /** Uri of the workplace folder. */
-    private String m_uriWorkplace = m_serverAndContext + CmsWorkplace.VFS_PATH_WORKPLACE;
+    private @RUntainted String m_uriWorkplace = m_serverAndContext + CmsWorkplace.VFS_PATH_WORKPLACE;
 
     /** Uri of the workplace jsp. */
-    private String m_uriWorkplaceJsp = m_serverAndContext + CmsWorkplace.JSP_WORKPLACE_URI;
+    private @RUntainted String m_uriWorkplaceJsp = m_serverAndContext + CmsWorkplace.JSP_WORKPLACE_URI;
 
     /**
      * Creates a new CmsContentNotification.<p>

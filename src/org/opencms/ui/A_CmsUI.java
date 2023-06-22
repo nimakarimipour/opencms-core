@@ -60,6 +60,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract UI class providing access to the OpenCms context.<p>
@@ -138,7 +139,7 @@ public abstract class A_CmsUI extends UI {
      *
      * @param siteRoot the site to change to
      */
-    public void changeSite(String siteRoot) {
+    public void changeSite(@RUntainted String siteRoot) {
 
         if (!getCmsObject().getRequestContext().getSiteRoot().equals(siteRoot)) {
             getCmsObject().getRequestContext().setSiteRoot(siteRoot);

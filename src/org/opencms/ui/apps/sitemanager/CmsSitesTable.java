@@ -78,6 +78,7 @@ import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  *  Class to create Vaadin Table object with all available sites.<p>
@@ -94,9 +95,9 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(@RUntainted Set<@RUntainted String> data) {
 
-            String siteRoot = data.iterator().next();
+            @RUntainted String siteRoot = data.iterator().next();
             m_manager.openEditDialog(siteRoot);
         }
 
@@ -119,7 +120,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> data) {
+        public CmsMenuItemVisibilityMode getVisibility(@RUntainted Set<@RUntainted String> data) {
 
             if ((data == null) || (data.size() != 1) || (m_manager.getElement(data.iterator().next()) == null)) {
                 return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
@@ -239,7 +240,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> data) {
+        public CmsMenuItemVisibilityMode getVisibility(@RUntainted Set<@RUntainted String> data) {
 
             if (m_manager.getElement(data.iterator().next()) == null) {
                 return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
@@ -256,9 +257,9 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(@RUntainted Set<@RUntainted String> data) {
 
-            String siteRoot = data.iterator().next();
+            @RUntainted String siteRoot = data.iterator().next();
             A_CmsUI.getCmsObject().getRequestContext().setSiteRoot(siteRoot);
             CmsAppWorkplaceUi.get().showApp(
                 CmsFileExplorerConfiguration.APP_ID,
@@ -279,7 +280,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> data) {
+        public CmsMenuItemVisibilityMode getVisibility(@RUntainted Set<@RUntainted String> data) {
 
             if (data == null) {
                 return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
@@ -328,9 +329,9 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(@RUntainted Set<@RUntainted String> data) {
 
-            String siteRoot = data.iterator().next();
+            @RUntainted String siteRoot = data.iterator().next();
             A_CmsUI.get().changeSite(siteRoot);
 
             CmsPageEditorConfiguration pageeditorApp = new CmsPageEditorConfiguration();
@@ -349,7 +350,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> data) {
+        public CmsMenuItemVisibilityMode getVisibility(@RUntainted Set<@RUntainted String> data) {
 
             if (data == null) {
                 return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
@@ -358,7 +359,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
             if (data.size() > 1) {
                 return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
             }
-            String siteRoot = data.iterator().next();
+            @RUntainted String siteRoot = data.iterator().next();
             if (m_manager.getElement(siteRoot) == null) {
                 return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
             }
@@ -379,9 +380,9 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(@RUntainted Set<@RUntainted String> data) {
 
-            String siteRoot = data.iterator().next();
+            @RUntainted String siteRoot = data.iterator().next();
             A_CmsUI.get().changeSite(siteRoot);
 
             CmsSitemapEditorConfiguration sitemapApp = new CmsSitemapEditorConfiguration();
@@ -399,12 +400,12 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> data) {
+        public CmsMenuItemVisibilityMode getVisibility(@RUntainted Set<@RUntainted String> data) {
 
             if ((data == null) || (data.size() != 1)) {
                 return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
             }
-            String siteRoot = data.iterator().next();
+            @RUntainted String siteRoot = data.iterator().next();
             if (m_manager.getElement(siteRoot) == null) {
                 return CmsMenuItemVisibilityMode.VISIBILITY_INACTIVE;
             }
@@ -766,7 +767,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
                 m_menu.setEntries(getMenuEntries(), (Set<String>)getValue());
                 m_menu.openForTable(event, itemId, propertyId, this);
             } else if (event.getButton().equals(MouseButton.LEFT) && TableProperty.Server.equals(propertyId)) {
-                String siteRoot = (String)itemId;
+                @RUntainted String siteRoot = (String)itemId;
                 m_manager.defaultAction(siteRoot);
             }
         }
@@ -797,7 +798,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
      * @param siteRoot of the given site.
      * @return the favicon as resource or default image if no faicon was found.
      */
-    private Resource getFavIconResource(String siteRoot) {
+    private Resource getFavIconResource(@RUntainted String siteRoot) {
 
         try {
             CmsResource favicon = m_manager.getRootCmsObject().readResource(siteRoot + "/" + CmsSiteManager.FAVICON);

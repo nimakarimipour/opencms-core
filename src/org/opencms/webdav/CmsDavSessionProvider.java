@@ -40,6 +40,7 @@ import org.apache.commons.logging.Log;
 import org.apache.jackrabbit.webdav.DavException;
 import org.apache.jackrabbit.webdav.DavSessionProvider;
 import org.apache.jackrabbit.webdav.WebdavRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Session provider implementation.
@@ -71,7 +72,7 @@ public class CmsDavSessionProvider implements DavSessionProvider {
             String base64Token = authHeader.substring(basic.length() + 1);
             String token = new String(Base64.decodeBase64(base64Token.getBytes()));
             String password = null;
-            String username = null;
+            @RUntainted String username = null;
             int pos = token.indexOf(":");
             if (pos != -1) {
                 username = token.substring(0, pos);

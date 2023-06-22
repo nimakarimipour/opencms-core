@@ -127,6 +127,7 @@ import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows convenient access to the most important OpenCms functions on a JSP page,
@@ -309,7 +310,7 @@ public final class CmsJspStandardContextBean {
          * @see org.opencms.xml.containerpage.CmsContainerElementBean#getSitePath()
          */
         @Override
-        public String getSitePath() {
+        public @RUntainted String getSitePath() {
 
             return m_wrappedElement.getSitePath();
         }
@@ -714,7 +715,7 @@ public final class CmsJspStandardContextBean {
     protected static final Log LOG = CmsLog.getLog(CmsJspStandardContextBean.class);
 
     /** OpenCms user context. */
-    protected CmsObject m_cms;
+    protected @RUntainted CmsObject m_cms;
 
     /** The sitemap configuration. */
     protected CmsADEConfigData m_config;
@@ -820,7 +821,7 @@ public final class CmsJspStandardContextBean {
         this();
         CmsFlexController controller = CmsFlexController.getController(req);
         m_request = req;
-        CmsObject cms;
+        @RUntainted CmsObject cms;
         if (controller != null) {
             cms = controller.getCmsObject();
         } else {
@@ -1032,7 +1033,7 @@ public final class CmsJspStandardContextBean {
      * @param className name of the class to instantiate. Must be a subclass of {@link A_CmsJspCustomContextBean}.
      * @return an instance of the provided class with the current context already set.
      */
-    public Object getBean(String className) {
+    public Object getBean(@RUntainted String className) {
 
         try {
             Class<?> clazz = Class.forName(className);
@@ -1185,7 +1186,7 @@ public final class CmsJspStandardContextBean {
         String bundleName) {
 
         if (!m_cms.getRequestContext().getCurrentProject().isOnlineProject()) {
-            String filePath = null;
+            @RUntainted String filePath = null;
             if (null == bundleName) {
                 filePath = getBundleRootPath(messageKey);
             } else {
@@ -2003,7 +2004,7 @@ public final class CmsJspStandardContextBean {
             m_attributesOrProperties = CmsCollectionsGenericWrapper.createLazyMap(pathObj -> {
                 return CmsCollectionsGenericWrapper.createLazyMap(keyObj -> {
 
-                    String path = (String)pathObj;
+                    @RUntainted String path = (String)pathObj;
                     String key = (String)keyObj;
 
                     CmsObject cms = getCmsObject();
@@ -2609,7 +2610,7 @@ public final class CmsJspStandardContextBean {
      *
      * @param cms the new OpenCms user context
      */
-    public void updateCmsObject(CmsObject cms) {
+    public void updateCmsObject(@RUntainted CmsObject cms) {
 
         try {
             m_cms = OpenCms.initCmsObject(cms);
@@ -2642,7 +2643,7 @@ public final class CmsJspStandardContextBean {
      *
      * @return the CmsObject
      */
-    protected CmsObject getCmsObject() {
+    protected @RUntainted CmsObject getCmsObject() {
 
         return m_cms;
     }

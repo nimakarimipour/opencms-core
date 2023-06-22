@@ -46,6 +46,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource init handler for detail-pages.<p>
@@ -84,9 +85,9 @@ public class CmsAliasResourceHandler implements I_CmsResourceInit {
             return resource;
         }
 
-        String path = cms.getRequestContext().getUri();
+        @RUntainted String path = cms.getRequestContext().getUri();
         path = CmsFileUtil.removeTrailingSeparator(path);
-        String siteRoot = cms.getRequestContext().getSiteRoot();
+        @RUntainted String siteRoot = cms.getRequestContext().getSiteRoot();
         if ("".equals(siteRoot)) {
             siteRoot = OpenCms.getSiteManager().getSiteRoot(path);
             if (siteRoot == null) {
@@ -95,7 +96,7 @@ public class CmsAliasResourceHandler implements I_CmsResourceInit {
         }
         try {
             String sitePath = path;
-            String oldSiteRoot = cms.getRequestContext().getSiteRoot();
+            @RUntainted String oldSiteRoot = cms.getRequestContext().getSiteRoot();
             try {
                 cms.getRequestContext().setSiteRoot(siteRoot);
                 sitePath = cms.getRequestContext().removeSiteRoot(path);

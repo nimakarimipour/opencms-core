@@ -35,6 +35,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An option of a select type widget.<p>
@@ -119,7 +120,7 @@ public class CmsSelectWidgetOption {
     private int m_hashcode;
 
     /** The (optional) help text of this select option. */
-    private String m_help;
+    private @RUntainted String m_help;
 
     /** The (optional) display text of this select option. */
     private String m_option;
@@ -168,7 +169,7 @@ public class CmsSelectWidgetOption {
      * @param optionText the (optional) display text of this select option
      * @param helpText the (optional) help text of this select option
      */
-    public CmsSelectWidgetOption(String value, boolean isDefault, String optionText, String helpText) {
+    public CmsSelectWidgetOption(String value, boolean isDefault, String optionText, @RUntainted String helpText) {
 
         m_default = isDefault;
         m_value = value;
@@ -273,7 +274,7 @@ public class CmsSelectWidgetOption {
      *
      * @return a List of <code>{@link CmsSelectWidgetOption}</code> elements
      */
-    public static List<CmsSelectWidgetOption> parseOptions(String input) {
+    public static List<CmsSelectWidgetOption> parseOptions(@RUntainted String input) {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(input)) {
             // default result for empty input
@@ -489,7 +490,7 @@ public class CmsSelectWidgetOption {
      *
      * @return the (optional) help text of this select option
      */
-    public String getHelp() {
+    public @RUntainted String getHelp() {
 
         return m_help;
     }

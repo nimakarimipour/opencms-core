@@ -56,6 +56,7 @@ import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to copy container pages including their elements.<p>
@@ -83,7 +84,7 @@ public class CmsCopyPageDialog extends CmsBasicDialog {
          * @param path the target path to analyze
          */
         @SuppressWarnings("synthetic-access")
-        public TargetInfo(CmsObject cms, String path) {
+        public TargetInfo(CmsObject cms, @RUntainted String path) {
             try {
                 if (CmsStringUtil.isPrefixPath(CmsResource.VFS_FOLDER_SITES, path)
                     || (OpenCms.getSiteManager().getSiteForRootPath(path) != null)) {
@@ -163,7 +164,7 @@ public class CmsCopyPageDialog extends CmsBasicDialog {
          * @return the resource, or null if the resource doesn't exist or couldn't be read
          */
         @SuppressWarnings("synthetic-access")
-        private CmsResource readIfExists(CmsObject cms, String path) {
+        private CmsResource readIfExists(CmsObject cms, @RUntainted String path) {
 
             if (cms.existsResource(path, CmsResourceFilter.IGNORE_EXPIRATION)) {
                 try {

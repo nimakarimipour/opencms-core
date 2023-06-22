@@ -33,6 +33,7 @@ import org.opencms.main.CmsLog;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Validates the user passwords in with advanced password requirements.<p>
@@ -143,7 +144,7 @@ public class CmsAdvancedPasswordHandler extends CmsDefaultPasswordHandler {
         int descending = 0;
         int equals = 0;
         for (int i = 1; i < pw.length; i++) {
-            char current = pw[i];
+            @RUntainted char current = pw[i];
             if ((last + 1) == current) {
                 ascending++;
             } else {
@@ -160,7 +161,7 @@ public class CmsAdvancedPasswordHandler extends CmsDefaultPasswordHandler {
                 equals = 0;
             }
             if ((descending > 1) || (ascending > 1) || (equals > 1)) {
-                Object[] msgArgs = new Object[] {
+                @RUntainted Object[] msgArgs = new Object[] {
                     new Character(last),
                     new Character(current),
                     new Integer(descending),

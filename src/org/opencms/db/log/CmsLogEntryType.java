@@ -31,6 +31,7 @@ import org.opencms.i18n.CmsMessages;
 import org.opencms.main.CmsIllegalArgumentException;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for the different types of log entries.<p>
@@ -167,7 +168,7 @@ public enum CmsLogEntryType {
      * @throws CmsIllegalArgumentException if the given value could not be matched against a
      *         <code>{@link CmsLogEntryType}</code> object.
      */
-    public static CmsLogEntryType valueOf(int id) throws CmsIllegalArgumentException {
+    public static CmsLogEntryType valueOf(@RUntainted int id) throws CmsIllegalArgumentException {
 
         for (CmsLogEntryType type : CmsLogEntryType.values()) {
             if (id == type.getId()) {

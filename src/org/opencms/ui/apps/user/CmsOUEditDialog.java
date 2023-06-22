@@ -66,6 +66,7 @@ import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the ou edit and new dialog.<p>
@@ -139,7 +140,7 @@ public class CmsOUEditDialog extends CmsBasicDialog {
     Button m_ok;
 
     /**vaadin component.*/
-    private TextField m_name;
+    private @RUntainted TextField m_name;
 
     /**vaadin component.*/
     private Button m_cancel;
@@ -148,7 +149,7 @@ public class CmsOUEditDialog extends CmsBasicDialog {
     private TextArea m_description;
 
     /**vaadin component.*/
-    Label m_parentOu;
+    @RUntainted Label m_parentOu;
 
     /**vaadin component.*/
     private CheckBox m_hideLogin;
@@ -170,7 +171,7 @@ public class CmsOUEditDialog extends CmsBasicDialog {
      * @param window window holding the dialog
      * @param app
      */
-    public CmsOUEditDialog(CmsObject cms, String ou, final Window window, final CmsAccountsApp app) {
+    public CmsOUEditDialog(CmsObject cms, @RUntainted String ou, final Window window, final CmsAccountsApp app) {
 
         CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 
@@ -280,7 +281,7 @@ public class CmsOUEditDialog extends CmsBasicDialog {
      * @param window window holding dialog
      * @param ou to create group in
      */
-    public CmsOUEditDialog(CmsObject cms, Window window, String ou, CmsAccountsApp app) {
+    public CmsOUEditDialog(CmsObject cms, Window window, @RUntainted String ou, CmsAccountsApp app) {
 
         this(cms, null, window, app);
         m_parentOu.setValue(ou.equals("") ? "/" : ou);
@@ -312,7 +313,7 @@ public class CmsOUEditDialog extends CmsBasicDialog {
      * @param resourceName name of resource
      * @return true if resourceName is invalid
      */
-    protected boolean isInvalidResourceName(String resourceName) {
+    protected boolean isInvalidResourceName(@RUntainted String resourceName) {
 
         if (resourceName == null) {
             return true;
@@ -413,7 +414,7 @@ public class CmsOUEditDialog extends CmsBasicDialog {
                 resources.add(((CmsPathSelectField)row.getComponent()).getValue());
             }
             if (m_ou == null) {
-                String parentOu = m_parentOu.getValue();
+                @RUntainted String parentOu = m_parentOu.getValue();
                 if (!parentOu.endsWith("/")) {
                     parentOu += "/";
                 }

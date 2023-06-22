@@ -26,6 +26,7 @@
  */
 
 package org.opencms.gwt.shared;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Common constants needed for client side code.<p>
@@ -208,10 +209,10 @@ public final class CmsGwtConstants {
     public static final int MAX_PLACEHOLDER_HEIGHT = 300;
 
     /** Parameter for the button left position. */
-    public static final String PARAM_BUTTON_LEFT = "__buttonLeft";
+    public static final @RUntainted String PARAM_BUTTON_LEFT = "__buttonLeft";
 
     /** Parameter to disable direct edit. */
-    public static final String PARAM_DISABLE_DIRECT_EDIT = "__disableDirectEdit";
+    public static final @RUntainted String PARAM_DISABLE_DIRECT_EDIT = "__disableDirectEdit";
 
     /** Name of the request parameter used to store the redirect target after login. */
     public static final String PARAM_LOGIN_REDIRECT = "loginRedirect";

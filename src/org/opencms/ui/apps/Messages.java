@@ -29,6 +29,7 @@ package org.opencms.ui.apps;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Message bundle class.<p>
@@ -36,7 +37,7 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Name of the used resource bundle. */
-    public static final String ERR_CREATING_SUB_SITEMAP_WRONG_CONFIG_FILE_TYPE_2 = "ERR_CREATING_SUB_SITEMAP_WRONG_CONFIG_FILE_TYPE_2";
+    public static final @RUntainted String ERR_CREATING_SUB_SITEMAP_WRONG_CONFIG_FILE_TYPE_2 = "ERR_CREATING_SUB_SITEMAP_WRONG_CONFIG_FILE_TYPE_2";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_EXPLORER_CAN_NOT_OPEN_PATH_1 = "ERR_EXPLORER_CAN_NOT_OPEN_PATH_1";
@@ -45,7 +46,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_EXPLORER_CAN_NOT_READ_RESOURCE_1 = "ERR_EXPLORER_CAN_NOT_READ_RESOURCE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MODULEMANAGER_ACTION_MODULE_DEPENDENCY_2 = "ERR_MODULEMANAGER_ACTION_MODULE_DEPENDENCY_2";
+    public static final @RUntainted String ERR_MODULEMANAGER_ACTION_MODULE_DEPENDENCY_2 = "ERR_MODULEMANAGER_ACTION_MODULE_DEPENDENCY_2";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_PROJECTS_CAN_NOT_DISPLAY_FILES_0 = "ERR_PROJECTS_CAN_NOT_DISPLAY_FILES_0";
@@ -54,7 +55,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_SERVER_URL_NOT_EMPTY_0 = "ERR_SERVER_URL_NOT_EMPTY_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_SQLCONSOLE_NO_PERMISSIONS_EXEC_SENTENCE_1 = "ERR_SQLCONSOLE_NO_PERMISSIONS_EXEC_SENTENCE_1";
+    public static final @RUntainted String ERR_SQLCONSOLE_NO_PERMISSIONS_EXEC_SENTENCE_1 = "ERR_SQLCONSOLE_NO_PERMISSIONS_EXEC_SENTENCE_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_SQLCONSOLE_NOTHING_TO_EXECUTE_0 = "ERR_SQLCONSOLE_NOTHING_TO_EXECUTE_0";
@@ -650,10 +651,10 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String GUI_DATABASEAPP_SYNCH_RUN_0 = "GUI_DATABASEAPP_SYNCH_RUN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_DATABASEAPP_SYNCH_THREAD_BEGIN_0 = "GUI_DATABASEAPP_SYNCH_THREAD_BEGIN_0";
+    public static final @RUntainted String GUI_DATABASEAPP_SYNCH_THREAD_BEGIN_0 = "GUI_DATABASEAPP_SYNCH_THREAD_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_DATABASEAPP_SYNCH_THREAD_END_0 = "GUI_DATABASEAPP_SYNCH_THREAD_END_0";
+    public static final @RUntainted String GUI_DATABASEAPP_SYNCH_THREAD_END_0 = "GUI_DATABASEAPP_SYNCH_THREAD_END_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_DATABASEAPP_SYNCH_THREAD_NAME_1 = "GUI_DATABASEAPP_SYNCH_THREAD_NAME_1";
@@ -3552,256 +3553,256 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String GUI_WORKPLACE_TITLE_0 = "GUI_WORKPLACE_TITLE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_CREATING_CONFIG_FOR_SITE_2 = "RPT_CREATING_CONFIG_FOR_SITE_2";
+    public static final @RUntainted String RPT_CREATING_CONFIG_FOR_SITE_2 = "RPT_CREATING_CONFIG_FOR_SITE_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DATABASEAPP_DEL_PROPERTY_END_FAILED_0 = "RPT_DATABASEAPP_DEL_PROPERTY_END_FAILED_0";
+    public static final @RUntainted String RPT_DATABASEAPP_DEL_PROPERTY_END_FAILED_0 = "RPT_DATABASEAPP_DEL_PROPERTY_END_FAILED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DATABASEAPP_DEL_PROPERTY_END_OK_0 = "RPT_DATABASEAPP_DEL_PROPERTY_END_OK_0";
+    public static final @RUntainted String RPT_DATABASEAPP_DEL_PROPERTY_END_OK_0 = "RPT_DATABASEAPP_DEL_PROPERTY_END_OK_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DATABASEAPP_DEL_PROPERTY_REMOVE_FROM_RESOURCE_1 = "RPT_DATABASEAPP_DEL_PROPERTY_REMOVE_FROM_RESOURCE_1";
+    public static final @RUntainted String RPT_DATABASEAPP_DEL_PROPERTY_REMOVE_FROM_RESOURCE_1 = "RPT_DATABASEAPP_DEL_PROPERTY_REMOVE_FROM_RESOURCE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DATABASEAPP_DEL_PROPERTY_REMOVE_FROM_RESOURCE_START_0 = "RPT_DATABASEAPP_DEL_PROPERTY_REMOVE_FROM_RESOURCE_START_0";
+    public static final @RUntainted String RPT_DATABASEAPP_DEL_PROPERTY_REMOVE_FROM_RESOURCE_START_0 = "RPT_DATABASEAPP_DEL_PROPERTY_REMOVE_FROM_RESOURCE_START_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DATABASEAPP_DEL_PROPERTY_START_0 = "RPT_DATABASEAPP_DEL_PROPERTY_START_0";
+    public static final @RUntainted String RPT_DATABASEAPP_DEL_PROPERTY_START_0 = "RPT_DATABASEAPP_DEL_PROPERTY_START_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DATABASEAPP_FAILED_0 = "RPT_DATABASEAPP_FAILED_0";
+    public static final @RUntainted String RPT_DATABASEAPP_FAILED_0 = "RPT_DATABASEAPP_FAILED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DATABASEAPP_OK_0 = "RPT_DATABASEAPP_OK_0";
+    public static final @RUntainted String RPT_DATABASEAPP_OK_0 = "RPT_DATABASEAPP_OK_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DB_PUBLOCKS_BEGIN_0 = "RPT_DB_PUBLOCKS_BEGIN_0";
+    public static final @RUntainted String RPT_DB_PUBLOCKS_BEGIN_0 = "RPT_DB_PUBLOCKS_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DB_PUBLOCKS_END_0 = "RPT_DB_PUBLOCKS_END_0";
+    public static final @RUntainted String RPT_DB_PUBLOCKS_END_0 = "RPT_DB_PUBLOCKS_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DB_PUBLOCKS_FAILED_0 = "RPT_DB_PUBLOCKS_FAILED_0";
+    public static final @RUntainted String RPT_DB_PUBLOCKS_FAILED_0 = "RPT_DB_PUBLOCKS_FAILED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DB_PUBLOCKS_READLOCKS_1 = "RPT_DB_PUBLOCKS_READLOCKS_1";
+    public static final @RUntainted String RPT_DB_PUBLOCKS_READLOCKS_1 = "RPT_DB_PUBLOCKS_READLOCKS_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DB_PUBLOCKS_UNLOCKING_1 = "RPT_DB_PUBLOCKS_UNLOCKING_1";
+    public static final @RUntainted String RPT_DB_PUBLOCKS_UNLOCKING_1 = "RPT_DB_PUBLOCKS_UNLOCKING_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DELETE_FILEHISTORY_BEGIN_0 = "RPT_DELETE_FILEHISTORY_BEGIN_0";
+    public static final @RUntainted String RPT_DELETE_FILEHISTORY_BEGIN_0 = "RPT_DELETE_FILEHISTORY_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DELETE_FILEHISTORY_END_0 = "RPT_DELETE_FILEHISTORY_END_0";
+    public static final @RUntainted String RPT_DELETE_FILEHISTORY_END_0 = "RPT_DELETE_FILEHISTORY_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DELETING_FILE_1 = "RPT_DELETING_FILE_1";
+    public static final @RUntainted String RPT_DELETING_FILE_1 = "RPT_DELETING_FILE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_LETSENCRYPT_FINISHED_0 = "RPT_LETSENCRYPT_FINISHED_0";
+    public static final @RUntainted String RPT_LETSENCRYPT_FINISHED_0 = "RPT_LETSENCRYPT_FINISHED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_LETSENCRYPT_NO_DOMAINS_0 = "RPT_LETSENCRYPT_NO_DOMAINS_0";
+    public static final @RUntainted String RPT_LETSENCRYPT_NO_DOMAINS_0 = "RPT_LETSENCRYPT_NO_DOMAINS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_LETSENCRYPT_UPDATE_FAILED_0 = "RPT_LETSENCRYPT_UPDATE_FAILED_0";
+    public static final @RUntainted String RPT_LETSENCRYPT_UPDATE_FAILED_0 = "RPT_LETSENCRYPT_UPDATE_FAILED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_MACRORESOLVER_APPLY_MACROS_0 = "RPT_MACRORESOLVER_APPLY_MACROS_0";
+    public static final @RUntainted String RPT_MACRORESOLVER_APPLY_MACROS_0 = "RPT_MACRORESOLVER_APPLY_MACROS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_MACRORESOLVER_COPY_RESOURCES_1 = "RPT_MACRORESOLVER_COPY_RESOURCES_1";
+    public static final @RUntainted String RPT_MACRORESOLVER_COPY_RESOURCES_1 = "RPT_MACRORESOLVER_COPY_RESOURCES_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_MACRORESOLVER_LINK_ADJUST_0 = "RPT_MACRORESOLVER_LINK_ADJUST_0";
+    public static final @RUntainted String RPT_MACRORESOLVER_LINK_ADJUST_0 = "RPT_MACRORESOLVER_LINK_ADJUST_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_OUTPUT_WEBSERVER_1 = "RPT_OUTPUT_WEBSERVER_1";
+    public static final @RUntainted String RPT_OUTPUT_WEBSERVER_1 = "RPT_OUTPUT_WEBSERVER_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_REBUILD_SEARCH_INDEXES_BEGIN_0 = "RPT_REBUILD_SEARCH_INDEXES_BEGIN_0";
+    public static final @RUntainted String RPT_REBUILD_SEARCH_INDEXES_BEGIN_0 = "RPT_REBUILD_SEARCH_INDEXES_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_REBUILD_SEARCH_INDEXES_END_0 = "RPT_REBUILD_SEARCH_INDEXES_END_0";
+    public static final @RUntainted String RPT_REBUILD_SEARCH_INDEXES_END_0 = "RPT_REBUILD_SEARCH_INDEXES_END_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String RPT_REMOVED_SITE_SUCCESSFUL_1 = "RPT_REMOVED_SITE_SUCCESSFUL_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SITE_ADD_OU_1 = "RPT_SITE_ADD_OU_1";
+    public static final @RUntainted String RPT_SITE_ADD_OU_1 = "RPT_SITE_ADD_OU_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SITE_CREATE_OU_1 = "RPT_SITE_CREATE_OU_1";
+    public static final @RUntainted String RPT_SITE_CREATE_OU_1 = "RPT_SITE_CREATE_OU_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SITE_CREATE_RESOURCES_0 = "RPT_SITE_CREATE_RESOURCES_0";
+    public static final @RUntainted String RPT_SITE_CREATE_RESOURCES_0 = "RPT_SITE_CREATE_RESOURCES_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SITE_ERROR_0 = "RPT_SITE_ERROR_0";
+    public static final @RUntainted String RPT_SITE_ERROR_0 = "RPT_SITE_ERROR_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SITE_ERROR_FAVICON_0 = "RPT_SITE_ERROR_FAVICON_0";
+    public static final @RUntainted String RPT_SITE_ERROR_FAVICON_0 = "RPT_SITE_ERROR_FAVICON_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SITE_ERROR_TITLE_0 = "RPT_SITE_ERROR_TITLE_0";
+    public static final @RUntainted String RPT_SITE_ERROR_TITLE_0 = "RPT_SITE_ERROR_TITLE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SITE_FINISH_0 = "RPT_SITE_FINISH_0";
+    public static final @RUntainted String RPT_SITE_FINISH_0 = "RPT_SITE_FINISH_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SITE_FINISH_WARNING_0 = "RPT_SITE_FINISH_WARNING_0";
+    public static final @RUntainted String RPT_SITE_FINISH_WARNING_0 = "RPT_SITE_FINISH_WARNING_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SITE_SET_FAVICON_0 = "RPT_SITE_SET_FAVICON_0";
+    public static final @RUntainted String RPT_SITE_SET_FAVICON_0 = "RPT_SITE_SET_FAVICON_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SITE_START_EDIT_1 = "RPT_SITE_START_EDIT_1";
+    public static final @RUntainted String RPT_SITE_START_EDIT_1 = "RPT_SITE_START_EDIT_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SITE_START_NEW_1 = "RPT_SITE_START_NEW_1";
+    public static final @RUntainted String RPT_SITE_START_NEW_1 = "RPT_SITE_START_NEW_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String RPT_SOURCESEARCH_APPLY_PATTERN_ERROR_1 = "RPT_SOURCESEARCH_APPLY_PATTERN_ERROR_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_BEGIN_SEARCH_THREAD_0 = "RPT_SOURCESEARCH_BEGIN_SEARCH_THREAD_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_BEGIN_SEARCH_THREAD_0 = "RPT_SOURCESEARCH_BEGIN_SEARCH_THREAD_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_CLICK_OK_TO_GET_LIST_0 = "RPT_SOURCESEARCH_CLICK_OK_TO_GET_LIST_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_CLICK_OK_TO_GET_LIST_0 = "RPT_SOURCESEARCH_CLICK_OK_TO_GET_LIST_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_COULD_NOT_READ_FILE_0 = "RPT_SOURCESEARCH_COULD_NOT_READ_FILE_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_COULD_NOT_READ_FILE_0 = "RPT_SOURCESEARCH_COULD_NOT_READ_FILE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_END_SEARCH_THREAD_0 = "RPT_SOURCESEARCH_END_SEARCH_THREAD_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_END_SEARCH_THREAD_0 = "RPT_SOURCESEARCH_END_SEARCH_THREAD_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_END_SEARCHING_0 = "RPT_SOURCESEARCH_END_SEARCHING_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_END_SEARCHING_0 = "RPT_SOURCESEARCH_END_SEARCHING_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_END_SEARCHING_REPLACING_0 = "RPT_SOURCESEARCH_END_SEARCHING_REPLACING_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_END_SEARCHING_REPLACING_0 = "RPT_SOURCESEARCH_END_SEARCHING_REPLACING_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_ERROR_READING_RESOURCES_1 = "RPT_SOURCESEARCH_ERROR_READING_RESOURCES_1";
+    public static final @RUntainted String RPT_SOURCESEARCH_ERROR_READING_RESOURCES_1 = "RPT_SOURCESEARCH_ERROR_READING_RESOURCES_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_INIT_CMS_OBJECT_FAILED_0 = "RPT_SOURCESEARCH_INIT_CMS_OBJECT_FAILED_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_INIT_CMS_OBJECT_FAILED_0 = "RPT_SOURCESEARCH_INIT_CMS_OBJECT_FAILED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_LOCKED_FILE_0 = "RPT_SOURCESEARCH_LOCKED_FILE_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_LOCKED_FILE_0 = "RPT_SOURCESEARCH_LOCKED_FILE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_LOCKED_FILES_1 = "RPT_SOURCESEARCH_LOCKED_FILES_1";
+    public static final @RUntainted String RPT_SOURCESEARCH_LOCKED_FILES_1 = "RPT_SOURCESEARCH_LOCKED_FILES_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_MATCHED_0 = "RPT_SOURCESEARCH_MATCHED_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_MATCHED_0 = "RPT_SOURCESEARCH_MATCHED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_NO_FILES_FOUND_0 = "RPT_SOURCESEARCH_NO_FILES_FOUND_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_NO_FILES_FOUND_0 = "RPT_SOURCESEARCH_NO_FILES_FOUND_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_NO_FILES_TO_SEARCH_IN_0 = "RPT_SOURCESEARCH_NO_FILES_TO_SEARCH_IN_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_NO_FILES_TO_SEARCH_IN_0 = "RPT_SOURCESEARCH_NO_FILES_TO_SEARCH_IN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_NOT_MATCHED_0 = "RPT_SOURCESEARCH_NOT_MATCHED_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_NOT_MATCHED_0 = "RPT_SOURCESEARCH_NOT_MATCHED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_NR_OF_FILES_MATCHED_1 = "RPT_SOURCESEARCH_NR_OF_FILES_MATCHED_1";
+    public static final @RUntainted String RPT_SOURCESEARCH_NR_OF_FILES_MATCHED_1 = "RPT_SOURCESEARCH_NR_OF_FILES_MATCHED_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_NR_OF_FILES_TO_SEARCH_IN_1 = "RPT_SOURCESEARCH_NR_OF_FILES_TO_SEARCH_IN_1";
+    public static final @RUntainted String RPT_SOURCESEARCH_NR_OF_FILES_TO_SEARCH_IN_1 = "RPT_SOURCESEARCH_NR_OF_FILES_TO_SEARCH_IN_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_PARAMETERS_0 = "RPT_SOURCESEARCH_PARAMETERS_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_PARAMETERS_0 = "RPT_SOURCESEARCH_PARAMETERS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_PARAMETERS_EMPTY_REPLACEPATTERN_0 = "RPT_SOURCESEARCH_PARAMETERS_EMPTY_REPLACEPATTERN_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_PARAMETERS_EMPTY_REPLACEPATTERN_0 = "RPT_SOURCESEARCH_PARAMETERS_EMPTY_REPLACEPATTERN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_PARAMETERS_EMPTY_RESOURCE_PATHS_0 = "RPT_SOURCESEARCH_PARAMETERS_EMPTY_RESOURCE_PATHS_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_PARAMETERS_EMPTY_RESOURCE_PATHS_0 = "RPT_SOURCESEARCH_PARAMETERS_EMPTY_RESOURCE_PATHS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_PARAMETERS_EMPTY_SEARCHPATTERN_0 = "RPT_SOURCESEARCH_PARAMETERS_EMPTY_SEARCHPATTERN_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_PARAMETERS_EMPTY_SEARCHPATTERN_0 = "RPT_SOURCESEARCH_PARAMETERS_EMPTY_SEARCHPATTERN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_PARAMETERS_NOTEMPTY_REPLACEPATTERN_0 = "RPT_SOURCESEARCH_PARAMETERS_NOTEMPTY_REPLACEPATTERN_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_PARAMETERS_NOTEMPTY_REPLACEPATTERN_0 = "RPT_SOURCESEARCH_PARAMETERS_NOTEMPTY_REPLACEPATTERN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_PARAMETERS_PROJECT_1 = "RPT_SOURCESEARCH_PARAMETERS_PROJECT_1";
+    public static final @RUntainted String RPT_SOURCESEARCH_PARAMETERS_PROJECT_1 = "RPT_SOURCESEARCH_PARAMETERS_PROJECT_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_PARAMETERS_REPLACEPATTERN_1 = "RPT_SOURCESEARCH_PARAMETERS_REPLACEPATTERN_1";
+    public static final @RUntainted String RPT_SOURCESEARCH_PARAMETERS_REPLACEPATTERN_1 = "RPT_SOURCESEARCH_PARAMETERS_REPLACEPATTERN_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_PARAMETERS_RESOURCE_PATH_1 = "RPT_SOURCESEARCH_PARAMETERS_RESOURCE_PATH_1";
+    public static final @RUntainted String RPT_SOURCESEARCH_PARAMETERS_RESOURCE_PATH_1 = "RPT_SOURCESEARCH_PARAMETERS_RESOURCE_PATH_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_PARAMETERS_SEARCHPATTERN_1 = "RPT_SOURCESEARCH_PARAMETERS_SEARCHPATTERN_1";
+    public static final @RUntainted String RPT_SOURCESEARCH_PARAMETERS_SEARCHPATTERN_1 = "RPT_SOURCESEARCH_PARAMETERS_SEARCHPATTERN_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_REPLACE_ERROR_COUNT_1 = "RPT_SOURCESEARCH_REPLACE_ERROR_COUNT_1";
+    public static final @RUntainted String RPT_SOURCESEARCH_REPLACE_ERROR_COUNT_1 = "RPT_SOURCESEARCH_REPLACE_ERROR_COUNT_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_REPLACE_FAILED_0 = "RPT_SOURCESEARCH_REPLACE_FAILED_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_REPLACE_FAILED_0 = "RPT_SOURCESEARCH_REPLACE_FAILED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_REPLACE_SUCCESS_0 = "RPT_SOURCESEARCH_REPLACE_SUCCESS_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_REPLACE_SUCCESS_0 = "RPT_SOURCESEARCH_REPLACE_SUCCESS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_RESULT_0 = "RPT_SOURCESEARCH_RESULT_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_RESULT_0 = "RPT_SOURCESEARCH_RESULT_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_SEARCH_ERROR_COUNT_1 = "RPT_SOURCESEARCH_SEARCH_ERROR_COUNT_1";
+    public static final @RUntainted String RPT_SOURCESEARCH_SEARCH_ERROR_COUNT_1 = "RPT_SOURCESEARCH_SEARCH_ERROR_COUNT_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_SEARCH_FAILED_0 = "RPT_SOURCESEARCH_SEARCH_FAILED_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_SEARCH_FAILED_0 = "RPT_SOURCESEARCH_SEARCH_FAILED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_SEARCH_SUCCESS_0 = "RPT_SOURCESEARCH_SEARCH_SUCCESS_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_SEARCH_SUCCESS_0 = "RPT_SOURCESEARCH_SEARCH_SUCCESS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_START_COLLECTING_FILES_TO_SEARCH_IN_0 = "RPT_SOURCESEARCH_START_COLLECTING_FILES_TO_SEARCH_IN_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_START_COLLECTING_FILES_TO_SEARCH_IN_0 = "RPT_SOURCESEARCH_START_COLLECTING_FILES_TO_SEARCH_IN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_START_SEARCHING_0 = "RPT_SOURCESEARCH_START_SEARCHING_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_START_SEARCHING_0 = "RPT_SOURCESEARCH_START_SEARCHING_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_START_SEARCHING_REPLACING_0 = "RPT_SOURCESEARCH_START_SEARCHING_REPLACING_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_START_SEARCHING_REPLACING_0 = "RPT_SOURCESEARCH_START_SEARCHING_REPLACING_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SOURCESEARCH_UNLOCK_FILE_0 = "RPT_SOURCESEARCH_UNLOCK_FILE_0";
+    public static final @RUntainted String RPT_SOURCESEARCH_UNLOCK_FILE_0 = "RPT_SOURCESEARCH_UNLOCK_FILE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SQLCONSOLE_BEGIN_0 = "RPT_SQLCONSOLE_BEGIN_0";
+    public static final @RUntainted String RPT_SQLCONSOLE_BEGIN_0 = "RPT_SQLCONSOLE_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SQLCONSOLE_END_0 = "RPT_SQLCONSOLE_END_0";
+    public static final @RUntainted String RPT_SQLCONSOLE_END_0 = "RPT_SQLCONSOLE_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SQLCONSOLE_NUM_ROWS_RETRIEVED_1 = "RPT_SQLCONSOLE_NUM_ROWS_RETRIEVED_1";
+    public static final @RUntainted String RPT_SQLCONSOLE_NUM_ROWS_RETRIEVED_1 = "RPT_SQLCONSOLE_NUM_ROWS_RETRIEVED_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SQLCONSOLE_ROWS_AFFECTED_1 = "RPT_SQLCONSOLE_ROWS_AFFECTED_1";
+    public static final @RUntainted String RPT_SQLCONSOLE_ROWS_AFFECTED_1 = "RPT_SQLCONSOLE_ROWS_AFFECTED_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_STARTING_LETSENCRYPT_UPDATE_0 = "RPT_STARTING_LETSENCRYPT_UPDATE_0";
+    public static final @RUntainted String RPT_STARTING_LETSENCRYPT_UPDATE_0 = "RPT_STARTING_LETSENCRYPT_UPDATE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_USERIMPORT_BEGIN_0 = "RPT_USERIMPORT_BEGIN_0";
+    public static final @RUntainted String RPT_USERIMPORT_BEGIN_0 = "RPT_USERIMPORT_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_USERIMPORT_END_0 = "RPT_USERIMPORT_END_0";
+    public static final @RUntainted String RPT_USERIMPORT_END_0 = "RPT_USERIMPORT_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_USERIMPORT_FILE_CONTAINS_1 = "RPT_USERIMPORT_FILE_CONTAINS_1";
+    public static final @RUntainted String RPT_USERIMPORT_FILE_CONTAINS_1 = "RPT_USERIMPORT_FILE_CONTAINS_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_USERIMPORT_IMPORT_ALREADY_IN_OU_1 = "RPT_USERIMPORT_IMPORT_ALREADY_IN_OU_1";
+    public static final @RUntainted String RPT_USERIMPORT_IMPORT_ALREADY_IN_OU_1 = "RPT_USERIMPORT_IMPORT_ALREADY_IN_OU_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_USERIMPORT_IMPORT_SUCCESFULL_1 = "RPT_USERIMPORT_IMPORT_SUCCESFULL_1";
+    public static final @RUntainted String RPT_USERIMPORT_IMPORT_SUCCESFULL_1 = "RPT_USERIMPORT_IMPORT_SUCCESFULL_1";
 
     /** Name of the used resource bundle. */
     private static final String BUNDLE_NAME = "org.opencms.ui.apps.messages";

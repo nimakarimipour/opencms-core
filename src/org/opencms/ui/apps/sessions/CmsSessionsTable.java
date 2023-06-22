@@ -71,6 +71,7 @@ import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Table;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the table to show all current sessions.<p>
@@ -90,7 +91,7 @@ public class CmsSessionsTable extends Table {
             try {
                 String sessionId = data.iterator().next();
                 CmsSessionInfo session = OpenCms.getSessionManager().getSessionInfo(new CmsUUID(sessionId));
-                String siteRoot = session.getSiteRoot();
+                @RUntainted String siteRoot = session.getSiteRoot();
                 A_CmsUI.getCmsObject().getRequestContext().setSiteRoot(siteRoot);
                 A_CmsUI.getCmsObject().getRequestContext().setCurrentProject(
                     A_CmsUI.getCmsObject().readProject(session.getProject()));
@@ -177,7 +178,7 @@ public class CmsSessionsTable extends Table {
             try {
                 String sessionId = data.iterator().next();
                 CmsSessionInfo session = OpenCms.getSessionManager().getSessionInfo(new CmsUUID(sessionId));
-                String siteRoot = session.getSiteRoot();
+                @RUntainted String siteRoot = session.getSiteRoot();
                 A_CmsUI.get().changeSite(siteRoot);
                 A_CmsUI.get().changeProject(A_CmsUI.getCmsObject().readProject(session.getProject()));
 

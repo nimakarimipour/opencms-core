@@ -34,6 +34,7 @@ import org.opencms.util.CmsStringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides filters for getting resources subscribed by a user or group in a specified time range.<p>
@@ -180,7 +181,7 @@ public class CmsSubscriptionFilter extends CmsVisitedByFilter {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         StringBuffer result = new StringBuffer(256);
         result.append(super.toString());

@@ -79,6 +79,7 @@ import org.apache.jackrabbit.webdav.property.DefaultDavProperty;
 import org.apache.jackrabbit.webdav.property.PropEntry;
 import org.apache.jackrabbit.webdav.property.ResourceType;
 import org.apache.jackrabbit.webdav.xml.Namespace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a resource in the WebDav repository (may not actually correspond to an actual OpenCms resource, since
@@ -138,7 +139,7 @@ public class CmsDavResource implements DavResource {
     public void addMember(DavResource dres, InputContext inputContext) throws DavException {
 
         I_CmsRepositorySession session = getRepositorySession();
-        String childPath = ((CmsDavResource)dres).getCmsPath();
+        @RUntainted String childPath = ((CmsDavResource)dres).getCmsPath();
         String method = ((CmsDavInputContext)inputContext).getMethod();
         InputStream stream = inputContext.getInputStream();
         if (method.equals(DavMethods.METHOD_MKCOL) && (stream != null)) {
@@ -309,7 +310,7 @@ public class CmsDavResource implements DavResource {
      */
     public String getHref() {
 
-        String href = m_locator.getHref(true);
+        @RUntainted String href = m_locator.getHref(true);
         String result = CmsFileUtil.removeTrailingSeparator(href);
         return result;
     }
@@ -634,10 +635,10 @@ public class CmsDavResource implements DavResource {
      *
      * @return the OpenCms path
      */
-    private String getCmsPath() {
+    private @RUntainted String getCmsPath() {
 
-        String path = m_locator.getResourcePath();
-        String workspace = m_locator.getWorkspacePath();
+        @RUntainted String path = m_locator.getResourcePath();
+        @RUntainted String workspace = m_locator.getWorkspacePath();
         Optional<String> remainingPath = CmsStringUtil.removePrefixPath(workspace, path);
         return remainingPath.orElse(null);
 

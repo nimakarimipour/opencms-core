@@ -38,6 +38,7 @@ import java.util.Locale;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.
@@ -68,10 +69,10 @@ import javax.servlet.jsp.PageContext;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_BAD_REQUEST_RESPONSE_0 = "ERR_BAD_REQUEST_RESPONSE_0";
+    public static final @RUntainted String ERR_BAD_REQUEST_RESPONSE_0 = "ERR_BAD_REQUEST_RESPONSE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_COLLECTOR_NOT_FOUND_1 = "ERR_COLLECTOR_NOT_FOUND_1";
+    public static final @RUntainted String ERR_COLLECTOR_NOT_FOUND_1 = "ERR_COLLECTOR_NOT_FOUND_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_CONTAINER_PAGE_ELEMENT_RENDER_ERROR_2 = "ERR_CONTAINER_PAGE_ELEMENT_RENDER_ERROR_2";
@@ -89,82 +90,82 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_IMAGE_TAG_VFS_ACCESS_1 = "ERR_IMAGE_TAG_VFS_ACCESS_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_CONTAINER_PARENT_2 = "ERR_INVALID_CONTAINER_PARENT_2";
+    public static final @RUntainted String ERR_INVALID_CONTAINER_PARENT_2 = "ERR_INVALID_CONTAINER_PARENT_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MISSING_CMS_CONTROLLER_1 = "ERR_MISSING_CMS_CONTROLLER_1";
+    public static final @RUntainted String ERR_MISSING_CMS_CONTROLLER_1 = "ERR_MISSING_CMS_CONTROLLER_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_NO_CUSTOM_BEAN_1 = "ERR_NO_CUSTOM_BEAN_1";
+    public static final @RUntainted String ERR_NO_CUSTOM_BEAN_1 = "ERR_NO_CUSTOM_BEAN_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PARENTLESS_TAG_1 = "ERR_PARENTLESS_TAG_1";
+    public static final @RUntainted String ERR_PARENTLESS_TAG_1 = "ERR_PARENTLESS_TAG_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PROCESS_TAG_1 = "ERR_PROCESS_TAG_1";
+    public static final @RUntainted String ERR_PROCESS_TAG_1 = "ERR_PROCESS_TAG_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_READING_REQUIRED_RESOURCE_1 = "ERR_READING_REQUIRED_RESOURCE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_RESOURCE_IS_NOT_RELEASE_OR_EXPIRED_1 = "ERR_RESOURCE_IS_NOT_RELEASE_OR_EXPIRED_1";
+    public static final @RUntainted String ERR_RESOURCE_IS_NOT_RELEASE_OR_EXPIRED_1 = "ERR_RESOURCE_IS_NOT_RELEASE_OR_EXPIRED_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_RUNTIME_1 = "ERR_RUNTIME_1";
+    public static final @RUntainted String ERR_RUNTIME_1 = "ERR_RUNTIME_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_TAG_CONTENTCHECK_WRONG_PARENT_0 = "ERR_TAG_CONTENTCHECK_WRONG_PARENT_0";
+    public static final @RUntainted String ERR_TAG_CONTENTCHECK_WRONG_PARENT_0 = "ERR_TAG_CONTENTCHECK_WRONG_PARENT_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_TAG_CONTENTLOAD_INDEX_SIZE_0 = "ERR_TAG_CONTENTLOAD_INDEX_SIZE_0";
+    public static final @RUntainted String ERR_TAG_CONTENTLOAD_INDEX_SIZE_0 = "ERR_TAG_CONTENTLOAD_INDEX_SIZE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_TAG_CONTENTLOAD_MISSING_COLLECTOR_0 = "ERR_TAG_CONTENTLOAD_MISSING_COLLECTOR_0";
+    public static final @RUntainted String ERR_TAG_CONTENTLOAD_MISSING_COLLECTOR_0 = "ERR_TAG_CONTENTLOAD_MISSING_COLLECTOR_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_TAG_CONTENTLOAD_MISSING_PARAM_0 = "ERR_TAG_CONTENTLOAD_MISSING_PARAM_0";
+    public static final @RUntainted String ERR_TAG_CONTENTLOAD_MISSING_PARAM_0 = "ERR_TAG_CONTENTLOAD_MISSING_PARAM_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_TAG_INVALID_LOCALE_1 = "ERR_TAG_INVALID_LOCALE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_TAG_RESOURCELOAD_INDEX_SIZE_0 = "ERR_TAG_RESOURCELOAD_INDEX_SIZE_0";
+    public static final @RUntainted String ERR_TAG_RESOURCELOAD_INDEX_SIZE_0 = "ERR_TAG_RESOURCELOAD_INDEX_SIZE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_TAG_RESOURCELOAD_MISSING_COLLECTOR_0 = "ERR_TAG_RESOURCELOAD_MISSING_COLLECTOR_0";
+    public static final @RUntainted String ERR_TAG_RESOURCELOAD_MISSING_COLLECTOR_0 = "ERR_TAG_RESOURCELOAD_MISSING_COLLECTOR_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_TAG_RESOURCELOAD_MISSING_PARAM_0 = "ERR_TAG_RESOURCELOAD_MISSING_PARAM_0";
+    public static final @RUntainted String ERR_TAG_RESOURCELOAD_MISSING_PARAM_0 = "ERR_TAG_RESOURCELOAD_MISSING_PARAM_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_XML_DOCUMENT_UNMARSHAL_1 = "ERR_XML_DOCUMENT_UNMARSHAL_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_XSD_NO_TEMPLATE_FORMATTER_3 = "ERR_XSD_NO_TEMPLATE_FORMATTER_3";
+    public static final @RUntainted String ERR_XSD_NO_TEMPLATE_FORMATTER_3 = "ERR_XSD_NO_TEMPLATE_FORMATTER_3";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_ERR_ACTIONELEM_NOT_INIT_0 = "GUI_ERR_ACTIONELEM_NOT_INIT_0";
+    public static final @RUntainted String GUI_ERR_ACTIONELEM_NOT_INIT_0 = "GUI_ERR_ACTIONELEM_NOT_INIT_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_ERR_FILE_PROP_MISSING_2 = "GUI_ERR_FILE_PROP_MISSING_2";
+    public static final @RUntainted String GUI_ERR_FILE_PROP_MISSING_2 = "GUI_ERR_FILE_PROP_MISSING_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_ERR_GEN_LINK_1 = "GUI_ERR_GEN_LINK_1";
+    public static final @RUntainted String GUI_ERR_GEN_LINK_1 = "GUI_ERR_GEN_LINK_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_ERR_IMG_SCALE_2 = "GUI_ERR_IMG_SCALE_2";
+    public static final @RUntainted String GUI_ERR_IMG_SCALE_2 = "GUI_ERR_IMG_SCALE_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_ERR_INFO_PROP_READ_1 = "GUI_ERR_INFO_PROP_READ_1";
+    public static final @RUntainted String GUI_ERR_INFO_PROP_READ_1 = "GUI_ERR_INFO_PROP_READ_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_ERR_INVALID_INFO_PROP_0 = "GUI_ERR_INVALID_INFO_PROP_0";
+    public static final @RUntainted String GUI_ERR_INVALID_INFO_PROP_0 = "GUI_ERR_INVALID_INFO_PROP_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_ERR_INVALID_INFO_PROP_1 = "GUI_ERR_INVALID_INFO_PROP_1";
+    public static final @RUntainted String GUI_ERR_INVALID_INFO_PROP_1 = "GUI_ERR_INVALID_INFO_PROP_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_ERR_INVALID_USER_PROP_1 = "GUI_ERR_INVALID_USER_PROP_1";
+    public static final @RUntainted String GUI_ERR_INVALID_USER_PROP_1 = "GUI_ERR_INVALID_USER_PROP_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_ERR_TAG_ATTRIBUTE_INVALID_3 = "GUI_ERR_TAG_ATTRIBUTE_INVALID_3";
@@ -173,16 +174,16 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String GUI_ERR_TAG_ATTRIBUTE_MISSING_2 = "GUI_ERR_TAG_ATTRIBUTE_MISSING_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_ERR_USER_PROP_READ_1 = "GUI_ERR_USER_PROP_READ_1";
+    public static final @RUntainted String GUI_ERR_USER_PROP_READ_1 = "GUI_ERR_USER_PROP_READ_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_ERR_WORKPL_LABEL_READ_1 = "GUI_ERR_WORKPL_LABEL_READ_1";
+    public static final @RUntainted String GUI_ERR_WORKPL_LABEL_READ_1 = "GUI_ERR_WORKPL_LABEL_READ_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_LABEL_STACKTRACE_0 = "GUI_LABEL_STACKTRACE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_TAG_USER_ADDITIONALINFO_0 = "GUI_TAG_USER_ADDITIONALINFO_0";
+    public static final @RUntainted String GUI_TAG_USER_ADDITIONALINFO_0 = "GUI_TAG_USER_ADDITIONALINFO_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_TOOLBAR_ENABLE_EDIT_MODE_0 = "GUI_TOOLBAR_ENABLE_EDIT_MODE_0";
@@ -203,7 +204,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_ERR_JSP_WRITE_0 = "LOG_ERR_JSP_WRITE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_LOGIN_FAILED_3 = "LOG_LOGIN_FAILED_3";
+    public static final @RUntainted String LOG_LOGIN_FAILED_3 = "LOG_LOGIN_FAILED_3";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_LOGIN_FAILED_DB_REASON_3 = "LOG_LOGIN_FAILED_DB_REASON_3";
@@ -233,10 +234,10 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_TAG_SEARCH_SEARCH_FAILED_0 = "LOG_TAG_SEARCH_SEARCH_FAILED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_WRONG_CONTAINER_MAXELEMENTS_3 = "LOG_WRONG_CONTAINER_MAXELEMENTS_3";
+    public static final @RUntainted String LOG_WRONG_CONTAINER_MAXELEMENTS_3 = "LOG_WRONG_CONTAINER_MAXELEMENTS_3";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_WRONG_CONTAINER_TYPE_4 = "LOG_WRONG_CONTAINER_TYPE_4";
+    public static final @RUntainted String LOG_WRONG_CONTAINER_TYPE_4 = "LOG_WRONG_CONTAINER_TYPE_4";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_WRONG_DEVICE_TYPE_2 = "LOG_WRONG_DEVICE_TYPE_2";
@@ -333,7 +334,7 @@ public final class Messages extends A_CmsMessageBundle {
      *         if available or to the default locale else.
      *         <p>
      */
-    public static String getLocalizedMessage(CmsMessageContainer container, ServletRequest request) {
+    public static @RUntainted String getLocalizedMessage(CmsMessageContainer container, ServletRequest request) {
 
         CmsObject cms = CmsFlexController.getCmsObject(request);
         return getLocalizedMessage(container, cms);

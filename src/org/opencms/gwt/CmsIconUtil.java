@@ -47,6 +47,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility class to generate the resource icon CSS.<p>
@@ -321,7 +322,7 @@ public final class CmsIconUtil implements I_CmsEventListener {
 
         if (m_extensionIconMapping == null) {
             m_extensionIconMapping = new HashMap<String, String>();
-            for (Entry<String, String> entry : OpenCms.getResourceManager().getExtensionMapping().entrySet()) {
+            for (@RUntainted Entry<@RUntainted String, @RUntainted String> entry : OpenCms.getResourceManager().getExtensionMapping().entrySet()) {
                 m_extensionIconMapping.put(
                     entry.getKey(),
                     getIconClasses(entry.getValue(), "_." + entry.getKey(), false));
@@ -342,7 +343,7 @@ public final class CmsIconUtil implements I_CmsEventListener {
      *
      * @return the icon CSS classes
      */
-    public static String getIconClasses(CmsExplorerTypeSettings typeSettings, String resourceName, boolean small) {
+    public static String getIconClasses(CmsExplorerTypeSettings typeSettings, @RUntainted String resourceName, boolean small) {
 
         String result = null;
         if (typeSettings == null) {
@@ -391,7 +392,7 @@ public final class CmsIconUtil implements I_CmsEventListener {
      *
      * @return the icon CSS classes
      */
-    public static String getIconClasses(String resourceType, String resourceName, boolean small) {
+    public static String getIconClasses(String resourceType, @RUntainted String resourceName, boolean small) {
 
         String result;
         if (resourceType.equals(CmsGwtConstants.TYPE_NAVLEVEL)) {

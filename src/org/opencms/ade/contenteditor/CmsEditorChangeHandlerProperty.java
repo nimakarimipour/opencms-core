@@ -39,6 +39,7 @@ import java.util.Collection;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles editor content changes to read OpenCms resource properties and insert their values into the edited content.<p>

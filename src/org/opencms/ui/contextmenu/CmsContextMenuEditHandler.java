@@ -56,6 +56,7 @@ import com.vaadin.server.AbstractErrorMessage.ContentMode;
 import com.vaadin.server.UserError;
 import com.vaadin.v7.event.FieldEvents.TextChangeEvent;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles inline editing within the file table.<p>
@@ -199,7 +200,7 @@ public class CmsContextMenuEditHandler implements I_CmsFilePropertyEditHandler {
 
         if ((m_editProperty == CmsResourceTableProperty.PROPERTY_RESOURCE_NAME) && (value instanceof String)) {
             try {
-                String newName = (String)value;
+                @RUntainted String newName = (String)value;
                 CmsResource.checkResourceName(newName);
                 CmsObject cms = A_CmsUI.getCmsObject();
                 CmsResource res = cms.readResource(m_editId, CmsResourceFilter.IGNORE_EXPIRATION);

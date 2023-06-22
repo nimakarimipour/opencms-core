@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report class used for the publish operations.<p>
@@ -276,7 +277,7 @@ public class CmsPublishReport extends CmsPrintStreamReport {
      * @see org.opencms.report.CmsPrintStreamReport#println(java.lang.Throwable)
      */
     @Override
-    public synchronized void println(Throwable t) {
+    public synchronized void println(@RUntainted Throwable t) {
 
         if (!m_busy && (m_report != null)) {
             m_report.println(t);

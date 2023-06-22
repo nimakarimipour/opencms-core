@@ -31,6 +31,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Serializable entity attribute implementation.<p>
@@ -135,7 +136,7 @@ public class CmsEntityAttribute implements Serializable {
      *
      * @return the list of simple values
      */
-    public List<String> getSimpleValues() {
+    public @RUntainted List<@RUntainted String> getSimpleValues() {
 
         return Collections.unmodifiableList(m_simpleValues);
     }

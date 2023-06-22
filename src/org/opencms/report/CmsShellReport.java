@@ -32,6 +32,7 @@ import org.opencms.main.CmsShell;
 
 import java.io.PrintStream;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report class used for the shell.<p>
@@ -152,7 +153,7 @@ public class CmsShellReport extends CmsPrintStreamReport {
      * @see org.opencms.report.CmsPrintStreamReport#println(java.lang.Throwable)
      */
     @Override
-    public void println(Throwable t) {
+    public void println(@RUntainted Throwable t) {
 
         super.println(t);
         m_stillRunning = true;

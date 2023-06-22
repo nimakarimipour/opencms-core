@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Filter access to statically exported resources while checking permissions.<p>
@@ -69,8 +70,8 @@ public class OpenCmsProtectedExportFilter implements Filter {
 
         if ((OpenCms.getStaticExportManager().getProtectedExportPath() != null)
             && (req instanceof HttpServletRequest)) {
-            HttpServletRequest request = (HttpServletRequest)req;
-            String uri = request.getRequestURI();
+            @RUntainted HttpServletRequest request = (HttpServletRequest)req;
+            @RUntainted String uri = request.getRequestURI();
             if (uri.startsWith(getPrefix())) {
                 // direct access to the protected export folder is forbidden
                 ((HttpServletResponse)res).sendError(HttpServletResponse.SC_FORBIDDEN);

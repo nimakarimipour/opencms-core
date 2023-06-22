@@ -38,6 +38,7 @@ import org.opencms.workplace.explorer.Messages;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action to refresh the sitemap.<p>
@@ -75,7 +76,7 @@ public class CmsSitemapEditConfigAction extends A_CmsWorkplaceAction implements 
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
      */
-    public String getJspPath() {
+    public @RUntainted String getJspPath() {
 
         return null;
     }

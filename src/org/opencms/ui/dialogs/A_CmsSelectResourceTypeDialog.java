@@ -86,6 +86,7 @@ import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 public abstract class A_CmsSelectResourceTypeDialog extends CmsBasicDialog {
 
@@ -361,7 +362,7 @@ public abstract class A_CmsSelectResourceTypeDialog extends CmsBasicDialog {
             subtitle = CmsVaadinUtils.getMessageText(explorerType.getInfo());
         }
         if (useDefault && (type.getOrigin() == Origin.config) && (type.getCreatePath() != null)) {
-            String path = type.getCreatePath();
+            @RUntainted String path = type.getCreatePath();
             CmsObject cms = A_CmsUI.getCmsObject();
             path = cms.getRequestContext().removeSiteRoot(path);
             subtitle = CmsVaadinUtils.getMessageText(Messages.GUI_NEW_CREATE_IN_PATH_1, path);

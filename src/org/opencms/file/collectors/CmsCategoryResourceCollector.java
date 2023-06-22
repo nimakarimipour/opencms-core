@@ -51,6 +51,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A collector to fetch XML contents in a folder or the current site filtered by one or more given category types.<p>
@@ -201,10 +202,10 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
             setType(-1);
             for (int i = keyValueTokens.length - 1; i >= 0; i--) {
                 String relation = keyValueTokens[i];
-                String[] keyValuePair = CmsStringUtil.splitAsArray(relation, '=');
+                @RUntainted String[] keyValuePair = CmsStringUtil.splitAsArray(relation, '=');
 
                 String key = keyValuePair[0];
-                String value = keyValuePair[1];
+                @RUntainted String value = keyValuePair[1];
 
                 if (PARAM_KEY_CATEGORY_TYPES.equals(key)) {
                     m_categoryTypes = CmsStringUtil.splitAsList(value, ',');
@@ -295,7 +296,7 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateLink(CmsObject cms, String collectorName, String param)
+    public @RUntainted String getCreateLink(CmsObject cms, @RUntainted String collectorName, String param)
     throws CmsException, CmsDataAccessException {
 
         // if action is not set, use default action
@@ -316,7 +317,7 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateParam(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateParam(CmsObject cms, String collectorName, String param) throws CmsDataAccessException {
+    public String getCreateParam(CmsObject cms, @RUntainted String collectorName, String param) throws CmsDataAccessException {
 
         // if action is not set, use default action
         if (collectorName == null) {
@@ -345,7 +346,7 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getResults(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public List<CmsResource> getResults(CmsObject cms, String collectorName, String param, int numResults)
+    public List<CmsResource> getResults(CmsObject cms, @RUntainted String collectorName, String param, int numResults)
     throws CmsDataAccessException, CmsException {
 
         // if action is not set use default
@@ -383,7 +384,7 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
         if ((data.getCategoryTypes() != null) && (data.getCategoryTypes().size() > 0)) {
             List<CmsResource> result = new ArrayList<CmsResource>();
             Map<String, List<CmsResource>> sortCategories = new HashMap<String, List<CmsResource>>();
-            String foldername = null;
+            @RUntainted String foldername = null;
             boolean includeSubTree = false;
             if (data.getFileName() != null) {
                 foldername = CmsResource.getFolderPath(data.getFileName());

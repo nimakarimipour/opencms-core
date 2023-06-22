@@ -43,6 +43,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Oracle/OCI implementation of the project driver methods.<p>
@@ -135,7 +136,7 @@ public class CmsProjectDriver extends org.opencms.db.generic.CmsProjectDriver {
      */
     private void internalWritePublishJobData(
         CmsDbContext dbc,
-        CmsUUID publishJobHistoryId,
+        @RUntainted CmsUUID publishJobHistoryId,
         String queryKey,
         String fieldName,
         byte[] data)

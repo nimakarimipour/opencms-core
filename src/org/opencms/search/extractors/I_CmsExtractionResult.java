@@ -32,6 +32,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The result of a document text extraction.<p>
@@ -94,7 +95,7 @@ public interface I_CmsExtractionResult {
      *
      * @return the extracted content of the best fitting locale combined as a String
      */
-    String getContent();
+    @RUntainted String getContent();
 
     /**
      * Returns the extracted content for the given locale combined as a String.<p>

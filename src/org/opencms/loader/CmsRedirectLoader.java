@@ -45,6 +45,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Loader for HTML redirects.<p>
@@ -169,7 +170,7 @@ public class CmsRedirectLoader implements I_CmsResourceLoader, I_CmsFlexCacheEna
     /**
      * @see org.opencms.loader.I_CmsResourceLoader#load(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public void load(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+    public void load(@RUntainted CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
     throws CmsException {
 
         getController(cms, resource, req, res, false, true);
@@ -207,7 +208,7 @@ public class CmsRedirectLoader implements I_CmsResourceLoader, I_CmsFlexCacheEna
      * @return a Flex controller
      */
     protected CmsFlexController getController(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsResource resource,
         HttpServletRequest req,
         HttpServletResponse res,

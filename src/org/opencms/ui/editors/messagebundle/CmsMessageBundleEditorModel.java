@@ -98,6 +98,7 @@ import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.DefaultItemSorter;
 import com.vaadin.v7.data.util.IndexedContainer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The class contains the logic behind the message translation editor.
@@ -1068,7 +1069,7 @@ public class CmsMessageBundleEditorModel {
      */
     private void createAndLockDescriptorFile() throws CmsException {
 
-        String sitePath = m_sitepath + m_basename + CmsMessageBundleEditorTypes.Descriptor.POSTFIX;
+        @RUntainted String sitePath = m_sitepath + m_basename + CmsMessageBundleEditorTypes.Descriptor.POSTFIX;
         m_desc = m_cms.createResource(
             sitePath,
             OpenCms.getResourceManager().getResourceType(CmsMessageBundleEditorTypes.BundleType.DESCRIPTOR.toString()));
@@ -1700,7 +1701,7 @@ public class CmsMessageBundleEditorModel {
      * @param newKey the new key name
      * @return <code>true</code> if renaming was successful, <code>false</code> otherwise.
      */
-    private boolean renameKeyForAllLanguages(String oldKey, String newKey) {
+    private boolean renameKeyForAllLanguages(String oldKey, @RUntainted String newKey) {
 
         try {
             loadAllRemainingLocalizations();
@@ -1875,7 +1876,7 @@ public class CmsMessageBundleEditorModel {
 
         if (m_lockedBundleFiles.get(null) != null) { // If the file was not locked, no changes were made, i.e., storing is not necessary.
             for (Locale l : m_locales) {
-                SortedProperties props = m_localizations.get(l);
+                @RUntainted SortedProperties props = m_localizations.get(l);
                 if (null != props) {
                     if (m_xmlBundle.hasLocale(l)) {
                         m_xmlBundle.removeLocale(l);
@@ -1884,9 +1885,9 @@ public class CmsMessageBundleEditorModel {
                     int i = 0;
                     List<Object> keys = new ArrayList<Object>(props.keySet());
                     Collections.sort(keys, CmsCaseInsensitiveStringComparator.getInstance());
-                    for (Object key : keys) {
+                    for (@RUntainted Object key : keys) {
                         if ((null != key) && !key.toString().isEmpty()) {
-                            String value = props.getProperty(key.toString());
+                            @RUntainted String value = props.getProperty(key.toString());
                             if (!value.isEmpty()) {
                                 m_xmlBundle.addValue(m_cms, "Message", l, i);
                                 i++;
@@ -1982,10 +1983,10 @@ public class CmsMessageBundleEditorModel {
         m_descContent.addLocale(m_cms, Descriptor.LOCALE);
 
         int i = 0;
-        Property<Object> descProp;
-        String desc;
-        Property<Object> defaultValueProp;
-        String defaultValue;
+        @RUntainted Property<@RUntainted Object> descProp;
+        @RUntainted String desc;
+        @RUntainted Property<@RUntainted Object> defaultValueProp;
+        @RUntainted String defaultValue;
         Map<String, Item> keyItemMap = getKeyItemMap();
         List<String> keys = new ArrayList<String>(keyItemMap.keySet());
         Collections.sort(keys, CmsCaseInsensitiveStringComparator.getInstance());

@@ -40,6 +40,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is a utility class which provides convenience methods for finding detail page names for resources which include
@@ -120,7 +121,7 @@ public final class CmsDetailPageUtil {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsResource lookupPage(CmsObject cms, String uri) throws CmsException {
+    public static CmsResource lookupPage(CmsObject cms, @RUntainted String uri) throws CmsException {
 
         try {
             CmsResource res = cms.readResource(uri);

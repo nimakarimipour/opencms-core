@@ -41,6 +41,7 @@ import org.opencms.workplace.CmsWorkplace;
 import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a method to perform a user defined action when editing a page.<p>
@@ -123,10 +124,10 @@ public class CmsEditorActionDefault implements I_CmsEditorActionHandler {
     /**
      * @see org.opencms.workplace.editors.I_CmsEditorActionHandler#getButtonUrl(CmsJspActionElement, java.lang.String)
      */
-    public String getButtonUrl(CmsJspActionElement jsp, String resourceName) {
+    public String getButtonUrl(CmsJspActionElement jsp, @RUntainted String resourceName) {
 
         // get the button image
-        String button = CmsWorkplace.VFS_PATH_RESOURCES + "buttons/publish.png";
+        @RUntainted String button = CmsWorkplace.VFS_PATH_RESOURCES + "buttons/publish.png";
         if (!isButtonActive(jsp, resourceName)) {
             // show disabled button if not active
             button = CmsWorkplace.VFS_PATH_RESOURCES + "buttons/publish_in.png";
@@ -137,7 +138,7 @@ public class CmsEditorActionDefault implements I_CmsEditorActionHandler {
     /**
      * @see org.opencms.workplace.editors.I_CmsEditorActionHandler#isButtonActive(CmsJspActionElement, java.lang.String)
      */
-    public boolean isButtonActive(CmsJspActionElement jsp, String resourceName) {
+    public boolean isButtonActive(CmsJspActionElement jsp, @RUntainted String resourceName) {
 
         try {
             OpenCms.getPublishManager().getPublishList(

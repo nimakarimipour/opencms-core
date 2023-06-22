@@ -56,6 +56,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 
 import org.antlr.stringtemplate.StringTemplate;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Executes a script file.<p>
@@ -74,7 +75,7 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
     private static final int PORT_HTTPS = 443;
 
     /** The file path. */
-    private String m_filePrefix;
+    private @RUntainted String m_filePrefix;
 
     /** The logging directory. */
     private String m_loggingDir;
@@ -83,13 +84,13 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
     private String m_scriptPath;
 
     /** The template to be used for secure site configurations. */
-    private String m_secureTemplate;
+    private @RUntainted String m_secureTemplate;
 
     /** The target path. */
-    private String m_targetPath;
+    private @RUntainted String m_targetPath;
 
     /** The template path. */
-    private String m_templatePath;
+    private @RUntainted String m_templatePath;
 
     /** The files that have been written. */
     private List<String> m_writtenFiles = new ArrayList<String>();
@@ -108,11 +109,11 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
     public CmsSitesWebserverThread(
         CmsObject cms,
         String targetPath,
-        String templatePath,
+        @RUntainted String templatePath,
         String scriptPath,
-        String filePrefix,
+        @RUntainted String filePrefix,
         String loggingDir,
-        String secureTemplate) {
+        @RUntainted String secureTemplate) {
 
         super(cms, "write-to-webserver");
 
@@ -169,23 +170,23 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
     private void createAllWebserverConfigs() throws IOException {
 
         List<CmsSite> sites = OpenCms.getSiteManager().getAvailableSites(getCms(), true);
-        for (CmsSite site : sites) {
+        for (@RUntainted CmsSite site : sites) {
             if ((site.getSiteMatcher() != null) && site.isWebserver()) {
 
-                String filename = m_targetPath
+                @RUntainted String filename = m_targetPath
                     + m_filePrefix
                     + "_"
                     + generateWebserverConfigName(site.getSiteMatcher(), "_");
                 getReport().println(
                     Messages.get().container(Messages.RPT_CREATING_CONFIG_FOR_SITE_2, filename, site),
                     I_CmsReport.FORMAT_OK);
-                File newFile = new File(filename);
+                @RUntainted File newFile = new File(filename);
                 if (!newFile.exists()) {
                     newFile.getParentFile().mkdirs();
                     newFile.createNewFile();
                 }
 
-                String content = createConfigForSite(site, FileUtils.readFileToString(new File(m_templatePath)));
+                @RUntainted String content = createConfigForSite(site, FileUtils.readFileToString(new File(m_templatePath)));
                 if (site.hasSecureServer()) {
                     content += createConfigForSite(site, FileUtils.readFileToString(new File(m_secureTemplate)));
                 }
@@ -204,7 +205,7 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
      *
      * @return the file content for the configuration as String
      */
-    private String createConfigForSite(CmsSite site, String templateContent) {
+    private @RUntainted String createConfigForSite(CmsSite site, String templateContent) {
 
         StringTemplate config = new StringTemplate(templateContent);
 
@@ -274,7 +275,7 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
                     return false;
                 }
             });
-            for (File f : configFiles) {
+            for (@RUntainted File f : configFiles) {
                 getReport().println(Messages.get().container(Messages.RPT_DELETING_FILE_1, f), I_CmsReport.FORMAT_OK);
                 f.delete();
             }
@@ -297,7 +298,7 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
         pb.directory(new File(script.getParent()));
         Process pr = pb.start();
         pr.waitFor();
-        BufferedReader buf = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+        @RUntainted BufferedReader buf = new BufferedReader(new InputStreamReader(pr.getInputStream()));
         while (buf.ready()) {
             String line = buf.readLine();
             if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(line)) {
@@ -316,11 +317,11 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
      *
      * @return the web server configuration filename
      */
-    private String generateWebserverConfigName(CmsSiteMatcher macther, String separator) {
+    private @RUntainted String generateWebserverConfigName(CmsSiteMatcher macther, @RUntainted String separator) {
 
-        int port = macther.getServerPort();
-        String serverName = macther.getServerName();
-        String portPart = ((port != PORT_HTTP) && (port != PORT_HTTPS)) ? separator + port : "";
+        @RUntainted int port = macther.getServerPort();
+        @RUntainted String serverName = macther.getServerName();
+        @RUntainted String portPart = ((port != PORT_HTTP) && (port != PORT_HTTPS)) ? separator + port : "";
         return serverName + portPart;
     }
 

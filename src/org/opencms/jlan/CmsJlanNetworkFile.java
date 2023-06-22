@@ -51,6 +51,7 @@ import org.alfresco.jlan.server.filesys.FileInfo;
 import org.alfresco.jlan.server.filesys.NetworkFile;
 import org.alfresco.jlan.smb.SeekType;
 import org.alfresco.jlan.util.WildCard;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class represents a file for use by the JLAN server component. It currently just
@@ -242,7 +243,7 @@ public class CmsJlanNetworkFile extends NetworkFile {
      * @param cmsNewPath the new path
      * @throws CmsException if something goes wrong
      */
-    public void moveTo(String cmsNewPath) throws CmsException {
+    public void moveTo(@RUntainted String cmsNewPath) throws CmsException {
 
         ensureLock();
         m_cms.moveResource(m_cms.getSitePath(m_resource), cmsNewPath);

@@ -42,6 +42,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Creates and validates persisten login tokens for users.<p>
@@ -65,7 +66,7 @@ public class CmsPersistentLoginTokenHandler {
         private String m_key;
 
         /** The name. */
-        private String m_name;
+        private @RUntainted String m_name;
 
         /**
          * Creates a new token object from the encoded representation.<p>
@@ -89,7 +90,7 @@ public class CmsPersistentLoginTokenHandler {
          * @param name the name
          * @param key the key
          */
-        public Token(String name, String key) {
+        public Token(@RUntainted String name, String key) {
 
             m_name = name;
             m_key = key;
@@ -132,7 +133,7 @@ public class CmsPersistentLoginTokenHandler {
          *
          * @return the user name
          */
-        public String getName() {
+        public @RUntainted String getName() {
 
             return m_name;
         }
@@ -154,7 +155,7 @@ public class CmsPersistentLoginTokenHandler {
          * @return the decoded name
          */
         @SuppressWarnings("synthetic-access")
-        private String decodeName(String nameHex) {
+        private @RUntainted String decodeName(String nameHex) {
 
             try {
                 return new String(Hex.decodeHex(nameHex.toCharArray()), "UTF-8");
@@ -319,7 +320,7 @@ public class CmsPersistentLoginTokenHandler {
             LOG.warn("Invalid token: " + tokenString);
             return null;
         }
-        String name = token.getName();
+        @RUntainted String name = token.getName();
         String key = token.getKey();
         String logContext = "[user=" + name + ",key=" + key + "] ";
         try {

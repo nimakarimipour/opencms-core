@@ -32,6 +32,7 @@ import org.opencms.workplace.CmsWorkplace;
 
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of an administration tool.<p>
@@ -220,7 +221,7 @@ public class CmsTool {
 
         }
 
-        StringBuffer html = new StringBuffer(512);
+        @RUntainted StringBuffer html = new StringBuffer(512);
         Iterator<CmsToolGroup> itHtml = getToolGroups().iterator();
         while (itHtml.hasNext()) {
             CmsToolGroup group = itHtml.next();

@@ -56,6 +56,7 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manager class for template context providers.<p>
@@ -264,7 +265,7 @@ public class CmsTemplateContextManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public I_CmsTemplateContextProvider getTemplateContextProvider(CmsObject cms, String path) throws CmsException {
+    public I_CmsTemplateContextProvider getTemplateContextProvider(CmsObject cms, @RUntainted String path) throws CmsException {
 
         CmsResource resource = cms.readResource(path);
         I_CmsResourceLoader loader = OpenCms.getResourceManager().getLoader(resource);
@@ -332,7 +333,7 @@ public class CmsTemplateContextManager {
      *
      * @return the property value
      */
-    public String readPropertyFromTemplate(CmsObject cms, CmsResource res, String propertyName, String fallbackValue) {
+    public String readPropertyFromTemplate(CmsObject cms, CmsResource res, String propertyName, @RUntainted String fallbackValue) {
 
         try {
             CmsProperty templateProp = cms.readPropertyObject(res, CmsPropertyDefinition.PROPERTY_TEMPLATE, true);

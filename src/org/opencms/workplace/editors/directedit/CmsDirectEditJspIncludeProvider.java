@@ -46,6 +46,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Direct edit provider that uses the same JSP include based logic that has been
@@ -73,7 +74,7 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
     public static final String DIRECT_EDIT_AREA_START = "start_directedit";
 
     /** Default direct edit include file URI. */
-    public static final String DIRECT_EDIT_INCLUDE_FILE_URI_DEFAULT = "/system/workplace/editors/direct_edit.jsp";
+    public static final @RUntainted String DIRECT_EDIT_INCLUDE_FILE_URI_DEFAULT = "/system/workplace/editors/direct_edit.jsp";
 
     /** Element name for direct edit includes. */
     public static final String DIRECT_EDIT_INCLUDES = "directedit_includes";
@@ -124,7 +125,7 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
      */
     public static String includeDirectEditElement(
         PageContext context,
-        String jspIncludeFile,
+        @RUntainted String jspIncludeFile,
         String element,
         String editTarget,
         String editElement,
@@ -191,7 +192,7 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
             t = controller.setThrowable(t, jspIncludeFile);
             throw new JspException(t);
         } catch (IOException e) {
-            Throwable t = controller.setThrowable(e, jspIncludeFile);
+            @RUntainted Throwable t = controller.setThrowable(e, jspIncludeFile);
             throw new JspException(t);
         } finally {
             // restore old parameter map (if required)
@@ -207,7 +208,7 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
      * @see org.opencms.workplace.editors.directedit.A_CmsDirectEditProvider#init(org.opencms.file.CmsObject, org.opencms.workplace.editors.directedit.CmsDirectEditMode, java.lang.String)
      */
     @Override
-    public void init(CmsObject cms, CmsDirectEditMode mode, String fileName) {
+    public void init(CmsObject cms, CmsDirectEditMode mode, @RUntainted String fileName) {
 
         m_cms = cms;
         m_fileName = fileName;

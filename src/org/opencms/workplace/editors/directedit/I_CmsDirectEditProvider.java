@@ -33,6 +33,7 @@ import org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the methods to generate the "direct edit" HTML fragments that are inserted
@@ -67,7 +68,7 @@ public interface I_CmsDirectEditProvider extends I_CmsConfigurationParameterHand
      * @param mode the direct edit mode to use
      * @param fileName link to a file that contains the direct edit HTML elements (optional)
      */
-    void init(CmsObject cms, CmsDirectEditMode mode, String fileName);
+    void init(CmsObject cms, CmsDirectEditMode mode, @RUntainted String fileName);
 
     /**
      * Inserts the direct edit HTML for empty lists in the provided JSP page context.<p>

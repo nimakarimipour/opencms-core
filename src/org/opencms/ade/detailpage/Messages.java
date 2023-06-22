@@ -29,6 +29,7 @@ package org.opencms.ade.detailpage;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,7 +39,7 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_RESCOURCE_NOT_FOUND_1 = "ERR_RESCOURCE_NOT_FOUND_1";
+    public static final @RUntainted String ERR_RESCOURCE_NOT_FOUND_1 = "ERR_RESCOURCE_NOT_FOUND_1";
 
     /** Name of the used resource bundle. */
     private static final String BUNDLE_NAME = "org.opencms.ade.detailpage.messages";

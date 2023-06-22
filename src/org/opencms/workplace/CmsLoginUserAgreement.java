@@ -49,6 +49,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods to show a configurable user agreement dialog after a successful workplace login.<p>
@@ -70,7 +71,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
     public static final String NODE_TEXT = "Text";
 
     /** Request parameter name for the originally requested resource. */
-    public static final String PARAM_WPRES = "wpres";
+    public static final @RUntainted String PARAM_WPRES = "wpres";
 
     /** JSON key name to store the count of the accepted agreement. */
     protected static final String KEY_ACCEPTED_COUNT = "count";
@@ -94,7 +95,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
     protected static final String NODE_VERSION = "Version";
 
     /** The VFS path to the folder containing the user agreement configuration files. */
-    protected static final String VFS_PATH_CONFIGFOLDER = CmsWorkplace.VFS_PATH_SYSTEM + "login/useragreement/";
+    protected static final @RUntainted String VFS_PATH_CONFIGFOLDER = CmsWorkplace.VFS_PATH_SYSTEM + "login/useragreement/";
 
     /** The log object for this class. */
     private static final Log LOG = CmsLog.getLog(CmsLoginUserAgreement.class);
@@ -131,7 +132,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsLoginUserAgreement(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsLoginUserAgreement(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
     }
@@ -212,7 +213,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
         result.append("\tif (actionValue == \"" + DIALOG_OK + "\") {\n");
         result.append("\t\treturn true;\n");
         result.append("\t}");
-        String declinedMessage = getConfigurationContentStringValue(NODE_MESSAGE_DECLINED);
+        @RUntainted String declinedMessage = getConfigurationContentStringValue(NODE_MESSAGE_DECLINED);
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(declinedMessage)) {
             // add the alert to show the declined message
             result.append(" else if (actionValue == \"" + DIALOG_CANCEL + "\") {\n");
@@ -256,7 +257,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
      *
      * @return the content value of the given path as String
      */
-    public String getConfigurationContentStringValue(String path) {
+    public @RUntainted String getConfigurationContentStringValue(String path) {
 
         if (getConfigurationContent() != null) {
             return getConfigurationContent().getStringValue(getCms(), path, getLocale());
@@ -269,7 +270,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
      *
      * @return the absolute path in the OpenCms VFS to the user agreement configuration file
      */
-    public String getConfigurationVfsPath() {
+    public @RUntainted String getConfigurationVfsPath() {
 
         return VFS_PATH_CONFIGFOLDER + getLocale().toString() + "/configuration.html";
     }
@@ -501,7 +502,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
      * @see org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings, javax.servlet.http.HttpServletRequest)
      */
     @Override
-    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
+    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
         // fill the parameter values in the get/set methods
         fillParamValues(request);

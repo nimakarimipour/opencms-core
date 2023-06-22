@@ -49,6 +49,7 @@ import java.util.Map;
 import javax.servlet.ServletException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the registered tools, actualizing its state every time the workplace is reinitialize.<p>
@@ -61,13 +62,13 @@ import org.apache.commons.logging.Log;
 public class CmsToolManager {
 
     /**  Root location of the administration view. */
-    public static final String ADMINVIEW_ROOT_LOCATION = CmsWorkplace.PATH_WORKPLACE + "views/admin";
+    public static final @RUntainted String ADMINVIEW_ROOT_LOCATION = CmsWorkplace.PATH_WORKPLACE + "views/admin";
 
     /**  Property definition name to look for. */
     public static final String HANDLERCLASS_PROPERTY = "admintoolhandler-class";
 
     /**  Navigation bar separator (html code). */
-    public static final String NAVBAR_SEPARATOR = "\n&nbsp;&gt;&nbsp;\n";
+    public static final @RUntainted String NAVBAR_SEPARATOR = "\n&nbsp;&gt;&nbsp;\n";
 
     /**  Tool root separator. */
     public static final String ROOT_SEPARATOR = ":";
@@ -76,10 +77,10 @@ public class CmsToolManager {
     public static final String ROOTKEY_DEFAULT = "admin";
 
     /**  Tool path separator. */
-    public static final String TOOLPATH_SEPARATOR = "/";
+    public static final @RUntainted String TOOLPATH_SEPARATOR = "/";
 
     /** Location of the default admin view jsp page. */
-    public static final String VIEW_JSPPAGE_LOCATION = ADMINVIEW_ROOT_LOCATION + "/admin-main.jsp";
+    public static final @RUntainted String VIEW_JSPPAGE_LOCATION = ADMINVIEW_ROOT_LOCATION + "/admin-main.jsp";
 
     /** The static log object for this class. */
     private static final Log LOG = CmsLog.getLog(CmsToolManager.class);
@@ -221,7 +222,7 @@ public class CmsToolManager {
             return "<div class='pathbar'>&nbsp;</div>\n";
         }
         CmsTool adminTool = resolveAdminTool(getCurrentRoot(wp).getKey(), toolPath);
-        String html = A_CmsHtmlIconButton.defaultButtonHtml(
+        @RUntainted String html = A_CmsHtmlIconButton.defaultButtonHtml(
             CmsHtmlIconButtonStyleEnum.SMALL_ICON_TEXT,
             "nav" + adminTool.getId(),
             adminTool.getHandler().getName(),
@@ -240,7 +241,7 @@ public class CmsToolManager {
             String id = "nav" + adminTool.getId();
             String link = linkForToolPath(wp.getJsp(), parent, adminTool.getHandler().getParameters(wp));
             String onClic = "openPage('" + link + "');";
-            String buttonHtml = A_CmsHtmlIconButton.defaultButtonHtml(
+            @RUntainted String buttonHtml = A_CmsHtmlIconButton.defaultButtonHtml(
                 CmsHtmlIconButtonStyleEnum.SMALL_ICON_TEXT,
                 id,
                 adminTool.getHandler().getName(),
@@ -472,7 +473,7 @@ public class CmsToolManager {
      * @throws IOException in case of errors during forwarding
      * @throws ServletException in case of errors during forwarding
      */
-    public void jspForwardPage(CmsWorkplace wp, String pagePath, Map<String, String[]> params)
+    public void jspForwardPage(CmsWorkplace wp, @RUntainted String pagePath, Map<String, String[]> params)
     throws IOException, ServletException {
 
         Map<String, String[]> newParams = createToolParams(wp, pagePath, params);
@@ -693,7 +694,7 @@ public class CmsToolManager {
      */
     private void registerAdminTool(CmsObject cms, CmsToolRootHandler toolRoot, I_CmsToolHandler handler) {
 
-        String link = handler.getLink();
+        @RUntainted String link = handler.getLink();
         if (link.indexOf("?") > 0) {
             link = link.substring(0, link.indexOf("?"));
         }

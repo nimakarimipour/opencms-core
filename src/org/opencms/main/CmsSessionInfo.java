@@ -35,6 +35,7 @@ import java.io.Serializable;
 import org.apache.commons.collections.Buffer;
 import org.apache.commons.collections.BufferUtils;
 import org.apache.commons.collections.buffer.UnboundedFifoBuffer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Stores information about a user that has authenticated himself the OpenCms security system.<p>
@@ -52,7 +53,7 @@ import org.apache.commons.collections.buffer.UnboundedFifoBuffer;
 public class CmsSessionInfo implements Comparable<CmsSessionInfo>, Serializable {
 
     /** Name of the http session attribute the OpenCms session id is stored in. */
-    public static final String ATTRIBUTE_SESSION_ID = "__org.opencms.main.CmsSessionInfo#m_sessionId";
+    public static final @RUntainted String ATTRIBUTE_SESSION_ID = "__org.opencms.main.CmsSessionInfo#m_sessionId";
 
     /** Maximum size of the broadcast queue for one user. */
     public static final int QUEUE_SIZE = 10;
@@ -76,7 +77,7 @@ public class CmsSessionInfo implements Comparable<CmsSessionInfo>, Serializable 
     private CmsUUID m_sessionId;
 
     /** The current site of the user. */
-    private String m_siteRoot;
+    private @RUntainted String m_siteRoot;
 
     /** The time this session info was created. */
     private long m_timeCreated;
@@ -238,7 +239,7 @@ public class CmsSessionInfo implements Comparable<CmsSessionInfo>, Serializable 
      *
      * @return the current site root of the user
      */
-    public String getSiteRoot() {
+    public @RUntainted String getSiteRoot() {
 
         return m_siteRoot;
     }

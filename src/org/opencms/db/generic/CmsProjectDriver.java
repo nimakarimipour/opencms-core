@@ -105,6 +105,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic (ANSI-SQL) implementation of the project driver methods.<p>
@@ -125,7 +126,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
         private CmsUUID m_projectId;
 
         /** The resource path. */
-        private String m_resourcePath;
+        private @RUntainted String m_resourcePath;
 
         /** The user id. */
         private CmsUUID m_userId;
@@ -138,7 +139,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
          * @param projectId project id
          * @param lockType lock type
          */
-        public CmsTempResourceLock(String resourcePath, CmsUUID userId, CmsUUID projectId, int lockType) {
+        public CmsTempResourceLock(@RUntainted String resourcePath, CmsUUID userId, CmsUUID projectId, int lockType) {
 
             m_resourcePath = resourcePath;
             m_userId = userId;
@@ -171,7 +172,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
          *
          * @return the resourcePath
          */
-        public String getResourcePath() {
+        public @RUntainted String getResourcePath() {
 
             return m_resourcePath;
         }
@@ -222,7 +223,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
                     rowsAffected = stmt.executeUpdate();
                     break;
                 case allUnreferenced:
-                    String statementText = m_sqlManager.readQuery("C_CLEANUP_PUBLISH_HISTORY_ALL");
+                    @RUntainted String statementText = m_sqlManager.readQuery("C_CLEANUP_PUBLISH_HISTORY_ALL");
                     if (filter.getExceptions().size() > 0) {
                         List<String> parts = new ArrayList<>();
                         // it's safe to construct the clause as a string here because UUIDs can only contain dashes and hex digits
@@ -256,11 +257,11 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
      */
     public CmsProject createProject(
         CmsDbContext dbc,
-        CmsUUID id,
+        @RUntainted CmsUUID id,
         CmsUser owner,
         CmsGroup group,
         CmsGroup managergroup,
-        String projectFqn,
+        @RUntainted String projectFqn,
         String description,
         int flags,
         CmsProject.CmsProjectType type)
@@ -328,7 +329,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     /**
      * @see org.opencms.db.I_CmsProjectDriver#createProjectResource(org.opencms.db.CmsDbContext, CmsUUID, java.lang.String)
      */
-    public void createProjectResource(CmsDbContext dbc, CmsUUID projectId, String resourcePath)
+    public void createProjectResource(CmsDbContext dbc, CmsUUID projectId, @RUntainted String resourcePath)
     throws CmsDataAccessException {
 
         // do not create entries for online-project
@@ -456,7 +457,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
         try {
             conn = m_sqlManager.getConnection(dbc);
             // compose statement
-            StringBuffer queryBuf = new StringBuffer(256);
+            @RUntainted StringBuffer queryBuf = new StringBuffer(256);
             queryBuf.append(m_sqlManager.readQuery("C_LOG_DELETE_ENTRIES"));
 
             CmsPair<String, List<I_CmsPreparedStatementParameter>> conditionsAndParams = prepareLogConditions(filter);
@@ -696,7 +697,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
 
         try {
             conn = m_sqlManager.getConnection(dbc);
-            String sql = m_sqlManager.readQuery("C_USER_PUBLISH_LIST_DELETE_3");
+            @RUntainted String sql = m_sqlManager.readQuery("C_USER_PUBLISH_LIST_DELETE_3");
             stmt = m_sqlManager.getPreparedStatementForSql(conn, sql);
             for (CmsUserPublishListEntry entry : publishListDeletions) {
                 stmt.setString(1, entry.getStructureId().toString());
@@ -877,7 +878,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
         ResultSet res = null;
         try {
             conn = m_sqlManager.getConnection(dbc);
-            String sql = m_sqlManager.readQuery("C_USER_PUBLISH_LIST_READ_1");
+            @RUntainted String sql = m_sqlManager.readQuery("C_USER_PUBLISH_LIST_READ_1");
             sql = sql.replace("${PROJECT}", "OFFLINE");
             stmt = m_sqlManager.getPreparedStatementForSql(conn, sql);
             stmt.setString(1, userId.toString());
@@ -1970,7 +1971,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
         } finally {
             // reset vfs driver internal info after publishing
             m_driverManager.getVfsDriver(dbc).publishVersions(dbc, null, false);
-            Object[] msgArgs = new Object[] {
+            @RUntainted Object[] msgArgs = new Object[] {
                 String.valueOf(publishedFileCount),
                 String.valueOf(publishedFolderCount),
                 String.valueOf(deletedFolderCount),
@@ -2050,7 +2051,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
         try {
             conn = m_sqlManager.getConnection(dbc);
             // compose statement
-            StringBuffer queryBuf = new StringBuffer(256);
+            @RUntainted StringBuffer queryBuf = new StringBuffer(256);
             queryBuf.append(m_sqlManager.readQuery("C_LOG_READ_ENTRIES"));
             CmsPair<String, List<I_CmsPreparedStatementParameter>> conditionsAndParameters = prepareLogConditions(
                 filter);
@@ -2087,9 +2088,9 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
      */
     public CmsProject readProject(CmsDbContext dbc, CmsUUID id) throws CmsDataAccessException {
 
-        PreparedStatement stmt = null;
+        @RUntainted PreparedStatement stmt = null;
         CmsProject project = null;
-        ResultSet res = null;
+        @RUntainted ResultSet res = null;
         Connection conn = null;
 
         try {
@@ -2122,11 +2123,11 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     /**
      * @see org.opencms.db.I_CmsProjectDriver#readProject(org.opencms.db.CmsDbContext, java.lang.String)
      */
-    public CmsProject readProject(CmsDbContext dbc, String projectFqn) throws CmsDataAccessException {
+    public CmsProject readProject(CmsDbContext dbc, @RUntainted String projectFqn) throws CmsDataAccessException {
 
-        PreparedStatement stmt = null;
+        @RUntainted PreparedStatement stmt = null;
         CmsProject project = null;
-        ResultSet res = null;
+        @RUntainted ResultSet res = null;
         Connection conn = null;
 
         try {
@@ -2160,7 +2161,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     /**
      * @see org.opencms.db.I_CmsProjectDriver#readProjectResource(org.opencms.db.CmsDbContext, CmsUUID, java.lang.String)
      */
-    public String readProjectResource(CmsDbContext dbc, CmsUUID projectId, String resourcePath)
+    public String readProjectResource(CmsDbContext dbc, CmsUUID projectId, @RUntainted String resourcePath)
     throws CmsDataAccessException {
 
         PreparedStatement stmt = null;
@@ -2238,8 +2239,8 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
             return readProjectsForResource(dbc, ouFqn);
         }
         List<CmsProject> projects = new ArrayList<CmsProject>();
-        ResultSet res = null;
-        PreparedStatement stmt = null;
+        @RUntainted ResultSet res = null;
+        @RUntainted PreparedStatement stmt = null;
         Connection conn = null;
 
         try {
@@ -2270,9 +2271,9 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     public List<CmsProject> readProjectsForGroup(CmsDbContext dbc, CmsGroup group) throws CmsDataAccessException {
 
         List<CmsProject> projects = new ArrayList<CmsProject>();
-        ResultSet res = null;
+        @RUntainted ResultSet res = null;
         Connection conn = null;
-        PreparedStatement stmt = null;
+        @RUntainted PreparedStatement stmt = null;
 
         try {
             // create the statement
@@ -2303,8 +2304,8 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     throws CmsDataAccessException {
 
         List<CmsProject> projects = new ArrayList<CmsProject>();
-        ResultSet res = null;
-        PreparedStatement stmt = null;
+        @RUntainted ResultSet res = null;
+        @RUntainted PreparedStatement stmt = null;
         Connection conn = null;
 
         try {
@@ -2340,9 +2341,9 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
      */
     public List<CmsProject> readProjectsForResource(CmsDbContext dbc, String rootPath) throws CmsDataAccessException {
 
-        PreparedStatement stmt = null;
+        @RUntainted PreparedStatement stmt = null;
         List<CmsProject> projects = new ArrayList<CmsProject>();
-        ResultSet res = null;
+        @RUntainted ResultSet res = null;
         Connection conn = null;
 
         try {
@@ -2375,8 +2376,8 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     public List<CmsProject> readProjectsForUser(CmsDbContext dbc, CmsUser user) throws CmsDataAccessException {
 
         List<CmsProject> projects = new ArrayList<CmsProject>();
-        ResultSet res = null;
-        PreparedStatement stmt = null;
+        @RUntainted ResultSet res = null;
+        @RUntainted PreparedStatement stmt = null;
         Connection conn = null;
 
         try {
@@ -2531,7 +2532,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     /**
      * @see org.opencms.db.I_CmsProjectDriver#readPublishList(org.opencms.db.CmsDbContext, org.opencms.util.CmsUUID)
      */
-    public CmsPublishList readPublishList(CmsDbContext dbc, CmsUUID publishHistoryId) throws CmsDataAccessException {
+    public CmsPublishList readPublishList(CmsDbContext dbc, @RUntainted CmsUUID publishHistoryId) throws CmsDataAccessException {
 
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -2965,7 +2966,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
         PreparedStatement stmt = null;
         try {
             conn = m_sqlManager.getConnection(dbc);
-            String sql = m_sqlManager.readQuery("C_USER_PUBLISH_LIST_INSERT_3");
+            @RUntainted String sql = m_sqlManager.readQuery("C_USER_PUBLISH_LIST_INSERT_3");
             stmt = m_sqlManager.getPreparedStatementForSql(conn, sql);
             for (CmsUserPublishListEntry entry : publishListAdditions) {
                 stmt.setString(1, entry.getUserId().toString());
@@ -3145,7 +3146,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
      *
      * @throws SQLException is something goes wrong
      */
-    protected CmsProject internalCreateProject(ResultSet res) throws SQLException {
+    protected CmsProject internalCreateProject(@RUntainted ResultSet res) throws SQLException {
 
         String ou = CmsOrganizationalUnit.removeLeadingSeparator(
             res.getString(m_sqlManager.readQuery("C_PROJECTS_PROJECT_OU_0")));

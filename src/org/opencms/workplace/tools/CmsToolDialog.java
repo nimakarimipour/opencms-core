@@ -41,6 +41,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class that encapsulates all the code for the "new"
@@ -133,7 +134,7 @@ public class CmsToolDialog extends CmsWorkplace {
      */
     public String dialogTitle() {
 
-        StringBuffer html = new StringBuffer(512);
+        @RUntainted StringBuffer html = new StringBuffer(512);
         String toolPath = getCurrentToolPath();
         String parentPath = getParentPath();
         String rootKey = getToolManager().getCurrentRoot(this).getKey();
@@ -562,7 +563,7 @@ public class CmsToolDialog extends CmsWorkplace {
      * @see org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings, javax.servlet.http.HttpServletRequest)
      */
     @Override
-    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
+    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
         fillParamValues(request);
     }

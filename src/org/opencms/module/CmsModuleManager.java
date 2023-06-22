@@ -65,6 +65,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the modules of an OpenCms installation.<p>
@@ -300,7 +301,7 @@ public class CmsModuleManager {
     public static List<String> topologicalSort(List<String> moduleNames, String rfsAbsPath)
     throws CmsConfigurationException {
 
-        List<String> modules = new ArrayList<String>(moduleNames);
+        @RUntainted List<@RUntainted String> modules = new ArrayList<@RUntainted String>(moduleNames);
         List<String> retList = new ArrayList<String>();
         Map<String, List<String>> moduleDependencies = buildDepsForModulelist(moduleNames, rfsAbsPath, true);
         boolean finished = false;
@@ -407,7 +408,7 @@ public class CmsModuleManager {
      * @param mode the dependency check mode
      * @return a list of dependencies that are not fulfilled, if empty all dependencies are fulfilled
      */
-    public List<CmsModuleDependency> checkDependencies(CmsModule module, int mode) {
+    public List<CmsModuleDependency> checkDependencies(CmsModule module, @RUntainted int mode) {
 
         List<CmsModuleDependency> result = new ArrayList<CmsModuleDependency>();
 
@@ -465,10 +466,10 @@ public class CmsModuleManager {
         Map<String, List<String>> moduleDependencies = buildDepsForAllModules(rfsAbsPath, forDeletion);
         Iterator<String> itMods = moduleNames.iterator();
         while (itMods.hasNext()) {
-            String moduleName = itMods.next();
+            @RUntainted String moduleName = itMods.next();
             List<String> dependencies = moduleDependencies.get(moduleName);
             if (dependencies != null) {
-                List<String> depModules = new ArrayList<String>(dependencies);
+                @RUntainted List<@RUntainted String> depModules = new ArrayList<@RUntainted String>(dependencies);
                 depModules.removeAll(moduleNames);
                 if (!depModules.isEmpty()) {
                     throw new CmsIllegalArgumentException(
@@ -496,7 +497,7 @@ public class CmsModuleManager {
      */
     public synchronized void deleteModule(
         CmsObject cms,
-        String moduleName,
+        @RUntainted String moduleName,
         boolean replace,
         boolean preserveLibs,
         I_CmsReport report)
@@ -516,7 +517,7 @@ public class CmsModuleManager {
         }
 
         CmsModule module = m_modules.get(moduleName);
-        String importSite = module.getSite();
+        @RUntainted String importSite = module.getSite();
         if (!CmsStringUtil.isEmptyOrWhitespaceOnly(importSite)) {
             CmsObject newCms;
             try {
@@ -599,7 +600,7 @@ public class CmsModuleManager {
             CmsLockFilter filter2 = CmsLockFilter.FILTER_INHERITED;
             List<String> moduleResources = module.getResources();
             for (int iLock = 0; iLock < moduleResources.size(); iLock++) {
-                String resourceName = moduleResources.get(iLock);
+                @RUntainted String resourceName = moduleResources.get(iLock);
                 try {
                     lockedResources.addAll(cms.getLockedResources(resourceName, filter1));
                     lockedResources.addAll(cms.getLockedResources(resourceName, filter2));

@@ -61,6 +61,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Macro resolver used to resolve macros for the gallery name mapping.<p>
@@ -189,7 +190,7 @@ public class CmsGalleryNameMacroResolver extends CmsMacroResolver {
      * @see org.opencms.util.CmsMacroResolver#resolveMacros(java.lang.String)
      */
     @Override
-    public String resolveMacros(String input) {
+    public @RUntainted String resolveMacros(String input) {
 
         if (input == null) {
             return null;

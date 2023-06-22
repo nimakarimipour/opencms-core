@@ -46,6 +46,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods to determine the display options of a workplace editor for the current user.<p>
@@ -151,7 +152,7 @@ public class CmsEditorDisplayOptions {
         Properties displayOptions;
         if (mappedConfigFile == null) {
             // no configuration file name stored for user, get the navigation items of the configuration folder
-            String configFolder = OpenCms.getSystemInfo().getConfigFilePath(cms, FOLDER_EDITORCONFIGURATION);
+            @RUntainted String configFolder = OpenCms.getSystemInfo().getConfigFilePath(cms, FOLDER_EDITORCONFIGURATION);
             List<CmsJspNavElement> items = new CmsJspNavBuilder(cms).getNavigationForFolder(configFolder);
             if (items.size() > 0) {
                 // get first found configuration file

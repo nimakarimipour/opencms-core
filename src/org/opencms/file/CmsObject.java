@@ -75,6 +75,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This pivotal class provides all authorized access to the OpenCms VFS resources.<p>
@@ -144,7 +145,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void addRelationToResource(String resourceName, String targetPath, String type) throws CmsException {
+    public void addRelationToResource(@RUntainted String resourceName, @RUntainted String targetPath, String type) throws CmsException {
 
         createRelation(resourceName, targetPath, type, false);
     }
@@ -159,7 +160,7 @@ public final class CmsObject {
      *
      * @see CmsRequestContext#addSiteRoot(String)
      */
-    public String addSiteRoot(String resourcename) {
+    public @RUntainted String addSiteRoot(@RUntainted String resourcename) {
 
         return m_context.addSiteRoot(resourcename);
     }
@@ -172,7 +173,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void addUserToGroup(String username, String groupname) throws CmsException {
+    public void addUserToGroup(@RUntainted String username, @RUntainted String groupname) throws CmsException {
 
         m_securityManager.addUserToGroup(m_context, username, groupname, false);
     }
@@ -186,12 +187,12 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void adjustLinks(List<String> sourceFiles, String targetParentFolder) throws CmsException {
+    public void adjustLinks(List<String> sourceFiles, @RUntainted String targetParentFolder) throws CmsException {
 
         CmsObject cms = OpenCms.initCmsObject(this);
         cms.getRequestContext().setSiteRoot("");
         List<String> rootSourceFiles = new ArrayList<String>();
-        for (String sourceFile : sourceFiles) {
+        for (@RUntainted String sourceFile : sourceFiles) {
             rootSourceFiles.add(addSiteRoot(sourceFile));
         }
         String rootTargetParentFolder = addSiteRoot(targetParentFolder);
@@ -210,12 +211,12 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void adjustLinks(Map<String, String> sourceTargetMap, String targetParentFolder) throws CmsException {
+    public void adjustLinks(Map<String, String> sourceTargetMap, @RUntainted String targetParentFolder) throws CmsException {
 
         CmsObject cms = OpenCms.initCmsObject(this);
         cms.getRequestContext().setSiteRoot("");
         List<CmsPair<String, String>> sourcesAndTargets = new ArrayList<CmsPair<String, String>>();
-        for (Map.Entry<String, String> entry : sourceTargetMap.entrySet()) {
+        for (Map.@RUntainted Entry<@RUntainted String, @RUntainted String> entry : sourceTargetMap.entrySet()) {
             String rootSource = addSiteRoot(entry.getKey());
             String rootTarget = addSiteRoot(entry.getValue());
             sourcesAndTargets.add(CmsPair.create(rootSource, rootTarget));
@@ -251,11 +252,11 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void adjustLinks(String sourceFolder, String targetFolder) throws CmsException {
+    public void adjustLinks(@RUntainted String sourceFolder, @RUntainted String targetFolder) throws CmsException {
 
         String rootSourceFolder = addSiteRoot(sourceFolder);
         String rootTargetFolder = addSiteRoot(targetFolder);
-        String siteRoot = getRequestContext().getSiteRoot();
+        @RUntainted String siteRoot = getRequestContext().getSiteRoot();
         getRequestContext().setSiteRoot("");
         try {
             CmsLinkRewriter linkRewriter = new CmsLinkRewriter(this, rootSourceFolder, rootTargetFolder);
@@ -282,9 +283,9 @@ public final class CmsObject {
      * @throws CmsException if something goes wrong
      */
     public void chacc(
-        String resourceName,
+        @RUntainted String resourceName,
         String principalType,
-        String principalName,
+        @RUntainted String principalName,
         int allowedPermissions,
         int deniedPermissions,
         int flags)
@@ -358,7 +359,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void chacc(String resourceName, String principalType, String principalName, String permissionString)
+    public void chacc(@RUntainted String resourceName, String principalType, @RUntainted String principalName, String permissionString)
     throws CmsException {
 
         CmsResource res = readResource(resourceName, CmsResourceFilter.ALL);
@@ -426,7 +427,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void changeLock(String resourcename) throws CmsException {
+    public void changeLock(@RUntainted String resourcename) throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.ALL);
         changeLock(resource);
@@ -447,10 +448,10 @@ public final class CmsObject {
      * @throws CmsException if operation was not successful
      */
     public List<CmsResource> changeResourcesInFolderWithProperty(
-        String resourcename,
-        String property,
-        String oldValue,
-        String newValue,
+        @RUntainted String resourcename,
+        @RUntainted String property,
+        @RUntainted String oldValue,
+        @RUntainted String newValue,
         boolean recursive)
     throws CmsException {
 
@@ -474,7 +475,7 @@ public final class CmsObject {
      * @param password the password to check
      * @throws CmsException if the login check fails
      */
-    public void checkLoginUser(String userName, String password) throws CmsException {
+    public void checkLoginUser(@RUntainted String userName, String password) throws CmsException {
 
         m_securityManager.checkLogin(m_context, userName, password, m_context.getRemoteAddress());
 
@@ -492,7 +493,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void chflags(String resourcename, int flags) throws CmsException {
+    public void chflags(@RUntainted String resourcename, int flags) throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.IGNORE_EXPIRATION);
         getResourceType(resource).chflags(this, m_securityManager, resource, flags);
@@ -531,7 +532,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void chtype(String resourcename, I_CmsResourceType type) throws CmsException {
+    public void chtype(@RUntainted String resourcename, I_CmsResourceType type) throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.IGNORE_EXPIRATION);
         getResourceType(resource).chtype(this, m_securityManager, resource, type);
@@ -557,7 +558,7 @@ public final class CmsObject {
      * Use of int based resource type references will be discontinued in a future OpenCms release.
      */
     @Deprecated
-    public void chtype(String resourcename, int type) throws CmsException {
+    public void chtype(@RUntainted String resourcename, int type) throws CmsException {
 
         chtype(resourcename, getResourceType(type));
     }
@@ -579,7 +580,7 @@ public final class CmsObject {
      *
      * @see #copyResource(String, String, CmsResource.CmsResourceCopyMode)
      */
-    public void copyResource(String source, String destination) throws CmsException, CmsIllegalArgumentException {
+    public void copyResource(@RUntainted String source, @RUntainted String destination) throws CmsException, CmsIllegalArgumentException {
 
         copyResource(source, destination, CmsResource.COPY_PRESERVE_SIBLING);
     }
@@ -606,7 +607,7 @@ public final class CmsObject {
      * @throws CmsException if something goes wrong
      * @throws CmsIllegalArgumentException if the <code>destination</code> argument is null or of length 0
      */
-    public void copyResource(String source, String destination, CmsResource.CmsResourceCopyMode siblingMode)
+    public void copyResource(@RUntainted String source, @RUntainted String destination, CmsResource.CmsResourceCopyMode siblingMode)
     throws CmsException, CmsIllegalArgumentException {
 
         CmsResource resource = readResource(source, CmsResourceFilter.IGNORE_EXPIRATION);
@@ -642,7 +643,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void copyResourceToProject(String resourcename) throws CmsException {
+    public void copyResourceToProject(@RUntainted String resourcename) throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.ALL);
         copyResourceToProject(resource);
@@ -672,7 +673,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void cpacc(String sourceName, String destName) throws CmsException {
+    public void cpacc(@RUntainted String sourceName, @RUntainted String destName) throws CmsException {
 
         CmsResource source = readResource(sourceName);
         CmsResource dest = readResource(destName);
@@ -691,7 +692,7 @@ public final class CmsObject {
      *
      * @throws CmsException if operation was not successful
      */
-    public CmsGroup createGroup(String groupFqn, String description, int flags, String parent) throws CmsException {
+    public CmsGroup createGroup(@RUntainted String groupFqn, String description, int flags, @RUntainted String parent) throws CmsException {
 
         return m_securityManager.createGroup(m_context, groupFqn, description, flags, parent);
     }
@@ -708,7 +709,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsProject createProject(String name, String description, String groupname, String managergroupname)
+    public CmsProject createProject(@RUntainted String name, String description, @RUntainted String groupname, @RUntainted String managergroupname)
     throws CmsException {
 
         return m_securityManager.createProject(
@@ -734,10 +735,10 @@ public final class CmsObject {
      * @throws CmsException if operation was not successful
      */
     public CmsProject createProject(
-        String name,
+        @RUntainted String name,
         String description,
-        String groupname,
-        String managergroupname,
+        @RUntainted String groupname,
+        @RUntainted String managergroupname,
         CmsProject.CmsProjectType projecttype)
     throws CmsException {
 
@@ -774,7 +775,7 @@ public final class CmsObject {
      * @throws CmsException if something goes wrong
      */
     public CmsResource createResource(
-        String sitePath,
+        @RUntainted String sitePath,
         CmsResource resource,
         byte[] content,
         List<CmsProperty> properties)
@@ -806,7 +807,7 @@ public final class CmsObject {
      *
      * @see #createResource(String, int, byte[], List)
      */
-    public CmsResource createResource(String resourcename, I_CmsResourceType type)
+    public CmsResource createResource(@RUntainted String resourcename, I_CmsResourceType type)
     throws CmsException, CmsIllegalArgumentException {
 
         return createResource(resourcename, type, new byte[0], new ArrayList<CmsProperty>(0));
@@ -827,7 +828,7 @@ public final class CmsObject {
      * @throws CmsIllegalArgumentException if the <code>resourcename</code> argument is null or of length 0
      */
     public CmsResource createResource(
-        String resourcename,
+        @RUntainted String resourcename,
         I_CmsResourceType type,
         byte[] content,
         List<CmsProperty> properties)
@@ -856,7 +857,7 @@ public final class CmsObject {
      * Use of int based resource type references will be discontinued in a future OpenCms release.
      */
     @Deprecated
-    public CmsResource createResource(String resourcename, int type) throws CmsException, CmsIllegalArgumentException {
+    public CmsResource createResource(@RUntainted String resourcename, int type) throws CmsException, CmsIllegalArgumentException {
 
         return createResource(resourcename, getResourceType(type), new byte[0], new ArrayList<CmsProperty>(0));
     }
@@ -881,7 +882,7 @@ public final class CmsObject {
      * Use of int based resource type references will be discontinued in a future OpenCms release.
      */
     @Deprecated
-    public CmsResource createResource(String resourcename, int type, byte[] content, List<CmsProperty> properties)
+    public CmsResource createResource(@RUntainted String resourcename, int type, byte[] content, List<CmsProperty> properties)
     throws CmsException, CmsIllegalArgumentException {
 
         return createResource(resourcename, getResourceType(type), content, properties);
@@ -898,7 +899,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsResource createSibling(String source, String destination, List<CmsProperty> properties)
+    public CmsResource createSibling(@RUntainted String source, @RUntainted String destination, List<CmsProperty> properties)
     throws CmsException {
 
         CmsResource resource = readResource(source, CmsResourceFilter.IGNORE_EXPIRATION);
@@ -929,7 +930,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsUser createUser(String userFqn, String password, String description, Map<String, Object> additionalInfos)
+    public CmsUser createUser(@RUntainted String userFqn, String password, String description, Map<String, Object> additionalInfos)
     throws CmsException {
 
         return m_securityManager.createUser(m_context, userFqn, password, description, additionalInfos);
@@ -970,7 +971,7 @@ public final class CmsObject {
      *
      * @throws CmsException if operation was not successful
      */
-    public void deleteGroup(String group) throws CmsException {
+    public void deleteGroup(@RUntainted String group) throws CmsException {
 
         m_securityManager.deleteGroup(m_context, group);
     }
@@ -985,7 +986,7 @@ public final class CmsObject {
      *
      * @throws CmsException if operation was not successful
      */
-    public void deleteHistoricalVersions(int versionsToKeep, int versionsDeleted, long timeDeleted, I_CmsReport report)
+    public void deleteHistoricalVersions(@RUntainted int versionsToKeep, @RUntainted int versionsDeleted, @RUntainted long timeDeleted, I_CmsReport report)
     throws CmsException {
 
         m_securityManager.deleteHistoricalVersions(m_context, versionsToKeep, versionsDeleted, timeDeleted, report);
@@ -1053,7 +1054,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void deleteRelationsFromResource(String resourceName, CmsRelationFilter filter) throws CmsException {
+    public void deleteRelationsFromResource(@RUntainted String resourceName, CmsRelationFilter filter) throws CmsException {
 
         CmsResource resource = readResource(resourceName, CmsResourceFilter.ALL);
         m_securityManager.deleteRelationsForResource(m_context, resource, filter);
@@ -1096,7 +1097,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void deleteResource(String resourcename, CmsResource.CmsResourceDeleteMode siblingMode) throws CmsException {
+    public void deleteResource(@RUntainted String resourcename, CmsResource.CmsResourceDeleteMode siblingMode) throws CmsException {
 
         // throw the exception if resource name is an empty string
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(resourcename)) {
@@ -1156,7 +1157,7 @@ public final class CmsObject {
      *
      * @throws CmsException if operation was not successful
      */
-    public void deleteUser(String username) throws CmsException {
+    public void deleteUser(@RUntainted String username) throws CmsException {
 
         m_securityManager.deleteUser(m_context, username);
     }
@@ -1232,7 +1233,7 @@ public final class CmsObject {
      * @see #readResource(String)
      * @see #existsResource(String, CmsResourceFilter)
      */
-    public boolean existsResource(String resourcename) {
+    public boolean existsResource(@RUntainted String resourcename) {
 
         return existsResource(resourcename, CmsResourceFilter.DEFAULT);
     }
@@ -1262,7 +1263,7 @@ public final class CmsObject {
      * @see #readResource(String)
      * @see #readResource(String, CmsResourceFilter)
      */
-    public boolean existsResource(String resourcename, CmsResourceFilter filter) {
+    public boolean existsResource(@RUntainted String resourcename, CmsResourceFilter filter) {
 
         return m_securityManager.existsResource(m_context, addSiteRoot(resourcename), filter);
     }
@@ -1276,7 +1277,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsAccessControlEntry> getAccessControlEntries(String resourceName) throws CmsException {
+    public List<CmsAccessControlEntry> getAccessControlEntries(@RUntainted String resourceName) throws CmsException {
 
         return getAccessControlEntries(resourceName, true);
     }
@@ -1291,7 +1292,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsAccessControlEntry> getAccessControlEntries(String resourceName, boolean getInherited)
+    public List<CmsAccessControlEntry> getAccessControlEntries(@RUntainted String resourceName, boolean getInherited)
     throws CmsException {
 
         CmsResource res = readResource(resourceName, CmsResourceFilter.ALL);
@@ -1307,7 +1308,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsAccessControlList getAccessControlList(String resourceName) throws CmsException {
+    public CmsAccessControlList getAccessControlList(@RUntainted String resourceName) throws CmsException {
 
         return getAccessControlList(resourceName, false);
     }
@@ -1324,7 +1325,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsAccessControlList getAccessControlList(String resourceName, boolean inheritedOnly) throws CmsException {
+    public CmsAccessControlList getAccessControlList(@RUntainted String resourceName, boolean inheritedOnly) throws CmsException {
 
         CmsResource res = readResource(resourceName, CmsResourceFilter.ALL);
         return m_securityManager.getAccessControlList(m_context, res, inheritedOnly);
@@ -1396,7 +1397,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong reading the resources
      */
-    public List<CmsResource> getBlockingLockedResources(String resourceName) throws CmsException {
+    public List<CmsResource> getBlockingLockedResources(@RUntainted String resourceName) throws CmsException {
 
         CmsResource resource = readResource(resourceName);
         return getBlockingLockedResources(resource);
@@ -1412,7 +1413,7 @@ public final class CmsObject {
      *
      * @throws CmsException if operation was not successful
      */
-    public List<CmsGroup> getChildren(String groupname, boolean includeSubChildren) throws CmsException {
+    public List<CmsGroup> getChildren(@RUntainted String groupname, boolean includeSubChildren) throws CmsException {
 
         return m_securityManager.getChildren(m_context, groupname, includeSubChildren);
     }
@@ -1453,7 +1454,7 @@ public final class CmsObject {
      *
      * @see #getFilesInFolder(String, CmsResourceFilter)
      */
-    public List<CmsResource> getFilesInFolder(String resourcename) throws CmsException {
+    public List<CmsResource> getFilesInFolder(@RUntainted String resourcename) throws CmsException {
 
         return getFilesInFolder(resourcename, CmsResourceFilter.DEFAULT);
     }
@@ -1472,7 +1473,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResource> getFilesInFolder(String resourcename, CmsResourceFilter filter) throws CmsException {
+    public List<CmsResource> getFilesInFolder(@RUntainted String resourcename, CmsResourceFilter filter) throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.ALL);
         return m_securityManager.readChildResources(m_context, resource, filter, false, true);
@@ -1488,7 +1489,7 @@ public final class CmsObject {
      *
      * @throws CmsException if operation was not successful
      */
-    public List<CmsGroup> getGroupsOfUser(String username, boolean directGroupsOnly) throws CmsException {
+    public List<CmsGroup> getGroupsOfUser(@RUntainted String username, boolean directGroupsOnly) throws CmsException {
 
         return getGroupsOfUser(username, directGroupsOnly, true);
     }
@@ -1504,7 +1505,7 @@ public final class CmsObject {
      *
      * @throws CmsException if operation was not successful
      */
-    public List<CmsGroup> getGroupsOfUser(String username, boolean directGroupsOnly, boolean includeOtherOus)
+    public List<CmsGroup> getGroupsOfUser(@RUntainted String username, boolean directGroupsOnly, boolean includeOtherOus)
     throws CmsException {
 
         return getGroupsOfUser(username, directGroupsOnly, includeOtherOus, m_context.getRemoteAddress());
@@ -1523,7 +1524,7 @@ public final class CmsObject {
      * @throws CmsException if operation was not successful
      */
     public List<CmsGroup> getGroupsOfUser(
-        String username,
+        @RUntainted String username,
         boolean directGroupsOnly,
         boolean includeOtherOus,
         String remoteAddress)
@@ -1576,7 +1577,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsLock getLock(String resourcename) throws CmsException {
+    public CmsLock getLock(@RUntainted String resourcename) throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.ALL);
         return getLock(resource);
@@ -1607,7 +1608,7 @@ public final class CmsObject {
      *
      * @throws CmsException if operation was not successful
      */
-    public List<String> getLockedResources(String resourceName, CmsLockFilter filter) throws CmsException {
+    public @RUntainted List<@RUntainted String> getLockedResources(@RUntainted String resourceName, CmsLockFilter filter) throws CmsException {
 
         CmsResource resource = readResource(resourceName, CmsResourceFilter.ALL);
         return m_securityManager.getLockedResources(m_context, resource, filter);
@@ -1666,7 +1667,7 @@ public final class CmsObject {
      *
      * @see #moveToLostAndFound(String)
      */
-    public String getLostAndFoundName(String resourcename) throws CmsException {
+    public String getLostAndFoundName(@RUntainted String resourcename) throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.ALL);
         return m_securityManager.moveToLostAndFound(m_context, resource, true);
@@ -1681,7 +1682,7 @@ public final class CmsObject {
      *
      * @throws CmsException if operation was not successful
      */
-    public CmsGroup getParent(String groupname) throws CmsException {
+    public CmsGroup getParent(@RUntainted String groupname) throws CmsException {
 
         return m_securityManager.getParent(m_context, groupname);
     }
@@ -1695,7 +1696,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsPermissionSet getPermissions(String resourceName) throws CmsException {
+    public CmsPermissionSet getPermissions(@RUntainted String resourceName) throws CmsException {
 
         return getPermissions(resourceName, m_context.getCurrentUser().getName());
     }
@@ -1710,7 +1711,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsPermissionSet getPermissions(String resourceName, String userName) throws CmsException {
+    public CmsPermissionSet getPermissions(@RUntainted String resourceName, @RUntainted String userName) throws CmsException {
 
         // reading permissions is allowed even if the resource is marked as deleted
         CmsResource resource = readResource(resourceName, CmsResourceFilter.ALL);
@@ -1758,7 +1759,7 @@ public final class CmsObject {
      *
      * @see CmsSecurityManager#getRelationsForResource(CmsRequestContext, CmsResource, CmsRelationFilter)
      */
-    public List<CmsRelation> getRelationsForResource(String resourceName, CmsRelationFilter filter)
+    public List<CmsRelation> getRelationsForResource(@RUntainted String resourceName, CmsRelationFilter filter)
     throws CmsException {
 
         return getRelationsForResource(readResource(resourceName, CmsResourceFilter.ALL), filter);
@@ -1823,7 +1824,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResource> getResourcesInFolder(String resourcename, CmsResourceFilter filter) throws CmsException {
+    public List<CmsResource> getResourcesInFolder(@RUntainted String resourcename, CmsResourceFilter filter) throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.ALL);
         return m_securityManager.readChildResources(m_context, resource, filter, true, true);
@@ -1848,7 +1849,7 @@ public final class CmsObject {
      * @see CmsRequestContext#getSitePath(CmsResource)
      * @see CmsResource#getRootPath()
      */
-    public String getSitePath(CmsResource resource) {
+    public @RUntainted String getSitePath(CmsResource resource) {
 
         return m_context.getSitePath(resource);
     }
@@ -1867,7 +1868,7 @@ public final class CmsObject {
      *
      * @see #getSubFolders(String, CmsResourceFilter)
      */
-    public List<CmsResource> getSubFolders(String resourcename) throws CmsException {
+    public List<CmsResource> getSubFolders(@RUntainted String resourcename) throws CmsException {
 
         return getSubFolders(resourcename, CmsResourceFilter.DEFAULT);
     }
@@ -1886,7 +1887,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResource> getSubFolders(String resourcename, CmsResourceFilter filter) throws CmsException {
+    public List<CmsResource> getSubFolders(@RUntainted String resourcename, CmsResourceFilter filter) throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.ALL);
         return m_securityManager.readChildResources(m_context, resource, filter, true, false);
@@ -1916,7 +1917,7 @@ public final class CmsObject {
      *
      * @throws CmsException if operation was not successful
      */
-    public List<CmsUser> getUsersOfGroup(String groupname) throws CmsException {
+    public List<CmsUser> getUsersOfGroup(@RUntainted String groupname) throws CmsException {
 
         return getUsersOfGroup(groupname, true);
     }
@@ -1933,7 +1934,7 @@ public final class CmsObject {
      *
      * @throws CmsException if operation was not successful
      */
-    public List<CmsUser> getUsersOfGroup(String groupname, boolean includeOtherOus) throws CmsException {
+    public List<CmsUser> getUsersOfGroup(@RUntainted String groupname, boolean includeOtherOus) throws CmsException {
 
         return m_securityManager.getUsersOfGroup(m_context, groupname, includeOtherOus, true, false);
     }
@@ -2012,7 +2013,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void importRelation(String resourceName, String targetPath, String relationType) throws CmsException {
+    public void importRelation(@RUntainted String resourceName, @RUntainted String targetPath, String relationType) throws CmsException {
 
         createRelation(resourceName, targetPath, relationType, true);
     }
@@ -2038,7 +2039,7 @@ public final class CmsObject {
      * @see CmsObject#moveToLostAndFound(String)
      */
     public CmsResource importResource(
-        String resourcename,
+        @RUntainted String resourcename,
         CmsResource resource,
         byte[] content,
         List<CmsProperty> properties)
@@ -2070,7 +2071,7 @@ public final class CmsObject {
      * @see CmsObject#moveToLostAndFound(String)
      */
     public CmsResource importResource(
-        String resourcename,
+        @RUntainted String resourcename,
         I_CmsReport report,
         CmsResource resource,
         byte[] content,
@@ -2100,14 +2101,14 @@ public final class CmsObject {
      */
     public CmsUser importUser(
         String id,
-        String name,
+        @RUntainted String name,
         String password,
-        String firstname,
-        String lastname,
-        String email,
-        int flags,
-        long dateCreated,
-        Map<String, Object> additionalInfos)
+        @RUntainted String firstname,
+        @RUntainted String lastname,
+        @RUntainted String email,
+        @RUntainted int flags,
+        @RUntainted long dateCreated,
+        @RUntainted Map<@RUntainted String, @RUntainted Object> additionalInfos)
     throws CmsException {
 
         return m_securityManager.importUser(
@@ -2148,7 +2149,7 @@ public final class CmsObject {
      *
      * @return <code>true</code>, if the specified resource is inside the current project
      */
-    public boolean isInsideCurrentProject(String resourcename) {
+    public boolean isInsideCurrentProject(@RUntainted String resourcename) {
 
         return m_securityManager.isInsideCurrentProject(m_context, addSiteRoot(resourcename));
     }
@@ -2187,7 +2188,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void lockResource(String resourcename) throws CmsException {
+    public void lockResource(@RUntainted String resourcename) throws CmsException {
 
         lockResource(resourcename, CmsLockType.EXCLUSIVE);
     }
@@ -2234,7 +2235,7 @@ public final class CmsObject {
      *
      * @see CmsObject#lockResource(String)
      */
-    public void lockResourceTemporary(String resourcename) throws CmsException {
+    public void lockResourceTemporary(@RUntainted String resourcename) throws CmsException {
 
         lockResource(resourcename, CmsLockType.TEMPORARY);
     }
@@ -2249,7 +2250,7 @@ public final class CmsObject {
      *
      * @throws CmsException if the login was not successful
      */
-    public String loginUser(String username, String password) throws CmsException {
+    public String loginUser(@RUntainted String username, String password) throws CmsException {
 
         return loginUser(username, password, null, m_context.getRemoteAddress());
     }
@@ -2264,7 +2265,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public String loginUser(String username, String password, CmsSecondFactorInfo code) throws CmsException {
+    public String loginUser(@RUntainted String username, String password, CmsSecondFactorInfo code) throws CmsException {
 
         return loginUser(username, password, code, m_context.getRemoteAddress());
     }
@@ -2281,7 +2282,7 @@ public final class CmsObject {
      *
      * @throws CmsException if the login was not successful
      */
-    public String loginUser(String username, String password, CmsSecondFactorInfo code, String remoteAddress)
+    public String loginUser(@RUntainted String username, String password, CmsSecondFactorInfo code, String remoteAddress)
     throws CmsException {
 
         // login the user
@@ -2309,7 +2310,7 @@ public final class CmsObject {
      *
      * @throws CmsException if the login was not successful
      */
-    public String loginUser(String username, String password, String remoteAddress) throws CmsException {
+    public String loginUser(@RUntainted String username, String password, String remoteAddress) throws CmsException {
 
         return loginUser(username, password, (CmsSecondFactorInfo)null, remoteAddress);
     }
@@ -2333,7 +2334,7 @@ public final class CmsObject {
      *
      * @return the user or group with the given name
      */
-    public I_CmsPrincipal lookupPrincipal(String principalName) {
+    public I_CmsPrincipal lookupPrincipal(@RUntainted String principalName) {
 
         return m_securityManager.lookupPrincipal(m_context, principalName);
     }
@@ -2353,7 +2354,7 @@ public final class CmsObject {
      *
      * @see #renameResource(String, String)
      */
-    public void moveResource(String source, String destination) throws CmsException {
+    public void moveResource(@RUntainted String source, @RUntainted String destination) throws CmsException {
 
         CmsResource resource = readResource(source, CmsResourceFilter.IGNORE_EXPIRATION);
         getResourceType(resource).moveResource(this, m_securityManager, resource, destination);
@@ -2377,7 +2378,7 @@ public final class CmsObject {
      *
      * @see #getLostAndFoundName(String)
      */
-    public String moveToLostAndFound(String resourcename) throws CmsException {
+    public String moveToLostAndFound(@RUntainted String resourcename) throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.ALL);
         return m_securityManager.moveToLostAndFound(m_context, resource, false);
@@ -2407,7 +2408,7 @@ public final class CmsObject {
      *
      * @throws CmsException if operation was not successful
      */
-    public List<I_CmsHistoryResource> readAllAvailableVersions(String resourceName) throws CmsException {
+    public List<I_CmsHistoryResource> readAllAvailableVersions(@RUntainted String resourceName) throws CmsException {
 
         CmsResource resource = readResource(resourceName, CmsResourceFilter.ALL);
         return m_securityManager.readAllAvailableVersions(m_context, resource);
@@ -2437,7 +2438,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsFolder readAncestor(String resourcename, CmsResourceFilter filter) throws CmsException {
+    public CmsFolder readAncestor(@RUntainted String resourcename, CmsResourceFilter filter) throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.ALL);
         return m_securityManager.readAncestor(m_context, resource, filter);
@@ -2456,7 +2457,7 @@ public final class CmsObject {
      * @throws CmsException if something goes wrong
      */
     @SuppressWarnings("deprecation")
-    public CmsFolder readAncestor(String resourcename, int type) throws CmsException {
+    public CmsFolder readAncestor(@RUntainted String resourcename, int type) throws CmsException {
 
         return readAncestor(resourcename, CmsResourceFilter.requireType(type));
     }
@@ -2521,7 +2522,7 @@ public final class CmsObject {
      * @throws CmsException if something goes wrong
      * @throws CmsSecurityException if the user has no permissions to read the resulting file
      */
-    public CmsResource readDefaultFile(String resourceNameOrID) throws CmsException, CmsSecurityException {
+    public CmsResource readDefaultFile(@RUntainted String resourceNameOrID) throws CmsException, CmsSecurityException {
 
         return readDefaultFile(resourceNameOrID, CmsResourceFilter.DEFAULT);
     }
@@ -2548,7 +2549,7 @@ public final class CmsObject {
      * @throws CmsException if something goes wrong
      * @throws CmsSecurityException if the user has no permissions to read the resulting file
      */
-    public CmsResource readDefaultFile(String resourceNameOrID, CmsResourceFilter filter)
+    public CmsResource readDefaultFile(@RUntainted String resourceNameOrID, CmsResourceFilter filter)
     throws CmsException, CmsSecurityException {
 
         CmsResource resource;
@@ -2580,7 +2581,7 @@ public final class CmsObject {
      * @see #readResource(CmsUUID, int)
      * @see #readResources(String, CmsResourceFilter, boolean)
      */
-    public List<I_CmsHistoryResource> readDeletedResources(String resourcename, boolean readTree) throws CmsException {
+    public List<I_CmsHistoryResource> readDeletedResources(@RUntainted String resourcename, boolean readTree) throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.ALL);
         return m_securityManager.readDeletedResources(m_context, resource, readTree);
@@ -2643,7 +2644,7 @@ public final class CmsObject {
      * @see #readFile(CmsResource)
      * @see #readResource(String)
      */
-    public CmsFile readFile(String resourcename) throws CmsException {
+    public CmsFile readFile(@RUntainted String resourcename) throws CmsException {
 
         return readFile(resourcename, CmsResourceFilter.DEFAULT);
     }
@@ -2672,7 +2673,7 @@ public final class CmsObject {
      * @see #readFile(CmsResource)
      * @see #readResource(String, CmsResourceFilter)
      */
-    public CmsFile readFile(String resourcename, CmsResourceFilter filter) throws CmsException {
+    public CmsFile readFile(@RUntainted String resourcename, CmsResourceFilter filter) throws CmsException {
 
         CmsResource resource = readResource(resourcename, filter);
         return readFile(resource);
@@ -2691,7 +2692,7 @@ public final class CmsObject {
      * @see #readResource(String, CmsResourceFilter)
      * @see #readFolder(String, CmsResourceFilter)
      */
-    public CmsFolder readFolder(String resourcename) throws CmsException {
+    public CmsFolder readFolder(@RUntainted String resourcename) throws CmsException {
 
         return readFolder(resourcename, CmsResourceFilter.DEFAULT);
     }
@@ -2715,7 +2716,7 @@ public final class CmsObject {
      *
      * @see #readResource(String, CmsResourceFilter)
      */
-    public CmsFolder readFolder(String resourcename, CmsResourceFilter filter) throws CmsException {
+    public CmsFolder readFolder(@RUntainted String resourcename, CmsResourceFilter filter) throws CmsException {
 
         return m_securityManager.readFolder(m_context, addSiteRoot(resourcename), filter);
     }
@@ -2757,7 +2758,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsGroup readGroup(String groupName) throws CmsException {
+    public CmsGroup readGroup(@RUntainted String groupName) throws CmsException {
 
         return m_securityManager.readGroup(m_context, groupName);
     }
@@ -2906,7 +2907,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResource> readPath(String path, CmsResourceFilter filter) throws CmsException {
+    public List<CmsResource> readPath(@RUntainted String path, CmsResourceFilter filter) throws CmsException {
 
         return m_securityManager.readPath(m_context, addSiteRoot(path), filter);
     }
@@ -2934,7 +2935,7 @@ public final class CmsObject {
      *
      * @throws CmsException if operation was not successful
      */
-    public CmsProject readProject(String name) throws CmsException {
+    public CmsProject readProject(@RUntainted String name) throws CmsException {
 
         return m_securityManager.readProject(name);
     }
@@ -3054,7 +3055,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsProperty readPropertyObject(String resourcePath, String property, boolean search) throws CmsException {
+    public CmsProperty readPropertyObject(@RUntainted String resourcePath, String property, boolean search) throws CmsException {
 
         CmsResource resource = readResource(resourcePath, CmsResourceFilter.ALL);
         return m_securityManager.readPropertyObject(m_context, resource, property, search);
@@ -3075,7 +3076,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsProperty readPropertyObject(String resourcePath, String property, boolean search, Locale locale)
+    public CmsProperty readPropertyObject(@RUntainted String resourcePath, String property, boolean search, Locale locale)
     throws CmsException {
 
         CmsResource resource = readResource(resourcePath, CmsResourceFilter.ALL);
@@ -3134,7 +3135,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsProperty> readPropertyObjects(String resourcePath, boolean search) throws CmsException {
+    public List<CmsProperty> readPropertyObjects(@RUntainted String resourcePath, boolean search) throws CmsException {
 
         CmsResource resource = readResource(resourcePath, CmsResourceFilter.ALL);
         return m_securityManager.readPropertyObjects(m_context, resource, search);
@@ -3286,7 +3287,7 @@ public final class CmsObject {
      * @see #readFile(String)
      * @see #readResource(String, CmsResourceFilter)
      */
-    public CmsResource readResource(String resourcename) throws CmsException {
+    public CmsResource readResource(@RUntainted String resourcename) throws CmsException {
 
         return readResource(resourcename, CmsResourceFilter.DEFAULT);
     }
@@ -3319,7 +3320,7 @@ public final class CmsObject {
      * @see #readFile(String, CmsResourceFilter)
      * @see #readFolder(String, CmsResourceFilter)
      */
-    public CmsResource readResource(String resourcename, CmsResourceFilter filter) throws CmsException {
+    public CmsResource readResource(@RUntainted String resourcename, CmsResourceFilter filter) throws CmsException {
 
         return m_securityManager.readResource(m_context, addSiteRoot(resourcename), filter);
     }
@@ -3360,7 +3361,7 @@ public final class CmsObject {
      *
      * @see #readResources(String, CmsResourceFilter, boolean)
      */
-    public List<CmsResource> readResources(String resourcename, CmsResourceFilter filter) throws CmsException {
+    public List<CmsResource> readResources(@RUntainted String resourcename, CmsResourceFilter filter) throws CmsException {
 
         return readResources(resourcename, filter, true);
     }
@@ -3378,7 +3379,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResource> readResources(String resourcename, CmsResourceFilter filter, boolean readTree)
+    public List<CmsResource> readResources(@RUntainted String resourcename, CmsResourceFilter filter, boolean readTree)
     throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.ALL);
@@ -3419,7 +3420,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResource> readResourcesWithProperty(String path, String propertyDefinition) throws CmsException {
+    public List<CmsResource> readResourcesWithProperty(@RUntainted String path, String propertyDefinition) throws CmsException {
 
         return readResourcesWithProperty(path, propertyDefinition, null);
     }
@@ -3444,7 +3445,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResource> readResourcesWithProperty(String path, String propertyDefinition, String value)
+    public List<CmsResource> readResourcesWithProperty(@RUntainted String path, String propertyDefinition, String value)
     throws CmsException {
 
         CmsResource resource = readResource(path, CmsResourceFilter.IGNORE_EXPIRATION);
@@ -3478,7 +3479,7 @@ public final class CmsObject {
      * @throws CmsException if something goes wrong
      */
     public List<CmsResource> readResourcesWithProperty(
-        String path,
+        @RUntainted String path,
         String propertyDefinition,
         String value,
         CmsResourceFilter filter)
@@ -3547,7 +3548,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResource> readSiblings(String resourcename, CmsResourceFilter filter) throws CmsException {
+    public List<CmsResource> readSiblings(@RUntainted String resourcename, CmsResourceFilter filter) throws CmsException {
 
         CmsResource resource = readResource(resourcename, filter);
         return readSiblings(resource, filter);
@@ -3674,7 +3675,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsUser readUser(String username) throws CmsException {
+    public CmsUser readUser(@RUntainted String username) throws CmsException {
 
         return m_securityManager.readUser(m_context, username);
     }
@@ -3691,7 +3692,7 @@ public final class CmsObject {
      *
      * @throws CmsException if operation was not successful
      */
-    public CmsUser readUser(String username, String password) throws CmsException {
+    public CmsUser readUser(@RUntainted String username, String password) throws CmsException {
 
         return m_securityManager.readUser(m_context, username, password);
     }
@@ -3708,7 +3709,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void removeResourceFromProject(String resourcename) throws CmsException {
+    public void removeResourceFromProject(@RUntainted String resourcename) throws CmsException {
 
         // TODO: this should be also possible if the resource has been deleted
         CmsResource resource = readResource(resourcename, CmsResourceFilter.ALL);
@@ -3723,7 +3724,7 @@ public final class CmsObject {
      *
      * @throws CmsException if operation was not successful
      */
-    public void removeUserFromGroup(String username, String groupname) throws CmsException {
+    public void removeUserFromGroup(@RUntainted String username, @RUntainted String groupname) throws CmsException {
 
         m_securityManager.removeUserFromGroup(m_context, username, groupname, false);
     }
@@ -3739,7 +3740,7 @@ public final class CmsObject {
      *
      * @see #moveResource(String, String)
      */
-    public void renameResource(String source, String destination) throws CmsException {
+    public void renameResource(@RUntainted String source, @RUntainted String destination) throws CmsException {
 
         moveResource(source, destination);
     }
@@ -3755,7 +3756,7 @@ public final class CmsObject {
      * @throws CmsException if something goes wrong
      */
     public void replaceResource(
-        String resourcename,
+        @RUntainted String resourcename,
         I_CmsResourceType type,
         byte[] content,
         List<CmsProperty> properties)
@@ -3781,7 +3782,7 @@ public final class CmsObject {
      * Use of int based resource type references will be discontinued in a future OpenCms release.
      */
     @Deprecated
-    public void replaceResource(String resourcename, int type, byte[] content, List<CmsProperty> properties)
+    public void replaceResource(@RUntainted String resourcename, int type, byte[] content, List<CmsProperty> properties)
     throws CmsException {
 
         replaceResource(resourcename, getResourceType(type), content, properties);
@@ -3826,7 +3827,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void rmacc(String resourceName, String principalType, String principalName) throws CmsException {
+    public void rmacc(@RUntainted String resourceName, String principalType, @RUntainted String principalName) throws CmsException {
 
         CmsResource res = readResource(resourceName, CmsResourceFilter.ALL);
 
@@ -3865,7 +3866,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void setDateExpired(CmsResource resource, long dateExpired, boolean recursive) throws CmsException {
+    public void setDateExpired(CmsResource resource, @RUntainted long dateExpired, boolean recursive) throws CmsException {
 
         getResourceType(resource).setDateExpired(this, m_securityManager, resource, dateExpired, recursive);
     }
@@ -3879,7 +3880,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void setDateExpired(String resourcename, long dateExpired, boolean recursive) throws CmsException {
+    public void setDateExpired(@RUntainted String resourcename, @RUntainted long dateExpired, boolean recursive) throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.IGNORE_EXPIRATION);
         setDateExpired(resource, dateExpired, recursive);
@@ -3894,7 +3895,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void setDateLastModified(String resourcename, long dateLastModified, boolean recursive) throws CmsException {
+    public void setDateLastModified(@RUntainted String resourcename, long dateLastModified, boolean recursive) throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.IGNORE_EXPIRATION);
         getResourceType(resource).setDateLastModified(this, m_securityManager, resource, dateLastModified, recursive);
@@ -3909,7 +3910,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void setDateReleased(CmsResource resource, long dateReleased, boolean recursive) throws CmsException {
+    public void setDateReleased(CmsResource resource, @RUntainted long dateReleased, boolean recursive) throws CmsException {
 
         getResourceType(resource).setDateReleased(this, m_securityManager, resource, dateReleased, recursive);
     }
@@ -3923,7 +3924,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void setDateReleased(String resourcename, long dateReleased, boolean recursive) throws CmsException {
+    public void setDateReleased(@RUntainted String resourcename, @RUntainted long dateReleased, boolean recursive) throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.IGNORE_EXPIRATION);
         setDateReleased(resource, dateReleased, recursive);
@@ -3939,7 +3940,7 @@ public final class CmsObject {
      *
      * @throws CmsException  if operation was not successful
      */
-    public void setParentGroup(String groupName, String parentGroupName) throws CmsException {
+    public void setParentGroup(@RUntainted String groupName, @RUntainted String parentGroupName) throws CmsException {
 
         m_securityManager.setParentGroup(m_context, groupName, parentGroupName);
     }
@@ -3952,7 +3953,7 @@ public final class CmsObject {
      *
      * @throws CmsException if operation was not successful
      */
-    public void setPassword(String username, String newPassword) throws CmsException {
+    public void setPassword(@RUntainted String username, String newPassword) throws CmsException {
 
         m_securityManager.setPassword(m_context, username, newPassword);
     }
@@ -3967,7 +3968,7 @@ public final class CmsObject {
      *
      * @throws CmsException if the user data could not be read from the database
      */
-    public void setPassword(String username, String oldPassword, CmsSecondFactorInfo secondFactor, String newPassword)
+    public void setPassword(@RUntainted String username, String oldPassword, CmsSecondFactorInfo secondFactor, String newPassword)
     throws CmsException {
 
         m_securityManager.resetPassword(m_context, username, oldPassword, secondFactor, newPassword);
@@ -3982,7 +3983,7 @@ public final class CmsObject {
      *
      * @throws CmsException if the user data could not be read from the database
      */
-    public void setPassword(String username, String oldPassword, String newPassword) throws CmsException {
+    public void setPassword(@RUntainted String username, String oldPassword, String newPassword) throws CmsException {
 
         m_securityManager.resetPassword(m_context, username, oldPassword, null, newPassword);
     }
@@ -3993,9 +3994,9 @@ public final class CmsObject {
      * @param siteRoot the site root to switch to
      * @return an AutoCloseable that restores the original site root when closed
      */
-    public AutoCloseable tempChangeSiteRoot(String siteRoot) {
+    public AutoCloseable tempChangeSiteRoot(@RUntainted String siteRoot) {
 
-        final String oldSiteRoot = m_context.getSiteRoot();
+        final @RUntainted String oldSiteRoot = m_context.getSiteRoot();
         m_context.setSiteRoot(siteRoot);
         return () -> m_context.setSiteRoot(oldSiteRoot);
     }
@@ -4013,7 +4014,7 @@ public final class CmsObject {
      *
      * @see CmsObject#undoChanges(String, CmsResource.CmsResourceUndoMode)
      */
-    public void undeleteResource(String resourcename, boolean recursive) throws CmsException {
+    public void undeleteResource(@RUntainted String resourcename, boolean recursive) throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.ALL);
         getResourceType(resource).undelete(this, m_securityManager, resource, recursive);
@@ -4033,7 +4034,7 @@ public final class CmsObject {
      * @see CmsResource#UNDO_MOVE_CONTENT
      * @see CmsResource#UNDO_MOVE_CONTENT_RECURSIVE
      */
-    public void undoChanges(String resourcename, CmsResource.CmsResourceUndoMode mode) throws CmsException {
+    public void undoChanges(@RUntainted String resourcename, CmsResource.CmsResourceUndoMode mode) throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.ALL);
         getResourceType(resource).undoChanges(this, m_securityManager, resource, mode);
@@ -4070,7 +4071,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void unlockResource(String resourcename) throws CmsException {
+    public void unlockResource(@RUntainted String resourcename) throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.ALL);
         getResourceType(resource).unlockResource(this, m_securityManager, resource);
@@ -4099,7 +4100,7 @@ public final class CmsObject {
      *
      * @throws CmsException if operation was not successful
      */
-    public boolean userInGroup(String username, String groupname) throws CmsException {
+    public boolean userInGroup(@RUntainted String username, @RUntainted String groupname) throws CmsException {
 
         return (m_securityManager.userInGroup(m_context, username, groupname));
     }
@@ -4166,7 +4167,7 @@ public final class CmsObject {
      *
      * @throws CmsException if operation was not successful
      */
-    public void writeHistoryProject(int publishTag, long publishDate) throws CmsException {
+    public void writeHistoryProject(@RUntainted int publishTag, @RUntainted long publishDate) throws CmsException {
 
         m_securityManager.writeHistoryProject(m_context, publishTag, publishDate);
     }
@@ -4209,7 +4210,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void writePropertyObject(String resourcename, CmsProperty property) throws CmsException {
+    public void writePropertyObject(@RUntainted String resourcename, CmsProperty property) throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.IGNORE_EXPIRATION);
         getResourceType(resource).writePropertyObject(this, m_securityManager, resource, property);
@@ -4244,7 +4245,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public void writePropertyObjects(String resourcename, List<CmsProperty> properties) throws CmsException {
+    public void writePropertyObjects(@RUntainted String resourcename, List<CmsProperty> properties) throws CmsException {
 
         CmsResource resource = readResource(resourcename, CmsResourceFilter.IGNORE_EXPIRATION);
         getResourceType(resource).writePropertyObjects(this, m_securityManager, resource, properties);
@@ -4380,7 +4381,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    private void createRelation(String resourceName, String targetPath, String relationType, boolean importCase)
+    private void createRelation(@RUntainted String resourceName, @RUntainted String targetPath, String relationType, boolean importCase)
     throws CmsException {
 
         CmsResource resource = readResource(resourceName, CmsResourceFilter.IGNORE_EXPIRATION);
@@ -4463,7 +4464,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    private void lockResource(String resourcename, CmsLockType type) throws CmsException {
+    private void lockResource(@RUntainted String resourcename, CmsLockType type) throws CmsException {
 
         // throw the exception if resource name is an empty string
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(resourcename)) {

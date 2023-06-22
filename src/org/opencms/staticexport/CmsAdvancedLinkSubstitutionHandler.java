@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Advanced link substitution behavior.<p>
@@ -69,7 +70,7 @@ public class CmsAdvancedLinkSubstitutionHandler extends CmsDefaultLinkSubstituti
      * @see org.opencms.staticexport.CmsDefaultLinkSubstitutionHandler#getLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String, boolean)
      */
     @Override
-    public String getLink(CmsObject cms, String link, String siteRoot, boolean forceSecure) {
+    public @RUntainted String getLink(CmsObject cms, @RUntainted String link, @RUntainted String siteRoot, boolean forceSecure) {
 
         if (isExcluded(cms, link)) {
             return link;
@@ -81,7 +82,7 @@ public class CmsAdvancedLinkSubstitutionHandler extends CmsDefaultLinkSubstituti
      * @see org.opencms.staticexport.I_CmsLinkSubstitutionHandler#getRootPath(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
     @Override
-    public String getRootPath(CmsObject cms, String targetUri, String basePath) {
+    public @RUntainted String getRootPath(CmsObject cms, @RUntainted String targetUri, @RUntainted String basePath) {
 
         if (cms == null) {
             // required by unit test cases

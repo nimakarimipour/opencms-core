@@ -74,6 +74,7 @@ import org.dom4j.Element;
 import org.dom4j.Node;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.SAXException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of a XML content object,
@@ -136,7 +137,7 @@ public class CmsXmlContent extends A_CmsXmlDocument {
      * @param encoding the encoding of the xml content
      * @param resolver the XML entitiy resolver to use
      */
-    protected CmsXmlContent(CmsObject cms, Document document, String encoding, EntityResolver resolver) {
+    protected CmsXmlContent(CmsObject cms, Document document, @RUntainted String encoding, EntityResolver resolver) {
 
         // must set document first to be able to get the content definition
         m_document = document;
@@ -172,7 +173,7 @@ public class CmsXmlContent extends A_CmsXmlDocument {
      *
      * @throws CmsException in case the model file is not found or not valid
      */
-    protected CmsXmlContent(CmsObject cms, Locale locale, String modelUri)
+    protected CmsXmlContent(CmsObject cms, Locale locale, @RUntainted String modelUri)
     throws CmsException {
 
         // init model from given modelUri
@@ -212,7 +213,7 @@ public class CmsXmlContent extends A_CmsXmlDocument {
      * @param encoding the encoding to use when marshalling the XML content later
      * @param contentDefinition the content definiton to create the content for
      */
-    protected CmsXmlContent(CmsObject cms, Locale locale, String encoding, CmsXmlContentDefinition contentDefinition) {
+    protected CmsXmlContent(CmsObject cms, Locale locale, @RUntainted String encoding, CmsXmlContentDefinition contentDefinition) {
 
         // content defition must be set here since it's used during document creation
         m_contentDefinition = contentDefinition;
@@ -225,7 +226,7 @@ public class CmsXmlContent extends A_CmsXmlDocument {
     /**
      * @see org.opencms.xml.I_CmsXmlDocument#addLocale(org.opencms.file.CmsObject, java.util.Locale)
      */
-    public void addLocale(CmsObject cms, Locale locale) throws CmsXmlException {
+    public void addLocale(CmsObject cms, @RUntainted Locale locale) throws CmsXmlException {
 
         if (hasLocale(locale)) {
             throw new CmsXmlException(
@@ -254,7 +255,7 @@ public class CmsXmlContent extends A_CmsXmlDocument {
      * @throws CmsRuntimeException if the element identified by the path already occurred {@link I_CmsXmlSchemaType#getMaxOccurs()}
      *         or the given <code>index</code> is invalid (too high).
      */
-    public I_CmsXmlContentValue addValue(CmsObject cms, String path, Locale locale, int index)
+    public I_CmsXmlContentValue addValue(CmsObject cms, @RUntainted String path, Locale locale, @RUntainted int index)
     throws CmsIllegalArgumentException, CmsRuntimeException {
 
         // get the schema type of the requested path
@@ -265,7 +266,7 @@ public class CmsXmlContent extends A_CmsXmlDocument {
         }
 
         Element parentElement;
-        String elementName;
+        @RUntainted String elementName;
         CmsXmlContentDefinition contentDefinition;
         if (CmsXmlUtils.isDeepXpath(path)) {
             // this is a nested content definition, so the parent element must be in the bookmarks
@@ -306,7 +307,7 @@ public class CmsXmlContent extends A_CmsXmlDocument {
 
         } else {
             // read the XML siblings from the parent node
-            List<Element> siblings = CmsXmlGenericWrapper.elements(parentElement, elementName);
+            @RUntainted List<@RUntainted Element> siblings = CmsXmlGenericWrapper.elements(parentElement, elementName);
 
             if (siblings.size() > 0) {
                 // we want to add an element to a sequence, and there are elements already of the same type
@@ -416,7 +417,7 @@ public class CmsXmlContent extends A_CmsXmlDocument {
      * @param elements the set of elements to copy
      * @throws CmsXmlException if something goes wrong
      */
-    public void copyLocale(Locale source, Locale destination, Set<String> elements) throws CmsXmlException {
+    public void copyLocale(@RUntainted Locale source, @RUntainted Locale destination, Set<String> elements) throws CmsXmlException {
 
         if (!hasLocale(source)) {
             throw new CmsXmlException(
@@ -555,7 +556,7 @@ public class CmsXmlContent extends A_CmsXmlDocument {
      *
      * @throws CmsRuntimeException if no language element is found in the document
      */
-    public Element getLocaleNode(Locale locale) throws CmsRuntimeException {
+    public Element getLocaleNode(@RUntainted Locale locale) throws CmsRuntimeException {
 
         String localeStr = locale.toString();
         Iterator<Element> i = CmsXmlGenericWrapper.elementIterator(m_document.getRootElement());
@@ -753,7 +754,7 @@ public class CmsXmlContent extends A_CmsXmlDocument {
      * @param locale the locale where to remove the value
      * @param index the index where to remove the value (relative to all other values of this type)
      */
-    public void removeValue(String name, Locale locale, int index) {
+    public void removeValue(@RUntainted String name, Locale locale, int index) {
 
         // first get the value from the selected locale and index
         I_CmsXmlContentValue value = getValue(name, locale, index);
@@ -915,7 +916,7 @@ public class CmsXmlContent extends A_CmsXmlDocument {
         // create the type and return it
         I_CmsXmlContentValue value = type.createValue(this, element, locale);
         // generate the default value again - required for nested mappings because only now the full path is available
-        String defaultValue = m_contentDefinition.getContentHandler().getDefault(cms, value, locale);
+        @RUntainted String defaultValue = m_contentDefinition.getContentHandler().getDefault(cms, value, locale);
         if (defaultValue != null) {
             // only if there is a default value available use it to overwrite the initial default
             value.setStringValue(cms, defaultValue);
@@ -957,7 +958,7 @@ public class CmsXmlContent extends A_CmsXmlDocument {
      */
     protected CmsXmlContentDefinition getContentDefinition(EntityResolver resolver) throws CmsRuntimeException {
 
-        String schemaLocation = m_document.getRootElement().attributeValue(
+        @RUntainted String schemaLocation = m_document.getRootElement().attributeValue(
             I_CmsXmlSchemaType.XSI_NAMESPACE_ATTRIBUTE_NO_SCHEMA_LOCATION);
         // Note regarding exception handling:
         // Since this object already is a valid XML content object,
@@ -990,7 +991,7 @@ public class CmsXmlContent extends A_CmsXmlDocument {
      * @param encoding the encoding to use when marshalling the document later
      * @param definition the content definition to use
      */
-    protected void initDocument(CmsObject cms, Document document, String encoding, CmsXmlContentDefinition definition) {
+    protected void initDocument(CmsObject cms, Document document, @RUntainted String encoding, CmsXmlContentDefinition definition) {
 
         initDocument(document, encoding, definition);
         // check invalid links

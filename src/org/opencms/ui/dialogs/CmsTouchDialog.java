@@ -60,6 +60,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CheckBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to change resource modification times.<p>
@@ -241,7 +242,7 @@ public class CmsTouchDialog extends CmsBasicDialog {
      * @throws CmsException if touching the resource fails
      */
     private void touchSingleResource(
-        String resourceName,
+        @RUntainted String resourceName,
         long timeStamp,
         boolean recursive,
         boolean correctDate,

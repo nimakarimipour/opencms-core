@@ -45,6 +45,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Repairs XML content resources according to their XSD using the corresponding settings object.<p>
@@ -123,7 +124,7 @@ public class CmsXmlContentRepairThread extends A_CmsReportThread {
 
         // set the resource filter to filter XML contents of the selected type
         CmsResourceFilter filter = CmsResourceFilter.IGNORE_EXPIRATION.addRequireType(m_settings.getResourceTypeId());
-        String path = CmsResource.getFolderPath(m_settings.getVfsFolder());
+        @RUntainted String path = CmsResource.getFolderPath(m_settings.getVfsFolder());
         // get the list of resources to check
         List<CmsResource> resources = getCms().readResources(path, filter, m_settings.isIncludeSubFolders());
 

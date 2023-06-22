@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The properties dialog action.<p>
@@ -105,7 +106,7 @@ public class CmsPropertiesDialogAction extends A_CmsWorkplaceAction implements I
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
      */
-    public String getJspPath() {
+    public @RUntainted String getJspPath() {
 
         return null;
     }

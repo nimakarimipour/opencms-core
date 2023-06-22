@@ -39,6 +39,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles spell check requests.<p>
@@ -68,7 +69,7 @@ public class OpenCmsSpellcheckHandler extends HttpServlet implements I_CmsReques
      *
      * @return the path to the spell check handler
      */
-    public static String getSpellcheckHandlerPath() {
+    public static @RUntainted String getSpellcheckHandlerPath() {
 
         return OpenCmsServlet.HANDLE_PATH + HANDLER_NAME;
     }
@@ -124,10 +125,10 @@ public class OpenCmsSpellcheckHandler extends HttpServlet implements I_CmsReques
         // use the guest user as fall back
         if (cms == null) {
             cms = OpenCmsCore.getInstance().initCmsObject(OpenCms.getDefaultUsers().getUserGuest());
-            String siteRoot = OpenCmsCore.getInstance().getSiteManager().matchRequest(req).getSiteRoot();
+            @RUntainted String siteRoot = OpenCmsCore.getInstance().getSiteManager().matchRequest(req).getSiteRoot();
             cms.getRequestContext().setSiteRoot(siteRoot);
         }
-        String baseUri = getBaseUri(req, cms);
+        @RUntainted String baseUri = getBaseUri(req, cms);
         if (baseUri != null) {
             cms.getRequestContext().setUri(baseUri);
         }

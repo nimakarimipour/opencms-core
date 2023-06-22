@@ -60,6 +60,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServletRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The editor app. Will open the appropriate editor for a resource.<p>
@@ -184,7 +185,7 @@ implements I_CmsWorkplaceApp, ViewChangeListener, I_CmsWindowCloseListener, I_Cm
         // check if the back link targets the workplace UI
         if (backlink.startsWith(current)) {
             // use the navigator to open the target
-            String target = backlink.substring(backlink.indexOf("#") + 1);
+            @RUntainted String target = backlink.substring(backlink.indexOf("#") + 1);
             String decodedTarget = CmsEncoder.decode(target);
             CmsAppWorkplaceUi.get().getNavigator().navigateTo(decodedTarget);
         } else {
@@ -241,7 +242,7 @@ implements I_CmsWorkplaceApp, ViewChangeListener, I_CmsWindowCloseListener, I_Cm
     public void onStateChange(String state) {
 
         CmsUUID resId = getResourceIdFromState(state);
-        String path = null;
+        @RUntainted String path = null;
         if (resId == null) {
             path = getResourcePathFromState(state);
         }
@@ -254,8 +255,8 @@ implements I_CmsWorkplaceApp, ViewChangeListener, I_CmsWindowCloseListener, I_Cm
             } else if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(path)) {
                 resource = cms.readResource(path, CmsResourceFilter.ONLY_VISIBLE_NO_DELETED);
             }
-            Map<String, String> params = A_CmsWorkplaceApp.getParamsFromState(state);
-            String newLink = params.get(CmsXmlContentEditor.PARAM_NEWLINK);
+            @RUntainted Map<@RUntainted String, @RUntainted String> params = A_CmsWorkplaceApp.getParamsFromState(state);
+            @RUntainted String newLink = params.get(CmsXmlContentEditor.PARAM_NEWLINK);
             I_CmsEditor editor = null;
             if (CmsStringUtil.isEmptyOrWhitespaceOnly(newLink)) {
 
@@ -266,7 +267,7 @@ implements I_CmsWorkplaceApp, ViewChangeListener, I_CmsWindowCloseListener, I_Cm
                 String typeName = CmsJspTagEdit.getTypeFromNewLink(newLink);
                 I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(typeName);
                 editor = OpenCms.getWorkplaceAppManager().getEditorForType(type, isPlainText(state));
-                String rootPath = CmsJspTagEdit.getRootPathFromNewLink(newLink);
+                @RUntainted String rootPath = CmsJspTagEdit.getRootPathFromNewLink(newLink);
                 CmsADEConfigData data = OpenCms.getADEManager().lookupConfiguration(cms, rootPath);
                 CmsResourceTypeConfig typeConfig = data.getResourceType(typeName);
                 if (!typeConfig.checkCreatable(cms, rootPath)) {
@@ -343,7 +344,7 @@ implements I_CmsWorkplaceApp, ViewChangeListener, I_CmsWindowCloseListener, I_Cm
      *
      * @return the resource path
      */
-    private String getResourcePathFromState(String state) {
+    private @RUntainted String getResourcePathFromState(String state) {
 
         return A_CmsWorkplaceApp.getParamFromState(state, RESOURCE_PATH_PREFIX);
     }

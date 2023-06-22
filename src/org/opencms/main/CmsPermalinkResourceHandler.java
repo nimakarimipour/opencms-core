@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource init handler that loads a resource given its permalink.<p>
@@ -59,7 +60,7 @@ public class CmsPermalinkResourceHandler implements I_CmsResourceInit {
     public static final String CAPTURE_UUID_REGEX = "(" + CmsUUID.UUID_REGEX + ")";
 
     /** The permalink handler path. */
-    public static final String PERMALINK_HANDLER = "/permalink/";
+    public static final @RUntainted String PERMALINK_HANDLER = "/permalink/";
 
     /** Regex for the optional file extension. */
     public static final String SUFFIX_REGEX = "(?:\\.[a-zA-Z0-9]*)?$";
@@ -102,8 +103,8 @@ public class CmsPermalinkResourceHandler implements I_CmsResourceInit {
             if (matcher.find()) {
                 CmsResource resource1 = resource;
                 // get the id of the real resource
-                String id = matcher.group(1);
-                String storedSiteRoot = cms.getRequestContext().getSiteRoot();
+                @RUntainted String id = matcher.group(1);
+                @RUntainted String storedSiteRoot = cms.getRequestContext().getSiteRoot();
                 try {
                     // we now must switch to the root site to read the resource
                     cms.getRequestContext().setSiteRoot("/");
@@ -152,7 +153,7 @@ public class CmsPermalinkResourceHandler implements I_CmsResourceInit {
                                 parentFolder = pageResource;
                             }
                             String baseLink = OpenCms.getLinkManager().substituteLink(cms, parentFolder);
-                            String redirectLink = baseLink + (baseLink.endsWith("/") ? "" : "/") + detailName;
+                            @RUntainted String redirectLink = baseLink + (baseLink.endsWith("/") ? "" : "/") + detailName;
                             CmsResourceInitException resInitException = new CmsResourceInitException(getClass());
 
                             resInitException.setClearErrors(true);

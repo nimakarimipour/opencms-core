@@ -68,6 +68,7 @@ import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The source search form.<p>
@@ -172,10 +173,10 @@ public class CmsSourceSearchForm extends VerticalLayout {
     private ComboBox m_locale;
 
     /** Vaadin component.*/
-    private TextField m_newName;
+    private @RUntainted TextField m_newName;
 
     /** Vaadin component.*/
-    private TextField m_oldName;
+    private @RUntainted TextField m_oldName;
 
     /** The property select.*/
     private ComboBox m_property;
@@ -184,7 +185,7 @@ public class CmsSourceSearchForm extends VerticalLayout {
     private CheckBox m_replace;
 
     /** The replace pattern field. */
-    private TextField m_replacePattern;
+    private @RUntainted TextField m_replacePattern;
 
     /** The search root path select. */
     private CmsPathSelectField m_replaceResource;
@@ -202,7 +203,7 @@ public class CmsSourceSearchForm extends VerticalLayout {
     private ComboBox m_searchIndex;
 
     /** The search pattern field. */
-    private TextField m_searchPattern;
+    private @RUntainted TextField m_searchPattern;
 
     /** The search root path select. */
     private CmsPathSelectField m_searchRoot;

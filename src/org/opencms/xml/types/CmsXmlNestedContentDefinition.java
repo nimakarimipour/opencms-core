@@ -35,6 +35,7 @@ import org.opencms.xml.I_CmsXmlDocument;
 import java.util.Locale;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A nested content XML definition that is included by another XML content definition.<p>
@@ -127,7 +128,7 @@ public class CmsXmlNestedContentDefinition extends A_CmsXmlContentValue {
     /**
      * @see org.opencms.xml.types.I_CmsXmlContentValue#getStringValue(org.opencms.file.CmsObject)
      */
-    public String getStringValue(CmsObject cms) throws CmsRuntimeException {
+    public @RUntainted String getStringValue(CmsObject cms) throws CmsRuntimeException {
 
         throw new CmsRuntimeException(Messages.get().container(Messages.ERR_NESTED_GETVALUE_0));
     }

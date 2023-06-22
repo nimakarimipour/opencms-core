@@ -28,6 +28,7 @@
 package org.opencms.workflow;
 
 import org.opencms.main.CmsException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An exception which indicates that a user tried to execute an invalid workflow action.<p>
@@ -42,7 +43,7 @@ public class CmsInvalidActionException extends CmsException {
      *
      * @param action the action string
      */
-    public CmsInvalidActionException(String action) {
+    public CmsInvalidActionException(@RUntainted String action) {
 
         super(Messages.get().container(Messages.ERR_INVALID_WORKFLOW_ACTION_1, action));
     }

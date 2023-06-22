@@ -53,6 +53,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The 'simpledisplay' tag can be used to display a single resource using a formatter. It also allows to activate direct editing.<p>
@@ -87,7 +88,7 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
     private String m_formatterKey;
 
     /** Stores the formatter path. */
-    private String m_formatterPath;
+    private @RUntainted String m_formatterPath;
 
     /** The settings parameter map. */
     private Map<String, String> m_parameterMap;
@@ -105,7 +106,7 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
     private String m_uploadFolder;
 
     /** The site path to the resource to display. */
-    private String m_value;
+    private @RUntainted String m_value;
 
     /**
      * Constructor.<p>
@@ -399,7 +400,7 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
      *
      * @param value the value to set
      */
-    public void setValue(String value) {
+    public void setValue(@RUntainted String value) {
 
         m_value = value;
     }

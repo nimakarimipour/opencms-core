@@ -44,6 +44,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the <code>&lt;cms:decorate&gt;&lt;/cms:decorate&gt;</code>
@@ -89,7 +90,7 @@ public class CmsJspTagDecorate extends BodyTagSupport {
      *
      * @return the decorated content
      */
-    public String decorateTagAction(String content, String configFile, String locale, ServletRequest req) {
+    public String decorateTagAction(String content, @RUntainted String configFile, String locale, ServletRequest req) {
 
         try {
             Locale loc = null;

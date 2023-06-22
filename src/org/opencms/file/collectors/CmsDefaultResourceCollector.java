@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A default resource collector to generate some example list of resources from the VFS.<p>
@@ -81,7 +82,7 @@ public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateLink(CmsObject cms, String collectorName, String param)
+    public @RUntainted String getCreateLink(CmsObject cms, @RUntainted String collectorName, String param)
     throws CmsDataAccessException, CmsException {
 
         // if action is not set, use default action
@@ -116,7 +117,7 @@ public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateParam(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateParam(CmsObject cms, String collectorName, String param) throws CmsDataAccessException {
+    public String getCreateParam(CmsObject cms, @RUntainted String collectorName, String param) throws CmsDataAccessException {
 
         // if action is not set, use default action
         if (collectorName == null) {
@@ -172,7 +173,7 @@ public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getResults(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public List<CmsResource> getResults(CmsObject cms, String collectorName, String param, int numResults)
+    public List<CmsResource> getResults(CmsObject cms, @RUntainted String collectorName, String param, int numResults)
     throws CmsDataAccessException, CmsException {
 
         // if action is not set use default
@@ -226,7 +227,7 @@ public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
     throws CmsException {
 
         CmsCollectorData data = new CmsCollectorData(param);
-        String foldername = CmsResource.getFolderPath(data.getFileName());
+        @RUntainted String foldername = CmsResource.getFolderPath(data.getFileName());
 
         CmsResourceFilter filter = CmsResourceFilter.DEFAULT_FILES.addRequireType(data.getType()).addExcludeFlags(
             CmsResource.FLAG_TEMPFILE);
@@ -256,7 +257,7 @@ public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
     throws CmsException {
 
         CmsCollectorData data = new CmsCollectorData(param);
-        String foldername = CmsResource.getFolderPath(data.getFileName());
+        @RUntainted String foldername = CmsResource.getFolderPath(data.getFileName());
 
         CmsResourceFilter filter = CmsResourceFilter.DEFAULT_FILES.addRequireType(data.getType()).addExcludeFlags(
             CmsResource.FLAG_TEMPFILE);
@@ -321,7 +322,7 @@ public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
     throws CmsException, CmsIllegalArgumentException {
 
         CmsCollectorData data = new CmsCollectorData(param);
-        String foldername = CmsResource.getFolderPath(data.getFileName());
+        @RUntainted String foldername = CmsResource.getFolderPath(data.getFileName());
 
         CmsResourceFilter filter = CmsResourceFilter.DEFAULT_FILES.addRequireType(data.getType()).addExcludeFlags(
             CmsResource.FLAG_TEMPFILE);
@@ -347,7 +348,7 @@ public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
      *
      * @throws CmsException if something goes wrong
      */
-    protected List<CmsResource> getSingleFile(CmsObject cms, String param) throws CmsException {
+    protected List<CmsResource> getSingleFile(CmsObject cms, @RUntainted String param) throws CmsException {
 
         if ((param == null) || (cms == null)) {
             throw new CmsIllegalArgumentException(Messages.get().container(Messages.ERR_COLLECTOR_PARAM_SINGLE_FILE_0));

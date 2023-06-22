@@ -52,6 +52,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Example implementation of a template context provider for deciding between a desktop template and a mobile template.<p>
@@ -181,7 +182,7 @@ public class CmsDefaultTemplateContextProvider implements I_CmsTemplateContextPr
     /**
      * @see org.opencms.loader.I_CmsTemplateContextProvider#readCommonProperty(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String readCommonProperty(CmsObject cms, String propertyName, String fallbackValue) throws CmsException {
+    public String readCommonProperty(CmsObject cms, String propertyName, @RUntainted String fallbackValue) throws CmsException {
 
         String templatePath = getAllContexts().get("desktop").getTemplatePath();
         return cms.readPropertyObject(templatePath, propertyName, false).getValue(fallbackValue);

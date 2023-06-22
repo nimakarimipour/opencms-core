@@ -40,6 +40,7 @@ import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;cms:navigation var="..." /&gt;</code> tag,
@@ -93,7 +94,7 @@ public class CmsJspTagNavigation extends CmsJspScopedVarBodyTagSuport {
     protected String m_param;
 
     /** The optional resource for the navigation. */
-    protected String m_resource;
+    protected @RUntainted String m_resource;
 
     /** The optional start level for the navigation. */
     protected String m_startLevel;
@@ -244,7 +245,7 @@ public class CmsJspTagNavigation extends CmsJspScopedVarBodyTagSuport {
      *
      * @param resource the (optional) resource for the navigation
      */
-    public void setResource(String resource) {
+    public void setResource(@RUntainted String resource) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(resource)) {
             m_resource = resource.trim();

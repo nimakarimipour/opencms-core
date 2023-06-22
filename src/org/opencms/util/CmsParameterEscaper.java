@@ -47,6 +47,7 @@ import org.owasp.validator.html.CleanResults;
 import org.owasp.validator.html.Policy;
 import org.owasp.validator.html.PolicyException;
 import org.owasp.validator.html.ScanException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class is responsible for automatically escaping parameters in Flex requests. It keeps track
@@ -122,7 +123,7 @@ public class CmsParameterEscaper {
      *
      * @return the new AntiSamy instance
      */
-    public AntiSamy createAntiSamy(CmsObject cms, String policyPath) {
+    public AntiSamy createAntiSamy(CmsObject cms, @RUntainted String policyPath) {
 
         String rootPath = cms.addSiteRoot(policyPath);
         Policy policy = null;
@@ -153,7 +154,7 @@ public class CmsParameterEscaper {
      * @param policyPath the policy site path in the VFS
      * @param params the parameters for which HTML cleaning should be  enabled
      */
-    public void enableAntiSamy(CmsObject cms, String policyPath, Set<String> params) {
+    public void enableAntiSamy(CmsObject cms, @RUntainted String policyPath, Set<String> params) {
 
         m_antiSamy = createAntiSamy(cms, policyPath);
         m_cleanHtml = params;

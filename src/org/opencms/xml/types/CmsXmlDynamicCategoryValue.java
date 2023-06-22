@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsVfsFile".<p>
@@ -141,7 +142,7 @@ public class CmsXmlDynamicCategoryValue extends A_CmsXmlContentValue implements 
     /**
      * @see org.opencms.xml.types.I_CmsXmlContentValue#getStringValue(CmsObject)
      */
-    public String getStringValue(CmsObject cms) throws CmsRuntimeException {
+    public @RUntainted String getStringValue(CmsObject cms) throws CmsRuntimeException {
 
         Element categoryElement = categoryStringElem(false);
         if (categoryElement == null) {

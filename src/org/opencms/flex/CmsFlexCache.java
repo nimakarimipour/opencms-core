@@ -57,6 +57,7 @@ import org.apache.commons.collections.map.LRUMap;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class implements the FlexCache.<p>
@@ -583,7 +584,7 @@ public class CmsFlexCache extends Object implements I_CmsEventListener {
         try {
             m_cmsObject = adminCms;
             try {
-                String path = CONFIG_PATH;
+                @RUntainted String path = CONFIG_PATH;
                 if (m_cmsObject.existsResource(path)) {
                     LOG.info("Flex configuration found at " + CONFIG_PATH + ", initializing...");
                     m_bucketConfiguration = CmsFlexBucketConfiguration.loadFromVfsFile(m_cmsObject, path);

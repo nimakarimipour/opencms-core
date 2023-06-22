@@ -56,6 +56,7 @@ import org.apache.commons.logging.Log;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrInputDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helping class for manipulating the Solr spellchecker indices.
@@ -66,7 +67,7 @@ public final class CmsSpellcheckDictionaryIndexer {
     private static final Log LOG = CmsLog.getLog(OpenCmsServlet.class);
 
     /** The default directory that's holding the dictionary files. */
-    public static final String DEFAULT_DICTIONARY_DIRECTORY = "/system/workplace/editors/spellcheck";
+    public static final @RUntainted String DEFAULT_DICTIONARY_DIRECTORY = "/system/workplace/editors/spellcheck";
 
     /** A regex pattern that applies to the Solr spellcheck directories.
      * Matching string example: "spellchecker_en" */

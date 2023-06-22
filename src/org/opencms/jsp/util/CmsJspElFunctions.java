@@ -66,6 +66,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides utility methods to be used as functions from a JSP with the EL.<p>
@@ -503,7 +504,7 @@ public final class CmsJspElFunctions {
      * @param url the URL to remove the parameters from
      * @return the link without parameters
      */
-    public static String getRequestLink(String url) {
+    public static String getRequestLink(@RUntainted String url) {
 
         return CmsRequestUtil.getRequestLink(url);
     }

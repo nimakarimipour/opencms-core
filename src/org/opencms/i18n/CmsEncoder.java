@@ -55,6 +55,7 @@ import org.apache.commons.logging.Log;
 import org.apache.http.client.utils.URIBuilder;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The OpenCms CmsEncoder class provides static methods to decode and encode data.<p>
@@ -91,7 +92,7 @@ public final class CmsEncoder {
      *
      * Default encoding for JavaScript decodeUriComponent methods is <code>UTF-8</code> by w3c standard.
      */
-    public static final String ENCODING_UTF_8 = "UTF-8";
+    public static final @RUntainted String ENCODING_UTF_8 = "UTF-8";
 
     /** The regex pattern to match HTML entities. */
     private static final Pattern ENTITIY_PATTERN = Pattern.compile("\\&#(\\d+);");
@@ -106,7 +107,7 @@ public final class CmsEncoder {
     private static final Log LOG = CmsLog.getLog(CmsEncoder.class);
 
     /** A cache for encoding name lookup. */
-    private static Map<String, String> m_encodingCache = new HashMap<String, String>(16);
+    private static @RUntainted Map<@RUntainted String, @RUntainted String> m_encodingCache = new HashMap<String, String>(16);
 
     private static Random m_random = new Random();
 
@@ -134,7 +135,7 @@ public final class CmsEncoder {
      *
      * @return the input with the decoded/encoded HTML entities
      */
-    public static String adjustHtmlEncoding(String input, String encoding) {
+    public static @RUntainted String adjustHtmlEncoding(String input, String encoding) {
 
         return encodeHtmlEntities(decodeHtmlEntities(input), encoding);
     }
@@ -210,9 +211,9 @@ public final class CmsEncoder {
      *
      * @return the bytes decoded to a String
      */
-    public static String createString(byte[] bytes, String encoding) {
+    public static String createString(byte[] bytes, @RUntainted String encoding) {
 
-        String enc = encoding.intern();
+        @RUntainted String enc = encoding.intern();
         if (enc != OpenCms.getSystemInfo().getDefaultEncoding()) {
             enc = lookupEncoding(enc, null);
         }
@@ -246,7 +247,7 @@ public final class CmsEncoder {
      *
      * @return String the decoded source String
      */
-    public static String decode(String source) {
+    public static @RUntainted String decode(@RUntainted String source) {
 
         return decode(source, ENCODING_UTF_8);
     }
@@ -265,7 +266,7 @@ public final class CmsEncoder {
      *
      * @return The decoded source String
      */
-    public static String decode(String source, String encoding) {
+    public static @RUntainted String decode(@RUntainted String source, String encoding) {
 
         if (source == null) {
             return null;
@@ -356,7 +357,7 @@ public final class CmsEncoder {
      *
      * @see #encodeParameter(String)
      */
-    public static String decodeParameter(String input) {
+    public static String decodeParameter(@RUntainted String input) {
 
         String result = CmsStringUtil.substitute(input, ENTITY_REPLACEMENT, ENTITY_PREFIX);
         return CmsEncoder.decodeHtmlEntities(result, OpenCms.getSystemInfo().getDefaultEncoding());
@@ -368,7 +369,7 @@ public final class CmsEncoder {
      * @param data the data to decode
      * @return the list of strings
      */
-    public static List<String> decodeStringsFromBase64Parameter(String data) {
+    public static @RUntainted List<@RUntainted String> decodeStringsFromBase64Parameter(String data) {
 
         data = StringUtils.replaceChars(data, BASE64_EXTRA_REPLACEMENTS, BASE64_EXTRA);
         byte[] bytes = deobfuscateBytes(Base64.decodeBase64(data));
@@ -396,7 +397,7 @@ public final class CmsEncoder {
      *
      * @return String the encoded source String
      */
-    public static String encode(String source) {
+    public static @RUntainted String encode(String source) {
 
         return encode(source, ENCODING_UTF_8);
     }
@@ -526,7 +527,7 @@ public final class CmsEncoder {
      */
     public static String encodeParameter(String input) {
 
-        String result = CmsEncoder.encodeHtmlEntities(input, CmsEncoder.ENCODING_US_ASCII);
+        @RUntainted String result = CmsEncoder.encodeHtmlEntities(input, CmsEncoder.ENCODING_US_ASCII);
         result = CmsStringUtil.substitute(result, "+", PLUS_ENTITY);
         return CmsStringUtil.substitute(result, ENTITY_PREFIX, ENTITY_REPLACEMENT);
     }
@@ -608,12 +609,12 @@ public final class CmsEncoder {
      *
      * @see #escapeXml(String)
      */
-    public static String escapeHtml(String source) {
+    public static @RUntainted String escapeHtml(@RUntainted String source) {
 
         if (source == null) {
             return null;
         }
-        StringBuffer result = new StringBuffer(source.length() * 2);
+        @RUntainted StringBuffer result = new StringBuffer(source.length() * 2);
         for (int i = 0; i < source.length(); i++) {
             int ch = source.charAt(i);
             // avoid escaping already escaped characters
@@ -712,12 +713,12 @@ public final class CmsEncoder {
      *
      * @return The encoded String
      */
-    public static String escapeWBlanks(String source, String encoding) {
+    public static @RUntainted String escapeWBlanks(@RUntainted String source, String encoding) {
 
         if (CmsStringUtil.isEmpty(source)) {
             return source;
         }
-        StringBuffer ret = new StringBuffer(source.length() * 2);
+        @RUntainted StringBuffer ret = new StringBuffer(source.length() * 2);
 
         // URLEncode the text string
         // this produces a very similar encoding to JavaSscript encoding,
@@ -753,7 +754,7 @@ public final class CmsEncoder {
      *
      * @see #escapeHtml(String)
      */
-    public static String escapeXml(String source) {
+    public static @RUntainted String escapeXml(String source) {
 
         return escapeXml(source, false);
     }
@@ -777,12 +778,12 @@ public final class CmsEncoder {
      *
      * @see #escapeHtml(String)
      */
-    public static String escapeXml(String source, boolean doubleEscape) {
+    public static @RUntainted String escapeXml(@RUntainted String source, boolean doubleEscape) {
 
         if (source == null) {
             return null;
         }
-        StringBuffer result = new StringBuffer(source.length() * 2);
+        @RUntainted StringBuffer result = new StringBuffer(source.length() * 2);
 
         for (int i = 0; i < source.length(); ++i) {
             char ch = source.charAt(i);
@@ -838,9 +839,9 @@ public final class CmsEncoder {
      *
      * @return the resolved encoding name, or the fallback value
      */
-    public static String lookupEncoding(String encoding, String fallback) {
+    public static @RUntainted String lookupEncoding(@RUntainted String encoding, @RUntainted String fallback) {
 
-        String result = m_encodingCache.get(encoding);
+        @RUntainted String result = m_encodingCache.get(encoding);
         if (result != null) {
             return result;
         }
@@ -888,7 +889,7 @@ public final class CmsEncoder {
      *
      * @return The decoded String
      */
-    public static String unescape(String source) {
+    public static String unescape(@RUntainted String source) {
 
         return unescape(source, ENCODING_UTF_8);
     }
@@ -906,14 +907,14 @@ public final class CmsEncoder {
      *
      * @return The decoded String
      */
-    public static String unescape(String source, String encoding) {
+    public static @RUntainted String unescape(@RUntainted String source, String encoding) {
 
         if (source == null) {
             return null;
         }
-        int len = source.length();
+        @RUntainted int len = source.length();
         // to use standard decoder we need to replace '+' with "%20" (space)
-        StringBuffer preparedSource = new StringBuffer(len);
+        @RUntainted StringBuffer preparedSource = new StringBuffer(len);
         for (int i = 0; i < len; i++) {
             char c = source.charAt(i);
             if (c == '+') {

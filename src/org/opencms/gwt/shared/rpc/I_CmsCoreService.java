@@ -47,6 +47,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides general core services.<p>
@@ -191,7 +192,7 @@ public interface I_CmsCoreService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    String getUniqueFileName(String parentFolder, String baseName) throws CmsRpcException;
+    String getUniqueFileName(String parentFolder, @RUntainted String baseName) throws CmsRpcException;
 
     /**
      * Returns the user info.<p>
@@ -243,7 +244,7 @@ public interface I_CmsCoreService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    String lockIfExists(String sitePath) throws CmsRpcException;
+    String lockIfExists(@RUntainted String sitePath) throws CmsRpcException;
 
     /**
      * Locks the given resource with a temporary lock if it exists.<p>
@@ -256,7 +257,7 @@ public interface I_CmsCoreService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    String lockIfExists(String sitePath, long loadTime) throws CmsRpcException;
+    String lockIfExists(@RUntainted String sitePath, long loadTime) throws CmsRpcException;
 
     /**
      * Locks the given resource with a temporary lock.<p>
@@ -349,7 +350,7 @@ public interface I_CmsCoreService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    String unlock(String rootPath) throws CmsRpcException;
+    String unlock(@RUntainted String rootPath) throws CmsRpcException;
 
     /**
      * Performs a batch of validations and returns the results.<p>

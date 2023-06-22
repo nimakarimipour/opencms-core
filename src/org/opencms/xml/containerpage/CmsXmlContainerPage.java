@@ -83,6 +83,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of a object used to access and manage the xml data of a container page.<p>
@@ -167,7 +168,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
      * @param encoding the encoding of the container page
      * @param resolver the XML entity resolver to use
      */
-    protected CmsXmlContainerPage(CmsObject cms, Document document, String encoding, EntityResolver resolver) {
+    protected CmsXmlContainerPage(CmsObject cms, Document document, @RUntainted String encoding, EntityResolver resolver) {
 
         // must set document first to be able to get the content definition
         m_document = document;
@@ -189,7 +190,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
      *
      * @throws CmsException in case the model file is not found or not valid
      */
-    protected CmsXmlContainerPage(CmsObject cms, Locale locale, String modelUri)
+    protected CmsXmlContainerPage(CmsObject cms, Locale locale, @RUntainted String modelUri)
     throws CmsException {
 
         // init model from given modelUri
@@ -232,7 +233,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
     protected CmsXmlContainerPage(
         CmsObject cms,
         Locale locale,
-        String encoding,
+        @RUntainted String encoding,
         CmsXmlContentDefinition contentDefinition) {
 
         // content definition must be set here since it's used during document creation
@@ -497,7 +498,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
      * @see org.opencms.xml.content.CmsXmlContent#initDocument(org.opencms.file.CmsObject, org.dom4j.Document, java.lang.String, org.opencms.xml.CmsXmlContentDefinition)
      */
     @Override
-    protected void initDocument(CmsObject cms, Document document, String encoding, CmsXmlContentDefinition definition) {
+    protected void initDocument(CmsObject cms, Document document, @RUntainted String encoding, CmsXmlContentDefinition definition) {
 
         m_document = document;
         m_contentDefinition = definition;
@@ -715,7 +716,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
      * @see org.opencms.xml.A_CmsXmlDocument#initDocument(org.dom4j.Document, java.lang.String, org.opencms.xml.CmsXmlContentDefinition)
      */
     @Override
-    protected void initDocument(Document document, String encoding, CmsXmlContentDefinition definition) {
+    protected void initDocument(Document document, @RUntainted String encoding, CmsXmlContentDefinition definition) {
 
         initDocument(null, document, encoding, definition);
     }

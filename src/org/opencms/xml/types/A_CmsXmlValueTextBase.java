@@ -36,6 +36,7 @@ import org.opencms.xml.I_CmsXmlDocument;
 import java.util.Locale;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for XML content value implementations that require only a simple XML plain text node.<p>
@@ -98,7 +99,7 @@ public abstract class A_CmsXmlValueTextBase extends A_CmsXmlContentValue {
     /**
      * @see org.opencms.xml.types.I_CmsXmlContentValue#getStringValue(CmsObject)
      */
-    public String getStringValue(CmsObject cms) throws CmsRuntimeException {
+    public @RUntainted String getStringValue(CmsObject cms) throws CmsRuntimeException {
 
         return m_stringValue;
     }

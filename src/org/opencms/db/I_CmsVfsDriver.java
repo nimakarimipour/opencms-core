@@ -46,6 +46,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Definitions of all required VFS driver methods.<p>
@@ -462,7 +463,7 @@ public interface I_CmsVfsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    byte[] readContent(CmsDbContext dbc, CmsUUID projectId, CmsUUID resourceId) throws CmsDataAccessException;
+    @RUntainted byte[] readContent(CmsDbContext dbc, CmsUUID projectId, CmsUUID resourceId) throws CmsDataAccessException;
 
     /**
      * Reads a folder specified by it's structure ID.<p>

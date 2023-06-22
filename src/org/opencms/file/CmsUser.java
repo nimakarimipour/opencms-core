@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A user principal in the OpenCms permission system.<p>
@@ -89,10 +90,10 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
     private long m_dateCreated;
 
     /**  The email of the user. */
-    private String m_email;
+    private @RUntainted String m_email;
 
     /** The first name of this user. */
-    private String m_firstname;
+    private @RUntainted String m_firstname;
 
     /** Boolean flag whether the last-login time stamp of this user was modified. */
     private boolean m_isTouched;
@@ -101,7 +102,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
     private long m_lastlogin;
 
     /** The last name of this user. */
-    private String m_lastname;
+    private @RUntainted String m_lastname;
 
     /** The password of this user. */
     private String m_password;
@@ -141,12 +142,12 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      * @param additionalInfo user related information
      */
     public CmsUser(
-        CmsUUID id,
-        String name,
+        @RUntainted CmsUUID id,
+        @RUntainted String name,
         String password,
-        String firstname,
-        String lastname,
-        String email,
+        @RUntainted String firstname,
+        @RUntainted String lastname,
+        @RUntainted String email,
         long lastlogin,
         int flags,
         long dateCreated,
@@ -287,9 +288,9 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @return the given String with the prefix {@link I_CmsPrincipal#PRINCIPAL_USER} and the following dot removed
      */
-    public static String removePrefix(String principalName) {
+    public static @RUntainted String removePrefix(@RUntainted String principalName) {
 
-        String result = principalName;
+        @RUntainted String result = principalName;
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(principalName)) {
             if (hasPrefix(principalName)) {
                 result = principalName.trim().substring(I_CmsPrincipal.PRINCIPAL_USER.length() + 1);
@@ -489,7 +490,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @return the email address of this user
      */
-    public String getEmail() {
+    public @RUntainted String getEmail() {
 
         return m_email;
     }
@@ -499,7 +500,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @return the first name of this user
      */
-    public String getFirstname() {
+    public @RUntainted String getFirstname() {
 
         return m_firstname;
     }
@@ -556,7 +557,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @return the last name of this user
      */
-    public String getLastname() {
+    public @RUntainted String getLastname() {
 
         return m_lastname;
     }
@@ -715,7 +716,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @param email the email address to set
      */
-    public void setEmail(String email) {
+    public void setEmail(@RUntainted String email) {
 
         checkEmail(email);
         if (email != null) {
@@ -729,7 +730,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @param firstname the name to set
      */
-    public void setFirstname(String firstname) {
+    public void setFirstname(@RUntainted String firstname) {
 
         OpenCms.getValidationHandler().checkFirstname(firstname);
         if (firstname != null) {
@@ -764,7 +765,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @param lastname the name to set
      */
-    public void setLastname(String lastname) {
+    public void setLastname(@RUntainted String lastname) {
 
         OpenCms.getValidationHandler().checkLastname(lastname);
         if (lastname != null) {

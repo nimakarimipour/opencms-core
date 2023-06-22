@@ -38,6 +38,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.helpers.DefaultHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Simple SAX event handler that generates a XML (or HTML) file from the events caught.<p>
@@ -383,7 +384,7 @@ public class CmsXmlSaxWriter extends DefaultHandler implements LexicalHandler {
                 write(" ");
                 write(resolveName(attributes.getLocalName(i), attributes.getQName(i)));
                 write("=\"");
-                String value = attributes.getValue(i);
+                @RUntainted String value = attributes.getValue(i);
                 if (m_escapeXml) {
                     // XML should be escaped
                     // escape HTML entities ('<' becomes '&lt;')

@@ -94,6 +94,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Monitors OpenCms memory consumption.<p>
@@ -186,7 +187,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
     private Map<String, Boolean> m_cacheHasRoles;
 
     /** A cache for accelerated locale lookup. */
-    private Map<String, Locale> m_cacheLocale;
+    private @RUntainted Map<@RUntainted String, @RUntainted Locale> m_cacheLocale;
 
     /** Cache for the resource locks. */
     private Map<String, CmsLock> m_cacheLock;
@@ -612,7 +613,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
      * @param key the cache key
      * @param locale the locale to cache
      */
-    public void cacheLocale(String key, Locale locale) {
+    public void cacheLocale(@RUntainted String key, @RUntainted Locale locale) {
 
         if (m_cacheLocale != null) {
             if (m_disabled.get(CacheType.LOCALE) != null) {
@@ -1493,7 +1494,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
      *
      * @return the locale cached with the given cache key
      */
-    public Locale getCachedLocale(String key) {
+    public @RUntainted Locale getCachedLocale(String key) {
 
         if (m_cacheLocale == null) {
             // this may be accessed before initialization

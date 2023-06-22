@@ -28,6 +28,7 @@
 package org.opencms.ade.galleries.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Shared constants interface.<p>
@@ -253,13 +254,13 @@ public interface I_CmsGalleryProviderConstants {
     String RESOURCE_TYPE_FOLDER = "folder";
 
     /** Sitemap tree state session attribute name prefix. */
-    String TREE_SITEMAP = "sitemap";
+    @RUntainted String TREE_SITEMAP = "sitemap";
 
     /** VFS tree state session attribute name prefix. */
-    String TREE_VFS = "vfs";
+    @RUntainted String TREE_VFS = "vfs";
 
     /** Path to the host page. */
-    String VFS_OPEN_GALLERY_PATH = "/system/workplace/commons/gallery.jsp";
+    @RUntainted String VFS_OPEN_GALLERY_PATH = "/system/workplace/commons/gallery.jsp";
 
     /** Option to enable/disable gallery selection. */
     String CONFIG_GALLERIES_SELECTABLE = "galleriesSelectable";

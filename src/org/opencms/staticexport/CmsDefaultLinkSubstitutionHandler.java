@@ -53,6 +53,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default link substitution behavior.<p>
@@ -112,7 +113,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
      *
      * @see org.opencms.staticexport.I_CmsLinkSubstitutionHandler#getLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String, boolean)
      */
-    public String getLink(CmsObject cms, String link, String siteRoot, boolean forceSecure) {
+    public @RUntainted String getLink(CmsObject cms, @RUntainted String link, @RUntainted String siteRoot, boolean forceSecure) {
 
         return getLink(cms, link, siteRoot, null, forceSecure);
     }
@@ -120,7 +121,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
     /**
      * @see org.opencms.staticexport.I_CmsLinkSubstitutionHandler#getLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String, java.lang.String, boolean)
      */
-    public String getLink(CmsObject cms, String link, String siteRoot, String targetDetailPage, boolean forceSecure) {
+    public @RUntainted String getLink(CmsObject cms, @RUntainted String link, @RUntainted String siteRoot, @RUntainted String targetDetailPage, boolean forceSecure) {
 
         if (CmsStringUtil.isEmpty(link)) {
             // not a valid link parameter, return an empty String
@@ -148,8 +149,8 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
         }
         vfsName = splitter.getPrefix();
 
-        String resultLink = null;
-        String uriBaseName = null;
+        @RUntainted String resultLink = null;
+        @RUntainted String uriBaseName = null;
         boolean useRelativeLinks = false;
 
         // determine the target site of the link
@@ -164,7 +165,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
 
         String targetSiteRoot = targetSite.getSiteRoot();
         String originalVfsName = vfsName;
-        String detailPage = null;
+        @RUntainted String detailPage = null;
         CmsResource detailContent = null;
         try {
             String rootVfsName;
@@ -190,7 +191,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
                         detailPage = "/" + detailPage;
                     }
                 }
-                String originalSiteRoot = cms.getRequestContext().getSiteRoot();
+                @RUntainted String originalSiteRoot = cms.getRequestContext().getSiteRoot();
                 try {
                     cms.getRequestContext().setSiteRoot("");
                     CmsResource element = cms.readResource(rootVfsName, CmsResourceFilter.IGNORE_EXPIRATION);
@@ -218,7 +219,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
         }
 
         // if the link points to another site, there needs to be a server prefix
-        String serverPrefix;
+        @RUntainted String serverPrefix;
         if ((targetSite != currentSite) || cms.getRequestContext().isForceAbsoluteLinks()) {
             serverPrefix = targetSite.getUrl();
         } else {
@@ -254,7 +255,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
                     exportManager.getRfsPrefix(cms.getRequestContext().getSiteRoot() + oriUri));
             }
 
-            String detailPagePart = detailPage == null ? "" : detailPage + ":";
+            @RUntainted String detailPagePart = detailPage == null ? "" : detailPage + ":";
             // check if we have the absolute VFS name for the link target cached
             // (We really need the target site root in the cache key, because different resources with the same site paths
             // but in different sites may have different export settings. It seems we don't really need the site root
@@ -262,7 +263,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
             String cacheKey = generateCacheKey(cms, targetSiteRoot, detailPagePart, absoluteLink);
             resultLink = exportManager.getCachedOnlineLink(cacheKey);
             if (resultLink == null) {
-                String storedSiteRoot = cms.getRequestContext().getSiteRoot();
+                @RUntainted String storedSiteRoot = cms.getRequestContext().getSiteRoot();
                 try {
                     cms.getRequestContext().setSiteRoot(targetSite.getSiteRoot());
                     // didn't find the link in the cache
@@ -395,10 +396,10 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
     /**
      * @see org.opencms.staticexport.I_CmsLinkSubstitutionHandler#getRootPath(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getRootPath(CmsObject cms, String targetUri, String basePath) {
+    public @RUntainted String getRootPath(CmsObject cms, @RUntainted String targetUri, @RUntainted String basePath) {
 
-        String result = getSimpleRootPath(cms, targetUri, basePath);
-        String detailRootPath = getDetailRootPath(cms, result);
+        @RUntainted String result = getSimpleRootPath(cms, targetUri, basePath);
+        @RUntainted String detailRootPath = getDetailRootPath(cms, result);
         if (detailRootPath != null) {
             result = detailRootPath;
         }
@@ -434,11 +435,11 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
      * @param absoluteLink the absolute (site-relative) link to the resource
      * @return the cache key
      */
-    protected String generateCacheKey(
+    protected @RUntainted String generateCacheKey(
         CmsObject cms,
-        String targetSiteRoot,
-        String detailPagePart,
-        String absoluteLink) {
+        @RUntainted String targetSiteRoot,
+        @RUntainted String detailPagePart,
+        @RUntainted String absoluteLink) {
 
         return ""
             + cms.getRequestContext().getCurrentUser().getId()
@@ -461,7 +462,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
      *
      * @return the root path
      */
-    protected String getRootPathForSite(CmsObject cms, String path, String siteRoot, boolean isRootPath) {
+    protected @RUntainted String getRootPathForSite(CmsObject cms, @RUntainted String path, @RUntainted String siteRoot, boolean isRootPath) {
 
         if (isRootPath || (siteRoot == null)) {
             return CmsStringUtil.joinPaths("/", path);
@@ -484,15 +485,15 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
      * @param basePath - see the getRootPath() method
      * @return - see the getRootPath() method
      */
-    protected String getSimpleRootPath(CmsObject cms, String targetUri, String basePath) {
+    protected @RUntainted String getSimpleRootPath(CmsObject cms, @RUntainted String targetUri, @RUntainted String basePath) {
 
         if (cms == null) {
             // required by unit test cases
             return targetUri;
         }
 
-        URI uri;
-        String path;
+        @RUntainted URI uri;
+        @RUntainted String path;
         String suffix = "";
 
         // malformed uri
@@ -526,7 +527,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
         CmsStaticExportManager exportManager = OpenCms.getStaticExportManager();
         if (exportManager.isValidRfsName(path)) {
             String originalSiteRoot = cms.getRequestContext().getSiteRoot();
-            String vfsName = null;
+            @RUntainted String vfsName = null;
             try {
                 cms.getRequestContext().setSiteRoot("");
                 vfsName = exportManager.getVfsName(cms, path);
@@ -548,7 +549,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
                 boolean isWorkplaceServer = OpenCms.getSiteManager().isWorkplaceRequest(targetMatcher)
                     || targetMatcher.equals(cms.getRequestContext().getRequestMatcher());
                 if (isWorkplaceServer) {
-                    String selectedPath;
+                    @RUntainted String selectedPath;
                     String targetSiteRoot = OpenCms.getSiteManager().getSiteRoot(path);
                     if (targetSiteRoot != null) {
                         selectedPath = getRootPathForSite(cms, path, targetSiteRoot, true);
@@ -639,7 +640,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
         }
 
         if (CmsStringUtil.isNotEmpty(path)) {
-            String targetSiteRoot = getTargetSiteRoot(cms, path, basePath);
+            @RUntainted String targetSiteRoot = getTargetSiteRoot(cms, path, basePath);
 
             return getRootPathForSite(
                 cms,
@@ -723,7 +724,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
      * @param uri the URI
      * @return the suffix of the URI
      */
-    String getSuffix(URI uri) {
+    String getSuffix(@RUntainted URI uri) {
 
         String fragment = uri.getFragment();
         if (fragment != null) {
@@ -732,7 +733,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
             fragment = "";
         }
 
-        String query = uri.getRawQuery();
+        @RUntainted String query = uri.getRawQuery();
         if (query != null) {
             query = "?" + query;
         } else {
@@ -751,14 +752,14 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
      *
      * @return the detail content root path
      */
-    private String getDetailRootPath(CmsObject cms, String result) {
+    private @RUntainted String getDetailRootPath(CmsObject cms, @RUntainted String result) {
 
         if (result == null) {
             return null;
         }
         try {
-            URI uri = new URI(result);
-            String path = uri.getPath();
+            @RUntainted URI uri = new URI(result);
+            @RUntainted String path = uri.getPath();
             if (CmsStringUtil.isEmptyOrWhitespaceOnly(path) || !OpenCms.getADEManager().isInitialized()) {
                 return null;
             }
@@ -768,7 +769,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
             if (detailId == null) {
                 return null;
             }
-            String origSiteRoot = cms.getRequestContext().getSiteRoot();
+            @RUntainted String origSiteRoot = cms.getRequestContext().getSiteRoot();
             try {
                 cms.getRequestContext().setSiteRoot("");
                 // real root paths have priority over detail contents
@@ -795,12 +796,12 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
      *
      * @return the target site
      */
-    private String getTargetSiteRoot(CmsObject cms, String path, String basePath) {
+    private @RUntainted String getTargetSiteRoot(CmsObject cms, @RUntainted String path, String basePath) {
 
         if (OpenCms.getSiteManager().startsWithShared(path) || path.startsWith(CmsWorkplace.VFS_PATH_SYSTEM)) {
             return null;
         }
-        String targetSiteRoot = OpenCms.getSiteManager().getSiteRoot(path);
+        @RUntainted String targetSiteRoot = OpenCms.getSiteManager().getSiteRoot(path);
         if ((targetSiteRoot == null) && (basePath != null)) {
             targetSiteRoot = OpenCms.getSiteManager().getSiteRoot(basePath);
         }

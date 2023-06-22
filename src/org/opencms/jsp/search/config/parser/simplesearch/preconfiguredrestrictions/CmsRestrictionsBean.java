@@ -42,6 +42,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.logging.Log;
 import org.apache.solr.client.solrj.util.ClientUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Wraps the preconfigured restrictions. */
 public class CmsRestrictionsBean {

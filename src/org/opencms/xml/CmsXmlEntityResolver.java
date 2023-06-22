@@ -56,6 +56,7 @@ import org.apache.commons.logging.Log;
 
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resolves XML entities (e.g. external DTDs) in the OpenCms VFS.<p>
@@ -392,7 +393,7 @@ public class CmsXmlEntityResolver implements EntityResolver, I_CmsEventListener 
         } else if ((m_cms != null) && systemId.startsWith(OPENCMS_SCHEME)) {
 
             // opencms:// VFS reference
-            String cacheSystemId = systemId.substring(OPENCMS_SCHEME.length() - 1);
+            @RUntainted String cacheSystemId = systemId.substring(OPENCMS_SCHEME.length() - 1);
             String cacheKey = getCacheKey(
                 cacheSystemId,
                 m_cms.getRequestContext().getCurrentProject().isOnlineProject());
@@ -401,7 +402,7 @@ public class CmsXmlEntityResolver implements EntityResolver, I_CmsEventListener 
             if (content != null) {
                 return createInputSource(content, systemId);
             }
-            String storedSiteRoot = m_cms.getRequestContext().getSiteRoot();
+            @RUntainted String storedSiteRoot = m_cms.getRequestContext().getSiteRoot();
             try {
                 // content not cached, read from VFS
                 m_cms.getRequestContext().setSiteRoot("/");

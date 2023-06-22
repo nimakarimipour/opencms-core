@@ -60,6 +60,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Vector;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * PrintfFormat allows the formatting of an array of
@@ -521,7 +522,7 @@ public class PrintfFormat {
         private int m_argumentPositionForPrecision;
 
         /** Control string type. */
-        private char m_conversionCharacter;
+        private @RUntainted char m_conversionCharacter;
 
         /**
          * If the converted value has fewer bytes than the
@@ -654,7 +655,7 @@ public class PrintfFormat {
          *     input string is null, zero length, or
          *     otherwise malformed.
          */
-        ConversionSpecification(String fmtArg)
+        ConversionSpecification(@RUntainted String fmtArg)
         throws CmsIllegalArgumentException {
 
             if (fmtArg == null) {

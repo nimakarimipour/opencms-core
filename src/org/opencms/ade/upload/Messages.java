@@ -29,6 +29,7 @@ package org.opencms.ade.upload;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -50,7 +51,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_UPLOAD_FROZEN_1 = "ERR_UPLOAD_FROZEN_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_UPLOAD_INTERRUPT_WATCH_DOG_1 = "ERR_UPLOAD_INTERRUPT_WATCH_DOG_1";
+    public static final @RUntainted String ERR_UPLOAD_INTERRUPT_WATCH_DOG_1 = "ERR_UPLOAD_INTERRUPT_WATCH_DOG_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_UPLOAD_JSON_0 = "ERR_UPLOAD_JSON_0";
@@ -77,7 +78,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_UPLOAD_CREATE_WATCH_DOG_2 = "LOG_UPLOAD_CREATE_WATCH_DOG_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_UPLOAD_FINISHED_WATCHER_1 = "LOG_UPLOAD_FINISHED_WATCHER_1";
+    public static final @RUntainted String LOG_UPLOAD_FINISHED_WATCHER_1 = "LOG_UPLOAD_FINISHED_WATCHER_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_UPLOAD_FROZEN_WATCH_DOG_1 = "LOG_UPLOAD_FROZEN_WATCH_DOG_1";

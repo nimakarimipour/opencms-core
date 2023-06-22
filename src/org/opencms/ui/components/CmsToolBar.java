@@ -87,6 +87,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.declarative.Design;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The workplace toolbar.<p>
@@ -501,7 +502,7 @@ public class CmsToolBar extends CssLayout implements BrowserWindowResizeListener
             m_appIndicator.removeStyleName(OpenCmsTheme.TOOLABER_APP_INDICATOR_ONLINE);
         }
         CmsObject cms = A_CmsUI.getCmsObject();
-        String siteRoot = cms.getRequestContext().getSiteRoot();
+        @RUntainted String siteRoot = cms.getRequestContext().getSiteRoot();
         CmsSite site = OpenCms.getSiteManager().getSiteForSiteRoot(siteRoot);
         String siteName = null;
         if (site != null) {

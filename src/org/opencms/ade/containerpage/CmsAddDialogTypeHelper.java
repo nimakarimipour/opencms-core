@@ -63,6 +63,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for preparing the resource type lists for gallery and new dialog.<p>
@@ -122,8 +123,8 @@ public class CmsAddDialogTypeHelper {
      */
     public List<CmsResourceTypeBean> getResourceTypes(
         CmsObject cms,
-        String folderRootPath,
-        String checkViewableReferenceUri,
+        @RUntainted String folderRootPath,
+        @RUntainted String checkViewableReferenceUri,
         CmsElementView elementView,
         I_CmsResourceTypeEnabledCheck checkEnabled)
     throws CmsException {
@@ -181,7 +182,7 @@ public class CmsAddDialogTypeHelper {
      */
     public void precomputeTypeLists(
         CmsObject cms,
-        String folderRootPath,
+        @RUntainted String folderRootPath,
         String checkViewableReferenceUri,
         List<CmsElementView> views,
         I_CmsResourceTypeEnabledCheck check) {
@@ -238,8 +239,8 @@ public class CmsAddDialogTypeHelper {
      */
     private List<CmsResourceTypeBean> internalGetResourceTypesFromConfig(
         CmsObject cms,
-        String folderRootPath,
-        String checkViewableReferenceUri,
+        @RUntainted String folderRootPath,
+        @RUntainted String checkViewableReferenceUri,
         CmsElementView elementView,
         List<I_CmsResourceType> additionalTypes,
         I_CmsResourceTypeEnabledCheck checkEnabled)

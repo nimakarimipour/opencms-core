@@ -73,6 +73,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Main module manager app class.<p>
@@ -182,7 +183,7 @@ public class CmsModuleApp extends A_CmsAttributeAwareApp implements I_CmsCachabl
                                 }
 
                                 @Override
-                                public void onSiteSelect(String site) {
+                                public void onSiteSelect(@RUntainted String site) {
 
                                     cms.getRequestContext().setSiteRoot(site);
                                     openReport(
@@ -284,7 +285,7 @@ public class CmsModuleApp extends A_CmsAttributeAwareApp implements I_CmsCachabl
         @Override
         public void executeAction(Set<String> context) {
 
-            String path = getModuleFolder(context.iterator().next());
+            @RUntainted String path = getModuleFolder(context.iterator().next());
             if (path != null) {
                 String link = CmsCoreService.getVaadinWorkplaceLink(A_CmsUI.getCmsObject(), path);
                 A_CmsUI.get().getPage().setLocation(link);
@@ -325,11 +326,11 @@ public class CmsModuleApp extends A_CmsAttributeAwareApp implements I_CmsCachabl
          *
          * @return the module folder, or null if this module doesn't have one
          */
-        private String getModuleFolder(String moduleName) {
+        private @RUntainted String getModuleFolder(String moduleName) {
 
             CmsModule module = OpenCms.getModuleManager().getModule(moduleName);
             if (module != null) {
-                for (String resource : module.getResources()) {
+                for (@RUntainted String resource : module.getResources()) {
                     if (CmsStringUtil.comparePaths("/system/modules/" + moduleName, resource)) {
                         return resource;
                     }
@@ -395,7 +396,7 @@ public class CmsModuleApp extends A_CmsAttributeAwareApp implements I_CmsCachabl
                     }
 
                     @Override
-                    public void onSiteSelect(String site) {
+                    public void onSiteSelect(@RUntainted String site) {
 
                         cms.getRequestContext().setSiteRoot(site);
                         Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);

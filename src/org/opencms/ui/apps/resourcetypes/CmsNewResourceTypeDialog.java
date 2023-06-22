@@ -84,6 +84,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Validator;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to edit or create resourcetypes.<p>
@@ -221,7 +222,7 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
                 return;
             }
 
-            String resource = (String)value;
+            @RUntainted String resource = (String)value;
             if (!resource.startsWith("/system/")) {
                 throw new InvalidValueException(
                     CmsVaadinUtils.getMessageText(Messages.GUI_RESOURCETYPE_EDIT_INVALID_RESORUCE_0));
@@ -318,10 +319,10 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
     private TextField m_typeID;
 
     /** vaadin component.*/
-    private TextField m_typeName;
+    private @RUntainted TextField m_typeName;
 
     /** vaadin component.*/
-    private TextField m_typeShortName;
+    private @RUntainted TextField m_typeShortName;
 
     /** vaadin component.*/
     private TextField m_typeXPathName;
@@ -592,7 +593,7 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
      * @throws CmsException exception
      */
 
-    private void adjustFormatterConfig(String formatterPath, String formatterConfigPath) throws CmsException {
+    private void adjustFormatterConfig(@RUntainted String formatterPath, @RUntainted String formatterConfigPath) throws CmsException {
 
         CmsResource config = m_cms.readResource(formatterConfigPath);
 
@@ -753,9 +754,9 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
 
             }
 
-            String formatterPath = m_parentFormatter.getValue() + m_typeShortName.getValue() + ".jsp";
-            String formatterConfigPath = m_parentFormatter.getValue() + m_typeShortName.getValue() + ".xml";
-            String schemaPath = m_parentSchema.getValue() + m_typeShortName.getValue() + ".xsd";
+            @RUntainted String formatterPath = m_parentFormatter.getValue() + m_typeShortName.getValue() + ".jsp";
+            @RUntainted String formatterConfigPath = m_parentFormatter.getValue() + m_typeShortName.getValue() + ".xml";
+            @RUntainted String schemaPath = m_parentSchema.getValue() + m_typeShortName.getValue() + ".xsd";
             if (!m_cms.existsResource(formatterPath)) {
                 m_cms.copyResource(SAMPLE_FORMATTER, formatterPath);
             }
@@ -902,7 +903,7 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
         OpenCms.getLocaleManager();
         String localString = CmsLocaleManager.getDefaultLocale().toString();
         List<String> moduleResource = m_module.getResources();
-        for (String resourcePath : moduleResource) {
+        for (@RUntainted String resourcePath : moduleResource) {
             if (resourcePath.contains(PATH_I18N) && resourcePath.endsWith(localString)) {
                 try {
                     return m_cms.readResource(resourcePath);

@@ -61,6 +61,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper subclass of CmsResource with some convenience methods.<p>
@@ -1031,7 +1032,7 @@ public class CmsJspResourceWrapper extends CmsResource {
      *
      * @return the resource of <code>null</code> on case an exception occurred while reading
      */
-    private CmsJspResourceWrapper readResource(String sitePath) {
+    private CmsJspResourceWrapper readResource(@RUntainted String sitePath) {
 
         CmsJspResourceWrapper result = null;
         try {

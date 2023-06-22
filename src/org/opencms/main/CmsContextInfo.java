@@ -38,6 +38,7 @@ import org.opencms.site.CmsSiteMatcher;
 
 import java.io.Serializable;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains user information for automated creation of a
@@ -48,7 +49,7 @@ import java.util.Locale;
 public class CmsContextInfo implements Serializable {
 
     /** Name of the http session attribute the request time is stored in. */
-    public static final String ATTRIBUTE_REQUEST_TIME = "__org.opencms.main.CmsContextInfo#m_requestTime";
+    public static final @RUntainted String ATTRIBUTE_REQUEST_TIME = "__org.opencms.main.CmsContextInfo#m_requestTime";
 
     /** Indicates the request time should always be the current time. */
     public static final long CURRENT_TIME = -1L;
@@ -93,7 +94,7 @@ public class CmsContextInfo implements Serializable {
     private String m_remoteAddr;
 
     /** The request URI to create the context with. */
-    private String m_requestedUri;
+    private @RUntainted String m_requestedUri;
 
     /** the matcher for the current request, that is the host part of the URI from the original http request. */
     private CmsSiteMatcher m_requestMatcher;
@@ -182,12 +183,12 @@ public class CmsContextInfo implements Serializable {
     public CmsContextInfo(
         CmsUser user,
         CmsProject project,
-        String requestedUri,
+        @RUntainted String requestedUri,
         CmsSiteMatcher requestMatcher,
         String siteRoot,
         boolean isSecureRequest,
         Locale locale,
-        String encoding,
+        @RUntainted String encoding,
         String remoteAddr,
         long requestTime,
         String ouFqn,
@@ -217,7 +218,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @see #CmsContextInfo()
      */
-    public CmsContextInfo(String userName) {
+    public CmsContextInfo(@RUntainted String userName) {
 
         this();
         setUserName(userName);
@@ -366,7 +367,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @see CmsRequestContext#getUri()
      */
-    public String getRequestedUri() {
+    public @RUntainted String getRequestedUri() {
 
         return m_requestedUri;
     }
@@ -472,7 +473,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @see CmsRequestContext#setEncoding(String)
      */
-    public void setEncoding(String encoding) {
+    public void setEncoding(@RUntainted String encoding) {
 
         checkFrozen();
         m_encoding = CmsEncoder.lookupEncoding(encoding, OpenCms.getSystemInfo().getDefaultEncoding());
@@ -578,7 +579,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @see CmsRequestContext#setUri(String)
      */
-    public void setRequestedUri(String requestedUri) {
+    public void setRequestedUri(@RUntainted String requestedUri) {
 
         checkFrozen();
         m_requestedUri = requestedUri;
@@ -631,7 +632,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @see CmsRequestContext#getCurrentUser()
      */
-    public void setUserName(String userName) {
+    public void setUserName(@RUntainted String userName) {
 
         checkFrozen();
         m_userName = userName;

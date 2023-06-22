@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to XML content tag functions from scriptlet code.<p>
@@ -62,7 +63,7 @@ public class CmsJspXmlContentBean extends CmsJspActionElement {
      *
      * @see CmsJspActionElement#CmsJspActionElement(PageContext, HttpServletRequest, HttpServletResponse)
      */
-    public CmsJspXmlContentBean(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsJspXmlContentBean(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         super(context, req, res);
     }

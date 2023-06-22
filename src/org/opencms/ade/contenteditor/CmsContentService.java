@@ -139,6 +139,7 @@ import org.dom4j.Element;
 
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Service to provide entity persistence within OpenCms. <p>
@@ -677,13 +678,13 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
      */
     public CmsContentDefinition prefetch() throws CmsRpcException {
 
-        String paramResource = getRequest().getParameter(CmsDialog.PARAM_RESOURCE);
+        @RUntainted String paramResource = getRequest().getParameter(CmsDialog.PARAM_RESOURCE);
         String paramDirectEdit = getRequest().getParameter(CmsEditor.PARAM_DIRECTEDIT);
         boolean isDirectEdit = false;
         if (paramDirectEdit != null) {
             isDirectEdit = Boolean.parseBoolean(paramDirectEdit);
         }
-        String paramNewLink = getRequest().getParameter(CmsXmlContentEditor.PARAM_NEWLINK);
+        @RUntainted String paramNewLink = getRequest().getParameter(CmsXmlContentEditor.PARAM_NEWLINK);
         boolean createNew = false;
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(paramNewLink)) {
             createNew = true;
@@ -719,7 +720,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
                             locale = OpenCms.getLocaleManager().getDefaultLocale(cms, paramResource);
                         }
                         CmsUUID modelFileId = null;
-                        String paramModelFile = getRequest().getParameter(CmsWorkplace.PARAM_MODELFILE);
+                        @RUntainted String paramModelFile = getRequest().getParameter(CmsWorkplace.PARAM_MODELFILE);
 
                         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(paramModelFile)) {
                             modelFileId = cms.readResource(paramModelFile).getStructureId();
@@ -890,7 +891,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
     /**
      * @see org.opencms.ade.contenteditor.shared.rpc.I_CmsContentService#saveValue(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
-    public String saveValue(String contentId, String contentPath, String localeString, String newValue)
+    public String saveValue(String contentId, String contentPath, String localeString, @RUntainted String newValue)
     throws CmsRpcException {
 
         OpenCms.getLocaleManager();
@@ -927,7 +928,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
     /**
      * @see org.opencms.acacia.shared.rpc.I_CmsContentService#updateEntityHtml(org.opencms.acacia.shared.CmsEntity, java.lang.String, java.lang.String)
      */
-    public CmsEntityHtml updateEntityHtml(CmsEntity entity, String contextUri, String htmlContextInfo)
+    public CmsEntityHtml updateEntityHtml(CmsEntity entity, @RUntainted String contextUri, String htmlContextInfo)
     throws Exception {
 
         CmsUUID structureId = CmsContentDefinition.entityIdToUuid(entity.getId());
@@ -1064,9 +1065,9 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
      *
      * @return the decoded value
      */
-    protected String decodeNewLink(String newLink) {
+    protected String decodeNewLink(@RUntainted String newLink) {
 
-        String result = newLink;
+        @RUntainted String result = newLink;
         if (result == null) {
             return null;
         }
@@ -1109,7 +1110,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
      */
     protected String getFileEncoding(CmsObject cms, CmsResource file) {
 
-        String result;
+        @RUntainted String result;
         try {
             result = cms.readPropertyObject(file, CmsPropertyDefinition.PROPERTY_CONTENT_ENCODING, true).getValue(
                 OpenCms.getSystemInfo().getDefaultEncoding());
@@ -1377,9 +1378,9 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
                 } else {
                     String elementPath = parentPath + getElementName(attribute.getAttributeName());
                     if (attribute.isSimpleValue()) {
-                        List<String> values = attribute.getSimpleValues();
+                        @RUntainted List<@RUntainted String> values = attribute.getSimpleValues();
                         for (int i = 0; i < values.size(); i++) {
-                            String value = values.get(i);
+                            @RUntainted String value = values.get(i);
                             I_CmsXmlContentValue field = content.getValue(elementPath, contentLocale, i);
                             if (field == null) {
                                 field = content.addValue(cms, elementPath, contentLocale, i);
@@ -1415,7 +1416,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
      *
      * @return the list of names of added attributes
      */
-    private List<String> addSettingsAttributes(
+    private @RUntainted List<@RUntainted String> addSettingsAttributes(
         Map<String, CmsAttributeConfiguration> attributeConfiguration,
         Map<String, CmsXmlContentProperty> settingsConfig,
         List<I_CmsFormatterBean> nestedFormatters,
@@ -1617,7 +1618,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
      * @return The site-path of the newly created resource.
      * @throws CmsException if something goes wrong
      */
-    private String createResourceToEdit(
+    private @RUntainted String createResourceToEdit(
         String newLink,
         Locale locale,
         String referenceSitePath,
@@ -1878,7 +1879,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
                     StringBuffer pathes = new StringBuffer();
                     for (CmsCategory category : categories) {
                         if (category.getPath().startsWith(mainCategoryPath)) {
-                            String path = category.getBasePath() + category.getPath();
+                            @RUntainted String path = category.getBasePath() + category.getPath();
                             path = getCmsObject().getRequestContext().removeSiteRoot(path);
                             pathes.append(path).append(',');
                         }
@@ -2259,7 +2260,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
                 : Collections.emptyList();
                 String firstContentAttributeName = types.get(
                     entity.getTypeName()).getAttributeNames().iterator().next();
-                List<String> addedVisibleAttrs = addSettingsAttributes(
+                @RUntainted List<@RUntainted String> addedVisibleAttrs = addSettingsAttributes(
                     attrConfig,
                     settingsConfig,
                     nestedFormatters,
@@ -2374,7 +2375,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
             modelFile = getCmsObject().getSitePath(
                 getCmsObject().readResource(modelFileId, CmsResourceFilter.IGNORE_EXPIRATION));
         }
-        String newFileName = createResourceToEdit(
+        @RUntainted String newFileName = createResourceToEdit(
             newLink,
             locale,
             sitePath,
@@ -2774,7 +2775,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
                             checkedCategories = CmsEntity.getValueForPath(entity, new String[] {value.getPath()});
                         }
                         List<String> checkedCategoryList = Arrays.asList(checkedCategories.split(","));
-                        for (String category : checkedCategoryList) {
+                        for (@RUntainted String category : checkedCategoryList) {
                             try {
                                 CmsCategoryService.getInstance().addResourceToCategory(
                                     cms,

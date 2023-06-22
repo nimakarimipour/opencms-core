@@ -69,6 +69,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the general helper methods to generate the content of a gallery dialog used in the XML content editors,
@@ -207,7 +208,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public A_CmsAjaxGallery(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public A_CmsAjaxGallery(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
     }
@@ -220,7 +221,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      *
      * @return a new gallery instance of the given gallery type name
      */
-    public static A_CmsAjaxGallery createInstance(String galleryTypeName, CmsJspActionElement jsp) {
+    public static A_CmsAjaxGallery createInstance(@RUntainted String galleryTypeName, CmsJspActionElement jsp) {
 
         if (jsp != null) {
             // must have a valid JSP in order to read from the user session
@@ -736,7 +737,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      *
      * @param galleryUrl the given gallery URL
      */
-    protected void buildJsonGalleryItem(String galleryUrl) {
+    protected void buildJsonGalleryItem(@RUntainted String galleryUrl) {
 
         try {
             JspWriter out = getJsp().getJspContext().getOut();
@@ -877,7 +878,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      * @param res the resource to create the object from
      * @param sitePath site path to the object
      */
-    protected void buildJsonItemCommonPart(JSONObject jsonObj, CmsResource res, String sitePath) {
+    protected void buildJsonItemCommonPart(JSONObject jsonObj, CmsResource res, @RUntainted String sitePath) {
 
         try {
             // 1: file item site path
@@ -957,7 +958,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
             jsonObj.put("writepermission", writePermission);
             jsonObj.put("directpublish", directPublishPermission);
             // 11: item description
-            String desc = getJsp().property(CmsPropertyDefinition.PROPERTY_DESCRIPTION, sitePath, "");
+            @RUntainted String desc = getJsp().property(CmsPropertyDefinition.PROPERTY_DESCRIPTION, sitePath, "");
             jsonObj.put("description", CmsStringUtil.escapeJavaScript(desc));
         } catch (JSONException e) {
             if (LOG.isErrorEnabled()) {
@@ -994,7 +995,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      * @param res the resource to create the object from
      * @param sitePath site path to the object
      */
-    protected abstract void buildJsonItemSpecificPart(JSONObject jsonObj, CmsResource res, String sitePath);
+    protected abstract void buildJsonItemSpecificPart(JSONObject jsonObj, CmsResource res, @RUntainted String sitePath);
 
     /**
      * Builds the JSON code to create items for the folder.<p>
@@ -1002,7 +1003,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      * @param resourceitems the file resource to build the displayed items
      * @param parentFolder the parent folder of the collected files (for a gallery)
      */
-    protected void buildJsonResourceItems(List<CmsResource> resourceitems, String parentFolder) {
+    protected void buildJsonResourceItems(List<CmsResource> resourceitems, @RUntainted String parentFolder) {
 
         if (resourceitems == null) {
             resourceitems = new ArrayList<CmsResource>();
@@ -1095,7 +1096,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      *
      * @param itemUrl the item URL on which the title is changed
      */
-    protected void changeItemTitle(String itemUrl) {
+    protected void changeItemTitle(@RUntainted String itemUrl) {
 
         try {
             JspWriter out = getJsp().getJspContext().getOut();
@@ -1166,7 +1167,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      * @see org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings, javax.servlet.http.HttpServletRequest)
      */
     @Override
-    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
+    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
         // fill the parameter values in the get/set methods
         fillParamValues(request);

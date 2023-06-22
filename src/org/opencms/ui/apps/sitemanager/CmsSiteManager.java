@@ -73,6 +73,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.event.FieldEvents.TextChangeEvent;
 import com.vaadin.v7.event.FieldEvents.TextChangeListener;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manager class for the Site manager app.
@@ -81,10 +82,10 @@ import com.vaadin.v7.ui.TextField;
 public class CmsSiteManager extends A_CmsWorkplaceApp implements I_CmsCRUDApp<CmsSite> {
 
     /**Bundel name for the sites which are used as templates for new sites.*/
-    public static final String BUNDLE_NAME = "siteMacroBundle";
+    public static final @RUntainted String BUNDLE_NAME = "siteMacroBundle";
 
     /**Constant.*/
-    public static final String FAVICON = "favicon.ico";
+    public static final @RUntainted String FAVICON = "favicon.ico";
 
     /** Name of the macros folder for site templates.*/
     public static final String MACRO_FOLDER = ".macros";
@@ -135,7 +136,7 @@ public class CmsSiteManager extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Cm
      * @param folderPathRoot root path of folder
      * @return true if macros bundle found
      */
-    public static boolean isFolderWithMacros(CmsObject cms, String folderPathRoot) {
+    public static boolean isFolderWithMacros(CmsObject cms, @RUntainted String folderPathRoot) {
 
         if (!CmsResource.isFolder(folderPathRoot)) {
             folderPathRoot = folderPathRoot.concat("/");
@@ -203,7 +204,7 @@ public class CmsSiteManager extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Cm
     /**
      * @see org.opencms.ui.apps.I_CmsCRUDApp#defaultAction(java.lang.String)
      */
-    public void defaultAction(String elementId) {
+    public void defaultAction(@RUntainted String elementId) {
 
         openEditDialog(elementId);
 
@@ -214,7 +215,7 @@ public class CmsSiteManager extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Cm
      */
     public void deleteElements(List<String> elementId) {
 
-        for (String siteRoot : elementId) {
+        for (@RUntainted String siteRoot : elementId) {
             try {
                 CmsSite site = getElement(siteRoot);
                 if (site != null) {
@@ -250,7 +251,7 @@ public class CmsSiteManager extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Cm
     /**
      * @see org.opencms.ui.apps.I_CmsCRUDApp#getElement(java.lang.String)
      */
-    public CmsSite getElement(String elementId) {
+    public CmsSite getElement(@RUntainted String elementId) {
 
         return OpenCms.getSiteManager().getSiteForSiteRoot(elementId);
     }
@@ -262,7 +263,7 @@ public class CmsSiteManager extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Cm
      *
      * @return the icon path
      */
-    public Resource getFavIcon(String siteRoot) {
+    public Resource getFavIcon(@RUntainted String siteRoot) {
 
         CmsResource iconResource = null;
         try {
@@ -305,7 +306,7 @@ public class CmsSiteManager extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Cm
      *
      * @param siteRoot the site root of the site to edit, if <code>null</code>
      */
-    public void openEditDialog(String siteRoot) {
+    public void openEditDialog(@RUntainted String siteRoot) {
 
         CmsEditSiteForm form;
         String caption;

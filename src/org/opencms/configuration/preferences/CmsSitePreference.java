@@ -36,6 +36,7 @@ import org.opencms.xml.content.CmsXmlContentProperty;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Preference for the start site.<p>
@@ -93,7 +94,7 @@ public class CmsSitePreference extends CmsBuiltinPreference {
 
         if (sites.size() < 1) {
             // no site found, assure that at least the current site is shown in the selector
-            String siteRoot = cms.getRequestContext().getSiteRoot();
+            @RUntainted String siteRoot = cms.getRequestContext().getSiteRoot();
             CmsSite site = OpenCms.getSiteManager().getSiteForSiteRoot(siteRoot);
             if (!siteRoot.endsWith("/")) {
                 siteRoot += "/";

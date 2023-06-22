@@ -45,6 +45,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Key used to describe the caching behaviour of a specific resource.<p>
@@ -277,7 +278,7 @@ public class CmsFlexCacheKey {
      * @param keyName given name of key.
      * @return name of resource if key is valid, otherwise ""
      */
-    public static String getResourceName(String keyName) {
+    public static @RUntainted String getResourceName(String keyName) {
 
         if (keyName.endsWith(CmsFlexCache.CACHE_OFFLINESUFFIX) | keyName.endsWith(CmsFlexCache.CACHE_ONLINESUFFIX)) {
             return keyName.split(" ")[0];

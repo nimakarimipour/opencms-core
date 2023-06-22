@@ -29,6 +29,7 @@ package org.opencms.synchronize;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,43 +39,43 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CREATE_DIR_1 = "ERR_CREATE_DIR_1";
+    public static final @RUntainted String ERR_CREATE_DIR_1 = "ERR_CREATE_DIR_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CREATE_FILE_1 = "ERR_CREATE_FILE_1";
+    public static final @RUntainted String ERR_CREATE_FILE_1 = "ERR_CREATE_FILE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_EXISTENT_FILE_1 = "ERR_EXISTENT_FILE_1";
+    public static final @RUntainted String ERR_EXISTENT_FILE_1 = "ERR_EXISTENT_FILE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORT_1 = "ERR_IMPORT_1";
+    public static final @RUntainted String ERR_IMPORT_1 = "ERR_IMPORT_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INIT_SYNC_0 = "ERR_INIT_SYNC_0";
+    public static final @RUntainted String ERR_INIT_SYNC_0 = "ERR_INIT_SYNC_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IO_WRITE_SYNCLIST_0 = "ERR_IO_WRITE_SYNCLIST_0";
+    public static final @RUntainted String ERR_IO_WRITE_SYNCLIST_0 = "ERR_IO_WRITE_SYNCLIST_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_NO_RFS_DESTINATION_0 = "ERR_NO_RFS_DESTINATION_0";
+    public static final @RUntainted String ERR_NO_RFS_DESTINATION_0 = "ERR_NO_RFS_DESTINATION_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_NO_VFS_SOURCE_0 = "ERR_NO_VFS_SOURCE_0";
+    public static final @RUntainted String ERR_NO_VFS_SOURCE_0 = "ERR_NO_VFS_SOURCE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_READ_SYNC_LIST_0 = "ERR_READ_SYNC_LIST_0";
+    public static final @RUntainted String ERR_READ_SYNC_LIST_0 = "ERR_READ_SYNC_LIST_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_READING_FILE_1 = "ERR_READING_FILE_1";
+    public static final @RUntainted String ERR_READING_FILE_1 = "ERR_READING_FILE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_RFS_DESTINATION_NO_WRITE_1 = "ERR_RFS_DESTINATION_NO_WRITE_1";
+    public static final @RUntainted String ERR_RFS_DESTINATION_NO_WRITE_1 = "ERR_RFS_DESTINATION_NO_WRITE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_RFS_DESTINATION_NOT_THERE_1 = "ERR_RFS_DESTINATION_NOT_THERE_1";
+    public static final @RUntainted String ERR_RFS_DESTINATION_NOT_THERE_1 = "ERR_RFS_DESTINATION_NOT_THERE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_WRITE_FILE_0 = "ERR_WRITE_FILE_0";
+    public static final @RUntainted String ERR_WRITE_FILE_0 = "ERR_WRITE_FILE_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_EXTERNAL_TRANSLATION_1 = "LOG_EXTERNAL_TRANSLATION_1";
@@ -86,43 +87,43 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_SYNCHRONIZE_UPDATE_FAILED_1 = "LOG_SYNCHRONIZE_UPDATE_FAILED_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DEL_FILE_0 = "RPT_DEL_FILE_0";
+    public static final @RUntainted String RPT_DEL_FILE_0 = "RPT_DEL_FILE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DEL_FOLDER_0 = "RPT_DEL_FOLDER_0";
+    public static final @RUntainted String RPT_DEL_FOLDER_0 = "RPT_DEL_FOLDER_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DEL_FS_FILE_0 = "RPT_DEL_FS_FILE_0";
+    public static final @RUntainted String RPT_DEL_FS_FILE_0 = "RPT_DEL_FS_FILE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DEL_FS_FOLDER_0 = "RPT_DEL_FS_FOLDER_0";
+    public static final @RUntainted String RPT_DEL_FS_FOLDER_0 = "RPT_DEL_FS_FOLDER_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_EXCLUDING_0 = "RPT_EXCLUDING_0";
+    public static final @RUntainted String RPT_EXCLUDING_0 = "RPT_EXCLUDING_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_EXPORT_FILE_0 = "RPT_EXPORT_FILE_0";
+    public static final @RUntainted String RPT_EXPORT_FILE_0 = "RPT_EXPORT_FILE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_EXPORT_FOLDER_0 = "RPT_EXPORT_FOLDER_0";
+    public static final @RUntainted String RPT_EXPORT_FOLDER_0 = "RPT_EXPORT_FOLDER_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_FROM_FS_TO_0 = "RPT_FROM_FS_TO_0";
+    public static final @RUntainted String RPT_FROM_FS_TO_0 = "RPT_FROM_FS_TO_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_IMPORT_FILE_0 = "RPT_IMPORT_FILE_0";
+    public static final @RUntainted String RPT_IMPORT_FILE_0 = "RPT_IMPORT_FILE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_IMPORT_FOLDER_0 = "RPT_IMPORT_FOLDER_0";
+    public static final @RUntainted String RPT_IMPORT_FOLDER_0 = "RPT_IMPORT_FOLDER_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SKIPPING_0 = "RPT_SKIPPING_0";
+    public static final @RUntainted String RPT_SKIPPING_0 = "RPT_SKIPPING_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_TO_FS_AS_0 = "RPT_TO_FS_AS_0";
+    public static final @RUntainted String RPT_TO_FS_AS_0 = "RPT_TO_FS_AS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_UPDATE_FILE_0 = "RPT_UPDATE_FILE_0";
+    public static final @RUntainted String RPT_UPDATE_FILE_0 = "RPT_UPDATE_FILE_0";
 
     /** Name of the used resource bundle. */
     private static final String BUNDLE_NAME = "org.opencms.synchronize.messages";

@@ -64,6 +64,7 @@ import com.vaadin.v7.ui.Tree.CollapseListener;
 import com.vaadin.v7.ui.Tree.ExpandEvent;
 import com.vaadin.v7.ui.Tree.ExpandListener;
 import com.vaadin.v7.ui.TreeTable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Tree subclass used to display VFS resource trees.<p>
@@ -101,10 +102,10 @@ public class CmsResourceTreeTable extends TreeTable {
                     CmsResourceTableProperty.PROPERTY_IS_FOLDER).getValue();
                 Boolean isFolder2 = (Boolean)item2.getItemProperty(
                     CmsResourceTableProperty.PROPERTY_IS_FOLDER).getValue();
-                String name1 = (String)(item1.getItemProperty(
+                @RUntainted String name1 = (String)(item1.getItemProperty(
                     CmsResourceTableProperty.PROPERTY_RESOURCE_NAME).getValue());
                 name1 = CmsFileUtil.removeTrailingSeparator(name1);
-                String name2 = (String)(item2.getItemProperty(
+                @RUntainted String name2 = (String)(item2.getItemProperty(
                     CmsResourceTableProperty.PROPERTY_RESOURCE_NAME).getValue());
                 name2 = CmsFileUtil.removeTrailingSeparator(name2);
                 return (sortDirection ? 1 : -1)

@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean containing sitemap entry change information.<p>
@@ -78,7 +79,7 @@ public class CmsSitemapChange implements IsSerializable, Comparable<CmsSitemapCh
     private List<CmsDetailPageInfo> m_detailPageInfos;
 
     /** The entry id. */
-    private CmsUUID m_entryId;
+    private @RUntainted CmsUUID m_entryId;
 
     /** Indicates if the entry to change is a leaf type entry. */
     private boolean m_isLeafType;
@@ -128,7 +129,7 @@ public class CmsSitemapChange implements IsSerializable, Comparable<CmsSitemapCh
      * @param sitePath the entry site-path
      * @param changeType the change type
      */
-    public CmsSitemapChange(CmsUUID entryId, String sitePath, ChangeType changeType) {
+    public CmsSitemapChange(@RUntainted CmsUUID entryId, String sitePath, ChangeType changeType) {
 
         m_entryId = entryId;
         m_sitePath = sitePath;
@@ -177,7 +178,7 @@ public class CmsSitemapChange implements IsSerializable, Comparable<CmsSitemapCh
      *
      * @param title the changed title
      */
-    public void addChangeTitle(String title) {
+    public void addChangeTitle(@RUntainted String title) {
 
         CmsPropertyModification propChange = new CmsPropertyModification(
             m_entryId,
@@ -298,7 +299,7 @@ public class CmsSitemapChange implements IsSerializable, Comparable<CmsSitemapCh
      *
      * @return the entry id
      */
-    public CmsUUID getEntryId() {
+    public @RUntainted CmsUUID getEntryId() {
 
         return m_entryId;
     }
@@ -568,7 +569,7 @@ public class CmsSitemapChange implements IsSerializable, Comparable<CmsSitemapCh
      *
      * @param entryId the entry id to set
      */
-    public void setEntryId(CmsUUID entryId) {
+    public void setEntryId(@RUntainted CmsUUID entryId) {
 
         m_entryId = entryId;
     }
@@ -668,7 +669,7 @@ public class CmsSitemapChange implements IsSerializable, Comparable<CmsSitemapCh
      *
      * @param title the title
      */
-    public void setTitle(String title) {
+    public void setTitle(@RUntainted String title) {
 
         addChangeTitle(title);
     }

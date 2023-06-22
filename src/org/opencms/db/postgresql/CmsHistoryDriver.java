@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * PostgreSql implementation of the history driver methods.<p>
@@ -66,8 +67,8 @@ public class CmsHistoryDriver extends org.opencms.db.generic.CmsHistoryDriver {
     public List<CmsHistoryProject> readProjects(CmsDbContext dbc) throws CmsDataAccessException {
 
         List<CmsHistoryProject> projects = new ArrayList<CmsHistoryProject>();
-        ResultSet res = null;
-        PreparedStatement stmt = null;
+        @RUntainted ResultSet res = null;
+        @RUntainted PreparedStatement stmt = null;
         Connection conn = null;
 
         Map<Integer, CmsHistoryProject> tmpProjects = new HashMap<Integer, CmsHistoryProject>();

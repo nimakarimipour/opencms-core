@@ -40,6 +40,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Impelemnts user data download links for the user data request feature.<p>
@@ -51,7 +52,7 @@ import org.apache.commons.logging.Log;
 public class CmsUserDataResourceHandler implements I_CmsResourceInit {
 
     /** The URL prefix which this handler should handle. */
-    public static final String PREFIX = "/userdatarequest/";
+    public static final @RUntainted String PREFIX = "/userdatarequest/";
 
     /** True if an instance has been created. */
     private static boolean m_initialized;

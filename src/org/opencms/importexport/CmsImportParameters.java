@@ -26,6 +26,7 @@
  */
 
 package org.opencms.importexport;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import parameters.<p>
@@ -35,7 +36,7 @@ package org.opencms.importexport;
 public class CmsImportParameters {
 
     /** The path in the OpenCms VFS to import into.*/
-    private String m_destinationPath;
+    private @RUntainted String m_destinationPath;
 
     /** If set, the permissions set on existing resources will not be modified.*/
     private boolean m_keepPermissions;
@@ -53,7 +54,7 @@ public class CmsImportParameters {
      * @param destination path in the OpenCms VFS to import into
      * @param keepPermissions if set, the permissions set on existing resources will not be modified
      */
-    public CmsImportParameters(String path, String destination, boolean keepPermissions) {
+    public CmsImportParameters(String path, @RUntainted String destination, boolean keepPermissions) {
 
         setPath(path);
         setDestinationPath(destination);
@@ -75,7 +76,7 @@ public class CmsImportParameters {
      *
      * @return the file path
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }
@@ -106,7 +107,7 @@ public class CmsImportParameters {
      *
      * @param importPath the import path to set
      */
-    public void setDestinationPath(String importPath) {
+    public void setDestinationPath(@RUntainted String importPath) {
 
         m_destinationPath = importPath;
     }

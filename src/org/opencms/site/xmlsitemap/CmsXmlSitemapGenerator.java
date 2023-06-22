@@ -72,6 +72,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for generating XML sitemaps for SEO purposes, as described in
@@ -138,10 +139,10 @@ public class CmsXmlSitemapGenerator {
     private static final Log LOG = CmsLog.getLog(CmsXmlSitemapGenerator.class);
 
     /** The root path for the sitemap root folder. */
-    protected String m_baseFolderRootPath;
+    protected @RUntainted String m_baseFolderRootPath;
 
     /** The site path of the base folder. */
-    protected String m_baseFolderSitePath;
+    protected @RUntainted String m_baseFolderSitePath;
 
     /** Flag to control whether container page dates should be computed. */
     protected boolean m_computeContainerPageDates;
@@ -171,7 +172,7 @@ public class CmsXmlSitemapGenerator {
     protected CmsObject m_siteGuestCms;
 
     /** The site root of the base folder. */
-    protected String m_siteRoot;
+    protected @RUntainted String m_siteRoot;
 
     /** A link to the site root. */
     protected String m_siteRootLink;
@@ -186,7 +187,7 @@ public class CmsXmlSitemapGenerator {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsXmlSitemapGenerator(String folderRootPath)
+    public CmsXmlSitemapGenerator(@RUntainted String folderRootPath)
     throws CmsException {
 
         m_baseFolderRootPath = CmsFileUtil.removeTrailingSeparator(folderRootPath);
@@ -209,17 +210,17 @@ public class CmsXmlSitemapGenerator {
 
      * @return the changed link
      */
-    public static String replaceServerUri(String link, String server) {
+    public static @RUntainted String replaceServerUri(@RUntainted String link, String server) {
 
-        String serverUriStr = server;
+        @RUntainted String serverUriStr = server;
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(serverUriStr)) {
             return link;
         }
         try {
-            URI serverUri = new URI(serverUriStr);
+            @RUntainted URI serverUri = new URI(serverUriStr);
             URI linkUri = new URI(link);
-            URI result = new URI(
+            @RUntainted URI result = new URI(
                 serverUri.getScheme(),
                 serverUri.getAuthority(),
                 linkUri.getPath(),
@@ -497,7 +498,7 @@ public class CmsXmlSitemapGenerator {
      *
      * @return the detail page link
      */
-    protected String getDetailLink(CmsResource pageRes, CmsResource detailRes, Locale locale) {
+    protected @RUntainted String getDetailLink(CmsResource pageRes, CmsResource detailRes, @RUntainted Locale locale) {
 
         String pageSitePath = m_siteGuestCms.getSitePath(pageRes);
         String detailSitePath = m_siteGuestCms.getSitePath(detailRes);
@@ -557,7 +558,7 @@ public class CmsXmlSitemapGenerator {
         List<CmsResource> result = new ArrayList<CmsResource>();
         result.addAll(getNavigationPages());
         Set<String> includeRoots = m_includeExcludeSet.getIncludeRoots();
-        for (String includeRoot : includeRoots) {
+        for (@RUntainted String includeRoot : includeRoots) {
             try {
                 CmsResource resource = m_guestCms.readResource(includeRoot);
                 if (resource.isFile()) {
@@ -702,7 +703,7 @@ public class CmsXmlSitemapGenerator {
      *
      * @return the changed link
      */
-    protected String replaceServerUri(String link) {
+    protected @RUntainted String replaceServerUri(String link) {
 
         return replaceServerUri(link, m_serverUrl);
     }
@@ -790,7 +791,7 @@ public class CmsXmlSitemapGenerator {
         m_detailPageInfos = OpenCms.getADEManager().getAllDetailPages(m_guestCms);
         for (CmsDetailPageInfo detailPageInfo : m_detailPageInfos) {
             String type = detailPageInfo.getType();
-            String path = detailPageInfo.getUri();
+            @RUntainted String path = detailPageInfo.getUri();
             path = CmsFileUtil.removeTrailingSeparator(path);
             m_detailTypesByPage.put(path, type);
         }

@@ -53,6 +53,7 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides some helpful base implementations for resource collector classes.<p>
@@ -72,10 +73,10 @@ public abstract class A_CmsResourceCollector implements I_CmsResourceCollector {
     protected int m_order;
 
     /** The name of the configured default collector. */
-    private String m_defaultCollectorName;
+    private @RUntainted String m_defaultCollectorName;
 
     /** The default collector parameters. */
-    private String m_defaultCollectorParam;
+    private @RUntainted String m_defaultCollectorParam;
 
     /** The hash code of this collector. */
     private int m_hashcode;
@@ -103,7 +104,7 @@ public abstract class A_CmsResourceCollector implements I_CmsResourceCollector {
      *
      * @throws CmsException if something goes wrong
      */
-    public static String createResourceForCollector(
+    public static @RUntainted String createResourceForCollector(
         CmsObject cms,
         String newLink,
         Locale locale,
@@ -380,7 +381,7 @@ public abstract class A_CmsResourceCollector implements I_CmsResourceCollector {
      *
      * @since 7.0.2
      */
-    protected String getCreateInFolder(CmsObject cms, CmsCollectorData data) throws CmsException {
+    protected @RUntainted String getCreateInFolder(CmsObject cms, CmsCollectorData data) throws CmsException {
 
         return OpenCms.getResourceManager().getNameGenerator().getNewFileName(cms, data.getFileName(), 4);
     }
@@ -395,7 +396,7 @@ public abstract class A_CmsResourceCollector implements I_CmsResourceCollector {
      *
      * @throws CmsException if something goes wrong
      */
-    protected String getCreateInFolder(CmsObject cms, String param) throws CmsException {
+    protected @RUntainted String getCreateInFolder(CmsObject cms, String param) throws CmsException {
 
         return getCreateInFolder(cms, new CmsCollectorData(param));
     }

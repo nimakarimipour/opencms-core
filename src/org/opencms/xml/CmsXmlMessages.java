@@ -42,6 +42,7 @@ import org.opencms.xml.content.CmsXmlContentFactory;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The xml messages overwrite some methods of the general CmsMessages class to get keys from an individual configuration file.<p>
@@ -120,7 +121,7 @@ public class CmsXmlMessages extends CmsMessages {
      * @see org.opencms.i18n.CmsMessages#key(java.lang.String)
      */
     @Override
-    public String key(String keyName) {
+    public @RUntainted String key(String keyName) {
 
         if (hasConfigValue(keyName)) {
             return getConfigValue(keyName);
@@ -148,7 +149,7 @@ public class CmsXmlMessages extends CmsMessages {
      * @see org.opencms.i18n.CmsMessages#key(java.lang.String, java.lang.Object, java.lang.Object)
      */
     @Override
-    public String key(String key, Object arg0, Object arg1) {
+    public @RUntainted String key(String key, Object arg0, Object arg1) {
 
         if (hasConfigValue(key)) {
             return getConfigValue(key, new Object[] {arg0, arg1});
@@ -176,7 +177,7 @@ public class CmsXmlMessages extends CmsMessages {
      * @see org.opencms.i18n.CmsMessages#key(java.lang.String, java.lang.Object[])
      */
     @Override
-    public String key(String key, Object[] args) {
+    public @RUntainted String key(String key, Object[] args) {
 
         if (hasConfigValue(key)) {
             return getConfigValue(key, args);
@@ -213,7 +214,7 @@ public class CmsXmlMessages extends CmsMessages {
      * @param key the key to get the value for
      * @return the value for the given key
      */
-    protected String getConfigValue(String key) {
+    protected @RUntainted String getConfigValue(String key) {
 
         if (m_localizationContent != null) {
             try {
@@ -235,7 +236,7 @@ public class CmsXmlMessages extends CmsMessages {
      * @param args the arguments that should be substituted
      * @return the substituted value for the given key and arguments
      */
-    protected String getConfigValue(String key, Object[] args) {
+    protected @RUntainted String getConfigValue(String key, Object[] args) {
 
         String value = getConfigValue(key);
         CmsMacroResolver resolver = CmsMacroResolver.newInstance();

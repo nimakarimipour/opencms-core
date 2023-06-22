@@ -61,6 +61,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.collections.Transformer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows access to the individual elements of an XML content, usually used inside a loop of a

@@ -53,6 +53,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains a single search result from the gallery search index.<p>
@@ -101,7 +102,7 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
     protected List<String> m_locales;
 
     /** The resource path of this search result. */
-    protected String m_path;
+    protected @RUntainted String m_path;
 
     /** The resource type of the search result. */
     protected String m_resourceType;
@@ -488,7 +489,7 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
      *
      * @see org.opencms.file.CmsResource#getRootPath()
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }

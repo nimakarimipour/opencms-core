@@ -60,6 +60,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Special edit handler for contents that define multiple instances in a date series. */
 public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
@@ -271,7 +272,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
                 try {
                     m_cms.lockResource(m_file);
                     m_value.addException(m_instanceDate);
-                    String stringValue = m_value.toString();
+                    @RUntainted String stringValue = m_value.toString();
                     for (Locale l : m_content.getLocales()) {
                         I_CmsXmlContentValue contentValue = getSerialDateContentValue(m_content, l);
                         contentValue.setStringValue(m_cms, stringValue);
@@ -308,7 +309,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
                         m_cms,
                         page.getRootPath()).getResourceType(
                             OpenCms.getResourceManager().getResourceType(m_file).getTypeName());
-                    String pattern = typeConfig.getNamePattern(true);
+                    @RUntainted String pattern = typeConfig.getNamePattern(true);
                     String newSitePath = OpenCms.getResourceManager().getNameGenerator().getNewFileName(
                         m_cms,
                         CmsResource.getFolderPath(m_file.getRootPath()) + pattern,
@@ -325,7 +326,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
                     newValue.setParentSeriesId(m_file.getStructureId());
                     newValue.setWholeDay(Boolean.valueOf(m_value.isWholeDay()));
                     newValue.setPatternType(PatternType.NONE);
-                    String newValueString = newValue.toString();
+                    @RUntainted String newValueString = newValue.toString();
                     for (Locale l : newContent.getLocales()) {
                         I_CmsXmlContentValue newContentValue = getSerialDateContentValue(newContent, l);
                         newContentValue.setStringValue(m_cms, newValueString);

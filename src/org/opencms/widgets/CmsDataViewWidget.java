@@ -36,6 +36,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.widgets.dataview.I_CmsDataView;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Complex widget for opening selecting data from a data source implementing the I_CmsDataView interface.<p>
@@ -91,7 +92,7 @@ public class CmsDataViewWidget implements I_CmsComplexWidget {
         String configToUse = m_config;
         try {
             JSONObject json = new JSONObject(m_config);
-            String icon = json.optString(CmsDataViewConstants.CONFIG_ICON);
+            @RUntainted String icon = json.optString(CmsDataViewConstants.CONFIG_ICON);
             if (icon != null) {
                 String iconLink = OpenCms.getLinkManager().substituteLinkForUnknownTarget(cms, icon);
                 json.put(CmsDataViewConstants.CONFIG_ICON, iconLink);

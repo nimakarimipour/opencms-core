@@ -79,6 +79,7 @@ import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.Table.CellStyleGenerator;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Types and helper classes used by the message bundle editor. */
 public final class CmsMessageBundleEditorTypes {
@@ -97,7 +98,7 @@ public final class CmsMessageBundleEditorTypes {
          * @param value the resource type name that should be transformed into BundleType
          * @return The bundle type for the resource type name, or null, if the resource has no bundle type.
          */
-        public static BundleType toBundleType(String value) {
+        public static @RUntainted BundleType toBundleType(String value) {
 
             if (null == value) {
                 return null;
@@ -148,7 +149,7 @@ public final class CmsMessageBundleEditorTypes {
         /** Locale in which the content is available. */
         public static final Locale LOCALE = new Locale("en");
         /** The mandatory postfix of a bundle descriptor. */
-        public static final String POSTFIX = "_desc";
+        public static final @RUntainted String POSTFIX = "_desc";
 
     }
 
@@ -291,7 +292,7 @@ public final class CmsMessageBundleEditorTypes {
         /** The value before it was edited. */
         private String m_oldValue;
         /** The value after it was edited. */
-        private String m_newValue;
+        private @RUntainted String m_newValue;
 
         /** Default constructor.
          * @param source the field via which the entry was edited.
@@ -305,7 +306,7 @@ public final class CmsMessageBundleEditorTypes {
             Object itemId,
             Object propertyId,
             String oldKey,
-            String newKey) {
+            @RUntainted String newKey) {
 
             m_source = source;
             m_itemId = itemId;
@@ -327,7 +328,7 @@ public final class CmsMessageBundleEditorTypes {
          * Returns the value after it was edited.
          * @return the value after it was edited.
          */
-        public String getNewValue() {
+        public @RUntainted String getNewValue() {
 
             return m_newValue;
         }
@@ -894,7 +895,7 @@ public final class CmsMessageBundleEditorTypes {
 
                         public void blur(BlurEvent event) {
 
-                            AbstractTextField field = (AbstractTextField)event.getComponent();
+                            @RUntainted AbstractTextField field = (AbstractTextField)event.getComponent();
                             ComponentData data = (ComponentData)field.getData();
                             if (!data.getLastValue().equals(field.getValue())) {
                                 EntryChangeEvent ev = new EntryChangeEvent(

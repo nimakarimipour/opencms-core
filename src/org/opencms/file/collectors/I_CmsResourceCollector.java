@@ -33,6 +33,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A collector that generates list of {@link org.opencms.file.CmsResource} objects from the VFS.<p>
@@ -89,7 +90,7 @@ public interface I_CmsResourceCollector extends Comparable<I_CmsResourceCollecto
      * @see #getCreateParam(CmsObject, String, String)
      *
      */
-    String getCreateLink(CmsObject cms, String collectorName, String param) throws CmsException, CmsDataAccessException;
+    @RUntainted String getCreateLink(CmsObject cms, String collectorName, String param) throws CmsException, CmsDataAccessException;
 
     /**
      * Returns the default parameter that must be passed to the

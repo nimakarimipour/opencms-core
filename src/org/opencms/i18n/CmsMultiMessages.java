@@ -41,6 +41,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.logging.Log;
 
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the localized messages for several resource bundles simultaneously.<p>
@@ -65,7 +66,7 @@ public class CmsMultiMessages extends CmsMessages {
          *
          * @return the fallback key
          */
-        Optional<String> getFallbackKey(String key);
+        Optional<String> getFallbackKey(@RUntainted String key);
     }
 
     /** Constant for the multi bundle name. */
@@ -188,7 +189,7 @@ public class CmsMultiMessages extends CmsMessages {
      * @see org.opencms.i18n.CmsMessages#getString(java.lang.String)
      */
     @Override
-    public String getString(String keyName) {
+    public String getString(@RUntainted String keyName) {
 
         return resolveKeyWithFallback(keyName);
     }
@@ -206,7 +207,7 @@ public class CmsMultiMessages extends CmsMessages {
      * @see org.opencms.i18n.CmsMessages#key(java.lang.String, boolean)
      */
     @Override
-    public String key(String keyName, boolean allowNull) {
+    public String key(@RUntainted String keyName, boolean allowNull) {
 
         // special implementation since we uses several bundles for the messages
         String result = resolveKeyWithFallback(keyName);
@@ -313,7 +314,7 @@ public class CmsMultiMessages extends CmsMessages {
      *
      * @return the resolved key
      */
-    private String resolveKeyWithFallback(String keyName) {
+    private String resolveKeyWithFallback(@RUntainted String keyName) {
 
         String result = resolveKey(keyName);
         if ((result == null) && (m_keyFallbackHandler != null)) {

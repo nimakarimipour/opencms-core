@@ -29,6 +29,7 @@ package org.opencms.main;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -49,16 +50,16 @@ public final class Messages extends A_CmsMessageBundle {
         ""};
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_ALREADY_INITIALIZED_0 = "ERR_ALREADY_INITIALIZED_0";
+    public static final @RUntainted String ERR_ALREADY_INITIALIZED_0 = "ERR_ALREADY_INITIALIZED_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_CALLING_EVENT_LISTENER_FAILED_2 = "ERR_CALLING_EVENT_LISTENER_FAILED_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CONTEXT_INFO_FROZEN_0 = "ERR_CONTEXT_INFO_FROZEN_0";
+    public static final @RUntainted String ERR_CONTEXT_INFO_FROZEN_0 = "ERR_CONTEXT_INFO_FROZEN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CRITICAL_CLASS_CREATION_1 = "ERR_CRITICAL_CLASS_CREATION_1";
+    public static final @RUntainted String ERR_CRITICAL_CLASS_CREATION_1 = "ERR_CRITICAL_CLASS_CREATION_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_CRITICAL_INIT_ADMINCMS_0 = "ERR_CRITICAL_INIT_ADMINCMS_0";
@@ -70,10 +71,10 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_CRITICAL_INIT_ENCODING_1 = "ERR_CRITICAL_INIT_ENCODING_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CRITICAL_INIT_FOLDER_0 = "ERR_CRITICAL_INIT_FOLDER_0";
+    public static final @RUntainted String ERR_CRITICAL_INIT_FOLDER_0 = "ERR_CRITICAL_INIT_FOLDER_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CRITICAL_INIT_GENERIC_1 = "ERR_CRITICAL_INIT_GENERIC_1";
+    public static final @RUntainted String ERR_CRITICAL_INIT_GENERIC_1 = "ERR_CRITICAL_INIT_GENERIC_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_CRITICAL_INIT_MANAGERS_0 = "ERR_CRITICAL_INIT_MANAGERS_0";
@@ -88,7 +89,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_CRITICAL_INIT_PROPFILE_1 = "ERR_CRITICAL_INIT_PROPFILE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CRITICAL_INIT_SERVLET_0 = "ERR_CRITICAL_INIT_SERVLET_0";
+    public static final @RUntainted String ERR_CRITICAL_INIT_SERVLET_0 = "ERR_CRITICAL_INIT_SERVLET_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_CRITICAL_INIT_WIZARD_0 = "ERR_CRITICAL_INIT_WIZARD_0";
@@ -97,7 +98,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_CRITICAL_INIT_XML_0 = "ERR_CRITICAL_INIT_XML_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CRITICAL_NO_DB_CONTEXT_0 = "ERR_CRITICAL_NO_DB_CONTEXT_0";
+    public static final @RUntainted String ERR_CRITICAL_NO_DB_CONTEXT_0 = "ERR_CRITICAL_NO_DB_CONTEXT_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_DEREGISTERING_JDBC_DRIVER_1 = "ERR_DEREGISTERING_JDBC_DRIVER_1";
@@ -109,16 +110,16 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_INVALID_INIT_USER_2 = "ERR_INVALID_INIT_USER_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MULTI_EXCEPTION_1 = "ERR_MULTI_EXCEPTION_1";
+    public static final @RUntainted String ERR_MULTI_EXCEPTION_1 = "ERR_MULTI_EXCEPTION_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_NO_SESSIONINFO_SESSION_0 = "ERR_NO_SESSIONINFO_SESSION_0";
+    public static final @RUntainted String ERR_NO_SESSIONINFO_SESSION_0 = "ERR_NO_SESSIONINFO_SESSION_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_NO_WORKPLACE_PERMISSIONS_0 = "ERR_NO_WORKPLACE_PERMISSIONS_0";
+    public static final @RUntainted String ERR_NO_WORKPLACE_PERMISSIONS_0 = "ERR_NO_WORKPLACE_PERMISSIONS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_NOT_A_FOLDER_1 = "ERR_NOT_A_FOLDER_1";
+    public static final @RUntainted String ERR_NOT_A_FOLDER_1 = "ERR_NOT_A_FOLDER_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_OPENCMS_NOT_INITIALIZED_2 = "ERR_OPENCMS_NOT_INITIALIZED_2";
@@ -127,28 +128,28 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_PATH_NOT_FOUND_1 = "ERR_PATH_NOT_FOUND_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PERMALINK_1 = "ERR_PERMALINK_1";
+    public static final @RUntainted String ERR_PERMALINK_1 = "ERR_PERMALINK_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_READ_INTERNAL_RESOURCE_1 = "ERR_READ_INTERNAL_RESOURCE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_READ_FORMATTER_CONFIG_4 = "ERR_READ_FORMATTER_CONFIG_4";
+    public static final @RUntainted String ERR_READ_FORMATTER_CONFIG_4 = "ERR_READ_FORMATTER_CONFIG_4";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_REQUEST_SECURE_RESOURCE_0 = "ERR_REQUEST_SECURE_RESOURCE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_RESOURCE_INIT_ABORTED_1 = "ERR_RESOURCE_INIT_ABORTED_1";
+    public static final @RUntainted String ERR_RESOURCE_INIT_ABORTED_1 = "ERR_RESOURCE_INIT_ABORTED_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_SECURE_SITE_NOT_CONFIGURED_1 = "ERR_SECURE_SITE_NOT_CONFIGURED_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_SHOW_ERR_HANDLER_RESOURCE_2 = "ERR_SHOW_ERR_HANDLER_RESOURCE_2";
+    public static final @RUntainted String ERR_SHOW_ERR_HANDLER_RESOURCE_2 = "ERR_SHOW_ERR_HANDLER_RESOURCE_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_UNKNOWN_MODULE_1 = "ERR_UNKNOWN_MODULE_1";
+    public static final @RUntainted String ERR_UNKNOWN_MODULE_1 = "ERR_UNKNOWN_MODULE_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_SHELL_AVAILABLE_METHODS_1 = "GUI_SHELL_AVAILABLE_METHODS_1";
@@ -457,7 +458,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_ERROR_WRITING_CONFIG_1 = "LOG_ERROR_WRITING_CONFIG_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_INIT_CMSOBJECT_IN_HANDLER_2 = "LOG_INIT_CMSOBJECT_IN_HANDLER_2";
+    public static final @RUntainted String LOG_INIT_CMSOBJECT_IN_HANDLER_2 = "LOG_INIT_CMSOBJECT_IN_HANDLER_2";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_INIT_CONTEXTNAME_0 = "LOG_INIT_CONTEXTNAME_0";

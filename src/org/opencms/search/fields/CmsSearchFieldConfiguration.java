@@ -51,6 +51,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.solr.uninverting.UninvertingReader.Type;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract implementation for OpenCms search field configurations.<p>
@@ -124,7 +125,7 @@ public class CmsSearchFieldConfiguration extends A_CmsSearchFieldConfiguration {
      *
      * @return a space separated list of all parent folders of the given root path
      */
-    public static String getParentFolderTokens(String rootPath) {
+    public static String getParentFolderTokens(@RUntainted String rootPath) {
 
         if (CmsStringUtil.isEmpty(rootPath)) {
             return "/";

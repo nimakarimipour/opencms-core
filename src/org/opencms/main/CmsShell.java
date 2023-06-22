@@ -61,6 +61,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A command line interface to access OpenCms functions which
@@ -432,7 +433,7 @@ public class CmsShell {
     private OpenCmsCore m_opencms;
 
     /** The shell prompt format. */
-    private String m_prompt;
+    private @RUntainted String m_prompt;
 
     /** The current users settings. */
     private CmsUserSettings m_settings;
@@ -451,7 +452,7 @@ public class CmsShell {
      */
     public CmsShell(
         CmsObject cms,
-        String prompt,
+        @RUntainted String prompt,
         I_CmsShellCommands additionalShellCommands,
         PrintStream out,
         PrintStream err) {
@@ -484,7 +485,7 @@ public class CmsShell {
         String webInfPath,
         String servletMapping,
         String defaultWebAppName,
-        String prompt,
+        @RUntainted String prompt,
         I_CmsShellCommands additionalShellCommands) {
 
         this(
@@ -514,7 +515,7 @@ public class CmsShell {
         String webInfPath,
         String servletMapping,
         String defaultWebAppName,
-        String prompt,
+        @RUntainted String prompt,
         I_CmsShellCommands additionalShellCommands,
         PrintStream out,
         PrintStream err,
@@ -1000,7 +1001,7 @@ public class CmsShell {
      */
     public String getPrompt() {
 
-        String prompt = m_prompt;
+        @RUntainted String prompt = m_prompt;
         try {
             prompt = CmsStringUtil.substitute(prompt, "${user}", m_cms.getRequestContext().getCurrentUser().getName());
             prompt = CmsStringUtil.substitute(prompt, "${siteroot}", m_cms.getRequestContext().getSiteRoot());
@@ -1169,7 +1170,7 @@ public class CmsShell {
      *
      * @return <code>true</code> if the user is valid
      */
-    public boolean validateUser(String userName, String password, CmsRole requiredRole) {
+    public boolean validateUser(@RUntainted String userName, String password, CmsRole requiredRole) {
 
         boolean result = false;
         try {
@@ -1254,7 +1255,7 @@ public class CmsShell {
      *
      * @param prompt the prompt to set
      */
-    protected void setPrompt(String prompt) {
+    protected void setPrompt(@RUntainted String prompt) {
 
         m_prompt = prompt;
     }

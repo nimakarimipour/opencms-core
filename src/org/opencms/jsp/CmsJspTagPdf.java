@@ -51,6 +51,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * JSP tag to generate a link to a PDF produced from a given XML content.<p>
@@ -64,7 +65,7 @@ public class CmsJspTagPdf extends BodyTagSupport implements I_CmsJspTagParamPare
     private static final long serialVersionUID = 1L;
 
     /** The path of the content resource for which the PDF link should be generated. */
-    private String m_content;
+    private @RUntainted String m_content;
 
     /** File name (optional). */
     private String m_filename;
@@ -97,8 +98,8 @@ public class CmsJspTagPdf extends BodyTagSupport implements I_CmsJspTagParamPare
      */
     public static String pdfTagAction(
         ServletRequest request,
-        String format,
-        String content,
+        @RUntainted String format,
+        @RUntainted String content,
         String localeStr,
         String filename,
         SortedMap<String, String> params,

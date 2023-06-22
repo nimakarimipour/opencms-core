@@ -60,6 +60,7 @@ import java.util.TreeMap;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Object to conveniently access and modify the users workplace settings.<p>
@@ -333,7 +334,7 @@ public class CmsUserSettings {
     private Boolean m_newFolderEditProperties;
 
     /** The project. */
-    private String m_project;
+    private @RUntainted String m_project;
 
     /** Controls appearance of the publish button. */
     private String m_publishButtonAppearance;
@@ -357,13 +358,13 @@ public class CmsUserSettings {
     private Boolean m_showUploadTypeDialog;
 
     /** The start folder. */
-    private String m_startFolder;
+    private @RUntainted String m_startFolder;
 
     /** Contains the key value entries with start setting for different gallery types. */
     private SortedMap<String, String> m_startGalleriesSettings;
 
     /** The start site. */
-    private String m_startSite;
+    private @RUntainted String m_startSite;
 
     /** The synchronize settings. */
     private CmsSynchronizeSettings m_synchronizeSettings;
@@ -673,7 +674,7 @@ public class CmsUserSettings {
      *
      * @return the locale of the user
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_locale;
     }
@@ -774,7 +775,7 @@ public class CmsUserSettings {
      *
      * @return the start folder of the user
      */
-    public String getStartFolder() {
+    public @RUntainted String getStartFolder() {
 
         return m_startFolder;
     }
@@ -795,7 +796,7 @@ public class CmsUserSettings {
      * @param galleryType the type of the gallery
      * @return the path to the start gallery or null, if no key
      */
-    public String getStartGallery(String galleryType) {
+    public @RUntainted String getStartGallery(String galleryType) {
 
         return m_startGalleriesSettings.get(galleryType);
 
@@ -808,9 +809,9 @@ public class CmsUserSettings {
      * @param cms Cms object
      * @return the root site path to the start gallery or the default key, null if "not set"
      */
-    public String getStartGallery(String galleryType, CmsObject cms) {
+    public @RUntainted String getStartGallery(String galleryType, CmsObject cms) {
 
-        String startGallerySetting = getStartGallery(galleryType);
+        @RUntainted String startGallerySetting = getStartGallery(galleryType);
         String pathSetting = null;
         // if a custom path to the gallery is selected
         if ((startGallerySetting != null) && !startGallerySetting.equals(CmsWorkplace.INPUT_NONE)) {
@@ -833,7 +834,7 @@ public class CmsUserSettings {
      *
      * @return the start project of the user
      */
-    public String getStartProject() {
+    public @RUntainted String getStartProject() {
 
         return m_project;
     }
@@ -843,7 +844,7 @@ public class CmsUserSettings {
      *
      * @return the start site of the user
      */
-    public String getStartSite() {
+    public @RUntainted String getStartSite() {
 
         return m_startSite;
     }
@@ -853,7 +854,7 @@ public class CmsUserSettings {
      *
      * @return the current start view of the user
      */
-    public String getStartView() {
+    public @RUntainted String getStartView() {
 
         return m_view;
     }
@@ -876,7 +877,7 @@ public class CmsUserSettings {
      * @return the current users time warp time, or
      *      {@link org.opencms.main.CmsContextInfo#CURRENT_TIME} if this feature is disabled
      */
-    public long getTimeWarp() {
+    public @RUntainted long getTimeWarp() {
 
         return m_timeWarp;
     }
@@ -1223,7 +1224,7 @@ public class CmsUserSettings {
             m_startSite = OpenCms.getWorkplaceManager().getDefaultUserSettings().getStartSite();
         }
         // start folder, we use the setter here for default logic in case of illegal folder string:
-        String startFolder = (String)m_user.getAdditionalInfo(
+        @RUntainted String startFolder = (String)m_user.getAdditionalInfo(
             PREFERENCES + CmsWorkplaceConfiguration.N_WORKPLACESTARTUPSETTINGS + CmsWorkplaceConfiguration.N_FOLDER);
         if (startFolder == null) {
             startFolder = OpenCms.getWorkplaceManager().getDefaultUserSettings().getStartFolder();
@@ -2181,7 +2182,7 @@ public class CmsUserSettings {
      *
      * @param folder the start folder of the user
      */
-    public void setStartFolder(String folder) {
+    public void setStartFolder(@RUntainted String folder) {
 
         if (!folder.startsWith("/")) {
             folder = "/" + folder;
@@ -2222,7 +2223,7 @@ public class CmsUserSettings {
      *
      * @param project the start project name of the user
      */
-    public void setStartProject(String project) {
+    public void setStartProject(@RUntainted String project) {
 
         m_project = project;
     }
@@ -2232,7 +2233,7 @@ public class CmsUserSettings {
      *
      * @param site the start site of the user
      */
-    public void setStartSite(String site) {
+    public void setStartSite(@RUntainted String site) {
 
         m_startSite = site;
     }

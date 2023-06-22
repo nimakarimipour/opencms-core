@@ -68,6 +68,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic implementation of the user tracking and subscription driver interface.<p>
@@ -102,7 +103,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
             }
 
             // compose statement
-            StringBuffer queryBuf = new StringBuffer(256);
+            @RUntainted StringBuffer queryBuf = new StringBuffer(256);
             queryBuf.append(m_sqlManager.readQuery("C_VISIT_DELETE_ENTRIES"));
 
             CmsPair<String, List<I_CmsPreparedStatementParameter>> conditionsAndParams = prepareVisitConditions(filter);
@@ -343,7 +344,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
             }
 
             conn = m_sqlManager.getConnection(poolName);
-            String query = m_sqlManager.readQuery(dbc.currentProject(), "C_VISITED_USER_READ_4");
+            @RUntainted String query = m_sqlManager.readQuery(dbc.currentProject(), "C_VISITED_USER_READ_4");
             query = CmsStringUtil.substitute(query, "%(CONDITIONS)", conditions.toString());
             stmt = m_sqlManager.getPreparedStatementForSql(conn, query);
 
@@ -402,7 +403,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
             }
         }
 
-        StringBuffer conditions = new StringBuffer(256);
+        @RUntainted StringBuffer conditions = new StringBuffer(256);
         List<String> params = new ArrayList<String>();
         conditions.append(m_sqlManager.readQuery("C_SUBSCRIPTION_DELETED"));
 
@@ -489,7 +490,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
         CmsResource currentResource = null;
         List<CmsResource> resources = new ArrayList<CmsResource>();
 
-        String queryBuf = m_sqlManager.readQuery(dbc.currentProject(), "C_SUBSCRIPTION_FILTER_READ");
+        @RUntainted String queryBuf = m_sqlManager.readQuery(dbc.currentProject(), "C_SUBSCRIPTION_FILTER_READ");
 
         StringBuffer conditions = new StringBuffer(256);
         List<I_CmsPreparedStatementParameter> params = new ArrayList<I_CmsPreparedStatementParameter>();
@@ -658,7 +659,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
             }
 
             // compose statement
-            StringBuffer queryBuf = new StringBuffer(256);
+            @RUntainted StringBuffer queryBuf = new StringBuffer(256);
             queryBuf.append(m_sqlManager.readQuery("C_VISIT_READ_ENTRIES"));
             CmsPair<String, List<I_CmsPreparedStatementParameter>> conditionsAndParameters = prepareVisitConditions(
                 filter);
@@ -767,7 +768,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
 
         try {
             conn = getSqlManager().getConnection(poolName);
-            StringBuffer conditions = new StringBuffer(256);
+            @RUntainted StringBuffer conditions = new StringBuffer(256);
 
             // unsubscribe all deleted resources
             conditions.append(m_sqlManager.readQuery("C_SUBSCRIPTION_DELETE"));
@@ -799,7 +800,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
         try {
             if (principal != null) {
                 conn = getSqlManager().getConnection(poolName);
-                StringBuffer conditions = new StringBuffer(256);
+                @RUntainted StringBuffer conditions = new StringBuffer(256);
 
                 conditions.append(m_sqlManager.readQuery("C_SUBSCRIPTION_DELETE"));
                 conditions.append(BEGIN_CONDITION);
@@ -829,7 +830,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
 
         try {
             conn = getSqlManager().getConnection(poolName);
-            StringBuffer conditions = new StringBuffer(256);
+            @RUntainted StringBuffer conditions = new StringBuffer(256);
             conditions.append(m_sqlManager.readQuery("C_SUBSCRIPTION_DELETE"));
             conditions.append(BEGIN_CONDITION);
             conditions.append(m_sqlManager.readQuery("C_SUBSCRIPTION_DELETE_FILTER_PRINCIPAL"));
@@ -861,7 +862,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
 
         try {
             conn = getSqlManager().getConnection(poolName);
-            StringBuffer conditions = new StringBuffer(256);
+            @RUntainted StringBuffer conditions = new StringBuffer(256);
 
             // unsubscribe resource for all principals
             conditions.append(m_sqlManager.readQuery("C_SUBSCRIPTION_DELETE"));

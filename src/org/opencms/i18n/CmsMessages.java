@@ -39,6 +39,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Reads localized resource Strings from a <code>java.util.ResourceBundle</code>
@@ -63,7 +64,7 @@ public class CmsMessages {
     private static final Log LOG = CmsLog.getLog(CmsMessages.class);
 
     /** The resource bundle base name this object was initialized with. */
-    private String m_bundleName;
+    private @RUntainted String m_bundleName;
 
     /** The locale to use for looking up the messages from the bundle. */
     private Locale m_locale;
@@ -161,9 +162,9 @@ public class CmsMessages {
      *
      * @see #isUnknownKey(String)
      */
-    public static String formatUnknownKey(String keyName) {
+    public static @RUntainted String formatUnknownKey(String keyName) {
 
-        StringBuffer buf = new StringBuffer(64);
+        @RUntainted StringBuffer buf = new StringBuffer(64);
         buf.append(UNKNOWN_KEY_EXTENSION);
         buf.append(" ");
         buf.append(keyName);
@@ -292,7 +293,7 @@ public class CmsMessages {
      *
      * @return the locale to use for looking up this messages
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_locale;
     }
@@ -319,7 +320,7 @@ public class CmsMessages {
      *
      * @throws CmsMessageException in case the key is not found or the bundle is not initialized
      */
-    public String getString(String keyName) throws CmsMessageException {
+    public String getString(@RUntainted String keyName) throws CmsMessageException {
 
         if (m_resourceBundle != null) {
             try {
@@ -373,7 +374,7 @@ public class CmsMessages {
      * @param keyName the key for the desired string
      * @return the resource string for the given key
      */
-    public String key(String keyName) {
+    public @RUntainted String key(String keyName) {
 
         return key(keyName, false);
     }
@@ -434,7 +435,7 @@ public class CmsMessages {
      *
      * @return the selected localized message for the initialized resource bundle and locale
      */
-    public String key(String key, Object arg0, Object arg1) {
+    public @RUntainted String key(String key, Object arg0, Object arg1) {
 
         return key(key, new Object[] {arg0, arg1});
     }
@@ -471,7 +472,7 @@ public class CmsMessages {
      *
      * @return the selected localized message for the initialized resource bundle and locale
      */
-    public String key(String key, Object[] args) {
+    public @RUntainted String key(String key, Object[] args) {
 
         if ((args == null) || (args.length == 0)) {
             // no parameters available, use simple key method

@@ -63,6 +63,7 @@ import org.alfresco.jlan.server.filesys.DiskSharedDevice;
 import org.alfresco.jlan.server.filesys.TreeConnection;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Repository class for configuring repositories for Alfresco JLAN.<p>
@@ -121,10 +122,10 @@ public class CmsJlanRepository implements I_CmsRepository {
     private CmsProject m_project;
 
     /** The name of the configured project. */
-    private String m_projectName;
+    private @RUntainted String m_projectName;
 
     /** The root VFS directory of the repository. */
-    private String m_root;
+    private @RUntainted String m_root;
 
     /** The list of wrappers configured for this repository. */
     private List<I_CmsResourceWrapper> m_wrappers = Lists.newArrayList();
@@ -204,7 +205,7 @@ public class CmsJlanRepository implements I_CmsRepository {
      *
      * @return true if the user may access the repository
      */
-    public boolean allowAccess(String user) {
+    public boolean allowAccess(@RUntainted String user) {
 
         try {
             return m_cms.getPermissions(m_root, user).requiresViewPermission();
@@ -226,7 +227,7 @@ public class CmsJlanRepository implements I_CmsRepository {
      */
     public CmsObjectWrapper getCms(SrvSession session, TreeConnection connection) throws CmsException {
 
-        String userName = session.getClientInformation().getUserName();
+        @RUntainted String userName = session.getClientInformation().getUserName();
         userName = CmsJlanUsers.translateUser(userName);
         CmsContextInfo contextInfo = new CmsContextInfo(m_cms.getRequestContext());
         contextInfo.setUserName(userName);

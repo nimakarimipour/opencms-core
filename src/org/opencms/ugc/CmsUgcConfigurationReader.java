@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.Locale;
 
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parser for form configuration files.<p>
@@ -117,7 +118,7 @@ public class CmsUgcConfigurationReader {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsUgcConfiguration readConfiguration(CmsFile configFile) throws CmsException {
+    public @RUntainted CmsUgcConfiguration readConfiguration(CmsFile configFile) throws CmsException {
 
         m_content = CmsXmlContentFactory.unmarshal(m_cms, configFile);
         String resourceType = getStringValue(N_CONTENT_TYPE);
@@ -145,16 +146,16 @@ public class CmsUgcConfigurationReader {
             validExtensions = Optional.of(extensions);
         }
 
-        String userForGuestStr = getStringValue(N_USER_FOR_GUEST);
+        @RUntainted String userForGuestStr = getStringValue(N_USER_FOR_GUEST);
         Optional<CmsUser> userForGuest = Optional.absent();
         if (userForGuestStr != null) {
             userForGuest = Optional.of(m_cms.readUser(userForGuestStr.trim()));
         }
 
-        String projectGroupStr = getStringValue(N_PROJECT_GROUP);
+        @RUntainted String projectGroupStr = getStringValue(N_PROJECT_GROUP);
         CmsGroup projectGroup = m_cms.readGroup(projectGroupStr.trim());
         CmsUUID id = configFile.getStructureId();
-        CmsUgcConfiguration result = new CmsUgcConfiguration(
+        @RUntainted CmsUgcConfiguration result = new CmsUgcConfiguration(
             id,
             userForGuest,
             projectGroup,
@@ -213,7 +214,7 @@ public class CmsUgcConfigurationReader {
      *
      * @return the value for that path as a string
      */
-    private String getStringValue(String path) {
+    private @RUntainted String getStringValue(String path) {
 
         I_CmsXmlContentValue value = m_content.getValue(path, Locale.ENGLISH);
         if (value == null) {

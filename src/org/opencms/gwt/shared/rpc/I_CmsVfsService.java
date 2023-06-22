@@ -54,6 +54,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A service interface for retrieving information about the VFS tree.<p>
@@ -100,7 +101,7 @@ public interface I_CmsVfsService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    void deleteResource(String sitePath) throws CmsRpcException;
+    void deleteResource(@RUntainted String sitePath) throws CmsRpcException;
 
     /**
      * Forces a resource to be unlocked. In case the given resource is a folder, all sub-resources are also unlocked.<p>
@@ -142,7 +143,7 @@ public interface I_CmsVfsService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsDeleteResourceBean getBrokenLinks(String sitePath) throws CmsRpcException;
+    CmsDeleteResourceBean getBrokenLinks(@RUntainted String sitePath) throws CmsRpcException;
 
     /**
      * Fetches the list of children of a path.<p>
@@ -253,7 +254,7 @@ public interface I_CmsVfsService extends RemoteService {
      *
      * @throws CmsRpcException if the RPC call goes wrong
      */
-    CmsListInfoBean getPageInfo(String vfsPath) throws CmsRpcException;
+    CmsListInfoBean getPageInfo(@RUntainted String vfsPath) throws CmsRpcException;
 
     /**
      * Returns the preview info for the given resource.<p>
@@ -277,7 +278,7 @@ public interface I_CmsVfsService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsPreviewInfo getPreviewInfo(String sitePath, String locale) throws CmsRpcException;
+    CmsPreviewInfo getPreviewInfo(@RUntainted String sitePath, String locale) throws CmsRpcException;
 
     /***
      * Gets the information necessary for the rename dialog.<p>
@@ -358,7 +359,7 @@ public interface I_CmsVfsService extends RemoteService {
      * @return the structure id
      * @throws CmsRpcException if something goes wrong
      */
-    CmsUUID getStructureId(String vfsPath) throws CmsRpcException;
+    CmsUUID getStructureId(@RUntainted String vfsPath) throws CmsRpcException;
 
     /**
      * Gets the resource info to display for an upload folder.
@@ -367,7 +368,7 @@ public interface I_CmsVfsService extends RemoteService {
      * @return the info to display
      * @throws CmsRpcException if something goes wrong
      */
-    CmsListInfoBean getUploadFolderInfo(String path) throws CmsRpcException;
+    CmsListInfoBean getUploadFolderInfo(@RUntainted String path) throws CmsRpcException;
 
     /**
      * Loads the external link info.<p>
@@ -409,7 +410,7 @@ public interface I_CmsVfsService extends RemoteService {
      * @return a bean with more information about the file to edit
      * @throws CmsRpcException if something goes wrong
      */
-    CmsPrepareEditResponse prepareEdit(CmsUUID currentPage, String fileNameWithMacros) throws CmsRpcException;
+    CmsPrepareEditResponse prepareEdit(CmsUUID currentPage, @RUntainted String fileNameWithMacros) throws CmsRpcException;
 
     /**
      * Renames a resource.<p>
@@ -421,7 +422,7 @@ public interface I_CmsVfsService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    String renameResource(CmsUUID structureId, String newName) throws CmsRpcException;
+    String renameResource(CmsUUID structureId, @RUntainted String newName) throws CmsRpcException;
 
     /**
      * Reverts a resource to a previous historic version.<p>
@@ -475,7 +476,7 @@ public interface I_CmsVfsService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong processing the request
      */
-    String substituteLinkForRootPath(String currentSiteRoot, String rootPath) throws CmsRpcException;
+    String substituteLinkForRootPath(@RUntainted String currentSiteRoot, @RUntainted String rootPath) throws CmsRpcException;
 
     /**
      * Deletes a resource from the VFS.<p>

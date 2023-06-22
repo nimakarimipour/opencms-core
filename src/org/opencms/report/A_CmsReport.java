@@ -35,6 +35,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base report class.<p>
@@ -83,7 +84,7 @@ public abstract class A_CmsReport implements I_CmsReport {
     /**
      * @see org.opencms.report.I_CmsReport#formatRuntime()
      */
-    public String formatRuntime() {
+    public @RUntainted String formatRuntime() {
 
         return CmsStringUtil.formatRuntime(getRuntime());
     }
@@ -198,7 +199,7 @@ public abstract class A_CmsReport implements I_CmsReport {
     /**
      * @see org.opencms.report.I_CmsReport#printMessageWithParam(org.opencms.i18n.CmsMessageContainer,Object)
      */
-    public void printMessageWithParam(CmsMessageContainer container, Object param) {
+    public void printMessageWithParam(CmsMessageContainer container, @RUntainted Object param) {
 
         print(container, I_CmsReport.FORMAT_NOTE);
         print(Messages.get().container(Messages.RPT_ARGUMENT_1, param));
@@ -230,7 +231,7 @@ public abstract class A_CmsReport implements I_CmsReport {
      *
      * @see CmsRequestContext#removeSiteRoot(String)
      */
-    public String removeSiteRoot(String resourcename) {
+    public String removeSiteRoot(@RUntainted String resourcename) {
 
         if (m_siteRoot == null) {
             // site root has not been set
@@ -281,7 +282,7 @@ public abstract class A_CmsReport implements I_CmsReport {
      *
      * @param value the String to add
      */
-    protected void print(String value) {
+    protected void print(@RUntainted String value) {
 
         print(value, FORMAT_DEFAULT);
     }
@@ -295,14 +296,14 @@ public abstract class A_CmsReport implements I_CmsReport {
      * @param value the message container to add
      * @param format the formatting to use for the output
      */
-    protected abstract void print(String value, int format);
+    protected abstract void print(@RUntainted String value, int format);
 
     /**
      * Prints a String with line break to the report.<p>
      *
      * @param value the message container to add
      */
-    protected void println(String value) {
+    protected void println(@RUntainted String value) {
 
         println(value, FORMAT_DEFAULT);
     }
@@ -316,7 +317,7 @@ public abstract class A_CmsReport implements I_CmsReport {
      * @param value the String to add
      * @param format the formatting to use for the output
      */
-    protected void println(String value, int format) {
+    protected void println(@RUntainted String value, int format) {
 
         print(value, format);
         println();

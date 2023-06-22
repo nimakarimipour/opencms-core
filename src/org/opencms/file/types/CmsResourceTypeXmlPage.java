@@ -56,6 +56,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "xmlpage".<p>
@@ -143,7 +144,7 @@ public class CmsResourceTypeXmlPage extends A_CmsResourceTypeLinkParseable {
     public CmsResource createResource(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        String resourcename,
+        @RUntainted String resourcename,
         byte[] content,
         List<CmsProperty> properties)
     throws CmsException {
@@ -183,7 +184,7 @@ public class CmsResourceTypeXmlPage extends A_CmsResourceTypeLinkParseable {
      * @see org.opencms.file.types.A_CmsResourceType#initConfiguration(java.lang.String, java.lang.String, String)
      */
     @Override
-    public void initConfiguration(String name, String id, String className) throws CmsConfigurationException {
+    public void initConfiguration(@RUntainted String name, String id, String className) throws CmsConfigurationException {
 
         super.initConfiguration(name, id, className);
         m_staticTypeId = m_typeId;

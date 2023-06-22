@@ -29,6 +29,7 @@ package org.opencms.security;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,94 +39,94 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_ALREADY_LOGGED_IN_0 = "ERR_ALREADY_LOGGED_IN_0";
+    public static final @RUntainted String ERR_ALREADY_LOGGED_IN_0 = "ERR_ALREADY_LOGGED_IN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_BAD_GROUPNAME_EMPTY_0 = "ERR_BAD_GROUPNAME_EMPTY_0";
+    public static final @RUntainted String ERR_BAD_GROUPNAME_EMPTY_0 = "ERR_BAD_GROUPNAME_EMPTY_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_BAD_USERNAME_4 = "ERR_BAD_USERNAME_4";
+    public static final @RUntainted String ERR_BAD_USERNAME_4 = "ERR_BAD_USERNAME_4";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_BAD_USERNAME_EMPTY_0 = "ERR_BAD_USERNAME_EMPTY_0";
+    public static final @RUntainted String ERR_BAD_USERNAME_EMPTY_0 = "ERR_BAD_USERNAME_EMPTY_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CANT_DELETE_DEFAULT_USER_1 = "ERR_CANT_DELETE_DEFAULT_USER_1";
+    public static final @RUntainted String ERR_CANT_DELETE_DEFAULT_USER_1 = "ERR_CANT_DELETE_DEFAULT_USER_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_EMAIL_VALIDATION_1 = "ERR_EMAIL_VALIDATION_1";
+    public static final @RUntainted String ERR_EMAIL_VALIDATION_1 = "ERR_EMAIL_VALIDATION_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_FIRSTNAME_EMPTY_0 = "ERR_FIRSTNAME_EMPTY_0";
+    public static final @RUntainted String ERR_FIRSTNAME_EMPTY_0 = "ERR_FIRSTNAME_EMPTY_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_NEWPWD_0 = "ERR_INVALID_NEWPWD_0";
+    public static final @RUntainted String ERR_INVALID_NEWPWD_0 = "ERR_INVALID_NEWPWD_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_PRINCIPAL_1 = "ERR_INVALID_PRINCIPAL_1";
+    public static final @RUntainted String ERR_INVALID_PRINCIPAL_1 = "ERR_INVALID_PRINCIPAL_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_PRINCIPAL_TYPE_2 = "ERR_INVALID_PRINCIPAL_TYPE_2";
+    public static final @RUntainted String ERR_INVALID_PRINCIPAL_TYPE_2 = "ERR_INVALID_PRINCIPAL_TYPE_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_USER_CONTEXT_0 = "ERR_INVALID_USER_CONTEXT_0";
+    public static final @RUntainted String ERR_INVALID_USER_CONTEXT_0 = "ERR_INVALID_USER_CONTEXT_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_USER_PWD_1 = "ERR_INVALID_USER_PWD_1";
+    public static final @RUntainted String ERR_INVALID_USER_PWD_1 = "ERR_INVALID_USER_PWD_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_LASTNAME_EMPTY_0 = "ERR_LASTNAME_EMPTY_0";
+    public static final @RUntainted String ERR_LASTNAME_EMPTY_0 = "ERR_LASTNAME_EMPTY_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_LOGIN_FAILED_2 = "ERR_LOGIN_FAILED_2";
+    public static final @RUntainted String ERR_LOGIN_FAILED_2 = "ERR_LOGIN_FAILED_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_LOGIN_FAILED_DISABLED_2 = "ERR_LOGIN_FAILED_DISABLED_2";
+    public static final @RUntainted String ERR_LOGIN_FAILED_DISABLED_2 = "ERR_LOGIN_FAILED_DISABLED_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_LOGIN_FAILED_NO_USER_2 = "ERR_LOGIN_FAILED_NO_USER_2";
+    public static final @RUntainted String ERR_LOGIN_FAILED_NO_USER_2 = "ERR_LOGIN_FAILED_NO_USER_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_LOGIN_FAILED_TEMP_DISABLED_4 = "ERR_LOGIN_FAILED_TEMP_DISABLED_4";
+    public static final @RUntainted String ERR_LOGIN_FAILED_TEMP_DISABLED_4 = "ERR_LOGIN_FAILED_TEMP_DISABLED_4";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_LOGIN_FAILED_WITH_MESSAGE_1 = "ERR_LOGIN_FAILED_WITH_MESSAGE_1";
+    public static final @RUntainted String ERR_LOGIN_FAILED_WITH_MESSAGE_1 = "ERR_LOGIN_FAILED_WITH_MESSAGE_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_NEWPWD_EMPTY_0 = "ERR_NEWPWD_EMPTY_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_NEWPWD_MISMATCH_0 = "ERR_NEWPWD_MISMATCH_0";
+    public static final @RUntainted String ERR_NEWPWD_MISMATCH_0 = "ERR_NEWPWD_MISMATCH_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_NO_PERMISSION_RESOURCE_1 = "ERR_NO_PERMISSION_RESOURCE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_NOT_MANAGER_OF_PROJECT_2 = "ERR_NOT_MANAGER_OF_PROJECT_2";
+    public static final @RUntainted String ERR_NOT_MANAGER_OF_PROJECT_2 = "ERR_NOT_MANAGER_OF_PROJECT_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_ORGUNIT_ROOT_EDITION_0 = "ERR_ORGUNIT_ROOT_EDITION_0";
+    public static final @RUntainted String ERR_ORGUNIT_ROOT_EDITION_0 = "ERR_ORGUNIT_ROOT_EDITION_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PASSWORD_TOO_SHORT_1 = "ERR_PASSWORD_TOO_SHORT_1";
+    public static final @RUntainted String ERR_PASSWORD_TOO_SHORT_1 = "ERR_PASSWORD_TOO_SHORT_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PWD_CHARS_IN_A_ROW_5 = "ERR_PWD_CHARS_IN_A_ROW_5";
+    public static final @RUntainted String ERR_PWD_CHARS_IN_A_ROW_5 = "ERR_PWD_CHARS_IN_A_ROW_5";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PWD_INVALID_SIZE_0 = "ERR_PWD_INVALID_SIZE_0";
+    public static final @RUntainted String ERR_PWD_INVALID_SIZE_0 = "ERR_PWD_INVALID_SIZE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PWD_NO_CAPITAL_LETTER_0 = "ERR_PWD_NO_CAPITAL_LETTER_0";
+    public static final @RUntainted String ERR_PWD_NO_CAPITAL_LETTER_0 = "ERR_PWD_NO_CAPITAL_LETTER_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PWD_NO_LETTERS_0 = "ERR_PWD_NO_LETTERS_0";
+    public static final @RUntainted String ERR_PWD_NO_LETTERS_0 = "ERR_PWD_NO_LETTERS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PWD_NO_SPECIAL_CHARS_0 = "ERR_PWD_NO_SPECIAL_CHARS_0";
+    public static final @RUntainted String ERR_PWD_NO_SPECIAL_CHARS_0 = "ERR_PWD_NO_SPECIAL_CHARS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PWD_NULL_0 = "ERR_PWD_NULL_0";
+    public static final @RUntainted String ERR_PWD_NULL_0 = "ERR_PWD_NULL_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_PWD_UMLAUTS_0 = "ERR_PWD_UMLAUTS_0";
@@ -140,28 +141,28 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_STARTUP_FINISHED_0 = "ERR_STARTUP_FINISHED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_UNSUPPORTED_ALGORITHM_1 = "ERR_UNSUPPORTED_ALGORITHM_1";
+    public static final @RUntainted String ERR_UNSUPPORTED_ALGORITHM_1 = "ERR_UNSUPPORTED_ALGORITHM_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_UNSUPPORTED_AUTHENTICATION_MECHANISM_1 = "ERR_UNSUPPORTED_AUTHENTICATION_MECHANISM_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_UNSUPPORTED_PASSWORD_ENCODING_1 = "ERR_UNSUPPORTED_PASSWORD_ENCODING_1";
+    public static final @RUntainted String ERR_UNSUPPORTED_PASSWORD_ENCODING_1 = "ERR_UNSUPPORTED_PASSWORD_ENCODING_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_USER_NOT_IN_ROLE_2 = "ERR_USER_NOT_IN_ROLE_2";
+    public static final @RUntainted String ERR_USER_NOT_IN_ROLE_2 = "ERR_USER_NOT_IN_ROLE_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_USER_NOT_IN_ROLE_FOR_ORGUNIT_3 = "ERR_USER_NOT_IN_ROLE_FOR_ORGUNIT_3";
+    public static final @RUntainted String ERR_USER_NOT_IN_ROLE_FOR_ORGUNIT_3 = "ERR_USER_NOT_IN_ROLE_FOR_ORGUNIT_3";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_USER_NOT_IN_ROLE_FOR_RESOURCE_3 = "ERR_USER_NOT_IN_ROLE_FOR_RESOURCE_3";
+    public static final @RUntainted String ERR_USER_NOT_IN_ROLE_FOR_RESOURCE_3 = "ERR_USER_NOT_IN_ROLE_FOR_RESOURCE_3";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_VERIFICATION_FAILED_1 = "ERR_VERIFICATION_FAILED_1";
+    public static final @RUntainted String ERR_VERIFICATION_FAILED_1 = "ERR_VERIFICATION_FAILED_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_ZIPCODE_VALIDATION_1 = "ERR_ZIPCODE_VALIDATION_1";
+    public static final @RUntainted String ERR_ZIPCODE_VALIDATION_1 = "ERR_ZIPCODE_VALIDATION_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_ORGUNIT_DISPLAY_NAME_2 = "GUI_ORGUNIT_DISPLAY_NAME_2";
@@ -173,7 +174,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String GUI_PRINCIPAL_DISPLAY_NAME_2 = "GUI_PRINCIPAL_DISPLAY_NAME_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_PWD_HINT_0 = "GUI_PWD_HINT_0";
+    public static final @RUntainted String GUI_PWD_HINT_0 = "GUI_PWD_HINT_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_ROLE_DESCRIPTION_ACCOUNT_MANAGER_0 = "GUI_ROLE_DESCRIPTION_ACCOUNT_MANAGER_0";
@@ -263,7 +264,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_AUTHENTICATE_PROPERTY_2 = "LOG_AUTHENTICATE_PROPERTY_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_INIT_CONFIG_CALLED_1 = "LOG_INIT_CONFIG_CALLED_1";
+    public static final @RUntainted String LOG_INIT_CONFIG_CALLED_1 = "LOG_INIT_CONFIG_CALLED_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_NO_PERMISSION_RESOURCE_USER_4 = "LOG_NO_PERMISSION_RESOURCE_USER_4";

@@ -29,6 +29,7 @@ package org.opencms.jsp.userdata;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -53,7 +54,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String GUI_USER_INFORMATION_FOR_1 = "GUI_USER_INFORMATION_FOR_1";
 
     /** Message bundle key. */
-    public static final String RPT_USERDATADOMAIN_COUNT_2 = "RPT_USERDATADOMAIN_COUNT_2";
+    public static final @RUntainted String RPT_USERDATADOMAIN_COUNT_2 = "RPT_USERDATADOMAIN_COUNT_2";
 
     /** Name of the used resource bundle. */
     private static final String BUNDLE_NAME = "org.opencms.jsp.userdata.messages";

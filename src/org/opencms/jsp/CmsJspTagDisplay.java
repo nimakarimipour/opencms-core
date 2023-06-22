@@ -70,6 +70,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The 'display' tag can be used to display a single resource using a formatter. It also allows to activate direct editing.<p>
@@ -77,7 +78,7 @@ import org.apache.commons.logging.Log;
 public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParamParent {
 
     /** Setting used to store the display formatter key. */
-    public static final String DISPLAY_FORMATTER_SETTING = "SYSTEM::DISPLAY_FORMATTER";
+    public static final @RUntainted String DISPLAY_FORMATTER_SETTING = "SYSTEM::DISPLAY_FORMATTER";
 
     /** The log object for this class. */
     private static final Log LOG = CmsLog.getLog(CmsJspTagDisplay.class);
@@ -86,7 +87,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
     private static final long serialVersionUID = 2285680951218629093L;
 
     /** The base URI. */
-    private String m_baseUri;
+    private @RUntainted String m_baseUri;
 
     /** True if the display formatter include should go through the flex cache. */
     private Boolean m_cacheable;
@@ -104,7 +105,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
     private Map<String, String> m_displayFormatterIds;
 
     /** The display formatter paths. */
-    private Map<String, String> m_displayFormatterPaths;
+    private @RUntainted Map<@RUntainted String, @RUntainted String> m_displayFormatterPaths;
 
     /** The editable flag. */
     private boolean m_editable;
@@ -125,7 +126,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
     private String m_uploadFolder;
 
     /** The site path to the resource to display. */
-    private String m_value;
+    private @RUntainted String m_value;
 
     /**
      * Constructor.<p>
@@ -169,7 +170,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
 
         if (CmsFlexController.isCmsRequest(request)) {
             // this will always be true if the page is called through OpenCms
-            CmsObject cms = CmsFlexController.getCmsObject(request);
+            @RUntainted CmsObject cms = CmsFlexController.getCmsObject(request);
             CmsADEConfigData adeConfig = OpenCms.getADEManager().lookupConfigurationWithCache(
                 cms,
                 cms.getRequestContext().getRootUri());
@@ -518,7 +519,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
      *
      * @param uri the base URI
      */
-    public void setBaseUri(String uri) {
+    public void setBaseUri(@RUntainted String uri) {
 
         m_baseUri = uri;
     }
@@ -669,7 +670,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
      *
      * @param value the value to set
      */
-    public void setValue(String value) {
+    public void setValue(@RUntainted String value) {
 
         m_value = value;
     }

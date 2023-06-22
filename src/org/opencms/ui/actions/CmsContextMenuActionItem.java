@@ -37,6 +37,7 @@ import org.opencms.ui.contextmenu.I_CmsContextMenuItem;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A workplace action context menu item.<p>
@@ -101,7 +102,7 @@ public class CmsContextMenuActionItem implements I_CmsContextMenuItem, I_CmsADEA
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
      */
-    public String getJspPath() {
+    public @RUntainted String getJspPath() {
 
         if (isAdeSupported()) {
             return ((I_CmsADEAction)m_action).getJspPath();

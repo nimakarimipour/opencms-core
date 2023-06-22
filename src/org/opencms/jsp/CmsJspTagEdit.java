@@ -56,6 +56,7 @@ import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** This tag is used to attach an edit provider to a snippet of HTML. */
 public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
@@ -108,7 +109,7 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
     public static String createResource(
         CmsObject cmsObject,
         String newLink,
-        Locale locale,
+        @RUntainted Locale locale,
         String sitePath,
         String modelFileName,
         String mode,
@@ -116,7 +117,7 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
     throws CmsException {
 
         String[] newLinkParts = newLink.split("\\|");
-        String rootPath = newLinkParts[1];
+        @RUntainted String rootPath = newLinkParts[1];
         String typeName = newLinkParts[2];
         CmsFile modelFile = null;
         if (StringUtils.equalsIgnoreCase(mode, CmsEditorConstants.MODE_COPY)) {
@@ -177,9 +178,9 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
      *
      * @return the resource type name
      */
-    public static String getRootPathFromNewLink(String newLink) {
+    public static @RUntainted String getRootPathFromNewLink(@RUntainted String newLink) {
 
-        String result = null;
+        @RUntainted String result = null;
         if (newLink.startsWith(NEW_LINK_IDENTIFIER) && newLink.contains("|")) {
             result = newLink.substring(newLink.indexOf("|") + 1, newLink.lastIndexOf("|"));
         }
@@ -301,7 +302,7 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
      *
      * @return the context root path
      */
-    private static String getContextRootPath(CmsObject cms, String creationSitemap) {
+    private static String getContextRootPath(CmsObject cms, @RUntainted String creationSitemap) {
 
         String path = null;
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(creationSitemap)) {

@@ -32,6 +32,7 @@ import org.opencms.util.CmsUUID;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Immutable bean representing most of the information in a CmsLink.
@@ -58,7 +59,7 @@ public class CmsLinkInfo {
     private CmsUUID m_structureId;
 
     /** The link target. */
-    private String m_target;
+    private @RUntainted String m_target;
 
     /** Cached toString() result. */
     private transient String m_toStringRepr;
@@ -78,7 +79,7 @@ public class CmsLinkInfo {
      */
     public CmsLinkInfo(
         CmsUUID structureId,
-        String target,
+        @RUntainted String target,
         String query,
         String anchor,
         CmsRelationType type,
@@ -183,7 +184,7 @@ public class CmsLinkInfo {
      *
      * @return the target
      */
-    public String getTarget() {
+    public @RUntainted String getTarget() {
 
         return m_target;
     }

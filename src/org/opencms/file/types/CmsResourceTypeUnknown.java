@@ -32,6 +32,7 @@ import org.opencms.loader.CmsDumpLoader;
 import org.opencms.main.CmsLog;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor used in case the given resource type class in the XML configuration could
@@ -74,7 +75,7 @@ public class CmsResourceTypeUnknown extends A_CmsResourceType {
      * @see org.opencms.file.types.A_CmsResourceType#initConfiguration(java.lang.String, java.lang.String, String)
      */
     @Override
-    public void initConfiguration(String name, String id, String className) throws CmsConfigurationException {
+    public void initConfiguration(@RUntainted String name, String id, String className) throws CmsConfigurationException {
 
         // if this class is used this is usually a configuration error
         LOG.error(

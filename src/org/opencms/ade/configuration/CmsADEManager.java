@@ -117,6 +117,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is the main class used to access the ADE configuration and also accomplish some other related tasks
@@ -162,10 +163,10 @@ public class CmsADEManager {
         + CmsADEManager.CONFIG_FILE_NAME;
 
     /** The name of the sitemap configuration file type. */
-    public static final String CONFIG_TYPE = "sitemap_config";
+    public static final @RUntainted String CONFIG_TYPE = "sitemap_config";
 
     /** The content folder name. */
-    public static final String CONTENT_FOLDER_NAME = ".content";
+    public static final @RUntainted String CONTENT_FOLDER_NAME = ".content";
 
     /** The default detail page type name. */
     public static final String DEFAULT_DETAILPAGE_TYPE = CmsGwtConstants.DEFAULT_DETAILPAGE_TYPE;
@@ -189,7 +190,7 @@ public class CmsADEManager {
     public static final String N_TYPE = "Type";
 
     /** The path to the sitemap editor JSP. */
-    public static final String PATH_SITEMAP_EDITOR_JSP = "/system/workplace/commons/sitemap.jsp";
+    public static final @RUntainted String PATH_SITEMAP_EDITOR_JSP = "/system/workplace/commons/sitemap.jsp";
 
     /** User additional info key constant. */
     protected static final String ADDINFO_ADE_FAVORITE_LIST = "ADE_FAVORITE_LIST";
@@ -479,7 +480,7 @@ public class CmsADEManager {
      *
      * @return the detail page for the content element
      */
-    public String getDetailPage(CmsObject cms, String rootPath, String linkSource, String targetDetailPage) {
+    public String getDetailPage(CmsObject cms, String rootPath, @RUntainted String linkSource, @RUntainted String targetDetailPage) {
 
         return getDetailPageHandler().getDetailPage(cms, rootPath, linkSource, targetDetailPage);
     }
@@ -680,7 +681,7 @@ public class CmsADEManager {
      */
     public CmsInheritedContainerState getInheritedContainerState(CmsObject cms, CmsResource resource, String name) {
 
-        String rootPath = resource.getRootPath();
+        @RUntainted String rootPath = resource.getRootPath();
         if (!resource.isFolder()) {
             rootPath = CmsResource.getParentFolder(rootPath);
         }
@@ -705,10 +706,10 @@ public class CmsADEManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsInheritedContainerState getInheritedContainerState(CmsObject cms, String rootPath, String name)
+    public CmsInheritedContainerState getInheritedContainerState(CmsObject cms, @RUntainted String rootPath, String name)
     throws CmsException {
 
-        String oldSiteRoot = cms.getRequestContext().getSiteRoot();
+        @RUntainted String oldSiteRoot = cms.getRequestContext().getSiteRoot();
         try {
             cms.getRequestContext().setSiteRoot("");
             CmsResource resource = cms.readResource(rootPath);
@@ -905,7 +906,7 @@ public class CmsADEManager {
      *
      * @return the map of plugin wrappers, with the plugin groups as keys
      */
-    public Map<String, List<CmsTemplatePluginWrapper>> getPluginsForPath(CmsObject cms, String path) {
+    public Map<String, List<CmsTemplatePluginWrapper>> getPluginsForPath(CmsObject cms, @RUntainted String path) {
 
         CmsADEConfigData config = lookupConfigurationWithCache(cms, cms.getRequestContext().addSiteRoot(path));
 
@@ -1010,11 +1011,11 @@ public class CmsADEManager {
      *
      * @return the subsite root
      */
-    public String getSubSiteRoot(CmsObject cms, String rootPath) {
+    public @RUntainted String getSubSiteRoot(CmsObject cms, String rootPath) {
 
         CmsADEConfigData configData = lookupConfiguration(cms, rootPath);
         String basePath = configData.getBasePath();
-        String siteRoot = OpenCms.getSiteManager().getSiteRoot(rootPath);
+        @RUntainted String siteRoot = OpenCms.getSiteManager().getSiteRoot(rootPath);
         if (siteRoot == null) {
             siteRoot = "";
         }
@@ -1112,7 +1113,7 @@ public class CmsADEManager {
         } else {
             I_CmsXmlContentValue contentValue = content.getValue(N_LINK, contentLocale);
             if (contentValue != null) {
-                String linkValue = contentValue.getStringValue(cms);
+                @RUntainted String linkValue = contentValue.getStringValue(cms);
                 lnkUri = OpenCms.getLinkManager().substituteLinkForUnknownTarget(cms, linkValue);
                 try {
                     errorCode = Integer.valueOf(typeValue);
@@ -1329,7 +1330,7 @@ public class CmsADEManager {
 
         CmsADEConfigData configData = lookupConfiguration(cms, rootPath);
         CmsDetailPageConfigurationWriter configWriter;
-        String originalSiteRoot = cms.getRequestContext().getSiteRoot();
+        @RUntainted String originalSiteRoot = cms.getRequestContext().getSiteRoot();
         try {
             cms.getRequestContext().setSiteRoot("");
             if (configData.isModuleConfiguration()) {
@@ -1397,7 +1398,7 @@ public class CmsADEManager {
      */
     public void saveInheritedContainer(
         CmsObject cms,
-        String sitePath,
+        @RUntainted String sitePath,
         String name,
         boolean newOrder,
         List<CmsContainerElementBean> elements)
@@ -1567,7 +1568,7 @@ public class CmsADEManager {
      */
     protected CmsRole getRoleForSitemapConfigEditing() {
 
-        String roleName = OpenCms.getWorkplaceManager().getSitemapConfigEditRole();
+        @RUntainted String roleName = OpenCms.getWorkplaceManager().getSitemapConfigEditRole();
         if (roleName == null) {
             return null;
         } else {
@@ -1589,7 +1590,7 @@ public class CmsADEManager {
      *
      * @throws CmsException if something goes wrong
      */
-    protected String getRootPath(CmsUUID structureId, boolean online) throws CmsException {
+    protected @RUntainted String getRootPath(CmsUUID structureId, boolean online) throws CmsException {
 
         CmsConfigurationCache cache = online ? m_onlineCache : m_offlineCache;
         return cache.getPathForStructureId(structureId);

@@ -29,6 +29,7 @@ package org.opencms.file.types;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -41,22 +42,22 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_BAD_XML_SCHEMA_2 = "ERR_BAD_XML_SCHEMA_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CHTYPE_FOLDER_1 = "ERR_CHTYPE_FOLDER_1";
+    public static final @RUntainted String ERR_CHTYPE_FOLDER_1 = "ERR_CHTYPE_FOLDER_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CONFIG_FROZEN_3 = "ERR_CONFIG_FROZEN_3";
+    public static final @RUntainted String ERR_CONFIG_FROZEN_3 = "ERR_CONFIG_FROZEN_3";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_COULD_NOT_READ_RESOURCE_TYPE_1 = "ERR_COULD_NOT_READ_RESOURCE_TYPE_1";
+    public static final @RUntainted String ERR_COULD_NOT_READ_RESOURCE_TYPE_1 = "ERR_COULD_NOT_READ_RESOURCE_TYPE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_RESTYPE_CONFIG_3 = "ERR_INVALID_RESTYPE_CONFIG_3";
+    public static final @RUntainted String ERR_INVALID_RESTYPE_CONFIG_3 = "ERR_INVALID_RESTYPE_CONFIG_3";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_INVALID_RESTYPE_CONFIG_ID_3 = "ERR_INVALID_RESTYPE_CONFIG_ID_3";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_RESTYPE_CONFIG_NAME_3 = "ERR_INVALID_RESTYPE_CONFIG_NAME_3";
+    public static final @RUntainted String ERR_INVALID_RESTYPE_CONFIG_NAME_3 = "ERR_INVALID_RESTYPE_CONFIG_NAME_3";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_PARSING_FORMATTER_SETTINGS_FROM_PROPERTY_2 = "ERR_PARSING_FORMATTER_SETTINGS_FROM_PROPERTY_2";
@@ -68,7 +69,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_READING_FORMATTER_CONFIGURATION_1 = "ERR_READING_FORMATTER_CONFIGURATION_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_REPLACE_RESOURCE_FOLDER_1 = "ERR_REPLACE_RESOURCE_FOLDER_1";
+    public static final @RUntainted String ERR_REPLACE_RESOURCE_FOLDER_1 = "ERR_REPLACE_RESOURCE_FOLDER_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_RESOURCE_TYPE_ALREADY_CONFIGURED_3 = "ERR_RESOURCE_TYPE_ALREADY_CONFIGURED_3";
@@ -80,7 +81,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_UNKNOWN_RESTYPE_CLASS_4 = "ERR_UNKNOWN_RESTYPE_CLASS_4";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_WRITE_FILE_IS_FOLDER_1 = "ERR_WRITE_FILE_IS_FOLDER_1";
+    public static final @RUntainted String ERR_WRITE_FILE_IS_FOLDER_1 = "ERR_WRITE_FILE_IS_FOLDER_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_ADD_COPY_RESOURCE_4 = "LOG_ADD_COPY_RESOURCE_4";

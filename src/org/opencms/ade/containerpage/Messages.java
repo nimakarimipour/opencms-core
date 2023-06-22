@@ -29,6 +29,7 @@ package org.opencms.ade.containerpage;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,7 +39,7 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MISSING_CACHED_ELEMENT_0 = "ERR_MISSING_CACHED_ELEMENT_0";
+    public static final @RUntainted String ERR_MISSING_CACHED_ELEMENT_0 = "ERR_MISSING_CACHED_ELEMENT_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_ADDINFO_FORMATTER_0 = "GUI_ADDINFO_FORMATTER_0";

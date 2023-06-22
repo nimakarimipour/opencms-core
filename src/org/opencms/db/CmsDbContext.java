@@ -41,6 +41,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.HashMap;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wraps context information to access the OpenCms database.<p>
@@ -253,7 +254,7 @@ public class CmsDbContext {
      *
      * @return the resource name adjusted for the current site root
      */
-    public String removeSiteRoot(String resourcename) {
+    public @RUntainted String removeSiteRoot(@RUntainted String resourcename) {
 
         if ((m_requestContext != null) && (resourcename != null)) {
             return m_requestContext.removeSiteRoot(resourcename);
@@ -272,7 +273,7 @@ public class CmsDbContext {
      * @throws CmsException if the <code>throwable</code> parameter is not <code>null</code> and a {@link CmsException}
      * @throws CmsVfsException if the <code>throwable</code> parameter is not <code>null</code> and no {@link CmsException}
      */
-    public void report(I_CmsReport report, CmsMessageContainer message, Throwable throwable)
+    public void report(I_CmsReport report, CmsMessageContainer message, @RUntainted Throwable throwable)
     throws CmsVfsException, CmsException {
 
         if (report != null) {

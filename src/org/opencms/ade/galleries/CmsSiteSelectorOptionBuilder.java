@@ -47,6 +47,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for building the options for the site selector in the gallery dialog.<p>
@@ -139,7 +140,7 @@ public class CmsSiteSelectorOptionBuilder {
                 if (site.isSharedSite()) {
                     continue;
                 }
-                String siteRoot = site.getSiteRoot();
+                @RUntainted String siteRoot = site.getSiteRoot();
                 if (!rootCms.existsResource(siteRoot, CmsResourceFilter.ONLY_VISIBLE_NO_DELETED)) {
                     if (startFolder != null) {
                         siteRoot = CmsStringUtil.joinPaths(siteRoot, startFolder);
@@ -179,7 +180,7 @@ public class CmsSiteSelectorOptionBuilder {
      */
     public void addSharedSite() {
 
-        String shared = OpenCms.getSiteManager().getSharedFolder();
+        @RUntainted String shared = OpenCms.getSiteManager().getSharedFolder();
         if (shared.endsWith("/")) {
             // IMPORTANT: remove last "/".
             // Otherwise the version without slash will be added as well when you are in the shared folder currently.

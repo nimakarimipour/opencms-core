@@ -35,6 +35,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Formatter configuration for flex formatters.<p>
@@ -83,7 +84,7 @@ public class CmsFlexFormatterBean extends CmsFormatterBean {
      */
     public CmsFlexFormatterBean(
         Set<String> containerTypes,
-        String jspRootPath,
+        @RUntainted String jspRootPath,
         CmsUUID jspStructureId,
         String key,
         int minWidth,

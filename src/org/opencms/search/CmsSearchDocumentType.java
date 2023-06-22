@@ -29,6 +29,7 @@ package org.opencms.search;
 
 import java.util.ArrayList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A document type specifies which document factory class is used to pull the

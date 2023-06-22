@@ -64,6 +64,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report thread to save site configurations.<p>
@@ -113,16 +114,16 @@ public class CmsCreateSiteThread extends A_CmsReportThread {
     private ByteArrayOutputStream m_os;
 
     /**Parent OU. */
-    private String m_parentOU;
+    private @RUntainted String m_parentOU;
 
     /**Selected OU.*/
-    private String m_selectedOU;
+    private @RUntainted String m_selectedOU;
 
     /**Site to save. */
     private CmsSite m_site;
 
     /**Source to copy resources from. */
-    private String m_source;
+    private @RUntainted String m_source;
 
     /**Template to set as property for the site. */
     private String m_template;
@@ -151,8 +152,8 @@ public class CmsCreateSiteThread extends A_CmsReportThread {
         String source,
         String template,
         boolean createOU,
-        String parentOU,
-        String selectedOU,
+        @RUntainted String parentOU,
+        @RUntainted String selectedOU,
         ByteArrayOutputStream os,
         Map<String, String> bundle,
         Runnable finished) {
@@ -266,7 +267,7 @@ public class CmsCreateSiteThread extends A_CmsReportThread {
      * @return the validated folder name
      * @throws CmsIllegalArgumentException if the folder name is empty or <code>null</code>
      */
-    String ensureFoldername(String resourcename) {
+    @RUntainted String ensureFoldername(@RUntainted String resourcename) {
 
         if (CmsStringUtil.isEmpty(resourcename)) {
             return "";
@@ -311,7 +312,7 @@ public class CmsCreateSiteThread extends A_CmsReportThread {
      * @throws CmsIllegalArgumentException exception
      * @throws CmsException exception
      */
-    private void createIndexHTML(String siteRoot) throws CmsIllegalArgumentException, CmsException {
+    private void createIndexHTML(@RUntainted String siteRoot) throws CmsIllegalArgumentException, CmsException {
 
         if (!m_cms.existsResource(siteRoot + INDEX_HTML)) {
             //Create index.html
@@ -330,7 +331,7 @@ public class CmsCreateSiteThread extends A_CmsReportThread {
     * @throws CmsException if something goes wrong
     * @throws CmsLoaderException if something goes wrong
     */
-    private void createSitemapContentFolder(CmsObject cms, CmsResource subSitemapFolder, String contentFolder)
+    private void createSitemapContentFolder(CmsObject cms, CmsResource subSitemapFolder, @RUntainted String contentFolder)
     throws CmsException, CmsLoaderException {
 
         CmsResource configFile = null;
@@ -398,7 +399,7 @@ public class CmsCreateSiteThread extends A_CmsReportThread {
      * @return site root folder
      * @throws CmsException exception
      */
-    private CmsResource createSiteRootIfNeeded(String siteRoot) throws CmsException {
+    private CmsResource createSiteRootIfNeeded(@RUntainted String siteRoot) throws CmsException {
 
         CmsResource siteRootResource = null;
 
@@ -456,7 +457,7 @@ public class CmsCreateSiteThread extends A_CmsReportThread {
      */
     private void handleOU(CmsResource siteRootResource) {
 
-        String ouName = null;
+        @RUntainted String ouName = null;
         String ouDescription = "OU for: %(site)";
 
         if (m_createOU) {
@@ -530,7 +531,7 @@ public class CmsCreateSiteThread extends A_CmsReportThread {
      *
      * @param siteRoot site root of considered site.
      */
-    private void saveFavIcon(String siteRoot) {
+    private void saveFavIcon(@RUntainted String siteRoot) {
 
         if (m_os == null) {
             return;

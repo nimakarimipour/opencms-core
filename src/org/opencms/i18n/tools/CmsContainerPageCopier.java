@@ -80,6 +80,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for copying container pages including some of their elements.<p>
@@ -231,7 +232,7 @@ public class CmsContainerPageCopier {
      * @throws CmsException thrown if something goes wrong.
      * @throws NoCustomReplacementException if a custom replacement is not found for a type which requires it.
      */
-    public void copyPageOnly(CmsResource originalPage, String targetPageRootPath)
+    public void copyPageOnly(CmsResource originalPage, @RUntainted String targetPageRootPath)
     throws CmsException, NoCustomReplacementException {
 
         if ((null == originalPage)
@@ -317,7 +318,7 @@ public class CmsContainerPageCopier {
                 && (originalElement.isCreateNew() || typeConfig.isCopyInModels())
                 && !type.getTypeName().equals(CmsResourceTypeXmlContainerPage.MODEL_GROUP_TYPE_NAME)) {
                 // set the request context locale to the target content locale as this is used during content creation
-                Locale targetLocale = OpenCms.getLocaleManager().getDefaultLocale(m_cms, m_targetFolder);
+                @RUntainted Locale targetLocale = OpenCms.getLocaleManager().getDefaultLocale(m_cms, m_targetFolder);
                 targetCms.getRequestContext().setLocale(targetLocale);
                 CmsResource resourceCopy = typeConfig.createNewElement(
                     targetCms,
@@ -593,7 +594,7 @@ public class CmsContainerPageCopier {
             int lastDot = copyPath.lastIndexOf(".");
             int lastSlash = copyPath.lastIndexOf("/");
             if (lastDot > lastSlash) { // path has an extension
-                String macroPath = copyPath.substring(0, lastDot) + "%(number)" + copyPath.substring(lastDot);
+                @RUntainted String macroPath = copyPath.substring(0, lastDot) + "%(number)" + copyPath.substring(lastDot);
                 copyPath = nameGen.getNewFileName(rootCms, macroPath, 4, true);
             } else {
                 copyPath = nameGen.getNewFileName(rootCms, copyPath + "%(number)", 4, true);

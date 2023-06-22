@@ -33,6 +33,7 @@ import org.opencms.ade.galleries.shared.I_CmsGalleryProviderConstants.GalleryTab
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The gallery configuration.<p>
@@ -40,7 +41,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSerializable {
 
     /** The current element. */
-    private String m_currentElement;
+    private @RUntainted String m_currentElement;
 
     /** Flag to enable selection of galleries in the gallery tab. */
     private boolean m_galleriesSelectable;
@@ -49,7 +50,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     private GalleryMode m_galleryMode;
 
     /** The gallery path. */
-    private String m_galleryPath;
+    private @RUntainted String m_galleryPath;
 
     /** The prefix for the key used to store the last selected gallery. */
     private String m_galleryStoragePrefix;
@@ -70,7 +71,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     private String m_locale;
 
     /** The reference path. */
-    private String m_referencePath;
+    private @RUntainted String m_referencePath;
 
     /** The resource types. */
     private List<String> m_resourceTypes;
@@ -85,16 +86,16 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     private boolean m_showSiteSelector;
 
     /** The start folder. */
-    private String m_startFolder;
+    private @RUntainted String m_startFolder;
 
     /** The start site. */
-    private String m_startSite;
+    private @RUntainted String m_startSite;
 
     /** The tab configuration. */
     private CmsGalleryTabConfiguration m_tabConfiguration;
 
     /** The tree token. */
-    private String m_treeToken;
+    private @RUntainted String m_treeToken;
 
     /** The upload folder. */
     private String m_uploadFolder;
@@ -142,7 +143,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     /**
      * @see org.opencms.ade.galleries.shared.I_CmsGalleryConfiguration#getCurrentElement()
      */
-    public String getCurrentElement() {
+    public @RUntainted String getCurrentElement() {
 
         return m_currentElement;
     }
@@ -161,7 +162,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     /**
      * @see org.opencms.ade.galleries.shared.I_CmsGalleryConfiguration#getGalleryPath()
      */
-    public String getGalleryPath() {
+    public @RUntainted String getGalleryPath() {
 
         return m_galleryPath;
     }
@@ -217,7 +218,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     /**
      * @see org.opencms.ade.galleries.shared.I_CmsGalleryConfiguration#getReferencePath()
      */
-    public String getReferencePath() {
+    public @RUntainted String getReferencePath() {
 
         return m_referencePath;
     }
@@ -241,7 +242,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     /**
      * @see org.opencms.ade.galleries.shared.I_CmsGalleryConfiguration#getStartFolder()
      */
-    public String getStartFolder() {
+    public @RUntainted String getStartFolder() {
 
         return m_startFolder;
     }
@@ -249,7 +250,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     /**
      * @see org.opencms.ade.galleries.shared.I_CmsGalleryConfiguration#getStartSite()
      */
-    public String getStartSite() {
+    public @RUntainted String getStartSite() {
 
         return m_startSite;
     }
@@ -278,7 +279,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     /**
      * @see org.opencms.ade.galleries.shared.I_CmsGalleryConfiguration#getTreeToken()
      */
-    public String getTreeToken() {
+    public @RUntainted String getTreeToken() {
 
         return m_treeToken;
     }
@@ -334,7 +335,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     /**
      * @see org.opencms.ade.galleries.shared.I_CmsGalleryConfiguration#setCurrentElement(java.lang.String)
      */
-    public void setCurrentElement(String currentElement) {
+    public void setCurrentElement(@RUntainted String currentElement) {
 
         m_currentElement = currentElement;
     }
@@ -364,7 +365,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
      *
      * @param galleryPath the galleryPath to set
      */
-    public void setGalleryPath(String galleryPath) {
+    public void setGalleryPath(@RUntainted String galleryPath) {
 
         m_galleryPath = galleryPath;
     }
@@ -485,7 +486,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
      *
      * @param startFolder the start folder
      */
-    public void setStartFolder(String startFolder) {
+    public void setStartFolder(@RUntainted String startFolder) {
 
         m_startFolder = startFolder;
     }
@@ -495,7 +496,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
      *
      * @param startSite the startSite to set
      */
-    public void setStartSite(String startSite) {
+    public void setStartSite(@RUntainted String startSite) {
 
         m_startSite = startSite;
     }

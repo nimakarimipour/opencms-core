@@ -29,6 +29,7 @@ package org.opencms.loader;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,31 +39,31 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CONFLICTING_MODULE_RESOURCE_TYPES_5 = "ERR_CONFLICTING_MODULE_RESOURCE_TYPES_5";
+    public static final @RUntainted String ERR_CONFLICTING_MODULE_RESOURCE_TYPES_5 = "ERR_CONFLICTING_MODULE_RESOURCE_TYPES_5";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CONFLICTING_RESOURCE_TYPES_4 = "ERR_CONFLICTING_RESOURCE_TYPES_4";
+    public static final @RUntainted String ERR_CONFLICTING_RESOURCE_TYPES_4 = "ERR_CONFLICTING_RESOURCE_TYPES_4";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CONFLICTING_RESTYPES_IN_MODULE_5 = "ERR_CONFLICTING_RESTYPES_IN_MODULE_5";
+    public static final @RUntainted String ERR_CONFLICTING_RESTYPES_IN_MODULE_5 = "ERR_CONFLICTING_RESTYPES_IN_MODULE_5";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_EXPORT_UNSUPPORTED_1 = "ERR_EXPORT_UNSUPPORTED_1";
+    public static final @RUntainted String ERR_EXPORT_UNSUPPORTED_1 = "ERR_EXPORT_UNSUPPORTED_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_FILE_NAME_PATTERN_WITHOUT_NUMBER_MACRO_1 = "ERR_FILE_NAME_PATTERN_WITHOUT_NUMBER_MACRO_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_COLLECTOR_NAME_1 = "ERR_INVALID_COLLECTOR_NAME_1";
+    public static final @RUntainted String ERR_INVALID_COLLECTOR_NAME_1 = "ERR_INVALID_COLLECTOR_NAME_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_HTMLCONVERTER_NAME_1 = "ERR_INVALID_HTMLCONVERTER_NAME_1";
+    public static final @RUntainted String ERR_INVALID_HTMLCONVERTER_NAME_1 = "ERR_INVALID_HTMLCONVERTER_NAME_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_INVALID_IMAGE_SCALE_PARAMS_2 = "ERR_INVALID_IMAGE_SCALE_PARAMS_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_POINTER_FILE_1 = "ERR_INVALID_POINTER_FILE_1";
+    public static final @RUntainted String ERR_INVALID_POINTER_FILE_1 = "ERR_INVALID_POINTER_FILE_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_LOADER_JSP_ACCESS_1 = "ERR_LOADER_JSP_ACCESS_1";
@@ -71,28 +72,28 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_LOADER_JSP_WRITE_1 = "ERR_LOADER_JSP_WRITE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_LOADER_NOT_TEMPLATE_ENABLED_0 = "ERR_LOADER_NOT_TEMPLATE_ENABLED_0";
+    public static final @RUntainted String ERR_LOADER_NOT_TEMPLATE_ENABLED_0 = "ERR_LOADER_NOT_TEMPLATE_ENABLED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_LOADER_UNKNOWN_LOCALE_5 = "ERR_LOADER_UNKNOWN_LOCALE_5";
+    public static final @RUntainted String ERR_LOADER_UNKNOWN_LOCALE_5 = "ERR_LOADER_UNKNOWN_LOCALE_5";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_LOADER_XML_NEED_ELEMENT_LOCALE_1 = "ERR_LOADER_XML_NEED_ELEMENT_LOCALE_1";
+    public static final @RUntainted String ERR_LOADER_XML_NEED_ELEMENT_LOCALE_1 = "ERR_LOADER_XML_NEED_ELEMENT_LOCALE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_NO_CONFIG_AFTER_STARTUP_0 = "ERR_NO_CONFIG_AFTER_STARTUP_0";
+    public static final @RUntainted String ERR_NO_CONFIG_AFTER_STARTUP_0 = "ERR_NO_CONFIG_AFTER_STARTUP_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_NO_FILE_NAME_AVAILABLE_FOR_PATTERN_1 = "ERR_NO_FILE_NAME_AVAILABLE_FOR_PATTERN_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_NONDEF_PROP_2 = "ERR_NONDEF_PROP_2";
+    public static final @RUntainted String ERR_NONDEF_PROP_2 = "ERR_NONDEF_PROP_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_SERVICE_UNSUPPORTED_1 = "ERR_SERVICE_UNSUPPORTED_1";
+    public static final @RUntainted String ERR_SERVICE_UNSUPPORTED_1 = "ERR_SERVICE_UNSUPPORTED_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_TEMPLATE_PROTERTY_UNSUPPORTED_1 = "ERR_TEMPLATE_PROTERTY_UNSUPPORTED_1";
+    public static final @RUntainted String ERR_TEMPLATE_PROTERTY_UNSUPPORTED_1 = "ERR_TEMPLATE_PROTERTY_UNSUPPORTED_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_UNABLE_TO_EXTRACT_IMAGE_SIZE_1 = "ERR_UNABLE_TO_EXTRACT_IMAGE_SIZE_1";
@@ -101,10 +102,10 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_UNABLE_TO_SCALE_IMAGE_2 = "ERR_UNABLE_TO_SCALE_IMAGE_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_UNKNOWN_RESTYPE_ID_REQ_1 = "ERR_UNKNOWN_RESTYPE_ID_REQ_1";
+    public static final @RUntainted String ERR_UNKNOWN_RESTYPE_ID_REQ_1 = "ERR_UNKNOWN_RESTYPE_ID_REQ_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_UNKNOWN_RESTYPE_NAME_REQ_1 = "ERR_UNKNOWN_RESTYPE_NAME_REQ_1";
+    public static final @RUntainted String ERR_UNKNOWN_RESTYPE_NAME_REQ_1 = "ERR_UNKNOWN_RESTYPE_NAME_REQ_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_LOADER_CONTAINERPAGE_DEFAULT_DESC_0 = "GUI_LOADER_CONTAINERPAGE_DEFAULT_DESC_0";
@@ -215,7 +216,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String INIT_WEBAPP_PATH_1 = "INIT_WEBAPP_PATH_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_ACCESS_DENIED_1 = "LOG_ACCESS_DENIED_1";
+    public static final @RUntainted String LOG_ACCESS_DENIED_1 = "LOG_ACCESS_DENIED_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_COLLECTOR_BAD_ORDER_NUMBER_1 = "LOG_COLLECTOR_BAD_ORDER_NUMBER_1";

@@ -67,6 +67,7 @@ import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to show ous in table for account management.<p>
@@ -81,7 +82,7 @@ public class CmsOUTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(final Set<String> context) {
+        public void executeAction(final @RUntainted Set<@RUntainted String> context) {
 
             Window window = CmsBasicDialog.prepareWindow();
             CmsDeleteOUDialog dialog = new CmsDeleteOUDialog(m_cms, context.iterator().next(), window, m_app);
@@ -124,7 +125,7 @@ public class CmsOUTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(@RUntainted Set<@RUntainted String> context) {
 
             Window window = CmsBasicDialog.prepareWindow();
             window.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_OU_EDIT_WINDOW_CAPTION_0));
@@ -168,7 +169,7 @@ public class CmsOUTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(@RUntainted Set<@RUntainted String> context) {
 
             boolean includeTechnicalFields = false;
             try {
@@ -297,9 +298,9 @@ public class CmsOUTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(@RUntainted Set<@RUntainted String> context) {
 
-            String itemId = context.iterator().next();
+            @RUntainted String itemId = context.iterator().next();
             updateApp(itemId);
 
         }
@@ -415,7 +416,7 @@ public class CmsOUTable extends Table implements I_CmsFilterableTable {
     protected CmsAccountsApp m_app;
 
     /**Parent ou. */
-    protected String m_parentOu;
+    protected @RUntainted String m_parentOu;
 
     /**CmsObject. */
     CmsObject m_cms;
@@ -435,7 +436,7 @@ public class CmsOUTable extends Table implements I_CmsFilterableTable {
      * @param ou ou
      * @param app calling app
      */
-    public CmsOUTable(String ou, CmsAccountsApp app) {
+    public CmsOUTable(@RUntainted String ou, CmsAccountsApp app) {
 
         m_app = app;
         init(ou);
@@ -481,7 +482,7 @@ public class CmsOUTable extends Table implements I_CmsFilterableTable {
      *
      * @param itemId of current item
      */
-    protected void updateApp(String itemId) {
+    protected void updateApp(@RUntainted String itemId) {
 
         I_CmsOuTreeType foundType = null;
         for (I_CmsOuTreeType type : m_app.getTreeTypeProvider().getTreeTypes()) {
@@ -540,7 +541,7 @@ public class CmsOUTable extends Table implements I_CmsFilterableTable {
      *
      * @param parentOu ou name
      */
-    private void init(String parentOu) {
+    private void init(@RUntainted String parentOu) {
 
         m_parentOu = parentOu;
         m_menu = new CmsContextMenu();

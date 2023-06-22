@@ -37,6 +37,7 @@ import org.opencms.util.CmsUUID;
 import java.util.Comparator;
 
 import com.google.common.base.Objects;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A relation between two opencms resources.<p>
@@ -75,13 +76,13 @@ public class CmsRelation {
     private final CmsUUID m_sourceId;
 
     /** The path of the source resource. */
-    private final String m_sourcePath;
+    private final @RUntainted String m_sourcePath;
 
     /** The structure id of the target resource. */
     private final CmsUUID m_targetId;
 
     /** The path of the target resource. */
-    private final String m_targetPath;
+    private final @RUntainted String m_targetPath;
 
     /** The relation type. */
     private final CmsRelationType m_type;
@@ -152,7 +153,7 @@ public class CmsRelation {
             return cms.readResource(getSourceId(), filter);
         } catch (CmsVfsResourceNotFoundException e) {
             // then look up by name, but from the root site
-            String storedSiteRoot = cms.getRequestContext().getSiteRoot();
+            @RUntainted String storedSiteRoot = cms.getRequestContext().getSiteRoot();
             try {
                 cms.getRequestContext().setSiteRoot("");
                 return cms.readResource(getSourcePath(), filter);
@@ -177,7 +178,7 @@ public class CmsRelation {
      *
      * @return the path of the source resource
      */
-    public String getSourcePath() {
+    public @RUntainted String getSourcePath() {
 
         return m_sourcePath;
     }
@@ -199,7 +200,7 @@ public class CmsRelation {
             return cms.readResource(getTargetId(), filter);
         } catch (CmsVfsResourceNotFoundException e) {
             // then look up by name, but from the root site
-            String storedSiteRoot = cms.getRequestContext().getSiteRoot();
+            @RUntainted String storedSiteRoot = cms.getRequestContext().getSiteRoot();
             try {
                 cms.getRequestContext().setSiteRoot("");
                 return cms.readResource(getTargetPath(), filter);
@@ -224,7 +225,7 @@ public class CmsRelation {
      *
      * @return the path of the target resource
      */
-    public String getTargetPath() {
+    public @RUntainted String getTargetPath() {
 
         return m_targetPath;
     }

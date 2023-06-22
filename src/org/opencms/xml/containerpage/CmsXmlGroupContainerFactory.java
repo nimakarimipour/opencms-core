@@ -50,6 +50,7 @@ import javax.servlet.ServletRequest;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.xml.sax.EntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides factory methods to unmarshal (read) an group container object.<p>
@@ -105,7 +106,7 @@ public final class CmsXmlGroupContainerFactory {
     public static CmsXmlGroupContainer createDocument(
         CmsObject cms,
         Locale locale,
-        String encoding,
+        @RUntainted String encoding,
         CmsXmlContentDefinition contentDefinition) {
 
         // create the XML content
@@ -138,7 +139,7 @@ public final class CmsXmlGroupContainerFactory {
     public static CmsXmlGroupContainer unmarshal(
         CmsObject cms,
         byte[] xmlData,
-        String encoding,
+        @RUntainted String encoding,
         EntityResolver resolver) throws CmsXmlException {
 
         return unmarshal(cms, CmsXmlUtils.unmarshalHelper(xmlData, resolver), encoding, resolver);
@@ -341,7 +342,7 @@ public final class CmsXmlGroupContainerFactory {
     public static CmsXmlGroupContainer unmarshal(
         CmsObject cms,
         Document document,
-        String encoding,
+        @RUntainted String encoding,
         EntityResolver resolver) {
 
         CmsXmlGroupContainer content = new CmsXmlGroupContainer(cms, document, encoding, resolver);
@@ -372,7 +373,7 @@ public final class CmsXmlGroupContainerFactory {
     public static CmsXmlGroupContainer unmarshal(
         CmsObject cms,
         String xmlData,
-        String encoding,
+        @RUntainted String encoding,
         EntityResolver resolver) throws CmsXmlException {
 
         // create the XML content object from the provided String

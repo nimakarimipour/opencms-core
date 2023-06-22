@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A search index source is a description of a list of Cms resources
@@ -205,7 +206,7 @@ public class CmsSearchIndexSource implements Comparable<CmsSearchIndexSource>, S
      *
      * @return the logical key/name of this search index source
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -337,7 +338,7 @@ public class CmsSearchIndexSource implements Comparable<CmsSearchIndexSource>, S
      *
      * @throws CmsIllegalArgumentException if the given String is not a fully qualified classname (within this Java VM)
      */
-    public void setIndexerClassName(String indexerClassName) throws CmsIllegalArgumentException {
+    public void setIndexerClassName(@RUntainted String indexerClassName) throws CmsIllegalArgumentException {
 
         try {
             m_indexer = (I_CmsIndexer)Class.forName(indexerClassName).newInstance();
@@ -364,7 +365,7 @@ public class CmsSearchIndexSource implements Comparable<CmsSearchIndexSource>, S
      * @throws CmsIllegalArgumentException if argument name is null, an empty or whitespace-only Strings
      *         or already used for another indexsource's name.
      */
-    public void setName(String name) throws CmsIllegalArgumentException {
+    public void setName(@RUntainted String name) throws CmsIllegalArgumentException {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(name)) {
             throw new CmsIllegalArgumentException(

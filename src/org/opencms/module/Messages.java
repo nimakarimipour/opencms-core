@@ -29,6 +29,7 @@ package org.opencms.module;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,76 +39,76 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CHECK_DEPENDENCY_INVALID_MODE_1 = "ERR_CHECK_DEPENDENCY_INVALID_MODE_1";
+    public static final @RUntainted String ERR_CHECK_DEPENDENCY_INVALID_MODE_1 = "ERR_CHECK_DEPENDENCY_INVALID_MODE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_DELETE_MODULE_CHECK_LOCKS_2 = "ERR_DELETE_MODULE_CHECK_LOCKS_2";
+    public static final @RUntainted String ERR_DELETE_MODULE_CHECK_LOCKS_2 = "ERR_DELETE_MODULE_CHECK_LOCKS_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_FILE_IO_1 = "ERR_FILE_IO_1";
+    public static final @RUntainted String ERR_FILE_IO_1 = "ERR_FILE_IO_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORT_MOD_ALREADY_INSTALLED_1 = "ERR_IMPORT_MOD_ALREADY_INSTALLED_1";
+    public static final @RUntainted String ERR_IMPORT_MOD_ALREADY_INSTALLED_1 = "ERR_IMPORT_MOD_ALREADY_INSTALLED_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_VERSION_LENGTH_1 = "ERR_INVALID_VERSION_LENGTH_1";
+    public static final @RUntainted String ERR_INVALID_VERSION_LENGTH_1 = "ERR_INVALID_VERSION_LENGTH_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_VERSION_SUBNUMBER_1 = "ERR_INVALID_VERSION_SUBNUMBER_1";
+    public static final @RUntainted String ERR_INVALID_VERSION_SUBNUMBER_1 = "ERR_INVALID_VERSION_SUBNUMBER_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IO_MODULE_IMPORT_1 = "ERR_IO_MODULE_IMPORT_1";
+    public static final @RUntainted String ERR_IO_MODULE_IMPORT_1 = "ERR_IO_MODULE_IMPORT_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MOD_ALREADY_INSTALLED_1 = "ERR_MOD_ALREADY_INSTALLED_1";
+    public static final @RUntainted String ERR_MOD_ALREADY_INSTALLED_1 = "ERR_MOD_ALREADY_INSTALLED_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MOD_DEPENDENCIES_2 = "ERR_MOD_DEPENDENCIES_2";
+    public static final @RUntainted String ERR_MOD_DEPENDENCIES_2 = "ERR_MOD_DEPENDENCIES_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MOD_DEPENDENCY_INFO_2 = "ERR_MOD_DEPENDENCY_INFO_2";
+    public static final @RUntainted String ERR_MOD_DEPENDENCY_INFO_2 = "ERR_MOD_DEPENDENCY_INFO_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MODULE_ACTION_CLASS_2 = "ERR_MODULE_ACTION_CLASS_2";
+    public static final @RUntainted String ERR_MODULE_ACTION_CLASS_2 = "ERR_MODULE_ACTION_CLASS_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MODULE_ALREADY_CONFIGURED_1 = "ERR_MODULE_ALREADY_CONFIGURED_1";
+    public static final @RUntainted String ERR_MODULE_ALREADY_CONFIGURED_1 = "ERR_MODULE_ALREADY_CONFIGURED_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MODULE_DEPENDENCY_CYCLE_1 = "ERR_MODULE_DEPENDENCY_CYCLE_1";
+    public static final @RUntainted String ERR_MODULE_DEPENDENCY_CYCLE_1 = "ERR_MODULE_DEPENDENCY_CYCLE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MODULE_FROZEN_1 = "ERR_MODULE_FROZEN_1";
+    public static final @RUntainted String ERR_MODULE_FROZEN_1 = "ERR_MODULE_FROZEN_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_MODULE_IMPORTING_MODULE_1 = "ERR_MODULE_IMPORTING_MODULE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MODULE_NAME_1 = "ERR_MODULE_NAME_1";
+    public static final @RUntainted String ERR_MODULE_NAME_1 = "ERR_MODULE_NAME_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MODULE_NOT_CONFIGURED_1 = "ERR_MODULE_NOT_CONFIGURED_1";
+    public static final @RUntainted String ERR_MODULE_NOT_CONFIGURED_1 = "ERR_MODULE_NOT_CONFIGURED_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MODULE_SELECTION_INCONSISTENT_2 = "ERR_MODULE_SELECTION_INCONSISTENT_2";
+    public static final @RUntainted String ERR_MODULE_SELECTION_INCONSISTENT_2 = "ERR_MODULE_SELECTION_INCONSISTENT_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_MODULE_VERSION_NUMBER_0 = "ERR_MODULE_VERSION_NUMBER_0";
+    public static final @RUntainted String ERR_MODULE_VERSION_NUMBER_0 = "ERR_MODULE_VERSION_NUMBER_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_NO_MANIFEST_MODULE_IMPORT_1 = "ERR_NO_MANIFEST_MODULE_IMPORT_1";
+    public static final @RUntainted String ERR_NO_MANIFEST_MODULE_IMPORT_1 = "ERR_NO_MANIFEST_MODULE_IMPORT_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_NO_MOD_FOR_EXPORT_1 = "ERR_NO_MOD_FOR_EXPORT_1";
+    public static final @RUntainted String ERR_NO_MOD_FOR_EXPORT_1 = "ERR_NO_MOD_FOR_EXPORT_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_NOT_NUMBER_0 = "ERR_NOT_NUMBER_0";
+    public static final @RUntainted String ERR_NOT_NUMBER_0 = "ERR_NOT_NUMBER_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_OLD_MOD_ERR_1 = "ERR_OLD_MOD_ERR_1";
+    public static final @RUntainted String ERR_OLD_MOD_ERR_1 = "ERR_OLD_MOD_ERR_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_SAX_MODULE_IMPORT_1 = "ERR_SAX_MODULE_IMPORT_1";
+    public static final @RUntainted String ERR_SAX_MODULE_IMPORT_1 = "ERR_SAX_MODULE_IMPORT_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_READ_MODULE_RESOURCES_1 = "ERR_READ_MODULE_RESOURCES_1";
@@ -203,7 +204,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_INVALID_MOD_NAME_IMPORTED_1 = "LOG_INVALID_MOD_NAME_IMPORTED_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_MOD_UNINSTALL_ERR_1 = "LOG_MOD_UNINSTALL_ERR_1";
+    public static final @RUntainted String LOG_MOD_UNINSTALL_ERR_1 = "LOG_MOD_UNINSTALL_ERR_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_MOD_UPDATE_1 = "LOG_MOD_UPDATE_1";
@@ -236,31 +237,31 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_PUBLISH_PROJECT_1 = "LOG_PUBLISH_PROJECT_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DELETE_0 = "RPT_DELETE_0";
+    public static final @RUntainted String RPT_DELETE_0 = "RPT_DELETE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DELETE_MODULE_BEGIN_0 = "RPT_DELETE_MODULE_BEGIN_0";
+    public static final @RUntainted String RPT_DELETE_MODULE_BEGIN_0 = "RPT_DELETE_MODULE_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DELETE_MODULE_END_0 = "RPT_DELETE_MODULE_END_0";
+    public static final @RUntainted String RPT_DELETE_MODULE_END_0 = "RPT_DELETE_MODULE_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_EXPORT_MODULE_BEGIN_0 = "RPT_EXPORT_MODULE_BEGIN_0";
+    public static final @RUntainted String RPT_EXPORT_MODULE_BEGIN_0 = "RPT_EXPORT_MODULE_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_EXPORT_MODULE_END_0 = "RPT_EXPORT_MODULE_END_0";
+    public static final @RUntainted String RPT_EXPORT_MODULE_END_0 = "RPT_EXPORT_MODULE_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_IMPORT_MODULE_BEGIN_0 = "RPT_IMPORT_MODULE_BEGIN_0";
+    public static final @RUntainted String RPT_IMPORT_MODULE_BEGIN_0 = "RPT_IMPORT_MODULE_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_IMPORT_MODULE_END_0 = "RPT_IMPORT_MODULE_END_0";
+    public static final @RUntainted String RPT_IMPORT_MODULE_END_0 = "RPT_IMPORT_MODULE_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_IMPORT_SCRIPT_HEADER_0 = "RPT_IMPORT_SCRIPT_HEADER_0";
+    public static final @RUntainted String RPT_IMPORT_SCRIPT_HEADER_0 = "RPT_IMPORT_SCRIPT_HEADER_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_IMPORT_SCRIPT_OUTPUT_1 = "RPT_IMPORT_SCRIPT_OUTPUT_1";
+    public static final @RUntainted String RPT_IMPORT_SCRIPT_OUTPUT_1 = "RPT_IMPORT_SCRIPT_OUTPUT_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String RPT_SCRIPT_CONTENT_1 = "RPT_SCRIPT_CONTENT_1";
@@ -272,10 +273,10 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String RPT_SCRIPT_END_0 = "RPT_SCRIPT_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_PUBLISH_PROJECT_BEGIN_0 = "RPT_PUBLISH_PROJECT_BEGIN_0";
+    public static final @RUntainted String RPT_PUBLISH_PROJECT_BEGIN_0 = "RPT_PUBLISH_PROJECT_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_PUBLISH_PROJECT_END_0 = "RPT_PUBLISH_PROJECT_END_0";
+    public static final @RUntainted String RPT_PUBLISH_PROJECT_END_0 = "RPT_PUBLISH_PROJECT_END_0";
 
     /** Name of the used resource bundle. */
     private static final String BUNDLE_NAME = "org.opencms.module.messages";

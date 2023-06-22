@@ -64,6 +64,7 @@ import org.apache.commons.digester3.Rule;
 import org.dom4j.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to read and write the OpenCms site configuration.<p>
@@ -273,7 +274,7 @@ public class CmsSitesConfiguration extends A_CmsXmlConfiguration implements I_Cm
                     public void end(String namespace, String name) throws Exception {
 
                         org.w3c.dom.Element elem = (org.w3c.dom.Element)digester.peek();
-                        String uri = elem.getAttribute(I_CmsXmlConfiguration.A_URI);
+                        @RUntainted String uri = elem.getAttribute(I_CmsXmlConfiguration.A_URI);
                         String titlePrefix = elem.getAttribute(CmsAlternativeSiteRootMapping.A_TITLE_SUFFIX);
                         NodeList nodes = elem.getElementsByTagName(CmsAlternativeSiteRootMapping.N_PATH);
                         List<String> paths = new ArrayList<>();

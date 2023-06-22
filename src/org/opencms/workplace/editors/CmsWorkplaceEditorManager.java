@@ -56,6 +56,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The editor manager stores information about all available configured editors in OpenCms.<p>
@@ -74,7 +75,7 @@ import org.apache.commons.logging.Log;
 public class CmsWorkplaceEditorManager {
 
     /** The filename of the editor configuration XML file. */
-    public static final String EDITOR_CONFIGURATION_FILENAME = "editor_configuration.xml";
+    public static final @RUntainted String EDITOR_CONFIGURATION_FILENAME = "editor_configuration.xml";
 
     /** The filename of the editor JSP. */
     public static final String EDITOR_FILENAME = "editor.jsp";
@@ -111,7 +112,7 @@ public class CmsWorkplaceEditorManager {
         Iterator<CmsResource> i = editorFolders.iterator();
         while (i.hasNext()) {
             CmsResource currentFolder = i.next();
-            String folderName = CmsEditor.PATH_EDITORS + currentFolder.getName();
+            @RUntainted String folderName = CmsEditor.PATH_EDITORS + currentFolder.getName();
             if (!folderName.endsWith("/")) {
                 folderName += "/";
             }

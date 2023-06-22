@@ -39,6 +39,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsRequestUtil;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This editor handler class returns the editor URI depending on various factors.<p>
@@ -67,7 +68,7 @@ public class CmsEditorHandler implements I_CmsEditorHandler {
     public String getEditorUri(CmsObject cms, String resourceType, String userAgent, boolean loadDefault) {
 
         // get the editor URI from the editor manager
-        String editorUri = null;
+        @RUntainted String editorUri = null;
         if (loadDefault) {
             // get default editor
             editorUri = OpenCms.getWorkplaceManager().getWorkplaceEditorManager().getDefaultEditorUri(
@@ -115,7 +116,7 @@ public class CmsEditorHandler implements I_CmsEditorHandler {
     /**
      * @see org.opencms.workplace.editors.I_CmsEditorHandler#getEditorUri(java.lang.String, CmsJspActionElement)
      */
-    public String getEditorUri(String resource, CmsJspActionElement jsp) throws CmsException {
+    public String getEditorUri(@RUntainted String resource, CmsJspActionElement jsp) throws CmsException {
 
         // first try to get the "edit as text" and "load default" parameters from the request
         boolean editAsText = Boolean.valueOf(jsp.getRequest().getParameter(CmsEditor.PARAM_EDITASTEXT)).booleanValue();

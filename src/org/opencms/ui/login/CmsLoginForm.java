@@ -53,6 +53,7 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Login form.<p>
@@ -64,7 +65,7 @@ public class CmsLoginForm extends VerticalLayout {
     public static final String PC_TYPE_PRIVATE = "private";
 
     /** The public PC type constant. */
-    public static final String PC_TYPE_PUBLIC = "public";
+    public static final @RUntainted String PC_TYPE_PUBLIC = "public";
 
     /** Version id. */
     private static final long serialVersionUID = 1L;
@@ -106,10 +107,10 @@ public class CmsLoginForm extends VerticalLayout {
     private Button m_showPasswordButton;
 
     /** The security field, which allows the user to choose between a private or public PC. */
-    private OptionGroup m_securityField;
+    private @RUntainted OptionGroup m_securityField;
 
     /** Widget for entering the user name.  */
-    private TextField m_userField;
+    private @RUntainted TextField m_userField;
 
     private boolean m_multipleOus;
 
@@ -212,7 +213,7 @@ public class CmsLoginForm extends VerticalLayout {
      *
      * @return the OU
      */
-    public String getOrgUnit() {
+    public @RUntainted String getOrgUnit() {
 
         return m_ouSelect.getValue();
     }
@@ -232,7 +233,7 @@ public class CmsLoginForm extends VerticalLayout {
      *
      * @return the PC type
      */
-    public String getPcType() {
+    public @RUntainted String getPcType() {
 
         return "" + m_securityField.getValue();
     }
@@ -242,7 +243,7 @@ public class CmsLoginForm extends VerticalLayout {
      *
      * @return the user
      */
-    public String getUser() {
+    public @RUntainted String getUser() {
 
         return m_userField.getValue();
     }
@@ -261,7 +262,7 @@ public class CmsLoginForm extends VerticalLayout {
      *
      * @param preselectedOu the OU to select
      */
-    public void selectOrgUnit(String preselectedOu) {
+    public void selectOrgUnit(@RUntainted String preselectedOu) {
 
         if (preselectedOu == null) {
             if (OpenCms.getLoginManager().isOrgUnitRequired()) {

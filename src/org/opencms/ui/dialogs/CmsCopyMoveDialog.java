@@ -78,6 +78,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.ComboBox.ItemStyleGenerator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The copy move dialog.<p>
@@ -325,7 +326,7 @@ public class CmsCopyMoveDialog extends CmsBasicDialog {
         m_updateResources.add(target.getStructureId());
         m_updateResources.add(source.getStructureId());
 
-        String finalTarget = target.getRootPath();
+        @RUntainted String finalTarget = target.getRootPath();
         if (finalTarget.equals(source.getRootPath()) || finalTarget.startsWith(source.getRootPath())) {
             throw new CmsVfsException(
                 org.opencms.workplace.commons.Messages.get().container(
@@ -449,7 +450,7 @@ public class CmsCopyMoveDialog extends CmsBasicDialog {
         try {
             CmsResource targetFolder = null;
             String targetName = null;
-            String target = m_targetPath.getValue();
+            @RUntainted String target = m_targetPath.getValue();
             boolean isSingleResource = m_context.getResources().size() == 1;
             // resolve relative paths
             target = CmsLinkManager.getAbsoluteUri(
@@ -599,12 +600,12 @@ public class CmsCopyMoveDialog extends CmsBasicDialog {
      *
      * @throws CmsException in case the checking the resources fails
      */
-    private List<CmsResource> getExistingFileCollisions(CmsResource targetFolder, String targetName)
+    private List<CmsResource> getExistingFileCollisions(CmsResource targetFolder, @RUntainted String targetName)
     throws CmsException {
 
         List<CmsResource> collidingResources = new ArrayList<CmsResource>();
 
-        String finalTarget = targetFolder.getRootPath();
+        @RUntainted String finalTarget = targetFolder.getRootPath();
         if (!finalTarget.endsWith("/")) {
             finalTarget += "/";
         }

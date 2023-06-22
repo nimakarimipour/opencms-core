@@ -29,6 +29,7 @@ package org.opencms.xml.page;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,7 +39,7 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_XML_PAGE_CONTAINS_INDEX_1 = "ERR_XML_PAGE_CONTAINS_INDEX_1";
+    public static final @RUntainted String ERR_XML_PAGE_CONTAINS_INDEX_1 = "ERR_XML_PAGE_CONTAINS_INDEX_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_XML_PAGE_CONVERT_CONTENT_0 = "ERR_XML_PAGE_CONVERT_CONTENT_0";
@@ -47,31 +48,31 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_XML_PAGE_FACT_CREATE_DOC_0 = "ERR_XML_PAGE_FACT_CREATE_DOC_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_XML_PAGE_FACT_INVALID_ENC_1 = "ERR_XML_PAGE_FACT_INVALID_ENC_1";
+    public static final @RUntainted String ERR_XML_PAGE_FACT_INVALID_ENC_1 = "ERR_XML_PAGE_FACT_INVALID_ENC_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_XML_PAGE_FACT_NO_XML_DOCUMENT_1 = "ERR_XML_PAGE_FACT_NO_XML_DOCUMENT_1";
+    public static final @RUntainted String ERR_XML_PAGE_FACT_NO_XML_DOCUMENT_1 = "ERR_XML_PAGE_FACT_NO_XML_DOCUMENT_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_XML_PAGE_FACT_NO_XMLPAGE_TYPE_1 = "ERR_XML_PAGE_FACT_NO_XMLPAGE_TYPE_1";
+    public static final @RUntainted String ERR_XML_PAGE_FACT_NO_XMLPAGE_TYPE_1 = "ERR_XML_PAGE_FACT_NO_XMLPAGE_TYPE_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_XML_PAGE_INIT_BOOKMARKS_0 = "ERR_XML_PAGE_INIT_BOOKMARKS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_XML_PAGE_INVALID_ELEM_SELECT_2 = "ERR_XML_PAGE_INVALID_ELEM_SELECT_2";
+    public static final @RUntainted String ERR_XML_PAGE_INVALID_ELEM_SELECT_2 = "ERR_XML_PAGE_INVALID_ELEM_SELECT_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_XML_PAGE_LANG_ELEM_EXISTS_2 = "ERR_XML_PAGE_LANG_ELEM_EXISTS_2";
+    public static final @RUntainted String ERR_XML_PAGE_LANG_ELEM_EXISTS_2 = "ERR_XML_PAGE_LANG_ELEM_EXISTS_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_XML_PAGE_LOCALE_EXISTS_1 = "ERR_XML_PAGE_LOCALE_EXISTS_1";
+    public static final @RUntainted String ERR_XML_PAGE_LOCALE_EXISTS_1 = "ERR_XML_PAGE_LOCALE_EXISTS_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_XML_PAGE_NO_ELEM_FOR_LANG_2 = "ERR_XML_PAGE_NO_ELEM_FOR_LANG_2";
+    public static final @RUntainted String ERR_XML_PAGE_NO_ELEM_FOR_LANG_2 = "ERR_XML_PAGE_NO_ELEM_FOR_LANG_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_XML_PAGE_UNMARSHAL_CONTENDDEF_0 = "ERR_XML_PAGE_UNMARSHAL_CONTENDDEF_0";
+    public static final @RUntainted String ERR_XML_PAGE_UNMARSHAL_CONTENDDEF_0 = "ERR_XML_PAGE_UNMARSHAL_CONTENDDEF_0";
 
     /** Name of the used resource bundle. */
     private static final String BUNDLE_NAME = "org.opencms.xml.page.messages";

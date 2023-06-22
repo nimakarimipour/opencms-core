@@ -60,6 +60,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "containerpage".<p>
@@ -86,7 +87,7 @@ public class CmsResourceTypeXmlContainerPage extends CmsResourceTypeXmlContent {
     public static final String MODEL_GROUP_TYPE_NAME = "modelgroup";
 
     /** The name of this resource type. */
-    public static final String RESOURCE_TYPE_NAME = "containerpage";
+    public static final @RUntainted String RESOURCE_TYPE_NAME = "containerpage";
 
     /** A variable containing the actual configured type id of container pages. */
     private static int containerPageTypeId;
@@ -226,7 +227,7 @@ public class CmsResourceTypeXmlContainerPage extends CmsResourceTypeXmlContent {
     public CmsResource createResource(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        String resourcename,
+        @RUntainted String resourcename,
         byte[] content,
         List<CmsProperty> properties)
     throws CmsException {
@@ -289,7 +290,7 @@ public class CmsResourceTypeXmlContainerPage extends CmsResourceTypeXmlContent {
      * @see org.opencms.file.types.A_CmsResourceType#initConfiguration(java.lang.String, java.lang.String, String)
      */
     @Override
-    public void initConfiguration(String name, String id, String className) throws CmsConfigurationException {
+    public void initConfiguration(@RUntainted String name, String id, String className) throws CmsConfigurationException {
 
         if (!RESOURCE_TYPE_NAME.equals(name) && !MODEL_GROUP_TYPE_NAME.equals(name)) {
             // default resource type MUST have default name

@@ -58,6 +58,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A resource type wrapper for xml page files, which explodes the xml pages to folders.<p>
@@ -85,12 +86,12 @@ public class CmsResourceWrapperXmlPage extends A_CmsResourceWrapper {
      * @see org.opencms.file.wrapper.A_CmsResourceWrapper#addResourcesToFolder(CmsObject, String, CmsResourceFilter)
      */
     @Override
-    public List<CmsResource> addResourcesToFolder(CmsObject cms, String resourcename, CmsResourceFilter filter)
+    public List<CmsResource> addResourcesToFolder(CmsObject cms, @RUntainted String resourcename, CmsResourceFilter filter)
     throws CmsException {
 
         CmsResource xmlPage = findXmlPage(cms, resourcename);
         if (xmlPage != null) {
-            String path = getSubPath(cms, xmlPage, resourcename);
+            @RUntainted String path = getSubPath(cms, xmlPage, resourcename);
             String rootPath = cms.getRequestContext().removeSiteRoot(xmlPage.getRootPath());
 
             ArrayList<CmsResource> ret = new ArrayList<CmsResource>();
@@ -139,12 +140,12 @@ public class CmsResourceWrapperXmlPage extends A_CmsResourceWrapper {
             } else {
                 // sub path is a locale -> return all elements for this locale
                 Locale locale = CmsLocaleManager.getLocale(path);
-                List<String> names = xml.getNames(locale);
-                Iterator<String> iter = names.iterator();
+                @RUntainted List<@RUntainted String> names = xml.getNames(locale);
+                @RUntainted Iterator<@RUntainted String> iter = names.iterator();
                 while (iter.hasNext()) {
-                    String name = iter.next();
+                    @RUntainted String name = iter.next();
                     String content = xml.getStringValue(cms, name, locale);
-                    String fullPath = xmlPage.getRootPath() + "/" + path + "/" + name + "." + EXTENSION_ELEMENT;
+                    @RUntainted String fullPath = xmlPage.getRootPath() + "/" + path + "/" + name + "." + EXTENSION_ELEMENT;
                     content = prepareContent(content, cms, xmlPage, fullPath);
 
                     int length = content.length();
@@ -169,7 +170,7 @@ public class CmsResourceWrapperXmlPage extends A_CmsResourceWrapper {
      * @see org.opencms.file.wrapper.A_CmsResourceWrapper#copyResource(org.opencms.file.CmsObject, java.lang.String, java.lang.String, org.opencms.file.CmsResource.CmsResourceCopyMode)
      */
     @Override
-    public boolean copyResource(CmsObject cms, String source, String destination, CmsResourceCopyMode siblingMode)
+    public boolean copyResource(CmsObject cms, @RUntainted String source, @RUntainted String destination, CmsResourceCopyMode siblingMode)
     throws CmsException, CmsIllegalArgumentException {
 
         // only allow copying of xml pages at whole or locales and elements inside the same xml page
@@ -241,7 +242,7 @@ public class CmsResourceWrapperXmlPage extends A_CmsResourceWrapper {
     @Override
     public CmsResource createResource(
         CmsObject cms,
-        String resourcename,
+        @RUntainted String resourcename,
         int type,
         byte[] content,
         List<CmsProperty> properties) throws CmsException, CmsIllegalArgumentException {
@@ -352,7 +353,7 @@ public class CmsResourceWrapperXmlPage extends A_CmsResourceWrapper {
      * @see org.opencms.file.wrapper.A_CmsResourceWrapper#deleteResource(CmsObject, String, org.opencms.file.CmsResource.CmsResourceDeleteMode)
      */
     @Override
-    public boolean deleteResource(CmsObject cms, String resourcename, CmsResourceDeleteMode siblingMode)
+    public boolean deleteResource(CmsObject cms, @RUntainted String resourcename, CmsResourceDeleteMode siblingMode)
     throws CmsException {
 
         // find the xml page this is for
@@ -484,7 +485,7 @@ public class CmsResourceWrapperXmlPage extends A_CmsResourceWrapper {
      * @see org.opencms.file.wrapper.A_CmsResourceWrapper#moveResource(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
     @Override
-    public boolean moveResource(CmsObject cms, String source, String destination)
+    public boolean moveResource(CmsObject cms, @RUntainted String source, @RUntainted String destination)
     throws CmsException, CmsIllegalArgumentException {
 
         // only allow copying of xml pages at whole or locales and elements inside the same xml page
@@ -548,7 +549,7 @@ public class CmsResourceWrapperXmlPage extends A_CmsResourceWrapper {
      * @see org.opencms.file.wrapper.A_CmsResourceWrapper#readFile(CmsObject, String, CmsResourceFilter)
      */
     @Override
-    public CmsFile readFile(CmsObject cms, String resourcename, CmsResourceFilter filter) throws CmsException {
+    public CmsFile readFile(CmsObject cms, @RUntainted String resourcename, CmsResourceFilter filter) throws CmsException {
 
         // find the xml page this is for
         CmsResource xmlPage = findXmlPage(cms, resourcename);
@@ -560,7 +561,7 @@ public class CmsResourceWrapperXmlPage extends A_CmsResourceWrapper {
             }
 
             // get the path below the xml page
-            String path = getSubPath(cms, xmlPage, resourcename);
+            @RUntainted String path = getSubPath(cms, xmlPage, resourcename);
 
             String[] tokens = path.split("/");
             if (tokens.length == 1) {
@@ -588,7 +589,7 @@ public class CmsResourceWrapperXmlPage extends A_CmsResourceWrapper {
                 CmsXmlPage xml = CmsXmlPageFactory.unmarshal(cms, file);
 
                 // cut off the html suffix
-                String name = tokens[1];
+                @RUntainted String name = tokens[1];
                 if (name.endsWith("." + EXTENSION_ELEMENT)) {
                     name = name.substring(0, name.length() - 5);
                 }
@@ -596,7 +597,7 @@ public class CmsResourceWrapperXmlPage extends A_CmsResourceWrapper {
                 if (xml.hasValue(name, CmsLocaleManager.getLocale(tokens[0]))) {
 
                     String contentString = xml.getStringValue(cms, name, CmsLocaleManager.getLocale(tokens[0]));
-                    String fullPath = xmlPage.getRootPath() + "/" + tokens[0] + "/" + name + "." + EXTENSION_ELEMENT;
+                    @RUntainted String fullPath = xmlPage.getRootPath() + "/" + tokens[0] + "/" + name + "." + EXTENSION_ELEMENT;
                     contentString = prepareContent(contentString, cms, xmlPage, fullPath);
 
                     byte[] content;
@@ -661,7 +662,7 @@ public class CmsResourceWrapperXmlPage extends A_CmsResourceWrapper {
                 }
 
                 // get the path below the xml page
-                String path = getSubPath(cms, xmlPage, resourcename);
+                @RUntainted String path = getSubPath(cms, xmlPage, resourcename);
 
                 CmsFile file = cms.readFile(xmlPage);
                 CmsXmlPage xml = CmsXmlPageFactory.unmarshal(cms, file);
@@ -690,7 +691,7 @@ public class CmsResourceWrapperXmlPage extends A_CmsResourceWrapper {
                 } else if (tokens.length == 2) {
 
                     // cut off the html suffix
-                    String name = tokens[1];
+                    @RUntainted String name = tokens[1];
                     if (name.endsWith("." + EXTENSION_ELEMENT)) {
                         name = name.substring(0, name.length() - 5);
                     }
@@ -698,7 +699,7 @@ public class CmsResourceWrapperXmlPage extends A_CmsResourceWrapper {
                     Locale locale = CmsLocaleManager.getLocale(tokens[0]);
                     if (xml.hasValue(name, locale)) {
                         String content = xml.getStringValue(cms, name, locale);
-                        String fullPath = xmlPage.getRootPath()
+                        @RUntainted String fullPath = xmlPage.getRootPath()
                             + "/"
                             + tokens[0]
                             + "/"
@@ -742,10 +743,10 @@ public class CmsResourceWrapperXmlPage extends A_CmsResourceWrapper {
      * @see org.opencms.file.wrapper.A_CmsResourceWrapper#rewriteLink(CmsObject, CmsResource)
      */
     @Override
-    public String rewriteLink(CmsObject cms, CmsResource res) {
+    public @RUntainted String rewriteLink(CmsObject cms, CmsResource res) {
 
         if (isWrappedResource(cms, res)) {
-            String path = res.getRootPath();
+            @RUntainted String path = res.getRootPath();
             if (!path.endsWith("/")) {
                 path += "/";
             }
@@ -840,7 +841,7 @@ public class CmsResourceWrapperXmlPage extends A_CmsResourceWrapper {
 
         String result = "";
         try {
-            String currentTemplate = getUriTemplate(cms, res);
+            @RUntainted String currentTemplate = getUriTemplate(cms, res);
             if (!"".equals(currentTemplate)) {
                 // read the stylesheet from the template file
                 result = cms.readPropertyObject(
@@ -956,7 +957,7 @@ public class CmsResourceWrapperXmlPage extends A_CmsResourceWrapper {
     private CmsResource findXmlPage(CmsObject cms, String resourcename) {
 
         // get the full folder path of the resource to start from
-        String path = cms.getRequestContext().removeSiteRoot(resourcename);
+        @RUntainted String path = cms.getRequestContext().removeSiteRoot(resourcename);
         // the path without the trailing slash
         // for example: .../xmlpage.xml/ -> .../xmlpagepage.xml
         String reducedPath = CmsFileUtil.removeTrailingSeparator(path);
@@ -1015,7 +1016,7 @@ public class CmsResourceWrapperXmlPage extends A_CmsResourceWrapper {
      *
      * @return a new created virtual {@link CmsResource}
      */
-    private CmsResource getResourceForElement(CmsResource xmlPage, String path, int length) {
+    private CmsResource getResourceForElement(CmsResource xmlPage, @RUntainted String path, int length) {
 
         CmsWrappedResource wrap = new CmsWrappedResource(xmlPage);
         wrap.setRootPath(path);
@@ -1044,7 +1045,7 @@ public class CmsResourceWrapperXmlPage extends A_CmsResourceWrapper {
      *
      * @return a new created CmsResource
      */
-    private CmsResource getResourceForLocale(CmsResource xmlPage, Locale locale) {
+    private CmsResource getResourceForLocale(CmsResource xmlPage, @RUntainted Locale locale) {
 
         CmsWrappedResource wrap = new CmsWrappedResource(xmlPage);
         wrap.setRootPath(xmlPage.getRootPath() + "/" + locale.getLanguage() + "/");
@@ -1098,7 +1099,7 @@ public class CmsResourceWrapperXmlPage extends A_CmsResourceWrapper {
      *
      * @return the remaining path inside the xml page without the leading slash
      */
-    private String getSubPath(CmsObject cms, CmsResource xmlPage, String resourcename) {
+    private @RUntainted String getSubPath(CmsObject cms, CmsResource xmlPage, @RUntainted String resourcename) {
 
         if (xmlPage != null) {
             String rootPath = cms.getRequestContext().addSiteRoot(resourcename);

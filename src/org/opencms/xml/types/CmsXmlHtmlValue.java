@@ -51,6 +51,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Attribute;
 import org.dom4j.Element;
 import org.htmlparser.util.ParserException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsHtml".<p>
@@ -78,7 +79,7 @@ public class CmsXmlHtmlValue extends A_CmsXmlContentValue implements I_CmsJsonFo
     private String m_plainTextValue;
 
     /** The String value of the element node. */
-    private String m_stringValue;
+    private @RUntainted String m_stringValue;
 
     /**
      * Creates a new, empty schema type descriptor of type "OpenCmsHtml".<p>
@@ -146,7 +147,7 @@ public class CmsXmlHtmlValue extends A_CmsXmlContentValue implements I_CmsJsonFo
         element.addElement(CmsXmlPage.NODE_CONTENT);
 
         // get the default value from the content handler
-        String defaultValue = document.getHandler().getDefault(cms, this, locale);
+        @RUntainted String defaultValue = document.getHandler().getDefault(cms, this, locale);
         if (defaultValue != null) {
             try {
                 I_CmsXmlContentValue value = createValue(document, element, locale);
@@ -215,7 +216,7 @@ public class CmsXmlHtmlValue extends A_CmsXmlContentValue implements I_CmsJsonFo
     /**
      * @see org.opencms.xml.types.I_CmsXmlContentValue#getStringValue(org.opencms.file.CmsObject)
      */
-    public String getStringValue(CmsObject cms) {
+    public @RUntainted String getStringValue(CmsObject cms) {
 
         if (m_stringValue == null) {
             m_stringValue = createStringValue(cms, m_document);
@@ -340,7 +341,7 @@ public class CmsXmlHtmlValue extends A_CmsXmlContentValue implements I_CmsJsonFo
      *
      * @return the String value for this HTML value element
      */
-    private String createStringValue(CmsObject cms, I_CmsXmlDocument document) {
+    private @RUntainted String createStringValue(CmsObject cms, I_CmsXmlDocument document) {
 
         Element data = m_element.element(CmsXmlPage.NODE_CONTENT);
         if (data == null) {
@@ -354,7 +355,7 @@ public class CmsXmlHtmlValue extends A_CmsXmlContentValue implements I_CmsJsonFo
         }
         Attribute enabled = m_element.attribute(CmsXmlPage.ATTRIBUTE_ENABLED);
 
-        String content = "";
+        @RUntainted String content = "";
         if ((enabled == null) || Boolean.valueOf(enabled.getText()).booleanValue()) {
 
             content = data.getText();

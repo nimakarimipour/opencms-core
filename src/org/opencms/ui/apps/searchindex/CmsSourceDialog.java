@@ -41,6 +41,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.Label;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the dialog to show source information of a given index.<p>
@@ -86,7 +87,7 @@ public class CmsSourceDialog extends CmsBasicDialog {
      *
      * @param searchindex to be displayed
      */
-    public void setSource(String searchindex) {
+    public void setSource(@RUntainted String searchindex) {
 
         Label label = new Label();
         label.setContentMode(ContentMode.HTML);
@@ -104,7 +105,7 @@ public class CmsSourceDialog extends CmsBasicDialog {
      * @return String representation of information about given index
      *
      */
-    private String getSources(String indexName) {
+    private String getSources(@RUntainted String indexName) {
 
         StringBuffer html = new StringBuffer();
         // search for the corresponding A_CmsSearchIndex:

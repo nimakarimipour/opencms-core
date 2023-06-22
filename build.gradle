@@ -1658,7 +1658,7 @@ checkerFramework {
     ]
 
     extraJavacArgs = [
-            '-AannotatedPackages=' + 'org',
+            '-AannotatedPackages=' + 'org.opencms',
             '-AenableCustomCheck=true',
             "-AenableSerialization",
             "-AserializationConfigPath=/tmp/ucr-tainting/taint.xml",

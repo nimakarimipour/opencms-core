@@ -48,6 +48,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Module data read from a module zip file.<p>
@@ -177,7 +178,7 @@ public class CmsModuleImportData {
             }
 
             for (CmsResourceImportData resData : getResourceData()) {
-                String importPath = CmsModuleUpdater.normalizePath(resData.getResource().getRootPath());
+                @RUntainted String importPath = CmsModuleUpdater.normalizePath(resData.getResource().getRootPath());
                 if (resData.hasStructureId()) {
                     CmsUUID importId = resData.getResource().getStructureId();
                     for (CmsObject cmsToRead : Arrays.asList(cms, onlineCms)) {
@@ -300,7 +301,7 @@ public class CmsModuleImportData {
      *
      * @return the resource data objects
      */
-    public List<CmsResourceImportData> getResourceData() {
+    public @RUntainted List<@RUntainted CmsResourceImportData> getResourceData() {
 
         return Collections.unmodifiableList(m_resources);
     }

@@ -53,6 +53,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.event.FieldEvents.TextChangeEvent;
 import com.vaadin.v7.event.FieldEvents.TextChangeListener;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * App to manage the resource types.<p>

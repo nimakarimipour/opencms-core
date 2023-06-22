@@ -54,6 +54,7 @@ import javax.mail.internet.AddressException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.mail.EmailException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean used by the dynamic function JSP for user data requests.<p>
@@ -95,7 +96,7 @@ public class CmsJspUserDataRequestBean {
     public static final String PARAM_ACTION = "action";
 
     /** Request parameter for the authorization code. */
-    public static final String PARAM_AUTH = "auth";
+    public static final @RUntainted String PARAM_AUTH = "auth";
 
     /** Request parameter. */
     public static final String PARAM_EMAIL = "email";
@@ -192,7 +193,7 @@ public class CmsJspUserDataRequestBean {
             m_errorHtml = messages.key(Messages.ERR_RESOURCE_INIT_HANDLER_NOT_CONFIGURED_0);
             return State.error.toString();
         }
-        String email = m_params.get(PARAM_EMAIL);
+        @RUntainted String email = m_params.get(PARAM_EMAIL);
         String user = m_params.get(PARAM_USER);
         String password = m_params.get(PARAM_PASSWORD);
         String path = m_params.get(PARAM_ROOTPATH);
@@ -274,7 +275,7 @@ public class CmsJspUserDataRequestBean {
                 if (hasUser && hasPassword) {
                     try {
                         CmsObject cloneCms = OpenCms.initCmsObject(cms);
-                        String fullName = info.getUserName();
+                        @RUntainted String fullName = info.getUserName();
                         CmsUser readUser = cms.readUser(fullName);
                         if (!readUser.getSimpleName().equals(user)) {
                             m_errorHtml = "login error";
@@ -404,7 +405,7 @@ public class CmsJspUserDataRequestBean {
      *
      * @throws CmsException if something goes wrong
      */
-    private Optional<CmsUser> lookupUser(CmsObject cms, String configuredOu, String path, String user, String password)
+    private Optional<CmsUser> lookupUser(CmsObject cms, @RUntainted String configuredOu, String path, String user, String password)
     throws CmsException {
 
         List<CmsOrganizationalUnit> ous;

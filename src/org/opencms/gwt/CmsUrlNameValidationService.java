@@ -38,6 +38,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Validation class which both translates a sitemap URL name and checks whether it already exists in a '|'-separated
@@ -50,7 +51,7 @@ public class CmsUrlNameValidationService implements I_CmsValidationService {
     /**
      * @see org.opencms.gwt.I_CmsValidationService#validate(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public CmsValidationResult validate(CmsObject cms, String value, String config) {
+    public CmsValidationResult validate(CmsObject cms, @RUntainted String value, String config) {
 
         String name = cms.getRequestContext().getFileTranslator().translateResource(value);
         name = name.replace('/', '_');

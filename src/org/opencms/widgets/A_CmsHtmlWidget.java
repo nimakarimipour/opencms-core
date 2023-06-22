@@ -32,6 +32,7 @@ import org.opencms.i18n.CmsEncoder;
 import org.opencms.util.CmsMacroResolver;
 
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget that creates a rich input field using the matching component, for use on a widget dialog.<p>
@@ -103,11 +104,11 @@ public abstract class A_CmsHtmlWidget extends A_CmsWidget {
     @Override
     public void setEditorValue(
         CmsObject cms,
-        Map<String, String[]> formParameters,
+        @RUntainted Map<@RUntainted String, @RUntainted String[]> formParameters,
         I_CmsWidgetDialog widgetDialog,
         I_CmsWidgetParameter param) {
 
-        String[] values = formParameters.get(param.getId());
+        @RUntainted String[] values = formParameters.get(param.getId());
         if ((values != null) && (values.length > 0)) {
             String val = CmsEncoder.decode(values[0], CmsEncoder.ENCODING_UTF_8);
             param.setStringValue(cms, val);

@@ -33,6 +33,7 @@ import org.opencms.ui.components.OpenCmsTheme;
 import java.util.Locale;
 
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The file explorer app configuration.<p>
@@ -40,7 +41,7 @@ import com.vaadin.server.Resource;
 public class CmsFileExplorerConfiguration extends A_CmsWorkplaceAppConfiguration {
 
     /** The app id. */
-    public static final String APP_ID = "explorer";
+    public static final @RUntainted String APP_ID = "explorer";
 
     /** The app icon resource (size 32x32). */
     public static final CmsCssIcon ICON = new CmsCssIcon(OpenCmsTheme.ICON_EXLPORER_BIG);

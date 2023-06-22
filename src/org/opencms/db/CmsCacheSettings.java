@@ -26,6 +26,7 @@
  */
 
 package org.opencms.db;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The settings of the OpenCms memory monitor.<p>

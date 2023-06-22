@@ -49,6 +49,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides convenient wrappers useful to create user login pages.<p>
@@ -89,7 +90,7 @@ public class CmsJspLoginBean extends CmsJspActionElement {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsJspLoginBean(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsJspLoginBean(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         super();
         init(context, req, res);
@@ -104,7 +105,7 @@ public class CmsJspLoginBean extends CmsJspActionElement {
      */
     public static void logLoginException(
         CmsRequestContext requestContext,
-        String userName,
+        @RUntainted String userName,
         CmsException currentLoginException) {
 
         if (currentLoginException instanceof CmsAuthentificationException) {
@@ -256,7 +257,7 @@ public class CmsJspLoginBean extends CmsJspActionElement {
      * @param userName the users name
      * @param password the password
      */
-    public void login(String userName, String password) {
+    public void login(@RUntainted String userName, String password) {
 
         login(userName, password, null);
     }
@@ -271,7 +272,7 @@ public class CmsJspLoginBean extends CmsJspActionElement {
      * @param password the password
      * @param projectName the project to switch to after login (if null project is not switched)
      */
-    public void login(String userName, String password, String projectName) {
+    public void login(@RUntainted String userName, String password, @RUntainted String projectName) {
 
         HttpSession session = null;
         m_loginException = null;
@@ -344,7 +345,7 @@ public class CmsJspLoginBean extends CmsJspActionElement {
      *
      * @throws IOException in case redirect after login was not successful
      */
-    public void login(String userName, String password, String projectName, String redirectUri) throws IOException {
+    public void login(@RUntainted String userName, String password, @RUntainted String projectName, @RUntainted String redirectUri) throws IOException {
 
         login(userName, password, projectName);
         if (m_loginException == null) {

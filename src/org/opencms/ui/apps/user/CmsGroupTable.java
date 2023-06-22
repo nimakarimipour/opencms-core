@@ -67,6 +67,7 @@ import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the table containing groups of a ou.<p>
@@ -362,7 +363,7 @@ public class CmsGroupTable extends Table implements I_CmsFilterableTable, I_CmsT
     protected CmsAccountsApp m_app;
 
     /**The ou. */
-    protected String m_ou;
+    protected @RUntainted String m_ou;
 
     /**CmsObject. */
     CmsObject m_cms;
@@ -399,7 +400,7 @@ public class CmsGroupTable extends Table implements I_CmsFilterableTable, I_CmsT
      * @param type the tree type
      * @param showAll if all groups should be shown
      */
-    public CmsGroupTable(String ou, CmsAccountsApp app, I_CmsOuTreeType type, boolean showAll) {
+    public CmsGroupTable(@RUntainted String ou, CmsAccountsApp app, I_CmsOuTreeType type, boolean showAll) {
 
         m_app = app;
         m_ou = ou;

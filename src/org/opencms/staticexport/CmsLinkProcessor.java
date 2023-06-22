@@ -50,6 +50,7 @@ import org.htmlparser.tags.LinkTag;
 import org.htmlparser.tags.ObjectTag;
 import org.htmlparser.util.ParserException;
 import org.htmlparser.util.SimpleNodeIterator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the HTML parser node visitor pattern to
@@ -187,7 +188,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
      * @param source the String to unescape
      * @return the unescaped String
      */
-    public static String unescapeLink(String source) {
+    public static String unescapeLink(@RUntainted String source) {
 
         if (source == null) {
             return null;
@@ -216,7 +217,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
      *
      * @throws ParserException if something goes wrong
      */
-    public String processLinks(String content) throws ParserException {
+    public @RUntainted String processLinks(String content) throws ParserException {
 
         m_mode = PROCESS_LINKS;
         return process(content, m_encoding);
@@ -342,7 +343,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
                 break;
             case REPLACE_LINKS:
                 // links are replaced with macros
-                String targetUri = tag.getAttribute(attr);
+                @RUntainted String targetUri = tag.getAttribute(attr);
                 if (CmsStringUtil.isNotEmpty(targetUri)) {
                     String internalUri = null;
                     if (!CmsMacroResolver.isMacro(targetUri)) {
@@ -427,7 +428,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
      * @param tag the tag to set the alt attribute for
      * @param internalUri the internal URI to get the title from
      */
-    protected void setAltAttributeFromTitle(Tag tag, String internalUri) {
+    protected void setAltAttributeFromTitle(Tag tag, @RUntainted String internalUri) {
 
         boolean hasAltAttrib = (tag.getAttribute("alt") != null);
         if (!hasAltAttrib) {
@@ -459,7 +460,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
      *
      * @return the restored URI
      */
-    private String rewriteUri(String internalUri) {
+    private String rewriteUri(@RUntainted String internalUri) {
 
         // if an object wrapper is used, rewrite the uri
         if (m_cms != null) {

@@ -46,6 +46,7 @@ import java.util.Locale;
 
 import org.dom4j.Attribute;
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsVfsFile".<p>
@@ -69,7 +70,7 @@ public class CmsXmlCategoryValue extends A_CmsXmlContentValue {
     private static String m_schemaDefinition;
 
     /** The String value of the element node. */
-    private String m_stringValue;
+    private @RUntainted String m_stringValue;
 
     /**
      * Creates a new, empty schema type descriptor of type "OpenCmsCategoryValue".<p>
@@ -112,7 +113,7 @@ public class CmsXmlCategoryValue extends A_CmsXmlContentValue {
      * @param rootPath the path to use
      * @param type the relation type to use
      */
-    public static void fillEntry(Element element, CmsUUID id, String rootPath, CmsRelationType type) {
+    public static void fillEntry(Element element, CmsUUID id, @RUntainted String rootPath, CmsRelationType type) {
 
         CmsLink link = new CmsLink(CmsXmlCategoryValue.TYPE_VFS_LINK, type, id, rootPath, true);
         // get xml node
@@ -142,7 +143,7 @@ public class CmsXmlCategoryValue extends A_CmsXmlContentValue {
         Element element = root.addElement(getName());
 
         // get the default value from the content handler
-        String defaultValue = document.getHandler().getDefault(cms, this, locale);
+        @RUntainted String defaultValue = document.getHandler().getDefault(cms, this, locale);
         if (defaultValue != null) {
             I_CmsXmlContentValue value = createValue(document, element, locale);
             value.setStringValue(cms, defaultValue);
@@ -205,7 +206,7 @@ public class CmsXmlCategoryValue extends A_CmsXmlContentValue {
     /**
      * @see org.opencms.xml.types.I_CmsXmlContentValue#getStringValue(CmsObject)
      */
-    public String getStringValue(CmsObject cms) throws CmsRuntimeException {
+    public @RUntainted String getStringValue(CmsObject cms) throws CmsRuntimeException {
 
         if (m_stringValue == null) {
             m_stringValue = createStringValue(cms);
@@ -269,10 +270,10 @@ public class CmsXmlCategoryValue extends A_CmsXmlContentValue {
             return;
         }
         String[] pathes = value.split(",");
-        for (String path : pathes) {
+        for (@RUntainted String path : pathes) {
             if (cms != null) {
                 String siteRoot = OpenCms.getSiteManager().getSiteRoot(path);
-                String oldSite = cms.getRequestContext().getSiteRoot();
+                @RUntainted String oldSite = cms.getRequestContext().getSiteRoot();
                 try {
                     if (siteRoot != null) {
                         // only switch the site if needed
@@ -322,7 +323,7 @@ public class CmsXmlCategoryValue extends A_CmsXmlContentValue {
      *
      * @return the String value for this category value element
      */
-    private String createStringValue(CmsObject cms) {
+    private @RUntainted String createStringValue(CmsObject cms) {
 
         Attribute enabled = m_element.attribute(CmsXmlPage.ATTRIBUTE_ENABLED);
 

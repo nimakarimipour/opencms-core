@@ -48,6 +48,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the group edit dialog for users.<p>
@@ -95,12 +96,12 @@ public class CmsUserEditGroupsDialog extends A_CmsEditUserGroupRoleDialog {
      * @see org.opencms.ui.apps.user.A_CmsEditUserGroupRoleDialog#addItem(java.util.Set)
      */
     @Override
-    public void addItem(Set<String> data) {
+    public void addItem(@RUntainted Set<@RUntainted String> data) {
 
         if (m_app.checkAddGroup((CmsUser)m_principal, data)) {
-            Iterator<String> it = data.iterator();
+            @RUntainted Iterator<@RUntainted String> it = data.iterator();
             while (it.hasNext()) {
-                String groupName = it.next();
+                @RUntainted String groupName = it.next();
                 try {
                     m_cms.addUserToGroup(m_principal.getName(), groupName);
                 } catch (CmsException e) {
@@ -255,7 +256,7 @@ public class CmsUserEditGroupsDialog extends A_CmsEditUserGroupRoleDialog {
      * @see org.opencms.ui.apps.user.A_CmsEditUserGroupRoleDialog#getStringSetValue(java.util.Set)
      */
     @Override
-    public Set<String> getStringSetValue(Set<Object> value) {
+    public @RUntainted Set<@RUntainted String> getStringSetValue(Set<Object> value) {
 
         Set<String> res = new HashSet<String>();
         for (Object o : value) {

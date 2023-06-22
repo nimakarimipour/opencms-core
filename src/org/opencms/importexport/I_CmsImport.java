@@ -35,6 +35,7 @@ import java.io.File;
 import java.util.zip.ZipFile;
 
 import org.dom4j.Document;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This interface describes a import class which is used to import resources into the VFS.<p>

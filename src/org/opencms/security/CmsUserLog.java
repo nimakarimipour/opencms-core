@@ -35,6 +35,7 @@ import org.opencms.util.CmsFileUtil;
 import java.util.TreeMap;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class with static methods for logging user-related operations in a centralized manner.
@@ -50,7 +51,7 @@ public class CmsUserLog {
      * @param cms the CMS context
      * @param user the name of the user
      */
-    public static void logLogin(CmsObject cms, String user) {
+    public static void logLogin(CmsObject cms, @RUntainted String user) {
 
         LOG.info("login successful: " + formatUser(user) + " " + context(cms));
     }
@@ -61,7 +62,7 @@ public class CmsUserLog {
      * @param cms the CMS context
      * @param user the name of the user
      */
-    public static void logLoginFailure(CmsObject cms, String user) {
+    public static void logLoginFailure(CmsObject cms, @RUntainted String user) {
 
         LOG.info("login failed: " + formatUser(user) + " " + context(cms));
     }
@@ -83,7 +84,7 @@ public class CmsUserLog {
      * @param cms the CMS context
      * @param user the user name
      */
-    public static void logPasswordChange(CmsObject cms, String user) {
+    public static void logPasswordChange(CmsObject cms, @RUntainted String user) {
 
         LOG.info("password changed: " + formatUser(user) + " " + context(cms));
     }
@@ -94,7 +95,7 @@ public class CmsUserLog {
      * @param cms the CMS context
      * @param user the user name
      */
-    public static void logPasswordChangeForRequestedReset(CmsObject cms, String user) {
+    public static void logPasswordChangeForRequestedReset(CmsObject cms, @RUntainted String user) {
 
         LOG.info("password changed (reset requested): " + formatUser(user) + " " + context(cms));
 
@@ -117,7 +118,7 @@ public class CmsUserLog {
      * @param requestContext the request context
      * @param name the user name
      */
-    public static void logSecondFactorAdded(CmsRequestContext requestContext, String name) {
+    public static void logSecondFactorAdded(CmsRequestContext requestContext, @RUntainted String name) {
 
         LOG.info("second factor added: " + formatUser(name) + " " + context(requestContext));
     }
@@ -128,7 +129,7 @@ public class CmsUserLog {
      * @param requestContext the request context
      * @param name the user name
      */
-    public static void logSecondFactorInfoModified(CmsRequestContext requestContext, String name) {
+    public static void logSecondFactorInfoModified(CmsRequestContext requestContext, @RUntainted String name) {
 
         LOG.info("second factor information modified: " + formatUser(name) + " " + context(requestContext));
     }
@@ -139,7 +140,7 @@ public class CmsUserLog {
      * @param requestContext the request context
      * @param name the user name
      */
-    public static void logSecondFactorReset(CmsRequestContext requestContext, String name) {
+    public static void logSecondFactorReset(CmsRequestContext requestContext, @RUntainted String name) {
 
         LOG.info("second factor reset: " + formatUser(name) + " " + context(requestContext));
     }
@@ -161,7 +162,7 @@ public class CmsUserLog {
      * @param cms the current CMS context
      * @param name the name of the user to switch to
      */
-    public static void logSwitchUser(CmsObject cms, String name) {
+    public static void logSwitchUser(CmsObject cms, @RUntainted String name) {
 
         LOG.info(
             "user switch: "
@@ -205,7 +206,7 @@ public class CmsUserLog {
      * @param userName the user nam
      * @return the formatted user name
      */
-    private static String formatUser(String userName) {
+    private static String formatUser(@RUntainted String userName) {
 
         return CmsFileUtil.removeLeadingSeparator(userName);
     }

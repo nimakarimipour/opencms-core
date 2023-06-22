@@ -42,6 +42,7 @@ import java.util.List;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract dialog context.<p>
@@ -103,7 +104,7 @@ public abstract class A_CmsDialogContext implements I_CmsDialogContext {
     /**
      * @see org.opencms.ui.I_CmsDialogContext#finish(org.opencms.file.CmsProject, java.lang.String)
      */
-    public void finish(CmsProject project, String siteRoot) {
+    public void finish(CmsProject project, @RUntainted String siteRoot) {
 
         if ((project != null) || (siteRoot != null)) {
             reload();

@@ -44,6 +44,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper for using container pages in JSPs.
@@ -111,7 +112,7 @@ public class CmsJspContainerPageWrapper {
     private String render(CmsJspStandardContextBean context, CmsContainerBean container) {
 
         CmsFlexController controller = CmsFlexController.getController(context.getRequest());
-        CmsObject m_cms = context.getCmsObject();
+        @RUntainted CmsObject m_cms = context.getCmsObject();
         CmsContainerBean oldContainer = context.getContainer();
         CmsContainerElementBean oldElement = context.getElement();
         CmsContainerPageBean oldPage = context.getPage();

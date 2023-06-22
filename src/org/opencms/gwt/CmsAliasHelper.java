@@ -53,6 +53,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class contains the real implementations of service methods related to aliases.<p>
@@ -219,7 +220,7 @@ public class CmsAliasHelper {
         }
         seenPaths.removeAll(duplicatePaths);
 
-        for (String path : seenPaths) {
+        for (@RUntainted String path : seenPaths) {
             String pathError = checkValidAliasPath(path, locale);
             if (pathError != null) {
                 errorMessagesByPath.put(path, pathError);

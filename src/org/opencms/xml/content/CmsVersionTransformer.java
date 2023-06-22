@@ -60,6 +60,7 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides static methods for XML content version transformations.
@@ -87,7 +88,7 @@ public class CmsVersionTransformer {
         Document document,
         CmsXmlContentDefinition contentDefinition) {
 
-        String transformation = contentDefinition.getContentHandler().getVersionTransformation();
+        @RUntainted String transformation = contentDefinition.getContentHandler().getVersionTransformation();
         if (transformation == null) {
             LOG.warn(
                 "Schema version detected, but no version transformation defined for "

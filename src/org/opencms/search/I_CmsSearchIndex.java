@@ -39,6 +39,7 @@ import org.opencms.search.fields.I_CmsSearchFieldConfiguration;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for search indizes that should be handled by the {@link org.opencms.search.CmsSearchManager}.
@@ -218,14 +219,14 @@ public interface I_CmsSearchIndex extends I_CmsConfigurationParameterHandler, Se
      *
      * @return the language locale of this index, for example "en"
      */
-    Locale getLocale();
+    @RUntainted Locale getLocale();
 
     /**
      * Gets the name of this index.<p>
      *
      * @return the name of the index
      */
-    String getName();
+    @RUntainted String getName();
 
     /**
      * Returns the path where this index stores it's data in the "real" file system.<p>
@@ -239,7 +240,7 @@ public interface I_CmsSearchIndex extends I_CmsConfigurationParameterHandler, Se
      *
      * @return the project of the index, i.e. "online"
      */
-    String getProject();
+    @RUntainted String getProject();
 
     /**
      * Get the rebuild mode of this index.<p>
@@ -322,7 +323,7 @@ public interface I_CmsSearchIndex extends I_CmsConfigurationParameterHandler, Se
      *
      * @param project the name of the project used to index resources
      */
-    void setProject(String project);
+    void setProject(@RUntainted String project);
 
     /**
      * Sets the rebuild mode of this search index.<p>

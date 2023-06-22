@@ -60,6 +60,7 @@ import org.apache.solr.common.util.ContentStream;
 import org.apache.solr.common.util.ContentStreamBase;
 
 import org.htmlparser.util.ParserException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides common functions regarding searching.<p>
@@ -143,7 +144,7 @@ public final class CmsSearchUtil {
      */
     public static List<String> computeScopeFolders(CmsObject cms, CmsGallerySearchParameters params) {
 
-        String subsite = null;
+        @RUntainted String subsite = null;
         if (params.getReferencePath() != null) {
             subsite = OpenCms.getADEManager().getSubSiteRoot(
                 cms,

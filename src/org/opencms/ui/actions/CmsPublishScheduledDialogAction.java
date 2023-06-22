@@ -41,6 +41,7 @@ import org.opencms.workplace.commons.Messages;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The delete dialog action.<p>
@@ -82,7 +83,7 @@ public class CmsPublishScheduledDialogAction extends A_CmsWorkplaceAction implem
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
      */
-    public String getJspPath() {
+    public @RUntainted String getJspPath() {
 
         return null;
     }

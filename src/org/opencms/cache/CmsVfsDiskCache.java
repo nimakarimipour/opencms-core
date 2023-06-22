@@ -33,6 +33,7 @@ import org.opencms.util.CmsStringUtil;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements a RFS file based disk cache, that handles parameter based versions of VFS files,
@@ -123,7 +124,7 @@ public class CmsVfsDiskCache {
      */
     public String getCacheName(boolean online, String rootPath, String parameters) {
 
-        String rfsName = CmsFileUtil.getRepositoryName(m_rfsRepository, rootPath, online);
+        @RUntainted String rfsName = CmsFileUtil.getRepositoryName(m_rfsRepository, rootPath, online);
         if (CmsStringUtil.isNotEmpty(parameters)) {
             String extension = CmsFileUtil.getExtension(rfsName);
             // build the RFS name for the VFS name with parameters

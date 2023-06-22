@@ -51,6 +51,7 @@ import com.vaadin.v7.data.util.HierarchicalContainer;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Tree;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the OU Tree.<p>
@@ -94,7 +95,7 @@ public class CmsOuTree extends Tree {
      * @param app app instance
      * @param baseOU baseOu
      */
-    public CmsOuTree(CmsObject cms, CmsAccountsApp app, String baseOU) {
+    public CmsOuTree(CmsObject cms, CmsAccountsApp app, @RUntainted String baseOU) {
 
         m_cms = cms;
         try {
@@ -155,7 +156,7 @@ public class CmsOuTree extends Tree {
      * @param type type (ou,group or user)
      * @param groupID id of group (optional)
      */
-    public void openPath(String path, I_CmsOuTreeType type, CmsUUID groupID) {
+    public void openPath(@RUntainted String path, I_CmsOuTreeType type, CmsUUID groupID) {
 
         if (type == null) {
             return;
@@ -163,7 +164,7 @@ public class CmsOuTree extends Tree {
         try {
             expandItem(m_rootOu);
             String[] pathP = path.split("/");
-            String complPath = "";
+            @RUntainted String complPath = "";
             for (String subP : pathP) {
                 complPath += subP + "/";
                 CmsOrganizationalUnit ou = OpenCms.getOrgUnitManager().readOrganizationalUnit(m_cms, complPath);
@@ -277,7 +278,7 @@ public class CmsOuTree extends Tree {
      * @param type the tree type
      * @param ouItem group parent item
      */
-    private void addChildrenForGroupsNode(I_CmsOuTreeType type, String ouItem) {
+    private void addChildrenForGroupsNode(I_CmsOuTreeType type, @RUntainted String ouItem) {
 
         try {
             // Cut of type-specific prefix from ouItem with substring()
@@ -470,7 +471,7 @@ public class CmsOuTree extends Tree {
      * @param type of given item
      * @return name of ou
      */
-    private String getOuFromItem(Object itemId, I_CmsOuTreeType type) {
+    private @RUntainted String getOuFromItem(Object itemId, I_CmsOuTreeType type) {
 
         if (type.equals(CmsOuTreeType.OU)) {
             return ((CmsOrganizationalUnit)itemId).getName();

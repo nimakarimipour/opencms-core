@@ -36,6 +36,7 @@ import org.opencms.workplace.CmsWorkplace;
 
 import java.util.ArrayList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Adds the system folder to every root folder of target sites.<p>
@@ -94,7 +95,7 @@ public class CmsResourceWrapperSystemFolder extends A_CmsResourceWrapper {
      * @see org.opencms.file.wrapper.A_CmsResourceWrapper#readResource(org.opencms.file.CmsObject, java.lang.String, org.opencms.file.CmsResourceFilter)
      */
     @Override
-    public CmsResource readResource(CmsObject cms, String resourcename, CmsResourceFilter filter) throws CmsException {
+    public CmsResource readResource(CmsObject cms, @RUntainted String resourcename, CmsResourceFilter filter) throws CmsException {
 
         // only valid if site root is a target site
         if (!cms.getRequestContext().getSiteRoot().equals("/")) {
@@ -107,7 +108,7 @@ public class CmsResourceWrapperSystemFolder extends A_CmsResourceWrapper {
             if (resourcename.equals(CmsWorkplace.VFS_PATH_SYSTEM)) {
 
                 // set site root to the root folder
-                String siteRoot = cms.getRequestContext().getSiteRoot();
+                @RUntainted String siteRoot = cms.getRequestContext().getSiteRoot();
                 cms.getRequestContext().setSiteRoot("/");
 
                 // read the resource with the correct site root

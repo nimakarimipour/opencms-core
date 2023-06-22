@@ -56,6 +56,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.xml.sax.EntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides factory methods to unmarshal (read) an XML page object.<p>
@@ -133,7 +134,7 @@ public final class CmsXmlPageFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlPage unmarshal(byte[] xmlData, String encoding, EntityResolver resolver)
+    public static CmsXmlPage unmarshal(byte[] xmlData, @RUntainted String encoding, EntityResolver resolver)
     throws CmsXmlException {
 
         return new CmsXmlPage(CmsXmlUtils.unmarshalHelper(xmlData, resolver), encoding);
@@ -280,7 +281,7 @@ public final class CmsXmlPageFactory {
      *
      * @throws CmsException in something goes wrong
      */
-    public static I_CmsXmlDocument unmarshal(CmsObject cms, String filename, ServletRequest req) throws CmsException {
+    public static I_CmsXmlDocument unmarshal(CmsObject cms, @RUntainted String filename, ServletRequest req) throws CmsException {
 
         // add site root to filename
         String rootPath = cms.getRequestContext().addSiteRoot(filename);
@@ -293,7 +294,7 @@ public final class CmsXmlPageFactory {
         }
 
         // always use "ignore expiration" filter, date validity must be checked before calling this if required
-        CmsFile file = cms.readFile(filename, CmsResourceFilter.IGNORE_EXPIRATION);
+        @RUntainted CmsFile file = cms.readFile(filename, CmsResourceFilter.IGNORE_EXPIRATION);
 
         if (CmsResourceTypeXmlPage.isXmlPage(file)) {
             // file is of type XML page
@@ -327,7 +328,7 @@ public final class CmsXmlPageFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlPage unmarshal(String xmlData, String encoding, EntityResolver resolver)
+    public static CmsXmlPage unmarshal(String xmlData, @RUntainted String encoding, EntityResolver resolver)
     throws CmsXmlException {
 
         return new CmsXmlPage(CmsXmlUtils.unmarshalHelper(xmlData, resolver), encoding);

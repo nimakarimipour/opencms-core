@@ -56,6 +56,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides utility methods that allow convenient access to the OpenCms VFS,
@@ -610,7 +611,7 @@ public final class CmsJspVfsAccessBean {
                 if (!(arg instanceof String)) {
                     return new HashMap<String, CmsJspResourceWrapper>();
                 }
-                String path = (String)arg;
+                @RUntainted String path = (String)arg;
                 try {
                     CmsResource res = m_cms.readResource(path);
                     CmsJspResourceWrapper wrapper = CmsJspResourceWrapper.wrap(m_cms, res);
@@ -641,7 +642,7 @@ public final class CmsJspVfsAccessBean {
                 if (!(arg instanceof String)) {
                     return null;
                 }
-                String path = (String)arg;
+                @RUntainted String path = (String)arg;
                 try {
                     CmsResource res = m_cms.readResource(path);
                     CmsLocaleGroup localeGroup = m_cms.getLocaleGroupService().readLocaleGroup(res);
@@ -1079,7 +1080,7 @@ public final class CmsJspVfsAccessBean {
     *
     * @return true if the user has no read permissions for the path
     */
-    public boolean hasNoReadPermissions(String path) {
+    public boolean hasNoReadPermissions(@RUntainted String path) {
 
         try {
             m_cms.readResource(path, CmsResourceFilter.IGNORE_EXPIRATION);
@@ -1115,7 +1116,7 @@ public final class CmsJspVfsAccessBean {
      *
      * @throws CmsException in case reading the resources fails
      */
-    public List<CmsJspResourceWrapper> readFilesInFolder(String resourcePath, String filterString) throws CmsException {
+    public List<CmsJspResourceWrapper> readFilesInFolder(@RUntainted String resourcePath, String filterString) throws CmsException {
 
         CmsResourceFilter filter = CmsResourceFilter.DEFAULT;
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(filterString)) {
@@ -1138,7 +1139,7 @@ public final class CmsJspVfsAccessBean {
      *
      * @throws CmsException in case reading the resource fails
      */
-    public CmsJspResourceWrapper readSubsiteFor(String path) throws CmsException {
+    public CmsJspResourceWrapper readSubsiteFor(@RUntainted String path) throws CmsException {
 
         CmsADEConfigData config = OpenCms.getADEManager().lookupConfiguration(
             m_cms,

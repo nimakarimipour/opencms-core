@@ -29,6 +29,7 @@ package org.opencms.workplace.galleries;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,7 +39,7 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_OPEN_GALLERY_1 = "ERR_OPEN_GALLERY_1";
+    public static final @RUntainted String ERR_OPEN_GALLERY_1 = "ERR_OPEN_GALLERY_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_REASON_NO_DOWNLOADGALLERY_0 = "ERR_REASON_NO_DOWNLOADGALLERY_0";
@@ -447,16 +448,16 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String GUI_TITLE_NEW_0 = "GUI_TITLE_NEW_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_CREATE_GALLERY_INSTANCE_FAILED_2 = "LOG_CREATE_GALLERY_INSTANCE_FAILED_2";
+    public static final @RUntainted String LOG_CREATE_GALLERY_INSTANCE_FAILED_2 = "LOG_CREATE_GALLERY_INSTANCE_FAILED_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_CREATE_GALLERY_INSTANCE_FAILED_JSP_3 = "LOG_CREATE_GALLERY_INSTANCE_FAILED_JSP_3";
+    public static final @RUntainted String LOG_CREATE_GALLERY_INSTANCE_FAILED_JSP_3 = "LOG_CREATE_GALLERY_INSTANCE_FAILED_JSP_3";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_UNKNOWN_GALLERY_TYPE_REQ_1 = "LOG_UNKNOWN_GALLERY_TYPE_REQ_1";
+    public static final @RUntainted String LOG_UNKNOWN_GALLERY_TYPE_REQ_1 = "LOG_UNKNOWN_GALLERY_TYPE_REQ_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_UNKNOWN_GALLERY_TYPE_REQ_JSP_2 = "LOG_UNKNOWN_GALLERY_TYPE_REQ_JSP_2";
+    public static final @RUntainted String LOG_UNKNOWN_GALLERY_TYPE_REQ_JSP_2 = "LOG_UNKNOWN_GALLERY_TYPE_REQ_JSP_2";
 
     /** Name of the used resource bundle. */
     private static final String BUNDLE_NAME = "org.opencms.workplace.galleries.messages";

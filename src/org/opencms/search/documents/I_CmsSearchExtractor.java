@@ -32,6 +32,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 import org.opencms.search.I_CmsSearchIndex;
 import org.opencms.search.extractors.I_CmsExtractionResult;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines a text extractor for the integrated search engine.<p>

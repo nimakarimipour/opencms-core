@@ -67,6 +67,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is the internal cache class used for storing configuration data. It is not public because it is only meant
@@ -151,7 +152,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
     private I_CmsResourceType m_elementViewType;
 
     /** A cache which stores resources' paths by their structure IDs. */
-    private ConcurrentHashMap<CmsUUID, String> m_pathCache = new ConcurrentHashMap<CmsUUID, String>();
+    private @RUntainted ConcurrentHashMap<@RUntainted CmsUUID, @RUntainted String> m_pathCache = new ConcurrentHashMap<CmsUUID, String>();
 
     /** The current configuration state (immutable). */
     private volatile CmsADEConfigCacheState m_state;
@@ -189,7 +190,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
      *
      * @return the base path for the sitemap configuration file
      */
-    public static String getBasePath(String siteConfigFile) {
+    public static @RUntainted String getBasePath(String siteConfigFile) {
 
         if (siteConfigFile.endsWith(CmsADEManager.CONFIG_SUFFIX)) {
             return CmsResource.getParentFolder(CmsResource.getParentFolder(siteConfigFile));
@@ -217,9 +218,9 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
      *
      * @throws CmsException if the resource with the given id was not found or another error occurred
      */
-    public String getPathForStructureId(CmsUUID structureId) throws CmsException {
+    public @RUntainted String getPathForStructureId(CmsUUID structureId) throws CmsException {
 
-        String rootPath;
+        @RUntainted String rootPath;
         if (structureId == null) {
             throw new CmsVfsResourceNotFoundException(
                 Messages.get().container(Messages.ERR_READ_RESOURCE_WITH_ID_1, "null"));
@@ -344,7 +345,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
                     if (isSitemapConfiguration(candidate.getRootPath(), candidate.getTypeId())) {
                         try {
                             CmsConfigurationReader reader = new CmsConfigurationReader(m_cms);
-                            String basePath = getBasePath(candidate.getRootPath());
+                            @RUntainted String basePath = getBasePath(candidate.getRootPath());
                             CmsADEConfigDataInternal data = reader.parseSitemapConfiguration(basePath, candidate);
                             siteConfigurations.put(candidate.getStructureId(), data);
                         } catch (Exception e) {
@@ -650,7 +651,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
      * @param rootPath the resource root path
      * @param type the resource type
      */
-    protected void remove(CmsUUID structureId, String rootPath, int type) {
+    protected void remove(CmsUUID structureId, @RUntainted String rootPath, int type) {
 
         if (CmsResource.isTemporaryFileName(rootPath)) {
             return;
@@ -679,7 +680,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
      * @param type the type id of the resource
      * @param resState the state of the resource
      */
-    protected void update(CmsUUID structureId, String rootPath, int type, CmsResourceState resState) {
+    protected void update(CmsUUID structureId, @RUntainted String rootPath, int type, CmsResourceState resState) {
 
         if (CmsResource.isTemporaryFileName(rootPath)) {
             return;
@@ -729,7 +730,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
             // Path or type may have changed in the meantime, so need to check if it's still a sitemap configuration
             if (isSitemapConfiguration(configResource.getRootPath(), configResource.getTypeId())) {
                 CmsConfigurationReader reader = new CmsConfigurationReader(m_cms);
-                String basePath = getBasePath(configResource.getRootPath());
+                @RUntainted String basePath = getBasePath(configResource.getRootPath());
                 CmsADEConfigDataInternal result = reader.parseSitemapConfiguration(basePath, configResource);
                 return result;
             } else {

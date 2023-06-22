@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Formatter configuration data.<p>
@@ -44,7 +45,7 @@ public class CmsFormatterConfig implements IsSerializable {
     public static final String FORMATTER_SETTINGS_KEY = "formatterSettings#";
 
     /** Id used for schema based formatters. */
-    public static final String SCHEMA_FORMATTER_ID = "schema_formatter";
+    public static final @RUntainted String SCHEMA_FORMATTER_ID = "schema_formatter";
 
     /** The required css resources. */
     private Set<String> m_cssResources;
@@ -97,7 +98,7 @@ public class CmsFormatterConfig implements IsSerializable {
      *
      * @return the settings key
      */
-    public static String getSettingsKeyForContainer(String containerName) {
+    public static @RUntainted String getSettingsKeyForContainer(String containerName) {
 
         return FORMATTER_SETTINGS_KEY + containerName;
     }

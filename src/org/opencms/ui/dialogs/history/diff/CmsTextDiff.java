@@ -60,6 +60,7 @@ import com.google.common.base.Optional;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interprets two versions of a resource as text files, and shows a diff view for the two texts.<p>
@@ -78,7 +79,7 @@ public class CmsTextDiff implements I_CmsDiffProvider {
     throws CmsException {
 
         CmsResource resource1 = A_CmsAttributeDiff.readResource(cms, v1);
-        String encoding = CmsLocaleManager.getResourceEncoding(cms, resource1);
+        @RUntainted String encoding = CmsLocaleManager.getResourceEncoding(cms, resource1);
         I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(resource1);
         if ((type instanceof CmsResourceTypeXmlContent)
             || (type instanceof CmsResourceTypePlain)
@@ -94,10 +95,10 @@ public class CmsTextDiff implements I_CmsDiffProvider {
             CmsFile file1 = cms.readFile(resource1);
             CmsFile file2 = cms.readFile(resource2);
 
-            byte[] content1 = file1.getContents();
+            @RUntainted byte[] content1 = file1.getContents();
             byte[] content2 = file2.getContents();
 
-            String originalSource = null;
+            @RUntainted String originalSource = null;
             String copySource = null;
 
             I_CmsTextExtractor textExtractor = null;

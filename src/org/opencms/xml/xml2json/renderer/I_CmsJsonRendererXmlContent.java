@@ -35,6 +35,7 @@ import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerContext;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Renders a single-locale content tree as JSON.

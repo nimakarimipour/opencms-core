@@ -66,6 +66,7 @@ import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides some basic XML handling utilities.<p>
@@ -202,7 +203,7 @@ public final class CmsXmlUtils {
      *
      * @return the simplified Xpath for the given name
      */
-    public static String createXpath(String path, int index) {
+    public static @RUntainted String createXpath(String path, int index) {
 
         if (path.indexOf('/') > -1) {
             // this is a complex path over more then 1 node
@@ -706,7 +707,7 @@ public final class CmsXmlUtils {
      *
      * @return the path with the last Xpath index removed
      */
-    public static String removeXpathIndex(String path) {
+    public static @RUntainted String removeXpathIndex(String path) {
 
         int pos1 = path.lastIndexOf('/');
         int pos2 = path.lastIndexOf('[');
@@ -995,7 +996,7 @@ public final class CmsXmlUtils {
 
         if (errorHandler.getErrors().elements().size() > 0) {
             // there was at last one validation error, so throw an exception
-            StringWriter out = new StringWriter(256);
+            @RUntainted StringWriter out = new StringWriter(256);
             OutputFormat format = OutputFormat.createPrettyPrint();
             XMLWriter writer = new XMLWriter(out, format);
             try {

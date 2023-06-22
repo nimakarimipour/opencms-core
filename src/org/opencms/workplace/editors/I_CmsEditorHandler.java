@@ -30,6 +30,7 @@ package org.opencms.workplace.editors;
 import org.opencms.file.CmsObject;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.main.CmsException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a method for selecting an individual file editor.<p>
@@ -64,6 +65,6 @@ public interface I_CmsEditorHandler {
      *
      * @throws CmsException if something goes wrong
      */
-    String getEditorUri(String resource, CmsJspActionElement jsp) throws CmsException;
+    String getEditorUri(@RUntainted String resource, CmsJspActionElement jsp) throws CmsException;
 
 }

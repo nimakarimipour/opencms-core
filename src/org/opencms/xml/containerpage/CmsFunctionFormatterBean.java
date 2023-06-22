@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean containing formatter configuration data as strings.<p>
@@ -52,7 +53,7 @@ public class CmsFunctionFormatterBean extends CmsFormatterBean {
     private Map<String, String[]> m_parameters = new HashMap<>();
 
     /** The real path of the configured jsp. */
-    private String m_realJspRootPath;
+    private @RUntainted String m_realJspRootPath;
 
     /**
      * Constructor for creating a new formatter configuration with resource structure id.<p>
@@ -81,7 +82,7 @@ public class CmsFunctionFormatterBean extends CmsFormatterBean {
      */
     public CmsFunctionFormatterBean(
         Set<String> containerTypes,
-        String jspRootPath,
+        @RUntainted String jspRootPath,
         CmsUUID jspStructureId,
         String key,
         Set<String> aliasKeys,
@@ -147,7 +148,7 @@ public class CmsFunctionFormatterBean extends CmsFormatterBean {
      * This is not the configured JSP, but the formatter JSP for the function_config type itself.
      */
     @Override
-    public String getJspRootPath() {
+    public @RUntainted String getJspRootPath() {
 
         return CmsResourceTypeFunctionConfig.FORMATTER_PATH;
     }
@@ -197,7 +198,7 @@ public class CmsFunctionFormatterBean extends CmsFormatterBean {
      *
      * @return the root path of the configured JSP
      */
-    public String getRealJspRootPath() {
+    public @RUntainted String getRealJspRootPath() {
 
         return m_realJspRootPath;
     }

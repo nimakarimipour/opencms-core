@@ -34,6 +34,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Account info bean.<p>
@@ -135,7 +136,7 @@ public class CmsAccountInfo {
      *
      * @return the value
      */
-    public String getValue(CmsUser user) {
+    public @RUntainted String getValue(CmsUser user) {
 
         String value = null;
         if (isAdditionalInfo()) {

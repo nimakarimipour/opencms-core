@@ -58,6 +58,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A cache class for storing inherited container configurations.<p>
@@ -243,7 +244,7 @@ public class CmsContainerConfigurationCache implements I_CmsGlobalConfigurationC
      *
      * @return the cache key for the base path
      */
-    protected String getCacheKey(String basePath) {
+    protected String getCacheKey(@RUntainted String basePath) {
 
         assert !basePath.endsWith(INHERITANCE_CONFIG_FILE_NAME);
         return CmsFileUtil.addTrailingSeparator(basePath);
@@ -257,7 +258,7 @@ public class CmsContainerConfigurationCache implements I_CmsGlobalConfigurationC
      *
      * @return true if the given root path / type combination matches an inherited container configuration file
      */
-    protected boolean isContainerConfiguration(String rootPath, int type) {
+    protected boolean isContainerConfiguration(@RUntainted String rootPath, int type) {
 
         return OpenCms.getResourceManager().matchResourceType(
             CmsResourceTypeXmlContainerPage.INHERIT_CONTAINER_CONFIG_TYPE_NAME,
@@ -335,7 +336,7 @@ public class CmsContainerConfigurationCache implements I_CmsGlobalConfigurationC
      *
      * @param type the resource type
      */
-    protected void remove(CmsUUID structureId, String rootPath, int type) {
+    protected void remove(CmsUUID structureId, @RUntainted String rootPath, int type) {
 
         if (!isContainerConfiguration(rootPath, type)) {
             return;
@@ -351,7 +352,7 @@ public class CmsContainerConfigurationCache implements I_CmsGlobalConfigurationC
      * @param type the resource type
      * @param state the resource state
      */
-    protected void update(CmsUUID structureId, String rootPath, int type, CmsResourceState state) {
+    protected void update(CmsUUID structureId, @RUntainted String rootPath, int type, CmsResourceState state) {
 
         if (!isContainerConfiguration(rootPath, type)) {
             return;

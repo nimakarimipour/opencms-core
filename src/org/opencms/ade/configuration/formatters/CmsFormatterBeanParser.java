@@ -73,6 +73,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parses formatter beans from formatter configuration XML contents.<p>
@@ -299,7 +300,7 @@ public class CmsFormatterBeanParser {
     private int m_maxWidth;
 
     /** Parsed field. */
-    private String m_niceName;
+    private @RUntainted String m_niceName;
 
     /** Parsed field. */
     private boolean m_preview;
@@ -308,7 +309,7 @@ public class CmsFormatterBeanParser {
     private int m_rank;
 
     /** Parsed field. */
-    private Set<String> m_resourceType;
+    private @RUntainted Set<@RUntainted String> m_resourceType;
 
     /** Setting configurations read from content. **/
     private List<CmsXmlContentProperty> m_settingList = new ArrayList<>();
@@ -353,7 +354,7 @@ public class CmsFormatterBeanParser {
      * @throws ParseException if parsing goes wrong
      * @throws CmsException if something else goes wrong
      */
-    public I_CmsFormatterBean parse(CmsXmlContent content, String location, String id)
+    public I_CmsFormatterBean parse(CmsXmlContent content, @RUntainted String location, String id)
     throws CmsException, ParseException {
 
         I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(content.getFile());
@@ -659,7 +660,7 @@ public class CmsFormatterBeanParser {
      *
      * @return a set of string values
      */
-    private Set<String> getStringSet(I_CmsXmlContentLocation val, String path) {
+    private @RUntainted Set<@RUntainted String> getStringSet(I_CmsXmlContentLocation val, String path) {
 
         Set<String> valueSet = new HashSet<String>();
         if ((val != null)) {

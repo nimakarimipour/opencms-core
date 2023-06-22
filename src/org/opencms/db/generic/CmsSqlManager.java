@@ -48,6 +48,7 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic (ANSI-SQL) implementation of the SQL manager.<p>
@@ -75,7 +76,7 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
     protected String m_poolUrl;
 
     /** A map holding all SQL queries. */
-    protected Map<String, String> m_queries;
+    protected @RUntainted Map<@RUntainted String, @RUntainted String> m_queries;
 
     /**
      * Creates a new, empty SQL manager.<p>
@@ -122,7 +123,7 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
      * @param query the SQL query
      * @return String the SQL query with the table key search pattern replaced
      */
-    protected static String replaceProjectPattern(CmsUUID projectId, String query) {
+    protected static String replaceProjectPattern(CmsUUID projectId, @RUntainted String query) {
 
         // make the statement project dependent
         String replacePattern = ((projectId == null) || projectId.equals(CmsProject.ONLINE_PROJECT_ID))
@@ -261,7 +262,7 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
     public PreparedStatement getPreparedStatement(Connection con, CmsUUID projectId, String queryKey)
     throws SQLException {
 
-        String rawSql = readQuery(projectId, queryKey);
+        @RUntainted String rawSql = readQuery(projectId, queryKey);
         return getPreparedStatementForSql(con, rawSql);
     }
 
@@ -273,9 +274,9 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
      * @return PreparedStatement a new PreparedStatement containing the pre-compiled SQL statement
      * @throws SQLException if a database access error occurs
      */
-    public PreparedStatement getPreparedStatement(Connection con, String queryKey) throws SQLException {
+    public @RUntainted PreparedStatement getPreparedStatement(Connection con, String queryKey) throws SQLException {
 
-        String rawSql = readQuery(CmsUUID.getNullUUID(), queryKey);
+        @RUntainted String rawSql = readQuery(CmsUUID.getNullUUID(), queryKey);
         return getPreparedStatementForSql(con, rawSql);
     }
 
@@ -287,7 +288,7 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
      * @return PreparedStatement a new PreparedStatement containing the pre-compiled SQL statement
      * @throws SQLException if a database access error occurs
      */
-    public PreparedStatement getPreparedStatementForSql(Connection con, String query) throws SQLException {
+    public @RUntainted PreparedStatement getPreparedStatementForSql(Connection con, @RUntainted String query) throws SQLException {
 
         // unfortunately, this wrapper is essential, because some JDBC driver
         // implementations don't accept the delegated objects of DBCP's connection pool.
@@ -314,7 +315,7 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
      * @param queryKey the key of the SQL query
      * @return the the SQL query in this property list with the specified key
      */
-    public String readQuery(CmsProject project, String queryKey) {
+    public @RUntainted String readQuery(CmsProject project, String queryKey) {
 
         return readQuery(project.getUuid(), queryKey);
     }
@@ -330,7 +331,7 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
      * @param queryKey the key of the SQL query
      * @return the the SQL query in this property list with the specified key
      */
-    public String readQuery(CmsUUID projectId, String queryKey) {
+    public @RUntainted String readQuery(CmsUUID projectId, @RUntainted String queryKey) {
 
         String key;
         if ((projectId != null) && !projectId.isNullUUID()) {
@@ -382,9 +383,9 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
      * @param queryKey the SQL query key
      * @return the the SQL query in this property list with the specified key
      */
-    public String readQuery(String queryKey) {
+    public @RUntainted String readQuery(String queryKey) {
 
-        String value = m_queries.get(queryKey);
+        @RUntainted String value = m_queries.get(queryKey);
         if (value == null) {
             if (LOG.isErrorEnabled()) {
                 LOG.error(Messages.get().getBundle().key(Messages.LOG_QUERY_NOT_FOUND_1, queryKey));
@@ -458,7 +459,7 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
     protected synchronized void replaceQuerySearchPatterns() {
 
         String currentKey = null;
-        String currentValue = null;
+        @RUntainted String currentValue = null;
         int startIndex = 0;
         int endIndex = 0;
         int lastIndex = 0;

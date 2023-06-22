@@ -30,6 +30,7 @@ package org.opencms.ade.galleries.shared;
 import org.opencms.ade.galleries.shared.I_CmsGalleryProviderConstants.GalleryMode;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The gallery configuration interface.<p>
@@ -41,7 +42,7 @@ public interface I_CmsGalleryConfiguration {
      *
      * @return the currently selected element
      */
-    String getCurrentElement();
+    @RUntainted String getCurrentElement();
 
     /**
      * Returns the gallery mode.<p>
@@ -55,7 +56,7 @@ public interface I_CmsGalleryConfiguration {
      *
      * @return the start gallery path
      */
-    String getGalleryPath();
+    @RUntainted String getGalleryPath();
 
     /**
      * Gets the prefix for the key used to store the last selected gallery.<p>
@@ -125,14 +126,14 @@ public interface I_CmsGalleryConfiguration {
      *
      * @return the start folder
      */
-    String getStartFolder();
+    @RUntainted String getStartFolder();
 
     /**
      * Returns the start site.<p>
      *
      * @return the start site
      */
-    String getStartSite();
+    @RUntainted String getStartSite();
 
     /**
      * Gets the tab configuration.<p>
@@ -150,7 +151,7 @@ public interface I_CmsGalleryConfiguration {
      *
      * @return the tree token
      */
-    String getTreeToken();
+    @RUntainted String getTreeToken();
 
     /**
      * Returns the upload folder.<p>
@@ -199,12 +200,12 @@ public interface I_CmsGalleryConfiguration {
      *
      * @param currentElement the currentElement to set
      */
-    void setCurrentElement(String currentElement);
+    void setCurrentElement(@RUntainted String currentElement);
 
     /**
      * Sets the start folder.<p>
      *
      * @param startFolder the start folder
      */
-    void setStartFolder(String startFolder);
+    void setStartFolder(@RUntainted String startFolder);
 }

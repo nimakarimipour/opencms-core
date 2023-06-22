@@ -39,6 +39,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsIllegalArgumentException;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default abstract implementation of the interface {@link I_CmsResourceWrapper}.<p>
@@ -59,7 +60,7 @@ public abstract class A_CmsResourceWrapper implements I_CmsResourceWrapper {
     /**
      * @see org.opencms.file.wrapper.I_CmsResourceWrapper#addResourcesToFolder(org.opencms.file.CmsObject, java.lang.String, org.opencms.file.CmsResourceFilter)
      */
-    public List<CmsResource> addResourcesToFolder(CmsObject cms, String resourcename, CmsResourceFilter filter)
+    public List<CmsResource> addResourcesToFolder(CmsObject cms, @RUntainted String resourcename, CmsResourceFilter filter)
     throws CmsException {
 
         if (m_isWrappedResource) {
@@ -200,7 +201,7 @@ public abstract class A_CmsResourceWrapper implements I_CmsResourceWrapper {
     /**
      * @see org.opencms.file.wrapper.I_CmsResourceWrapper#rewriteLink(CmsObject, CmsResource)
      */
-    public String rewriteLink(CmsObject cms, CmsResource res) {
+    public @RUntainted String rewriteLink(CmsObject cms, CmsResource res) {
 
         return null;
     }

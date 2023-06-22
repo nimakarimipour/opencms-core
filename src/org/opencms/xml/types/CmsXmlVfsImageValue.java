@@ -40,6 +40,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsVfsImage".<p>
@@ -54,25 +55,25 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
     public static final String NODE_SCALE = "scale";
 
     /** Request parameter name for the description parameter. */
-    public static final String PARAM_DESCRIPTION = "description";
+    public static final @RUntainted String PARAM_DESCRIPTION = "description";
 
     /** Request parameter name for the format parameter. */
-    public static final String PARAM_FORMAT = "format";
+    public static final @RUntainted String PARAM_FORMAT = "format";
 
     /** The name of this type as used in the XML schema. */
-    public static final String TYPE_NAME_IMAGE = "OpenCmsVfsImage";
+    public static final @RUntainted String TYPE_NAME_IMAGE = "OpenCmsVfsImage";
 
     /** The schema definition String is located in a text for easier editing. */
     private static String m_schemaDefinition;
 
     /** The description text of the image. */
-    private String m_description;
+    private @RUntainted String m_description;
 
     /** The selected image format. */
     private String m_format;
 
     /** Holds the parameters of the URL. */
-    private Map<String, String[]> m_parameters;
+    private @RUntainted Map<@RUntainted String, @RUntainted String[]> m_parameters;
 
     /** The scale options of the image. */
     private String m_scaleOptions;
@@ -205,7 +206,7 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
      * @see org.opencms.xml.types.A_CmsXmlContentValue#getTypeName()
      */
     @Override
-    public String getTypeName() {
+    public @RUntainted String getTypeName() {
 
         return TYPE_NAME_IMAGE;
     }
@@ -225,7 +226,7 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
      * @param cms the current users context
      * @param description the description of the image
      */
-    public void setDescription(CmsObject cms, String description) {
+    public void setDescription(CmsObject cms, @RUntainted String description) {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(description)) {
             m_description = "";
@@ -245,7 +246,7 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
      * @param cms the current users contexts
      * @param format the format information of the image
      */
-    public void setFormat(CmsObject cms, String format) {
+    public void setFormat(CmsObject cms, @RUntainted String format) {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(format)) {
             m_format = "";
@@ -264,7 +265,7 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
      * @param cms the current users context
      * @param scaleOptions the scale options of the image
      */
-    public void setScaleOptions(CmsObject cms, String scaleOptions) {
+    public void setScaleOptions(CmsObject cms, @RUntainted String scaleOptions) {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(scaleOptions)) {
             m_scaleOptions = "";
@@ -281,7 +282,7 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
      * @see org.opencms.xml.types.A_CmsXmlContentValue#setStringValue(org.opencms.file.CmsObject, java.lang.String)
      */
     @Override
-    public void setStringValue(CmsObject cms, String value) throws CmsIllegalArgumentException {
+    public void setStringValue(CmsObject cms, @RUntainted String value) throws CmsIllegalArgumentException {
 
         // call the super implementation to set the value
         super.setStringValue(cms, value);
@@ -294,7 +295,7 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
         Map<String, String[]> params = getParameterMap(value);
 
         // create description element if present as parameter
-        String desc = getParameterValue(cms, params, PARAM_DESCRIPTION);
+        @RUntainted String desc = getParameterValue(cms, params, PARAM_DESCRIPTION);
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(desc)) {
             desc = CmsEncoder.unescape(desc, CmsEncoder.ENCODING_UTF_8);
             m_element.addElement(PARAM_DESCRIPTION).addCDATA(desc);
@@ -323,9 +324,9 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
      * @param url the url String to get the parameters from
      * @return the parameters as Map
      */
-    private Map<String, String[]> getParameterMap(String url) {
+    private @RUntainted Map<@RUntainted String, @RUntainted String[]> getParameterMap(String url) {
 
-        Map<String, String[]> result = new HashMap<String, String[]>();
+        @RUntainted Map<@RUntainted String, @RUntainted String[]> result = new HashMap<@RUntainted String, @RUntainted String[]>();
         if (CmsStringUtil.isNotEmpty(url)) {
             int pos = url.indexOf(CmsRequestUtil.URL_DELIMITER);
             if (pos >= 0) {
@@ -343,10 +344,10 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
      * @param key the parameter name
      * @return the value of the parameter or an empty String
      */
-    private String getParameterValue(CmsObject cms, Map<String, String[]> parameterMap, String key) {
+    private @RUntainted String getParameterValue(CmsObject cms, @RUntainted Map<@RUntainted String, @RUntainted String[]> parameterMap, String key) {
 
-        String result = null;
-        String[] params = parameterMap.get(key);
+        @RUntainted String result = null;
+        @RUntainted String[] params = parameterMap.get(key);
         if ((params != null) && (params.length > 0)) {
             result = params[0];
         }
@@ -363,7 +364,7 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
      * @param key the parameter name
      * @return the value of the parameter or an empty String
      */
-    private String getParameterValue(CmsObject cms, String key) {
+    private @RUntainted String getParameterValue(CmsObject cms, String key) {
 
         if (m_parameters == null) {
             m_parameters = getParameterMap(getStringValue(cms));
@@ -378,7 +379,7 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
      * @param key the parameter name to set
      * @param value the value of the parameter
      */
-    private void setParameterValue(CmsObject cms, String key, String value) {
+    private void setParameterValue(CmsObject cms, @RUntainted String key, @RUntainted String value) {
 
         if (m_parameters == null) {
             m_parameters = getParameterMap(getStringValue(cms));
@@ -388,7 +389,7 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
         } else if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(value)) {
             m_parameters.put(key, new String[] {value});
         }
-        String result = CmsRequestUtil.getRequestLink(getStringValue(cms));
+        @RUntainted String result = CmsRequestUtil.getRequestLink(getStringValue(cms));
         result = CmsRequestUtil.appendParameters(result, m_parameters, false);
         setStringValue(cms, result);
     }

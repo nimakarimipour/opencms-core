@@ -76,6 +76,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The implementation of the publish service. <p>
@@ -86,10 +87,10 @@ import com.google.common.collect.Sets;
 public class CmsPublishService extends CmsGwtService implements I_CmsPublishService {
 
     /** Name for the request parameter to control display of the confirmation dialog. */
-    public static final String PARAM_CONFIRM = "confirm";
+    public static final @RUntainted String PARAM_CONFIRM = "confirm";
 
     /** The publish project id parameter name. */
-    public static final String PARAM_PUBLISH_PROJECT_ID = "publishProjectId";
+    public static final @RUntainted String PARAM_PUBLISH_PROJECT_ID = "publishProjectId";
 
     /** The workflow id parameter name. */
     public static final String PARAM_WORKFLOW_ID = "workflowId";
@@ -187,7 +188,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(filesParam)) {
             filesParam = getRequest().getParameter(CmsDialog.PARAM_RESOURCE);
         }
-        List<String> pathList = Lists.newArrayList();
+        @RUntainted List<@RUntainted String> pathList = Lists.newArrayList();
         if (!CmsStringUtil.isEmptyOrWhitespaceOnly(filesParam)) {
             pathList = CmsStringUtil.splitAsList(filesParam, "|");
         }
@@ -219,7 +220,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
         HashMap<String, String> params,
         String workflowId,
         String projectParam,
-        List<String> pathList,
+        @RUntainted List<@RUntainted String> pathList,
         String closeLink,
         boolean confirm)
     throws Exception {
@@ -335,7 +336,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
      */
     public CmsPublishGroupList getResourceGroups(
         CmsWorkflow workflow,
-        CmsPublishOptions options,
+        @RUntainted CmsPublishOptions options,
         boolean projectChanged)
     throws CmsRpcException {
 
@@ -552,7 +553,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
      *
      * @param options the options to save
      */
-    private void setCachedOptions(CmsPublishOptions options) {
+    private void setCachedOptions(@RUntainted CmsPublishOptions options) {
 
         getRequest().getSession().setAttribute(SESSION_ATTR_ADE_PUB_OPTS_CACHE, options);
     }

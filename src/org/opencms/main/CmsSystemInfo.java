@@ -39,6 +39,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to system wide "read only" information about the running OpenCms instance.<p>
@@ -145,10 +146,10 @@ public class CmsSystemInfo {
     public static final String FOLDER_WEBINF = "WEB-INF" + File.separatorChar;
 
     /** The workplace UI servlet name. */
-    public static final String WORKPLACE_PATH = "/workplace";
+    public static final @RUntainted String WORKPLACE_PATH = "/workplace";
 
     /** Default encoding. */
-    private static final String DEFAULT_ENCODING = CmsEncoder.ENCODING_UTF_8;
+    private static final @RUntainted String DEFAULT_ENCODING = CmsEncoder.ENCODING_UTF_8;
 
     /** Static version id to use if version.properties can not be read. */
     private static final String DEFAULT_VERSION_ID = "Static";
@@ -169,7 +170,7 @@ public class CmsSystemInfo {
     private String m_configurationFileRfsPath;
 
     /** Default encoding, can be set in opencms-system.xml. */
-    private String m_defaultEncoding;
+    private @RUntainted String m_defaultEncoding;
 
     /** The device selector instance. */
     private I_CmsJspDeviceSelector m_deviceSelector;
@@ -190,7 +191,7 @@ public class CmsSystemInfo {
     private CmsMailSettings m_mailSettings;
 
     /** The project in which time stamps for the content notification are read. */
-    private String m_notificationProject;
+    private @RUntainted String m_notificationProject;
 
     /** The duration after which responsible resource owners will be notified about out-dated content (in days). */
     private int m_notificationTime;
@@ -278,13 +279,13 @@ public class CmsSystemInfo {
      * @param path the path (relative) to generate an absolute path from
      * @return an absolute path (to a directory or a file) from a path relative to the "WEB-INF" folder
      */
-    public String getAbsoluteRfsPathRelativeToWebInf(String path) {
+    public @RUntainted String getAbsoluteRfsPathRelativeToWebInf(String path) {
 
         if (path == null) {
             return null;
         }
         // check for absolute path is system depended, let's just use the standard check
-        File f = new File(path);
+        @RUntainted File f = new File(path);
         if (f.isAbsolute()) {
             // apparently this is an absolute path already
             return f.getAbsolutePath();
@@ -317,7 +318,7 @@ public class CmsSystemInfo {
      *
      * @return the file path
      */
-    public String getConfigFilePath(CmsObject cms, String configFile) {
+    public @RUntainted String getConfigFilePath(CmsObject cms, String configFile) {
 
         String path = CmsStringUtil.joinPaths(VFS_CONFIG_OVERRIDE_FOLDER, configFile);
         if (!cms.existsResource(path)) {
@@ -373,7 +374,7 @@ public class CmsSystemInfo {
      * @see #getServletPath()
      * @see #getOpenCmsContext()
      */
-    public String getContextPath() {
+    public @RUntainted String getContextPath() {
 
         return m_servletContainerSettings.getContextPath();
     }
@@ -387,7 +388,7 @@ public class CmsSystemInfo {
      *
      * @return the default encoding, e.g. "UTF-8" or "ISO-8859-1"
      */
-    public String getDefaultEncoding() {
+    public @RUntainted String getDefaultEncoding() {
 
         return m_defaultEncoding;
     }
@@ -491,7 +492,7 @@ public class CmsSystemInfo {
      *
      * @return the project in which time stamps for the content notification are read
      */
-    public String getNotificationProject() {
+    public @RUntainted String getNotificationProject() {
 
         return m_notificationProject;
     }
@@ -596,7 +597,7 @@ public class CmsSystemInfo {
      * @see #getWebApplicationName()
      * @see #getOpenCmsContext()
      */
-    public String getServletPath() {
+    public @RUntainted String getServletPath() {
 
         return m_servletContainerSettings.getServletPath();
     }
@@ -661,7 +662,7 @@ public class CmsSystemInfo {
      *
      * @since 7.0.2
      */
-    public String getVersionNumber() {
+    public @RUntainted String getVersionNumber() {
 
         return m_versionNumber;
     }
@@ -678,7 +679,7 @@ public class CmsSystemInfo {
      * @see #getServletPath()
      * @see #getOpenCmsContext()
      */
-    public String getWebApplicationName() {
+    public @RUntainted String getWebApplicationName() {
 
         return m_servletContainerSettings.getWebApplicationName();
     }
@@ -688,7 +689,7 @@ public class CmsSystemInfo {
      *
      * @return the OpenCms web application folder in the servlet container
      */
-    public String getWebApplicationRfsPath() {
+    public @RUntainted String getWebApplicationRfsPath() {
 
         return m_servletContainerSettings.getWebApplicationRfsPath();
     }
@@ -713,7 +714,7 @@ public class CmsSystemInfo {
      * @see #getContextPath()
      * @see #WORKPLACE_PATH
      */
-    public String getWorkplaceContext() {
+    public @RUntainted String getWorkplaceContext() {
 
         return getContextPath() + WORKPLACE_PATH;
     }
@@ -743,7 +744,7 @@ public class CmsSystemInfo {
      *
      * @param notificationProject the project in which time stamps for the content notification are read
      */
-    public void setNotificationProject(String notificationProject) {
+    public void setNotificationProject(@RUntainted String notificationProject) {
 
         m_notificationProject = notificationProject;
     }
@@ -794,7 +795,7 @@ public class CmsSystemInfo {
      *
      * @param encoding the default encoding to set
      */
-    protected void setDefaultEncoding(String encoding) {
+    protected void setDefaultEncoding(@RUntainted String encoding) {
 
         m_defaultEncoding = encoding.intern();
         if (CmsLog.INIT.isInfoEnabled()) {

@@ -41,6 +41,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides Vfs utility functions.<p>
@@ -73,7 +74,7 @@ public final class CmsVfsUtil {
         CmsObject rootCms = OpenCms.initCmsObject(cms);
         rootCms.getRequestContext().setSiteRoot("");
         List<String> parents = new ArrayList<String>();
-        String currentPath = rootPath;
+        @RUntainted String currentPath = rootPath;
         while (currentPath != null) {
             if (rootCms.existsResource(currentPath)) {
                 break;
@@ -82,7 +83,7 @@ public final class CmsVfsUtil {
             currentPath = CmsResource.getParentFolder(currentPath);
         }
         parents = Lists.reverse(parents);
-        for (String parent : parents) {
+        for (@RUntainted String parent : parents) {
             try {
                 rootCms.createResource(
                     parent,

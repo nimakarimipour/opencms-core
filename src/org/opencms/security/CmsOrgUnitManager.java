@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This manager provide access to the organizational unit related operations.<p>
@@ -77,7 +78,7 @@ public class CmsOrgUnitManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public void addResourceToOrgUnit(CmsObject cms, String ouFqn, String resourceName) throws CmsException {
+    public void addResourceToOrgUnit(CmsObject cms, @RUntainted String ouFqn, @RUntainted String resourceName) throws CmsException {
 
         CmsOrganizationalUnit orgUnit = readOrganizationalUnit(cms, ouFqn);
         CmsResource resource = cms.readResource(resourceName);
@@ -117,10 +118,10 @@ public class CmsOrgUnitManager {
      */
     public CmsOrganizationalUnit createOrganizationalUnit(
         CmsObject cms,
-        String ouFqn,
+        @RUntainted String ouFqn,
         String description,
         int flags,
-        String resourceName)
+        @RUntainted String resourceName)
     throws CmsException {
 
         CmsResource resource = null;
@@ -146,7 +147,7 @@ public class CmsOrgUnitManager {
      *
      * @throws CmsException if operation was not successful
      */
-    public void deleteOrganizationalUnit(CmsObject cms, String ouFqn) throws CmsException {
+    public void deleteOrganizationalUnit(CmsObject cms, @RUntainted String ouFqn) throws CmsException {
 
         CmsOrganizationalUnit orgUnit = readOrganizationalUnit(cms, ouFqn);
         m_securityManager.deleteOrganizationalUnit(cms.getRequestContext(), orgUnit);
@@ -166,7 +167,7 @@ public class CmsOrgUnitManager {
      *
      * @throws CmsException if operation was not successful
      */
-    public List<CmsProject> getAllAccessibleProjects(CmsObject cms, String ouFqn, boolean includeSubOus)
+    public List<CmsProject> getAllAccessibleProjects(CmsObject cms, @RUntainted String ouFqn, boolean includeSubOus)
     throws CmsException {
 
         CmsOrganizationalUnit orgUnit = readOrganizationalUnit(cms, ouFqn);
@@ -187,7 +188,7 @@ public class CmsOrgUnitManager {
      *
      * @throws CmsException if operation was not successful
      */
-    public List<CmsProject> getAllManageableProjects(CmsObject cms, String ouFqn, boolean includeSubOus)
+    public List<CmsProject> getAllManageableProjects(CmsObject cms, @RUntainted String ouFqn, boolean includeSubOus)
     throws CmsException {
 
         CmsOrganizationalUnit orgUnit = readOrganizationalUnit(cms, ouFqn);
@@ -205,7 +206,7 @@ public class CmsOrgUnitManager {
      *
      * @throws CmsException if operation was not successful
      */
-    public List<CmsGroup> getGroups(CmsObject cms, String ouFqn, boolean includeSubOus) throws CmsException {
+    public List<CmsGroup> getGroups(CmsObject cms, @RUntainted String ouFqn, boolean includeSubOus) throws CmsException {
 
         CmsOrganizationalUnit orgUnit = readOrganizationalUnit(cms, ouFqn);
         return (m_securityManager.getGroups(cms.getRequestContext(), orgUnit, includeSubOus, false));
@@ -223,7 +224,7 @@ public class CmsOrgUnitManager {
      *
      * @throws CmsException if operation was not successful
      */
-    public List<CmsOrganizationalUnit> getOrganizationalUnits(CmsObject cms, String ouFqn, boolean includeChildren)
+    public List<CmsOrganizationalUnit> getOrganizationalUnits(CmsObject cms, @RUntainted String ouFqn, boolean includeChildren)
     throws CmsException {
 
         CmsOrganizationalUnit parent = readOrganizationalUnit(cms, ouFqn);
@@ -257,7 +258,7 @@ public class CmsOrgUnitManager {
      *
      * @throws CmsException if operation was not successful
      */
-    public List<CmsResource> getResourcesForOrganizationalUnit(CmsObject cms, String ouFqn) throws CmsException {
+    public List<CmsResource> getResourcesForOrganizationalUnit(CmsObject cms, @RUntainted String ouFqn) throws CmsException {
 
         CmsOrganizationalUnit orgUnit = readOrganizationalUnit(cms, ouFqn);
         return m_securityManager.getResourcesForOrganizationalUnit(cms.getRequestContext(), orgUnit);
@@ -274,7 +275,7 @@ public class CmsOrgUnitManager {
      *
      * @throws CmsException if operation was not successful
      */
-    public List<CmsUser> getUsers(CmsObject cms, String ouFqn, boolean recursive) throws CmsException {
+    public List<CmsUser> getUsers(CmsObject cms, @RUntainted String ouFqn, boolean recursive) throws CmsException {
 
         CmsOrganizationalUnit orgUnit = readOrganizationalUnit(cms, ouFqn);
         return m_securityManager.getUsers(cms.getRequestContext(), orgUnit, recursive);
@@ -291,7 +292,7 @@ public class CmsOrgUnitManager {
      *
      * @throws CmsException if operation was not successful
      */
-    public List<CmsUser> getUsersWithoutAdditionalInfo(CmsObject cms, String ouFqn, boolean recursive)
+    public List<CmsUser> getUsersWithoutAdditionalInfo(CmsObject cms, @RUntainted String ouFqn, boolean recursive)
     throws CmsException {
 
         CmsOrganizationalUnit orgUnit = readOrganizationalUnit(cms, ouFqn);
@@ -327,7 +328,7 @@ public class CmsOrgUnitManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsOrganizationalUnit readOrganizationalUnit(CmsObject cms, String ouFqn) throws CmsException {
+    public CmsOrganizationalUnit readOrganizationalUnit(CmsObject cms, @RUntainted String ouFqn) throws CmsException {
 
         return m_securityManager.readOrganizationalUnit(cms.getRequestContext(), ouFqn);
     }
@@ -341,7 +342,7 @@ public class CmsOrgUnitManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public void removeResourceFromOrgUnit(CmsObject cms, String ouFqn, String resourceName) throws CmsException {
+    public void removeResourceFromOrgUnit(CmsObject cms, @RUntainted String ouFqn, @RUntainted String resourceName) throws CmsException {
 
         CmsOrganizationalUnit orgUnit = readOrganizationalUnit(cms, ouFqn);
         CmsResource resource = cms.readResource(resourceName, CmsResourceFilter.ALL);
@@ -373,7 +374,7 @@ public class CmsOrgUnitManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public void setUsersOrganizationalUnit(CmsObject cms, String ouFqn, String userName) throws CmsException {
+    public void setUsersOrganizationalUnit(CmsObject cms, @RUntainted String ouFqn, @RUntainted String userName) throws CmsException {
 
         CmsOrganizationalUnit orgUnit = readOrganizationalUnit(cms, ouFqn);
         CmsUser user = cms.readUser(userName);

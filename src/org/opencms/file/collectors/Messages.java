@@ -29,6 +29,7 @@ package org.opencms.file.collectors;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,34 +39,34 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_COLLECTOR_DEFAULTS_INVALID_2 = "ERR_COLLECTOR_DEFAULTS_INVALID_2";
+    public static final @RUntainted String ERR_COLLECTOR_DEFAULTS_INVALID_2 = "ERR_COLLECTOR_DEFAULTS_INVALID_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_COLLECTOR_NAME_INVALID_1 = "ERR_COLLECTOR_NAME_INVALID_1";
+    public static final @RUntainted String ERR_COLLECTOR_NAME_INVALID_1 = "ERR_COLLECTOR_NAME_INVALID_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_COLLECTOR_PARAM_DATE_FORMAT_SYNTAX_0 = "ERR_COLLECTOR_PARAM_DATE_FORMAT_SYNTAX_0";
+    public static final @RUntainted String ERR_COLLECTOR_PARAM_DATE_FORMAT_SYNTAX_0 = "ERR_COLLECTOR_PARAM_DATE_FORMAT_SYNTAX_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_COLLECTOR_PARAM_EMPTY_0 = "ERR_COLLECTOR_PARAM_EMPTY_0";
+    public static final @RUntainted String ERR_COLLECTOR_PARAM_EMPTY_0 = "ERR_COLLECTOR_PARAM_EMPTY_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_COLLECTOR_PARAM_INVALID_1 = "ERR_COLLECTOR_PARAM_INVALID_1";
+    public static final @RUntainted String ERR_COLLECTOR_PARAM_INVALID_1 = "ERR_COLLECTOR_PARAM_INVALID_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_COLLECTOR_PARAM_KEY_VALUE_SYNTAX_1 = "ERR_COLLECTOR_PARAM_KEY_VALUE_SYNTAX_1";
+    public static final @RUntainted String ERR_COLLECTOR_PARAM_KEY_VALUE_SYNTAX_1 = "ERR_COLLECTOR_PARAM_KEY_VALUE_SYNTAX_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_COLLECTOR_PARAM_PROPERTY_NOT_FOUND_1 = "ERR_COLLECTOR_PARAM_PROPERTY_NOT_FOUND_1";
+    public static final @RUntainted String ERR_COLLECTOR_PARAM_PROPERTY_NOT_FOUND_1 = "ERR_COLLECTOR_PARAM_PROPERTY_NOT_FOUND_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_COLLECTOR_PARAM_SINGLE_FILE_0 = "ERR_COLLECTOR_PARAM_SINGLE_FILE_0";
+    public static final @RUntainted String ERR_COLLECTOR_PARAM_SINGLE_FILE_0 = "ERR_COLLECTOR_PARAM_SINGLE_FILE_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_COLLECTOR_PARAM_USER_1 = "ERR_COLLECTOR_PARAM_USER_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_UNKNOWN_RESTYPE_1 = "ERR_UNKNOWN_RESTYPE_1";
+    public static final @RUntainted String ERR_UNKNOWN_RESTYPE_1 = "ERR_UNKNOWN_RESTYPE_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_RESOURCE_WITHOUT_NAVPROP_1 = "LOG_RESOURCE_WITHOUT_NAVPROP_1";

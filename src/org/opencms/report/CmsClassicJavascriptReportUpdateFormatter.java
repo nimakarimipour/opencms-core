@@ -37,6 +37,7 @@ import java.util.Locale;
 import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report update formatter for the Javascript-based report update format, which was used in the old workplace most of the time.<p>
@@ -87,7 +88,7 @@ public class CmsClassicJavascriptReportUpdateFormatter implements I_CmsReportUpd
         buf.append("aT('");
         buf.append(Messages.get().getBundle(m_locale).key(Messages.RPT_EXCEPTION_0));
         String exception = CmsEncoder.escapeXml(CmsException.getStackTraceAsString(throwable));
-        StringBuffer excBuffer = new StringBuffer(exception.length() + 50);
+        @RUntainted StringBuffer excBuffer = new StringBuffer(exception.length() + 50);
         StringTokenizer tok = new StringTokenizer(exception, "\r\n");
         while (tok.hasMoreTokens()) {
             excBuffer.append(tok.nextToken());

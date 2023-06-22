@@ -32,6 +32,7 @@ import org.opencms.ui.CmsCssIcon;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.OpenCmsTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**Type of element.*/
 public enum CmsOuTreeType implements I_CmsOuTreeType {
@@ -55,7 +56,7 @@ public enum CmsOuTreeType implements I_CmsOuTreeType {
     private CmsCssIcon m_icon;
 
     /**ID for entry. */
-    private String m_id;
+    private @RUntainted String m_id;
 
     /**Is expandable?*/
     private boolean m_isExpandable;
@@ -72,7 +73,7 @@ public enum CmsOuTreeType implements I_CmsOuTreeType {
      * @param icon icon
      * @param empty empty string
      */
-    CmsOuTreeType(String name, String id, boolean isExpandable, CmsCssIcon icon, String empty) {
+    CmsOuTreeType(String name, @RUntainted String id, boolean isExpandable, CmsCssIcon icon, String empty) {
 
         m_name = name;
         m_id = id;
@@ -106,7 +107,7 @@ public enum CmsOuTreeType implements I_CmsOuTreeType {
      *
      * @return id string
      */
-    public String getId() {
+    public @RUntainted String getId() {
 
         return m_id;
     }

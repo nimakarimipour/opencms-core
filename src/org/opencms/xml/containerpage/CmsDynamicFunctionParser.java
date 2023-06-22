@@ -50,6 +50,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The parser class for creating dynamic function beans from XML contents.<p>
@@ -89,7 +90,7 @@ public class CmsDynamicFunctionParser {
     public CmsDynamicFunctionBean parseFunctionBean(CmsObject cms, CmsXmlContent content) throws CmsException {
 
         Locale locale = getLocaleToUse(cms, content);
-        String oldSiteRoot = cms.getRequestContext().getSiteRoot();
+        @RUntainted String oldSiteRoot = cms.getRequestContext().getSiteRoot();
         try {
             cms.getRequestContext().setSiteRoot("");
             CmsResource functionFormatter = getFunctionFormatter(cms);

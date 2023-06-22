@@ -54,6 +54,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource init handler that provides an alternative way of serving static files like images or binary files, using the API authorization mechanism
@@ -273,7 +274,7 @@ implements I_CmsResourceInit, I_CmsConfigurationParameterHandler, I_CmsNeedsAdmi
         if (!CmsStringUtil.isPrefixPath(PREFIX, uri)) {
             return null;
         }
-        String path = uri.substring(PREFIX.length());
+        @RUntainted String path = uri.substring(PREFIX.length());
         if (path.isEmpty()) {
             path = "/";
         } else if (path.length() > 1) {

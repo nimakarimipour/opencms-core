@@ -29,6 +29,7 @@ package org.opencms.mail;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,10 +39,10 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_SEND_EMAIL_AUTHENTICATE_2 = "ERR_SEND_EMAIL_AUTHENTICATE_2";
+    public static final @RUntainted String ERR_SEND_EMAIL_AUTHENTICATE_2 = "ERR_SEND_EMAIL_AUTHENTICATE_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_SEND_EMAIL_CONFIG_0 = "ERR_SEND_EMAIL_CONFIG_0";
+    public static final @RUntainted String ERR_SEND_EMAIL_CONFIG_0 = "ERR_SEND_EMAIL_CONFIG_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_ADD_HOST_1 = "LOG_ADD_HOST_1";

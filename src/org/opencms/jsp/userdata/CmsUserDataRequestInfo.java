@@ -33,6 +33,7 @@ import org.opencms.main.CmsLog;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The stored information about a user data request.
@@ -113,7 +114,7 @@ public class CmsUserDataRequestInfo {
      *
      * @return the authorization code
      */
-    public String getAuthCode() {
+    public @RUntainted String getAuthCode() {
 
         return m_json.optString(A_AUTH);
     }
@@ -143,7 +144,7 @@ public class CmsUserDataRequestInfo {
      *
      * @return the id
      */
-    public String getId() {
+    public @RUntainted String getId() {
 
         return m_json.optString(A_ID);
     }
@@ -179,7 +180,7 @@ public class CmsUserDataRequestInfo {
      *
      * @return the full user name
      */
-    public String getUserName() {
+    public @RUntainted String getUserName() {
 
         return m_json.optString(A_USER);
     }

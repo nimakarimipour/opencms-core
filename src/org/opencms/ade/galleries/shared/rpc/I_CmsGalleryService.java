@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles all RPC services related to the gallery dialog.<p>
@@ -89,7 +90,7 @@ public interface I_CmsGalleryService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsGalleryActionInfo getGalleryActionInfo(String sitePath) throws CmsRpcException;
+    CmsGalleryActionInfo getGalleryActionInfo(@RUntainted String sitePath) throws CmsRpcException;
 
     /**
      * Returns the resource info for a single resource.<p>
@@ -101,7 +102,7 @@ public interface I_CmsGalleryService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsResultItemBean getInfoForResource(String path, String locale) throws CmsRpcException;
+    CmsResultItemBean getInfoForResource(@RUntainted String path, String locale) throws CmsRpcException;
 
     /**
      * Returns the initial data for the given gallery mode.<p>
@@ -145,7 +146,7 @@ public interface I_CmsGalleryService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    List<CmsSitemapEntryBean> getSubEntries(String rootPath, boolean isRoot, String filter) throws CmsRpcException;
+    List<CmsSitemapEntryBean> getSubEntries(@RUntainted String rootPath, boolean isRoot, String filter) throws CmsRpcException;
 
     /**
      * Gets the sub-folders of a folder.<p>
@@ -156,7 +157,7 @@ public interface I_CmsGalleryService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    List<CmsVfsEntryBean> getSubFolders(String path) throws CmsRpcException;
+    List<CmsVfsEntryBean> getSubFolders(@RUntainted String path) throws CmsRpcException;
 
     /**
      * Loads the root VFS entry bean for the given site root.
@@ -168,7 +169,7 @@ public interface I_CmsGalleryService extends RemoteService {
      *
      *  @throws CmsRpcException if something goes wrong
      * */
-    CmsVfsEntryBean loadVfsEntryBean(String path, String filter) throws CmsRpcException;
+    CmsVfsEntryBean loadVfsEntryBean(@RUntainted String path, String filter) throws CmsRpcException;
 
     /**
      * Stores the result view type with the user.<p>
@@ -187,7 +188,7 @@ public interface I_CmsGalleryService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    void saveTreeOpenState(String treeName, String treeToken, String siteRoot, Set<CmsUUID> openItems)
+    void saveTreeOpenState(@RUntainted String treeName, @RUntainted String treeToken, @RUntainted String siteRoot, @RUntainted Set<@RUntainted CmsUUID> openItems)
     throws CmsRpcException;
 
     /**

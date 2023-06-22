@@ -63,6 +63,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.logging.Log;
 
 import org.w3c.dom.Document;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Transforms all resources of a given type by
@@ -79,7 +80,7 @@ public class CmsXmlFileTransformer {
     private CmsObject m_onlineCms;
 
     /** The path. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /** The type name. */
     private String m_type;
@@ -190,7 +191,7 @@ public class CmsXmlFileTransformer {
      * @param content the message string
      * @return the message container
      */
-    private CmsMessageContainer message(String content) {
+    private CmsMessageContainer message(@RUntainted String content) {
 
         content = CmsXmlFileTransformer.class.getSimpleName() + ": " + content;
         return org.opencms.report.Messages.get().container(org.opencms.report.Messages.RPT_GENERIC_1, content);

@@ -118,6 +118,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the global OpenCms workplace settings for all users.<p>
@@ -185,7 +186,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
     public static final String PARAM_LOGIN_REQUESTED_RESOURCE = "requestedResource";
 
     /** Key name for the session workplace settings. */
-    public static final String SESSION_WORKPLACE_SETTINGS = "__CmsWorkplace.WORKPLACE_SETTINGS";
+    public static final @RUntainted String SESSION_WORKPLACE_SETTINGS = "__CmsWorkplace.WORKPLACE_SETTINGS";
 
     /** Default view configuration. */
     static ViewRules m_defaultViewRules = new ViewRules(
@@ -265,7 +266,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
     private boolean m_enableAdvancedPropertyTabs;
 
     /** The configured encoding of the workplace. */
-    private String m_encoding;
+    private @RUntainted String m_encoding;
 
     /** The explorer type settings. */
     private List<CmsExplorerTypeSettings> m_explorerTypeSettings;
@@ -364,7 +365,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
     private boolean m_xmlContentAutoCorrect;
 
     /** The role required for editing the sitemap configuration. */
-    private String m_sitemapConfigEditRole;
+    private @RUntainted String m_sitemapConfigEditRole;
 
     /**
      * Creates a new instance for the workplace manager, will be called by the workplace configuration manager.<p>
@@ -744,7 +745,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      *
      * @throws CmsException if something goes wrong
      */
-    public synchronized String createTempFile(CmsObject cms, String resourceName, CmsUUID currentProjectId)
+    public synchronized String createTempFile(CmsObject cms, @RUntainted String resourceName, CmsUUID currentProjectId)
     throws CmsException {
 
         // check that the current user has write permissions
@@ -757,7 +758,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
         CmsObject adminCms = getAdminCms(cms);
 
         // generate the filename of the temporary file
-        String temporaryFilename = CmsWorkplace.getTemporaryFileName(resourceName);
+        @RUntainted String temporaryFilename = CmsWorkplace.getTemporaryFileName(resourceName);
 
         // check if the temporary file is already present
         if (adminCms.existsResource(temporaryFilename, CmsResourceFilter.ALL)) {
@@ -1436,7 +1437,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      *
      * @return the name of the role necessary for editing the sitemap configuration
      */
-    public String getSitemapConfigEditRole() {
+    public @RUntainted String getSitemapConfigEditRole() {
 
         return m_sitemapConfigEditRole;
     }
@@ -1576,7 +1577,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      *
      * @return the workplace locale
      */
-    public Locale getWorkplaceLocale(CmsObject cms) {
+    public @RUntainted Locale getWorkplaceLocale(CmsObject cms) {
 
         return getWorkplaceLocale(cms.getRequestContext());
     }
@@ -2198,7 +2199,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      *
      * @param roleName the name of the role necessary for editing the sitemap configuration
      */
-    public void setSitemapConfigEditRole(String roleName) {
+    public void setSitemapConfigEditRole(@RUntainted String roleName) {
 
         m_sitemapConfigEditRole = roleName;
     }
@@ -2329,7 +2330,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      *
      * @return the translated group name
      */
-    public String translateGroupName(String groupName, boolean keepOu) {
+    public String translateGroupName(@RUntainted String groupName, boolean keepOu) {
 
         I_CmsGroupNameTranslation translation = getGroupNameTranslation();
         return translation.translateGroupName(groupName, keepOu);
@@ -2386,7 +2387,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
 
         return new I_CmsGroupNameTranslation() {
 
-            public String translateGroupName(String group, boolean keepOu) {
+            public String translateGroupName(@RUntainted String group, boolean keepOu) {
 
                 return keepOu ? group : CmsOrganizationalUnit.getSimpleName(group);
             }

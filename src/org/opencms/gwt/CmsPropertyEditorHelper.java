@@ -73,6 +73,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class responsible for loading / saving properties when using the property dialog.<p>
@@ -204,7 +205,7 @@ public class CmsPropertyEditorHelper {
     public CmsPropertiesBean loadPropertyData(CmsUUID id) throws CmsException {
 
         CmsObject cms = m_cms;
-        String originalSiteRoot = cms.getRequestContext().getSiteRoot();
+        @RUntainted String originalSiteRoot = cms.getRequestContext().getSiteRoot();
         CmsPropertiesBean result = new CmsPropertiesBean();
         CmsResource resource = cms.readResource(id, CmsResourceFilter.IGNORE_EXPIRATION);
         result.setReadOnly(!isWritable(cms, resource));

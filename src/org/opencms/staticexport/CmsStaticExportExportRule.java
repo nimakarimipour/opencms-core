@@ -40,6 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Help class for storing of export-rules.<p>
@@ -148,7 +149,7 @@ public class CmsStaticExportExportRule {
         Set<CmsPublishedResource> resources = new HashSet<CmsPublishedResource>(128);
         Iterator<String> itExpRes = m_exportResources.iterator();
         while (itExpRes.hasNext()) {
-            String exportRes = itExpRes.next();
+            @RUntainted String exportRes = itExpRes.next();
             // read all from the configured node path, exclude resources flagged as internal
             if (cms.existsResource(exportRes)) {
                 // first add the resource itself

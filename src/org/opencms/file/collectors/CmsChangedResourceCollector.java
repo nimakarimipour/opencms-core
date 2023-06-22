@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A resource collector that collects resources changed in a given time frame and supports flexible sorting based on resource dates.<p>
@@ -64,7 +65,7 @@ public class CmsChangedResourceCollector extends A_CmsResourceCollector {
     public static final String PARAM_KEY_DATETO = "dateto";
 
     /** The collector parameter key for the name of the resource type to exclude from the result. */
-    public static final String PARAM_KEY_EXCLUDETYPE = "excludetype";
+    public static final @RUntainted String PARAM_KEY_EXCLUDETYPE = "excludetype";
 
     /** The collector parameter key for the resource, i.e. the parent folder from which the subscribed or visited resources should be read from. */
     public static final String PARAM_KEY_RESOURCE = "resource";
@@ -96,7 +97,7 @@ public class CmsChangedResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateLink(CmsObject cms, String collectorName, String param) {
+    public @RUntainted String getCreateLink(CmsObject cms, String collectorName, String param) {
 
         // this collector does not support creation of new resources
         return null;
@@ -123,7 +124,7 @@ public class CmsChangedResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getResults(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public List<CmsResource> getResults(CmsObject cms, String collectorName, String param, int numResults)
+    public List<CmsResource> getResults(CmsObject cms, @RUntainted String collectorName, String param, int numResults)
     throws CmsDataAccessException, CmsException {
 
         // if action is not set use default
@@ -172,9 +173,9 @@ public class CmsChangedResourceCollector extends A_CmsResourceCollector {
         boolean asc,
         int numResults) throws CmsException {
 
-        Map<String, String> params = getParameters(param);
+        @RUntainted Map<@RUntainted String, @RUntainted String> params = getParameters(param);
 
-        String foldername = "/";
+        @RUntainted String foldername = "/";
         if (params.containsKey(PARAM_KEY_RESOURCE)) {
             foldername = CmsResource.getFolderPath(params.get(PARAM_KEY_RESOURCE));
         }
@@ -292,7 +293,7 @@ public class CmsChangedResourceCollector extends A_CmsResourceCollector {
      *
      * @return the collector parameters
      */
-    private Map<String, String> getParameters(String param) {
+    private @RUntainted Map<@RUntainted String, @RUntainted String> getParameters(String param) {
 
         if (CmsStringUtil.isNotEmpty(param)) {
             return CmsStringUtil.splitAsMap(param, "|", "=");

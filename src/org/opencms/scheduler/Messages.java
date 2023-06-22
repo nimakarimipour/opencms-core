@@ -29,6 +29,7 @@ package org.opencms.scheduler;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,49 +39,49 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_BAD_CONTEXT_INFO_0 = "ERR_BAD_CONTEXT_INFO_0";
+    public static final @RUntainted String ERR_BAD_CONTEXT_INFO_0 = "ERR_BAD_CONTEXT_INFO_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_BAD_CRON_EXPRESSION_2 = "ERR_BAD_CRON_EXPRESSION_2";
+    public static final @RUntainted String ERR_BAD_CRON_EXPRESSION_2 = "ERR_BAD_CRON_EXPRESSION_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_BAD_JOB_CLASS_NAME_1 = "ERR_BAD_JOB_CLASS_NAME_1";
+    public static final @RUntainted String ERR_BAD_JOB_CLASS_NAME_1 = "ERR_BAD_JOB_CLASS_NAME_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_BAD_JOB_NAME_1 = "ERR_BAD_JOB_NAME_1";
+    public static final @RUntainted String ERR_BAD_JOB_NAME_1 = "ERR_BAD_JOB_NAME_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_BAD_JOB_PARAMS_0 = "ERR_BAD_JOB_PARAMS_0";
+    public static final @RUntainted String ERR_BAD_JOB_PARAMS_0 = "ERR_BAD_JOB_PARAMS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_COULD_NOT_RESCHEDULE_JOB_2 = "ERR_COULD_NOT_RESCHEDULE_JOB_2";
+    public static final @RUntainted String ERR_COULD_NOT_RESCHEDULE_JOB_2 = "ERR_COULD_NOT_RESCHEDULE_JOB_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_COULD_NOT_SCHEDULE_JOB_2 = "ERR_COULD_NOT_SCHEDULE_JOB_2";
+    public static final @RUntainted String ERR_COULD_NOT_SCHEDULE_JOB_2 = "ERR_COULD_NOT_SCHEDULE_JOB_2";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_INIT_THREAD_COUNT_BOUNDS_0 = "ERR_INIT_THREAD_COUNT_BOUNDS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_INVALID_JOB_CONFIGURATION_0 = "ERR_INVALID_JOB_CONFIGURATION_0";
+    public static final @RUntainted String ERR_INVALID_JOB_CONFIGURATION_0 = "ERR_INVALID_JOB_CONFIGURATION_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_JOB_CLASS_BAD_INTERFACE_2 = "ERR_JOB_CLASS_BAD_INTERFACE_2";
+    public static final @RUntainted String ERR_JOB_CLASS_BAD_INTERFACE_2 = "ERR_JOB_CLASS_BAD_INTERFACE_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_JOB_CLASS_NOT_FOUND_1 = "ERR_JOB_CLASS_NOT_FOUND_1";
+    public static final @RUntainted String ERR_JOB_CLASS_NOT_FOUND_1 = "ERR_JOB_CLASS_NOT_FOUND_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_JOB_INFO_FROZEN_1 = "ERR_JOB_INFO_FROZEN_1";
+    public static final @RUntainted String ERR_JOB_INFO_FROZEN_1 = "ERR_JOB_INFO_FROZEN_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_JOB_WITH_ID_DOES_NOT_EXIST_1 = "ERR_JOB_WITH_ID_DOES_NOT_EXIST_1";
+    public static final @RUntainted String ERR_JOB_WITH_ID_DOES_NOT_EXIST_1 = "ERR_JOB_WITH_ID_DOES_NOT_EXIST_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_MAX_THREAD_COUNT_BOUNDS_0 = "ERR_MAX_THREAD_COUNT_BOUNDS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_NO_SCHEDULER_1 = "ERR_NO_SCHEDULER_1";
+    public static final @RUntainted String ERR_NO_SCHEDULER_1 = "ERR_NO_SCHEDULER_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_SCHEDULER_PRIORITY_BOUNDS_0 = "ERR_SCHEDULER_PRIORITY_BOUNDS_0";

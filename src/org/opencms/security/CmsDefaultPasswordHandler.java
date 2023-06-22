@@ -43,6 +43,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
 
 import com.lambdaworks.crypto.SCryptUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default implementation for OpenCms password validation,
@@ -60,7 +61,7 @@ implements I_CmsPasswordHandler, I_CmsPasswordSecurityEvaluator, I_CmsPasswordGe
     public static String PARAM_SCRYPT_SETTINGS = "scrypt.settings";
 
     /**  The minimum length of a password. */
-    public static final int PASSWORD_MIN_LENGTH = 4;
+    public static final @RUntainted int PASSWORD_MIN_LENGTH = 4;
 
     /** The password length that is considered to be secure. */
     public static final int PASSWORD_SECURE_LENGTH = 8;
@@ -152,7 +153,7 @@ implements I_CmsPasswordHandler, I_CmsPasswordSecurityEvaluator, I_CmsPasswordGe
     /**
      * @see org.opencms.security.I_CmsPasswordHandler#digest(java.lang.String, java.lang.String, java.lang.String)
      */
-    public String digest(String password, String digestType, String inputEncoding)
+    public String digest(String password, @RUntainted String digestType, @RUntainted String inputEncoding)
     throws CmsPasswordEncryptionException {
 
         MessageDigest md;

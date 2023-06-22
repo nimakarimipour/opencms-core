@@ -55,6 +55,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * One element of a container in a container page.<p>
@@ -100,7 +101,7 @@ public class CmsContainerElementBean implements Cloneable {
     private transient Map<String, String> m_settings;
 
     /** The element site path, only set while rendering. */
-    private String m_sitePath;
+    private @RUntainted String m_sitePath;
 
     /** Indicates the element bean has a temporary file content set. */
     private boolean m_temporaryContent;
@@ -192,7 +193,7 @@ public class CmsContainerElementBean implements Cloneable {
         boolean releasedAndNotExpired,
         CmsResource resource,
         Map<String, String> settings,
-        String sitePath) {
+        @RUntainted String sitePath) {
 
         m_createNew = createNew;
         m_elementId = elementId;
@@ -278,7 +279,7 @@ public class CmsContainerElementBean implements Cloneable {
     public static CmsContainerElementBean createElementForResourceType(
         CmsObject cms,
         I_CmsResourceType resourceType,
-        String targetFolder,
+        @RUntainted String targetFolder,
         Map<String, String> individualSettings,
         boolean isCopyModels,
         Locale locale)
@@ -288,7 +289,7 @@ public class CmsContainerElementBean implements Cloneable {
             throw new IllegalArgumentException();
         }
 
-        byte[] content = new byte[0];
+        @RUntainted byte[] content = new byte[0];
         String schema = ((CmsResourceTypeXmlContent)resourceType).getSchema();
         if (schema != null) {
             // must set URI of OpenCms user context to parent folder of created resource,
@@ -481,7 +482,7 @@ public class CmsContainerElementBean implements Cloneable {
      *
      * @return the element instance id
      */
-    public String getInstanceId() {
+    public @RUntainted String getInstanceId() {
 
         return getIndividualSettings().get(CmsContainerElement.ELEMENT_INSTANCE_ID);
     }
@@ -520,7 +521,7 @@ public class CmsContainerElementBean implements Cloneable {
      *
      * @see #initResource(CmsObject)
      */
-    public String getSitePath() {
+    public @RUntainted String getSitePath() {
 
         return m_sitePath;
     }

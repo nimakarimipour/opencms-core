@@ -95,6 +95,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic (ANSI-SQL) database server implementation of the VFS driver methods.<p>
@@ -132,7 +133,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      *
      * @return a pair consisting of an SQL string and a list of the prepared statement parameters for the SQL
      */
-    public static CmsPair<String, List<I_CmsPreparedStatementParameter>> prepareUrlNameMappingConditions(
+    public static @RUntainted CmsPair<@RUntainted String, @RUntainted List<@RUntainted I_CmsPreparedStatementParameter>> prepareUrlNameMappingConditions(
         CmsUrlNameMappingFilter filter) {
 
         List<String> sqlConditions = new ArrayList<String>();
@@ -191,7 +192,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      * @param path the resource path
      * @return the escaped resource path
      */
-    protected static String escapeDbWildcard(String path) {
+    protected static @RUntainted String escapeDbWildcard(@RUntainted String path) {
 
         return CmsStringUtil.substitute(path, "_", "|_");
     }
@@ -204,7 +205,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
 
         Connection conn = null;
         PreparedStatement stmt = null;
-        String query = m_sqlManager.readQuery("C_ADD_URLNAME_MAPPING");
+        @RUntainted String query = m_sqlManager.readQuery("C_ADD_URLNAME_MAPPING");
         query = replaceProject(query, online);
         try {
             conn = m_sqlManager.getConnection(dbc);
@@ -849,7 +850,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      */
     public CmsResource createResource(ResultSet res, CmsUUID projectId) throws SQLException {
 
-        CmsUUID structureId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_STRUCTURE_ID")));
+        @RUntainted CmsUUID structureId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_STRUCTURE_ID")));
         CmsUUID resourceId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_RESOURCE_ID")));
         String resourcePath = res.getString(m_sqlManager.readQuery("C_RESOURCES_RESOURCE_PATH"));
         int resourceType = res.getInt(m_sqlManager.readQuery("C_RESOURCES_RESOURCE_TYPE"));
@@ -1036,8 +1037,8 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
         }
         try {
             conn = m_sqlManager.getConnection(dbc);
-            CmsPair<String, List<String>> filterData = buildAliasConditions(filter);
-            String sql = "DELETE FROM CMS_ALIASES WHERE " + filterData.getFirst();
+            @RUntainted CmsPair<@RUntainted String, @RUntainted List<@RUntainted String>> filterData = buildAliasConditions(filter);
+            @RUntainted String sql = "DELETE FROM CMS_ALIASES WHERE " + filterData.getFirst();
             stmt = m_sqlManager.getPreparedStatementForSql(conn, sql);
             List<String> conditionParams = filterData.getSecond();
             for (int i = 0; i < conditionParams.size(); i++) {
@@ -1217,10 +1218,10 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
         PreparedStatement stmt = null;
         try {
             conn = m_sqlManager.getConnection(dbc);
-            CmsPair<String, List<Object>> conditionAndParams = prepareRewriteAliasConditions(filter);
-            String condition = conditionAndParams.getFirst();
+            @RUntainted CmsPair<@RUntainted String, @RUntainted List<@RUntainted Object>> conditionAndParams = prepareRewriteAliasConditions(filter);
+            @RUntainted String condition = conditionAndParams.getFirst();
             List<Object> params = conditionAndParams.getSecond();
-            String query = "DELETE FROM CMS_REWRITES WHERE " + condition;
+            @RUntainted String query = "DELETE FROM CMS_REWRITES WHERE " + condition;
             stmt = m_sqlManager.getPreparedStatementForSql(conn, query);
             CmsDbUtil.fillParameters(stmt, params);
             stmt.execute();
@@ -1768,10 +1769,10 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
         ResultSet res = null;
         try {
             conn = m_sqlManager.getConnection(dbc);
-            CmsPair<String, List<String>> conditionPair = buildAliasConditions(filter);
-            String conditionString = conditionPair.getFirst();
+            @RUntainted CmsPair<@RUntainted String, @RUntainted List<@RUntainted String>> conditionPair = buildAliasConditions(filter);
+            @RUntainted String conditionString = conditionPair.getFirst();
             List<String> conditionParams = conditionPair.getSecond();
-            String sql = "SELECT site_root, path, alias_mode, structure_id FROM CMS_ALIASES WHERE " + conditionString;
+            @RUntainted String sql = "SELECT site_root, path, alias_mode, structure_id FROM CMS_ALIASES WHERE " + conditionString;
             stmt = m_sqlManager.getPreparedStatementForSql(conn, sql);
             for (int i = 0; i < conditionParams.size(); i++) {
                 stmt.setString(1 + i, conditionParams.get(i));
@@ -2622,7 +2623,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
 
         try {
             conn = m_sqlManager.getConnection(dbc);
-            StringBuffer queryBuf = new StringBuffer(256);
+            @RUntainted StringBuffer queryBuf = new StringBuffer(256);
             queryBuf.append(m_sqlManager.readQuery(projectId, "C_RESOURCES_READ_TREE"));
             queryBuf.append(conditions);
             queryBuf.append(" ");
@@ -2668,10 +2669,10 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
         List<CmsRewriteAlias> result = new ArrayList<CmsRewriteAlias>();
         try {
             conn = m_sqlManager.getConnection(dbc);
-            CmsPair<String, List<Object>> conditionAndParams = prepareRewriteAliasConditions(filter);
-            String condition = conditionAndParams.getFirst();
+            @RUntainted CmsPair<@RUntainted String, @RUntainted List<@RUntainted Object>> conditionAndParams = prepareRewriteAliasConditions(filter);
+            @RUntainted String condition = conditionAndParams.getFirst();
             List<Object> params = conditionAndParams.getSecond();
-            String query = m_sqlManager.readQuery("C_REWRITE_ALIAS_READ") + condition;
+            @RUntainted String query = m_sqlManager.readQuery("C_REWRITE_ALIAS_READ") + condition;
             stmt = m_sqlManager.getPreparedStatementForSql(conn, query);
             CmsDbUtil.fillParameters(stmt, params);
             res = stmt.executeQuery();
@@ -4604,7 +4605,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
 
         try {
             conn = m_sqlManager.getConnection(dbc);
-            StringBuffer queryBuf = new StringBuffer(256);
+            @RUntainted StringBuffer queryBuf = new StringBuffer(256);
             queryBuf.append(m_sqlManager.readQuery(projectId, "C_RESOURCES_READ_TREE"));
             queryBuf.append(conditions);
             queryBuf.append(" ");
@@ -4741,15 +4742,15 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      *
      * @throws SQLException if something goes wrong
      */
-    PreparedStatement getPreparedStatementForFilter(Connection conn, String baseQuery, CmsUrlNameMappingFilter filter)
+    PreparedStatement getPreparedStatementForFilter(Connection conn, @RUntainted String baseQuery, CmsUrlNameMappingFilter filter)
     throws SQLException {
 
-        CmsPair<String, List<I_CmsPreparedStatementParameter>> conditionData = prepareUrlNameMappingConditions(filter);
-        String whereClause = "";
+        @RUntainted CmsPair<@RUntainted String, @RUntainted List<@RUntainted I_CmsPreparedStatementParameter>> conditionData = prepareUrlNameMappingConditions(filter);
+        @RUntainted String whereClause = "";
         if (!conditionData.getFirst().equals("")) {
             whereClause = " WHERE " + conditionData.getFirst();
         }
-        String query = baseQuery + whereClause;
+        @RUntainted String query = baseQuery + whereClause;
         PreparedStatement stmt = m_sqlManager.getPreparedStatementForSql(conn, query);
         int counter = 1;
         for (I_CmsPreparedStatementParameter param : conditionData.getSecond()) {
@@ -4765,7 +4766,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      * @param filter the alias filter
      * @return a pair containing a condition string and the parameters which are necessary for the conditions
      */
-    private CmsPair<String, List<String>> buildAliasConditions(CmsAliasFilter filter) {
+    private @RUntainted CmsPair<@RUntainted String, @RUntainted List<@RUntainted String>> buildAliasConditions(CmsAliasFilter filter) {
 
         List<String> conditions = new ArrayList<String>();
         conditions.add("1 = 1");
@@ -4793,7 +4794,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      *
      * @return a pair consisting of an SQL condition string and a list of query parameters
      */
-    private CmsPair<String, List<Object>> prepareRewriteAliasConditions(CmsRewriteAliasFilter filter) {
+    private @RUntainted CmsPair<@RUntainted String, @RUntainted List<@RUntainted Object>> prepareRewriteAliasConditions(CmsRewriteAliasFilter filter) {
 
         List<String> conditions = new ArrayList<String>();
         conditions.add("1 = 1");
@@ -4821,7 +4822,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      *
      * @return the query with the replaced macro
      */
-    private String replaceProject(String query, boolean online) {
+    private @RUntainted String replaceProject(@RUntainted String query, boolean online) {
 
         return query.replace("%(PROJECT)", online ? ONLINE : OFFLINE);
     }

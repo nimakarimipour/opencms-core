@@ -30,6 +30,7 @@ package org.opencms.file;
 import org.opencms.db.CmsResourceState;
 import org.opencms.file.types.I_CmsResourceType;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class allows the developer to build a CmsResource object by filling out individual fields one after the
@@ -71,7 +72,7 @@ public class CmsResourceBuilder {
     private CmsUUID m_resourceId;
 
     /** The name of a resource with it's full path from the root folder including the current site root. */
-    private String m_rootPath;
+    private @RUntainted String m_rootPath;
 
     /** The number of links that point to this resource. */
     private int m_siblingCount;
@@ -80,7 +81,7 @@ public class CmsResourceBuilder {
     private CmsResourceState m_state;
 
     /** The id of the structure database record. */
-    private CmsUUID m_structureId;
+    private @RUntainted CmsUUID m_structureId;
 
     /** The m type. */
     private I_CmsResourceType m_type;
@@ -416,7 +417,7 @@ public class CmsResourceBuilder {
      *
      * @param rootPath the new root path
      */
-    public void setRootPath(String rootPath) {
+    public void setRootPath(@RUntainted String rootPath) {
 
         m_rootPath = rootPath;
     }
@@ -446,7 +447,7 @@ public class CmsResourceBuilder {
      *
      * @param structureId the new structure id
      */
-    public void setStructureId(CmsUUID structureId) {
+    public void setStructureId(@RUntainted CmsUUID structureId) {
 
         m_structureId = structureId;
     }

@@ -66,6 +66,7 @@ import javax.servlet.jsp.PageContext;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resolver for macro formatters.<p>
@@ -262,7 +263,7 @@ public class CmsMacroFormatterResolver {
      *
      * @return the formatter bean
      */
-    protected I_CmsFormatterBean getFormatterForMacro(String macro) {
+    protected I_CmsFormatterBean getFormatterForMacro(@RUntainted String macro) {
 
         CmsADEConfigData config = OpenCms.getADEManager().lookupConfigurationWithCache(
             m_cms,
@@ -332,7 +333,7 @@ public class CmsMacroFormatterResolver {
      * @throws IOException in case writing to the page context output stream fails
      */
     @SuppressWarnings("resource")
-    protected void printMacroValue(String macro) throws IOException {
+    protected void printMacroValue(@RUntainted String macro) throws IOException {
 
         if (macro.startsWith(KEY_CMS)) {
             Object result = getMacroBeanValue(m_contextBean, macro.substring(KEY_CMS.length()));

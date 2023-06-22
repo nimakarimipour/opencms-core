@@ -35,6 +35,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A group principal in the OpenCms permission system.<p>
@@ -68,7 +69,7 @@ public class CmsGroup extends CmsPrincipal {
      * @param description the description of the group
      * @param flags the flags of the group
      */
-    public CmsGroup(CmsUUID id, CmsUUID parentId, String name, String description, int flags) {
+    public CmsGroup(@RUntainted CmsUUID id, CmsUUID parentId, @RUntainted String name, String description, int flags) {
 
         m_id = id;
         m_name = name;
@@ -112,9 +113,9 @@ public class CmsGroup extends CmsPrincipal {
      *
      * @return the given String with the prefix {@link I_CmsPrincipal#PRINCIPAL_GROUP} with the following dot removed
      */
-    public static String removePrefix(String principalName) {
+    public static @RUntainted String removePrefix(@RUntainted String principalName) {
 
-        String result = principalName;
+        @RUntainted String result = principalName;
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(principalName)) {
             if (hasPrefix(principalName)) {
                 result = principalName.trim().substring(I_CmsPrincipal.PRINCIPAL_GROUP.length() + 1);

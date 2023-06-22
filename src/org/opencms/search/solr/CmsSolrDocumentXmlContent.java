@@ -85,6 +85,7 @@ import java.util.function.Consumer;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Special document text extraction factory for Solr index.<p>
@@ -423,7 +424,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
      */
     public static CmsExtractionResult extractXmlContent(
         CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         I_CmsSearchIndex index,
         Locale forceLocale,
         Set<CmsUUID> alreadyExtracted,
@@ -702,7 +703,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
      * @see org.opencms.search.documents.CmsDocumentXmlContent#extractContent(org.opencms.file.CmsObject, org.opencms.file.CmsResource, org.opencms.search.I_CmsSearchIndex)
      */
     @Override
-    public I_CmsExtractionResult extractContent(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+    public I_CmsExtractionResult extractContent(CmsObject cms, @RUntainted CmsResource resource, I_CmsSearchIndex index)
     throws CmsException {
 
         logContentExtraction(resource, index);

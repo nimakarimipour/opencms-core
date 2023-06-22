@@ -54,6 +54,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles all RPC services related to the sitemap.<p>
@@ -75,7 +76,7 @@ public interface I_CmsSitemapService extends RemoteService {
      * @param name the new name
      * @throws CmsRpcException if something goes wrong
      */
-    void changeCategory(String entryPoint, CmsUUID id, String title, String name) throws CmsRpcException;
+    void changeCategory(String entryPoint, CmsUUID id, String title, @RUntainted String name) throws CmsRpcException;
 
     /**
      * Creates a new category.<p>
@@ -87,7 +88,7 @@ public interface I_CmsSitemapService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    void createCategory(String entryPoint, CmsUUID id, String title, String name) throws CmsRpcException;
+    void createCategory(String entryPoint, CmsUUID id, @RUntainted String title, @RUntainted String name) throws CmsRpcException;
 
     /**
      * Creates a new gallery folder.<p>
@@ -100,7 +101,7 @@ public interface I_CmsSitemapService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsGalleryFolderEntry createNewGalleryFolder(String parentFolder, String title, int folderTypeId)
+    CmsGalleryFolderEntry createNewGalleryFolder(@RUntainted String parentFolder, @RUntainted String title, int folderTypeId)
     throws CmsRpcException;
 
     /**
@@ -205,7 +206,7 @@ public interface I_CmsSitemapService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    Map<CmsGalleryType, List<CmsGalleryFolderEntry>> getGalleryData(String entryPointUri) throws CmsRpcException;
+    Map<CmsGalleryType, List<CmsGalleryFolderEntry>> getGalleryData(@RUntainted String entryPointUri) throws CmsRpcException;
 
     /**
      * Gets the model pages for the given structure id of the sitemap root folder.<p>
@@ -225,7 +226,7 @@ public interface I_CmsSitemapService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    List<CmsNewResourceInfo> getNewElementInfo(String entryPointUri) throws CmsRpcException;
+    List<CmsNewResourceInfo> getNewElementInfo(@RUntainted String entryPointUri) throws CmsRpcException;
 
     /**
      * Fetches the link for a resource selected in the sitemap editor.<p>
@@ -236,7 +237,7 @@ public interface I_CmsSitemapService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    String getResourceLink(CmsUUID baseId, String sitePath) throws CmsRpcException;
+    String getResourceLink(CmsUUID baseId, @RUntainted String sitePath) throws CmsRpcException;
 
     /**
      * Loads the data needed by the property editor in the locale comparison view.<p>
@@ -309,7 +310,7 @@ public interface I_CmsSitemapService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsSitemapChange save(String sitemapUri, CmsSitemapChange change) throws CmsRpcException;
+    CmsSitemapChange save(@RUntainted String sitemapUri, CmsSitemapChange change) throws CmsRpcException;
 
     /**
      * Saves the aliases for the bulk alias editor.<p>
@@ -333,7 +334,7 @@ public interface I_CmsSitemapService extends RemoteService {
      */
     void savePropertiesForLocaleCompareMode(
         CmsUUID id,
-        String newUrlName,
+        @RUntainted String newUrlName,
         List<CmsPropertyModification> propertyChanges,
         boolean editedName)
     throws CmsRpcException;

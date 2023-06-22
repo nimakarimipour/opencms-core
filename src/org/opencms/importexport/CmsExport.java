@@ -85,6 +85,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXWriter;
 import org.xml.sax.SAXException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the functionality to export files from the OpenCms VFS to a ZIP file.<p>
@@ -247,7 +248,7 @@ public class CmsExport {
      * @throws SAXException if something goes wrong processing the manifest.xml
      * @throws IOException if not all resources could be appended to the ZIP archive
      */
-    protected void addChildResources(String folderName) throws CmsImportExportException, IOException, SAXException {
+    protected void addChildResources(@RUntainted String folderName) throws CmsImportExportException, IOException, SAXException {
 
         try {
             // get all subFolders
@@ -338,7 +339,7 @@ public class CmsExport {
 
         if (fileNames != null) {
             for (int i = 0; i < fileNames.size(); i++) {
-                String fileName = fileNames.get(i);
+                @RUntainted String fileName = fileNames.get(i);
 
                 try {
                     CmsFile file = getCms().readFile(fileName, CmsResourceFilter.IGNORE_EXPIRATION);
@@ -380,7 +381,7 @@ public class CmsExport {
      * @throws CmsImportExportException if something goes wrong
      * @throws SAXException if something goes wrong processing the manifest.xml
      */
-    protected void addParentFolders(String resourceName) throws CmsImportExportException, SAXException {
+    protected void addParentFolders(@RUntainted String resourceName) throws CmsImportExportException, SAXException {
 
         try {
             // this is a resource in /system/ folder and option includeSystem is not true
@@ -407,7 +408,7 @@ public class CmsExport {
                 superFolders.add(currentSubFolder);
             }
             for (int i = superFolders.size() - 1; i >= 0; i--) {
-                String addFolder = superFolders.get(i);
+                @RUntainted String addFolder = superFolders.get(i);
                 if (!m_superFolders.contains(addFolder)) {
                     // This super folder was NOT added previously. Add it now!
                     CmsFolder folder = getCms().readFolder(addFolder, CmsResourceFilter.IGNORE_EXPIRATION);
@@ -829,7 +830,7 @@ public class CmsExport {
             } else {
                 // Prevent resources in /system or other sites from being removed when '/' for current site is also selected
                 Map<String, String> rootToSitePaths = new HashMap<>();
-                for (String sitePath : resourcesToExport) {
+                for (@RUntainted String sitePath : resourcesToExport) {
                     String rootPath = m_cms.addSiteRoot(sitePath);
                     rootToSitePaths.put(rootPath, sitePath);
                 }
@@ -857,7 +858,7 @@ public class CmsExport {
 
         // export the folders
         for (int i = 0; i < folderNames.size(); i++) {
-            String path = folderNames.get(i);
+            @RUntainted String path = folderNames.get(i);
             if (m_parameters.isRecursive()) {
                 // first add super folders to the xml-config file
                 addParentFolders(path);

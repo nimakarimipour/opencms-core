@@ -49,6 +49,7 @@ import org.apache.commons.logging.Log;
 
 import org.quartz.CronExpression;
 import org.quartz.Trigger;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a scheduled job for the OpenCms scheduler.<p>
@@ -509,7 +510,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
      *
      * @return the name of the class to schedule
      */
-    public String getClassName() {
+    public @RUntainted String getClassName() {
 
         return m_className;
     }
@@ -551,7 +552,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
      *
      * @return the cron expression for this job entry
      */
-    public String getCronExpression() {
+    public @RUntainted String getCronExpression() {
 
         return m_cronExpression;
     }
@@ -687,7 +688,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
      *
      * @return the job name
      */
-    public String getJobName() {
+    public @RUntainted String getJobName() {
 
         return m_jobName;
     }
@@ -759,7 +760,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
      *
      * @param className the class name to set
      */
-    public void setClassName(String className) {
+    public void setClassName(@RUntainted String className) {
 
         checkFrozen();
         if (className != null) {
@@ -832,7 +833,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
      * @param cronExpression the cron expression to set
      */
     @SuppressWarnings("unused")
-    public void setCronExpression(String cronExpression) {
+    public void setCronExpression(@RUntainted String cronExpression) {
 
         checkFrozen();
 
@@ -852,7 +853,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
      *
      * @param jobName the job name to set
      */
-    public void setJobName(String jobName) {
+    public void setJobName(@RUntainted String jobName) {
 
         checkFrozen();
         if (CmsStringUtil.isEmpty(jobName) || !jobName.trim().equals(jobName)) {

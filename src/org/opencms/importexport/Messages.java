@@ -29,6 +29,7 @@ package org.opencms.importexport;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,37 +39,37 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_BAD_CONTENT_AGE_1 = "ERR_BAD_CONTENT_AGE_1";
+    public static final @RUntainted String ERR_BAD_CONTENT_AGE_1 = "ERR_BAD_CONTENT_AGE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_BAD_FILE_NAME_1 = "ERR_BAD_FILE_NAME_1";
+    public static final @RUntainted String ERR_BAD_FILE_NAME_1 = "ERR_BAD_FILE_NAME_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_BODY_CONTENT_NOT_FOUND_0 = "ERR_BODY_CONTENT_NOT_FOUND_0";
+    public static final @RUntainted String ERR_BODY_CONTENT_NOT_FOUND_0 = "ERR_BODY_CONTENT_NOT_FOUND_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_ADDING_CHILD_RESOURCES_1 = "ERR_IMPORTEXPORT_ERROR_ADDING_CHILD_RESOURCES_1";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_ADDING_CHILD_RESOURCES_1 = "ERR_IMPORTEXPORT_ERROR_ADDING_CHILD_RESOURCES_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_ADDING_FILE_1 = "ERR_IMPORTEXPORT_ERROR_ADDING_FILE_1";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_ADDING_FILE_1 = "ERR_IMPORTEXPORT_ERROR_ADDING_FILE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_ADDING_PARENT_FOLDERS_1 = "ERR_IMPORTEXPORT_ERROR_ADDING_PARENT_FOLDERS_1";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_ADDING_PARENT_FOLDERS_1 = "ERR_IMPORTEXPORT_ERROR_ADDING_PARENT_FOLDERS_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_IMPORTEXPORT_ERROR_ADDING_RELATION_TO_RESOURCE_1 = "ERR_IMPORTEXPORT_ERROR_ADDING_RELATION_TO_RESOURCE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_APPENDING_RESOURCE_TO_MANIFEST_1 = "ERR_IMPORTEXPORT_ERROR_APPENDING_RESOURCE_TO_MANIFEST_1";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_APPENDING_RESOURCE_TO_MANIFEST_1 = "ERR_IMPORTEXPORT_ERROR_APPENDING_RESOURCE_TO_MANIFEST_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_CANNOT_MERGE_PAGE_FILE_3 = "ERR_IMPORTEXPORT_ERROR_CANNOT_MERGE_PAGE_FILE_3";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_CANNOT_MERGE_PAGE_FILE_3 = "ERR_IMPORTEXPORT_ERROR_CANNOT_MERGE_PAGE_FILE_3";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_CLOSING_ZIP_ARCHIVE_1 = "ERR_IMPORTEXPORT_ERROR_CLOSING_ZIP_ARCHIVE_1";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_CLOSING_ZIP_ARCHIVE_1 = "ERR_IMPORTEXPORT_ERROR_CLOSING_ZIP_ARCHIVE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_COPYING_PROPERTY_DEFINITIONS_0 = "ERR_IMPORTEXPORT_ERROR_COPYING_PROPERTY_DEFINITIONS_0";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_COPYING_PROPERTY_DEFINITIONS_0 = "ERR_IMPORTEXPORT_ERROR_COPYING_PROPERTY_DEFINITIONS_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_IMPORTEXPORT_ERROR_CREATING_DIGEST_1 = "ERR_IMPORTEXPORT_ERROR_CREATING_DIGEST_1";
@@ -77,7 +78,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_IMPORTEXPORT_ERROR_CREATING_ZIP_ENTRY_FOR_VFS_RESOURCE_1 = "ERR_IMPORTEXPORT_ERROR_CREATING_ZIP_ENTRY_FOR_VFS_RESOURCE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_EXPORTING_TO_FILE_1 = "ERR_IMPORTEXPORT_ERROR_EXPORTING_TO_FILE_1";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_EXPORTING_TO_FILE_1 = "ERR_IMPORTEXPORT_ERROR_EXPORTING_TO_FILE_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_IMPORTEXPORT_ERROR_EXPORTING_USER_1 = "ERR_IMPORTEXPORT_ERROR_EXPORTING_USER_1";
@@ -86,46 +87,46 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_IMPORTEXPORT_ERROR_IMPORT_FILE_DOES_NOT_EXIST_1 = "ERR_IMPORTEXPORT_ERROR_IMPORT_FILE_DOES_NOT_EXIST_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_IMPORTING_GROUP_1 = "ERR_IMPORTEXPORT_ERROR_IMPORTING_GROUP_1";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_IMPORTING_GROUP_1 = "ERR_IMPORTEXPORT_ERROR_IMPORTING_GROUP_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_IMPORTING_GROUPS_0 = "ERR_IMPORTEXPORT_ERROR_IMPORTING_GROUPS_0";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_IMPORTING_GROUPS_0 = "ERR_IMPORTEXPORT_ERROR_IMPORTING_GROUPS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_IMPORTING_ORGUNITS_0 = "ERR_IMPORTEXPORT_ERROR_IMPORTING_ORGUNITS_0";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_IMPORTING_ORGUNITS_0 = "ERR_IMPORTEXPORT_ERROR_IMPORTING_ORGUNITS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_IMPORTING_PROJECTS_0 = "ERR_IMPORTEXPORT_ERROR_IMPORTING_PROJECTS_0";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_IMPORTING_PROJECTS_0 = "ERR_IMPORTEXPORT_ERROR_IMPORTING_PROJECTS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_IMPORTING_RESOURCE_1 = "ERR_IMPORTEXPORT_ERROR_IMPORTING_RESOURCE_1";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_IMPORTING_RESOURCE_1 = "ERR_IMPORTEXPORT_ERROR_IMPORTING_RESOURCE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_IMPORTING_RESOURCES_0 = "ERR_IMPORTEXPORT_ERROR_IMPORTING_RESOURCES_0";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_IMPORTING_RESOURCES_0 = "ERR_IMPORTEXPORT_ERROR_IMPORTING_RESOURCES_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_IMPORTING_USER_1 = "ERR_IMPORTEXPORT_ERROR_IMPORTING_USER_1";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_IMPORTING_USER_1 = "ERR_IMPORTEXPORT_ERROR_IMPORTING_USER_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_IMPORTING_USERS_0 = "ERR_IMPORTEXPORT_ERROR_IMPORTING_USERS_0";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_IMPORTING_USERS_0 = "ERR_IMPORTEXPORT_ERROR_IMPORTING_USERS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_MERGING_PAGE_FILE_1 = "ERR_IMPORTEXPORT_ERROR_MERGING_PAGE_FILE_1";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_MERGING_PAGE_FILE_1 = "ERR_IMPORTEXPORT_ERROR_MERGING_PAGE_FILE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_NO_HANDLER_FOUND_1 = "ERR_IMPORTEXPORT_ERROR_NO_HANDLER_FOUND_1";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_NO_HANDLER_FOUND_1 = "ERR_IMPORTEXPORT_ERROR_NO_HANDLER_FOUND_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_OPENING_ZIP_ARCHIVE_1 = "ERR_IMPORTEXPORT_ERROR_OPENING_ZIP_ARCHIVE_1";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_OPENING_ZIP_ARCHIVE_1 = "ERR_IMPORTEXPORT_ERROR_OPENING_ZIP_ARCHIVE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_READING_FILE_1 = "ERR_IMPORTEXPORT_ERROR_READING_FILE_1";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_READING_FILE_1 = "ERR_IMPORTEXPORT_ERROR_READING_FILE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_ERROR_REMOVING_FOLDERS_OF_IMPORTED_BODY_FILES_0 = "ERR_IMPORTEXPORT_ERROR_REMOVING_FOLDERS_OF_IMPORTED_BODY_FILES_0";
+    public static final @RUntainted String ERR_IMPORTEXPORT_ERROR_REMOVING_FOLDERS_OF_IMPORTED_BODY_FILES_0 = "ERR_IMPORTEXPORT_ERROR_REMOVING_FOLDERS_OF_IMPORTED_BODY_FILES_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_IMPORTEXPORT_FILE_NOT_FOUND_1 = "ERR_IMPORTEXPORT_FILE_NOT_FOUND_1";
+    public static final @RUntainted String ERR_IMPORTEXPORT_FILE_NOT_FOUND_1 = "ERR_IMPORTEXPORT_FILE_NOT_FOUND_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_IMPORTEXPORT_LINK_CONVERSION_FAILED_2 = "ERR_IMPORTEXPORT_LINK_CONVERSION_FAILED_2";
@@ -137,7 +138,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String ERR_IMPORTEXPORT_EXPORT_MISSING_TIMESTAMPMODE_1 = "ERR_IMPORTEXPORT_EXPORT_MISSING_TIMESTAMPMODE_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_NOT_FOUND_ELEM_XMLTEMPLATE_0 = "ERR_NOT_FOUND_ELEM_XMLTEMPLATE_0";
+    public static final @RUntainted String ERR_NOT_FOUND_ELEM_XMLTEMPLATE_0 = "ERR_NOT_FOUND_ELEM_XMLTEMPLATE_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_CMSIMPORTHANDLER_DEFAULT_DESC_0 = "GUI_CMSIMPORTHANDLER_DEFAULT_DESC_0";
@@ -197,7 +198,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_IMPORTEXPORT_ERROR_GETTING_WEBAPP_COMPATIBILITY_NAMES_0 = "LOG_IMPORTEXPORT_ERROR_GETTING_WEBAPP_COMPATIBILITY_NAMES_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_IMPORTEXPORT_ERROR_IMPORTING_ACE_1 = "LOG_IMPORTEXPORT_ERROR_IMPORTING_ACE_1";
+    public static final @RUntainted String LOG_IMPORTEXPORT_ERROR_IMPORTING_ACE_1 = "LOG_IMPORTEXPORT_ERROR_IMPORTING_ACE_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_IMPORTEXPORT_ERROR_IMPORTING_RELATION_1 = "LOG_IMPORTEXPORT_ERROR_IMPORTING_RELATION_1";
@@ -271,112 +272,112 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_SKIPPING_3 = "LOG_SKIPPING_3";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_CLEARCACHE_0 = "RPT_CLEARCACHE_0";
+    public static final @RUntainted String RPT_CLEARCACHE_0 = "RPT_CLEARCACHE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_CONVERT_LINK_0 = "RPT_CONVERT_LINK_0";
+    public static final @RUntainted String RPT_CONVERT_LINK_0 = "RPT_CONVERT_LINK_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_CONVERT_LINK_NOTFOUND_1 = "RPT_CONVERT_LINK_NOTFOUND_1";
+    public static final @RUntainted String RPT_CONVERT_LINK_NOTFOUND_1 = "RPT_CONVERT_LINK_NOTFOUND_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DELFOLDER_0 = "RPT_DELFOLDER_0";
+    public static final @RUntainted String RPT_DELFOLDER_0 = "RPT_DELFOLDER_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_DELFOLDER_START_0 = "RPT_DELFOLDER_START_0";
+    public static final @RUntainted String RPT_DELFOLDER_START_0 = "RPT_DELFOLDER_START_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_END_IMPORT_RELATIONS_0 = "RPT_END_IMPORT_RELATIONS_0";
+    public static final @RUntainted String RPT_END_IMPORT_RELATIONS_0 = "RPT_END_IMPORT_RELATIONS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_END_PARSE_LINKS_0 = "RPT_END_PARSE_LINKS_0";
+    public static final @RUntainted String RPT_END_PARSE_LINKS_0 = "RPT_END_PARSE_LINKS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_EXPORT_0 = "RPT_EXPORT_0";
+    public static final @RUntainted String RPT_EXPORT_0 = "RPT_EXPORT_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_EXPORT_DB_BEGIN_0 = "RPT_EXPORT_DB_BEGIN_0";
+    public static final @RUntainted String RPT_EXPORT_DB_BEGIN_0 = "RPT_EXPORT_DB_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_EXPORT_DB_END_0 = "RPT_EXPORT_DB_END_0";
+    public static final @RUntainted String RPT_EXPORT_DB_END_0 = "RPT_EXPORT_DB_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_EXPORT_GROUP_0 = "RPT_EXPORT_GROUP_0";
+    public static final @RUntainted String RPT_EXPORT_GROUP_0 = "RPT_EXPORT_GROUP_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_EXPORT_ORGUNIT_0 = "RPT_EXPORT_ORGUNIT_0";
+    public static final @RUntainted String RPT_EXPORT_ORGUNIT_0 = "RPT_EXPORT_ORGUNIT_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_EXPORT_PROJECT_0 = "RPT_EXPORT_PROJECT_0";
+    public static final @RUntainted String RPT_EXPORT_PROJECT_0 = "RPT_EXPORT_PROJECT_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_EXPORT_USER_0 = "RPT_EXPORT_USER_0";
+    public static final @RUntainted String RPT_EXPORT_USER_0 = "RPT_EXPORT_USER_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_IMPORT_ACL_DATA_FAILED_0 = "RPT_IMPORT_ACL_DATA_FAILED_0";
+    public static final @RUntainted String RPT_IMPORT_ACL_DATA_FAILED_0 = "RPT_IMPORT_ACL_DATA_FAILED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_IMPORT_DB_BEGIN_0 = "RPT_IMPORT_DB_BEGIN_0";
+    public static final @RUntainted String RPT_IMPORT_DB_BEGIN_0 = "RPT_IMPORT_DB_BEGIN_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_IMPORT_DB_END_0 = "RPT_IMPORT_DB_END_0";
+    public static final @RUntainted String RPT_IMPORT_DB_END_0 = "RPT_IMPORT_DB_END_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_IMPORT_DB_NO_CLASS_1 = "RPT_IMPORT_DB_NO_CLASS_1";
+    public static final @RUntainted String RPT_IMPORT_DB_NO_CLASS_1 = "RPT_IMPORT_DB_NO_CLASS_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_IMPORT_GROUP_0 = "RPT_IMPORT_GROUP_0";
+    public static final @RUntainted String RPT_IMPORT_GROUP_0 = "RPT_IMPORT_GROUP_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_IMPORT_ORGUNIT_0 = "RPT_IMPORT_ORGUNIT_0";
+    public static final @RUntainted String RPT_IMPORT_ORGUNIT_0 = "RPT_IMPORT_ORGUNIT_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_IMPORT_PROJECT_0 = "RPT_IMPORT_PROJECT_0";
+    public static final @RUntainted String RPT_IMPORT_PROJECT_0 = "RPT_IMPORT_PROJECT_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_IMPORT_USER_0 = "RPT_IMPORT_USER_0";
+    public static final @RUntainted String RPT_IMPORT_USER_0 = "RPT_IMPORT_USER_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_IMPORT_VERSION_1 = "RPT_IMPORT_VERSION_1";
+    public static final @RUntainted String RPT_IMPORT_VERSION_1 = "RPT_IMPORT_VERSION_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_IMPORTING_0 = "RPT_IMPORTING_0";
+    public static final @RUntainted String RPT_IMPORTING_0 = "RPT_IMPORTING_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_IMPORTING_RELATIONS_FOR_2 = "RPT_IMPORTING_RELATIONS_FOR_2";
+    public static final @RUntainted String RPT_IMPORTING_RELATIONS_FOR_2 = "RPT_IMPORTING_RELATIONS_FOR_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_MERGE_0 = "RPT_MERGE_0";
+    public static final @RUntainted String RPT_MERGE_0 = "RPT_MERGE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_MERGE_START_0 = "RPT_MERGE_START_0";
+    public static final @RUntainted String RPT_MERGE_START_0 = "RPT_MERGE_START_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_NOT_CONVERTED_0 = "RPT_NOT_CONVERTED_0";
+    public static final @RUntainted String RPT_NOT_CONVERTED_0 = "RPT_NOT_CONVERTED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_NOT_CREATED_0 = "RPT_NOT_CREATED_0";
+    public static final @RUntainted String RPT_NOT_CREATED_0 = "RPT_NOT_CREATED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_PARSE_LINKS_FOR_1 = "RPT_PARSE_LINKS_FOR_1";
+    public static final @RUntainted String RPT_PARSE_LINKS_FOR_1 = "RPT_PARSE_LINKS_FOR_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_SKIPPING_0 = "RPT_SKIPPING_0";
+    public static final @RUntainted String RPT_SKIPPING_0 = "RPT_SKIPPING_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_START_IMPORT_RELATIONS_0 = "RPT_START_IMPORT_RELATIONS_0";
+    public static final @RUntainted String RPT_START_IMPORT_RELATIONS_0 = "RPT_START_IMPORT_RELATIONS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_START_PARSE_LINKS_0 = "RPT_START_PARSE_LINKS_0";
+    public static final @RUntainted String RPT_START_PARSE_LINKS_0 = "RPT_START_PARSE_LINKS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_STORING_LINK_0 = "RPT_STORING_LINK_0";
+    public static final @RUntainted String RPT_STORING_LINK_0 = "RPT_STORING_LINK_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_USER_COULDNT_BE_ADDED_TO_GROUP_2 = "RPT_USER_COULDNT_BE_ADDED_TO_GROUP_2";
+    public static final @RUntainted String RPT_USER_COULDNT_BE_ADDED_TO_GROUP_2 = "RPT_USER_COULDNT_BE_ADDED_TO_GROUP_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String RPT_USER_COULDNT_BE_ADDED_TO_ROLE_2 = "RPT_USER_COULDNT_BE_ADDED_TO_ROLE_2";
+    public static final @RUntainted String RPT_USER_COULDNT_BE_ADDED_TO_ROLE_2 = "RPT_USER_COULDNT_BE_ADDED_TO_ROLE_2";
 
     /** Name of the used resource bundle. */
     private static final String BUNDLE_NAME = "org.opencms.importexport.messages";

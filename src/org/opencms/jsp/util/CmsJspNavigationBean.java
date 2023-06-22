@@ -41,6 +41,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.collections.Transformer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows access to the OpenCms navigation information in combination with the
@@ -135,7 +136,7 @@ public class CmsJspNavigationBean {
     protected String m_param;
 
     /** The optional resource for the navigation. */
-    protected String m_resource;
+    protected @RUntainted String m_resource;
 
     /** The optional start level for the navigation. */
     protected int m_startLevel;
@@ -158,7 +159,7 @@ public class CmsJspNavigationBean {
         CmsJspTagNavigation.Type type,
         int startLevel,
         int endLevel,
-        String resource,
+        @RUntainted String resource,
         String param) {
         this(cms, type, startLevel, endLevel, resource, param, null);
     }
@@ -179,7 +180,7 @@ public class CmsJspNavigationBean {
         CmsJspTagNavigation.Type type,
         int startLevel,
         int endLevel,
-        String resource,
+        @RUntainted String resource,
         String param,
         Locale locale) {
 

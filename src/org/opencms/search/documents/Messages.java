@@ -29,6 +29,7 @@ package org.opencms.search.documents;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -38,31 +39,31 @@ import org.opencms.i18n.I_CmsMessageBundle;
 public final class Messages extends A_CmsMessageBundle {
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_CREATE_DOC_KEY_0 = "ERR_CREATE_DOC_KEY_0";
+    public static final @RUntainted String ERR_CREATE_DOC_KEY_0 = "ERR_CREATE_DOC_KEY_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_DECRYPTING_RESOURCE_1 = "ERR_DECRYPTING_RESOURCE_1";
+    public static final @RUntainted String ERR_DECRYPTING_RESOURCE_1 = "ERR_DECRYPTING_RESOURCE_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_EXTRACTION_CLASS_2 = "ERR_EXTRACTION_CLASS_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_NO_CONTENT_1 = "ERR_NO_CONTENT_1";
+    public static final @RUntainted String ERR_NO_CONTENT_1 = "ERR_NO_CONTENT_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_NO_EXCEL_FORMAT_1 = "ERR_NO_EXCEL_FORMAT_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_NO_RAW_CONTENT_1 = "ERR_NO_RAW_CONTENT_1";
+    public static final @RUntainted String ERR_NO_RAW_CONTENT_1 = "ERR_NO_RAW_CONTENT_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_PWD_PROTECTED_1 = "ERR_PWD_PROTECTED_1";
+    public static final @RUntainted String ERR_PWD_PROTECTED_1 = "ERR_PWD_PROTECTED_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String ERR_RESOURCE_TYPE_INSTANTIATION_1 = "ERR_RESOURCE_TYPE_INSTANTIATION_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String ERR_TEXT_EXTRACTION_1 = "ERR_TEXT_EXTRACTION_1";
+    public static final @RUntainted String ERR_TEXT_EXTRACTION_1 = "ERR_TEXT_EXTRACTION_1";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_EXCERPT_CACHE_DELETE_ERROR_1 = "LOG_EXCERPT_CACHE_DELETE_ERROR_1";
@@ -71,7 +72,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String LOG_EXTRACT_CONTENT_2 = "LOG_EXTRACT_CONTENT_2";
 
     /** Message constant for key in the resource bundle. */
-    public static final String LOG_EXTRACT_VALUE_2 = "LOG_EXTRACT_VALUE_2";
+    public static final @RUntainted String LOG_EXTRACT_VALUE_2 = "LOG_EXTRACT_VALUE_2";
 
     /** Message constant for key in the resource bundle. */
     public static final String LOG_SKIPPING_CONTAINERPAGE_ELEMENT_WITH_UNREADABLE_RESOURCE_2 = "LOG_SKIPPING_CONTAINERPAGE_ELEMENT_WITH_UNREADABLE_RESOURCE_2";

@@ -51,6 +51,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.google.common.base.Joiner;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default implementation of the user query builder.<p>
@@ -67,7 +68,7 @@ public class CmsUserQueryBuilder {
      *
      * @return a pair consisting of the query string and its parameters
      */
-    public CmsPair<String, List<Object>> createUserQuery(CmsUserSearchParameters searchParams, boolean countOnly) {
+    public @RUntainted CmsPair<@RUntainted String, @RUntainted List<@RUntainted Object>> createUserQuery(CmsUserSearchParameters searchParams, boolean countOnly) {
 
         CmsSelectQuery select = new CmsSelectQuery();
         TableAlias users = select.addTable(tabUsers(), "usr");

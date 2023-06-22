@@ -64,6 +64,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Displays either a diff for the XML file, or a table displaying the differences between individual content values,
@@ -151,7 +152,7 @@ public class CmsValueDiff implements I_CmsDiffProvider {
 
         List<CmsValueCompareBean> rows = Lists.newArrayList();
         for (CmsElementComparison entry : comp.getElements()) {
-            final String text1 = entry.getVersion1();
+            final @RUntainted String text1 = entry.getVersion1();
             final String text2 = entry.getVersion2();
             if (Objects.equal(text1, text2)) {
                 continue;

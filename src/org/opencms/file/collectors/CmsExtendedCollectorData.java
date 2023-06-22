@@ -38,6 +38,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Extended data structure for the collector, parsed from the collector parameters.<p>
@@ -80,7 +81,7 @@ public class CmsExtendedCollectorData extends CmsCollectorData {
      *
      * @param data the data to parse
      */
-    public CmsExtendedCollectorData(String data) {
+    public CmsExtendedCollectorData(@RUntainted String data) {
 
         if (data == null) {
             throw new CmsIllegalArgumentException(Messages.get().container(Messages.ERR_COLLECTOR_PARAM_EMPTY_0));
@@ -92,7 +93,7 @@ public class CmsExtendedCollectorData extends CmsCollectorData {
                 Messages.get().container(Messages.ERR_COLLECTOR_PARAM_INVALID_1, data));
         }
         setFileName(args.get(0));
-        String type = args.get(1);
+        @RUntainted String type = args.get(1);
         try {
             // try to look up the resource type
             I_CmsResourceType resourceType = OpenCms.getResourceManager().getResourceType(type);

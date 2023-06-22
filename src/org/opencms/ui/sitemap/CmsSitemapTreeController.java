@@ -90,6 +90,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the sitemap tree in the 'locale comparison' view in the sitemap editor.<p>
@@ -920,7 +921,7 @@ public class CmsSitemapTreeController {
      * @param entry the tree node bean
      * @return the tree node widget
      */
-    public CmsSitemapTreeNode createNode(final CmsSitemapTreeNodeData entry) {
+    public CmsSitemapTreeNode createNode(final @RUntainted CmsSitemapTreeNodeData entry) {
 
         final CmsSitemapTreeNode node = new CmsSitemapTreeNode();
 
@@ -998,7 +999,7 @@ public class CmsSitemapTreeController {
                     new EntryCopy(),
                     new EntryInfo());
 
-                MenuContext context = new MenuContext(entry, node);
+                @RUntainted MenuContext context = new MenuContext(entry, node);
                 m_menu.setEntries(entries, context);
                 m_menu.open(menu);
 
@@ -1109,7 +1110,7 @@ public class CmsSitemapTreeController {
                 if (children.isEmpty()) {
                     node.setOpenerVisible(false);
                 } else {
-                    for (CmsSitemapTreeNodeData child : children) {
+                    for (@RUntainted CmsSitemapTreeNodeData child : children) {
                         CmsSitemapTreeNode childNode = createNode(child);
                         childNode.setData(child);
                         initEventHandlers(childNode);
@@ -1153,7 +1154,7 @@ public class CmsSitemapTreeController {
 
         CmsSitemapTreeNodeData data = (CmsSitemapTreeNodeData)node.getData();
         try {
-            CmsSitemapTreeNodeData changedData = m_treeDataProvider.getData(
+            @RUntainted CmsSitemapTreeNodeData changedData = m_treeDataProvider.getData(
                 A_CmsUI.getCmsObject().readResource(
                     data.getClientEntry().getId(),
                     CmsResourceFilter.IGNORE_EXPIRATION));

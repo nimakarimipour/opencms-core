@@ -35,6 +35,7 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action to logout.<p>
@@ -72,7 +73,7 @@ public class CmsShowLocaleAction extends A_CmsWorkplaceAction implements I_CmsAD
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
      */
-    public String getJspPath() {
+    public @RUntainted String getJspPath() {
 
         return null;
     }

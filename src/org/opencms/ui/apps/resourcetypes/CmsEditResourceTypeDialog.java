@@ -63,6 +63,7 @@ import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the edit resource type dialog.<p>
@@ -153,7 +154,7 @@ public class CmsEditResourceTypeDialog extends CmsBasicDialog {
                     CmsVaadinUtils.getMessageText(Messages.GUI_RESOURCETYPE_EDIT_INVALID_RESORUCE_0));
             }
 
-            String resource = (String)value;
+            @RUntainted String resource = (String)value;
             if (!m_cms.existsResource(resource)) {
                 throw new InvalidValueException(
                     CmsVaadinUtils.getMessageText(Messages.GUI_RESOURCETYPE_EDIT_INVALID_RESORUCE_0));
@@ -206,7 +207,7 @@ public class CmsEditResourceTypeDialog extends CmsBasicDialog {
     private Button m_cancel;
 
     /** Vaadin vomponent.*/
-    private TextField m_typeShortName;
+    private @RUntainted TextField m_typeShortName;
 
     /** Vaadin vomponent.*/
     private TextField m_typeName;

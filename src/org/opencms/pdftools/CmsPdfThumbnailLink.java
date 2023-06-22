@@ -41,6 +41,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to generate or parse a link to a PDF thumbnail.<p>
@@ -68,7 +69,7 @@ public class CmsPdfThumbnailLink {
     }
 
     /** The marker string used to identify PDF thumbnails. */
-    public static final String MARKER = "pdfthumbnail";
+    public static final @RUntainted String MARKER = "pdfthumbnail";
 
     /** The name of the request parameter for the thumbnail options. */
     public static final String PARAM_OPTIONS = "options";
@@ -83,7 +84,7 @@ public class CmsPdfThumbnailLink {
     private static final Log LOG = CmsLog.getLog(CmsPdfThumbnailLink.class);
 
     /** The image format. */
-    private String m_format;
+    private @RUntainted String m_format;
 
     /** The height. */
     private int m_height = -1;
@@ -112,7 +113,7 @@ public class CmsPdfThumbnailLink {
      * @param height thumbnail height
      * @param format the thumbnail image format (png, gif..,)
      */
-    public CmsPdfThumbnailLink(CmsObject cms, CmsResource pdfResource, int width, int height, String format) {
+    public CmsPdfThumbnailLink(CmsObject cms, CmsResource pdfResource, int width, int height, @RUntainted String format) {
 
         m_pdfResource = pdfResource;
         m_width = width;
@@ -181,7 +182,7 @@ public class CmsPdfThumbnailLink {
      *
      * @return the image format
      */
-    public String getFormat() {
+    public @RUntainted String getFormat() {
 
         return m_format;
     }

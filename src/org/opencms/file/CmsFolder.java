@@ -36,6 +36,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsUUID;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A folder resource in the OpenCms VFS.<p>
@@ -94,9 +95,9 @@ public class CmsFolder extends CmsResource {
      * @param version the version number of this resource
      */
     public CmsFolder(
-        CmsUUID structureId,
+        @RUntainted CmsUUID structureId,
         CmsUUID resourceId,
-        String path,
+        @RUntainted String path,
         int type,
         int flags,
         CmsUUID projectId,
@@ -170,7 +171,7 @@ public class CmsFolder extends CmsResource {
      *
      * @return true if the given resource type name describes a folder type
      */
-    public static final boolean isFolderType(String typeName) {
+    public static final boolean isFolderType(@RUntainted String typeName) {
 
         try {
             return OpenCms.getResourceManager().getResourceType(typeName).isFolder();

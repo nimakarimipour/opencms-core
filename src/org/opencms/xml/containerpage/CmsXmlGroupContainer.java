@@ -71,6 +71,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.xml.sax.EntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of a object used to access and manage the xml data of a group container.<p>
@@ -122,7 +123,7 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
      * @param encoding the encoding of the container page
      * @param resolver the XML entity resolver to use
      */
-    protected CmsXmlGroupContainer(CmsObject cms, Document document, String encoding, EntityResolver resolver) {
+    protected CmsXmlGroupContainer(CmsObject cms, Document document, @RUntainted String encoding, EntityResolver resolver) {
 
         // must set document first to be able to get the content definition
         m_document = document;
@@ -144,7 +145,7 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
      *
      * @throws CmsException in case the model file is not found or not valid
      */
-    protected CmsXmlGroupContainer(CmsObject cms, Locale locale, String modelUri)
+    protected CmsXmlGroupContainer(CmsObject cms, Locale locale, @RUntainted String modelUri)
     throws CmsException {
 
         // init model from given modelUri
@@ -186,7 +187,7 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
     protected CmsXmlGroupContainer(
         CmsObject cms,
         Locale locale,
-        String encoding,
+        @RUntainted String encoding,
         CmsXmlContentDefinition contentDefinition) {
 
         // content definition must be set here since it's used during document creation

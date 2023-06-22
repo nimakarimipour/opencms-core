@@ -50,6 +50,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The RPC service interface used by the container-page editor.<p>
@@ -176,7 +177,7 @@ public interface I_CmsContainerpageService extends RemoteService {
      *
      * @throws CmsRpcException in case something goes wrong
      */
-    CmsDialogOptionsAndInfo getDeleteOptions(String clientId, CmsUUID pageStructureId, String requestParams)
+    CmsDialogOptionsAndInfo getDeleteOptions(String clientId, CmsUUID pageStructureId, @RUntainted String requestParams)
     throws CmsRpcException;
 
     /**
@@ -194,7 +195,7 @@ public interface I_CmsContainerpageService extends RemoteService {
     CmsDialogOptionsAndInfo getEditOptions(
         String clientId,
         CmsUUID pageStructureId,
-        String requestParams,
+        @RUntainted String requestParams,
         boolean isListElement)
     throws CmsRpcException;
 
@@ -322,7 +323,7 @@ public interface I_CmsContainerpageService extends RemoteService {
     CmsContainerPageGalleryData getGalleryDataForPage(
         List<CmsContainer> containers,
         CmsUUID elementView,
-        String uri,
+        @RUntainted String uri,
         String locale)
     throws CmsRpcException;
 
@@ -371,7 +372,7 @@ public interface I_CmsContainerpageService extends RemoteService {
      * @return the dialog option data from the edit handler
      * @throws CmsRpcException if something goes wrong
      */
-    CmsDialogOptionsAndInfo getNewOptions(String clientId, CmsUUID pageStructureId, String requestParams)
+    CmsDialogOptionsAndInfo getNewOptions(String clientId, CmsUUID pageStructureId, @RUntainted String requestParams)
     throws CmsRpcException;
 
     /**
@@ -415,7 +416,7 @@ public interface I_CmsContainerpageService extends RemoteService {
      *
      * @throws CmsRpcException in case something goes wrong
      */
-    void handleDelete(String clientId, String deleteOption, CmsUUID pageStructureId, String requestParams)
+    void handleDelete(String clientId, String deleteOption, CmsUUID pageStructureId, @RUntainted String requestParams)
     throws CmsRpcException;
 
     /**
@@ -446,7 +447,7 @@ public interface I_CmsContainerpageService extends RemoteService {
      *
      * @throws CmsRpcException in case something goes wrong
      */
-    CmsUUID prepareForEdit(String clientId, String editOption, CmsUUID pageStructureId, String requestParams)
+    CmsUUID prepareForEdit(String clientId, String editOption, CmsUUID pageStructureId, @RUntainted String requestParams)
     throws CmsRpcException;
 
     /**
@@ -479,7 +480,7 @@ public interface I_CmsContainerpageService extends RemoteService {
      *
      * @param tabIndex the index of the selected clipboard tab
      */
-    void saveClipboardTab(int tabIndex);
+    void saveClipboardTab(@RUntainted int tabIndex);
 
     /**
      * Saves the container-page.<p>
@@ -504,7 +505,7 @@ public interface I_CmsContainerpageService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong processing the request
      */
-    long saveDetailContainers(CmsUUID detailId, String detailContainerResource, List<CmsContainer> containers)
+    long saveDetailContainers(CmsUUID detailId, @RUntainted String detailContainerResource, List<CmsContainer> containers)
     throws CmsRpcException;
 
     /**
@@ -539,7 +540,7 @@ public interface I_CmsContainerpageService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong processing the request
      */
-    void saveFavoriteList(List<String> clientIds, String uri) throws CmsRpcException;
+    void saveFavoriteList(List<String> clientIds, @RUntainted String uri) throws CmsRpcException;
 
     /**
      * Saves a group-container element.<p>
@@ -593,7 +594,7 @@ public interface I_CmsContainerpageService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong processing the request
      */
-    void saveRecentList(List<String> clientIds, String uri) throws CmsRpcException;
+    void saveRecentList(List<String> clientIds, @RUntainted String uri) throws CmsRpcException;
 
     /**
      * Enables or disables editing for small elements on page load.<p>

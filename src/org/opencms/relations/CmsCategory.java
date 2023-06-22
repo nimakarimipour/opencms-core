@@ -34,6 +34,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a category, that is just a folder.<p>
@@ -57,13 +58,13 @@ public class CmsCategory implements Comparable<CmsCategory>, Serializable {
     private static final long serialVersionUID = -6395887983124249138L;
 
     /** The category's base path. */
-    private String m_basePath;
+    private @RUntainted String m_basePath;
 
     /** The description of the category. */
     private String m_description;
 
     /** The path of the category. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /** The category's root path. */
     private String m_rootPath;
@@ -131,7 +132,7 @@ public class CmsCategory implements Comparable<CmsCategory>, Serializable {
      *
      * @throws CmsException if the root path does not match the given base folder
      */
-    public static String getCategoryPath(String rootPath, String baseFolder) throws CmsException {
+    public static @RUntainted String getCategoryPath(@RUntainted String rootPath, String baseFolder) throws CmsException {
 
         String base;
         if (rootPath.startsWith(CmsCategoryService.CENTRALIZED_REPOSITORY)) {
@@ -188,7 +189,7 @@ public class CmsCategory implements Comparable<CmsCategory>, Serializable {
      *
      * @return the category's base path
      */
-    public String getBasePath() {
+    public @RUntainted String getBasePath() {
 
         return m_basePath;
     }
@@ -236,7 +237,7 @@ public class CmsCategory implements Comparable<CmsCategory>, Serializable {
      *
      * @return the path
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }
@@ -246,7 +247,7 @@ public class CmsCategory implements Comparable<CmsCategory>, Serializable {
      *
      * @return the category's root path
      */
-    public String getRootPath() {
+    public @RUntainted String getRootPath() {
 
         return m_rootPath;
     }

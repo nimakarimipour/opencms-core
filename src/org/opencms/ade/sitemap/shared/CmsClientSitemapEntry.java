@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Sitemap entry data.<p>
@@ -122,7 +123,7 @@ public class CmsClientSitemapEntry implements IsSerializable {
     private boolean m_hasForeignFolderLock;
 
     /** The entry id. */
-    private CmsUUID m_id;
+    private @RUntainted CmsUUID m_id;
 
     /** Flag to indicate if the entry is visible in navigation. */
     private boolean m_inNavigation;
@@ -167,7 +168,7 @@ public class CmsClientSitemapEntry implements IsSerializable {
     private String m_resourceTypeName;
 
     /** The sitemap path. */
-    private String m_sitePath;
+    private @RUntainted String m_sitePath;
 
     /** The children. */
     private List<CmsClientSitemapEntry> m_subEntries;
@@ -176,7 +177,7 @@ public class CmsClientSitemapEntry implements IsSerializable {
     private String m_vfsModeIcon;
 
     /** The VFS path. */
-    private String m_vfsPath;
+    private @RUntainted String m_vfsPath;
 
     /**
      * Constructor.<p>
@@ -319,7 +320,7 @@ public class CmsClientSitemapEntry implements IsSerializable {
      *
      * @return the id
      */
-    public CmsUUID getId() {
+    public @RUntainted CmsUUID getId() {
 
         return m_id;
     }
@@ -444,7 +445,7 @@ public class CmsClientSitemapEntry implements IsSerializable {
      *
      * @return the sitemap path
      */
-    public String getSitePath() {
+    public @RUntainted String getSitePath() {
 
         return m_sitePath;
     }
@@ -491,7 +492,7 @@ public class CmsClientSitemapEntry implements IsSerializable {
      *
      * @return the vfs path
      */
-    public String getVfsPath() {
+    public @RUntainted String getVfsPath() {
 
         return m_vfsPath;
     }
@@ -876,7 +877,7 @@ public class CmsClientSitemapEntry implements IsSerializable {
      *
      * @param id the id to set
      */
-    public void setId(CmsUUID id) {
+    public void setId(@RUntainted CmsUUID id) {
 
         m_id = id;
     }
@@ -1017,7 +1018,7 @@ public class CmsClientSitemapEntry implements IsSerializable {
      *
      * @param sitepath the site path to set
      */
-    public void setSitePath(String sitepath) {
+    public void setSitePath(@RUntainted String sitepath) {
 
         if (!isLeafType() && !sitepath.endsWith("/")) {
             sitepath = sitepath + "/";
@@ -1059,7 +1060,7 @@ public class CmsClientSitemapEntry implements IsSerializable {
      *
      * @param path the path to set
      */
-    public void setVfsPath(String path) {
+    public void setVfsPath(@RUntainted String path) {
 
         m_vfsPath = path;
     }
@@ -1101,7 +1102,7 @@ public class CmsClientSitemapEntry implements IsSerializable {
      * @param sitepath the new site path to set
      * @param controller a sitemap controller instance
      */
-    public void updateSitePath(String sitepath, I_CmsSitemapController controller) {
+    public void updateSitePath(@RUntainted String sitepath, I_CmsSitemapController controller) {
 
         if (!isLeafType() && !sitepath.endsWith("/")) {
             sitepath = sitepath + "/";

@@ -51,6 +51,7 @@ import javax.servlet.ServletRequest;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.xml.sax.EntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides factory methods to unmarshal (read) an container page object.<p>
@@ -106,7 +107,7 @@ public final class CmsXmlContainerPageFactory {
     public static CmsXmlContainerPage createDocument(
         CmsObject cms,
         Locale locale,
-        String encoding,
+        @RUntainted String encoding,
         CmsXmlContentDefinition contentDefinition) {
 
         // create the XML content
@@ -136,7 +137,7 @@ public final class CmsXmlContainerPageFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlContainerPage unmarshal(CmsObject cms, byte[] xmlData, String encoding, EntityResolver resolver)
+    public static CmsXmlContainerPage unmarshal(CmsObject cms, byte[] xmlData, @RUntainted String encoding, EntityResolver resolver)
     throws CmsXmlException {
 
         return unmarshal(cms, CmsXmlUtils.unmarshalHelper(xmlData, resolver), encoding, resolver);
@@ -383,7 +384,7 @@ public final class CmsXmlContainerPageFactory {
     public static CmsXmlContainerPage unmarshal(
         CmsObject cms,
         Document document,
-        String encoding,
+        @RUntainted String encoding,
         EntityResolver resolver) {
 
         CmsXmlContainerPage content = new CmsXmlContainerPage(cms, document, encoding, resolver);
@@ -411,7 +412,7 @@ public final class CmsXmlContainerPageFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlContainerPage unmarshal(CmsObject cms, String xmlData, String encoding, EntityResolver resolver)
+    public static CmsXmlContainerPage unmarshal(CmsObject cms, String xmlData, @RUntainted String encoding, EntityResolver resolver)
     throws CmsXmlException {
 
         // create the XML content object from the provided String

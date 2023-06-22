@@ -50,6 +50,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;cms:editable/&gt;</code> tag.<p>
@@ -84,7 +85,7 @@ public class CmsJspTagEditable extends BodyTagSupport {
     private static final long serialVersionUID = 4137789622146499225L;
 
     /** File with editable elements. */
-    protected String m_file;
+    protected @RUntainted String m_file;
 
     /** Indicates which direct edit mode is active. */
     protected transient CmsDirectEditMode m_mode;
@@ -111,7 +112,7 @@ public class CmsJspTagEditable extends BodyTagSupport {
      *
      * @throws JspException in case something goes wrong
      */
-    public static void editableTagAction(PageContext context, String provider, CmsDirectEditMode mode, String fileName)
+    public static void editableTagAction(PageContext context, String provider, CmsDirectEditMode mode, @RUntainted String fileName)
     throws JspException {
 
         ServletRequest req = context.getRequest();
@@ -233,7 +234,7 @@ public class CmsJspTagEditable extends BodyTagSupport {
                 cms,
                 container.getCollectorName(),
                 container.getCollectorParam());
-            String createLink = collector.getCreateLink(
+            @RUntainted String createLink = collector.getCreateLink(
                 cms,
                 container.getCollectorName(),
                 container.getCollectorParam());
@@ -242,7 +243,7 @@ public class CmsJspTagEditable extends BodyTagSupport {
                     cms,
                     container.getCollectorName(),
                     container.getCollectorParam()) != -1)) {
-                String createFolderName = CmsResource.getFolderPath(createLink);
+                @RUntainted String createFolderName = CmsResource.getFolderPath(createLink);
                 createParam = CmsEncoder.encode(container.getCollectorName() + "|" + createParam);
                 CmsDirectEditParams params = new CmsDirectEditParams(
                     createFolderName,
@@ -492,7 +493,7 @@ public class CmsJspTagEditable extends BodyTagSupport {
      *
      * @param file the file to set
      */
-    public void setFile(String file) {
+    public void setFile(@RUntainted String file) {
 
         m_file = file;
     }

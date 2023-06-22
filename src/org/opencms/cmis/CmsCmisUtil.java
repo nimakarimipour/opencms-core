@@ -68,6 +68,7 @@ import org.apache.chemistry.opencmis.commons.impl.dataobjects.PropertyIdImpl;
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.PropertyIntegerImpl;
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.PropertyStringImpl;
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.PropertyUriImpl;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility class for operations which are frequently used by CMIS service methods.<p>
@@ -411,7 +412,7 @@ public final class CmsCmisUtil {
      *
      * @param name the name to check
      */
-    public static void checkResourceName(String name) {
+    public static void checkResourceName(@RUntainted String name) {
 
         try {
             CmsResource.checkResourceName(name);

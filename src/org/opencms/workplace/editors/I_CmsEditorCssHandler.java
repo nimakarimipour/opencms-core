@@ -28,6 +28,7 @@
 package org.opencms.workplace.editors;
 
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods to determine the CSS style sheet URI for the editors based on the edited resource path.<p>
@@ -46,7 +47,7 @@ public interface I_CmsEditorCssHandler {
      * @param editedResourcePath the absolute VFS path of the currently edited resource
      * @return the absolute VFS path of the CSS style sheet to use
      */
-    String getUriStyleSheet(CmsObject cms, String editedResourcePath);
+    @RUntainted String getUriStyleSheet(CmsObject cms, String editedResourcePath);
 
     /**
      * Checks if the handler can be used to determine the CSS style sheet based on the edited resource.<p>

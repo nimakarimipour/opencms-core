@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Loads/saves favorites.
@@ -80,7 +81,7 @@ public class CmsFavoriteDAO {
     private CmsObject m_rootCms;
 
     /** Name of user from which bookmarks should be loaded. */
-    private String m_userName;
+    private @RUntainted String m_userName;
 
     /**
      * Creates a new instance.
@@ -101,7 +102,7 @@ public class CmsFavoriteDAO {
      * @param userName the name of the user in whose additional infos the bookmarks are stored
      * @throws CmsException if something goes wrong
      */
-    public CmsFavoriteDAO(CmsObject cms, String userName)
+    public CmsFavoriteDAO(CmsObject cms, @RUntainted String userName)
     throws CmsException {
 
         m_cms = cms;
@@ -188,7 +189,7 @@ public class CmsFavoriteDAO {
     private boolean validate(CmsFavoriteEntry entry) {
 
         try {
-            String siteRoot = entry.getSiteRoot();
+            @RUntainted String siteRoot = entry.getSiteRoot();
             if (!m_okSiteRoots.contains(siteRoot)) {
                 m_rootCms.readResource(siteRoot);
                 m_okSiteRoots.add(siteRoot);

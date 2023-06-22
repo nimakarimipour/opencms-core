@@ -60,6 +60,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class used for rendering dynamic functions (v2).<p>
@@ -160,7 +161,7 @@ public class CmsFunctionRenderer {
      *
      * @return the resource which has been read
      */
-    private static CmsResource getDefaultResource(CmsObject cms, String path) {
+    private static CmsResource getDefaultResource(CmsObject cms, @RUntainted String path) {
 
         CmsResource resource = (CmsResource)CmsVfsMemoryObjectCache.getVfsMemoryObjectCache().getCachedObject(
             cms,

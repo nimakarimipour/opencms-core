@@ -64,6 +64,7 @@ import org.alfresco.jlan.util.WildCard;
 import org.springframework.extensions.config.ConfigElement;
 
 import com.google.common.base.Joiner;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * OpenCms implementation of the JLAN DiskInterface interface.<p>
@@ -107,14 +108,14 @@ public class CmsJlanDiskInterface implements DiskInterface {
      * @param path the path to transform
      * @return the OpenCms path for the given path
      */
-    protected static String getCmsPath(String path) {
+    protected static @RUntainted String getCmsPath(String path) {
 
         String slashPath = path.replace('\\', '/');
 
         // split path into components, translate each of them separately, then combine them again at the end
         String[] segments = slashPath.split("/");
         List<String> nonEmptySegments = new ArrayList<String>();
-        for (String segment : segments) {
+        for (@RUntainted String segment : segments) {
             if (segment.length() > 0) {
                 String translatedSegment = "*".equals(segment)
                 ? "*"
@@ -354,7 +355,7 @@ public class CmsJlanDiskInterface implements DiskInterface {
 
         try {
 
-            String cmsPath = getCmsPath(searchPath);
+            @RUntainted String cmsPath = getCmsPath(searchPath);
             if (cmsPath.endsWith("/")) {
                 cmsPath = cmsPath + "*";
             }
@@ -529,13 +530,13 @@ public class CmsJlanDiskInterface implements DiskInterface {
      *
      * @return the path with the translated last segment
      */
-    protected String translateName(String path) {
+    protected String translateName(@RUntainted String path) {
 
         return CmsStringUtil.substitute(Pattern.compile("/([^/]+)$"), path, new I_CmsRegexSubstitution() {
 
-            public String substituteMatch(String text, Matcher matcher) {
+            public String substituteMatch(@RUntainted String text, Matcher matcher) {
 
-                String name = text.substring(matcher.start(1), matcher.end(1));
+                @RUntainted String name = text.substring(matcher.start(1), matcher.end(1));
                 return "/" + OpenCms.getResourceManager().getFileTranslator().translateResource(name);
             }
         });
@@ -547,7 +548,7 @@ public class CmsJlanDiskInterface implements DiskInterface {
      * @param cms the CMS context wrapper
      * @param path the path of the resource to unlock
      */
-    private void tryUnlock(CmsObjectWrapper cms, String path) {
+    private void tryUnlock(CmsObjectWrapper cms, @RUntainted String path) {
 
         try {
             cms.unlockResource(path);

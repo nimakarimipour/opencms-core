@@ -28,6 +28,7 @@
 package org.opencms.workplace.editors;
 
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the setup information about a single dialog element.<p>

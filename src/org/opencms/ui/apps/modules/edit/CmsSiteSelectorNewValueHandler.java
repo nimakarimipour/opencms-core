@@ -33,6 +33,7 @@ import org.opencms.util.CmsFileUtil;
 import java.util.Arrays;
 
 import com.vaadin.v7.data.Container;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class used when new options are automatically added to a site selector combo box.<p>
@@ -60,7 +61,7 @@ public class CmsSiteSelectorNewValueHandler implements CmsAutoItemCreatingComboB
         if (id == null) {
             return null;
         }
-        String idStr = (String)id;
+        @RUntainted String idStr = (String)id;
         for (String path : Arrays.asList(idStr, CmsFileUtil.toggleTrailingSeparator(idStr))) {
             if (cnt.containsId(path)) {
                 return path;

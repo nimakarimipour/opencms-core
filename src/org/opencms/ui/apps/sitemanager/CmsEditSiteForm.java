@@ -121,6 +121,7 @@ import com.vaadin.v7.ui.Upload.Receiver;
 import com.vaadin.v7.ui.Upload.SucceededEvent;
 import com.vaadin.v7.ui.Upload.SucceededListener;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the Form to edit or add a site.<p>
@@ -264,7 +265,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
          */
         public void validate(Object value) throws InvalidValueException {
 
-            String enteredName = (String)value;
+            @RUntainted String enteredName = (String)value;
             if (FORBIDDEN_FOLDER_NAMES.contains(enteredName)) {
                 throw new InvalidValueException(
                     CmsVaadinUtils.getMessageText(Messages.GUI_SITE_FOLDERNAME_FORBIDDEN_1, enteredName));
@@ -389,7 +390,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
          */
         public void validate(Object value) throws InvalidValueException {
 
-            String parentOU = (String)value;
+            @RUntainted String parentOU = (String)value;
             if (parentOU.equals("/")) {
                 return; //ok
             }
@@ -502,7 +503,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
          */
         public void validate(Object value) throws InvalidValueException {
 
-            String pathToCheck = (String)value;
+            @RUntainted String pathToCheck = (String)value;
             if (pathToCheck == null) {
                 return;
             }
@@ -766,7 +767,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
             public void valueChange(ValueChangeEvent event) {
 
                 try {
-                    String folderPath = m_simpleFieldParentFolderName.getValue();
+                    @RUntainted String folderPath = m_simpleFieldParentFolderName.getValue();
                     if (CmsResourceTypeFolderSubSitemap.TYPE_SUBSITEMAP.equals(
                         OpenCms.getResourceManager().getResourceType(
                             m_clonedCms.readResource(folderPath)).getTypeName())) {
@@ -959,7 +960,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      * @param siteRoot of site to edit
      * @param cms the CmsObject
      */
-    public CmsEditSiteForm(CmsObject cms, CmsSiteManager manager, String siteRoot) {
+    public CmsEditSiteForm(CmsObject cms, CmsSiteManager manager, @RUntainted String siteRoot) {
 
         this(cms, manager);
         m_site = manager.getElement(siteRoot);
@@ -1015,7 +1016,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
             CmsObject cmsOnline = OpenCms.initCmsObject(m_clonedCms);
             cmsOnline.getRequestContext().setCurrentProject(m_clonedCms.readProject(CmsProject.ONLINE_PROJECT_ID));
 
-            String rootPath = m_simpleFieldSiteRoot.getValue();
+            @RUntainted String rootPath = m_simpleFieldSiteRoot.getValue();
             if (cmsOnline.existsResource(rootPath) & !m_clonedCms.existsResource(rootPath)) {
                 m_ok.setEnabled(false);
                 m_infoSiteRoot.setVisible(true);
@@ -1567,7 +1568,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
             }
 
             m_altSiteRoot.addValidator(fieldValue -> {
-                String path = (String)fieldValue;
+                @RUntainted String path = (String)fieldValue;
                 if (path == null) {
                     return;
                 }
@@ -1730,7 +1731,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      * @param baseName of the resource
      * @return localized name of resource
      */
-    private String getAvailableLocalVariant(String path, String baseName) {
+    private String getAvailableLocalVariant(@RUntainted String path, @RUntainted String baseName) {
 
         //First look for a bundle with the locale of the folder..
         try {
@@ -1752,7 +1753,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
             false,
             true);
 
-        for (String name : localVariations) {
+        for (@RUntainted String name : localVariations) {
             if (m_clonedCms.existsResource(path + name)) {
                 return name;
             }
@@ -1890,7 +1891,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
             ((Boolean)m_subsiteSelectionEnabled.getValue()).booleanValue());
         ret.setParameters((SortedMap<String, String>)getParameter());
         ret.setSSLMode((CmsSSLMode)m_simpleFieldEncryption.getValue());
-        String alternativeSiteRoot = m_altSiteRoot.getValue();
+        @RUntainted String alternativeSiteRoot = m_altSiteRoot.getValue();
         if (!CmsStringUtil.isEmptyOrWhitespaceOnly(alternativeSiteRoot)) {
             String suffix = m_altSiteRootSuffix.getValue();
             List<String> prefixPaths = new ArrayList<>();
@@ -2110,7 +2111,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
         m_simpleFieldTitle.setValue(newValue);
     }
 
-    private void setTemplateFieldForSiteroot(String siteroot) {
+    private void setTemplateFieldForSiteroot(@RUntainted String siteroot) {
 
         try {
             CmsProperty prop = m_clonedCms.readPropertyObject(siteroot, CmsPropertyDefinition.PROPERTY_TEMPLATE, false);

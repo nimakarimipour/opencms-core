@@ -111,6 +111,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The OpenCms security manager.<p>
@@ -211,7 +212,7 @@ public final class CmsSecurityManager {
         CmsRequestContext context,
         CmsResource resource,
         CmsResource target,
-        CmsRelationType type,
+        @RUntainted CmsRelationType type,
         boolean importCase)
     throws CmsException {
 
@@ -278,7 +279,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if operation was not successful
      */
-    public void addUserToGroup(CmsRequestContext context, String username, String groupname, boolean readRoles)
+    public void addUserToGroup(CmsRequestContext context, @RUntainted String username, @RUntainted String groupname, boolean readRoles)
     throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -345,9 +346,9 @@ public final class CmsSecurityManager {
     public synchronized List<CmsResource> changeResourcesInFolderWithProperty(
         CmsRequestContext context,
         CmsResource resource,
-        String propertyDefinition,
-        String oldValue,
-        String newValue,
+        @RUntainted String propertyDefinition,
+        @RUntainted String oldValue,
+        @RUntainted String newValue,
         boolean recursive)
     throws CmsException, CmsVfsException {
 
@@ -385,7 +386,7 @@ public final class CmsSecurityManager {
      * @param remoteAddress the remote address
      * @throws CmsException if the login check fails
      */
-    public void checkLogin(CmsRequestContext context, String username, String password, String remoteAddress)
+    public void checkLogin(CmsRequestContext context, @RUntainted String username, String password, String remoteAddress)
     throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -834,7 +835,7 @@ public final class CmsSecurityManager {
     public void copyResource(
         CmsRequestContext context,
         CmsResource source,
-        String destination,
+        @RUntainted String destination,
         CmsResource.CmsResourceCopyMode siblingMode)
     throws CmsException, CmsSecurityException {
 
@@ -908,7 +909,7 @@ public final class CmsSecurityManager {
      * @throws CmsException if something goes wrong
      * @throws CmsRoleViolationException if the current user does not have management access to the project
      */
-    public int countLockedResources(CmsRequestContext context, CmsUUID id)
+    public int countLockedResources(CmsRequestContext context, @RUntainted CmsUUID id)
     throws CmsException, CmsRoleViolationException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -968,7 +969,7 @@ public final class CmsSecurityManager {
      * @throws CmsException if operation was not successful.
      * @throws CmsRoleViolationException if the  role {@link CmsRole#ACCOUNT_MANAGER} is not owned by the current user
      */
-    public CmsGroup createGroup(CmsRequestContext context, String name, String description, int flags, String parent)
+    public CmsGroup createGroup(CmsRequestContext context, @RUntainted String name, String description, int flags, @RUntainted String parent)
     throws CmsException, CmsRoleViolationException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -1003,7 +1004,7 @@ public final class CmsSecurityManager {
      */
     public CmsOrganizationalUnit createOrganizationalUnit(
         CmsRequestContext context,
-        String ouFqn,
+        @RUntainted String ouFqn,
         String description,
         int flags,
         CmsResource resource)
@@ -1045,10 +1046,10 @@ public final class CmsSecurityManager {
      */
     public CmsProject createProject(
         CmsRequestContext context,
-        String name,
+        @RUntainted String name,
         String description,
-        String groupname,
-        String managergroupname,
+        @RUntainted String groupname,
+        @RUntainted String managergroupname,
         CmsProject.CmsProjectType projecttype)
     throws CmsException, CmsRoleViolationException {
 
@@ -1085,7 +1086,7 @@ public final class CmsSecurityManager {
      * @throws CmsSecurityException if the current project is online.
      * @throws CmsRoleViolationException if the current user does not own the role {@link CmsRole#WORKPLACE_MANAGER}
      */
-    public CmsPropertyDefinition createPropertyDefinition(CmsRequestContext context, String name)
+    public CmsPropertyDefinition createPropertyDefinition(CmsRequestContext context, @RUntainted String name)
     throws CmsException, CmsSecurityException, CmsRoleViolationException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -1121,7 +1122,7 @@ public final class CmsSecurityManager {
      */
     public CmsResource createResource(
         CmsRequestContext context,
-        String resourcePath,
+        @RUntainted String resourcePath,
         CmsResource resource,
         byte[] content,
         List<CmsProperty> properties)
@@ -1169,7 +1170,7 @@ public final class CmsSecurityManager {
      */
     public synchronized CmsResource createResource(
         CmsRequestContext context,
-        String resourcename,
+        @RUntainted String resourcename,
         int type,
         byte[] content,
         List<CmsProperty> properties)
@@ -1216,7 +1217,7 @@ public final class CmsSecurityManager {
     public CmsResource createSibling(
         CmsRequestContext context,
         CmsResource source,
-        String destination,
+        @RUntainted String destination,
         List<CmsProperty> properties)
     throws CmsException {
 
@@ -1279,7 +1280,7 @@ public final class CmsSecurityManager {
      */
     public CmsUser createUser(
         CmsRequestContext context,
-        String name,
+        @RUntainted String name,
         String password,
         String description,
         Map<String, Object> additionalInfos)
@@ -1393,7 +1394,7 @@ public final class CmsSecurityManager {
      * @throws CmsSecurityException if the group is a default group.
      * @throws CmsRoleViolationException if the current user does not own the rule {@link CmsRole#ACCOUNT_MANAGER}
      */
-    public void deleteGroup(CmsRequestContext context, String name)
+    public void deleteGroup(CmsRequestContext context, @RUntainted String name)
     throws CmsException, CmsRoleViolationException, CmsSecurityException {
 
         CmsGroup group = readGroup(context, name);
@@ -1432,9 +1433,9 @@ public final class CmsSecurityManager {
      */
     public void deleteHistoricalVersions(
         CmsRequestContext context,
-        int versionsToKeep,
-        int versionsDeleted,
-        long timeDeleted,
+        @RUntainted int versionsToKeep,
+        @RUntainted int versionsDeleted,
+        @RUntainted long timeDeleted,
         I_CmsReport report)
     throws CmsException, CmsRoleViolationException {
 
@@ -1552,7 +1553,7 @@ public final class CmsSecurityManager {
             checkManagerOfProjectRole(dbc, deleteProject);
             m_driverManager.deleteProject(dbc, deleteProject);
         } catch (Exception e) {
-            String projectName = (deleteProject == null ? String.valueOf(projectId) : deleteProject.getName());
+            @RUntainted String projectName = (deleteProject == null ? String.valueOf(projectId) : deleteProject.getName());
             dbc.report(null, Messages.get().container(Messages.ERR_DELETE_PROJECT_1, projectName), e);
         } finally {
             dbc.clear();
@@ -1569,7 +1570,7 @@ public final class CmsSecurityManager {
      * @throws CmsSecurityException if the project to delete is the "Online" project
      * @throws CmsRoleViolationException if the current user does not own the role {@link CmsRole#WORKPLACE_MANAGER}
      */
-    public void deletePropertyDefinition(CmsRequestContext context, String name)
+    public void deletePropertyDefinition(CmsRequestContext context, @RUntainted String name)
     throws CmsException, CmsSecurityException, CmsRoleViolationException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -1690,7 +1691,7 @@ public final class CmsSecurityManager {
      */
     public void deleteStaticExportPublishedResource(
         CmsRequestContext context,
-        String resourceName,
+        @RUntainted String resourceName,
         int linkType,
         String linkParameter)
     throws CmsException {
@@ -1750,7 +1751,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public void deleteUser(CmsRequestContext context, String username) throws CmsException {
+    public void deleteUser(CmsRequestContext context, @RUntainted String username) throws CmsException {
 
         CmsUser user = readUser(context, username);
         deleteUser(context, user, null);
@@ -2145,7 +2146,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if operation was not successful
      */
-    public List<CmsGroup> getChildren(CmsRequestContext context, String groupname, boolean includeSubChildren)
+    public List<CmsGroup> getChildren(CmsRequestContext context, @RUntainted String groupname, boolean includeSubChildren)
     throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -2262,12 +2263,12 @@ public final class CmsSecurityManager {
      */
     public List<CmsGroup> getGroupsOfUser(
         CmsRequestContext context,
-        String username,
-        String ouFqn,
+        @RUntainted String username,
+        @RUntainted String ouFqn,
         boolean includeChildOus,
         boolean readRoles,
         boolean directGroupsOnly,
-        String remoteAddress)
+        @RUntainted String remoteAddress)
     throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -2324,7 +2325,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<String> getLockedResources(CmsRequestContext context, CmsResource resource, CmsLockFilter filter)
+    public @RUntainted List<@RUntainted String> getLockedResources(CmsRequestContext context, CmsResource resource, CmsLockFilter filter)
     throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -2547,7 +2548,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if operation was not successful
      */
-    public CmsGroup getParent(CmsRequestContext context, String groupname) throws CmsException {
+    public CmsGroup getParent(CmsRequestContext context, @RUntainted String groupname) throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
         CmsGroup result = null;
@@ -2750,7 +2751,7 @@ public final class CmsSecurityManager {
      */
     public Set<CmsResource> getResourcesForPrincipal(
         CmsRequestContext context,
-        CmsUUID principalId,
+        @RUntainted CmsUUID principalId,
         CmsPermissionSet permissions,
         boolean includeAttr)
     throws CmsException {
@@ -2910,7 +2911,7 @@ public final class CmsSecurityManager {
      */
     public List<CmsUser> getUsersOfGroup(
         CmsRequestContext context,
-        String groupname,
+        @RUntainted String groupname,
         boolean includeOtherOuUsers,
         boolean directUsersOnly,
         boolean readRoles)
@@ -3358,7 +3359,7 @@ public final class CmsSecurityManager {
      */
     public CmsResource importResource(
         CmsRequestContext context,
-        String resourcePath,
+        @RUntainted String resourcePath,
         CmsResource resource,
         byte[] content,
         List<CmsProperty> properties,
@@ -3434,14 +3435,14 @@ public final class CmsSecurityManager {
     public CmsUser importUser(
         CmsRequestContext context,
         String id,
-        String name,
+        @RUntainted String name,
         String password,
-        String firstname,
-        String lastname,
-        String email,
-        int flags,
-        long dateCreated,
-        Map<String, Object> additionalInfos)
+        @RUntainted String firstname,
+        @RUntainted String lastname,
+        @RUntainted String email,
+        @RUntainted int flags,
+        @RUntainted long dateCreated,
+        @RUntainted Map<@RUntainted String, @RUntainted Object> additionalInfos)
     throws CmsException, CmsRoleViolationException {
 
         CmsUser newUser = null;
@@ -3493,7 +3494,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public int incrementCounter(CmsRequestContext context, String name) throws CmsException {
+    public int incrementCounter(CmsRequestContext context, @RUntainted String name) throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
         try {
@@ -3552,7 +3553,7 @@ public final class CmsSecurityManager {
         m_lockManager = m_driverManager.getLockManager();
 
         // initialize the permission handler
-        String permHandlerClassName = systemConfiguration.getPermissionHandler();
+        @RUntainted String permHandlerClassName = systemConfiguration.getPermissionHandler();
         if (permHandlerClassName == null) {
             // use default implementation
             m_permissionHandler = new CmsDefaultPermissionHandler();
@@ -3705,7 +3706,7 @@ public final class CmsSecurityManager {
      */
     public CmsUser loginUser(
         CmsRequestContext context,
-        String username,
+        @RUntainted String username,
         String password,
         CmsSecondFactorInfo code,
         String remoteAddress)
@@ -3755,7 +3756,7 @@ public final class CmsSecurityManager {
      *
      * @return the principal (group or user) if found, otherwise <code>null</code>
      */
-    public I_CmsPrincipal lookupPrincipal(CmsRequestContext context, String principalName) {
+    public I_CmsPrincipal lookupPrincipal(CmsRequestContext context, @RUntainted String principalName) {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
         I_CmsPrincipal result = null;
@@ -3862,7 +3863,7 @@ public final class CmsSecurityManager {
      * @see CmsObject#moveResource(String, String)
      * @see org.opencms.file.types.I_CmsResourceType#moveResource(CmsObject, CmsSecurityManager, CmsResource, String)
      */
-    public void moveResource(CmsRequestContext context, CmsResource source, String destination)
+    public void moveResource(CmsRequestContext context, CmsResource source, @RUntainted String destination)
     throws CmsException, CmsSecurityException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -4428,7 +4429,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsFolder readFolder(CmsRequestContext context, String resourcename, CmsResourceFilter filter)
+    public CmsFolder readFolder(CmsRequestContext context, @RUntainted String resourcename, @RUntainted CmsResourceFilter filter)
     throws CmsException {
 
         CmsFolder result = null;
@@ -4497,7 +4498,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if operation was not successful
      */
-    public CmsGroup readGroup(CmsRequestContext context, String groupname) throws CmsException {
+    public CmsGroup readGroup(CmsRequestContext context, @RUntainted String groupname) throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
         CmsGroup result = null;
@@ -4525,7 +4526,7 @@ public final class CmsSecurityManager {
      * @see CmsObject#readGroup(CmsUUID)
      * @see CmsObject#readHistoryPrincipal(CmsUUID)
      */
-    public CmsHistoryPrincipal readHistoricalPrincipal(CmsRequestContext context, CmsUUID principalId)
+    public CmsHistoryPrincipal readHistoricalPrincipal(CmsRequestContext context, @RUntainted CmsUUID principalId)
     throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -4550,7 +4551,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsHistoryProject readHistoryProject(CmsRequestContext context, CmsUUID projectId) throws CmsException {
+    public CmsHistoryProject readHistoryProject(CmsRequestContext context, @RUntainted CmsUUID projectId) throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
         CmsHistoryProject result = null;
@@ -4580,7 +4581,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsHistoryProject readHistoryProject(CmsRequestContext context, int publishTag) throws CmsException {
+    public CmsHistoryProject readHistoryProject(CmsRequestContext context, @RUntainted int publishTag) throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
         CmsHistoryProject result = null;
@@ -4641,7 +4642,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsUUID readIdForUrlName(CmsRequestContext context, String name) throws CmsException {
+    public CmsUUID readIdForUrlName(CmsRequestContext context, @RUntainted String name) throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
         try {
@@ -4701,7 +4702,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsOrganizationalUnit readOrganizationalUnit(CmsRequestContext context, String ouFqn) throws CmsException {
+    public CmsOrganizationalUnit readOrganizationalUnit(CmsRequestContext context, @RUntainted String ouFqn) throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
         CmsOrganizationalUnit result = null;
@@ -4752,7 +4753,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsResource readParentFolder(CmsRequestContext context, CmsUUID structureId) throws CmsException {
+    public CmsResource readParentFolder(CmsRequestContext context, @RUntainted CmsUUID structureId) throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
         CmsResource result = null;
@@ -4783,7 +4784,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResource> readPath(CmsRequestContext context, String path, CmsResourceFilter filter)
+    public List<CmsResource> readPath(CmsRequestContext context, @RUntainted String path, CmsResourceFilter filter)
     throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -4810,7 +4811,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsProject readProject(CmsUUID id) throws CmsException {
+    public CmsProject readProject(@RUntainted CmsUUID id) throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext();
         CmsProject result = null;
@@ -4838,7 +4839,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsProject readProject(String name) throws CmsException {
+    public CmsProject readProject(@RUntainted String name) throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext();
         CmsProject result = null;
@@ -4901,7 +4902,7 @@ public final class CmsSecurityManager {
      *
      * @see CmsObject#readProjectView(CmsUUID, CmsResourceState)
      */
-    public List<CmsResource> readProjectView(CmsRequestContext context, CmsUUID projectId, CmsResourceState state)
+    public List<CmsResource> readProjectView(CmsRequestContext context, @RUntainted CmsUUID projectId, CmsResourceState state)
     throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -4929,7 +4930,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException a CmsDbEntryNotFoundException is thrown if the property definition does not exist
      */
-    public CmsPropertyDefinition readPropertyDefinition(CmsRequestContext context, String name) throws CmsException {
+    public CmsPropertyDefinition readPropertyDefinition(CmsRequestContext context, @RUntainted String name) throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
         CmsPropertyDefinition result = null;
@@ -4983,7 +4984,7 @@ public final class CmsSecurityManager {
     public CmsProperty readPropertyObject(
         CmsRequestContext context,
         CmsResource resource,
-        String key,
+        @RUntainted String key,
         boolean search,
         Locale locale)
     throws CmsException {
@@ -5089,7 +5090,7 @@ public final class CmsSecurityManager {
      * @see CmsObject#restoreResourceVersion(CmsUUID, int)
      * @see CmsObject#readResource(CmsUUID, int)
      */
-    public I_CmsHistoryResource readResource(CmsRequestContext context, CmsResource resource, int version)
+    public I_CmsHistoryResource readResource(CmsRequestContext context, CmsResource resource, @RUntainted int version)
     throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -5140,7 +5141,7 @@ public final class CmsSecurityManager {
      * @see CmsObject#readResource(CmsUUID)
      * @see CmsObject#readFile(CmsResource)
      */
-    public CmsResource readResource(CmsRequestContext context, CmsUUID structureID, CmsResourceFilter filter)
+    public CmsResource readResource(CmsRequestContext context, @RUntainted CmsUUID structureID, CmsResourceFilter filter)
     throws CmsException {
 
         CmsResource result = null;
@@ -5185,7 +5186,7 @@ public final class CmsSecurityManager {
      * @see CmsObject#readResource(String)
      * @see CmsObject#readFile(CmsResource)
      */
-    public CmsResource readResource(CmsRequestContext context, String resourcePath, CmsResourceFilter filter)
+    public CmsResource readResource(CmsRequestContext context, @RUntainted String resourcePath, CmsResourceFilter filter)
     throws CmsException {
 
         CmsResource result = null;
@@ -5254,13 +5255,13 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResource> readResourcesVisitedBy(
+    public @RUntainted List<@RUntainted CmsResource> readResourcesVisitedBy(
         CmsRequestContext context,
         String poolName,
         CmsVisitedByFilter filter)
     throws CmsException {
 
-        List<CmsResource> result = null;
+        @RUntainted List<@RUntainted CmsResource> result = null;
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
         try {
             result = m_driverManager.readResourcesVisitedBy(dbc, poolName, filter);
@@ -5295,8 +5296,8 @@ public final class CmsSecurityManager {
     public List<CmsResource> readResourcesWithProperty(
         CmsRequestContext context,
         CmsResource folder,
-        String propertyDefinition,
-        String value,
+        @RUntainted String propertyDefinition,
+        @RUntainted String value,
         CmsResourceFilter filter)
     throws CmsException {
 
@@ -5413,7 +5414,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public String readStaticExportPublishedResourceParameters(CmsRequestContext context, String rfsName)
+    public String readStaticExportPublishedResourceParameters(CmsRequestContext context, @RUntainted String rfsName)
     throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -5442,7 +5443,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<String> readStaticExportResources(CmsRequestContext context, int parameterResources, long timestamp)
+    public List<String> readStaticExportResources(CmsRequestContext context, int parameterResources, @RUntainted long timestamp)
     throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -5515,13 +5516,13 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResource> readSubscribedResources(
+    public @RUntainted List<@RUntainted CmsResource> readSubscribedResources(
         CmsRequestContext context,
         String poolName,
         CmsSubscriptionFilter filter)
     throws CmsException {
 
-        List<CmsResource> result = null;
+        @RUntainted List<@RUntainted CmsResource> result = null;
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
         try {
             result = m_driverManager.readSubscribedResources(dbc, poolName, filter);
@@ -5619,7 +5620,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if operation was not successful
      */
-    public CmsUser readUser(CmsRequestContext context, String username) throws CmsException {
+    public CmsUser readUser(CmsRequestContext context, @RUntainted String username) throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
         CmsUser result = null;
@@ -5646,7 +5647,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if operation was not successful
      */
-    public CmsUser readUser(CmsRequestContext context, String username, String password) throws CmsException {
+    public CmsUser readUser(CmsRequestContext context, @RUntainted String username, String password) throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
         CmsUser result = null;
@@ -5769,7 +5770,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public void removeResourceFromUsersPubList(CmsRequestContext context, Collection<CmsUUID> structureIds)
+    public void removeResourceFromUsersPubList(CmsRequestContext context, @RUntainted Collection<@RUntainted CmsUUID> structureIds)
     throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -5801,7 +5802,7 @@ public final class CmsSecurityManager {
      * @throws CmsRoleViolationException if the current user does not own the rule {@link CmsRole#ACCOUNT_MANAGER}
      *
      */
-    public void removeUserFromGroup(CmsRequestContext context, String username, String groupname, boolean readRoles)
+    public void removeUserFromGroup(CmsRequestContext context, @RUntainted String username, @RUntainted String groupname, boolean readRoles)
     throws CmsException, CmsRoleViolationException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -5877,7 +5878,7 @@ public final class CmsSecurityManager {
      */
     public void resetPassword(
         CmsRequestContext context,
-        String username,
+        @RUntainted String username,
         String oldPassword,
         CmsSecondFactorInfo secondFactor,
         String newPassword)
@@ -5943,7 +5944,7 @@ public final class CmsSecurityManager {
      *
      * @see CmsObject#restoreDeletedResource(CmsUUID)
      */
-    public void restoreDeletedResource(CmsRequestContext context, CmsUUID structureId) throws CmsException {
+    public void restoreDeletedResource(CmsRequestContext context, @RUntainted CmsUUID structureId) throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
         try {
@@ -5970,7 +5971,7 @@ public final class CmsSecurityManager {
      * @see CmsObject#restoreResourceVersion(CmsUUID, int)
      * @see org.opencms.file.types.I_CmsResourceType#restoreResource(CmsObject, CmsSecurityManager, CmsResource, int)
      */
-    public void restoreResource(CmsRequestContext context, CmsResource resource, int version)
+    public void restoreResource(CmsRequestContext context, CmsResource resource, @RUntainted int version)
     throws CmsException, CmsSecurityException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -6083,7 +6084,7 @@ public final class CmsSecurityManager {
      * @see CmsObject#setDateExpired(String, long, boolean)
      * @see org.opencms.file.types.I_CmsResourceType#setDateExpired(CmsObject, CmsSecurityManager, CmsResource, long, boolean)
      */
-    public void setDateExpired(CmsRequestContext context, CmsResource resource, long dateExpired)
+    public void setDateExpired(CmsRequestContext context, CmsResource resource, @RUntainted long dateExpired)
     throws CmsException, CmsSecurityException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -6116,7 +6117,7 @@ public final class CmsSecurityManager {
      * @see CmsObject#setDateLastModified(String, long, boolean)
      * @see org.opencms.file.types.I_CmsResourceType#setDateLastModified(CmsObject, CmsSecurityManager, CmsResource, long, boolean)
      */
-    public void setDateLastModified(CmsRequestContext context, CmsResource resource, long dateLastModified)
+    public void setDateLastModified(CmsRequestContext context, CmsResource resource, @RUntainted long dateLastModified)
     throws CmsException, CmsSecurityException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -6149,7 +6150,7 @@ public final class CmsSecurityManager {
      * @see CmsObject#setDateReleased(String, long, boolean)
      * @see org.opencms.file.types.I_CmsResourceType#setDateReleased(CmsObject, CmsSecurityManager, CmsResource, long, boolean)
      */
-    public void setDateReleased(CmsRequestContext context, CmsResource resource, long dateReleased)
+    public void setDateReleased(CmsRequestContext context, CmsResource resource, @RUntainted long dateReleased)
     throws CmsException, CmsSecurityException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -6182,7 +6183,7 @@ public final class CmsSecurityManager {
      * @throws CmsRoleViolationException if the current user does not own the rule {@link CmsRole#ACCOUNT_MANAGER}
      *
      */
-    public void setParentGroup(CmsRequestContext context, String groupName, String parentGroupName)
+    public void setParentGroup(CmsRequestContext context, @RUntainted String groupName, @RUntainted String parentGroupName)
     throws CmsException, CmsRoleViolationException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -6210,7 +6211,7 @@ public final class CmsSecurityManager {
      * @throws CmsException if operation was not successful
      * @throws CmsRoleViolationException if the current user does not own the rule {@link CmsRole#ACCOUNT_MANAGER}
      */
-    public void setPassword(CmsRequestContext context, String username, String newPassword)
+    public void setPassword(CmsRequestContext context, @RUntainted String username, String newPassword)
     throws CmsException, CmsRoleViolationException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -6399,7 +6400,7 @@ public final class CmsSecurityManager {
      * @throws CmsException if something goes wrong
      * @throws CmsRoleViolationException if the current user does not own the required permissions
      */
-    public void unlockProject(CmsRequestContext context, CmsUUID projectId)
+    public void unlockProject(CmsRequestContext context, @RUntainted CmsUUID projectId)
     throws CmsException, CmsRoleViolationException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -6652,7 +6653,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if operation was not successful
      */
-    public boolean userInGroup(CmsRequestContext context, String username, String groupname) throws CmsException {
+    public boolean userInGroup(CmsRequestContext context, @RUntainted String username, @RUntainted String groupname) throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
         boolean result = false;
@@ -6823,7 +6824,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if operation was not successful
      */
-    public void writeHistoryProject(CmsRequestContext context, int publishTag, long publishDate) throws CmsException {
+    public void writeHistoryProject(CmsRequestContext context, @RUntainted int publishTag, @RUntainted long publishDate) throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
         try {
@@ -7061,10 +7062,10 @@ public final class CmsSecurityManager {
      */
     public void writeStaticExportPublishedResource(
         CmsRequestContext context,
-        String resourceName,
+        @RUntainted String resourceName,
         int linkType,
-        String linkParameter,
-        long timestamp)
+        @RUntainted String linkParameter,
+        @RUntainted long timestamp)
     throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -7102,7 +7103,7 @@ public final class CmsSecurityManager {
      */
     public String writeUrlNameMapping(
         CmsRequestContext context,
-        Iterator<String> nameSeq,
+        @RUntainted Iterator<@RUntainted String> nameSeq,
         CmsUUID structureId,
         String locale,
         boolean replaceOnPublish)
@@ -7275,7 +7276,7 @@ public final class CmsSecurityManager {
      * @throws CmsDataAccessException if something goes wrong accessing the database
      * @throws CmsRoleViolationException if the user has not the needed permissions
      */
-    protected void checkRoleForUserModification(CmsDbContext dbc, String username, CmsRole role)
+    protected void checkRoleForUserModification(CmsDbContext dbc, @RUntainted String username, CmsRole role)
     throws CmsDataAccessException, CmsRoleViolationException {
 
         CmsUser userToModify = m_driverManager.readUser(dbc, CmsOrganizationalUnit.removeLeadingSeparator(username));
@@ -7441,7 +7442,7 @@ public final class CmsSecurityManager {
      *
      * @return the parent organizational unit for the fully qualified name
      */
-    protected String getParentOrganizationalUnit(String fqn) {
+    protected @RUntainted String getParentOrganizationalUnit(@RUntainted String fqn) {
 
         String ouFqn = CmsOrganizationalUnit.getParentFqn(CmsOrganizationalUnit.removeLeadingSeparator(fqn));
         if (ouFqn == null) {
@@ -7504,7 +7505,7 @@ public final class CmsSecurityManager {
 
         // iterates the role groups the user is in
         for (CmsGroup group : roles) {
-            String groupName = group.getName();
+            @RUntainted String groupName = group.getName();
             // iterate the role hierarchy
             for (String distictGroupName : role.getDistinctGroupNames()) {
                 if (distictGroupName.startsWith(CmsOrganizationalUnit.SEPARATOR)) {

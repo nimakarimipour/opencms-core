@@ -29,6 +29,7 @@ package org.opencms.workplace.comparison;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -119,10 +120,10 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String GUI_COMPARE_VIEW_VERSION_1 = "GUI_COMPARE_VIEW_VERSION_1";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_DIFF_MODE_ALL_NAME_0 = "GUI_DIFF_MODE_ALL_NAME_0";
+    public static final @RUntainted String GUI_DIFF_MODE_ALL_NAME_0 = "GUI_DIFF_MODE_ALL_NAME_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_DIFF_MODE_DIFFONLY_NAME_0 = "GUI_DIFF_MODE_DIFFONLY_NAME_0";
+    public static final @RUntainted String GUI_DIFF_MODE_DIFFONLY_NAME_0 = "GUI_DIFF_MODE_DIFFONLY_NAME_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_DIFF_MODE_HTML_0 = "GUI_DIFF_MODE_HTML_0";

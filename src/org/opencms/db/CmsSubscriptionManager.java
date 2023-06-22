@@ -42,6 +42,7 @@ import org.opencms.security.CmsRoleViolationException;
 import org.opencms.util.CmsStringUtil;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manager that provides methods to subscribe resources to users, read subscribed or unvisited resources and more.<p>
@@ -103,7 +104,7 @@ public class CmsSubscriptionManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public long getDateLastVisitedBy(CmsObject cms, CmsUser user, String resourcePath) throws CmsException {
+    public long getDateLastVisitedBy(CmsObject cms, CmsUser user, @RUntainted String resourcePath) throws CmsException {
 
         CmsResource resource = cms.readResource(resourcePath, CmsResourceFilter.ALL);
         return m_securityManager.getDateLastVisitedBy(cms.getRequestContext(), getPoolName(), user, resource);
@@ -185,7 +186,7 @@ public class CmsSubscriptionManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public void markResourceAsVisitedBy(CmsObject cms, String resourcePath, CmsUser user) throws CmsException {
+    public void markResourceAsVisitedBy(CmsObject cms, @RUntainted String resourcePath, CmsUser user) throws CmsException {
 
         CmsResource resource = cms.readResource(resourcePath, CmsResourceFilter.ALL);
         markResourceAsVisitedBy(cms, resource, user);
@@ -239,7 +240,7 @@ public class CmsSubscriptionManager {
         CmsObject cms,
         CmsUser user,
         boolean includeGroups,
-        String folderPath,
+        @RUntainted String folderPath,
         boolean includeSubFolders,
         long deletedFrom) throws CmsException {
 
@@ -393,7 +394,7 @@ public class CmsSubscriptionManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public void subscribeResourceFor(CmsObject cms, CmsPrincipal principal, String resourcePath) throws CmsException {
+    public void subscribeResourceFor(CmsObject cms, CmsPrincipal principal, @RUntainted String resourcePath) throws CmsException {
 
         CmsResource resource = cms.readResource(resourcePath, CmsResourceFilter.ALL);
         subscribeResourceFor(cms, principal, resource);
@@ -458,7 +459,7 @@ public class CmsSubscriptionManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public void unsubscribeResourceFor(CmsObject cms, CmsPrincipal principal, String resourcePath) throws CmsException {
+    public void unsubscribeResourceFor(CmsObject cms, CmsPrincipal principal, @RUntainted String resourcePath) throws CmsException {
 
         CmsResource resource = cms.readResource(resourcePath, CmsResourceFilter.ALL);
         unsubscribeResourceFor(cms, principal, resource);
@@ -488,7 +489,7 @@ public class CmsSubscriptionManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public void unsubscribeResourceForAll(CmsObject cms, String resourcePath) throws CmsException {
+    public void unsubscribeResourceForAll(CmsObject cms, @RUntainted String resourcePath) throws CmsException {
 
         CmsResource resource = cms.readResource(resourcePath, CmsResourceFilter.ALL);
         unsubscribeResourceForAll(cms, resource);

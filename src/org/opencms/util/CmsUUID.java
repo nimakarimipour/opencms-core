@@ -41,6 +41,7 @@ import org.apache.commons.logging.Log;
 import org.safehaus.uuid.EthernetAddress;
 import org.safehaus.uuid.UUID;
 import org.safehaus.uuid.UUIDGenerator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generates a UUID using spatial and temporal uniqueness.<p>
@@ -77,7 +78,7 @@ public final class CmsUUID extends Object implements Cloneable, Comparable<CmsUU
         "www.opencms.org");
 
     /** Constant for the null UUID. */
-    private static final CmsUUID NULL_UUID = new CmsUUID(UUID.getNullUUID());
+    private static final @RUntainted CmsUUID NULL_UUID = new CmsUUID(UUID.getNullUUID());
 
     /** Serial version UID required for safe serialization. */
     private static final long serialVersionUID = 1736324454709298676L;
@@ -142,7 +143,7 @@ public final class CmsUUID extends Object implements Cloneable, Comparable<CmsUU
      *
      * @see #isNullUUID()
      */
-    public static void checkId(CmsUUID id, boolean canBeNull) {
+    public static void checkId(@RUntainted CmsUUID id, boolean canBeNull) {
 
         if (canBeNull && (id == null)) {
             return;
@@ -159,7 +160,7 @@ public final class CmsUUID extends Object implements Cloneable, Comparable<CmsUU
      * @param name the name to derive the uuid from
      * @return name based UUID of the given name
      */
-    public static CmsUUID getConstantUUID(String name) {
+    public static @RUntainted CmsUUID getConstantUUID(String name) {
 
         return new CmsUUID(UUIDGenerator.getInstance().generateNameBasedUUID(m_opencmsUUID, name));
     }
@@ -180,7 +181,7 @@ public final class CmsUUID extends Object implements Cloneable, Comparable<CmsUU
      *
      * @return a null UUID
      */
-    public static CmsUUID getNullUUID() {
+    public static @RUntainted CmsUUID getNullUUID() {
 
         return NULL_UUID;
     }
@@ -205,7 +206,7 @@ public final class CmsUUID extends Object implements Cloneable, Comparable<CmsUU
      * @param ethernetAddress the ethernet address of the server machine
      * @throws CmsInitException in case the ethernetAddress String is not a valid ethernet address
      */
-    public static void init(String ethernetAddress) throws CmsInitException {
+    public static void init(@RUntainted String ethernetAddress) throws CmsInitException {
 
         try {
             m_ethernetAddress = new EthernetAddress(ethernetAddress);
@@ -252,7 +253,7 @@ public final class CmsUUID extends Object implements Cloneable, Comparable<CmsUU
      * @return a clone of this CmsUUID
      */
     @Override
-    public Object clone() {
+    public @RUntainted Object clone() {
 
         if (this == NULL_UUID) {
             return NULL_UUID;
