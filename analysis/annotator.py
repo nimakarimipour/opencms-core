@@ -8,10 +8,10 @@ REPO = subprocess.check_output(['git', 'rev-parse', '--show-toplevel']).strip().
 
 
 def prepare():
-    os.makedirs('/tmp/ucr-tainting', exist_ok=True)
-    shutil.rmtree('/tmp/ucr-tainting/0', ignore_errors=True)
-    with open('/tmp/ucr-tainting/paths.tsv', 'w') as o:
-        o.write("{}\t{}\n".format('/tmp/ucr-tainting/taint.xml', '/tmp/ucr-tainting/scanner.xml'))
+    os.makedirs('/tmp/ucr-tainting/opencms', exist_ok=True)
+    shutil.rmtree('/tmp/ucr-tainting/opencms/0', ignore_errors=True)
+    with open('/tmp/ucr-tainting/opencms/paths.tsv', 'w') as o:
+        o.write("{}\t{}\n".format('/tmp/ucr-tainting/opencms/taint.xml', '/tmp/ucr-tainting/opencms/scanner.xml'))
 
 
 def run_annotator():
@@ -20,7 +20,7 @@ def run_annotator():
     commands += ["java", "-jar", ANNOTATOR_JAR]
     commands += ['-d', '/tmp/ucr-tainting']
     commands += ['-bc', 'cd {} && ./gradlew compileJava'.format(REPO)]
-    commands += ['-cp', '/tmp/ucr-tainting/paths.tsv']
+    commands += ['-cp', '/tmp/ucr-tainting/opencms/paths.tsv']
     commands += ['-i', 'edu.ucr.Initializer']
     commands += ['-n', 'edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted']
     commands += ['-cn', 'UCRTaint']
