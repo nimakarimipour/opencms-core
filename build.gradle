@@ -137,8 +137,17 @@ configurations {
     }
 }
 
+// Added to fix the problem with missing dependencies for error prone plugin and core
 configurations.configureEach {
     it.transitive = true
+}
+// Added to fix the problem with javax.mail dependency. Some configuration requires 1.3.2 which the jar no longer exists in maven central.
+configurations.configureEach {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        if (details.requested.group == 'javax.mail' && details.requested.name == 'mail') {
+            details.useVersion '1.4'
+        }
+    }
 }
 
 
