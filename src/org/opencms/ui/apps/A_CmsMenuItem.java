@@ -36,6 +36,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A workplace menu item.<p>
@@ -46,7 +47,7 @@ public abstract class A_CmsMenuItem implements I_CmsMenuItem {
     protected Resource m_icon;
 
     /** The label message key. */
-    protected String m_labelKey;
+    protected @RUntainted String m_labelKey;
 
     /**
      * Constructor.<p>
@@ -85,7 +86,7 @@ public abstract class A_CmsMenuItem implements I_CmsMenuItem {
      *
      * @return the label
      */
-    protected String getLabel(Locale locale) {
+    protected String getLabel(@RUntainted Locale locale) {
 
         return OpenCms.getWorkplaceManager().getMessages(locale).key(m_labelKey);
     }

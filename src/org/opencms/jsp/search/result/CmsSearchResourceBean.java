@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.Transformer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** JSP EL friendly wrapper class for a single search result (document). */
 public class CmsSearchResourceBean implements I_CmsSearchResourceBean {
@@ -156,7 +157,7 @@ public class CmsSearchResourceBean implements I_CmsSearchResourceBean {
             m_localizedContent = CmsCollectionsGenericWrapper.createLazyMap(new Transformer() {
 
                 @Override
-                public Object transform(final Object locale) {
+                public Object transform(final @RUntainted Object locale) {
 
                     CmsJspContentAccessBean accessBean = null;
                     try {

@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsVfsFile".<p>
@@ -79,7 +80,7 @@ public class CmsXmlDynamicCategoryValue extends A_CmsXmlContentValue implements 
      */
     public CmsXmlDynamicCategoryValue(
         I_CmsXmlDocument document,
-        Element element,
+        @RUntainted Element element,
         Locale locale,
         I_CmsXmlSchemaType type) {
 
@@ -93,7 +94,7 @@ public class CmsXmlDynamicCategoryValue extends A_CmsXmlContentValue implements 
      * @param minOccurs minimum number of occurrences of this type according to the XML schema
      * @param maxOccurs maximum number of occurrences of this type according to the XML schema
      */
-    public CmsXmlDynamicCategoryValue(String name, String minOccurs, String maxOccurs) {
+    public CmsXmlDynamicCategoryValue(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         super(name, minOccurs, maxOccurs);
     }
@@ -101,7 +102,7 @@ public class CmsXmlDynamicCategoryValue extends A_CmsXmlContentValue implements 
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#createValue(I_CmsXmlDocument, org.dom4j.Element, Locale)
      */
-    public I_CmsXmlContentValue createValue(I_CmsXmlDocument document, Element element, Locale locale) {
+    public I_CmsXmlContentValue createValue(I_CmsXmlDocument document, @RUntainted Element element, Locale locale) {
 
         return new CmsXmlDynamicCategoryValue(document, element, locale, this);
     }
@@ -141,7 +142,7 @@ public class CmsXmlDynamicCategoryValue extends A_CmsXmlContentValue implements 
     /**
      * @see org.opencms.xml.types.I_CmsXmlContentValue#getStringValue(CmsObject)
      */
-    public String getStringValue(CmsObject cms) throws CmsRuntimeException {
+    public @RUntainted String getStringValue(CmsObject cms) throws CmsRuntimeException {
 
         Element categoryElement = categoryStringElem(false);
         if (categoryElement == null) {
@@ -153,7 +154,7 @@ public class CmsXmlDynamicCategoryValue extends A_CmsXmlContentValue implements 
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#getTypeName()
      */
-    public String getTypeName() {
+    public @RUntainted String getTypeName() {
 
         return TYPE_NAME;
     }
@@ -171,7 +172,7 @@ public class CmsXmlDynamicCategoryValue extends A_CmsXmlContentValue implements 
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#newInstance(java.lang.String, java.lang.String, java.lang.String)
      */
-    public I_CmsXmlSchemaType newInstance(String name, String minOccurs, String maxOccurs) {
+    public I_CmsXmlSchemaType newInstance(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         return new CmsXmlDynamicCategoryValue(name, minOccurs, maxOccurs);
     }

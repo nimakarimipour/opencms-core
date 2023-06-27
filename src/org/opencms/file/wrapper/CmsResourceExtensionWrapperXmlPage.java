@@ -31,6 +31,7 @@ import org.opencms.file.types.CmsResourceTypeXmlPage;
 import org.opencms.file.types.I_CmsResourceType;
 import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A resource type wrapper for xml pages, which adds the correct file extension "xml"
@@ -47,7 +48,7 @@ public class CmsResourceExtensionWrapperXmlPage extends A_CmsResourceExtensionWr
      * @see org.opencms.file.wrapper.A_CmsResourceExtensionWrapper#checkTypeId(int)
      */
     @Override
-    protected boolean checkTypeId(int typeId) {
+    protected boolean checkTypeId(@RUntainted int typeId) {
 
         try {
             I_CmsResourceType resType = OpenCms.getResourceManager().getResourceType(typeId);

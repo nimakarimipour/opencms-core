@@ -31,6 +31,7 @@ import org.opencms.configuration.I_CmsConfigurationParameterHandler;
 import org.opencms.file.CmsResource;
 import org.opencms.file.types.I_CmsResourceType;
 import org.opencms.workplace.CmsDialog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines an action to be performed before the workplace editor is opened for the first time.<p>
@@ -70,5 +71,5 @@ public interface I_CmsPreEditorActionDefinition extends I_CmsConfigurationParame
      *
      * @param resourceTypeName the resource type name
      */
-    void setResourceTypeName(String resourceTypeName);
+    void setResourceTypeName(@RUntainted String resourceTypeName);
 }

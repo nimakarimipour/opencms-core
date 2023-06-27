@@ -50,6 +50,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Loads node data for the sitemap tree.<p>
@@ -132,7 +133,7 @@ public class CmsSitemapTreeDataProvider {
                 if (subEnt.isInNavigation()
                     && ((subEnt.getDefaultFileId() != null) || subEnt.isNavigationLevelType())) {
                     try {
-                        CmsUUID idToRead = subEnt.getId();
+                        @RUntainted CmsUUID idToRead = subEnt.getId();
                         if (subEnt.getDefaultFileId() != null) {
                             idToRead = subEnt.getDefaultFileId();
                         }
@@ -206,7 +207,7 @@ public class CmsSitemapTreeDataProvider {
      *
      * @return the node data
      */
-    public CmsSitemapTreeNodeData getRoot() {
+    public @RUntainted CmsSitemapTreeNodeData getRoot() {
 
         return getData(m_root);
 

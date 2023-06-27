@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a OpenCms User selection widget, for use on a widget dialog.<p>
@@ -58,7 +59,7 @@ public class CmsUserWidget extends CmsSelectWidget {
     private Integer m_flags;
 
     /** The the group used in the popup window. */
-    private String m_groupName;
+    private @RUntainted String m_groupName;
 
     /**
      * Creates a new user selection widget.<p>
@@ -75,7 +76,7 @@ public class CmsUserWidget extends CmsSelectWidget {
      * @param flags the group flags to restrict the group selection, can be <code>null</code>
      * @param groupName the group to restrict the user selection, can be <code>null</code>
      */
-    public CmsUserWidget(Integer flags, String groupName) {
+    public CmsUserWidget(Integer flags, @RUntainted String groupName) {
 
         m_flags = flags;
         m_groupName = groupName;
@@ -237,7 +238,7 @@ public class CmsUserWidget extends CmsSelectWidget {
      * @see org.opencms.widgets.A_CmsWidget#setConfiguration(java.lang.String)
      */
     @Override
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
         m_groupName = null;
         m_flags = null;
@@ -259,7 +260,7 @@ public class CmsUserWidget extends CmsSelectWidget {
             int groupIndex = configuration.indexOf(CONFIGURATION_GROUP);
             if (groupIndex != -1) {
                 // group is given
-                String group = configuration.substring(CONFIGURATION_GROUP.length() + 1);
+                @RUntainted String group = configuration.substring(CONFIGURATION_GROUP.length() + 1);
                 if (group.indexOf('|') != -1) {
                     // cut eventual following configuration values
                     group = group.substring(0, group.indexOf('|'));

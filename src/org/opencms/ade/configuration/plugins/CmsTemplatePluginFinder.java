@@ -57,6 +57,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for finding the list of active template plugins for the current page.
@@ -108,7 +109,7 @@ public class CmsTemplatePluginFinder {
 
         List<CmsTemplatePlugin> plugins = new ArrayList<>();
         CmsObject cms = standardContext.getVfs().getCmsObject();
-        HttpServletRequest req = (HttpServletRequest)(standardContext.getRequest());
+        @RUntainted HttpServletRequest req = (HttpServletRequest)(standardContext.getRequest());
         standardContext.initPage();
 
         CmsContainerPageBean containerPage = standardContext.getPage();

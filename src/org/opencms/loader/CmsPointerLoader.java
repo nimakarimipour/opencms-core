@@ -47,6 +47,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Loader for "pointers" to resources in the VFS or to external resources.<p>
@@ -124,9 +125,9 @@ public class CmsPointerLoader extends CmsDumpLoader {
      *
      * @return the pointer with the parameters
      */
-    private static String appendLinkParams(String pointerLink, HttpServletRequest req) {
+    private static @RUntainted String appendLinkParams(String pointerLink, HttpServletRequest req) {
 
-        String result = pointerLink;
+        @RUntainted String result = pointerLink;
         if (isRequestParamSupportEnabled()) {
             Map<String, String[]> params = req.getParameterMap();
             if (params.size() > 0) {
@@ -164,7 +165,7 @@ public class CmsPointerLoader extends CmsDumpLoader {
     @Override
     public byte[] dump(
         CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         String element,
         Locale locale,
         HttpServletRequest req,
@@ -177,10 +178,10 @@ public class CmsPointerLoader extends CmsDumpLoader {
      * @see org.opencms.loader.I_CmsResourceLoader#export(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public byte[] export(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+    public byte[] export(CmsObject cms, @RUntainted CmsResource resource, HttpServletRequest req, HttpServletResponse res)
     throws IOException, CmsException {
 
-        String pointer = new String(
+        @RUntainted String pointer = new String(
             cms.readFile(resource).getContents(),
             CmsLocaleManager.getResourceEncoding(cms, resource));
         StringBuffer result = new StringBuffer(128);
@@ -294,7 +295,7 @@ public class CmsPointerLoader extends CmsDumpLoader {
      * @see org.opencms.loader.I_CmsResourceLoader#load(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public void load(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+    public void load(CmsObject cms, @RUntainted CmsResource resource, HttpServletRequest req, HttpServletResponse res)
     throws IOException, CmsException {
 
         if ((res == null) || res.isCommitted()) {

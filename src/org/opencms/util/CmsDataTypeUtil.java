@@ -39,6 +39,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.codec.binary.Base64;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  *
@@ -117,7 +118,7 @@ public final class CmsDataTypeUtil {
      * @throws ClassNotFoundException if something goes wrong
      * @throws IOException if something goes wrong
      */
-    public static Object dataImport(String value, String type) throws ClassNotFoundException, IOException {
+    public static @RUntainted Object dataImport(String value, String type) throws ClassNotFoundException, IOException {
 
         Class<?> clazz = Class.forName(type);
         if (CmsDataTypeUtil.isParseable(clazz)) {

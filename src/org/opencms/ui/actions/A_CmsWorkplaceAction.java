@@ -48,6 +48,7 @@ import java.util.Locale;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract workplace actions class providing helper methods.<p>
@@ -80,7 +81,7 @@ public abstract class A_CmsWorkplaceAction implements I_CmsWorkplaceAction {
     /**
      * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getTitle(java.util.Locale)
      */
-    public String getTitle(Locale locale) {
+    public String getTitle(@RUntainted Locale locale) {
 
         return OpenCms.getWorkplaceManager().getMessages(locale).key(getTitleKey());
     }

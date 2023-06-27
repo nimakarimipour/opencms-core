@@ -28,6 +28,7 @@
 package org.opencms.ade.configuration;
 
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean for representing a named dynamic function reference from the configuration.<p>
@@ -35,7 +36,7 @@ import org.opencms.util.CmsUUID;
 public class CmsFunctionReference implements I_CmsConfigurationObject<CmsFunctionReference> {
 
     /** The function default page id. */
-    private CmsUUID m_functionDefaultPageId;
+    private @RUntainted CmsUUID m_functionDefaultPageId;
 
     /** The function reference name. */
     private String m_name;
@@ -44,7 +45,7 @@ public class CmsFunctionReference implements I_CmsConfigurationObject<CmsFunctio
     private int m_order;
 
     /** The function resource structure id. */
-    private CmsUUID m_structureId;
+    private @RUntainted CmsUUID m_structureId;
 
     /**
      * Creates a new function reference.<p>
@@ -54,7 +55,7 @@ public class CmsFunctionReference implements I_CmsConfigurationObject<CmsFunctio
      * @param functionDefaultPageId the function default page id
      * @param order the number used for sorting the function references
      */
-    public CmsFunctionReference(String name, CmsUUID structureId, CmsUUID functionDefaultPageId, int order) {
+    public CmsFunctionReference(String name, @RUntainted CmsUUID structureId, @RUntainted CmsUUID functionDefaultPageId, int order) {
 
         m_name = name;
         m_structureId = structureId;
@@ -67,7 +68,7 @@ public class CmsFunctionReference implements I_CmsConfigurationObject<CmsFunctio
      *
      * @return the function default page id
      */
-    public CmsUUID getFunctionDefaultPageId() {
+    public @RUntainted CmsUUID getFunctionDefaultPageId() {
 
         return m_functionDefaultPageId;
     }
@@ -105,7 +106,7 @@ public class CmsFunctionReference implements I_CmsConfigurationObject<CmsFunctio
      *
      * @return the structure id of the function
      */
-    public CmsUUID getStructureId() {
+    public @RUntainted CmsUUID getStructureId() {
 
         return m_structureId;
     }

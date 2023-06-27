@@ -38,6 +38,7 @@ import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility class for PDF formatting.<p>
@@ -65,8 +66,8 @@ public final class CmsPdfFormatterUtils {
      * @throws Exception if something goes wrong
      */
     public static byte[] executeJsp(
-        CmsObject cms,
-        HttpServletRequest request,
+        @RUntainted CmsObject cms,
+        @RUntainted HttpServletRequest request,
         HttpServletResponse response,
         CmsResource jsp,
         CmsResource content) throws Exception {

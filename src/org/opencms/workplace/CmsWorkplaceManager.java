@@ -118,6 +118,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the global OpenCms workplace settings for all users.<p>
@@ -223,7 +224,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
     private CmsExplorerTypeAccess m_defaultAccess;
 
     /** The configured default locale of the workplace. */
-    private Locale m_defaultLocale;
+    private @RUntainted Locale m_defaultLocale;
 
     /** The default property setting for setting new property values. */
     private boolean m_defaultPropertiesOnStructure;
@@ -364,7 +365,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
     private boolean m_xmlContentAutoCorrect;
 
     /** The role required for editing the sitemap configuration. */
-    private String m_sitemapConfigEditRole;
+    private @RUntainted String m_sitemapConfigEditRole;
 
     /**
      * Creates a new instance for the workplace manager, will be called by the workplace configuration manager.<p>
@@ -569,7 +570,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      * @param uri the export point uri
      * @param destination the export point destination
      */
-    public void addExportPoint(String uri, String destination) {
+    public void addExportPoint(String uri, @RUntainted String destination) {
 
         CmsExportPoint point = new CmsExportPoint(uri, destination);
         m_exportPoints.add(point);
@@ -631,7 +632,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      * @param resourceTypeName the name of the resource type
      * @param preEditorConditionDefinitionClassName full class name of the condition definition class
      */
-    public void addPreEditorConditionDefinition(String resourceTypeName, String preEditorConditionDefinitionClassName) {
+    public void addPreEditorConditionDefinition(@RUntainted String resourceTypeName, String preEditorConditionDefinitionClassName) {
 
         try {
             I_CmsPreEditorActionDefinition preEditorCondition = (I_CmsPreEditorActionDefinition)Class.forName(
@@ -684,7 +685,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      * @param request the request to check
      * @param cms the CmsObject to use
      */
-    public void checkWorkplaceRequest(HttpServletRequest request, CmsObject cms) {
+    public void checkWorkplaceRequest(@RUntainted HttpServletRequest request, CmsObject cms) {
 
         try {
             if ((OpenCms.getSiteManager().getSites().size() > 1)
@@ -744,7 +745,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      *
      * @throws CmsException if something goes wrong
      */
-    public synchronized String createTempFile(CmsObject cms, String resourceName, CmsUUID currentProjectId)
+    public synchronized String createTempFile(CmsObject cms, @RUntainted String resourceName, @RUntainted CmsUUID currentProjectId)
     throws CmsException {
 
         // check that the current user has write permissions
@@ -757,7 +758,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
         CmsObject adminCms = getAdminCms(cms);
 
         // generate the filename of the temporary file
-        String temporaryFilename = CmsWorkplace.getTemporaryFileName(resourceName);
+        @RUntainted String temporaryFilename = CmsWorkplace.getTemporaryFileName(resourceName);
 
         // check if the temporary file is already present
         if (adminCms.existsResource(temporaryFilename, CmsResourceFilter.ALL)) {
@@ -901,7 +902,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      *
      * @return  the Workplace default locale
      */
-    public Locale getDefaultLocale() {
+    public @RUntainted Locale getDefaultLocale() {
 
         return m_defaultLocale;
     }
@@ -1333,7 +1334,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      *
      * @return the {@link CmsWorkplaceMessages} for the given locale
      */
-    public CmsWorkplaceMessages getMessages(Locale locale) {
+    public CmsWorkplaceMessages getMessages(@RUntainted Locale locale) {
 
         CmsWorkplaceMessages result = m_messages.get(locale);
         if (result != null) {
@@ -1436,7 +1437,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      *
      * @return the name of the role necessary for editing the sitemap configuration
      */
-    public String getSitemapConfigEditRole() {
+    public @RUntainted String getSitemapConfigEditRole() {
 
         return m_sitemapConfigEditRole;
     }
@@ -1456,7 +1457,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      *
      * @return the id of the temporary file project required by the editors
      */
-    public CmsUUID getTempFileProjectId() {
+    public @RUntainted CmsUUID getTempFileProjectId() {
 
         if (m_tempFileProject != null) {
             return m_tempFileProject.getUuid();
@@ -1576,7 +1577,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      *
      * @return the workplace locale
      */
-    public Locale getWorkplaceLocale(CmsObject cms) {
+    public @RUntainted Locale getWorkplaceLocale(CmsObject cms) {
 
         return getWorkplaceLocale(cms.getRequestContext());
     }
@@ -1588,7 +1589,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      *
      * @return the workplace locale for the request context
      */
-    public Locale getWorkplaceLocale(CmsRequestContext requestContext) {
+    public @RUntainted Locale getWorkplaceLocale(CmsRequestContext requestContext) {
 
         Locale wpLocale = new CmsUserSettings(requestContext.getCurrentUser()).getLocale();
         if (wpLocale == null) {
@@ -1608,7 +1609,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      * @param user the user to get the workplace locale for.
      * @return the workplace locale for the user.
      */
-    public Locale getWorkplaceLocale(CmsUser user) {
+    public @RUntainted Locale getWorkplaceLocale(CmsUser user) {
 
         Locale wpLocale = new CmsUserSettings(user).getLocale();
         if (wpLocale == null) {
@@ -1941,7 +1942,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      *
      * @param locale the locale to set
      */
-    public void setDefaultLocale(String locale) {
+    public void setDefaultLocale(@RUntainted String locale) {
 
         try {
             m_defaultLocale = CmsLocaleManager.getLocale(locale);
@@ -2198,7 +2199,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      *
      * @param roleName the name of the role necessary for editing the sitemap configuration
      */
-    public void setSitemapConfigEditRole(String roleName) {
+    public void setSitemapConfigEditRole(@RUntainted String roleName) {
 
         m_sitemapConfigEditRole = roleName;
     }
@@ -2329,7 +2330,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      *
      * @return the translated group name
      */
-    public String translateGroupName(String groupName, boolean keepOu) {
+    public String translateGroupName(@RUntainted String groupName, boolean keepOu) {
 
         I_CmsGroupNameTranslation translation = getGroupNameTranslation();
         return translation.translateGroupName(groupName, keepOu);
@@ -2341,7 +2342,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      * @param typeName a resource type name
      * @return the default view for the given type
      */
-    String getDefaultView(String typeName) {
+    String getDefaultView(@RUntainted String typeName) {
 
         String result = m_defaultViewRules.getViewForType(typeName);
         if (result == null) {
@@ -2386,7 +2387,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
 
         return new I_CmsGroupNameTranslation() {
 
-            public String translateGroupName(String group, boolean keepOu) {
+            public String translateGroupName(@RUntainted String group, boolean keepOu) {
 
                 return keepOu ? group : CmsOrganizationalUnit.getSimpleName(group);
             }
@@ -2505,10 +2506,10 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
             Enumeration<URL> resources = getClass().getClassLoader().getResources(MANIFEST_RESOURCE_NAME);
 
             while (resources.hasMoreElements()) {
-                URL resUrl = resources.nextElement();
+                @RUntainted URL resUrl = resources.nextElement();
                 try {
-                    Manifest manifest = new Manifest(resUrl.openStream());
-                    String localeString = manifest.getMainAttributes().getValue(LOCALIZATION_ATTRIBUTE_NAME);
+                    @RUntainted Manifest manifest = new Manifest(resUrl.openStream());
+                    @RUntainted String localeString = manifest.getMainAttributes().getValue(LOCALIZATION_ATTRIBUTE_NAME);
                     if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(localeString)) {
                         Locale locale = CmsLocaleManager.getLocale(localeString);
                         // add locale

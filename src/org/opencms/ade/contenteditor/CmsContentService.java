@@ -139,6 +139,7 @@ import org.dom4j.Element;
 
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Service to provide entity persistence within OpenCms. <p>
@@ -199,7 +200,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
     private CmsADESessionCache m_sessionCache;
 
     /** The current users workplace locale. */
-    private Locale m_workplaceLocale;
+    private @RUntainted Locale m_workplaceLocale;
 
     /**
      * Creates a new resource to edit, delegating to an edit handler if edit handler data is passed in.<p>
@@ -217,8 +218,8 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
      */
     public static String defaultCreateResourceToEdit(
         CmsObject cms,
-        String newLink,
-        Locale locale,
+        @RUntainted String newLink,
+        @RUntainted Locale locale,
         String referenceSitePath,
         String modelFileSitePath,
         String mode,
@@ -328,13 +329,13 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
      *
      * @return the RDFA
      */
-    public static String getRdfaAttributes(I_CmsXmlContentValue parentValue, String childNames) {
+    public static String getRdfaAttributes(I_CmsXmlContentValue parentValue, @RUntainted String childNames) {
 
         String id = CmsContentDefinition.uuidToEntityId(
             parentValue.getDocument().getFile().getStructureId(),
             parentValue.getLocale().toString()) + "/" + parentValue.getPath();
         String path = "";
-        String[] children = childNames.split("\\|");
+        @RUntainted String[] children = childNames.split("\\|");
         for (int i = 0; i < children.length; i++) {
             I_CmsXmlSchemaType schemaType = parentValue.getContentDefinition().getSchemaType(
                 parentValue.getName() + "/" + children[i]);
@@ -359,7 +360,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
      *
      * @return the RDFA
      */
-    public static String getRdfaAttributes(I_CmsXmlDocument document, Locale contentLocale, String elementPath) {
+    public static String getRdfaAttributes(I_CmsXmlDocument document, Locale contentLocale, @RUntainted String elementPath) {
 
         I_CmsXmlSchemaType schemaType = document.getContentDefinition().getSchemaType(elementPath);
         if (schemaType != null) {
@@ -428,10 +429,10 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
      * @see org.opencms.ade.contenteditor.shared.rpc.I_CmsContentService#callEditorChangeHandlers(java.lang.String, org.opencms.acacia.shared.CmsEntity, java.util.Collection, java.util.Collection)
      */
     public CmsContentDefinition callEditorChangeHandlers(
-        String entityId,
+        @RUntainted String entityId,
         CmsEntity editedLocaleEntity,
         Collection<String> skipPaths,
-        Collection<String> changedScopes)
+        @RUntainted Collection<@RUntainted String> changedScopes)
     throws CmsRpcException {
 
         CmsContentDefinition result = null;
@@ -439,10 +440,10 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
         CmsADEConfigData config = OpenCms.getADEManager().lookupConfiguration(
             cms,
             cms.getRequestContext().getRootUri());
-        CmsUUID structureId = CmsContentDefinition.entityIdToUuid(editedLocaleEntity.getId());
+        @RUntainted CmsUUID structureId = CmsContentDefinition.entityIdToUuid(editedLocaleEntity.getId());
         if (structureId != null) {
 
-            CmsResource resource = null;
+            @RUntainted CmsResource resource = null;
             Locale locale = CmsLocaleManager.getLocale(CmsContentDefinition.getLocaleFromId(entityId));
             try {
                 resource = cms.readResource(structureId, CmsResourceFilter.IGNORE_EXPIRATION);
@@ -482,15 +483,15 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
     public void copyLocale(Collection<String> locales, CmsEntity sourceLocale) throws CmsRpcException {
 
         try {
-            CmsUUID structureId = CmsContentDefinition.entityIdToUuid(sourceLocale.getId());
+            @RUntainted CmsUUID structureId = CmsContentDefinition.entityIdToUuid(sourceLocale.getId());
 
-            CmsResource resource = getCmsObject().readResource(structureId, CmsResourceFilter.IGNORE_EXPIRATION);
+            @RUntainted CmsResource resource = getCmsObject().readResource(structureId, CmsResourceFilter.IGNORE_EXPIRATION);
             CmsFile file = getCmsObject().readFile(resource);
             CmsXmlContent content = getSessionCache().getCacheXmlContent(structureId);
             synchronizeLocaleIndependentForEntity(file, content, Collections.<String> emptyList(), sourceLocale);
             Locale sourceContentLocale = CmsLocaleManager.getLocale(
                 CmsContentDefinition.getLocaleFromId(sourceLocale.getId()));
-            for (String loc : locales) {
+            for (@RUntainted String loc : locales) {
                 Locale targetLocale = CmsLocaleManager.getLocale(loc);
                 if (content.hasLocale(targetLocale)) {
                     content.removeLocale(targetLocale);
@@ -527,7 +528,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
      */
     public CmsContentDefinition loadDefinition(
 
-        String entityId,
+        @RUntainted String entityId,
         String clientId,
         CmsEntity editedLocaleEntity,
         Collection<String> skipPaths,
@@ -536,8 +537,8 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
 
         CmsContentDefinition definition = null;
         try {
-            CmsUUID structureId = CmsContentDefinition.entityIdToUuid(entityId);
-            CmsResource resource = getCmsObject().readResource(structureId, CmsResourceFilter.IGNORE_EXPIRATION);
+            @RUntainted CmsUUID structureId = CmsContentDefinition.entityIdToUuid(entityId);
+            @RUntainted CmsResource resource = getCmsObject().readResource(structureId, CmsResourceFilter.IGNORE_EXPIRATION);
             CmsADEConfigData config = OpenCms.getADEManager().lookupConfiguration(
                 getCmsObject(),
                 getCmsObject().getRequestContext().getRootUri());
@@ -570,12 +571,12 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
      */
     public CmsContentDefinition loadInitialDefinition(
 
-        String entityId,
+        @RUntainted String entityId,
         String clientId,
-        String newLink,
-        CmsUUID modelFileId,
+        @RUntainted String newLink,
+        @RUntainted CmsUUID modelFileId,
         String editContext,
-        String mainLocale,
+        @RUntainted String mainLocale,
         String mode,
         String postCreateHandler,
         CmsEditHandlerData editHandlerDataForNew,
@@ -595,8 +596,8 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
                 editorStylesheet);
         }
         try {
-            CmsUUID structureId = CmsContentDefinition.entityIdToUuid(entityId);
-            CmsResource resource = getCmsObject().readResource(structureId, CmsResourceFilter.IGNORE_EXPIRATION);
+            @RUntainted CmsUUID structureId = CmsContentDefinition.entityIdToUuid(entityId);
+            @RUntainted CmsResource resource = getCmsObject().readResource(structureId, CmsResourceFilter.IGNORE_EXPIRATION);
             Locale contentLocale = CmsLocaleManager.getLocale(CmsContentDefinition.getLocaleFromId(entityId));
             getSessionCache().clearDynamicValues();
             getSessionCache().uncacheXmlContent(structureId);
@@ -636,7 +637,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
      */
     public CmsContentDefinition loadNewDefinition(
 
-        String entityId,
+        @RUntainted String entityId,
         String clientId,
         CmsEntity editedLocaleEntity,
         Collection<String> skipPaths,
@@ -649,8 +650,8 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
             cms.getRequestContext().getRootUri());
         CmsContentDefinition definition = null;
         try {
-            CmsUUID structureId = CmsContentDefinition.entityIdToUuid(entityId);
-            CmsResource resource = getCmsObject().readResource(structureId, CmsResourceFilter.IGNORE_EXPIRATION);
+            @RUntainted CmsUUID structureId = CmsContentDefinition.entityIdToUuid(entityId);
+            @RUntainted CmsResource resource = getCmsObject().readResource(structureId, CmsResourceFilter.IGNORE_EXPIRATION);
             Locale contentLocale = CmsLocaleManager.getLocale(CmsContentDefinition.getLocaleFromId(entityId));
             CmsFile file = getCmsObject().readFile(resource);
             CmsXmlContent content = getContentDocument(file, true);
@@ -690,7 +691,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
             paramNewLink = decodeNewLink(paramNewLink);
         }
         String paramLocale = getRequest().getParameter(CmsEditor.PARAM_ELEMENTLANGUAGE);
-        Locale locale = null;
+        @RUntainted Locale locale = null;
         CmsObject cms = getCmsObject();
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(paramResource)) {
 
@@ -776,13 +777,13 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
     public CmsSaveResult saveAndDeleteEntities(
         CmsEntity lastEditedEntity,
         String clientId,
-        List<String> deletedEntities,
+        @RUntainted List<@RUntainted String> deletedEntities,
         Collection<String> skipPaths,
-        String lastEditedLocale,
+        @RUntainted String lastEditedLocale,
         boolean clearOnSuccess)
     throws CmsRpcException {
 
-        CmsUUID structureId = null;
+        @RUntainted CmsUUID structureId = null;
         if (lastEditedEntity != null) {
             structureId = CmsContentDefinition.entityIdToUuid(lastEditedEntity.getId());
         }
@@ -794,7 +795,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
             getCmsObject().getRequestContext().getRootUri());
         if (structureId != null) {
             CmsObject cms = getCmsObject();
-            CmsResource resource = null;
+            @RUntainted CmsResource resource = null;
             try {
                 resource = cms.readResource(structureId, CmsResourceFilter.IGNORE_EXPIRATION);
                 ensureLock(resource);
@@ -804,7 +805,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
                 if (lastEditedEntity != null) {
                     synchronizeLocaleIndependentForEntity(file, content, skipPaths, lastEditedEntity);
                 }
-                for (String deleteId : deletedEntities) {
+                for (@RUntainted String deleteId : deletedEntities) {
                     Locale contentLocale = CmsLocaleManager.getLocale(CmsContentDefinition.getLocaleFromId(deleteId));
                     if (content.hasLocale(contentLocale)) {
                         content.removeLocale(contentLocale);
@@ -890,7 +891,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
     /**
      * @see org.opencms.ade.contenteditor.shared.rpc.I_CmsContentService#saveValue(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
-    public String saveValue(String contentId, String contentPath, String localeString, String newValue)
+    public String saveValue(@RUntainted String contentId, @RUntainted String contentPath, @RUntainted String localeString, @RUntainted String newValue)
     throws CmsRpcException {
 
         OpenCms.getLocaleManager();
@@ -898,7 +899,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
 
         try {
             CmsObject cms = getCmsObject();
-            CmsResource element = cms.readResource(new CmsUUID(contentId), CmsResourceFilter.IGNORE_EXPIRATION);
+            @RUntainted CmsResource element = cms.readResource(new CmsUUID(contentId), CmsResourceFilter.IGNORE_EXPIRATION);
             ensureLock(element);
             CmsFile elementFile = cms.readFile(element);
             CmsXmlContent content = CmsXmlContentFactory.unmarshal(cms, elementFile);
@@ -927,17 +928,17 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
     /**
      * @see org.opencms.acacia.shared.rpc.I_CmsContentService#updateEntityHtml(org.opencms.acacia.shared.CmsEntity, java.lang.String, java.lang.String)
      */
-    public CmsEntityHtml updateEntityHtml(CmsEntity entity, String contextUri, String htmlContextInfo)
+    public CmsEntityHtml updateEntityHtml(CmsEntity entity, @RUntainted String contextUri, String htmlContextInfo)
     throws Exception {
 
-        CmsUUID structureId = CmsContentDefinition.entityIdToUuid(entity.getId());
+        @RUntainted CmsUUID structureId = CmsContentDefinition.entityIdToUuid(entity.getId());
         if (structureId != null) {
             CmsObject cms = getCmsObject();
             try {
-                CmsResource resource = cms.readResource(structureId, CmsResourceFilter.IGNORE_EXPIRATION);
+                @RUntainted CmsResource resource = cms.readResource(structureId, CmsResourceFilter.IGNORE_EXPIRATION);
                 CmsFile file = cms.readFile(resource);
                 CmsXmlContent content = CmsXmlContentFactory.unmarshal(cms, file);
-                String entityId = entity.getId();
+                @RUntainted String entityId = entity.getId();
                 Locale contentLocale = CmsLocaleManager.getLocale(CmsContentDefinition.getLocaleFromId(entityId));
                 if (content.hasLocale(contentLocale)) {
                     content.removeLocale(contentLocale);
@@ -1006,7 +1007,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
      */
     public CmsValidationResult validateEntity(CmsEntity changedEntity) throws CmsRpcException {
 
-        CmsUUID structureId = null;
+        @RUntainted CmsUUID structureId = null;
         if (changedEntity == null) {
             return new CmsValidationResult(null, null);
         }
@@ -1019,10 +1020,10 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
                 cms.getRequestContext().getRootUri());
             Set<String> setFieldNames = Sets.newHashSet();
             try {
-                CmsResource resource = cms.readResource(structureId, CmsResourceFilter.IGNORE_EXPIRATION);
+                @RUntainted CmsResource resource = cms.readResource(structureId, CmsResourceFilter.IGNORE_EXPIRATION);
                 CmsFile file = cms.readFile(resource);
                 CmsXmlContent content = CmsXmlContentFactory.unmarshal(cms, file);
-                String entityId = changedEntity.getId();
+                @RUntainted String entityId = changedEntity.getId();
                 Locale contentLocale = CmsLocaleManager.getLocale(CmsContentDefinition.getLocaleFromId(entityId));
                 if (content.hasLocale(contentLocale)) {
                     content.removeLocale(contentLocale);
@@ -1064,9 +1065,9 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
      *
      * @return the decoded value
      */
-    protected String decodeNewLink(String newLink) {
+    protected String decodeNewLink(@RUntainted String newLink) {
 
-        String result = newLink;
+        @RUntainted String result = newLink;
         if (result == null) {
             return null;
         }
@@ -1091,7 +1092,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
      *
      * @return the element name
      */
-    protected String getElementName(String attributeName) {
+    protected @RUntainted String getElementName(@RUntainted String attributeName) {
 
         if (attributeName.contains("/")) {
             return attributeName.substring(attributeName.lastIndexOf("/") + 1);
@@ -1109,7 +1110,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
      */
     protected String getFileEncoding(CmsObject cms, CmsResource file) {
 
-        String result;
+        @RUntainted String result;
         try {
             result = cms.readPropertyObject(file, CmsPropertyDefinition.PROPERTY_CONTENT_ENCODING, true).getValue(
                 OpenCms.getSystemInfo().getDefaultEncoding());
@@ -1138,14 +1139,14 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
         CmsXmlContent content,
         Element element,
         Locale locale,
-        String entityId,
-        String parentPath,
+        @RUntainted String entityId,
+        @RUntainted String parentPath,
         String typeName,
         CmsContentTypeVisitor visitor,
         boolean includeInvisible,
         CmsEntity editedLocalEntity) {
 
-        String newEntityId = entityId + (CmsStringUtil.isNotEmptyOrWhitespaceOnly(parentPath) ? "/" + parentPath : "");
+        @RUntainted String newEntityId = entityId + (CmsStringUtil.isNotEmptyOrWhitespaceOnly(parentPath) ? "/" + parentPath : "");
         CmsEntity newEntity = new CmsEntity(newEntityId, typeName);
         CmsEntity result = newEntity;
 
@@ -1160,13 +1161,13 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
             type = visitor.getTypes().get(type.getAttributeTypeName(CmsType.CHOICE_ATTRIBUTE_NAME));
             attributeCounter = new HashMap<String, Integer>();
         }
-        int counter = 0;
+        @RUntainted int counter = 0;
         CmsObject cms = getCmsObject();
         String previousName = null;
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(parentPath)) {
             parentPath += "/";
         }
-        for (Element child : elements) {
+        for (@RUntainted Element child : elements) {
             String attributeName = getAttributeName(child.getName(), typeName);
             String subTypeName = type.getAttributeTypeName(attributeName);
             if (visitor.getTypes().get(subTypeName) == null) {
@@ -1200,7 +1201,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
                     choiceTypeName);
                 newEntity.addAttributeValue(CmsType.CHOICE_ATTRIBUTE_NAME, result);
             }
-            String path = parentPath + child.getName();
+            @RUntainted String path = parentPath + child.getName();
             if (visitor.isDynamicallyLoaded(attributeName)) {
                 I_CmsXmlContentValue value = content.getValue(path, locale, counter);
                 String attributeValue = getDynamicAttributeValue(
@@ -1240,7 +1241,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
      *
      * @return the types of the given content definition
      */
-    protected Map<String, CmsType> readTypes(CmsXmlContentDefinition xmlContentDefinition, Locale locale) {
+    protected Map<String, CmsType> readTypes(CmsXmlContentDefinition xmlContentDefinition, @RUntainted Locale locale) {
 
         CmsContentTypeVisitor visitor = new CmsContentTypeVisitor(getCmsObject(), null, locale);
         visitor.visitTypes(xmlContentDefinition, locale);
@@ -1318,9 +1319,9 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
     private Set<String> addEntityAttributes(
         CmsObject cms,
         CmsXmlContent content,
-        String parentPath,
+        @RUntainted String parentPath,
         CmsEntity entity,
-        Locale contentLocale) {
+        @RUntainted Locale contentLocale) {
 
         Set<String> fieldsSet = Sets.newHashSet();
         addEntityAttributes(cms, content, parentPath, entity, contentLocale, fieldsSet);
@@ -1340,9 +1341,9 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
     private void addEntityAttributes(
         CmsObject cms,
         CmsXmlContent content,
-        String parentPath,
+        @RUntainted String parentPath,
         CmsEntity entity,
-        Locale contentLocale,
+        @RUntainted Locale contentLocale,
         Set<String> fieldsSet) {
 
         for (CmsEntityAttribute attribute : entity.getAttributes()) {
@@ -1377,9 +1378,9 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
                 } else {
                     String elementPath = parentPath + getElementName(attribute.getAttributeName());
                     if (attribute.isSimpleValue()) {
-                        List<String> values = attribute.getSimpleValues();
+                        @RUntainted List<@RUntainted String> values = attribute.getSimpleValues();
                         for (int i = 0; i < values.size(); i++) {
-                            String value = values.get(i);
+                            @RUntainted String value = values.get(i);
                             I_CmsXmlContentValue field = content.getValue(elementPath, contentLocale, i);
                             if (field == null) {
                                 field = content.addValue(cms, elementPath, contentLocale, i);
@@ -1618,8 +1619,8 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
      * @throws CmsException if something goes wrong
      */
     private String createResourceToEdit(
-        String newLink,
-        Locale locale,
+        @RUntainted String newLink,
+        @RUntainted Locale locale,
         String referenceSitePath,
         String modelFileSitePath,
         String mode,
@@ -1849,7 +1850,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
     private String getDynamicAttributeValue(
         CmsFile file,
         I_CmsXmlContentValue value,
-        String attributeName,
+        @RUntainted String attributeName,
         CmsEntity editedLocalEntity) {
 
         if ((null != editedLocalEntity) && (editedLocalEntity.getAttribute(attributeName) != null)) {
@@ -1935,7 +1936,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
 
         List<String> pathElements = new ArrayList<String>();
         String[] paths = value.getPath().split("/");
-        String path = "";
+        @RUntainted String path = "";
         for (int i = 0; i < paths.length; i++) {
             path += paths[i];
             I_CmsXmlContentValue ancestor = content.getValue(path, value.getLocale());
@@ -1974,7 +1975,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
      *
      * @return the attribute name
      */
-    private String getSettingsAttributeName(String settingName) {
+    private @RUntainted String getSettingsAttributeName(String settingName) {
 
         return "/" + SETTINGS_ATTRIBUTE_NAME_PREFIX + settingName;
     }
@@ -2052,7 +2053,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
         return attributeName.startsWith("/" + SETTINGS_ATTRIBUTE_NAME_PREFIX);
     }
 
-    private CmsADEConfigData readConfig(CmsUUID pageId) {
+    private CmsADEConfigData readConfig(@RUntainted CmsUUID pageId) {
 
         if (pageId == null) {
             return null;
@@ -2090,9 +2091,9 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
         CmsXmlContent content,
         String entityId,
         String clientId,
-        Locale locale,
+        @RUntainted Locale locale,
         boolean newLocale,
-        Locale mainLocale,
+        @RUntainted Locale mainLocale,
         CmsEntity editedLocaleEntity,
         Map<String, String> settingPresets,
         CmsADEConfigData configData)
@@ -2110,7 +2111,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
         if (!availableLocalesList.contains(locale)) {
             availableLocalesList.retainAll(content.getLocales());
             List<Locale> defaultLocales = OpenCms.getLocaleManager().getDefaultLocales(cms, file);
-            Locale replacementLocale = OpenCms.getLocaleManager().getBestMatchingLocale(
+            @RUntainted Locale replacementLocale = OpenCms.getLocaleManager().getBestMatchingLocale(
                 locale,
                 defaultLocales,
                 availableLocalesList);
@@ -2259,7 +2260,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
                 : Collections.emptyList();
                 String firstContentAttributeName = types.get(
                     entity.getTypeName()).getAttributeNames().iterator().next();
-                List<String> addedVisibleAttrs = addSettingsAttributes(
+                @RUntainted List<@RUntainted String> addedVisibleAttrs = addSettingsAttributes(
                     attrConfig,
                     settingsConfig,
                     nestedFormatters,
@@ -2335,10 +2336,10 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
      * @throws CmsException if creating the resource failed
      */
     private CmsContentDefinition readContentDefinitionForNew(
-        String newLink,
+        @RUntainted String newLink,
         CmsResource referenceResource,
-        CmsUUID modelFileId,
-        Locale locale,
+        @RUntainted CmsUUID modelFileId,
+        @RUntainted Locale locale,
         String mode,
         String postCreateHandler,
         CmsEditHandlerData editHandlerData,
@@ -2346,7 +2347,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
     throws CmsException {
 
         String sitePath = getCmsObject().getSitePath(referenceResource);
-        String resourceType;
+        @RUntainted String resourceType;
         if (newLink.startsWith(CmsJspTagEdit.NEW_LINK_IDENTIFIER)) {
             resourceType = CmsJspTagEdit.getTypeFromNewLink(newLink);
         } else {
@@ -2486,7 +2487,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
     throws CmsXmlException {
 
         CmsObject cms = getCmsObject();
-        String entityId = entity.getId();
+        @RUntainted String entityId = entity.getId();
         Locale contentLocale = CmsLocaleManager.getLocale(CmsContentDefinition.getLocaleFromId(entityId));
         CmsContentTypeVisitor visitor = null;
         CmsEntity originalEntity = null;
@@ -2581,7 +2582,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
             boolean reallyHasErrors = false;
             for (Entry<Locale, Map<String, String>> localeEntry : errorHandler.getErrors().entrySet()) {
                 Map<String[], CmsPair<String, String>> errors = new HashMap<String[], CmsPair<String, String>>();
-                for (Entry<String, String> error : localeEntry.getValue().entrySet()) {
+                for (@RUntainted Entry<@RUntainted String, @RUntainted String> error : localeEntry.getValue().entrySet()) {
                     I_CmsXmlContentValue value = content.getValue(error.getKey(), localeEntry.getKey());
                     if ((fieldNames == null) || fieldNames.contains(value.getPath())) {
                         errors.put(
@@ -2603,7 +2604,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
             boolean reallyHasErrors = false;
             for (Entry<Locale, Map<String, String>> localeEntry : errorHandler.getWarnings().entrySet()) {
                 Map<String[], CmsPair<String, String>> warnings = new HashMap<String[], CmsPair<String, String>>();
-                for (Entry<String, String> warning : localeEntry.getValue().entrySet()) {
+                for (@RUntainted Entry<@RUntainted String, @RUntainted String> warning : localeEntry.getValue().entrySet()) {
                     I_CmsXmlContentValue value = content.getValue(warning.getKey(), localeEntry.getKey());
                     if ((fieldNames == null) || fieldNames.contains(value.getPath())) {
                         warnings.put(
@@ -2723,7 +2724,7 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
 
         CmsObject cms = getCmsObject();
         if (!content.getLocales().isEmpty()) {
-            Locale locale = content.getLocales().iterator().next();
+            @RUntainted Locale locale = content.getLocales().iterator().next();
             CmsEntity entity = lastEditedEntity;
             List<I_CmsXmlContentValue> values = content.getValues(locale);
             for (I_CmsXmlContentValue value : values) {

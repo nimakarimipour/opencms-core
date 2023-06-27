@@ -30,6 +30,7 @@ package org.opencms.ade.containerpage.shared;
 import org.opencms.util.CmsUUID;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean containing the 'context' of the edited container page for use in RPC calls.<p>
@@ -39,7 +40,7 @@ public class CmsContainerPageRpcContext implements IsSerializable {
     /**
      * Structure id of the page.<p>
      */
-    private CmsUUID m_pageStructureId;
+    private @RUntainted CmsUUID m_pageStructureId;
 
     /**
      * Template context key.<p>
@@ -52,7 +53,7 @@ public class CmsContainerPageRpcContext implements IsSerializable {
      * @param pageStructureId the page structure id
      * @param templateContext the template context key
      */
-    public CmsContainerPageRpcContext(CmsUUID pageStructureId, String templateContext) {
+    public CmsContainerPageRpcContext(@RUntainted CmsUUID pageStructureId, String templateContext) {
 
         m_pageStructureId = pageStructureId;
         m_templateContext = templateContext;
@@ -73,7 +74,7 @@ public class CmsContainerPageRpcContext implements IsSerializable {
      *
      * @return the pageStructureId
      */
-    public CmsUUID getPageStructureId() {
+    public @RUntainted CmsUUID getPageStructureId() {
 
         return m_pageStructureId;
     }

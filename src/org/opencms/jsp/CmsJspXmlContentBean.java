@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to XML content tag functions from scriptlet code.<p>
@@ -62,7 +63,7 @@ public class CmsJspXmlContentBean extends CmsJspActionElement {
      *
      * @see CmsJspActionElement#CmsJspActionElement(PageContext, HttpServletRequest, HttpServletResponse)
      */
-    public CmsJspXmlContentBean(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsJspXmlContentBean(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         super(context, req, res);
     }
@@ -152,7 +153,7 @@ public class CmsJspXmlContentBean extends CmsJspActionElement {
      *
      * @return an XML content container to be used to loop over the selected element values in the parent container
      */
-    public I_CmsXmlContentContainer contentloop(I_CmsXmlContentContainer container, String element) {
+    public I_CmsXmlContentContainer contentloop(I_CmsXmlContentContainer container, @RUntainted String element) {
 
         return new CmsJspTagContentLoop(container, element);
     }
@@ -186,7 +187,7 @@ public class CmsJspXmlContentBean extends CmsJspActionElement {
      *
      * @return the selected content element String value from the given XML content container
      */
-    public String contentshow(I_CmsXmlContentContainer container, String element) {
+    public String contentshow(I_CmsXmlContentContainer container, @RUntainted String element) {
 
         return contentshow(container, element, null);
     }
@@ -201,7 +202,7 @@ public class CmsJspXmlContentBean extends CmsJspActionElement {
      *
      * @return the selected content element String value from the given XML content container
      */
-    public String contentshow(I_CmsXmlContentContainer container, String element, Locale locale) {
+    public String contentshow(I_CmsXmlContentContainer container, @RUntainted String element, Locale locale) {
 
         return CmsJspTagContentShow.contentShowTagAction(container, getJspContext(), element, locale, false);
     }

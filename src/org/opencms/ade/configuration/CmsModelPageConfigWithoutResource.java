@@ -28,6 +28,7 @@
 package org.opencms.ade.configuration;
 
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class contains the model page configuration for a sitemap region, without the actual resource.
@@ -35,7 +36,7 @@ import org.opencms.util.CmsUUID;
 public class CmsModelPageConfigWithoutResource {
 
     /** The structure id. */
-    private CmsUUID m_structureId;
+    private @RUntainted CmsUUID m_structureId;
 
     /** True if this is a default model page. */
     private boolean m_isDefault;
@@ -50,7 +51,7 @@ public class CmsModelPageConfigWithoutResource {
      * @param isDefault true if this is a default model page
      * @param isDisabled true if this is a disabled model page
      */
-    public CmsModelPageConfigWithoutResource(CmsUUID structureId, boolean isDefault, boolean isDisabled) {
+    public CmsModelPageConfigWithoutResource(@RUntainted CmsUUID structureId, boolean isDefault, boolean isDisabled) {
 
         m_structureId = structureId;
         m_isDefault = isDefault;
@@ -62,7 +63,7 @@ public class CmsModelPageConfigWithoutResource {
      *
      * @return the structure id
      */
-    public CmsUUID getStructureId() {
+    public @RUntainted CmsUUID getStructureId() {
 
         return m_structureId;
     }
@@ -72,7 +73,7 @@ public class CmsModelPageConfigWithoutResource {
      *
      * @return true if this is a default model page
      */
-    public boolean isDefault() {
+    public @RUntainted boolean isDefault() {
 
         return m_isDefault;
     }

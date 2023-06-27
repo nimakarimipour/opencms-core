@@ -43,6 +43,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class representing a JSON request. Provides utility functions for parameter validation.
@@ -188,9 +189,9 @@ public class CmsJsonRequest {
      *
      * @return the levels parameter as integer
      */
-    public String getParamLocale() {
+    public @RUntainted String getParamLocale() {
 
-        String paramLocale = m_context.getParameters().get(PARAM_LOCALE);
+        @RUntainted String paramLocale = m_context.getParameters().get(PARAM_LOCALE);
         return paramLocale;
     }
 

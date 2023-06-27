@@ -56,6 +56,7 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The E-Mail to be written to responsibles of resources.<p>
@@ -225,7 +226,7 @@ public class CmsContentNotification extends A_CmsNotification {
         Map<String, String[]> params = new HashMap<String, String[]>();
         buf.append("<td>");
         try {
-            String resourcePath = notificationCause.getResource().getRootPath();
+            @RUntainted String resourcePath = notificationCause.getResource().getRootPath();
             String siteRoot = OpenCms.getSiteManager().getSiteRoot(resourcePath);
             resourcePath = resourcePath.substring(siteRoot.length());
             buf.append("[<a href=\"");
@@ -266,7 +267,7 @@ public class CmsContentNotification extends A_CmsNotification {
         buf.append("<td>");
         if (existsEditor(notificationCause.getResource())) {
             try {
-                String resourcePath = notificationCause.getResource().getRootPath();
+                @RUntainted String resourcePath = notificationCause.getResource().getRootPath();
                 String siteRoot = OpenCms.getSiteManager().getSiteRoot(resourcePath);
                 resourcePath = resourcePath.substring(siteRoot.length());
                 Map<String, String[]> params = new HashMap<String, String[]>();
@@ -304,7 +305,7 @@ public class CmsContentNotification extends A_CmsNotification {
         buf.append("<td>");
         try {
             buf.append("[<a href=\"");
-            String resourcePath = notificationCause.getResource().getRootPath();
+            @RUntainted String resourcePath = notificationCause.getResource().getRootPath();
             String siteRoot = OpenCms.getSiteManager().getSiteRoot(resourcePath);
             resourcePath = resourcePath.substring(siteRoot.length());
             StringBuffer wpStartUri = new StringBuffer(m_uriWorkplace);

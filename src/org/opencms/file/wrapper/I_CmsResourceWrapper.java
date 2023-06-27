@@ -39,6 +39,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsIllegalArgumentException;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface which is used by the {@link CmsObjectWrapper} to create a different view to the
@@ -73,7 +74,7 @@ public interface I_CmsResourceWrapper {
      *
      * @throws CmsException if something goes wrong
      */
-    List<CmsResource> addResourcesToFolder(CmsObject cms, String resourcename, CmsResourceFilter filter)
+    List<CmsResource> addResourcesToFolder(CmsObject cms, @RUntainted String resourcename, CmsResourceFilter filter)
     throws CmsException;
 
     /**
@@ -108,7 +109,7 @@ public interface I_CmsResourceWrapper {
      * @throws CmsIllegalArgumentException if the <code>destination</code> argument is null or of length 0
      * @throws CmsException if something goes wrong
      */
-    boolean copyResource(CmsObject cms, String source, String destination, CmsResourceCopyMode siblingMode)
+    boolean copyResource(CmsObject cms, @RUntainted String source, @RUntainted String destination, CmsResourceCopyMode siblingMode)
     throws CmsException, CmsIllegalArgumentException;
 
     /**
@@ -137,8 +138,8 @@ public interface I_CmsResourceWrapper {
      */
     CmsResource createResource(
         CmsObject cms,
-        String resourcename,
-        int type,
+        @RUntainted String resourcename,
+        @RUntainted int type,
         byte[] content,
         List<CmsProperty> properties) throws CmsException, CmsIllegalArgumentException;
 
@@ -162,7 +163,7 @@ public interface I_CmsResourceWrapper {
      *
      * @throws CmsException if something goes wrong
      */
-    boolean deleteResource(CmsObject cms, String resourcename, CmsResourceDeleteMode siblingMode) throws CmsException;
+    boolean deleteResource(CmsObject cms, @RUntainted String resourcename, CmsResourceDeleteMode siblingMode) throws CmsException;
 
     /**
      * Returns the lock for the resource.<p>
@@ -218,7 +219,7 @@ public interface I_CmsResourceWrapper {
      *
      * @throws CmsException if something goes wrong
      */
-    boolean lockResource(CmsObject cms, String resourcename, boolean temporary) throws CmsException;
+    boolean lockResource(CmsObject cms, @RUntainted String resourcename, boolean temporary) throws CmsException;
 
     /**
      * Moves a resource to the given destination.<p>
@@ -241,7 +242,7 @@ public interface I_CmsResourceWrapper {
      *
      * @return true if the move action was handled by this resource wrapper otherwise false
      */
-    boolean moveResource(CmsObject cms, String source, String destination)
+    boolean moveResource(CmsObject cms, @RUntainted String source, @RUntainted String destination)
     throws CmsException, CmsIllegalArgumentException;
 
     /**
@@ -287,7 +288,7 @@ public interface I_CmsResourceWrapper {
      *
      * @throws CmsException if the resource could not be read for any reason
      */
-    CmsResource readResource(CmsObject cms, String resourcename, CmsResourceFilter filter) throws CmsException;
+    CmsResource readResource(CmsObject cms, @RUntainted String resourcename, CmsResourceFilter filter) throws CmsException;
 
     /**
      * Returns the link to a existing resource in the VFS for the uri.<p>
@@ -318,7 +319,7 @@ public interface I_CmsResourceWrapper {
      *
      * @return the rewritten path or null if the wrapper is not responsible
      */
-    String rewriteLink(CmsObject cms, CmsResource res);
+    @RUntainted String rewriteLink(CmsObject cms, CmsResource res);
 
     /**
      * Unlocks a resource.<p>

@@ -35,6 +35,7 @@ import org.opencms.ui.components.CmsRichTextArea;
 import java.util.GregorianCalendar;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A message to display when a user logs in to the system.<p>
@@ -62,10 +63,10 @@ public class CmsLoginMessage {
     private boolean m_loginForbidden;
 
     /** The message to display on a login. */
-    private String m_message;
+    private @RUntainted String m_message;
 
     /** The time when to finish displaying this message. */
-    private long m_timeEnd;
+    private @RUntainted long m_timeEnd;
 
     /** The time when to start displaying this message. */
     private long m_timeStart;
@@ -87,7 +88,7 @@ public class CmsLoginMessage {
      * @param message the message to display
      * @param loginForbidden controls if logins are forbidden while this message is active
      */
-    public CmsLoginMessage(long timeStart, long timeEnd, String message, boolean loginForbidden) {
+    public CmsLoginMessage(@RUntainted long timeStart, @RUntainted long timeEnd, String message, boolean loginForbidden) {
 
         setTimeStart(timeStart);
         setTimeEnd(timeEnd);
@@ -128,7 +129,7 @@ public class CmsLoginMessage {
      *
      * @return the message
      */
-    public String getMessage() {
+    public @RUntainted String getMessage() {
 
         return m_message;
     }
@@ -138,7 +139,7 @@ public class CmsLoginMessage {
      *
      * @return the time the message ends
      */
-    public long getTimeEnd() {
+    public @RUntainted long getTimeEnd() {
 
         return m_timeEnd;
     }
@@ -246,7 +247,7 @@ public class CmsLoginMessage {
      *
      * @param timeEnd the time to set
      */
-    public void setTimeEnd(long timeEnd) {
+    public void setTimeEnd(@RUntainted long timeEnd) {
 
         checkFrozen();
         if (timeEnd < 0) {
@@ -267,7 +268,7 @@ public class CmsLoginMessage {
      *
      * @param timeStart the time to set
      */
-    public void setTimeStart(long timeStart) {
+    public void setTimeStart(@RUntainted long timeStart) {
 
         checkFrozen();
         if (timeStart < 0) {

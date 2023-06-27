@@ -55,6 +55,7 @@ import com.google.gwt.user.server.rpc.RPC;
 import com.google.gwt.user.server.rpc.impl.ServerSerializationStreamReader;
 import com.vaadin.server.AbstractExtension;
 import com.vaadin.ui.UI;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Extension used for the GWT-based property dialog called from the workplace.
@@ -71,7 +72,7 @@ public class CmsPropertyDialogExtension extends AbstractExtension implements I_C
     private static final long serialVersionUID = 1L;
 
     /** The list of structure ids. */
-    List<CmsUUID> m_ids = Lists.newArrayList();
+    @RUntainted List<@RUntainted CmsUUID> m_ids = Lists.newArrayList();
 
     /** Current position in the ID list. */
     int m_position;
@@ -104,7 +105,7 @@ public class CmsPropertyDialogExtension extends AbstractExtension implements I_C
      * @param allIds structure ids of resources for the prev/next navigation
      * @param editName controls whether the file name should be editable
      */
-    public void editProperties(CmsUUID structureId, List<CmsUUID> allIds, boolean editName) {
+    public void editProperties(CmsUUID structureId, @RUntainted List<@RUntainted CmsUUID> allIds, boolean editName) {
 
         m_position = allIds.indexOf(structureId);
 
@@ -215,7 +216,7 @@ public class CmsPropertyDialogExtension extends AbstractExtension implements I_C
      * @param id a structure id
      * @return true if the user can edit the file
      */
-    protected boolean canEdit(CmsUUID id) {
+    protected boolean canEdit(@RUntainted CmsUUID id) {
 
         CmsObject cms = A_CmsUI.getCmsObject();
         CmsResource res = null;

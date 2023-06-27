@@ -41,6 +41,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Workflow manager interface.<p>
@@ -142,7 +143,7 @@ public interface I_CmsWorkflowManager {
      *
      * @return the workflow id for the project
      */
-    String getWorkflowForWorkflowProject(CmsUUID projectId);
+    @RUntainted String getWorkflowForWorkflowProject(CmsUUID projectId);
 
     /**
      * Returns the resources for the given workflow and project.<p>

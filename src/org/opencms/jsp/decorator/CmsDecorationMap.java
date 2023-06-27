@@ -42,6 +42,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The CmsDecorationMap is the object representation of a single decoartion file.<p>
@@ -70,7 +71,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
     private Locale m_locale;
 
     /** The name of the decoration map. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /**
      * Constructor, creates a new, empty CmsDecorationMap.<p>
@@ -79,7 +80,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
      * @param name The name of the decoration map
      * @param locale the locale for this decoration map
      */
-    public CmsDecorationMap(CmsDecorationDefintion decDef, String name, Locale locale) {
+    public CmsDecorationMap(CmsDecorationDefintion decDef, @RUntainted String name, Locale locale) {
 
         m_decoratorDefinition = decDef;
         m_name = name;
@@ -95,7 +96,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
      * @param decDef the CmsDecorationDefintion to be used in this decoration map
      * @throws CmsException if something goes wrong
      */
-    public CmsDecorationMap(CmsObject cms, CmsResource res, CmsDecorationDefintion decDef)
+    public CmsDecorationMap(CmsObject cms, @RUntainted CmsResource res, CmsDecorationDefintion decDef)
     throws CmsException {
 
         m_decoratorDefinition = decDef;
@@ -205,7 +206,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
         Locale loc = null;
         int underscore = m_name.lastIndexOf("_");
         if (underscore > -1) {
-            String localeName = m_name.substring(underscore + 1);
+            @RUntainted String localeName = m_name.substring(underscore + 1);
             if (localeName.lastIndexOf(".") > -1) {
                 localeName = localeName.substring(0, localeName.lastIndexOf("."));
             }
@@ -223,7 +224,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
      * @return decoration map, using decoration as key and decoration description as value
      * @throws CmsException if something goes wrong
      */
-    private Map<String, CmsDecorationObject> fillMap(CmsObject cms, CmsResource res) throws CmsException {
+    private Map<String, CmsDecorationObject> fillMap(CmsObject cms, @RUntainted CmsResource res) throws CmsException {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(

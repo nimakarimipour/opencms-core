@@ -59,6 +59,7 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to delete property definitions.<p>
@@ -108,7 +109,7 @@ public class CmsPropertyDeleteDialog extends CmsBasicDialog {
      * @param window to be closed
      * @param runnable to update table
      */
-    public CmsPropertyDeleteDialog(final String propName, final Window window, final Runnable runnable) {
+    public CmsPropertyDeleteDialog(final @RUntainted String propName, final Window window, final Runnable runnable) {
         CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 
         displayResourceInfoDirectly(

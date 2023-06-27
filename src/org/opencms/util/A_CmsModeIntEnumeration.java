@@ -28,6 +28,7 @@
 package org.opencms.util;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for all integer mode enumeration classes.<p>
@@ -47,14 +48,14 @@ public abstract class A_CmsModeIntEnumeration implements Serializable {
     private static final long serialVersionUID = -6652924582255509879L;
 
     /** The internal mode descriptor. */
-    private final int m_mode;
+    private final @RUntainted int m_mode;
 
     /**
      * Default constructor.<p>
      *
      * @param mode the internal mode descriptor
      */
-    protected A_CmsModeIntEnumeration(int mode) {
+    protected A_CmsModeIntEnumeration(@RUntainted int mode) {
 
         m_mode = mode;
     }
@@ -82,7 +83,7 @@ public abstract class A_CmsModeIntEnumeration implements Serializable {
      *
      * @return the mode
      */
-    public int getMode() {
+    public @RUntainted int getMode() {
 
         return m_mode;
     }

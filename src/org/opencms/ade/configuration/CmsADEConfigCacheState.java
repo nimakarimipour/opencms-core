@@ -56,6 +56,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An immutable object which represents the complete ADE configuration (sitemap and module configurations)
@@ -325,7 +326,7 @@ public class CmsADEConfigCacheState {
      * @param rootPath the path of a resource
      * @return the parent folder content type
      */
-    public String getParentFolderType(String rootPath) {
+    public String getParentFolderType(@RUntainted String rootPath) {
 
         String parent = CmsResource.getParentFolder(rootPath);
         if (parent == null) {

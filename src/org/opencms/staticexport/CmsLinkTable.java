@@ -40,6 +40,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.BooleanUtils;
 
 import com.google.common.collect.ComparisonChain;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Maintains a table of links for an element of a CmsXmlPage.<p>
@@ -84,7 +85,7 @@ public class CmsLinkTable {
     public static final Pattern LINK_PATTERN = Pattern.compile("^(.*?)([0-9]*)$");
 
     /** The map to store the link table in. */
-    private Map<String, CmsLink> m_linkTable;
+    private @RUntainted Map<@RUntainted String, @RUntainted CmsLink> m_linkTable;
 
     /**
      * Creates a new CmsLinkTable.<p>
@@ -100,7 +101,7 @@ public class CmsLinkTable {
      * @param link the <code>CmsLink</code> to add
      * @return the new link entry
      */
-    public CmsLink addLink(CmsLink link) {
+    public CmsLink addLink(@RUntainted CmsLink link) {
 
         m_linkTable.put(link.getName(), link);
         return link;
@@ -115,9 +116,9 @@ public class CmsLinkTable {
      *
      * @return the new link entry
      */
-    public CmsLink addLink(CmsRelationType type, String targetUri, boolean internal) {
+    public CmsLink addLink(@RUntainted CmsRelationType type, @RUntainted String targetUri, @RUntainted boolean internal) {
 
-        CmsLink link = new CmsLink(LINK_PREFIX + m_linkTable.size(), type, targetUri, internal);
+        @RUntainted CmsLink link = new CmsLink(LINK_PREFIX + m_linkTable.size(), type, targetUri, internal);
         m_linkTable.put(link.getName(), link);
         return link;
     }

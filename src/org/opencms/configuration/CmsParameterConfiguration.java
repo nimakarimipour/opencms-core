@@ -50,6 +50,7 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides convenient access to configuration parameters.<p>
@@ -503,7 +504,7 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
      * @return the String associated with the given parameter
      */
     @Override
-    public String get(Object key) {
+    public @RUntainted String get(Object key) {
 
         return m_configurationStrings.get(key);
     }
@@ -683,7 +684,7 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
      * @return the String associated with the given parameter,
      *      or the given default value in case there is no value for this parameter.<p>
      */
-    public String getString(String key, String defaultValue) {
+    public @RUntainted String getString(String key, String defaultValue) {
 
         String result = get(key);
         return result == null ? defaultValue : result;

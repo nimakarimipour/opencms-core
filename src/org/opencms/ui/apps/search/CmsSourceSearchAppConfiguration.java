@@ -37,6 +37,7 @@ import org.opencms.ui.apps.Messages;
 import java.util.Locale;
 
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The source search app configuration.<p>
@@ -70,7 +71,7 @@ public class CmsSourceSearchAppConfiguration extends A_CmsWorkplaceAppConfigurat
      * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale)
      */
     @Override
-    public String getHelpText(Locale locale) {
+    public String getHelpText(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.GUI_SOURCE_SEARCH_HELP_0);
     }
@@ -95,7 +96,7 @@ public class CmsSourceSearchAppConfiguration extends A_CmsWorkplaceAppConfigurat
      * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale)
      */
     @Override
-    public String getName(Locale locale) {
+    public String getName(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.GUI_SOURCE_SEARCH_TITLE_0);
     }

@@ -55,6 +55,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A container for all new/changed/deteled Cms resources that are published together.<p>
@@ -120,7 +121,7 @@ public class CmsPublishList implements Externalizable {
     private CmsUUID m_projectId;
 
     /** The publish history ID.<p> */
-    private CmsUUID m_publishHistoryId;
+    private @RUntainted CmsUUID m_publishHistoryId;
 
     /** Indicates if siblings of the resources in the list should also be published. */
     private boolean m_publishSiblings;
@@ -321,7 +322,7 @@ public class CmsPublishList implements Externalizable {
      *
      * @return the publish history Id
      */
-    public CmsUUID getPublishHistoryId() {
+    public @RUntainted CmsUUID getPublishHistoryId() {
 
         return m_publishHistoryId;
     }
@@ -790,9 +791,9 @@ public class CmsPublishList implements Externalizable {
      * @return a UUID
      * @throws IOException
      */
-    private CmsUUID internalReadUUID(ObjectInput in) throws IOException {
+    private @RUntainted CmsUUID internalReadUUID(ObjectInput in) throws IOException {
 
-        byte[] bytes = new byte[UUID_LENGTH];
+        @RUntainted byte[] bytes = new byte[UUID_LENGTH];
         in.readFully(bytes, 0, UUID_LENGTH);
         return new CmsUUID(bytes);
     }

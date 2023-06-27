@@ -43,6 +43,7 @@ import org.alfresco.jlan.server.auth.UserAccount;
 import org.alfresco.jlan.server.auth.UsersInterface;
 import org.alfresco.jlan.server.config.ServerConfiguration;
 import org.springframework.extensions.config.ConfigElement;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class is used for authenticating OpenCms users to JLAN.<p>
@@ -109,13 +110,13 @@ public class CmsJlanUsers implements UsersInterface {
      *
      * @return the translated user name
      */
-    public static final String translateUser(String name) {
+    public static final @RUntainted String translateUser(@RUntainted String name) {
 
         String ouSeparator = (String)(OpenCms.getRuntimeProperty(PARAM_JLAN_OU_SEPARATOR));
         if (ouSeparator == null) {
             ouSeparator = DEFAULT_OU_SEPARATOR;
         }
-        String result = name;
+        @RUntainted String result = name;
         result = result.replace(ouSeparator, "/");
         return result;
     }
@@ -123,7 +124,7 @@ public class CmsJlanUsers implements UsersInterface {
     /**
      * @see org.alfresco.jlan.server.auth.UsersInterface#getUserAccount(java.lang.String)
      */
-    public UserAccount getUserAccount(String userName) {
+    public UserAccount getUserAccount(@RUntainted String userName) {
 
         try {
             userName = translateUser(userName);

@@ -44,6 +44,7 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.highlight.Highlighter;
 import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.apache.lucene.search.highlight.QueryTermScorer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default highlighter implementation used for generation of search excerpts.<p>
@@ -62,7 +63,7 @@ public class CmsTermHighlighterHtml implements I_CmsTermHighlighter {
      * @see org.opencms.search.documents.I_CmsTermHighlighter#getExcerpt(org.apache.lucene.document.Document, org.opencms.search.CmsSearchIndex, org.opencms.search.CmsSearchParameters, org.apache.lucene.search.Query, org.apache.lucene.analysis.Analyzer)
      */
     public String getExcerpt(
-        Document doc,
+        @RUntainted Document doc,
         CmsSearchIndex index,
         CmsSearchParameters params,
         Query query,
@@ -84,7 +85,7 @@ public class CmsTermHighlighterHtml implements I_CmsTermHighlighter {
             boolean createExcerpt = !params.isExcerptOnlySearchedFields() || params.getFields().contains(fieldName);
             if (createExcerpt && (doc.getField(fieldName) != null)) {
                 // only generate field excerpt if the field is available in the document
-                String text = doc.getField(fieldName).stringValue();
+                @RUntainted String text = doc.getField(fieldName).stringValue();
                 // make sure all XML in the text is escaped, otherwise excerpt HTML output may be garbled
                 text = CmsEncoder.escapeXml(text);
 

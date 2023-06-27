@@ -42,6 +42,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides utility functions for XSLT transformations.<p>
@@ -62,7 +63,7 @@ public final class CmsXsltUtil {
     public static final char TEXT_DELIMITER = '"';
 
     /** the delimiters, the csv data can be separated with.*/
-    static final String[] DELIMITERS = {";", ",", "\t"};
+    static final @RUntainted String[] DELIMITERS = {";", ",", "\t"};
 
     /**
      * Hides the public constructor.<p>
@@ -79,9 +80,9 @@ public final class CmsXsltUtil {
      *
      * @return the delimiter that is best applicable for the CSV data
      */
-    public static String getPreferredDelimiter(String csvData) {
+    public static @RUntainted String getPreferredDelimiter(String csvData) {
 
-        String bestMatch = "";
+        @RUntainted String bestMatch = "";
         int bestMatchCount = 0;
         // find for each delimiter, how often it occures in the String csvData
         for (int i = 0; i < DELIMITERS.length; i++) {
@@ -109,7 +110,7 @@ public final class CmsXsltUtil {
      * @throws CmsXmlException if something goes wrong
      * @throws CmsException if something goes wrong
      */
-    public static String transformCsvContent(CmsObject cms, String xsltFile, String csvContent, String delimiter)
+    public static String transformCsvContent(CmsObject cms, String xsltFile, @RUntainted String csvContent, @RUntainted String delimiter)
     throws CmsException, CmsXmlException {
 
         String xmlContent = "";
@@ -214,7 +215,7 @@ public final class CmsXsltUtil {
      *
      * @throws IOException if there is an IO problem
      */
-    private static String getTableHtml(String csvData, String delimiter) throws IOException {
+    private static String getTableHtml(@RUntainted String csvData, @RUntainted String delimiter) throws IOException {
 
         String lineSeparator = System.getProperty("line.separator");
         int tmpindex = csvData.indexOf(lineSeparator);
@@ -232,16 +233,16 @@ public final class CmsXsltUtil {
             csvData = csvData.substring(formatString.length() + lineSeparator.length());
         }
 
-        String line;
-        BufferedReader br = new BufferedReader(new StringReader(csvData));
+        @RUntainted String line;
+        @RUntainted BufferedReader br = new BufferedReader(new StringReader(csvData));
         while ((line = br.readLine()) != null) {
             xml.append("<tr>\n");
 
             // must use tokenizer with delimiters include in order to handle empty cells appropriately
-            StringTokenizer t = new StringTokenizer(line, delimiter, true);
+            @RUntainted StringTokenizer t = new StringTokenizer(line, delimiter, true);
             boolean hasValue = false;
             while (t.hasMoreElements()) {
-                String item = (String)t.nextElement();
+                @RUntainted String item = (String)t.nextElement();
                 if (!hasValue) {
                     xml.append("\t<td>");
                     hasValue = true;
@@ -301,9 +302,9 @@ public final class CmsXsltUtil {
      *
      * @return the key without delimiters
      */
-    private static String removeStringDelimiters(String key) {
+    private static String removeStringDelimiters(@RUntainted String key) {
 
-        String k = key.trim();
+        @RUntainted String k = key.trim();
         if (CmsStringUtil.isNotEmpty(k)) {
             if (k.charAt(0) == TEXT_DELIMITER) {
                 k = k.substring(1);

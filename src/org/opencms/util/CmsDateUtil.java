@@ -37,6 +37,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  *
@@ -100,7 +101,7 @@ public final class CmsDateUtil {
      * @param locale the locale to use
      * @return the formatted date
      */
-    public static String getDateTime(Date date, int format, Locale locale) {
+    public static @RUntainted String getDateTime(Date date, int format, Locale locale) {
 
         DateFormat df = DateFormat.getDateInstance(format, locale);
         DateFormat tf = DateFormat.getTimeInstance(format, locale);
@@ -202,7 +203,7 @@ public final class CmsDateUtil {
      * @return time value as long
      * @throws ParseException if parsing fails
      */
-    synchronized public static long parseHeaderDate(String timestamp) throws ParseException {
+    synchronized public static @RUntainted long parseHeaderDate(String timestamp) throws ParseException {
 
         return HEADER_DEFAULT.parse(timestamp).getTime();
     }

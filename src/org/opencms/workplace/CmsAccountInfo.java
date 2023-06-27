@@ -34,6 +34,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Account info bean.<p>
@@ -74,7 +75,7 @@ public class CmsAccountInfo {
     private static final Log LOG = CmsLog.getLog(CmsAccountInfo.class);
 
     /** The additional info key. */
-    private String m_addInfoKey;
+    private @RUntainted String m_addInfoKey;
 
     /** The editable flag. */
     private boolean m_editable;
@@ -89,7 +90,7 @@ public class CmsAccountInfo {
      * @param addInfoKey the additional info key
      * @param editable the editable flag
      */
-    public CmsAccountInfo(Field field, String addInfoKey, boolean editable) {
+    public CmsAccountInfo(Field field, @RUntainted String addInfoKey, boolean editable) {
         m_field = field;
         m_addInfoKey = addInfoKey;
         m_editable = editable;
@@ -102,7 +103,7 @@ public class CmsAccountInfo {
      * @param addInfoKey the additional info key
      * @param editable the editable flag
      */
-    public CmsAccountInfo(String field, String addInfoKey, String editable) {
+    public CmsAccountInfo(String field, @RUntainted String addInfoKey, String editable) {
         m_field = Field.valueOf(field);
         m_addInfoKey = addInfoKey;
         m_editable = Boolean.parseBoolean(editable);
@@ -113,7 +114,7 @@ public class CmsAccountInfo {
      *
      * @return the additional info key
      */
-    public String getAddInfoKey() {
+    public @RUntainted String getAddInfoKey() {
 
         return m_addInfoKey;
     }
@@ -135,9 +136,9 @@ public class CmsAccountInfo {
      *
      * @return the value
      */
-    public String getValue(CmsUser user) {
+    public @RUntainted String getValue(CmsUser user) {
 
-        String value = null;
+        @RUntainted String value = null;
         if (isAdditionalInfo()) {
             value = (String)user.getAdditionalInfo(getAddInfoKey());
         } else {

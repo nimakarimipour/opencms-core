@@ -40,6 +40,7 @@ import java.util.Set;
 
 import com.google.common.base.Joiner;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains information about which folders should restrict uploads.
@@ -150,7 +151,7 @@ public class CmsUploadRestrictionInfo implements IsSerializable {
      * @param extension the file extension to check
      * @return true if the file extension is valid for uploads to the folder
      */
-    public boolean checkTypeAllowed(String path, String extension) {
+    public boolean checkTypeAllowed(@RUntainted String path, String extension) {
 
         Set<String> types = getTypes(path);
         if (extension.startsWith(".")) {
@@ -167,7 +168,7 @@ public class CmsUploadRestrictionInfo implements IsSerializable {
      * @param path the upload folder root path
      * @return the 'accept' attribute that should be used for the file input
      */
-    public String getAcceptAttribute(String path) {
+    public String getAcceptAttribute(@RUntainted String path) {
 
         Set<String> types = getTypes(path);
         List<String> suffixes = new ArrayList<>();
@@ -187,9 +188,9 @@ public class CmsUploadRestrictionInfo implements IsSerializable {
      * @param originalPath the upload root path
      * @return true if the upload is enabled
      */
-    public boolean isUploadEnabled(String originalPath) {
+    public boolean isUploadEnabled(@RUntainted String originalPath) {
 
-        String path = originalPath;
+        @RUntainted String path = originalPath;
 
         while (path != null) {
             path = normalizePath(path);
@@ -208,7 +209,7 @@ public class CmsUploadRestrictionInfo implements IsSerializable {
      * @param path the upload folder root path
      * @return the valid extensions
      */
-    protected Set<String> getTypes(String path) {
+    protected Set<String> getTypes(@RUntainted String path) {
 
         while (path != null) {
             path = normalizePath(path);

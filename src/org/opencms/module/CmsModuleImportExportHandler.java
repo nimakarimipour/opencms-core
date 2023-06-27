@@ -78,6 +78,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.xml.sax.SAXException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import/export handler implementation for Cms modules.<p>
@@ -130,13 +131,13 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
         final String handlerDescription) {
 
         // check if all resources are valid
-        List<String> resListCopy = new ArrayList<String>();
+        @RUntainted List<@RUntainted String> resListCopy = new ArrayList<@RUntainted String>();
 
         String moduleName = module.getName();
 
         try {
             cms = OpenCms.initCmsObject(cms);
-            String importSite = module.getSite();
+            @RUntainted String importSite = module.getSite();
             if (!CmsStringUtil.isEmptyOrWhitespaceOnly(importSite)) {
                 cms.getRequestContext().setSiteRoot(importSite);
             }
@@ -184,7 +185,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
      *
      * @throws CmsConfigurationException if the module could not be imported
      */
-    public static CmsModule readModuleFromImport(String importResource) throws CmsConfigurationException {
+    public static CmsModule readModuleFromImport(@RUntainted String importResource) throws CmsConfigurationException {
 
         // instantiate Digester and enable XML validation
         Digester digester = new Digester();
@@ -334,7 +335,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
      * @param report the report to write to
      * @param modulePackageName the module name
      */
-    public static void reportBeginImport(I_CmsReport report, String modulePackageName) {
+    public static void reportBeginImport(I_CmsReport report, @RUntainted String modulePackageName) {
 
         report.print(Messages.get().container(Messages.RPT_IMPORT_MODULE_BEGIN_0), I_CmsReport.FORMAT_HEADLINE);
         if (report instanceof CmsHtmlReport) {
@@ -430,7 +431,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
 
         // export the module using the standard export
         CmsObject exportCms = cms;
-        String importSite = module.getSite();
+        @RUntainted String importSite = module.getSite();
         if (!CmsStringUtil.isEmptyOrWhitespaceOnly(importSite)) {
             try {
                 exportCms = OpenCms.initCmsObject(exportCms);
@@ -466,7 +467,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
      *
      * @return the name of the export file in the real file system
      */
-    public String getFileName() {
+    public @RUntainted String getFileName() {
 
         CmsMacroResolver resolver = new CmsMacroResolver();
         resolver.addMacro("version", OpenCms.getModuleManager().getModule(m_moduleName).getVersionStr());
@@ -513,7 +514,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
         CmsProject previousProject = cms.getRequestContext().getCurrentProject();
         try {
             CmsProject importProject = null;
-            String modulePackageName = null;
+            @RUntainted String modulePackageName = null;
             String storedSiteRoot = cms.getRequestContext().getSiteRoot();
             CmsImportHelper helper = new CmsImportHelper(parameters);
             try {
@@ -575,7 +576,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
      * @deprecated use {@link #importData(CmsObject, I_CmsReport)} instead
      */
     @Deprecated
-    public void importData(CmsObject cms, String importFile, String importPath, I_CmsReport report)
+    public void importData(CmsObject cms, @RUntainted String importFile, String importPath, I_CmsReport report)
     throws CmsXmlException, CmsImportExportException, CmsRoleViolationException, CmsException {
 
         CmsImportParameters parameters = new CmsImportParameters(importFile, importPath, true);
@@ -750,7 +751,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
 
         // import the module resources
         CmsObject importCms = OpenCms.initCmsObject(cms);
-        String importSite = importedModule.getImportSite();
+        @RUntainted String importSite = importedModule.getImportSite();
         if (!CmsStringUtil.isEmptyOrWhitespaceOnly(importSite)) {
             importCms.getRequestContext().setSiteRoot(importSite);
         } else {

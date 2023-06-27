@@ -30,6 +30,7 @@ package org.opencms.main;
 import org.opencms.file.CmsUser;
 import org.opencms.i18n.CmsEncoder;
 import org.opencms.ui.components.CmsRichTextArea;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A single broadcast message, send from one OpenCms user to another.<p>
@@ -54,7 +55,7 @@ public class CmsBroadcast implements Cloneable {
     public static long DISPLAY_AGAIN_TIME = 60 * 1000;
 
     /** The broadcast content. */
-    private String m_message;
+    private @RUntainted String m_message;
 
     /** The sender of the broadcast. */
     private CmsUser m_sender;
@@ -81,7 +82,7 @@ public class CmsBroadcast implements Cloneable {
      * @deprecated use the constructors with the content mode instead
      */
     @Deprecated
-    public CmsBroadcast(CmsUser sender, String message) {
+    public CmsBroadcast(CmsUser sender, @RUntainted String message) {
 
         this(sender, message, System.currentTimeMillis(), 0L, false);
     }
@@ -95,7 +96,7 @@ public class CmsBroadcast implements Cloneable {
      * @deprecated use the constructors with the content mode instead
      */
     @Deprecated
-    public CmsBroadcast(CmsUser sender, String message, boolean repeat) {
+    public CmsBroadcast(CmsUser sender, @RUntainted String message, boolean repeat) {
 
         this(sender, message, System.currentTimeMillis(), 0L, repeat);
     }
@@ -137,7 +138,7 @@ public class CmsBroadcast implements Cloneable {
      * @deprecated use the constructors with the content mode instead
      */
     @Deprecated
-    public CmsBroadcast(CmsUser sender, String message, long sendTime, long lastDisplay, boolean repeat) {
+    public CmsBroadcast(CmsUser sender, @RUntainted String message, long sendTime, long lastDisplay, boolean repeat) {
 
         this(sender, message, sendTime, lastDisplay, repeat, ContentMode.plain);
 
@@ -156,7 +157,7 @@ public class CmsBroadcast implements Cloneable {
     @Deprecated
     public CmsBroadcast(
         CmsUser sender,
-        String message,
+        @RUntainted String message,
         long sendTime,
         long lastDisplay,
         boolean repeat,
@@ -277,7 +278,7 @@ public class CmsBroadcast implements Cloneable {
      * @param message the message to convert
      * @return the HTML for the message
      */
-    private String htmlForPlain(String message) {
+    private String htmlForPlain(@RUntainted String message) {
 
         String result = CmsEncoder.escapeXml(message);
         result = result.replace("\n", "<br>");

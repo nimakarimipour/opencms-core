@@ -30,6 +30,7 @@ package org.opencms.ui.components;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.ComboBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A combo box which automatically creates a new option if setValue is called with an item id not already contained
@@ -53,7 +54,7 @@ public class CmsAutoItemCreatingComboBox extends ComboBox {
          * @param id the id
          * @return the id actually used for the item
          */
-        Object ensureItem(Container cnt, Object id);
+        @RUntainted Object ensureItem(Container cnt, @RUntainted Object id);
     }
 
     /** Serial version id. */
@@ -100,7 +101,7 @@ public class CmsAutoItemCreatingComboBox extends ComboBox {
      * @see com.vaadin.v7.ui.AbstractSelect#setValue(java.lang.Object)
      */
     @Override
-    public void setValue(Object newValue) throws com.vaadin.v7.data.Property.ReadOnlyException {
+    public void setValue(@RUntainted Object newValue) throws com.vaadin.v7.data.Property.ReadOnlyException {
 
         IndexedContainer container = (IndexedContainer)getContainerDataSource();
         if ((m_newValueHandler != null) && (newValue != null)) {

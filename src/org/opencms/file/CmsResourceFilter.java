@@ -29,6 +29,7 @@ package org.opencms.file;
 
 import org.opencms.db.CmsResourceState;
 import org.opencms.file.types.I_CmsResourceType;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides filters for resource result sets obtained from requests to the OpenCms VFS.<p>
@@ -262,7 +263,7 @@ public final class CmsResourceFilter {
      * Use of int based resource type references will be discontinued in a future OpenCms release.
      */
     @Deprecated
-    public static CmsResourceFilter requireType(int type) {
+    public static @RUntainted CmsResourceFilter requireType(int type) {
 
         return new CmsResourceFilter().addRequireType(type);
     }
@@ -290,7 +291,7 @@ public final class CmsResourceFilter {
      * @param state the resource state to exclude
      * @return a filter excluding the given resource state
      */
-    public CmsResourceFilter addExcludeState(CmsResourceState state) {
+    public @RUntainted CmsResourceFilter addExcludeState(CmsResourceState state) {
 
         CmsResourceFilter extendedFilter = (CmsResourceFilter)clone();
 
@@ -391,7 +392,7 @@ public final class CmsResourceFilter {
      *
      * @return an extended filter that requires all returned resources to be files
      */
-    public CmsResourceFilter addRequireFile() {
+    public @RUntainted CmsResourceFilter addRequireFile() {
 
         CmsResourceFilter extendedFilter = (CmsResourceFilter)clone();
 
@@ -423,7 +424,7 @@ public final class CmsResourceFilter {
      *
      * @return an extended filter that requires all returned resources to be folders
      */
-    public CmsResourceFilter addRequireFolder() {
+    public @RUntainted CmsResourceFilter addRequireFolder() {
 
         CmsResourceFilter extendedFilter = (CmsResourceFilter)clone();
 
@@ -523,7 +524,7 @@ public final class CmsResourceFilter {
      *
      * @return a filter excluding invalid resources
      */
-    public CmsResourceFilter addRequireTimerange() {
+    public @RUntainted CmsResourceFilter addRequireTimerange() {
 
         CmsResourceFilter extendedFilter = (CmsResourceFilter)clone();
 
@@ -561,7 +562,7 @@ public final class CmsResourceFilter {
      * Use of int based resource type references will be discontinued in a future OpenCms release.
      */
     @Deprecated
-    public CmsResourceFilter addRequireType(int type) {
+    public @RUntainted CmsResourceFilter addRequireType(int type) {
 
         if (type != -1) {
             CmsResourceFilter extendedFilter = (CmsResourceFilter)clone();
@@ -580,7 +581,7 @@ public final class CmsResourceFilter {
      *
      * @return a filter excluding invisible resources
      */
-    public CmsResourceFilter addRequireVisible() {
+    public @RUntainted CmsResourceFilter addRequireVisible() {
 
         CmsResourceFilter extendedFilter = (CmsResourceFilter)clone();
 

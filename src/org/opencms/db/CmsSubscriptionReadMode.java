@@ -28,6 +28,7 @@
 package org.opencms.db;
 
 import org.opencms.util.A_CmsModeIntEnumeration;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The read modes to get subscribed resources of a user or group.<p>

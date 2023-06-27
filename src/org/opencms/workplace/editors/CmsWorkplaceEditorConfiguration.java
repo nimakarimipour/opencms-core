@@ -44,6 +44,7 @@ import org.apache.commons.logging.Log;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Single editor configuration object.<p>
@@ -127,7 +128,7 @@ public class CmsWorkplaceEditorConfiguration {
     private boolean m_validConfiguration;
 
     /** The widget editor. */
-    private String m_widgetEditor;
+    private @RUntainted String m_widgetEditor;
 
     /**
      * Constructor with xml data String.<p>
@@ -263,7 +264,7 @@ public class CmsWorkplaceEditorConfiguration {
      *
      * @return the widget editor class for rich text editing
      */
-    public String getWidgetEditor() {
+    public @RUntainted String getWidgetEditor() {
 
         return m_widgetEditor;
     }
@@ -334,13 +335,13 @@ public class CmsWorkplaceEditorConfiguration {
         m_parameters.clear();
 
         // get the root element of the configuration
-        Element rootElement = document.getRootElement();
+        @RUntainted Element rootElement = document.getRootElement();
 
         // set the label of the editor
         setEditorLabel(rootElement.elementText(N_LABEL));
 
         // set the widget editor class if available
-        String widgetClass = rootElement.elementText(N_WIDGETEDITOR);
+        @RUntainted String widgetClass = rootElement.elementText(N_WIDGETEDITOR);
         if (CmsStringUtil.isNotEmpty(widgetClass)) {
             setWidgetEditor(widgetClass);
         }
@@ -543,7 +544,7 @@ public class CmsWorkplaceEditorConfiguration {
      *
      * @param widgetEditor the widget editor class for rich text editing
      */
-    private void setWidgetEditor(String widgetEditor) {
+    private void setWidgetEditor(@RUntainted String widgetEditor) {
 
         m_widgetEditor = widgetEditor;
     }

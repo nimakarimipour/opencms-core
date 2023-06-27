@@ -53,6 +53,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.HashMultimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Validates relations of resources in the OpenCms VFS.<p>
@@ -210,7 +211,7 @@ public class CmsRelationSystemValidator {
             }
 
             CmsResource resource = resources.get(index);
-            String resourceName = resource.getRootPath();
+            @RUntainted String resourceName = resource.getRootPath();
 
             if (report != null) {
                 report.print(

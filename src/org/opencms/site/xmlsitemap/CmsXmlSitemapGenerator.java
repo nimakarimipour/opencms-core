@@ -72,6 +72,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for generating XML sitemaps for SEO purposes, as described in
@@ -141,7 +142,7 @@ public class CmsXmlSitemapGenerator {
     protected String m_baseFolderRootPath;
 
     /** The site path of the base folder. */
-    protected String m_baseFolderSitePath;
+    protected @RUntainted String m_baseFolderSitePath;
 
     /** Flag to control whether container page dates should be computed. */
     protected boolean m_computeContainerPageDates;
@@ -171,7 +172,7 @@ public class CmsXmlSitemapGenerator {
     protected CmsObject m_siteGuestCms;
 
     /** The site root of the base folder. */
-    protected String m_siteRoot;
+    protected @RUntainted String m_siteRoot;
 
     /** A link to the site root. */
     protected String m_siteRootLink;
@@ -186,7 +187,7 @@ public class CmsXmlSitemapGenerator {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsXmlSitemapGenerator(String folderRootPath)
+    public CmsXmlSitemapGenerator(@RUntainted String folderRootPath)
     throws CmsException {
 
         m_baseFolderRootPath = CmsFileUtil.removeTrailingSeparator(folderRootPath);
@@ -326,12 +327,12 @@ public class CmsXmlSitemapGenerator {
             urlBean.setOriginalResource(resource);
             addResult(urlBean, 3);
             if (isContainerPage) {
-                Locale locale = getLocale(resource, propertyList);
+                @RUntainted Locale locale = getLocale(resource, propertyList);
                 addDetailLinks(resource, locale);
             }
         }
 
-        for (CmsUUID aliasStructureId : m_pageAliasesBelowBaseFolderByStructureId.keySet()) {
+        for (@RUntainted CmsUUID aliasStructureId : m_pageAliasesBelowBaseFolderByStructureId.keySet()) {
             addAliasLinks(aliasStructureId);
         }
 
@@ -403,7 +404,7 @@ public class CmsXmlSitemapGenerator {
      *
      * @throws CmsException if something goes wrong
      */
-    protected void addDetailLinks(CmsResource containerPage, Locale locale) throws CmsException {
+    protected void addDetailLinks(CmsResource containerPage, @RUntainted Locale locale) throws CmsException {
 
         List<I_CmsResourceType> types = getDetailTypesForPage(containerPage);
         for (I_CmsResourceType type : types) {
@@ -497,7 +498,7 @@ public class CmsXmlSitemapGenerator {
      *
      * @return the detail page link
      */
-    protected String getDetailLink(CmsResource pageRes, CmsResource detailRes, Locale locale) {
+    protected @RUntainted String getDetailLink(CmsResource pageRes, CmsResource detailRes, @RUntainted Locale locale) {
 
         String pageSitePath = m_siteGuestCms.getSitePath(pageRes);
         String detailSitePath = m_siteGuestCms.getSitePath(detailRes);
@@ -531,7 +532,7 @@ public class CmsXmlSitemapGenerator {
         allTypes.addAll(typesForFolder);
         List<I_CmsResourceType> resTypes = new ArrayList<I_CmsResourceType>();
         CmsResourceManager resMan = OpenCms.getResourceManager();
-        for (String typeName : allTypes) {
+        for (@RUntainted String typeName : allTypes) {
             if (typeName.startsWith(CmsDetailPageInfo.FUNCTION_PREFIX)) {
                 continue;
             }
@@ -702,7 +703,7 @@ public class CmsXmlSitemapGenerator {
      *
      * @return the changed link
      */
-    protected String replaceServerUri(String link) {
+    protected @RUntainted String replaceServerUri(String link) {
 
         return replaceServerUri(link, m_serverUrl);
     }
@@ -712,7 +713,7 @@ public class CmsXmlSitemapGenerator {
      *
      * @param aliasStructureId the alias target structure id
      */
-    private void addAliasLinks(CmsUUID aliasStructureId) {
+    private void addAliasLinks(@RUntainted CmsUUID aliasStructureId) {
 
         try {
             CmsResource aliasTarget = m_guestCms.readResource(aliasStructureId);
@@ -770,7 +771,7 @@ public class CmsXmlSitemapGenerator {
      *
      * @return the locale to use for the given resource
      */
-    private Locale getLocale(CmsResource resource, List<CmsProperty> propertyList) {
+    private @RUntainted Locale getLocale(CmsResource resource, List<CmsProperty> propertyList) {
 
         return OpenCms.getLocaleManager().getDefaultLocale(m_guestCms, m_guestCms.getSitePath(resource));
     }
@@ -790,7 +791,7 @@ public class CmsXmlSitemapGenerator {
         m_detailPageInfos = OpenCms.getADEManager().getAllDetailPages(m_guestCms);
         for (CmsDetailPageInfo detailPageInfo : m_detailPageInfos) {
             String type = detailPageInfo.getType();
-            String path = detailPageInfo.getUri();
+            @RUntainted String path = detailPageInfo.getUri();
             path = CmsFileUtil.removeTrailingSeparator(path);
             m_detailTypesByPage.put(path, type);
         }

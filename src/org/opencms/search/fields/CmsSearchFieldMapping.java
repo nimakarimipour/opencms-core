@@ -56,6 +56,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.lucene.document.DateTools;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a mapping of a piece of content from an OpenCms VFS resource to a field of a search index.<p>
@@ -83,7 +84,7 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
     private int m_hashCode;
 
     /** The parameter for the mapping type. */
-    private String m_param;
+    private @RUntainted String m_param;
 
     /** The mapping type. */
     private CmsSearchFieldMappingType m_type;
@@ -116,7 +117,7 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
      * @param type the type to use, see {@link #setType(CmsSearchFieldMappingType)}
      * @param param the mapping parameter, see {@link #setParam(String)}
      */
-    public CmsSearchFieldMapping(CmsSearchFieldMappingType type, String param) {
+    public CmsSearchFieldMapping(CmsSearchFieldMappingType type, @RUntainted String param) {
 
         this();
         setType(type);
@@ -130,7 +131,7 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
      * @param param the mapping parameter, see {@link #setParam(String)}
      * @param isLucene flag, indicating if the mapping is done for a lucene index
      */
-    public CmsSearchFieldMapping(CmsSearchFieldMappingType type, String param, boolean isLucene) {
+    public CmsSearchFieldMapping(CmsSearchFieldMappingType type, @RUntainted String param, boolean isLucene) {
 
         this(type, param);
         m_isLucene = isLucene;
@@ -181,7 +182,7 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
     /**
      * @see org.opencms.search.fields.I_CmsSearchFieldMapping#getParam()
      */
-    public String getParam() {
+    public @RUntainted String getParam() {
 
         return m_param;
     }
@@ -217,7 +218,7 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
                 break;
             case 3: // item (retrieve value for the given XPath from the content items)
                 if ((extractionResult != null) && CmsStringUtil.isNotEmptyOrWhitespaceOnly(getParam())) {
-                    String[] paramParts = getParam().split("\\|");
+                    @RUntainted String[] paramParts = getParam().split("\\|");
                     Map<String, String> localizedContentItems = null;
                     String xpath = null;
                     if (paramParts.length > 1) {
@@ -389,7 +390,7 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
     /**
      * @see org.opencms.search.fields.I_CmsSearchFieldMapping#setParam(java.lang.String)
      */
-    public void setParam(String param) {
+    public void setParam(@RUntainted String param) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(param)) {
             m_param = param.trim();
@@ -448,7 +449,7 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
                     return 0;
                 }
             });
-            for (Map.Entry<String, String> entry : contentItems.entrySet()) {
+            for (Map.@RUntainted Entry<@RUntainted String, @RUntainted String> entry : contentItems.entrySet()) {
                 if (CmsXmlUtils.removeXpath(entry.getKey()).equals(xpath)) { // the removed path refers an item
 
                     String[] xPathParts = entry.getKey().split("/");

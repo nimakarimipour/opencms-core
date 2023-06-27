@@ -69,6 +69,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.Maps;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides {@link CmsResource} utility functions.<p>
@@ -277,7 +278,7 @@ public final class CmsResourceUtil {
      *
      * @return the icon resource
      */
-    public static Resource getBigIconResource(CmsExplorerTypeSettings explorerType, String resourceName) {
+    public static Resource getBigIconResource(CmsExplorerTypeSettings explorerType, @RUntainted String resourceName) {
 
         if (explorerType == null) {
             explorerType = OpenCms.getWorkplaceManager().getExplorerTypeSetting(
@@ -312,7 +313,7 @@ public final class CmsResourceUtil {
      *
      * @return the icon resource
      */
-    public static Resource getSmallIconResource(CmsExplorerTypeSettings explorerType, String resourceName) {
+    public static Resource getSmallIconResource(CmsExplorerTypeSettings explorerType, @RUntainted String resourceName) {
 
         if (explorerType == null) {
             explorerType = OpenCms.getWorkplaceManager().getExplorerTypeSetting(
@@ -733,7 +734,7 @@ public final class CmsResourceUtil {
      *
      * @throws CmsException if something goes wrong
      */
-    public String getNoEditReason(Locale locale) throws CmsException {
+    public String getNoEditReason(@RUntainted Locale locale) throws CmsException {
 
         return getNoEditReason(locale, false);
     }
@@ -748,7 +749,7 @@ public final class CmsResourceUtil {
      *
      * @throws CmsException if something goes wrong
      */
-    public String getNoEditReason(Locale locale, boolean ignoreExpiration) throws CmsException {
+    public String getNoEditReason(@RUntainted Locale locale, boolean ignoreExpiration) throws CmsException {
 
         String reason = "";
         if (m_resource instanceof I_CmsHistoryResource) {
@@ -1313,7 +1314,7 @@ public final class CmsResourceUtil {
         }
         CmsExplorerTypeSettings settings = OpenCms.getWorkplaceManager().getExplorerTypeSetting(getResourceTypeName());
         if (settings != null) {
-            String rightSite = OpenCms.getSiteManager().getSiteRoot(getResource().getRootPath());
+            @RUntainted String rightSite = OpenCms.getSiteManager().getSiteRoot(getResource().getRootPath());
             if (rightSite == null) {
                 rightSite = "";
             }
@@ -1454,7 +1455,7 @@ public final class CmsResourceUtil {
      *
      * @return the simple name if the ou is the same as the current user's ou
      */
-    private String getCurrentOuRelativeName(String name) {
+    private String getCurrentOuRelativeName(@RUntainted String name) {
 
         if (m_request == null) {
             return CmsOrganizationalUnit.SEPARATOR + name;

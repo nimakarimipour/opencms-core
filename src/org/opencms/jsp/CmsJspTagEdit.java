@@ -56,6 +56,7 @@ import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** This tag is used to attach an edit provider to a snippet of HTML. */
 public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
@@ -91,7 +92,7 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
     private String m_uploadFolder;
 
     /** UUID of the content to edit. */
-    private String m_uuid;
+    private @RUntainted String m_uuid;
 
     /** Creates a new resource.
      * @param cmsObject The CmsObject of the current request context.
@@ -107,16 +108,16 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
      */
     public static String createResource(
         CmsObject cmsObject,
-        String newLink,
-        Locale locale,
+        @RUntainted String newLink,
+        @RUntainted Locale locale,
         String sitePath,
         String modelFileName,
         String mode,
         String postCreateHandler)
     throws CmsException {
 
-        String[] newLinkParts = newLink.split("\\|");
-        String rootPath = newLinkParts[1];
+        @RUntainted String[] newLinkParts = newLink.split("\\|");
+        @RUntainted String rootPath = newLinkParts[1];
         String typeName = newLinkParts[2];
         CmsFile modelFile = null;
         if (StringUtils.equalsIgnoreCase(mode, CmsEditorConstants.MODE_COPY)) {
@@ -130,7 +131,7 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
         }
         CmsADEConfigData adeConfig = OpenCms.getADEManager().lookupConfiguration(cmsObject, rootPath);
         CmsResourceTypeConfig typeConfig = adeConfig.getResourceType(typeName);
-        CmsResource newElement = null;
+        @RUntainted CmsResource newElement = null;
 
         CmsObject cmsClone = cmsObject;
         if ((locale != null) && !cmsObject.getRequestContext().getLocale().equals(locale)) {
@@ -177,9 +178,9 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
      *
      * @return the resource type name
      */
-    public static String getRootPathFromNewLink(String newLink) {
+    public static @RUntainted String getRootPathFromNewLink(String newLink) {
 
-        String result = null;
+        @RUntainted String result = null;
         if (newLink.startsWith(NEW_LINK_IDENTIFIER) && newLink.contains("|")) {
             result = newLink.substring(newLink.indexOf("|") + 1, newLink.lastIndexOf("|"));
         }
@@ -193,9 +194,9 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
      *
      * @return the resource type name
      */
-    public static String getTypeFromNewLink(String newLink) {
+    public static @RUntainted String getTypeFromNewLink(@RUntainted String newLink) {
 
-        String result = null;
+        @RUntainted String result = null;
         if (newLink.startsWith(NEW_LINK_IDENTIFIER) && newLink.contains("|")) {
             result = newLink.substring(newLink.lastIndexOf("|") + 1);
         }
@@ -234,7 +235,7 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
      */
     public static boolean insertDirectEditStart(
         CmsObject cms,
-        PageContext pageContext,
+        @RUntainted PageContext pageContext,
         CmsResource resource,
         boolean canCreate,
         boolean canDelete,
@@ -445,7 +446,7 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
      * If no valid uuid of an existing resource is given, it is assumed the tag is only used for creating new contents.
      * @param uuid the uuid of the content that should be edited.
      */
-    public void setUuid(final String uuid) {
+    public void setUuid(final @RUntainted String uuid) {
 
         m_uuid = uuid;
     }
@@ -474,7 +475,7 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
         CmsResource resource = null;
         if (m_uuid != null) {
             try {
-                CmsUUID uuid = new CmsUUID(m_uuid);
+                @RUntainted CmsUUID uuid = new CmsUUID(m_uuid);
                 resource = cms.readResource(uuid, CmsResourceFilter.ignoreExpirationOffline(cms));
 
             } catch (NumberFormatException | CmsException e) {

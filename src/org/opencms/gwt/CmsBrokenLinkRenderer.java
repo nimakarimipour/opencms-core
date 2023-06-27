@@ -49,6 +49,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A helper class used to generate the necessary information for displaying links which will be broken
@@ -129,7 +130,7 @@ public class CmsBrokenLinkRenderer {
         try {
             CmsResource referencingPage = findReferencingPage(source);
             if (referencingPage != null) {
-                String pagePath = m_cms.getRequestContext().removeSiteRoot(referencingPage.getRootPath());
+                @RUntainted String pagePath = m_cms.getRequestContext().removeSiteRoot(referencingPage.getRootPath());
                 String title = CmsResource.getName(pagePath);
                 CmsProperty titleProp = m_cms.readPropertyObject(
                     referencingPage,
@@ -163,7 +164,7 @@ public class CmsBrokenLinkRenderer {
         try {
             Set<String> names = CmsInheritanceGroupUtils.getNamesOfGroupsContainingResource(m_cms, source, target);
             if (!names.isEmpty()) {
-                for (String name : names) {
+                for (@RUntainted String name : names) {
                     String title = null;
                     String path = null;
                     String extraTitle = null;

@@ -28,6 +28,7 @@
 package org.opencms.report;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report class used to write the output of a report to a StringBuffer.<p>
@@ -48,7 +49,7 @@ public class CmsStringBufferReport extends A_CmsReport {
      *
      * @param locale the locale to use for the output language
      */
-    public CmsStringBufferReport(Locale locale) {
+    public CmsStringBufferReport(@RUntainted Locale locale) {
 
         init(locale, null);
 
@@ -99,14 +100,14 @@ public class CmsStringBufferReport extends A_CmsReport {
     /**
      * @see org.opencms.report.I_CmsReport#println(java.lang.Throwable)
      */
-    public void println(Throwable t) {
+    public void println(@RUntainted Throwable t) {
 
         print(getMessages().key(Messages.RPT_EXCEPTION_0), FORMAT_WARNING);
         println(t.getMessage(), FORMAT_ERROR);
 
-        StackTraceElement[] stackTrace = t.getStackTrace();
+        @RUntainted StackTraceElement[] stackTrace = t.getStackTrace();
         for (int i = 0; i < stackTrace.length; i++) {
-            StackTraceElement element = stackTrace[i];
+            @RUntainted StackTraceElement element = stackTrace[i];
             println(element.toString());
         }
     }

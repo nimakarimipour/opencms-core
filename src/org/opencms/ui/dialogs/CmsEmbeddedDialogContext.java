@@ -62,6 +62,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Context for dialogs embedded into plain GWT modules.<p>
@@ -153,7 +154,7 @@ public class CmsEmbeddedDialogContext implements I_CmsDialogContext {
     public void finish(CmsProject project, String siteRoot) {
 
         if ((project != null) || (siteRoot != null)) {
-            String sitePath = null;
+            @RUntainted String sitePath = null;
             if (siteRoot != null) {
                 CmsQuickLaunchLocationCache locationCache = CmsQuickLaunchLocationCache.getLocationCache(
                     A_CmsUI.get().getHttpSession());
@@ -257,7 +258,7 @@ public class CmsEmbeddedDialogContext implements I_CmsDialogContext {
     /**
      * @see org.opencms.ui.I_CmsDialogContext#getAllStructureIdsInView()
      */
-    public List<CmsUUID> getAllStructureIdsInView() {
+    public @RUntainted List<@RUntainted CmsUUID> getAllStructureIdsInView() {
 
         return Collections.emptyList();
     }
@@ -289,7 +290,7 @@ public class CmsEmbeddedDialogContext implements I_CmsDialogContext {
     /**
      * @see org.opencms.ui.I_CmsDialogContext#getParameters()
      */
-    public Map<String, String> getParameters() {
+    public @RUntainted Map<@RUntainted String, @RUntainted String> getParameters() {
 
         return Collections.unmodifiableMap(m_parameters);
     }

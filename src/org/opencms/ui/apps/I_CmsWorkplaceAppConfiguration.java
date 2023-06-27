@@ -33,6 +33,7 @@ import org.opencms.security.CmsRole;
 import java.util.Locale;
 
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the configuration of a single workplace app.<p>

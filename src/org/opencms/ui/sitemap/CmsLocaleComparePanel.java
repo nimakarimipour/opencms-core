@@ -62,6 +62,7 @@ import com.vaadin.v7.data.Property.ValueChangeEvent;
 import com.vaadin.v7.data.Property.ValueChangeListener;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * View used to compare sitemaps across locales.<p>
@@ -103,7 +104,7 @@ public class CmsLocaleComparePanel extends VerticalLayout implements I_CmsLocale
      *
      * @param id the id of a sitemap entry
      */
-    public CmsLocaleComparePanel(String id) {
+    public CmsLocaleComparePanel(@RUntainted String id) {
 
         super();
         Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(A_CmsUI.getCmsObject());
@@ -178,7 +179,7 @@ public class CmsLocaleComparePanel extends VerticalLayout implements I_CmsLocale
      *
      * @throws CmsException if something goes wrong
      */
-    public void initialize(CmsUUID id, Locale initialComparisonLocale) throws CmsException {
+    public void initialize(@RUntainted CmsUUID id, Locale initialComparisonLocale) throws CmsException {
 
         removeAllComponents();
         CmsObject cms = A_CmsUI.getCmsObject();

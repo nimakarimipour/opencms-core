@@ -5,6 +5,7 @@ import org.opencms.loader.CmsImageScaler;
 import org.opencms.util.CmsStringUtil;
 
 import javax.servlet.jsp.tagext.BodyTagSupport;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract parent for all JSP tags dealing with image scaling, defines some common image scaler
@@ -16,34 +17,34 @@ public abstract class CmsJspImageScalerTagSupport extends BodyTagSupport {
     private static final long serialVersionUID = 1303030767942208144L;
 
     /** Required image scaler attributes constant. */
-    protected static final String SCALE_ATTR_HEIGHT = "height";
+    protected static final @RUntainted String SCALE_ATTR_HEIGHT = "height";
 
     /** Required image scaler attributes constant. */
-    protected static final String SCALE_ATTR_MAXHEIGHT = "maxHeight";
+    protected static final @RUntainted String SCALE_ATTR_MAXHEIGHT = "maxHeight";
 
     /** Required image scaler attributes constant. */
-    protected static final String SCALE_ATTR_MAXWIDTH = "maxWidth";
+    protected static final @RUntainted String SCALE_ATTR_MAXWIDTH = "maxWidth";
 
     /** Required image scaler attributes constant. */
-    protected static final String SCALE_ATTR_POSITION = "scaleposition";
+    protected static final @RUntainted String SCALE_ATTR_POSITION = "scaleposition";
 
     /** Required image scaler attributes constant. */
-    protected static final String SCALE_ATTR_QUALITY = "scalequality";
+    protected static final @RUntainted String SCALE_ATTR_QUALITY = "scalequality";
 
     /** Required image scaler attributes constant. */
-    protected static final String SCALE_ATTR_RENDERMODE = "scalerendermode";
+    protected static final @RUntainted String SCALE_ATTR_RENDERMODE = "scalerendermode";
 
     /** Required image scaler attributes constant. */
-    protected static final String SCALE_ATTR_TYPE = "scaletype";
+    protected static final @RUntainted String SCALE_ATTR_TYPE = "scaletype";
 
     /** Required image scaler attributes constant. */
-    protected static final String SCALE_ATTR_WIDTH = "width";
+    protected static final @RUntainted String SCALE_ATTR_WIDTH = "width";
 
     /** The given image scaler parameters. */
     protected transient CmsImageScaler m_scaler;
 
     /** The image source. */
-    protected String m_src;
+    protected @RUntainted String m_src;
 
     /**
      * Initializes a CmsImageScaler to be used by derived classes. The CmsImageScaler is recreated
@@ -284,7 +285,7 @@ public abstract class CmsJspImageScalerTagSupport extends BodyTagSupport {
      *
      * @param value the image source to set
      */
-    public void setSrc(String value) {
+    public void setSrc(@RUntainted String value) {
 
         m_src = value;
     }

@@ -45,6 +45,7 @@ import org.opencms.search.fields.CmsSearchFieldConfiguration;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A Lucene search document implementation.<p>
@@ -103,7 +104,7 @@ public class CmsLuceneDocument implements I_CmsSearchDocument {
     }
 
     /** The Lucene document. */
-    private Document m_doc;
+    private @RUntainted Document m_doc;
 
     /** The fields stored in this document. */
     private Map<String, Field> m_fields;
@@ -228,7 +229,7 @@ public class CmsLuceneDocument implements I_CmsSearchDocument {
     /**
      * @see org.opencms.search.I_CmsSearchDocument#addPathField(java.lang.String)
      */
-    public void addPathField(String rootPath) {
+    public void addPathField(@RUntainted String rootPath) {
 
         String parentFolders = CmsSearchFieldConfiguration.getParentFolderTokens(rootPath);
         Field field = new Field(CmsSearchField.FIELD_PARENT_FOLDERS, parentFolders, NOT_STORED_ANALYSED_TYPE);
@@ -254,7 +255,7 @@ public class CmsLuceneDocument implements I_CmsSearchDocument {
     /**
      * @see org.opencms.search.I_CmsSearchDocument#addSearchField(org.opencms.search.fields.CmsSearchField, java.lang.String)
      */
-    public void addSearchField(CmsSearchField field, String value) {
+    public void addSearchField(@RUntainted CmsSearchField field, String value) {
 
         if (field instanceof CmsLuceneField) {
             add(((CmsLuceneField)field).createField(value));
@@ -337,9 +338,9 @@ public class CmsLuceneDocument implements I_CmsSearchDocument {
     /**
      * @see org.opencms.search.I_CmsSearchDocument#getFieldValueAsString(java.lang.String)
      */
-    public String getFieldValueAsString(String fieldName) {
+    public @RUntainted String getFieldValueAsString(String fieldName) {
 
-        IndexableField fieldValue = m_doc.getField(fieldName);
+        @RUntainted IndexableField fieldValue = m_doc.getField(fieldName);
         if (fieldValue != null) {
             return fieldValue.stringValue();
         }

@@ -49,6 +49,7 @@ import org.apache.solr.core.SolrConfig;
 import org.apache.solr.core.SolrResourceLoader;
 import org.apache.solr.schema.IndexSchema;
 import org.apache.solr.schema.IndexSchemaFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The Solr configuration class.<p>
@@ -234,7 +235,7 @@ public class CmsSolrConfiguration {
      *
      * @return the solr configuration file
      */
-    public File getSolrConfigFile() {
+    public @RUntainted File getSolrConfigFile() {
 
         return new File(getHome() + DEFAULT_CONFIGSET_FOLDER + CONF_FOLDER + SolrConfig.DEFAULT_CONF_FILE);
     }

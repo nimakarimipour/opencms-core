@@ -37,6 +37,7 @@ import org.opencms.util.CmsStringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration options for the VFS image widget.<p>
@@ -230,7 +231,7 @@ public class CmsVfsImageWidgetConfiguration extends CmsGalleryWidgetConfiguratio
         setShowFormat(jsonObj.optBoolean(CONFIG_KEY_USEFORMAT));
         if (isShowFormat()) {
             // only parse options if the format select box should be shown
-            String optionsStr = (String)jsonObj.opt(CONFIG_KEY_FORMATNAMES);
+            @RUntainted String optionsStr = (String)jsonObj.opt(CONFIG_KEY_FORMATNAMES);
             setSelectFormatString(optionsStr);
             setSelectFormat(CmsSelectWidgetOption.parseOptions(optionsStr));
             // get the corresponding format values as well

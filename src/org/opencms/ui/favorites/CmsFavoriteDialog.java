@@ -70,6 +70,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog which shows the list of favorites for the current user and allows them to jump to individual favorites,
@@ -391,7 +392,7 @@ public class CmsFavoriteDialog extends CmsBasicDialog implements CmsEditableGrou
         String site = getSite(cms, entry);
         CmsResource resource = null;
         try {
-            CmsUUID idToLoad = entry.getDetailId() != null ? entry.getDetailId() : entry.getStructureId();
+            @RUntainted CmsUUID idToLoad = entry.getDetailId() != null ? entry.getDetailId() : entry.getStructureId();
             resource = cms.readResource(idToLoad, CmsResourceFilter.IGNORE_EXPIRATION.addRequireVisible());
             CmsResourceUtil resutil = new CmsResourceUtil(cms, resource);
             if (!CmsStringUtil.isEmptyOrWhitespaceOnly(entry.getCustomTitle())) {

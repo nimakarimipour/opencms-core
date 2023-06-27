@@ -76,6 +76,7 @@ import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Form used to edit a scheduled job.<p>
@@ -93,7 +94,7 @@ public class CmsJobEditView extends CmsBasicDialog {
         /**
          * @see com.vaadin.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             CmsScheduledJobInfo info = new CmsScheduledJobInfo();
             // Job name may be needed in exception
@@ -102,7 +103,7 @@ public class CmsJobEditView extends CmsBasicDialog {
             } catch (CmsRuntimeException e) {
                 throw new InvalidValueException(e.getLocalizedMessage(A_CmsUI.get().getLocale()));
             }
-            String stringValue = (String)value;
+            @RUntainted String stringValue = (String)value;
             try {
                 info.setCronExpression(stringValue);
             } catch (CmsIllegalArgumentException e) {
@@ -122,10 +123,10 @@ public class CmsJobEditView extends CmsBasicDialog {
         /**
          * @see com.vaadin.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             CmsScheduledJobInfo info = new CmsScheduledJobInfo();
-            String stringValue = (String)value;
+            @RUntainted String stringValue = (String)value;
 
             // Job name may be needed in exception
             try {
@@ -152,10 +153,10 @@ public class CmsJobEditView extends CmsBasicDialog {
         /**
          * @see com.vaadin.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             CmsScheduledJobInfo info = new CmsScheduledJobInfo();
-            String name = (String)value;
+            @RUntainted String name = (String)value;
             try {
                 info.setJobName(name);
             } catch (CmsIllegalArgumentException e) {
@@ -231,7 +232,7 @@ public class CmsJobEditView extends CmsBasicDialog {
     private static final long serialVersionUID = 1L;
 
     /** Field for the job name. */
-    TextField m_fieldJobName;
+    @RUntainted TextField m_fieldJobName;
 
     /** Edited job. */
     CmsScheduledJobInfo m_job = new CmsScheduledJobInfo();

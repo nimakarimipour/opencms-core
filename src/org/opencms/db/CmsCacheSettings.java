@@ -26,6 +26,7 @@
  */
 
 package org.opencms.db;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The settings of the OpenCms memory monitor.<p>
@@ -38,7 +39,7 @@ public class CmsCacheSettings {
     private int m_aclCacheSize;
 
     /** The name of the class to generate cache keys. */
-    private String m_cacheKeyGenerator;
+    private @RUntainted String m_cacheKeyGenerator;
 
     /** The size of the memory monitor's cache for groups. */
     private int m_groupCacheSize;
@@ -99,7 +100,7 @@ public class CmsCacheSettings {
      *
      * @return the name of the class to generate cache keys
      */
-    public String getCacheKeyGenerator() {
+    public @RUntainted String getCacheKeyGenerator() {
 
         return m_cacheKeyGenerator;
     }
@@ -299,7 +300,7 @@ public class CmsCacheSettings {
      *
      * @param classname the name of the class to generate cache keys
      */
-    public void setCacheKeyGenerator(String classname) {
+    public void setCacheKeyGenerator(@RUntainted String classname) {
 
         m_cacheKeyGenerator = classname;
     }

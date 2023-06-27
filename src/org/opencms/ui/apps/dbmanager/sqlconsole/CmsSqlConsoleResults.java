@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for storing query results.<p>
@@ -43,7 +44,7 @@ public class CmsSqlConsoleResults {
     private List<String> m_columns;
 
     /** The row data from the result set. */
-    private List<List<Object>> m_data;
+    private @RUntainted List<@RUntainted List<@RUntainted Object>> m_data;
 
     /**
      * Creates a new instance.<p>
@@ -51,7 +52,7 @@ public class CmsSqlConsoleResults {
      * @param columns the column names
      * @param data the row data
      */
-    public CmsSqlConsoleResults(List<String> columns, List<List<Object>> data) {
+    public CmsSqlConsoleResults(List<String> columns, @RUntainted List<@RUntainted List<@RUntainted Object>> data) {
 
         m_columns = columns;
         m_data = data;
@@ -117,7 +118,7 @@ public class CmsSqlConsoleResults {
      *
      * @return the row data
      */
-    public List<List<Object>> getData() {
+    public @RUntainted List<@RUntainted List<@RUntainted Object>> getData() {
 
         return m_data;
     }

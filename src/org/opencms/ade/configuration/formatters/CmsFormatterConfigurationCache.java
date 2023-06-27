@@ -67,6 +67,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A cache object which holds a collection of formatter configuration beans read from the VFS.<p>
@@ -219,7 +220,7 @@ public class CmsFormatterConfigurationCache implements I_CmsGlobalConfigurationC
             } else {
                 // normal case: incremental update
                 Map<CmsUUID, I_CmsFormatterBean> formattersToUpdate = Maps.newHashMap();
-                for (CmsUUID structureId : copiedIds) {
+                for (@RUntainted CmsUUID structureId : copiedIds) {
                     I_CmsFormatterBean formatterBean = readFormatter(structureId);
                     // formatterBean may be null here
                     formattersToUpdate.put(structureId, formatterBean);
@@ -249,7 +250,7 @@ public class CmsFormatterConfigurationCache implements I_CmsGlobalConfigurationC
         }
 
         Map<CmsUUID, Map<CmsSharedSettingKey, CmsXmlContentProperty>> sharedSettingsByStructureId = new HashMap<>();
-        for (CmsResource resource : settingConfigResources) {
+        for (@RUntainted CmsResource resource : settingConfigResources) {
             Map<CmsSharedSettingKey, CmsXmlContentProperty> sharedSettings = parseSettingsConfig(resource);
             if (sharedSettings != null) {
                 sharedSettingsByStructureId.put(resource.getStructureId(), sharedSettings);
@@ -341,10 +342,10 @@ public class CmsFormatterConfigurationCache implements I_CmsGlobalConfigurationC
      *
      * @return the formatter bean, or null if no formatter could be read for some reason
      */
-    protected I_CmsFormatterBean readFormatter(CmsUUID structureId) {
+    protected I_CmsFormatterBean readFormatter(@RUntainted CmsUUID structureId) {
 
         I_CmsFormatterBean formatterBean = null;
-        CmsResource formatterRes = null;
+        @RUntainted CmsResource formatterRes = null;
         try {
             formatterRes = m_cms.readResource(structureId);
             CmsFile formatterFile = m_cms.readFile(formatterRes);
@@ -375,7 +376,7 @@ public class CmsFormatterConfigurationCache implements I_CmsGlobalConfigurationC
      * @param path the path of the formatter
      * @param resourceType the resource type
      */
-    private void checkIfUpdateIsNeeded(CmsUUID structureId, String path, int resourceType) {
+    private void checkIfUpdateIsNeeded(CmsUUID structureId, @RUntainted String path, int resourceType) {
 
         if (CmsResource.isTemporaryFileName(path)) {
             return;
@@ -417,7 +418,7 @@ public class CmsFormatterConfigurationCache implements I_CmsGlobalConfigurationC
      * @param resource the resource to parse
      * @return the parsed setting definitions
      */
-    private Map<CmsSharedSettingKey, CmsXmlContentProperty> parseSettingsConfig(CmsResource resource) {
+    private Map<CmsSharedSettingKey, CmsXmlContentProperty> parseSettingsConfig(@RUntainted CmsResource resource) {
 
         Map<CmsSharedSettingKey, CmsXmlContentProperty> result = new HashMap<>();
         try {

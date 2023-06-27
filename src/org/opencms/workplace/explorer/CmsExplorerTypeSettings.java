@@ -47,6 +47,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Holds all information to build the explorer context menu of a resource type
@@ -143,7 +144,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
     private String m_bigIcon;
 
     /** The big icon CSS style class. */
-    private String m_bigIconStyle;
+    private @RUntainted String m_bigIconStyle;
 
     /** The element view for this explorer type. */
     private String m_elementView;
@@ -167,7 +168,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
     private String m_key;
 
     /** The name. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** The name pattern. */
     private String m_namePattern;
@@ -179,7 +180,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
     private boolean m_creatable;
 
     /** The properties. */
-    private List<String> m_properties;
+    private @RUntainted List<@RUntainted String> m_properties;
 
     /** The enabled properties. */
     private boolean m_propertiesEnabled;
@@ -191,7 +192,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
     private boolean m_showNavigation;
 
     /** The small icon CSS style class. */
-    private String m_smallIconStyle;
+    private @RUntainted String m_smallIconStyle;
 
     /** The title key. */
     private String m_titleKey;
@@ -240,7 +241,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      * @param smallIconStyle the small icon CSS style class
      * @param bigIconStyle the big icon CSS style class
      */
-    public void addIconRule(String extension, String icon, String bigIcon, String smallIconStyle, String bigIconStyle) {
+    public void addIconRule(String extension, String icon, String bigIcon, @RUntainted String smallIconStyle, @RUntainted String bigIconStyle) {
 
         CmsIconRule rule = new CmsIconRule(extension, icon, bigIcon, smallIconStyle, bigIconStyle);
         m_iconRules.put(extension, rule);
@@ -253,7 +254,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      * @param requiredOnUpload if "true", mark the property as required after upload
      * @return true if the property definition was added properly
      */
-    public boolean addProperty(String propertyName, String requiredOnUpload) {
+    public boolean addProperty(@RUntainted String propertyName, String requiredOnUpload) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(propertyName)) {
             if (LOG.isDebugEnabled()) {
@@ -362,7 +363,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      *
      * @return the big icon style
      */
-    public String getBigIconStyle() {
+    public @RUntainted String getBigIconStyle() {
 
         return m_bigIconStyle;
     }
@@ -422,7 +423,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      *
      * @return the name of the explorer type setting
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -461,7 +462,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      * Returns the list of properties of the explorer type setting.<p>
      * @return the list of properties of the explorer type setting
      */
-    public List<String> getProperties() {
+    public @RUntainted List<@RUntainted String> getProperties() {
 
         return m_properties;
     }
@@ -481,7 +482,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      *
      * @return the small icon style
      */
-    public String getSmallIconStyle() {
+    public @RUntainted String getSmallIconStyle() {
 
         return m_smallIconStyle;
     }
@@ -699,7 +700,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      *
      * @param bigIconStyle the big icon style to set
      */
-    public void setBigIconStyle(String bigIconStyle) {
+    public void setBigIconStyle(@RUntainted String bigIconStyle) {
 
         m_bigIconStyle = bigIconStyle;
     }
@@ -792,7 +793,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      *
      * @param name the name of the explorer type setting
      */
-    public void setName(String name) {
+    public void setName(@RUntainted String name) {
 
         m_name = name;
         if (LOG.isDebugEnabled()) {
@@ -826,7 +827,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      *
      * @param properties the list of properties of the explorer type setting
      */
-    public void setProperties(List<String> properties) {
+    public void setProperties(@RUntainted List<@RUntainted String> properties) {
 
         m_properties = properties;
     }
@@ -884,7 +885,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      *
      * @param smallIconStyle the small icon CSS style class to set
      */
-    public void setSmallIconStyle(String smallIconStyle) {
+    public void setSmallIconStyle(@RUntainted String smallIconStyle) {
 
         m_smallIconStyle = smallIconStyle;
     }
@@ -909,7 +910,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      * @param key the key name of the explorer type setting
      * @param icon the icon path and file name of the explorer type setting
      */
-    public void setTypeAttributes(String name, String key, String icon) {
+    public void setTypeAttributes(@RUntainted String name, String key, String icon) {
 
         setName(name);
         setKey(key);
@@ -932,12 +933,12 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      * @param viewOrder the view order
      */
     public void setTypeAttributes(
-        String name,
+        @RUntainted String name,
         String key,
         String icon,
         String bigIcon,
-        String smallIconStyle,
-        String bigIconStyle,
+        @RUntainted String smallIconStyle,
+        @RUntainted String bigIconStyle,
         String reference,
         String elementView,
         String isView,

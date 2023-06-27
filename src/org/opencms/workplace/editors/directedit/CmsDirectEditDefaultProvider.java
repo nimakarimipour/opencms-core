@@ -44,6 +44,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provider for the OpenCms default graphical "direct edit" buttons.<p>
@@ -103,7 +104,7 @@ public class CmsDirectEditDefaultProvider extends A_CmsDirectEditProvider {
      * @see org.opencms.workplace.editors.directedit.A_CmsDirectEditProvider#init(org.opencms.file.CmsObject, org.opencms.workplace.editors.directedit.CmsDirectEditMode, java.lang.String)
      */
     @Override
-    public void init(CmsObject cms, CmsDirectEditMode mode, String fileName) {
+    public void init(CmsObject cms, CmsDirectEditMode mode, @RUntainted String fileName) {
 
         super.init(cms, mode, fileName);
 

@@ -38,6 +38,7 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action to edit a file given by the file param.<p>
@@ -64,7 +65,7 @@ public abstract class A_CmsEditFileAction extends A_CmsWorkplaceAction implement
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
      */
-    public String getJspPath() {
+    public @RUntainted String getJspPath() {
 
         return null;
     }

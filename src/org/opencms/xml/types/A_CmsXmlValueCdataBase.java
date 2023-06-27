@@ -36,6 +36,7 @@ import org.opencms.xml.I_CmsXmlDocument;
 import java.util.Locale;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for XML content value implementations that require only a simple XML cdata text node.<p>
@@ -45,7 +46,7 @@ import org.dom4j.Element;
 public abstract class A_CmsXmlValueCdataBase extends A_CmsXmlContentValue {
 
     /** The String value of the element node. */
-    protected String m_stringValue;
+    protected @RUntainted String m_stringValue;
 
     /**
      * Default constructor for a xml content type
@@ -66,7 +67,7 @@ public abstract class A_CmsXmlValueCdataBase extends A_CmsXmlContentValue {
      */
     protected A_CmsXmlValueCdataBase(
         I_CmsXmlDocument document,
-        Element element,
+        @RUntainted Element element,
         Locale locale,
         I_CmsXmlSchemaType type) {
 
@@ -81,7 +82,7 @@ public abstract class A_CmsXmlValueCdataBase extends A_CmsXmlContentValue {
      * @param minOccurs minimum number of occurrences of this type according to the XML schema
      * @param maxOccurs maximum number of occurrences of this type according to the XML schema
      */
-    protected A_CmsXmlValueCdataBase(String name, String minOccurs, String maxOccurs) {
+    protected A_CmsXmlValueCdataBase(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         super(name, minOccurs, maxOccurs);
     }
@@ -98,7 +99,7 @@ public abstract class A_CmsXmlValueCdataBase extends A_CmsXmlContentValue {
     /**
      * @see org.opencms.xml.types.I_CmsXmlContentValue#getStringValue(CmsObject)
      */
-    public String getStringValue(CmsObject cms) throws CmsRuntimeException {
+    public @RUntainted String getStringValue(CmsObject cms) throws CmsRuntimeException {
 
         return m_stringValue;
     }
@@ -106,7 +107,7 @@ public abstract class A_CmsXmlValueCdataBase extends A_CmsXmlContentValue {
     /**
      * @see org.opencms.xml.types.I_CmsXmlContentValue#setStringValue(org.opencms.file.CmsObject, java.lang.String)
      */
-    public void setStringValue(CmsObject cms, String value) throws CmsIllegalArgumentException {
+    public void setStringValue(CmsObject cms, @RUntainted String value) throws CmsIllegalArgumentException {
 
         m_element.clearContent();
         if (CmsStringUtil.isNotEmpty(value)) {

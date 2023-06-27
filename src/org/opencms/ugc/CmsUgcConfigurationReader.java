@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.Locale;
 
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parser for form configuration files.<p>
@@ -117,7 +118,7 @@ public class CmsUgcConfigurationReader {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsUgcConfiguration readConfiguration(CmsFile configFile) throws CmsException {
+    public @RUntainted CmsUgcConfiguration readConfiguration(CmsFile configFile) throws CmsException {
 
         m_content = CmsXmlContentFactory.unmarshal(m_cms, configFile);
         String resourceType = getStringValue(N_CONTENT_TYPE);
@@ -154,7 +155,7 @@ public class CmsUgcConfigurationReader {
         String projectGroupStr = getStringValue(N_PROJECT_GROUP);
         CmsGroup projectGroup = m_cms.readGroup(projectGroupStr.trim());
         CmsUUID id = configFile.getStructureId();
-        CmsUgcConfiguration result = new CmsUgcConfiguration(
+        @RUntainted CmsUgcConfiguration result = new CmsUgcConfiguration(
             id,
             userForGuest,
             projectGroup,

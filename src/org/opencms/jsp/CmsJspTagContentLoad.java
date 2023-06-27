@@ -51,6 +51,7 @@ import java.util.Locale;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;cms:contentload/&gt;</code> tag,
@@ -270,7 +271,7 @@ public class CmsJspTagContentLoad extends CmsJspTagResourceLoad implements I_Cms
     /**
      * @see org.opencms.jsp.I_CmsXmlContentContainer#getXmlDocumentElement()
      */
-    public String getXmlDocumentElement() {
+    public @RUntainted String getXmlDocumentElement() {
 
         // value must be set in "loop" or "show" class
         return null;
@@ -429,7 +430,7 @@ public class CmsJspTagContentLoad extends CmsJspTagResourceLoad implements I_Cms
      *
      * @param locale the locale to set
      */
-    public void setLocale(String locale) {
+    public void setLocale(@RUntainted String locale) {
 
         if (CmsStringUtil.isEmpty(locale)) {
             m_locale = null;

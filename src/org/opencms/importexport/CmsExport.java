@@ -85,6 +85,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXWriter;
 import org.xml.sax.SAXException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the functionality to export files from the OpenCms VFS to a ZIP file.<p>
@@ -247,7 +248,7 @@ public class CmsExport {
      * @throws SAXException if something goes wrong processing the manifest.xml
      * @throws IOException if not all resources could be appended to the ZIP archive
      */
-    protected void addChildResources(String folderName) throws CmsImportExportException, IOException, SAXException {
+    protected void addChildResources(@RUntainted String folderName) throws CmsImportExportException, IOException, SAXException {
 
         try {
             // get all subFolders
@@ -334,11 +335,11 @@ public class CmsExport {
      * @throws IOException if a file could not be exported
      * @throws SAXException if something goes wrong processing the manifest.xml
      */
-    protected void addFiles(List<String> fileNames) throws CmsImportExportException, IOException, SAXException {
+    protected void addFiles(@RUntainted List<@RUntainted String> fileNames) throws CmsImportExportException, IOException, SAXException {
 
         if (fileNames != null) {
             for (int i = 0; i < fileNames.size(); i++) {
-                String fileName = fileNames.get(i);
+                @RUntainted String fileName = fileNames.get(i);
 
                 try {
                     CmsFile file = getCms().readFile(fileName, CmsResourceFilter.IGNORE_EXPIRATION);
@@ -380,7 +381,7 @@ public class CmsExport {
      * @throws CmsImportExportException if something goes wrong
      * @throws SAXException if something goes wrong processing the manifest.xml
      */
-    protected void addParentFolders(String resourceName) throws CmsImportExportException, SAXException {
+    protected void addParentFolders(@RUntainted String resourceName) throws CmsImportExportException, SAXException {
 
         try {
             // this is a resource in /system/ folder and option includeSystem is not true
@@ -814,7 +815,7 @@ public class CmsExport {
      * @throws SAXException if something goes wrong processing the manifest.xml
      * @throws IOException if not all resources could be appended to the ZIP archive
      */
-    protected void exportAllResources(Element parent, List<String> resourcesToExport)
+    protected void exportAllResources(Element parent, @RUntainted List<@RUntainted String> resourcesToExport)
     throws CmsImportExportException, IOException, SAXException {
 
         // export all the resources
@@ -857,7 +858,7 @@ public class CmsExport {
 
         // export the folders
         for (int i = 0; i < folderNames.size(); i++) {
-            String path = folderNames.get(i);
+            @RUntainted String path = folderNames.get(i);
             if (m_parameters.isRecursive()) {
                 // first add super folders to the xml-config file
                 addParentFolders(path);

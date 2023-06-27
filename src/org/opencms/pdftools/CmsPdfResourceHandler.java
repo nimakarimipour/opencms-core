@@ -51,6 +51,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This resource handler handles URLs of the form /pdflink/{locale}/{formatter-id}/{detailname} and format
@@ -94,7 +95,7 @@ public class CmsPdfResourceHandler implements I_CmsResourceInit {
     public CmsResource initResource(
         CmsResource resource,
         CmsObject cms,
-        HttpServletRequest request,
+        @RUntainted HttpServletRequest request,
         HttpServletResponse response)
     throws CmsResourceInitException, CmsSecurityException {
 
@@ -157,14 +158,14 @@ public class CmsPdfResourceHandler implements I_CmsResourceInit {
      * @throws Exception if something goes wrong
      * @throws CmsResourceInitException if the resource initialization is cancelled
      */
-    protected void handlePdfLink(CmsObject cms, HttpServletRequest request, HttpServletResponse response, String uri)
+    protected void handlePdfLink(CmsObject cms, @RUntainted HttpServletRequest request, HttpServletResponse response, String uri)
     throws Exception {
 
         CmsPdfLink linkObj = new CmsPdfLink(cms, uri);
         CmsResource formatter = linkObj.getFormatter();
         CmsResource content = linkObj.getContent();
         LOG.info("Trying to render " + content.getRootPath() + " using " + formatter.getRootPath());
-        Locale locale = linkObj.getLocale();
+        @RUntainted Locale locale = linkObj.getLocale();
         CmsObject cmsForJspExecution = OpenCms.initCmsObject(cms);
         cmsForJspExecution.getRequestContext().setLocale(locale);
         cmsForJspExecution.getRequestContext().setSiteRoot("");
@@ -256,7 +257,7 @@ public class CmsPdfResourceHandler implements I_CmsResourceInit {
             options = "w:64";
         }
         CmsPdfThumbnailLink linkObj = new CmsPdfThumbnailLink(cms, uri, options);
-        CmsResource pdf = linkObj.getPdfResource();
+        @RUntainted CmsResource pdf = linkObj.getPdfResource();
         CmsFile pdfFile = cms.readFile(pdf);
         CmsPdfThumbnailGenerator thumbnailGenerator = new CmsPdfThumbnailGenerator();
         // use a wrapped resource because we want the cache to store files with the correct (image file) extensions

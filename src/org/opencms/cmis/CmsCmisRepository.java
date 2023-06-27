@@ -126,6 +126,7 @@ import org.apache.chemistry.opencmis.commons.impl.dataobjects.RepositoryCapabili
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.RepositoryInfoImpl;
 import org.apache.chemistry.opencmis.commons.spi.Holder;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Repository instance for CMIS repositories.<p>
@@ -267,7 +268,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
     public synchronized String createDocument(
         CmsCmisCallContext context,
         Properties propertiesObj,
-        String folderId,
+        @RUntainted String folderId,
         ContentStream contentStream,
         VersioningState versioningState,
         List<String> policies,
@@ -287,9 +288,9 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
         try {
             CmsObject cms = getCmsObject(context);
             Map<String, PropertyData<?>> properties = propertiesObj.getProperties();
-            String newDocName = (String)properties.get(PropertyIds.NAME).getFirstValue();
-            String defaultType = OpenCms.getResourceManager().getDefaultTypeForName(newDocName).getTypeName();
-            String resTypeName = getResourceTypeFromProperties(properties, defaultType);
+            @RUntainted String newDocName = (String)properties.get(PropertyIds.NAME).getFirstValue();
+            @RUntainted String defaultType = OpenCms.getResourceManager().getDefaultTypeForName(newDocName).getTypeName();
+            @RUntainted String resTypeName = getResourceTypeFromProperties(properties, defaultType);
             I_CmsResourceType cmsResourceType = OpenCms.getResourceManager().getResourceType(resTypeName);
             if (cmsResourceType.isFolder()) {
                 throw new CmisConstraintException("Not a document type: " + resTypeName);
@@ -298,7 +299,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
             checkResourceName(newDocName);
             InputStream stream = contentStream.getStream();
             byte[] content = CmsFileUtil.readFully(stream);
-            CmsUUID parentFolderId = new CmsUUID(folderId);
+            @RUntainted CmsUUID parentFolderId = new CmsUUID(folderId);
             CmsResource parentFolder = cms.readResource(parentFolderId);
             String newFolderPath = CmsStringUtil.joinPaths(parentFolder.getRootPath(), newDocName);
             try {
@@ -325,9 +326,9 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
      */
     public synchronized String createDocumentFromSource(
         CmsCmisCallContext context,
-        String sourceId,
+        @RUntainted String sourceId,
         Properties propertiesObj,
-        String folderId,
+        @RUntainted String folderId,
         VersioningState versioningState,
         List<String> policies,
         Acl addAces,
@@ -346,14 +347,14 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
                 properties = propertiesObj.getProperties();
             }
             List<CmsProperty> cmsProperties = getOpenCmsProperties(properties);
-            CmsUUID parentFolderId = new CmsUUID(folderId);
+            @RUntainted CmsUUID parentFolderId = new CmsUUID(folderId);
             CmsResource parentFolder = cms.readResource(parentFolderId);
-            CmsUUID sourceUuid = new CmsUUID(sourceId);
+            @RUntainted CmsUUID sourceUuid = new CmsUUID(sourceId);
             CmsResource source = cms.readResource(sourceUuid);
             String sourcePath = source.getRootPath();
 
             PropertyData<?> nameProp = properties.get(PropertyIds.NAME);
-            String newDocName;
+            @RUntainted String newDocName;
             if (nameProp != null) {
                 newDocName = (String)nameProp.getFirstValue();
                 checkResourceName(newDocName);
@@ -401,7 +402,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
     public synchronized String createFolder(
         CmsCmisCallContext context,
         Properties propertiesObj,
-        String folderId,
+        @RUntainted String folderId,
         List<String> policies,
         Acl addAces,
         Acl removeAces) {
@@ -421,9 +422,9 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
                 throw new CmisConstraintException("Invalid folder type: " + resTypeName);
             }
             List<CmsProperty> cmsProperties = getOpenCmsProperties(properties);
-            String newFolderName = (String)properties.get(PropertyIds.NAME).getFirstValue();
+            @RUntainted String newFolderName = (String)properties.get(PropertyIds.NAME).getFirstValue();
             checkResourceName(newFolderName);
-            CmsUUID parentFolderId = new CmsUUID(folderId);
+            @RUntainted CmsUUID parentFolderId = new CmsUUID(folderId);
             CmsResource parentFolder = cms.readResource(parentFolderId);
             String newFolderPath = CmsStringUtil.joinPaths(parentFolder.getRootPath(), newFolderName);
             try {
@@ -456,15 +457,15 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
         try {
             CmsObject cms = getCmsObject(context);
             Map<String, PropertyData<?>> propertyMap = properties.getProperties();
-            String sourceProp = (String)(propertyMap.get(PropertyIds.SOURCE_ID).getFirstValue());
-            String targetProp = (String)(propertyMap.get(PropertyIds.TARGET_ID).getFirstValue());
-            String typeId = (String)(propertyMap.get(PropertyIds.OBJECT_TYPE_ID).getFirstValue());
+            @RUntainted String sourceProp = (String)(propertyMap.get(PropertyIds.SOURCE_ID).getFirstValue());
+            @RUntainted String targetProp = (String)(propertyMap.get(PropertyIds.TARGET_ID).getFirstValue());
+            @RUntainted String typeId = (String)(propertyMap.get(PropertyIds.OBJECT_TYPE_ID).getFirstValue());
             if (!typeId.startsWith("opencms:")) {
                 throw new CmisConstraintException("Can't create this relationship type.");
             }
-            String cmsTypeName = typeId.substring("opencms:".length());
-            CmsUUID sourceId = new CmsUUID(sourceProp);
-            CmsUUID targetId = new CmsUUID(targetProp);
+            @RUntainted String cmsTypeName = typeId.substring("opencms:".length());
+            @RUntainted CmsUUID sourceId = new CmsUUID(sourceProp);
+            @RUntainted CmsUUID targetId = new CmsUUID(targetProp);
             CmsResource sourceRes = cms.readResource(sourceId);
             boolean wasLocked = ensureLock(cms, sourceRes);
             try {
@@ -497,7 +498,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
     /**
      * @see org.opencms.cmis.I_CmsCmisRepository#deleteObject(org.opencms.cmis.CmsCmisCallContext, java.lang.String, boolean)
      */
-    public synchronized void deleteObject(CmsCmisCallContext context, String objectId, boolean allVersions) {
+    public synchronized void deleteObject(CmsCmisCallContext context, @RUntainted String objectId, boolean allVersions) {
 
         checkWriteAccess();
         getHelper(objectId).deleteObject(context, objectId, allVersions);
@@ -508,7 +509,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
      */
     public synchronized FailedToDeleteData deleteTree(
         CmsCmisCallContext context,
-        String folderId,
+        @RUntainted String folderId,
         boolean allVersions,
         UnfileObject unfileObjects,
         boolean continueOnFailure) {
@@ -520,7 +521,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
             FailedToDeleteDataImpl result = new FailedToDeleteDataImpl();
             result.setIds(new ArrayList<String>());
             CmsObject cms = getCmsObject(context);
-            CmsUUID structureId = new CmsUUID(folderId);
+            @RUntainted CmsUUID structureId = new CmsUUID(folderId);
             CmsResource folder = cms.readResource(structureId);
             if (!folder.isFolder()) {
                 throw new CmisConstraintException("deleteTree can only be used on folders.");
@@ -537,7 +538,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
     /**
      * @see org.opencms.cmis.I_CmsCmisRepository#getAcl(org.opencms.cmis.CmsCmisCallContext, java.lang.String, boolean)
      */
-    public synchronized Acl getAcl(CmsCmisCallContext context, String objectId, boolean onlyBasicPermissions) {
+    public synchronized Acl getAcl(CmsCmisCallContext context, @RUntainted String objectId, boolean onlyBasicPermissions) {
 
         return getHelper(objectId).getAcl(context, objectId, onlyBasicPermissions);
     }
@@ -545,7 +546,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
     /**
      * @see org.opencms.cmis.I_CmsCmisRepository#getAllowableActions(org.opencms.cmis.CmsCmisCallContext, java.lang.String)
      */
-    public synchronized AllowableActions getAllowableActions(CmsCmisCallContext context, String objectId) {
+    public synchronized AllowableActions getAllowableActions(CmsCmisCallContext context, @RUntainted String objectId) {
 
         return getHelper(objectId).getAllowableActions(context, objectId);
     }
@@ -574,7 +575,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
      */
     public synchronized ObjectInFolderList getChildren(
         CmsCmisCallContext context,
-        String folderId,
+        @RUntainted String folderId,
         String filter,
         String orderBy,
         boolean includeAllowableActions,
@@ -601,7 +602,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
             }
 
             CmsObject cms = getCmsObject(context);
-            CmsUUID structureId = new CmsUUID(folderId);
+            @RUntainted CmsUUID structureId = new CmsUUID(folderId);
             CmsResource folder = cms.readResource(structureId);
             if (!folder.isFolder()) {
                 throw new CmisObjectNotFoundException("Not a folder!");
@@ -671,14 +672,14 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
      */
     public synchronized ContentStream getContentStream(
         CmsCmisCallContext context,
-        String objectId,
+        @RUntainted String objectId,
         String streamId,
         BigInteger offset,
         BigInteger length) {
 
         try {
             CmsObject cms = getCmsObject(context);
-            CmsResource resource = cms.readResource(new CmsUUID(objectId));
+            @RUntainted CmsResource resource = cms.readResource(new CmsUUID(objectId));
             byte[] contents = null;
             if (streamId != null) {
                 I_CmsCmisRenditionProvider renditionProvider = m_renditionProviders.get(streamId);
@@ -712,7 +713,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
      */
     public synchronized List<ObjectInFolderContainer> getDescendants(
         CmsCmisCallContext context,
-        String folderId,
+        @RUntainted String folderId,
         BigInteger depth,
         String filter,
         boolean includeAllowableActions,
@@ -735,7 +736,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
             Set<String> filterCollection = splitFilter(filter);
 
             CmsObject cms = getCmsObject(context);
-            CmsUUID folderStructureId = new CmsUUID(folderId);
+            @RUntainted CmsUUID folderStructureId = new CmsUUID(folderId);
             CmsResource folder = cms.readResource(folderStructureId);
             if (!folder.isFolder()) {
                 throw new CmisObjectNotFoundException("Not a folder!");
@@ -799,7 +800,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
     /**
      * @see org.opencms.cmis.I_CmsCmisRepository#getFolderParent(org.opencms.cmis.CmsCmisCallContext, java.lang.String, java.lang.String)
      */
-    public synchronized ObjectData getFolderParent(CmsCmisCallContext context, String folderId, String filter) {
+    public synchronized ObjectData getFolderParent(CmsCmisCallContext context, @RUntainted String folderId, String filter) {
 
         List<ObjectParentData> parents = getObjectParents(context, folderId, filter, false, false);
         if (parents.size() == 0) {
@@ -829,7 +830,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
      */
     public synchronized ObjectData getObject(
         CmsCmisCallContext context,
-        String objectId,
+        @RUntainted String objectId,
         String filter,
         boolean includeAllowableActions,
         IncludeRelationships includeRelationships,
@@ -897,7 +898,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
      */
     public synchronized List<ObjectParentData> getObjectParents(
         CmsCmisCallContext context,
-        String objectId,
+        @RUntainted String objectId,
         String filter,
         boolean includeAllowableActions,
         boolean includeRelativePathSegment) {
@@ -908,7 +909,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
             // split filter
             Set<String> filterCollection = splitFilter(filter);
             CmsObject cms = getCmsObject(context);
-            CmsUUID structureId = new CmsUUID(objectId);
+            @RUntainted CmsUUID structureId = new CmsUUID(objectId);
             CmsResource file = cms.readResource(structureId);
             // don't climb above the root folder
 
@@ -960,7 +961,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
      */
     public synchronized ObjectList getObjectRelationships(
         CmsCmisCallContext context,
-        String objectId,
+        @RUntainted String objectId,
         boolean includeSubRelationshipTypes,
         RelationshipDirection relationshipDirection,
         String typeId,
@@ -972,7 +973,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
         try {
             CmsObject cms = getCmsObject(context);
             ObjectListImpl result = new ObjectListImpl();
-            CmsUUID structureId = new CmsUUID(objectId);
+            @RUntainted CmsUUID structureId = new CmsUUID(objectId);
             CmsResource resource = cms.readResource(structureId);
 
             List<ObjectData> resultObjects = getRelationshipObjectData(
@@ -1003,7 +1004,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
     /**
      * @see org.opencms.cmis.I_CmsCmisRepository#getProperties(org.opencms.cmis.CmsCmisCallContext, java.lang.String, java.lang.String)
      */
-    public synchronized Properties getProperties(CmsCmisCallContext context, String objectId, String filter) {
+    public synchronized Properties getProperties(CmsCmisCallContext context, @RUntainted String objectId, String filter) {
 
         ObjectData object = getObject(context, objectId, null, false, null, null, false, false);
         return object.getProperties();
@@ -1014,7 +1015,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
      */
     public synchronized List<RenditionData> getRenditions(
         CmsCmisCallContext context,
-        String objectId,
+        @RUntainted String objectId,
         String renditionFilter,
         BigInteger maxItems,
         BigInteger skipCount) {
@@ -1196,7 +1197,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
 
         m_adminCms = cms;
         m_typeManager = new CmsCmisTypeManager(cms, m_propertyProviders);
-        String projectName = m_parameterConfiguration.getString(PARAM_PROJECT, CmsProject.ONLINE_PROJECT_NAME);
+        @RUntainted String projectName = m_parameterConfiguration.getString(PARAM_PROJECT, CmsProject.ONLINE_PROJECT_NAME);
         CmsResource root = m_adminCms.readResource("/");
         CmsObject offlineCms = OpenCms.initCmsObject(m_adminCms);
         CmsProject project = m_adminCms.readProject(projectName);
@@ -1221,16 +1222,16 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
      */
     public synchronized void moveObject(
         CmsCmisCallContext context,
-        Holder<String> objectId,
-        String targetFolderId,
+        @RUntainted Holder<@RUntainted String> objectId,
+        @RUntainted String targetFolderId,
         String sourceFolderId) {
 
         checkWriteAccess();
 
         try {
             CmsObject cms = getCmsObject(context);
-            CmsUUID structureId = new CmsUUID(objectId.getValue());
-            CmsUUID targetStructureId = new CmsUUID(targetFolderId);
+            @RUntainted CmsUUID structureId = new CmsUUID(objectId.getValue());
+            @RUntainted CmsUUID targetStructureId = new CmsUUID(targetFolderId);
             CmsResource targetFolder = cms.readResource(targetStructureId);
             CmsResource resourceToMove = cms.readResource(structureId);
             String name = CmsResource.getName(resourceToMove.getRootPath());
@@ -1312,7 +1313,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
      */
     public synchronized void setContentStream(
         CmsCmisCallContext context,
-        Holder<String> objectId,
+        @RUntainted Holder<@RUntainted String> objectId,
         boolean overwriteFlag,
         Holder<String> changeToken,
         ContentStream contentStream) {
@@ -1321,11 +1322,11 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
 
         try {
             CmsObject cms = getCmsObject(context);
-            CmsUUID structureId = new CmsUUID(objectId.getValue());
+            @RUntainted CmsUUID structureId = new CmsUUID(objectId.getValue());
             if (!overwriteFlag) {
                 throw new CmisContentAlreadyExistsException();
             }
-            CmsResource resource = cms.readResource(structureId);
+            @RUntainted CmsResource resource = cms.readResource(structureId);
             if (resource.isFolder()) {
                 throw new CmisStreamNotSupportedException("Folders may not have content streams.");
             }
@@ -1375,7 +1376,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
      */
     public synchronized void updateProperties(
         CmsCmisCallContext context,
-        Holder<String> objectId,
+        @RUntainted Holder<@RUntainted String> objectId,
         Holder<String> changeToken,
         Properties properties) {
 
@@ -1384,7 +1385,7 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
         try {
 
             CmsObject cms = getCmsObject(context);
-            CmsUUID structureId = new CmsUUID(objectId.getValue());
+            @RUntainted CmsUUID structureId = new CmsUUID(objectId.getValue());
             CmsResource resource = cms.readResource(structureId);
             Map<String, PropertyData<?>> propertyMap = properties.getProperties();
             List<CmsProperty> cmsProperties = getOpenCmsProperties(propertyMap);
@@ -1392,9 +1393,9 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
             try {
                 cms.writePropertyObjects(resource, cmsProperties);
                 @SuppressWarnings("unchecked")
-                PropertyData<String> nameProperty = (PropertyData<String>)propertyMap.get(PropertyIds.NAME);
+                @RUntainted PropertyData<@RUntainted String> nameProperty = (PropertyData<String>)propertyMap.get(PropertyIds.NAME);
                 if (nameProperty != null) {
-                    String newName = nameProperty.getFirstValue();
+                    @RUntainted String newName = nameProperty.getFirstValue();
                     checkResourceName(newName);
                     String parentFolder = CmsResource.getParentFolder(resource.getRootPath());
                     String newPath = CmsStringUtil.joinPaths(parentFolder, newName);
@@ -1543,10 +1544,10 @@ public class CmsCmisRepository extends A_CmsCmisRepository {
      *
      * @return the resource type property, or the default value if the property was not found
      */
-    protected String getResourceTypeFromProperties(Map<String, PropertyData<?>> properties, String defaultValue) {
+    protected @RUntainted String getResourceTypeFromProperties(Map<String, PropertyData<?>> properties, @RUntainted String defaultValue) {
 
         PropertyData<?> typeProp = properties.get(CmsCmisTypeManager.PROPERTY_RESOURCE_TYPE);
-        String resTypeName = defaultValue;
+        @RUntainted String resTypeName = defaultValue;
         if (typeProp != null) {
             resTypeName = (String)typeProp.getFirstValue();
         }

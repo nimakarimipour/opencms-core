@@ -56,6 +56,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 import com.vaadin.ui.declarative.DesignContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Basic dialog class with a content panel and button bar.<p>
@@ -352,7 +353,7 @@ public class CmsBasicDialog extends VerticalLayout {
      * @param resources to show info for
      * @param messageKey of the panel
      */
-    public void displayResourceInfo(List<CmsResource> resources, String messageKey) {
+    public void displayResourceInfo(List<CmsResource> resources, @RUntainted String messageKey) {
 
         m_infoResources = Lists.newArrayList(resources);
         if (m_infoComponent != null) {

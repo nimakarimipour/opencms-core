@@ -47,6 +47,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The RepositoryManager keeps a list with all configured {@link I_CmsRepository}
@@ -131,7 +132,7 @@ public class CmsRepositoryManager {
         List<I_CmsResourceWrapper> wrapperObjects = Lists.newArrayList();
         if (config.containsKey(paramName)) {
             List<String> wrappers = config.getList(paramName);
-            for (String wrapperString : wrappers) {
+            for (@RUntainted String wrapperString : wrappers) {
                 wrapperString = wrapperString.trim();
                 String className;
                 String configString = null;
@@ -206,7 +207,7 @@ public class CmsRepositoryManager {
      *
      * @return the additional info entries which should be written to the user
      */
-    public Map<String, Object> getAdditionalInfoForLogin(String userName, String password) {
+    public @RUntainted Map<@RUntainted String, @RUntainted Object> getAdditionalInfoForLogin(String userName, String password) {
 
         Map<String, Object> additionalInfos = new HashMap<String, Object>();
         if (m_hasJlan) {

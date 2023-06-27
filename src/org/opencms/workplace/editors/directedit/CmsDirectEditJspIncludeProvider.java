@@ -46,6 +46,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Direct edit provider that uses the same JSP include based logic that has been
@@ -123,8 +124,8 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
      * @return the direct edit permissions
      */
     public static String includeDirectEditElement(
-        PageContext context,
-        String jspIncludeFile,
+        @RUntainted PageContext context,
+        @RUntainted String jspIncludeFile,
         String element,
         String editTarget,
         String editElement,
@@ -138,7 +139,7 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
             return null;
         }
 
-        ServletRequest req = context.getRequest();
+        @RUntainted ServletRequest req = context.getRequest();
         ServletResponse res = context.getResponse();
         CmsFlexController controller = CmsFlexController.getController(req);
 
@@ -191,7 +192,7 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
             t = controller.setThrowable(t, jspIncludeFile);
             throw new JspException(t);
         } catch (IOException e) {
-            Throwable t = controller.setThrowable(e, jspIncludeFile);
+            @RUntainted Throwable t = controller.setThrowable(e, jspIncludeFile);
             throw new JspException(t);
         } finally {
             // restore old parameter map (if required)
@@ -207,7 +208,7 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
      * @see org.opencms.workplace.editors.directedit.A_CmsDirectEditProvider#init(org.opencms.file.CmsObject, org.opencms.workplace.editors.directedit.CmsDirectEditMode, java.lang.String)
      */
     @Override
-    public void init(CmsObject cms, CmsDirectEditMode mode, String fileName) {
+    public void init(CmsObject cms, CmsDirectEditMode mode, @RUntainted String fileName) {
 
         m_cms = cms;
         m_fileName = fileName;
@@ -220,7 +221,7 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
     /**
      * @see org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider#insertDirectEditEnd(javax.servlet.jsp.PageContext)
      */
-    public void insertDirectEditEnd(PageContext context) throws JspException {
+    public void insertDirectEditEnd(@RUntainted PageContext context) throws JspException {
 
         if (m_editTarget != null) {
             // otherwise no valid direct edit element has been opened
@@ -242,7 +243,7 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
     /**
      * @see org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider#insertDirectEditIncludes(javax.servlet.jsp.PageContext, org.opencms.workplace.editors.directedit.CmsDirectEditParams)
      */
-    public void insertDirectEditIncludes(PageContext context, CmsDirectEditParams params) throws JspException {
+    public void insertDirectEditIncludes(@RUntainted PageContext context, CmsDirectEditParams params) throws JspException {
 
         try {
             CmsJspTagInclude.includeTagAction(
@@ -263,7 +264,7 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
     /**
      * @see org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider#insertDirectEditStart(javax.servlet.jsp.PageContext, org.opencms.workplace.editors.directedit.CmsDirectEditParams)
      */
-    public boolean insertDirectEditStart(PageContext context, CmsDirectEditParams params) throws JspException {
+    public boolean insertDirectEditStart(@RUntainted PageContext context, CmsDirectEditParams params) throws JspException {
 
         String result = null;
         CmsDirectEditPermissions permissions = getResourceInfo(params, params.getResourceName()).getPermissions();

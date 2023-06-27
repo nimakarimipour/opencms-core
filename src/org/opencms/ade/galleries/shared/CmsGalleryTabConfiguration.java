@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean containing a configuration for the gallery dialog's available tabs,
@@ -46,7 +47,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class CmsGalleryTabConfiguration implements IsSerializable {
 
     /** The map containing the predefined tab configurations. */
-    public static final Map<String, CmsGalleryTabConfiguration> DEFAULT_CONFIGURATIONS;
+    public static final @RUntainted Map<@RUntainted String, @RUntainted CmsGalleryTabConfiguration> DEFAULT_CONFIGURATIONS;
 
     /** Gallery configuration id. */
     public static final String TC_ADE_ADD = "adeAdd";
@@ -81,14 +82,14 @@ public class CmsGalleryTabConfiguration implements IsSerializable {
     protected GalleryTabId m_defaultTab;
 
     /** The list of tab ids. */
-    private List<GalleryTabId> m_tabs;
+    private @RUntainted List<@RUntainted GalleryTabId> m_tabs;
 
     /**
      * Creates  a new gallery tab configuration based on a list of tabs.<p>
      *
      * @param tabsList the list of tabs
      */
-    public CmsGalleryTabConfiguration(List<GalleryTabId> tabsList) {
+    public CmsGalleryTabConfiguration(@RUntainted List<@RUntainted GalleryTabId> tabsList) {
 
         m_tabs = tabsList;
     }
@@ -121,7 +122,7 @@ public class CmsGalleryTabConfiguration implements IsSerializable {
      *
      * @return the parsed tab configuration
      */
-    public static CmsGalleryTabConfiguration parse(String configStr) {
+    public static @RUntainted CmsGalleryTabConfiguration parse(String configStr) {
 
         String[] tokens = configStr.split(" *, *");
         GalleryTabId defaultTabId = null;
@@ -178,9 +179,9 @@ public class CmsGalleryTabConfiguration implements IsSerializable {
      *
      * @return the gallery tab configuration
      */
-    public static CmsGalleryTabConfiguration resolve(String configStr) {
+    public static @RUntainted CmsGalleryTabConfiguration resolve(String configStr) {
 
-        CmsGalleryTabConfiguration tabConfig;
+        @RUntainted CmsGalleryTabConfiguration tabConfig;
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(configStr)) {
             configStr = "*sitemap,types,galleries,categories,vfstree,search,results";
         }
@@ -221,9 +222,9 @@ public class CmsGalleryTabConfiguration implements IsSerializable {
      * @param defaultTab the new default tab
      * @return the copy with the changed default tab
      */
-    public CmsGalleryTabConfiguration withDefault(GalleryTabId defaultTab) {
+    public @RUntainted CmsGalleryTabConfiguration withDefault(GalleryTabId defaultTab) {
 
-        CmsGalleryTabConfiguration result = new CmsGalleryTabConfiguration(m_tabs);
+        @RUntainted CmsGalleryTabConfiguration result = new CmsGalleryTabConfiguration(m_tabs);
         result.m_defaultTab = defaultTab;
         return result;
     }

@@ -40,6 +40,7 @@ import org.opencms.ui.components.OpenCmsTheme;
 import java.util.Locale;
 
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration class for property app.<p>
@@ -104,7 +105,7 @@ public class CmsSqlConsoleAppConfiguration extends A_CmsWorkplaceAppConfiguratio
      * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale)
      */
     @Override
-    public String getName(Locale locale) {
+    public String getName(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.GUI_SQLCONSOLE_APP_TITLE_0);
     }

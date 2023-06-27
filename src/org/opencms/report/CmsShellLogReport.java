@@ -33,6 +33,7 @@ import org.opencms.main.CmsLog;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report for shell which writes to LOG.<p>
@@ -116,7 +117,7 @@ public class CmsShellLogReport extends CmsShellReport {
      * @see org.opencms.report.A_CmsReport#printMessageWithParam(org.opencms.i18n.CmsMessageContainer, java.lang.Object)
      */
     @Override
-    public void printMessageWithParam(CmsMessageContainer container, Object param) {
+    public void printMessageWithParam(CmsMessageContainer container, @RUntainted Object param) {
 
         super.printMessageWithParam(container, param);
 
@@ -127,7 +128,7 @@ public class CmsShellLogReport extends CmsShellReport {
      * @see org.opencms.report.A_CmsReport#printMessageWithParam(int, int, org.opencms.i18n.CmsMessageContainer, java.lang.Object)
      */
     @Override
-    public void printMessageWithParam(int m, int n, CmsMessageContainer container, Object param) {
+    public void printMessageWithParam(int m, int n, CmsMessageContainer container, @RUntainted Object param) {
 
         super.printMessageWithParam(m, n, container, param);
         m_line += container.key();

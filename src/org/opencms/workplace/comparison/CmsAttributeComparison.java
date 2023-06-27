@@ -28,6 +28,7 @@
 package org.opencms.workplace.comparison;
 
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Comparison of resource attributes.<p>
@@ -41,7 +42,7 @@ public class CmsAttributeComparison {
     private String m_status;
 
     /** The first value of the attribute.<p> */
-    private String m_version1;
+    private @RUntainted String m_version1;
 
     /** The second value of the attribute.<p> */
     private String m_version2;
@@ -61,7 +62,7 @@ public class CmsAttributeComparison {
      * @param version1 the first value of the property
      * @param version2 the second value of the property
      */
-    public CmsAttributeComparison(String name, String version1, String version2) {
+    public CmsAttributeComparison(String name, @RUntainted String version1, String version2) {
 
         m_name = name;
         m_version1 = version1;
@@ -92,7 +93,7 @@ public class CmsAttributeComparison {
      * @see CmsResourceComparison#TYPE_REMOVED
      * @see CmsResourceComparison#TYPE_UNCHANGED
      */
-    public CmsAttributeComparison(String name, String version1, String version2, String type) {
+    public CmsAttributeComparison(String name, @RUntainted String version1, String version2, String type) {
 
         m_name = name;
         m_version1 = version1;
@@ -125,7 +126,7 @@ public class CmsAttributeComparison {
      *
      * @return the attribute
      */
-    public String getVersion1() {
+    public @RUntainted String getVersion1() {
 
         return m_version1;
     }
@@ -165,7 +166,7 @@ public class CmsAttributeComparison {
      *
      * @param version1 the version1 to set
      */
-    public void setVersion1(String version1) {
+    public void setVersion1(@RUntainted String version1) {
 
         m_version1 = version1;
     }

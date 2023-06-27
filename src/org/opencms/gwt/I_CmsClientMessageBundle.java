@@ -30,6 +30,7 @@ package org.opencms.gwt;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenient client message bundle interface.<p>
@@ -75,7 +76,7 @@ public interface I_CmsClientMessageBundle {
      *
      * @return the JSON code
      */
-    String export(String localeName);
+    String export(@RUntainted String localeName);
 
     /**
      * Returns the bundle name for this OpenCms package.<p>

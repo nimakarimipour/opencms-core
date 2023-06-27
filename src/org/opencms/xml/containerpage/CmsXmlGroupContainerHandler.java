@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The XML content handler class for group containers.
@@ -68,7 +69,7 @@ public class CmsXmlGroupContainerHandler extends CmsDefaultXmlContentHandler {
      *
      * @throws CmsException if something goes wrong
      */
-    protected static List<CmsContainerElementBean> loadGroupContainerElements(CmsObject cms, CmsResource resource)
+    protected static List<CmsContainerElementBean> loadGroupContainerElements(CmsObject cms, @RUntainted CmsResource resource)
     throws CmsException {
 
         CmsXmlGroupContainer xmlGroupContainer = CmsXmlGroupContainerFactory.unmarshal(cms, resource);

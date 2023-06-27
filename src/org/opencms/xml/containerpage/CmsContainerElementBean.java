@@ -55,6 +55,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * One element of a container in a container page.<p>
@@ -100,7 +101,7 @@ public class CmsContainerElementBean implements Cloneable {
     private transient Map<String, String> m_settings;
 
     /** The element site path, only set while rendering. */
-    private String m_sitePath;
+    private @RUntainted String m_sitePath;
 
     /** Indicates the element bean has a temporary file content set. */
     private boolean m_temporaryContent;
@@ -192,7 +193,7 @@ public class CmsContainerElementBean implements Cloneable {
         boolean releasedAndNotExpired,
         CmsResource resource,
         Map<String, String> settings,
-        String sitePath) {
+        @RUntainted String sitePath) {
 
         m_createNew = createNew;
         m_elementId = elementId;
@@ -278,7 +279,7 @@ public class CmsContainerElementBean implements Cloneable {
     public static CmsContainerElementBean createElementForResourceType(
         CmsObject cms,
         I_CmsResourceType resourceType,
-        String targetFolder,
+        @RUntainted String targetFolder,
         Map<String, String> individualSettings,
         boolean isCopyModels,
         Locale locale)
@@ -288,8 +289,8 @@ public class CmsContainerElementBean implements Cloneable {
             throw new IllegalArgumentException();
         }
 
-        byte[] content = new byte[0];
-        String schema = ((CmsResourceTypeXmlContent)resourceType).getSchema();
+        @RUntainted byte[] content = new byte[0];
+        @RUntainted String schema = ((CmsResourceTypeXmlContent)resourceType).getSchema();
         if (schema != null) {
             // must set URI of OpenCms user context to parent folder of created resource,
             // in order to allow reading of properties for default values
@@ -303,7 +304,7 @@ public class CmsContainerElementBean implements Cloneable {
                 OpenCms.getSystemInfo().getDefaultEncoding(),
                 contentDefinition);
             // adding all other available locales
-            for (Locale otherLocale : OpenCms.getLocaleManager().getAvailableLocales()) {
+            for (@RUntainted Locale otherLocale : OpenCms.getLocaleManager().getAvailableLocales()) {
                 if (!locale.equals(otherLocale)) {
                     xmlContent.addLocale(newCms, otherLocale);
                 }
@@ -405,7 +406,7 @@ public class CmsContainerElementBean implements Cloneable {
      *
      * @return the ADE client editor has value
      */
-    public String editorHash() {
+    public @RUntainted String editorHash() {
 
         if (m_editorHash == null) {
             m_editorHash = m_elementId.toString() + getSettingsHash();
@@ -441,7 +442,7 @@ public class CmsContainerElementBean implements Cloneable {
      *
      * @return the structure id of the formatter of this element
      */
-    public CmsUUID getFormatterId() {
+    public @RUntainted CmsUUID getFormatterId() {
 
         return m_formatterId;
     }
@@ -451,7 +452,7 @@ public class CmsContainerElementBean implements Cloneable {
      *
      * @return the structure id of the resource of this element
      */
-    public CmsUUID getId() {
+    public @RUntainted CmsUUID getId() {
 
         return m_elementId;
     }
@@ -481,7 +482,7 @@ public class CmsContainerElementBean implements Cloneable {
      *
      * @return the element instance id
      */
-    public String getInstanceId() {
+    public @RUntainted String getInstanceId() {
 
         return getIndividualSettings().get(CmsContainerElement.ELEMENT_INSTANCE_ID);
     }
@@ -495,7 +496,7 @@ public class CmsContainerElementBean implements Cloneable {
      *
      * @see #initResource(CmsObject)
      */
-    public CmsResource getResource() {
+    public @RUntainted CmsResource getResource() {
 
         return m_resource;
     }
@@ -520,7 +521,7 @@ public class CmsContainerElementBean implements Cloneable {
      *
      * @see #initResource(CmsObject)
      */
-    public String getSitePath() {
+    public @RUntainted String getSitePath() {
 
         return m_sitePath;
     }
@@ -561,7 +562,7 @@ public class CmsContainerElementBean implements Cloneable {
             m_resource = cms.readResource(getId(), CmsResourceFilter.IGNORE_EXPIRATION);
             m_releasedAndNotExpired = m_resource.isReleasedAndNotExpired(cms.getRequestContext().getRequestTime());
         } else if (!isInMemoryOnly()) {
-            CmsUUID id = m_resource.getStructureId();
+            @RUntainted CmsUUID id = m_resource.getStructureId();
             if (id == null) {
                 id = getId();
             }

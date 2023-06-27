@@ -37,6 +37,7 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsDateTime".<p>
@@ -74,7 +75,7 @@ public class CmsXmlDateTimeValue extends A_CmsXmlValueTextBase implements I_CmsJ
      * @param locale the locale this value is created for
      * @param type the type instance to create the value for
      */
-    public CmsXmlDateTimeValue(I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+    public CmsXmlDateTimeValue(I_CmsXmlDocument document, @RUntainted Element element, Locale locale, I_CmsXmlSchemaType type) {
 
         super(document, element, locale, type);
         try {
@@ -91,7 +92,7 @@ public class CmsXmlDateTimeValue extends A_CmsXmlValueTextBase implements I_CmsJ
      * @param minOccurs minimum number of occurrences of this type according to the XML schema
      * @param maxOccurs maximum number of occurrences of this type according to the XML schema
      */
-    public CmsXmlDateTimeValue(String name, String minOccurs, String maxOccurs) {
+    public CmsXmlDateTimeValue(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         super(name, minOccurs, maxOccurs);
     }
@@ -99,7 +100,7 @@ public class CmsXmlDateTimeValue extends A_CmsXmlValueTextBase implements I_CmsJ
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#createValue(I_CmsXmlDocument, org.dom4j.Element, Locale)
      */
-    public I_CmsXmlContentValue createValue(I_CmsXmlDocument document, Element element, Locale locale) {
+    public I_CmsXmlContentValue createValue(I_CmsXmlDocument document, @RUntainted Element element, Locale locale) {
 
         return new CmsXmlDateTimeValue(document, element, locale, this);
     }
@@ -153,7 +154,7 @@ public class CmsXmlDateTimeValue extends A_CmsXmlValueTextBase implements I_CmsJ
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#getTypeName()
      */
-    public String getTypeName() {
+    public @RUntainted String getTypeName() {
 
         return TYPE_NAME;
     }
@@ -172,7 +173,7 @@ public class CmsXmlDateTimeValue extends A_CmsXmlValueTextBase implements I_CmsJ
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#newInstance(java.lang.String, java.lang.String, java.lang.String)
      */
-    public I_CmsXmlSchemaType newInstance(String name, String minOccurs, String maxOccurs) {
+    public I_CmsXmlSchemaType newInstance(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         return new CmsXmlDateTimeValue(name, minOccurs, maxOccurs);
     }

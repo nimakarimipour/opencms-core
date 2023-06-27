@@ -87,6 +87,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.declarative.Design;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The workplace toolbar.<p>
@@ -117,7 +118,7 @@ public class CmsToolBar extends CssLayout implements BrowserWindowResizeListener
         /**
          * @see org.opencms.ui.I_CmsDialogContext#getAllStructureIdsInView()
          */
-        public List<CmsUUID> getAllStructureIdsInView() {
+        public @RUntainted List<@RUntainted CmsUUID> getAllStructureIdsInView() {
 
             return Lists.newArrayList();
         }

@@ -36,6 +36,7 @@ import org.opencms.jsp.CmsJspNavElement;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for building a filtered sitemap tree for the gallery dialog's 'Sitemap' tab.<p>
@@ -302,7 +303,7 @@ public class CmsGalleryFilteredNavTreeBuilder {
      * @param cms the CMS context
      * @param rootPath the root path
      */
-    public CmsGalleryFilteredNavTreeBuilder(CmsObject cms, String rootPath) {
+    public CmsGalleryFilteredNavTreeBuilder(CmsObject cms, @RUntainted String rootPath) {
         CmsJspNavBuilder navBuilder = new CmsJspNavBuilder(cms);
         m_navBuilder = navBuilder;
         CmsJspNavElement rootNav = navBuilder.getNavigationForResource(

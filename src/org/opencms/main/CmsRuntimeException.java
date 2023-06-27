@@ -30,6 +30,7 @@ package org.opencms.main;
 import org.opencms.i18n.CmsMessageContainer;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A replacement for <code>{@link java.lang.RuntimeException}</code> to obtain fully
@@ -93,7 +94,7 @@ public class CmsRuntimeException extends RuntimeException implements I_CmsThrowa
     /**
      * @see org.opencms.main.I_CmsThrowable#getLocalizedMessage(Locale)
      */
-    public String getLocalizedMessage(Locale locale) {
+    public String getLocalizedMessage(@RUntainted Locale locale) {
 
         return m_message.key(locale);
     }

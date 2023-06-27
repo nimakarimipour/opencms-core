@@ -34,6 +34,7 @@ import org.opencms.security.CmsSecurityException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This interface checks the requested resource from the OpenCms request context
@@ -83,7 +84,7 @@ public interface I_CmsResourceInit {
      * @throws CmsSecurityException if other implementations of the interface should not be executed,
      *      and the security exception should be escalated
      */
-    CmsResource initResource(CmsResource resource, CmsObject cms, HttpServletRequest req, HttpServletResponse res)
+    CmsResource initResource(@RUntainted CmsResource resource, CmsObject cms, @RUntainted HttpServletRequest req, HttpServletResponse res)
     throws CmsResourceInitException, CmsSecurityException;
 
 }

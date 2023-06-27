@@ -49,6 +49,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A Solr collector.<p>
@@ -83,7 +84,7 @@ public class CmsSolrCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateLink(CmsObject cms, String collectorName, String param) throws CmsException {
+    public @RUntainted String getCreateLink(CmsObject cms, @RUntainted String collectorName, String param) throws CmsException {
 
         collectorName = collectorName == null ? COLLECTORS[1] : collectorName;
         switch (COLLECTORS_LIST.indexOf(collectorName)) {
@@ -111,7 +112,7 @@ public class CmsSolrCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateParam(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateParam(CmsObject cms, String collectorName, String param) throws CmsDataAccessException {
+    public String getCreateParam(CmsObject cms, @RUntainted String collectorName, String param) throws CmsDataAccessException {
 
         collectorName = collectorName == null ? COLLECTORS[1] : collectorName;
         switch (COLLECTORS_LIST.indexOf(collectorName)) {
@@ -153,7 +154,7 @@ public class CmsSolrCollector extends A_CmsResourceCollector {
                     solrParams,
                     Boolean.valueOf(paramsAsMap.get(PARAM_DECODE_URL)).booleanValue(),
                     cms.getRequestContext().getEncoding()));
-            String type = CmsSolrQuery.getResourceType(q.getFilterQueries());
+            @RUntainted String type = CmsSolrQuery.getResourceType(q.getFilterQueries());
             if (type != null) {
                 result = OpenCms.getResourceManager().getResourceType(type).getTypeId();
             }

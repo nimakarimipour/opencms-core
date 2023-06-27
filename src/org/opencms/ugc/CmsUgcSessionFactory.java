@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Factory to create the form editing sessions.<p>
@@ -54,7 +55,7 @@ public class CmsUgcSessionFactory {
     private static CmsUgcSessionFactory INSTANCE;
 
     /** Admin CmsObject instance. */
-    private static CmsObject m_adminCms;
+    private static @RUntainted CmsObject m_adminCms;
 
     /** The session queues. */
     private ConcurrentHashMap<CmsUUID, CmsUgcSessionQueue> m_queues = new ConcurrentHashMap<CmsUUID, CmsUgcSessionQueue>();
@@ -84,7 +85,7 @@ public class CmsUgcSessionFactory {
      *
      * @param adminCms the admin CmsObject
      */
-    public static void setAdminCms(CmsObject adminCms) {
+    public static void setAdminCms(@RUntainted CmsObject adminCms) {
 
         m_adminCms = adminCms;
     }
@@ -100,10 +101,10 @@ public class CmsUgcSessionFactory {
      *
      * @throws CmsUgcException if creating the session fails
      */
-    public CmsUgcSession createSession(CmsObject cms, HttpServletRequest request, CmsUgcConfiguration config)
+    public CmsUgcSession createSession(@RUntainted CmsObject cms, HttpServletRequest request, @RUntainted CmsUgcConfiguration config)
     throws CmsUgcException {
 
-        CmsUgcSession session = createSession(cms, config);
+        @RUntainted CmsUgcSession session = createSession(cms, config);
         HttpSession httpSession = request.getSession(true);
         httpSession.setAttribute("" + session.getId(), session);
         return session;
@@ -120,11 +121,11 @@ public class CmsUgcSessionFactory {
      *
      * @throws CmsUgcException if creating the session fails
      */
-    public CmsUgcSession createSession(CmsObject cms, HttpServletRequest request, String sitePath)
+    public CmsUgcSession createSession(@RUntainted CmsObject cms, HttpServletRequest request, String sitePath)
     throws CmsUgcException {
 
         CmsUgcConfigurationReader reader = new CmsUgcConfigurationReader(cms);
-        CmsUgcConfiguration config = null;
+        @RUntainted CmsUgcConfiguration config = null;
         try {
             CmsFile configFile = cms.readFile(sitePath);
             config = reader.readConfiguration(configFile);
@@ -147,10 +148,10 @@ public class CmsUgcSessionFactory {
      * @throws CmsUgcException if something goes wrong
      */
     public CmsUgcSession createSessionForFile(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         HttpServletRequest request,
         String configPath,
-        String fileName)
+        @RUntainted String fileName)
     throws CmsUgcException {
 
         CmsUgcSession session = createSession(cms, request, configPath);
@@ -184,7 +185,7 @@ public class CmsUgcSessionFactory {
      *
      * @throws CmsUgcException if the session creation fails
      */
-    private CmsUgcSession createSession(CmsObject cms, CmsUgcConfiguration config) throws CmsUgcException {
+    private @RUntainted CmsUgcSession createSession(@RUntainted CmsObject cms, @RUntainted CmsUgcConfiguration config) throws CmsUgcException {
 
         if (getQueue(config).waitForSlot()) {
             try {

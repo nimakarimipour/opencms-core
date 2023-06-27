@@ -35,6 +35,7 @@ import org.opencms.util.CmsStringUtil;
 import java.io.InputStream;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Extracts the text from an HTML document.<p>
@@ -73,7 +74,7 @@ public final class CmsExtractorHtml extends A_CmsTextExtractor {
     @Override
     public I_CmsExtractionResult extractText(InputStream in, String encoding) throws Exception {
 
-        String result = "";
+        @RUntainted String result = "";
         try {
             if (CmsStringUtil.isEmpty(encoding)) {
                 encoding = OpenCms.getSystemInfo().getDefaultEncoding();

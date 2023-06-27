@@ -33,6 +33,7 @@ import org.opencms.ui.apps.publishqueue.CmsPublishQueueConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The publish queue dialog action.<p>
@@ -66,7 +67,7 @@ public class CmsPublishQueueDialogAction extends A_CmsToolbarAction implements I
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
      */
-    public String getJspPath() {
+    public @RUntainted String getJspPath() {
 
         return null;
     }

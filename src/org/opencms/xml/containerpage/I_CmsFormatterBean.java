@@ -38,6 +38,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface representing a configured formatter.<p>
@@ -107,7 +108,7 @@ public interface I_CmsFormatterBean {
      *
      * @return the formatter id
      */
-    String getId();
+    @RUntainted String getId();
 
     /**
      * Gets the inline CSS snippets.<p>
@@ -135,14 +136,14 @@ public interface I_CmsFormatterBean {
      *
      * @return the root path of the formatter JSP in the OpenCms VFS.<p>
      */
-    String getJspRootPath();
+    @RUntainted String getJspRootPath();
 
     /**
      * Returns the structure id of the JSP resource for this formatter.<p>
      *
      * @return the structure id of the JSP resource for this formatter
      */
-    CmsUUID getJspStructureId();
+    @RUntainted CmsUUID getJspStructureId();
 
     /**
      * Gets the formatter key, or null if no formatter key is set.
@@ -160,7 +161,7 @@ public interface I_CmsFormatterBean {
      *
      * @return the formatter key or id
      */
-    default String getKeyOrId() {
+    default @RUntainted String getKeyOrId() {
 
         if (getKey() != null) {
             return getKey();
@@ -177,7 +178,7 @@ public interface I_CmsFormatterBean {
      *
      * @return the location this formatter was defined in
      */
-    String getLocation();
+    @RUntainted String getLocation();
 
     /**
      * Returns the maximum formatter width.<p>
@@ -320,7 +321,7 @@ public interface I_CmsFormatterBean {
      *
      * @param structureId the jsp structure id
      */
-    void setJspStructureId(CmsUUID structureId);
+    void setJspStructureId(@RUntainted CmsUUID structureId);
 
     /**
      * Returns true if meta mappings should be evaluated for normal container elements using this formatter, not just detail elements.<p>

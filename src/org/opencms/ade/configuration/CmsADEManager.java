@@ -117,6 +117,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is the main class used to access the ADE configuration and also accomplish some other related tasks
@@ -418,7 +419,7 @@ public class CmsADEManager {
      *
      * @throws CmsException if no current element is set
      */
-    public CmsContainerElementBean getCurrentElement(ServletRequest req) throws CmsException {
+    public CmsContainerElementBean getCurrentElement(@RUntainted ServletRequest req) throws CmsException {
 
         CmsJspStandardContextBean sCBean = CmsJspStandardContextBean.getInstance(req);
         CmsContainerElementBean element = sCBean.getElement();
@@ -479,7 +480,7 @@ public class CmsADEManager {
      *
      * @return the detail page for the content element
      */
-    public String getDetailPage(CmsObject cms, String rootPath, String linkSource, String targetDetailPage) {
+    public String getDetailPage(CmsObject cms, @RUntainted String rootPath, String linkSource, @RUntainted String targetDetailPage) {
 
         return getDetailPageHandler().getDetailPage(cms, rootPath, linkSource, targetDetailPage);
     }
@@ -680,7 +681,7 @@ public class CmsADEManager {
      */
     public CmsInheritedContainerState getInheritedContainerState(CmsObject cms, CmsResource resource, String name) {
 
-        String rootPath = resource.getRootPath();
+        @RUntainted String rootPath = resource.getRootPath();
         if (!resource.isFolder()) {
             rootPath = CmsResource.getParentFolder(rootPath);
         }
@@ -760,7 +761,7 @@ public class CmsADEManager {
         if (CmsResourceTypeXmlContent.isXmlContent(res)) {
             CmsResourceTypeXmlContent type = (CmsResourceTypeXmlContent)OpenCms.getResourceManager().getResourceType(
                 res);
-            String schema = type.getSchema();
+            @RUntainted String schema = type.getSchema();
             try {
                 CmsXmlContentDefinition contentDefinition = CmsXmlContentDefinition.unmarshal(cms, schema);
                 // get the content handler for the resource type to create
@@ -809,7 +810,7 @@ public class CmsADEManager {
      *
      * @return the parent folder type name, or null if none is defined
      */
-    public String getParentFolderType(boolean online, String rootPath) {
+    public String getParentFolderType(boolean online, @RUntainted String rootPath) {
 
         return getCacheState(online).getParentFolderType(rootPath);
 
@@ -1112,7 +1113,7 @@ public class CmsADEManager {
         } else {
             I_CmsXmlContentValue contentValue = content.getValue(N_LINK, contentLocale);
             if (contentValue != null) {
-                String linkValue = contentValue.getStringValue(cms);
+                @RUntainted String linkValue = contentValue.getStringValue(cms);
                 lnkUri = OpenCms.getLinkManager().substituteLinkForUnknownTarget(cms, linkValue);
                 try {
                     errorCode = Integer.valueOf(typeValue);
@@ -1567,7 +1568,7 @@ public class CmsADEManager {
      */
     protected CmsRole getRoleForSitemapConfigEditing() {
 
-        String roleName = OpenCms.getWorkplaceManager().getSitemapConfigEditRole();
+        @RUntainted String roleName = OpenCms.getWorkplaceManager().getSitemapConfigEditRole();
         if (roleName == null) {
             return null;
         } else {
@@ -1589,7 +1590,7 @@ public class CmsADEManager {
      *
      * @throws CmsException if something goes wrong
      */
-    protected String getRootPath(CmsUUID structureId, boolean online) throws CmsException {
+    protected @RUntainted String getRootPath(@RUntainted CmsUUID structureId, boolean online) throws CmsException {
 
         CmsConfigurationCache cache = online ? m_onlineCache : m_offlineCache;
         return cache.getPathForStructureId(structureId);
@@ -1648,7 +1649,7 @@ public class CmsADEManager {
      *
      * @throws CmsException if something goes wrong
      */
-    private void saveElementList(CmsObject cms, List<CmsContainerElementBean> elementList, String listKey)
+    private void saveElementList(CmsObject cms, List<CmsContainerElementBean> elementList, @RUntainted String listKey)
     throws CmsException {
 
         // limit the favorite list size to avoid the additional info size limit

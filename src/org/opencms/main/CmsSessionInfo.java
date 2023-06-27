@@ -35,6 +35,7 @@ import java.io.Serializable;
 import org.apache.commons.collections.Buffer;
 import org.apache.commons.collections.BufferUtils;
 import org.apache.commons.collections.buffer.UnboundedFifoBuffer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Stores information about a user that has authenticated himself the OpenCms security system.<p>
@@ -70,13 +71,13 @@ public class CmsSessionInfo implements Comparable<CmsSessionInfo>, Serializable 
     private String m_ouFqn;
 
     /** The current project id of the user. */
-    private CmsUUID m_projectId;
+    private @RUntainted CmsUUID m_projectId;
 
     /** The id of the (http) session this session info belongs to. */
     private CmsUUID m_sessionId;
 
     /** The current site of the user. */
-    private String m_siteRoot;
+    private @RUntainted String m_siteRoot;
 
     /** The time this session info was created. */
     private long m_timeCreated;
@@ -88,7 +89,7 @@ public class CmsSessionInfo implements Comparable<CmsSessionInfo>, Serializable 
     private long m_timeLastAction;
 
     /** The id of user to which this session info belongs. */
-    private CmsUUID m_userId;
+    private @RUntainted CmsUUID m_userId;
 
     /**
      * Creates a new CmsSessionInfo object.<p>
@@ -216,7 +217,7 @@ public class CmsSessionInfo implements Comparable<CmsSessionInfo>, Serializable 
      *
      * @return the id of the project
      */
-    public CmsUUID getProject() {
+    public @RUntainted CmsUUID getProject() {
 
         return m_projectId;
     }
@@ -238,7 +239,7 @@ public class CmsSessionInfo implements Comparable<CmsSessionInfo>, Serializable 
      *
      * @return the current site root of the user
      */
-    public String getSiteRoot() {
+    public @RUntainted String getSiteRoot() {
 
         return m_siteRoot;
     }
@@ -289,7 +290,7 @@ public class CmsSessionInfo implements Comparable<CmsSessionInfo>, Serializable 
      *
      * @return the id of the user to which this session info belongs
      */
-    public CmsUUID getUserId() {
+    public @RUntainted CmsUUID getUserId() {
 
         return m_userId;
     }
@@ -339,7 +340,7 @@ public class CmsSessionInfo implements Comparable<CmsSessionInfo>, Serializable 
      *
      * @param projectId the project id to set
      */
-    protected void setProject(CmsUUID projectId) {
+    protected void setProject(@RUntainted CmsUUID projectId) {
 
         m_projectId = projectId;
     }

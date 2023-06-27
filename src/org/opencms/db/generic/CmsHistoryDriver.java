@@ -70,6 +70,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic (ANSI-SQL) database server implementation of the history driver methods.<p>
@@ -92,7 +93,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
      */
     public CmsPropertyDefinition createPropertyDefinition(
         CmsDbContext dbc,
-        String name,
+        @RUntainted String name,
         CmsPropertyDefinition.CmsPropertyType type) throws CmsDataAccessException {
 
         Connection conn = null;
@@ -120,7 +121,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     /**
      * @see org.opencms.db.I_CmsHistoryDriver#deleteEntries(CmsDbContext, I_CmsHistoryResource, int, long)
      */
-    public int deleteEntries(CmsDbContext dbc, I_CmsHistoryResource resource, int versionsToKeep, long time)
+    public @RUntainted int deleteEntries(CmsDbContext dbc, I_CmsHistoryResource resource, int versionsToKeep, long time)
     throws CmsDataAccessException {
 
         Connection conn = null;
@@ -346,7 +347,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
         } finally {
             m_sqlManager.closeAll(dbc, conn, stmt, res);
         }
-        for (Map.Entry<CmsUUID, Integer> entry : tmpEntrieis.entrySet()) {
+        for (Map.@RUntainted Entry<@RUntainted CmsUUID, @RUntainted Integer> entry : tmpEntrieis.entrySet()) {
             entries.add(readResource(dbc, entry.getKey(), entry.getValue().intValue()));
         }
         return entries;
@@ -383,7 +384,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
             m_sqlManager.closeAll(dbc, conn, stmt, res);
         }
 
-        for (Map.Entry<CmsUUID, Integer> entry : tmpEntrieis.entrySet()) {
+        for (Map.@RUntainted Entry<@RUntainted CmsUUID, @RUntainted Integer> entry : tmpEntrieis.entrySet()) {
             entries.add(readResource(dbc, entry.getKey(), entry.getValue().intValue()));
         }
         return entries;
@@ -846,7 +847,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     /**
      * @see org.opencms.db.I_CmsHistoryDriver#readPrincipal(org.opencms.db.CmsDbContext, org.opencms.util.CmsUUID)
      */
-    public CmsHistoryPrincipal readPrincipal(CmsDbContext dbc, CmsUUID principalId) throws CmsDataAccessException {
+    public CmsHistoryPrincipal readPrincipal(CmsDbContext dbc, @RUntainted CmsUUID principalId) throws CmsDataAccessException {
 
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -859,7 +860,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
             stmt.setString(1, principalId.toString());
             res = stmt.executeQuery();
             if (res.next()) {
-                String userName = res.getString(m_sqlManager.readQuery("C_PRINCIPALS_HISTORY_NAME"));
+                @RUntainted String userName = res.getString(m_sqlManager.readQuery("C_PRINCIPALS_HISTORY_NAME"));
                 String ou = CmsOrganizationalUnit.removeLeadingSeparator(
                     res.getString(m_sqlManager.readQuery("C_PRINCIPALS_HISTORY_OU")));
                 historyPrincipal = new CmsHistoryPrincipal(
@@ -890,7 +891,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     /**
      * @see org.opencms.db.I_CmsHistoryDriver#readProject(org.opencms.db.CmsDbContext, CmsUUID)
      */
-    public CmsHistoryProject readProject(CmsDbContext dbc, CmsUUID projectId) throws CmsDataAccessException {
+    public CmsHistoryProject readProject(CmsDbContext dbc, @RUntainted CmsUUID projectId) throws CmsDataAccessException {
 
         PreparedStatement stmt = null;
         CmsHistoryProject project = null;
@@ -933,7 +934,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     /**
      * @see org.opencms.db.I_CmsHistoryDriver#readProject(org.opencms.db.CmsDbContext, int)
      */
-    public CmsHistoryProject readProject(CmsDbContext dbc, int publishTag) throws CmsDataAccessException {
+    public CmsHistoryProject readProject(CmsDbContext dbc, @RUntainted int publishTag) throws CmsDataAccessException {
 
         PreparedStatement stmt = null;
         CmsHistoryProject project = null;
@@ -1096,9 +1097,9 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
                 res = stmt.executeQuery();
 
                 while (res.next()) {
-                    String propertyKey = res.getString(1);
+                    @RUntainted String propertyKey = res.getString(1);
                     String propertyValue = res.getString(2);
-                    int mappingType = res.getInt(3);
+                    @RUntainted int mappingType = res.getInt(3);
 
                     internalAddToPropMap(propertyMap, resource, propertyKey, propertyValue, mappingType);
                 }
@@ -1118,7 +1119,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     /**
      * @see org.opencms.db.I_CmsHistoryDriver#readPropertyDefinition(org.opencms.db.CmsDbContext, java.lang.String)
      */
-    public CmsPropertyDefinition readPropertyDefinition(CmsDbContext dbc, String name) throws CmsDataAccessException {
+    public CmsPropertyDefinition readPropertyDefinition(CmsDbContext dbc, @RUntainted String name) throws CmsDataAccessException {
 
         CmsPropertyDefinition propDef = null;
         ResultSet res = null;
@@ -1189,7 +1190,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     /**
      * @see org.opencms.db.I_CmsHistoryDriver#readResource(CmsDbContext, CmsUUID, int)
      */
-    public I_CmsHistoryResource readResource(CmsDbContext dbc, CmsUUID structureId, int version)
+    public I_CmsHistoryResource readResource(CmsDbContext dbc, @RUntainted CmsUUID structureId, int version)
     throws CmsDataAccessException {
 
         I_CmsHistoryResource resource = null;
@@ -1543,9 +1544,9 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     protected void internalAddToPropMap(
         Map<String, CmsProperty> propertyMap,
         I_CmsHistoryResource resource,
-        String propertyKey,
+        @RUntainted String propertyKey,
         String propertyValue,
-        int mappingType) throws CmsDbConsistencyException {
+        @RUntainted int mappingType) throws CmsDbConsistencyException {
 
         CmsProperty property = propertyMap.get(propertyKey);
         if (property != null) {
@@ -1636,7 +1637,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
             }
         }
         // delete all subresource versions
-        for (Map.Entry<CmsUUID, Integer> entry : tmpSubResources.entrySet()) {
+        for (Map.@RUntainted Entry<@RUntainted CmsUUID, @RUntainted Integer> entry : tmpSubResources.entrySet()) {
             I_CmsHistoryResource histResource = readResource(dbc, entry.getKey(), entry.getValue().intValue());
             deleteEntries(dbc, histResource, 0, -1);
         }
@@ -1725,29 +1726,29 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
      *
      * @throws SQLException if a requested attribute was not found in the result set
      */
-    protected I_CmsHistoryResource internalCreateResource(ResultSet res) throws SQLException {
+    protected I_CmsHistoryResource internalCreateResource(@RUntainted ResultSet res) throws SQLException {
 
-        int resourceVersion = res.getInt(m_sqlManager.readQuery("C_RESOURCES_VERSION"));
-        int structureVersion = res.getInt(m_sqlManager.readQuery("C_RESOURCES_STRUCTURE_VERSION"));
-        int tagId = res.getInt(m_sqlManager.readQuery("C_RESOURCES_PUBLISH_TAG"));
-        CmsUUID structureId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_STRUCTURE_ID")));
-        CmsUUID resourceId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_RESOURCE_ID")));
-        String resourcePath = res.getString(m_sqlManager.readQuery("C_RESOURCES_RESOURCE_PATH"));
-        int resourceType = res.getInt(m_sqlManager.readQuery("C_RESOURCES_RESOURCE_TYPE"));
+        @RUntainted int resourceVersion = res.getInt(m_sqlManager.readQuery("C_RESOURCES_VERSION"));
+        @RUntainted int structureVersion = res.getInt(m_sqlManager.readQuery("C_RESOURCES_STRUCTURE_VERSION"));
+        @RUntainted int tagId = res.getInt(m_sqlManager.readQuery("C_RESOURCES_PUBLISH_TAG"));
+        @RUntainted CmsUUID structureId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_STRUCTURE_ID")));
+        @RUntainted CmsUUID resourceId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_RESOURCE_ID")));
+        @RUntainted String resourcePath = res.getString(m_sqlManager.readQuery("C_RESOURCES_RESOURCE_PATH"));
+        @RUntainted int resourceType = res.getInt(m_sqlManager.readQuery("C_RESOURCES_RESOURCE_TYPE"));
         int resourceFlags = res.getInt(m_sqlManager.readQuery("C_RESOURCES_RESOURCE_FLAGS"));
-        CmsUUID projectLastModified = new CmsUUID(
+        @RUntainted CmsUUID projectLastModified = new CmsUUID(
             res.getString(m_sqlManager.readQuery("C_RESOURCES_PROJECT_LASTMODIFIED")));
         int state = Math.max(
             res.getInt(m_sqlManager.readQuery("C_RESOURCES_STATE")),
             res.getInt(m_sqlManager.readQuery("C_RESOURCES_STRUCTURE_STATE")));
-        long dateCreated = res.getLong(m_sqlManager.readQuery("C_RESOURCES_DATE_CREATED"));
+        @RUntainted long dateCreated = res.getLong(m_sqlManager.readQuery("C_RESOURCES_DATE_CREATED"));
         long dateLastModified = res.getLong(m_sqlManager.readQuery("C_RESOURCES_DATE_LASTMODIFIED"));
         long dateReleased = res.getLong(m_sqlManager.readQuery("C_RESOURCES_DATE_RELEASED"));
         long dateExpired = res.getLong(m_sqlManager.readQuery("C_RESOURCES_DATE_EXPIRED"));
-        int resourceSize = res.getInt(m_sqlManager.readQuery("C_RESOURCES_SIZE"));
-        CmsUUID userLastModified = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_USER_LASTMODIFIED")));
-        CmsUUID userCreated = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_USER_CREATED")));
-        CmsUUID parentId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_HISTORY_PARENTID")));
+        @RUntainted int resourceSize = res.getInt(m_sqlManager.readQuery("C_RESOURCES_SIZE"));
+        @RUntainted CmsUUID userLastModified = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_USER_LASTMODIFIED")));
+        @RUntainted CmsUUID userCreated = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_USER_CREATED")));
+        @RUntainted CmsUUID parentId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_HISTORY_PARENTID")));
         long dateContent = res.getLong(m_sqlManager.readQuery("C_RESOURCES_DATE_CONTENT"));
 
         boolean isFolder = resourcePath.endsWith("/");
@@ -1809,26 +1810,26 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
      *
      * @throws SQLException if something goes wrong
      */
-    protected I_CmsHistoryResource internalMergeResource(I_CmsHistoryResource histRes, ResultSet res, int versionOffset)
+    protected I_CmsHistoryResource internalMergeResource(I_CmsHistoryResource histRes, @RUntainted ResultSet res, @RUntainted int versionOffset)
     throws SQLException {
 
-        int resourceVersion = res.getInt(m_sqlManager.readQuery("C_RESOURCES_VERSION"));
-        int structureVersion = histRes.getStructureVersion() - versionOffset;
-        int tagId = res.getInt(m_sqlManager.readQuery("C_RESOURCES_PUBLISH_TAG"));
-        CmsUUID structureId = histRes.getStructureId();
-        CmsUUID resourceId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_RESOURCE_ID")));
-        int resourceType = res.getInt(m_sqlManager.readQuery("C_RESOURCES_RESOURCE_TYPE"));
+        @RUntainted int resourceVersion = res.getInt(m_sqlManager.readQuery("C_RESOURCES_VERSION"));
+        @RUntainted int structureVersion = histRes.getStructureVersion() - versionOffset;
+        @RUntainted int tagId = res.getInt(m_sqlManager.readQuery("C_RESOURCES_PUBLISH_TAG"));
+        @RUntainted CmsUUID structureId = histRes.getStructureId();
+        @RUntainted CmsUUID resourceId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_RESOURCE_ID")));
+        @RUntainted int resourceType = res.getInt(m_sqlManager.readQuery("C_RESOURCES_RESOURCE_TYPE"));
         int resourceFlags = res.getInt(m_sqlManager.readQuery("C_RESOURCES_RESOURCE_FLAGS"));
-        CmsUUID projectLastModified = new CmsUUID(
+        @RUntainted CmsUUID projectLastModified = new CmsUUID(
             res.getString(m_sqlManager.readQuery("C_RESOURCES_PROJECT_LASTMODIFIED")));
         int state = histRes.getState().getState(); // may be we have to compute something here?
-        long dateCreated = res.getLong(m_sqlManager.readQuery("C_RESOURCES_DATE_CREATED"));
+        @RUntainted long dateCreated = res.getLong(m_sqlManager.readQuery("C_RESOURCES_DATE_CREATED"));
         long dateLastModified = res.getLong(m_sqlManager.readQuery("C_RESOURCES_DATE_LASTMODIFIED"));
         long dateReleased = histRes.getDateReleased();
         long dateExpired = histRes.getDateExpired();
-        int resourceSize = res.getInt(m_sqlManager.readQuery("C_RESOURCES_SIZE"));
-        CmsUUID userLastModified = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_USER_LASTMODIFIED")));
-        CmsUUID userCreated = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_USER_CREATED")));
+        @RUntainted int resourceSize = res.getInt(m_sqlManager.readQuery("C_RESOURCES_SIZE"));
+        @RUntainted CmsUUID userLastModified = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_USER_LASTMODIFIED")));
+        @RUntainted CmsUUID userCreated = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_USER_CREATED")));
         // here we could use the path/parent id for the sibling where the modification really occurred
         String resourcePath = histRes.getRootPath();
         CmsUUID parentId = histRes.getParentId();

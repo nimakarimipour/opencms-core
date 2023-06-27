@@ -46,6 +46,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The CmsLockManager is used by the Cms application to detect
@@ -93,7 +94,7 @@ public final class CmsLockManager {
      * @throws CmsLockException if the resource is locked
      * @throws CmsException if something goes wrong
      */
-    public void addResource(CmsDbContext dbc, CmsResource resource, CmsUser user, CmsProject project, CmsLockType type)
+    public void addResource(CmsDbContext dbc, CmsResource resource, CmsUser user, @RUntainted CmsProject project, @RUntainted CmsLockType type)
     throws CmsLockException, CmsException {
 
         // check the type
@@ -120,7 +121,7 @@ public final class CmsLockManager {
             }
         }
 
-        CmsLock newLock = CmsLock.getNullLock();
+        @RUntainted CmsLock newLock = CmsLock.getNullLock();
         if (needNewLock) {
             // lock the resource
             newLock = new CmsLock(resource.getRootPath(), user.getId(), project, type);
@@ -454,12 +455,12 @@ public final class CmsLockManager {
      * @param source the source root path
      * @param destination the destination root path
      */
-    public void moveResource(String source, String destination) {
+    public void moveResource(String source, @RUntainted String destination) {
 
         CmsLock lock = OpenCms.getMemoryMonitor().getCachedLock(source);
         if (lock != null) {
             OpenCms.getMemoryMonitor().uncacheLock(lock.getResourceName());
-            CmsLock newLock = new CmsLock(destination, lock.getUserId(), lock.getProject(), lock.getType());
+            @RUntainted CmsLock newLock = new CmsLock(destination, lock.getUserId(), lock.getProject(), lock.getType());
             lock = lock.getRelatedLock();
             if ((lock != null) && !lock.isNullLock()) {
                 CmsLock relatedLock = new CmsLock(destination, lock.getUserId(), lock.getProject(), lock.getType());
@@ -482,10 +483,10 @@ public final class CmsLockManager {
         if (OpenCms.getRunLevel() > OpenCms.RUNLEVEL_3_SHELL_ACCESS) {
             // read the locks only if the wizard is not enabled
             Map<String, CmsLock> lockCache = new HashMap<String, CmsLock>();
-            List<CmsLock> locks = m_driverManager.getProjectDriver(dbc).readLocks(dbc);
-            Iterator<CmsLock> itLocks = locks.iterator();
+            @RUntainted List<@RUntainted CmsLock> locks = m_driverManager.getProjectDriver(dbc).readLocks(dbc);
+            @RUntainted Iterator<@RUntainted CmsLock> itLocks = locks.iterator();
             while (itLocks.hasNext()) {
-                CmsLock lock = itLocks.next();
+                @RUntainted CmsLock lock = itLocks.next();
                 internalLockResource(lock, lockCache);
             }
             OpenCms.getMemoryMonitor().flushLocks(lockCache);
@@ -500,7 +501,7 @@ public final class CmsLockManager {
      * @param resourceName the root path of the deleted resource
      * @throws CmsException if something goes wrong
      */
-    public void removeDeletedResource(CmsDbContext dbc, String resourceName) throws CmsException {
+    public void removeDeletedResource(CmsDbContext dbc, @RUntainted String resourceName) throws CmsException {
 
         try {
             m_driverManager.getVfsDriver(dbc).readResource(dbc, dbc.currentProject().getUuid(), resourceName, false);
@@ -558,7 +559,7 @@ public final class CmsLockManager {
     public CmsLock removeResource(CmsDbContext dbc, CmsResource resource, boolean forceUnlock, boolean removeSystemLock)
     throws CmsException {
 
-        String resourcename = resource.getRootPath();
+        @RUntainted String resourcename = resource.getRootPath();
         CmsLock lock = getLock(dbc, resource).getEditionLock();
 
         // check some abort conditions first
@@ -796,7 +797,7 @@ public final class CmsLockManager {
      * @param resourcename the name of the resource
      * @return the inherited lock or the null lock
      */
-    private CmsLock getParentLock(String resourcename) {
+    private CmsLock getParentLock(@RUntainted String resourcename) {
 
         CmsLock parentFolderLock = getParentFolderLock(resourcename);
         if (!parentFolderLock.isNullLock()) {
@@ -817,7 +818,7 @@ public final class CmsLockManager {
      *
      * @return the indirect lock of the resource or the null lock
      */
-    private CmsLock getSiblingsLock(List<CmsResource> siblings, String resourcename) {
+    private CmsLock getSiblingsLock(List<CmsResource> siblings, @RUntainted String resourcename) {
 
         for (int i = 0; i < siblings.size(); i++) {
             CmsResource sibling = siblings.get(i);
@@ -840,9 +841,9 @@ public final class CmsLockManager {
      *
      * @throws CmsLockException if the lock is not compatible with the current lock
      */
-    private void internalLockResource(CmsLock lock, Map<String, CmsLock> locks) throws CmsLockException {
+    private void internalLockResource(@RUntainted CmsLock lock, @RUntainted Map<@RUntainted String, @RUntainted CmsLock> locks) throws CmsLockException {
 
-        CmsLock currentLock = null;
+        @RUntainted CmsLock currentLock = null;
         if (locks == null) {
             currentLock = OpenCms.getMemoryMonitor().getCachedLock(lock.getResourceName());
         } else {
@@ -907,7 +908,7 @@ public final class CmsLockManager {
      *
      * @return the shared lock
      */
-    private CmsLock internalSiblingLock(CmsLock exclusiveLock, String siblingName) {
+    private CmsLock internalSiblingLock(CmsLock exclusiveLock, @RUntainted String siblingName) {
 
         CmsLock lock = null;
         if (!exclusiveLock.getSystemLock().isUnlocked()) {
@@ -943,7 +944,7 @@ public final class CmsLockManager {
      *
      * @throws CmsLockException if the lock is not compatible with the current lock
      */
-    private void lockResource(CmsLock lock) throws CmsLockException {
+    private void lockResource(@RUntainted CmsLock lock) throws CmsLockException {
 
         m_isDirty = true;
         internalLockResource(lock, null);
@@ -989,7 +990,7 @@ public final class CmsLockManager {
                 if (!lock.getEditionLock().isUnlocked()) {
                     // remove the edition lock
                     CmsLock tmp = lock.getEditionLock();
-                    CmsLock sysLock = lock.getSystemLock();
+                    @RUntainted CmsLock sysLock = lock.getSystemLock();
                     sysLock.setRelatedLock(null);
                     if (!sysLock.equals(lock)) {
                         // replace the lock entry if needed

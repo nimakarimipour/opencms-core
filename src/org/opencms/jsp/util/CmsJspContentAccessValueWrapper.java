@@ -56,6 +56,7 @@ import org.apache.commons.collections.Transformer;
 
 import org.dom4j.Element;
 import org.dom4j.Node;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows direct access to XML content values, with possible iteration of sub-nodes.<p>
@@ -214,7 +215,7 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
         private I_CmsXmlContentValue m_parentValue;
 
         /** The value path name. */
-        private String m_valueName;
+        private @RUntainted String m_valueName;
 
         /**
          * Constructor.<p>
@@ -222,7 +223,7 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
          * @param parentValue the parent value
          * @param valueName the value path name
          */
-        protected NullValueInfo(I_CmsXmlContentValue parentValue, String valueName) {
+        protected NullValueInfo(I_CmsXmlContentValue parentValue, @RUntainted String valueName) {
 
             m_parentValue = parentValue;
             m_valueName = valueName;
@@ -233,7 +234,7 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
          * @param valueName the value path name
          * @param locale the content locale
          */
-        protected NullValueInfo(I_CmsXmlDocument content, String valueName, Locale locale) {
+        protected NullValueInfo(I_CmsXmlDocument content, @RUntainted String valueName, Locale locale) {
 
             m_content = content;
             m_valueName = valueName;
@@ -275,7 +276,7 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
          *
          * @return the value name
          */
-        public String getValueName() {
+        public @RUntainted String getValueName() {
 
             return m_valueName;
         }
@@ -1122,7 +1123,7 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
      *
      * @return the path to the XML content based on the current element path
      */
-    protected String createPath(Object input) {
+    protected @RUntainted String createPath(Object input) {
 
         return CmsXmlUtils.concatXpath(m_contentValue.getPath(), String.valueOf(input));
     }

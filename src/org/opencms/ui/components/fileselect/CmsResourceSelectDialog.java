@@ -56,6 +56,7 @@ import com.vaadin.v7.data.Property.ValueChangeListener;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.shared.ui.combobox.FilteringMode;
 import com.vaadin.v7.ui.ComboBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog with a site selector and file tree which can be used to select resources.<p>
@@ -161,7 +162,7 @@ public class CmsResourceSelectDialog extends CustomComponent {
     private boolean m_isSitemapView = true;
 
     /** The site root. */
-    private String m_siteRoot;
+    private @RUntainted String m_siteRoot;
 
     /** Contains the data for the tree. */
     private CmsResourceTreeContainer m_treeData;
@@ -228,7 +229,7 @@ public class CmsResourceSelectDialog extends CustomComponent {
 
             public void valueChange(ValueChangeEvent event) {
 
-                String site = (String)(event.getProperty().getValue());
+                @RUntainted String site = (String)(event.getProperty().getValue());
                 onSiteChange(site);
             }
         });
@@ -268,7 +269,7 @@ public class CmsResourceSelectDialog extends CustomComponent {
      *
      * @param path the path to open
      */
-    public void openPath(String path) {
+    public void openPath(@RUntainted String path) {
 
         if (!CmsStringUtil.isPrefixPath(m_root.getRootPath(), path)) {
             CmsSite site = OpenCms.getSiteManager().getSiteForRootPath(path);
@@ -387,7 +388,7 @@ public class CmsResourceSelectDialog extends CustomComponent {
      *
      * @param site the new site root
      */
-    protected void onSiteChange(String site) {
+    protected void onSiteChange(@RUntainted String site) {
 
         try {
             m_treeData.removeAllItems();

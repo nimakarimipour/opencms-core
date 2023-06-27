@@ -60,6 +60,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource wrapper used to import/export modules by copying them to/from virtual folders.<p>
@@ -129,8 +130,8 @@ public class CmsResourceWrapperModulesNonLazy extends A_CmsResourceWrapper {
     @Override
     public CmsResource createResource(
         CmsObject cms,
-        String resourcename,
-        int type,
+        @RUntainted String resourcename,
+        @RUntainted int type,
         byte[] content,
         List<CmsProperty> properties)
     throws CmsException, CmsIllegalArgumentException {
@@ -153,7 +154,7 @@ public class CmsResourceWrapperModulesNonLazy extends A_CmsResourceWrapper {
      * @see org.opencms.file.wrapper.A_CmsResourceWrapper#deleteResource(org.opencms.file.CmsObject, java.lang.String, org.opencms.file.CmsResource.CmsResourceDeleteMode)
      */
     @Override
-    public boolean deleteResource(CmsObject cms, String resourcename, CmsResource.CmsResourceDeleteMode siblingMode)
+    public boolean deleteResource(CmsObject cms, @RUntainted String resourcename, CmsResource.CmsResourceDeleteMode siblingMode)
     throws CmsException {
 
         if (checkAccess(cms) && matchParentPath(EXPORT_PATH, resourcename)) {

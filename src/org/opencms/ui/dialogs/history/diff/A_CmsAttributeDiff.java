@@ -50,6 +50,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract super class for displaying differences between a set of properties / attributes.<p>
@@ -113,7 +114,7 @@ public abstract class A_CmsAttributeDiff implements I_CmsDiffProvider {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsResource readResource(CmsObject cms, CmsHistoryResourceBean bean) throws CmsException {
+    public static @RUntainted CmsResource readResource(CmsObject cms, CmsHistoryResourceBean bean) throws CmsException {
 
         CmsHistoryVersion versionBean = bean.getVersion();
         if (versionBean.getVersionNumber() != null) {

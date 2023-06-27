@@ -52,6 +52,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.v7.data.Property.ValueChangeEvent;
 import com.vaadin.v7.data.Property.ValueChangeListener;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The site select dialog.<p>
@@ -190,7 +191,7 @@ public class CmsSiteSelectDialog extends CmsBasicDialog {
      *
      * @return the combo box
      */
-    private CmsExtendedSiteSelector prepareSiteSelector(String captionKey) {
+    private CmsExtendedSiteSelector prepareSiteSelector(@RUntainted String captionKey) {
 
         CmsExtendedSiteSelector result = new CmsExtendedSiteSelector();
         String caption = CmsVaadinUtils.getWpMessagesForCurrentLocale().key(captionKey);

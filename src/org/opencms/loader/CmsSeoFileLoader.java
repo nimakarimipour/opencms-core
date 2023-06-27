@@ -38,6 +38,7 @@ import org.opencms.xml.content.CmsXmlContentFactory;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The SEO file loader.<p>
@@ -94,7 +95,7 @@ public class CmsSeoFileLoader extends A_CmsXmlDocumentLoader {
      * @see org.opencms.loader.A_CmsXmlDocumentLoader#unmarshalXmlDocument(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.ServletRequest)
      */
     @Override
-    protected I_CmsXmlDocument unmarshalXmlDocument(CmsObject cms, CmsResource resource, ServletRequest req)
+    protected I_CmsXmlDocument unmarshalXmlDocument(CmsObject cms, @RUntainted CmsResource resource, ServletRequest req)
     throws CmsException {
 
         return CmsXmlContentFactory.unmarshal(cms, resource, req);

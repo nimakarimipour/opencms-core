@@ -72,6 +72,7 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifDirectoryBase;
 import com.drew.metadata.exif.ExifIFD0Directory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "image".<p>
@@ -436,7 +437,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
      *
      * @return the downscaler to use, or <code>null</code> if no downscaling is required for the resource
      */
-    public static CmsImageScaler getDownScaler(CmsObject cms, String rootPath) {
+    public static CmsImageScaler getDownScaler(CmsObject cms, @RUntainted String rootPath) {
 
         if (m_downScaler == null) {
             // downscaling is not configured at all
@@ -487,7 +488,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
      *
      * @return the static type name of this (default) resource type
      */
-    public static String getStaticTypeName() {
+    public static @RUntainted String getStaticTypeName() {
 
         return RESOURCE_TYPE_NAME;
     }
@@ -499,7 +500,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
     public CmsResource createResource(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        String resourcename,
+        @RUntainted String resourcename,
         byte[] content,
         List<CmsProperty> properties)
     throws CmsException {
@@ -603,7 +604,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
      * @see org.opencms.file.types.A_CmsResourceType#initConfiguration(java.lang.String, java.lang.String, String)
      */
     @Override
-    public void initConfiguration(String name, String id, String className) throws CmsConfigurationException {
+    public void initConfiguration(@RUntainted String name, String id, @RUntainted String className) throws CmsConfigurationException {
 
         if ((OpenCms.getRunLevel() > OpenCms.RUNLEVEL_2_INITIALIZING) && m_staticFrozen) {
             // configuration already frozen

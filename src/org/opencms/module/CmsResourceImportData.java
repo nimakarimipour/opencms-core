@@ -39,6 +39,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import data for a single resource.<p>
@@ -64,7 +65,7 @@ public class CmsResourceImportData {
     private CmsResource m_importResource;
 
     /** The path. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /** The properties. */
     private List<CmsProperty> m_properties;
@@ -76,7 +77,7 @@ public class CmsResourceImportData {
     private CmsResource m_resource;
 
     /** The original type name from the manifest. */
-    private String m_typeName;
+    private @RUntainted String m_typeName;
 
     /**
      * Creats a new instance.<p>
@@ -93,14 +94,14 @@ public class CmsResourceImportData {
      */
     public CmsResourceImportData(
         CmsResource resource,
-        String path,
+        @RUntainted String path,
         byte[] content,
         List<CmsProperty> properties,
         List<CmsAccessControlEntry> aces,
         List<RelationData> relationData,
         boolean hasStructureId,
         boolean hasDateLastModified,
-        String typeName) {
+        @RUntainted String typeName) {
 
         m_typeName = typeName;
         m_resource = resource;
@@ -193,7 +194,7 @@ public class CmsResourceImportData {
      *
      * @return the path
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }
@@ -235,7 +236,7 @@ public class CmsResourceImportData {
      *
      * @return the type name
      */
-    public String getTypeName() {
+    public @RUntainted String getTypeName() {
 
         return m_typeName;
     }

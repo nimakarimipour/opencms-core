@@ -48,6 +48,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the specific constants, members and helper methods to generate the content of the image gallery dialog
@@ -124,7 +125,7 @@ public class CmsAjaxImageGallery extends A_CmsAjaxGallery {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsAjaxImageGallery(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsAjaxImageGallery(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
     }
@@ -235,11 +236,11 @@ public class CmsAjaxImageGallery extends A_CmsAjaxGallery {
      * @see org.opencms.workplace.galleries.A_CmsAjaxGallery#buildJsonItemSpecificPart(JSONObject jsonObj, CmsResource res, String sitePath)
      */
     @Override
-    protected void buildJsonItemSpecificPart(JSONObject jsonObj, CmsResource res, String sitePath) {
+    protected void buildJsonItemSpecificPart(JSONObject jsonObj, CmsResource res, @RUntainted String sitePath) {
 
         CmsImageScaler scaler = new CmsImageScaler(getCms(), res);
         try {
-            String scaleParams = "";
+            @RUntainted String scaleParams = "";
             // 1: if scaling is disabled, the scale parameters might be null!
             if (getDefaultScaleParams() != null) {
                 scaleParams = getDefaultScaleParams().toRequestParam();
@@ -269,7 +270,7 @@ public class CmsAjaxImageGallery extends A_CmsAjaxGallery {
             // 6: image structure id hash code
             jsonObj.put("hash", res.getStructureId().hashCode());
             // 7: image copyright
-            String copyright = getJsp().property(PROPERTY_COPYRIGHT, sitePath, "");
+            @RUntainted String copyright = getJsp().property(PROPERTY_COPYRIGHT, sitePath, "");
             jsonObj.put("copyright", CmsStringUtil.escapeJavaScript(copyright));
 
         } catch (JSONException e) {

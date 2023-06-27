@@ -74,6 +74,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Searches in sources.
@@ -93,16 +94,16 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
     public static final long ABANDON_TIMEOUT = TimeUnit.MINUTES.toMillis(5);
 
     /** Number of errors while searching. */
-    private int m_errorSearch;
+    private @RUntainted int m_errorSearch;
 
     /** Number of errors while updating. */
-    private int m_errorUpdate;
+    private @RUntainted int m_errorUpdate;
 
     /** Number of locked files during updating. */
-    private int m_lockedFiles;
+    private @RUntainted int m_lockedFiles;
 
     /** The found resources. */
-    private Set<CmsResource> m_matchedResources = new LinkedHashSet<CmsResource>();
+    private @RUntainted Set<@RUntainted CmsResource> m_matchedResources = new LinkedHashSet<CmsResource>();
 
     /** The replace flag. */
     private boolean m_replace;
@@ -222,9 +223,9 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
         // the paths
         if (!m_settings.getPaths().isEmpty()) {
             // iterate over the paths
-            Iterator<String> iter = m_settings.getPaths().iterator();
+            @RUntainted Iterator<@RUntainted String> iter = m_settings.getPaths().iterator();
             while (iter.hasNext()) {
-                String path = iter.next();
+                @RUntainted String path = iter.next();
                 report.println(
                     Messages.get().container(Messages.RPT_SOURCESEARCH_PARAMETERS_RESOURCE_PATH_1, path),
                     I_CmsReport.FORMAT_NOTE);
@@ -340,7 +341,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
      *
      * @param resources the relevant resources
      */
-    protected void searchAndReplace(List<CmsResource> resources) {
+    protected void searchAndReplace(@RUntainted List<@RUntainted CmsResource> resources) {
 
         // the file counter
         int counter = 0;
@@ -355,7 +356,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
             try {
 
                 // get the content
-                CmsFile file = getCms().readFile(resource);
+                @RUntainted CmsFile file = getCms().readFile(resource);
                 byte[] contents = file.getContents();
 
                 // report the current resource
@@ -522,7 +523,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
      *
      * @throws Exception if something goes wrong
      */
-    private byte[] replaceInContent(CmsFile file, byte[] contents) throws Exception {
+    private byte[] replaceInContent(@RUntainted CmsFile file, byte[] contents) throws Exception {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_settings.getLocale())) {
             Locale contentLocale = CmsLocaleManager.getMainLocale(getCms(), file);
@@ -578,7 +579,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
      * @return the marshaled content
      * @throws Exception if something goes wrong
      */
-    private byte[] replaceInXml(CmsFile cmsFile) throws Exception {
+    private byte[] replaceInXml(@RUntainted CmsFile cmsFile) throws Exception {
 
         Exception e = null;
         CmsXmlContent xmlContent = CmsXmlContentFactory.unmarshal(getCms(), cmsFile);
@@ -595,7 +596,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
             }
             // loop over the available element paths of the current content locale
             List<String> paths = xmlContent.getNames(locale);
-            for (String xpath : paths) {
+            for (@RUntainted String xpath : paths) {
                 // try to get the value extraction for the current element path
                 I_CmsXmlContentValue value = xmlContent.getValue(xpath, locale);
                 if (value.isSimpleType()) {
@@ -612,7 +613,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
                                 matched = true;
                                 m_matchedResources.add(cmsFile);
                                 if (m_replace) {
-                                    String newVal = matcher.replaceAll(m_settings.getReplacepattern());
+                                    @RUntainted String newVal = matcher.replaceAll(m_settings.getReplacepattern());
                                     if (!oldVal.equals(newVal)) {
                                         value.setStringValue(getCms(), newVal);
                                         modified = true;
@@ -700,7 +701,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
      *
      * @param nrOfFiles the total number of files
      */
-    private void reportResults(int nrOfFiles) {
+    private void reportResults(@RUntainted int nrOfFiles) {
 
         I_CmsReport report = getReport();
         // report entries
@@ -792,7 +793,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
      *
      * @param resources to be considered
      */
-    private void searchProperties(List<CmsResource> resources) {
+    private void searchProperties(@RUntainted List<@RUntainted CmsResource> resources) {
 
         if (CmsSourceSearchForm.REGEX_ALL.equals(m_settings.getSearchpattern())) {
             for (CmsResource resource : resources) {
@@ -803,7 +804,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
             }
 
         } else {
-            for (CmsResource resource : resources) {
+            for (@RUntainted CmsResource resource : resources) {
                 if (isAbandoned() && !m_replace) { // if it's not a replace operation, it's safe to cancel
                     return;
                 }
@@ -876,7 +877,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
                 CmsResource.STATE_DELETED).addRequireVisible();
             List<CmsResourceFilter> filterList = new ArrayList<CmsResourceFilter>();
             if ((m_settings.getTypesArray() != null) && (m_settings.getTypesArray().length > 0)) {
-                for (String resTypeName : m_settings.getTypesArray()) {
+                for (@RUntainted String resTypeName : m_settings.getTypesArray()) {
                     try {
                         int typeId = OpenCms.getResourceManager().getResourceType(resTypeName).getTypeId();
                         filterList.add(((CmsResourceFilter)filter.clone()).addRequireType(typeId));
@@ -892,13 +893,13 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
             }
 
             // iterate over all selected paths
-            Iterator<String> iterPaths = m_settings.getPaths().iterator();
+            @RUntainted Iterator<@RUntainted String> iterPaths = m_settings.getPaths().iterator();
 
             if (!m_settings.getType().isPropertySearch()) {
                 filter = filter.addRequireFile();
             }
             while (iterPaths.hasNext()) {
-                String path = iterPaths.next();
+                @RUntainted String path = iterPaths.next();
                 try {
                     if (m_settings.getType().isPropertySearch()) {
                         resources.addAll(

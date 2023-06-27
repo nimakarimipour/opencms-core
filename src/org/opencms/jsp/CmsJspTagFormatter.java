@@ -48,6 +48,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;cms:formatter var="..." val="..." /&gt;</code> tag,
@@ -177,7 +178,7 @@ public class CmsJspTagFormatter extends CmsJspScopedVarBodyTagSuport {
      *
      * @param locale the locale to set
      */
-    public void setLocale(String locale) {
+    public void setLocale(@RUntainted String locale) {
 
         if (CmsStringUtil.isEmpty(locale)) {
             m_locale = null;

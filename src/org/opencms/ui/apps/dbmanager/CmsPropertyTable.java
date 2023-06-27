@@ -63,6 +63,7 @@ import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the table containing all property definitions in the system.<p>
@@ -160,7 +161,7 @@ public class CmsPropertyTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(@RUntainted Set<@RUntainted String> data) {
 
             Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);
             window.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_PROPERTY_DELETE_0));
@@ -203,7 +204,7 @@ public class CmsPropertyTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(@RUntainted Set<@RUntainted String> data) {
 
             showResources(data.iterator().next());
         }
@@ -342,7 +343,7 @@ public class CmsPropertyTable extends Table {
      *
      * @param propertyName to search resources for
      */
-    protected void showResources(String propertyName) {
+    protected void showResources(@RUntainted String propertyName) {
 
         CmsSearchReplaceSettings settings = new CmsSearchReplaceSettings();
         settings.setPaths(Collections.singletonList("/"));

@@ -43,6 +43,7 @@ import java.util.List;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;cms:resourceload/&gt;</code> tag,
@@ -62,10 +63,10 @@ public class CmsJspTagResourceLoad extends CmsJspScopedVarBodyTagSuport implemen
     protected String m_collector;
 
     /** The name of the resource collector used. */
-    protected String m_collectorName;
+    protected @RUntainted String m_collectorName;
 
     /** The parameters of the resource collector uses. */
-    protected String m_collectorParam;
+    protected @RUntainted String m_collectorParam;
 
     /** The list of collected resource items. */
     protected List<CmsResource> m_collectorResult;
@@ -95,10 +96,10 @@ public class CmsJspTagResourceLoad extends CmsJspScopedVarBodyTagSuport implemen
     protected String m_property;
 
     /** Reference to the last loaded resource element. */
-    protected transient CmsResource m_resource;
+    protected transient @RUntainted CmsResource m_resource;
 
     /** The file name to load the current content value from. */
-    protected String m_resourceName;
+    protected @RUntainted String m_resourceName;
 
     /**
      * Empty constructor, required for JSP tags.<p>
@@ -296,7 +297,7 @@ public class CmsJspTagResourceLoad extends CmsJspScopedVarBodyTagSuport implemen
     /**
      * @see org.opencms.jsp.I_CmsResourceContainer#getCollectorParam()
      */
-    public String getCollectorParam() {
+    public @RUntainted String getCollectorParam() {
 
         return m_collectorParam;
     }

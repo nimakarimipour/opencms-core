@@ -32,6 +32,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class provides a file name matcher to find out those resources which must be part of
@@ -50,7 +51,7 @@ public class CmsExportFolderMatcher {
      * @param vfsFolders array of vfsFolder used for static export
      * @param checkResource additional resource name to be added to the static export
      */
-    public CmsExportFolderMatcher(List<String> vfsFolders, String checkResource) {
+    public CmsExportFolderMatcher(List<String> vfsFolders, @RUntainted String checkResource) {
 
         m_vfsFolders = new ArrayList<Pattern>();
         for (String patternAsString : vfsFolders) {

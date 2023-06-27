@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Scheduled job for updating the XML sitemap cache.<p>
@@ -66,7 +67,7 @@ public class CmsUpdateXmlSitemapCacheJob implements I_CmsScheduledJob {
             CmsResourceFilter.DEFAULT_FILES.addRequireType(type));
         LOG.info("Starting to process individual XML sitemap files...");
         int i = 0;
-        for (CmsResource res : resources) {
+        for (@RUntainted CmsResource res : resources) {
             i += 1;
             try {
                 LOG.info("Processing file " + res.getRootPath() + " [" + i + "/" + resources.size() + "]");

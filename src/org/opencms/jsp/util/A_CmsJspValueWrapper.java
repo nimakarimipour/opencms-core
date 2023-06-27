@@ -47,6 +47,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Common value wrapper class that provides generic functions.<p>

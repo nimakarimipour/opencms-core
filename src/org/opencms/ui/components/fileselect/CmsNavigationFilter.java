@@ -40,6 +40,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Item;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Filter used to hide folder tree items which are not either navigation items themselves or are required to navigate
@@ -102,7 +103,7 @@ public class CmsNavigationFilter implements Container.Filter {
      * @param path the path
      * @return the list of ancestor paths
      */
-    List<String> getAncestorPaths(String path) {
+    List<String> getAncestorPaths(@RUntainted String path) {
 
         List<String> result = Lists.newArrayList();
         while (path != null) {

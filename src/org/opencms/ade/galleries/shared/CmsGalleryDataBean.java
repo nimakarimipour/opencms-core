@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This bean holding the gallery dialog information required for displaying the content of the gallery tabs.<p>
@@ -56,7 +57,7 @@ public class CmsGalleryDataBean implements IsSerializable {
     private Map<String, String> m_contextParameters = new HashMap<String, String>();
 
     /** The current element. */
-    private String m_currentElement;
+    private @RUntainted String m_currentElement;
 
     /** The default search scope. */
     private CmsGallerySearchScope m_defaultScope = CmsGallerySearchScope.everything;
@@ -116,7 +117,7 @@ public class CmsGalleryDataBean implements IsSerializable {
     private GalleryTabId[] m_tabIds;
 
     /** A token used to determine which tree state is loaded/saved . */
-    private String m_treeToken;
+    private @RUntainted String m_treeToken;
 
     /** The types to display in the list of available categories. */
     private List<CmsResourceTypeBean> m_types;
@@ -165,7 +166,7 @@ public class CmsGalleryDataBean implements IsSerializable {
      *
      * @return the current element
      */
-    public String getCurrentElement() {
+    public @RUntainted String getCurrentElement() {
 
         return m_currentElement;
     }
@@ -216,7 +217,7 @@ public class CmsGalleryDataBean implements IsSerializable {
      *
      * @return the locale
      */
-    public String getLocale() {
+    public @RUntainted String getLocale() {
 
         return m_locale;
     }
@@ -247,7 +248,7 @@ public class CmsGalleryDataBean implements IsSerializable {
      *
      * @return the gallery reference site-path
      */
-    public String getReferenceSitePath() {
+    public @RUntainted String getReferenceSitePath() {
 
         return m_referenceSitePath;
     }
@@ -357,7 +358,7 @@ public class CmsGalleryDataBean implements IsSerializable {
      *
      * @return the tree token
      */
-    public String getTreeToken() {
+    public @RUntainted String getTreeToken() {
 
         return m_treeToken;
     }
@@ -417,7 +418,7 @@ public class CmsGalleryDataBean implements IsSerializable {
      *
      * @param currentElement the current element to set
      */
-    public void setCurrentElement(String currentElement) {
+    public void setCurrentElement(@RUntainted String currentElement) {
 
         m_currentElement = currentElement;
     }
@@ -609,7 +610,7 @@ public class CmsGalleryDataBean implements IsSerializable {
      *
      * @param treeToken the new tree token
      */
-    public void setTreeToken(String treeToken) {
+    public void setTreeToken(@RUntainted String treeToken) {
 
         m_treeToken = treeToken;
     }

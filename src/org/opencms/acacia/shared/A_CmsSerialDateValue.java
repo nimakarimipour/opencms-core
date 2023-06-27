@@ -33,6 +33,7 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** The base class for implementations of serial date values. */
 public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
@@ -68,7 +69,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
     /** The end type of the series. */
     private EndType m_endType;
     /** The series content, the current value is extracted from. */
-    private CmsUUID m_parentSeriesId;
+    private @RUntainted CmsUUID m_parentSeriesId;
     /** Flag, indicating if the events are "current" till their end. */
     private boolean m_currentTillEnd = true;
 
@@ -255,7 +256,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
     /**
      * @see org.opencms.acacia.shared.I_CmsSerialDateValue#getParentSeriesId()
      */
-    public CmsUUID getParentSeriesId() {
+    public @RUntainted CmsUUID getParentSeriesId() {
 
         return m_parentSeriesId;
     }
@@ -522,7 +523,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
      * Set the series, the current event (series) is extracted from.
      * @param structureId the structure id of the series content, the event is extracted from.
      */
-    public final void setParentSeriesId(CmsUUID structureId) {
+    public final void setParentSeriesId(@RUntainted CmsUUID structureId) {
 
         m_parentSeriesId = structureId;
 

@@ -47,6 +47,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Tree representation of CmsXmlContent which is suitable for XML-to-JSON transformations.
@@ -346,7 +347,7 @@ public class CmsXmlContentTree {
     private CmsXmlContent m_content;
 
     /** The locale for which the tree should be generated. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** The root node. */
     private Node m_root;
@@ -357,7 +358,7 @@ public class CmsXmlContentTree {
      * @param content the content from which the tree should be generated
      * @param locale the locale for which the tree should be generated
      */
-    public CmsXmlContentTree(CmsXmlContent content, Locale locale) {
+    public CmsXmlContentTree(CmsXmlContent content, @RUntainted Locale locale) {
 
         m_content = content;
         m_locale = locale;
@@ -395,7 +396,7 @@ public class CmsXmlContentTree {
      */
     public Node createNode(Element elem, CmsXmlContentDefinition contentDef) {
 
-        String path = getValuePath(elem);
+        @RUntainted String path = getValuePath(elem);
         I_CmsXmlContentValue value = path.isEmpty() ? null : m_content.getValue(path, m_locale);
         if (contentDef == null) {
             Node node = new Node(NodeType.simple, value, null, elem, null);
@@ -435,7 +436,7 @@ public class CmsXmlContentTree {
                     CmsXmlNestedContentDefinition nestedDefType = (CmsXmlNestedContentDefinition)fieldDef;
                     nestedDef = nestedDefType.getNestedContentDefinition();
                 }
-                String fieldName = fieldDef.getName();
+                @RUntainted String fieldName = fieldDef.getName();
                 String fieldPath = CmsXmlUtils.concatXpath(path, fieldName);
                 List<I_CmsXmlContentValue> fieldValues = m_content.getValues(fieldPath, m_locale);
                 List<Node> fieldChildren = new ArrayList<>();

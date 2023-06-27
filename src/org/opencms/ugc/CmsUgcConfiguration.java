@@ -38,6 +38,7 @@ import java.util.Locale;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The configuration for 'user generated content' forms.<p>
@@ -87,7 +88,7 @@ public class CmsUgcConfiguration {
     private Locale m_locale;
 
     /** The resource type for new XML contents. */
-    private String m_resourceType;
+    private @RUntainted String m_resourceType;
 
     /** The path of the configuration. */
     private String m_path;
@@ -114,7 +115,7 @@ public class CmsUgcConfiguration {
         CmsUUID id,
         Optional<CmsUser> userForGuests,
         CmsGroup projectGroup,
-        String resourceType,
+        @RUntainted String resourceType,
         CmsResource contentParentFolder,
         String namePattern,
         Locale locale,
@@ -260,7 +261,7 @@ public class CmsUgcConfiguration {
      *
      * @return the resource type for XML contents
      */
-    public String getResourceType() {
+    public @RUntainted String getResourceType() {
 
         return m_resourceType;
     }

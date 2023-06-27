@@ -31,6 +31,7 @@ import org.opencms.configuration.CmsConfigurationException;
 import org.opencms.configuration.CmsParameterConfiguration;
 import org.opencms.main.CmsException;
 import org.opencms.util.CmsResourceTranslator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract implementation of the repository interface {@link I_CmsRepository}.<p>

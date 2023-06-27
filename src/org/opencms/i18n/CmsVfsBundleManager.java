@@ -49,6 +49,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages message bundles loaded from the VFS.<p>
@@ -147,7 +148,7 @@ public class CmsVfsBundleManager implements I_CmsEventListener {
 
         String fileName = bundleRes.getName();
         if (TYPE_PROPERTIES_BUNDLE.equals(OpenCms.getResourceManager().getResourceType(bundleRes).getTypeName())) {
-            String localeSuffix = CmsStringUtil.getLocaleSuffixForName(fileName);
+            @RUntainted String localeSuffix = CmsStringUtil.getLocaleSuffixForName(fileName);
             if (localeSuffix == null) {
                 return new NameAndLocale(fileName, null);
             } else {
@@ -374,7 +375,7 @@ public class CmsVfsBundleManager implements I_CmsEventListener {
                             String[] typesToMatch = new String[] {TYPE_PROPERTIES_BUNDLE, TYPE_XML_BUNDLE};
                             boolean reload = false;
                             for (CmsPublishedResource res : publishedResources) {
-                                for (String typeName : typesToMatch) {
+                                for (@RUntainted String typeName : typesToMatch) {
                                     if (OpenCms.getResourceManager().matchResourceType(typeName, res.getType())) {
                                         reload = true;
                                         break;

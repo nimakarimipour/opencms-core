@@ -60,6 +60,7 @@ import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.compiler.CompiledST;
 import org.stringtemplate.v4.compiler.FormalArgument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Renderer for string templates.<p>
@@ -102,7 +103,7 @@ public class CmsStringTemplateRenderer {
     private CmsContainerElementBean m_element;
 
     /** The request. */
-    private HttpServletRequest m_request;
+    private @RUntainted HttpServletRequest m_request;
 
     /**
      * Constructor.<p>
@@ -110,7 +111,7 @@ public class CmsStringTemplateRenderer {
      * @param context the page context
      * @param req the request
      */
-    public CmsStringTemplateRenderer(PageContext context, HttpServletRequest req) {
+    public CmsStringTemplateRenderer(PageContext context, @RUntainted HttpServletRequest req) {
 
         m_context = context;
         m_request = req;
@@ -281,7 +282,7 @@ public class CmsStringTemplateRenderer {
                 }
                 if (config.getDefaultContentStructureId() != null) {
                     try {
-                        CmsResource defaultContent = m_cms.readResource(
+                        @RUntainted CmsResource defaultContent = m_cms.readResource(
                             ((CmsMacroFormatterBean)formatterConfig).getDefaultContentStructureId());
                         CmsFile defaultFile = m_cms.readFile(defaultContent);
                         m_element = new CmsContainerElementBean(

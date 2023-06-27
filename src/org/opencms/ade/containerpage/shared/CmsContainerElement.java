@@ -32,6 +32,7 @@ import org.opencms.gwt.shared.I_CmsHasIconClasses;
 import org.opencms.util.CmsUUID;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean holding basic container element information.<p>
@@ -134,7 +135,7 @@ public class CmsContainerElement implements IsSerializable, I_CmsHasIconClasses 
     private CmsElementLockInfo m_lockInfo = new CmsElementLockInfo(null, false);
 
     /** The element client id. */
-    private String m_clientId;
+    private @RUntainted String m_clientId;
 
     /** The copy in models flag. */
     private boolean m_copyInModels;
@@ -244,7 +245,7 @@ public class CmsContainerElement implements IsSerializable, I_CmsHasIconClasses 
      *
      * @return the client id
      */
-    public String getClientId() {
+    public @RUntainted String getClientId() {
 
         return m_clientId;
     }
@@ -493,7 +494,7 @@ public class CmsContainerElement implements IsSerializable, I_CmsHasIconClasses 
      *
      * @param clientId the client id to set
      */
-    public void setClientId(String clientId) {
+    public void setClientId(@RUntainted String clientId) {
 
         m_clientId = clientId;
     }

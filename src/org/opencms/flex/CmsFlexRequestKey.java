@@ -48,6 +48,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the caching behaviour (or caching options) for a Flex request.<p>
@@ -182,7 +183,7 @@ public class CmsFlexRequestKey {
     private PathsBean m_paths = new PathsBean();
 
     /** The (Flex) Http request this key was constructed for. */
-    private HttpServletRequest m_request;
+    private @RUntainted HttpServletRequest m_request;
 
     /** The OpenCms resource that this key is used for. */
     private String m_resource;
@@ -199,7 +200,7 @@ public class CmsFlexRequestKey {
      * @param target the requested resource in the OpenCms VFS
      * @param online must be true for an online resource, false for offline resources
      */
-    public CmsFlexRequestKey(HttpServletRequest req, String target, boolean online) {
+    public CmsFlexRequestKey(@RUntainted HttpServletRequest req, String target, boolean online) {
 
         // store the request
         m_request = req;

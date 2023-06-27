@@ -36,6 +36,7 @@ import org.opencms.main.CmsException;
 import org.opencms.security.CmsPrincipal;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The interface for drivers handling subscriptions and user tracking.<p>

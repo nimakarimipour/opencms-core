@@ -53,6 +53,7 @@ import org.apache.commons.logging.Log;
 import com.google.web.bindery.autobean.shared.AutoBean;
 import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.vm.AutoBeanFactorySource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generates a special HTML element which enables the 'create list element' dialog for a set of types when used in a formatter.
@@ -86,7 +87,7 @@ public class CmsJspTagEnableListAdd extends SimpleTagSupport {
             AutoBean<I_CmsListAddMetadata> bean = beanFactory.createListAddMetadata();
             bean.as().setTypes(m_types);
             bean.as().setPostCreateHandler(m_postCreateHandler);
-            String jsonData = AutoBeanCodex.encode(bean).getPayload();
+            @RUntainted String jsonData = AutoBeanCodex.encode(bean).getPayload();
             StringBuilder buffer = new StringBuilder();
             buffer.append("<div style='display: none !important;' " + CmsGwtConstants.ATTR_DATA_LISTADD + "='");
             buffer.append(CmsEncoder.escapeXml(jsonData));

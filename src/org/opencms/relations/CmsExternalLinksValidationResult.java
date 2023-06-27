@@ -34,6 +34,7 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Stores the result of a pointer link validation. <p>
@@ -66,7 +67,7 @@ public class CmsExternalLinksValidationResult {
      *
      * @return a Html representation of this external link validation result
      */
-    public String toHtml(Locale locale) {
+    public String toHtml(@RUntainted Locale locale) {
 
         CmsMessages mg = Messages.get().getBundle(locale);
         if (m_brokenLinks.size() > 0) {

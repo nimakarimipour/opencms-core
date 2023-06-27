@@ -57,6 +57,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class representing a JSON document for an XML content.
@@ -132,7 +133,7 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
      * @param resource the resource
      * @throws Exception if something goes wrong
      */
-    protected void insertJsonLinkedContent(CmsResource resource) throws Exception {
+    protected void insertJsonLinkedContent(@RUntainted CmsResource resource) throws Exception {
 
         JSONObject jsonObject = (JSONObject)m_json.get(FIELD_LINKED_CONTENTS);
         String key = resource.getRootPath();
@@ -170,7 +171,7 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
             CmsRelationFilter.TARGETS);
         m_json.put(FIELD_LINKED_CONTENTS, new JSONObject());
         for (CmsRelation relation : relationList) {
-            CmsResource resource = relation.getTarget(m_context.getCms(), CmsResourceFilter.DEFAULT);
+            @RUntainted CmsResource resource = relation.getTarget(m_context.getCms(), CmsResourceFilter.DEFAULT);
             if (CmsResourceTypeXmlContent.isXmlContent(resource)
                 || CmsResourceTypeXmlContainerPage.isContainerPage(resource)) {
                 insertJsonLinkedContent(resource);
@@ -293,7 +294,7 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
             m_renderer = new CmsJsonRendererXmlContent();
         } else {
             m_renderer = (I_CmsJsonRendererXmlContent)Class.forName(settings.getClassName()).newInstance();
-            for (Map.Entry<String, String> entry : settings.getParameters().entrySet()) {
+            for (Map.@RUntainted Entry<@RUntainted String, @RUntainted String> entry : settings.getParameters().entrySet()) {
                 m_renderer.addConfigurationParameter(entry.getKey(), entry.getValue());
             }
             m_renderer.initConfiguration();
@@ -340,7 +341,7 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
      */
     private void insertJsonContentLocale() throws JSONException, PathNotFoundException {
 
-        String paramLocale = m_jsonRequest.getParamLocale();
+        @RUntainted String paramLocale = m_jsonRequest.getParamLocale();
         Locale locale = CmsLocaleManager.getLocale(paramLocale);
         Locale selectedLocale = OpenCms.getLocaleManager().getBestMatchingLocale(
             locale,

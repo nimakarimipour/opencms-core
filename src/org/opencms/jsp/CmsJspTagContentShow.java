@@ -50,6 +50,7 @@ import javax.servlet.jsp.tagext.Tag;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used to access and display XML content item information from the VFS.<p>
@@ -86,8 +87,8 @@ public class CmsJspTagContentShow extends TagSupport {
      */
     public static String contentShowTagAction(
         I_CmsXmlContentContainer container,
-        PageContext context,
-        String element,
+        @RUntainted PageContext context,
+        @RUntainted String element,
         Locale locale,
         boolean escape) {
 
@@ -103,10 +104,10 @@ public class CmsJspTagContentShow extends TagSupport {
             element = CmsXmlUtils.concatXpath(container.getXmlDocumentElement(), element);
         }
 
-        String content;
+        @RUntainted String content;
         if (CmsMacroResolver.isMacro(element)) {
             // this is a macro, initialize a macro resolver
-            String resourcename = CmsJspTagResourceLoad.getResourceName(cms, container);
+            @RUntainted String resourcename = CmsJspTagResourceLoad.getResourceName(cms, container);
             CmsMacroResolver resolver = CmsMacroResolver.newInstance().setCmsObject(cms).setJspPageContext(
                 context).setResourceName(resourcename).setKeepEmptyMacros(true);
             // resolve the macro
@@ -256,7 +257,7 @@ public class CmsJspTagContentShow extends TagSupport {
      *
      * @param locale the locale to set
      */
-    public void setLocale(String locale) {
+    public void setLocale(@RUntainted String locale) {
 
         if (CmsStringUtil.isEmpty(locale)) {
             m_locale = null;

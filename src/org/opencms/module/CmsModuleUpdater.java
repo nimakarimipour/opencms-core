@@ -74,6 +74,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class used for updating modules.<p>
@@ -150,7 +151,7 @@ public class CmsModuleUpdater {
      *
      * @throws CmsException if something goes wrong
      */
-    public static Optional<CmsModuleUpdater> create(CmsObject cms, String importFile, I_CmsReport report)
+    public static Optional<CmsModuleUpdater> create(CmsObject cms, @RUntainted String importFile, I_CmsReport report)
     throws CmsException {
 
         CmsModuleImportData moduleData = readModuleData(cms, importFile, report);
@@ -207,14 +208,14 @@ public class CmsModuleUpdater {
      * @return the module data
      * @throws CmsException if something goes wrong
      */
-    public static CmsModuleImportData readModuleData(CmsObject cms, String importFile, I_CmsReport report)
+    public static CmsModuleImportData readModuleData(CmsObject cms, @RUntainted String importFile, I_CmsReport report)
     throws CmsException {
 
         CmsModuleImportData result = new CmsModuleImportData();
         CmsModule module = CmsModuleImportExportHandler.readModuleFromImport(importFile);
         cms = OpenCms.initCmsObject(cms);
 
-        String importSite = module.getImportSite();
+        @RUntainted String importSite = module.getImportSite();
         if (!CmsStringUtil.isEmptyOrWhitespaceOnly(importSite)) {
             cms.getRequestContext().setSiteRoot(importSite);
         } else {
@@ -449,7 +450,7 @@ public class CmsModuleUpdater {
             CmsProject.PROJECT_TYPE_TEMPORARY);
         CmsObject deleteCms = OpenCms.initCmsObject(cms);
         deleteCms.getRequestContext().setCurrentProject(conflictProject);
-        for (CmsUUID vfsId : conflictingIds.values()) {
+        for (@RUntainted CmsUUID vfsId : conflictingIds.values()) {
             CmsResource toDelete = deleteCms.readResource(vfsId, CmsResourceFilter.ALL);
             lock(deleteCms, toDelete);
             deleteCms.deleteResource(toDelete, CmsResource.DELETE_PRESERVE_SIBLINGS);
@@ -516,7 +517,7 @@ public class CmsModuleUpdater {
      * @param resData the resource data from the module import
      * @param index index of the current import resource
      */
-    protected void processImportResource(CmsObject cms, CmsResourceImportData resData, int index) {
+    protected void processImportResource(CmsObject cms, CmsResourceImportData resData, @RUntainted int index) {
 
         boolean changed = false;
         m_report.print(
@@ -529,7 +530,7 @@ public class CmsModuleUpdater {
             org.opencms.report.Messages.get().container(org.opencms.report.Messages.RPT_ARGUMENT_1, resData.getPath()));
         m_report.print(org.opencms.report.Messages.get().container(org.opencms.report.Messages.RPT_DOTS_0));
         try {
-            CmsResource oldRes = null;
+            @RUntainted CmsResource oldRes = null;
             try {
                 if (resData.hasStructureId()) {
                     oldRes = cms.readResource(

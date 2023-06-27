@@ -66,6 +66,7 @@ import javax.servlet.ServletRequest;
 import org.apache.commons.logging.Log;
 
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Static utility class for functions related to detail-only containers.<p>
@@ -122,7 +123,7 @@ public final class CmsDetailOnlyContainerUtil {
      *
      * @return the path to the associated detail content
      */
-    public static String getDetailContentPath(String detailContainersPage) {
+    public static String getDetailContentPath(@RUntainted String detailContainersPage) {
 
         String detailName = CmsResource.getName(detailContainersPage);
         String parentFolder = CmsResource.getParentFolder(CmsResource.getParentFolder(detailContainersPage));
@@ -172,7 +173,7 @@ public final class CmsDetailOnlyContainerUtil {
      *
      * @return the container page bean
      */
-    public static CmsContainerPageBean getDetailOnlyPage(CmsObject cms, ServletRequest req, String pageRootPath) {
+    public static CmsContainerPageBean getDetailOnlyPage(CmsObject cms, @RUntainted ServletRequest req, String pageRootPath) {
 
         return getDetailOnlyPage(cms, req, pageRootPath, true);
     }
@@ -189,7 +190,7 @@ public final class CmsDetailOnlyContainerUtil {
      */
     public static CmsContainerPageBean getDetailOnlyPage(
         CmsObject cms,
-        ServletRequest req,
+        @RUntainted ServletRequest req,
         String pageRootPath,
         boolean lookupContextFirst) {
 
@@ -250,10 +251,10 @@ public final class CmsDetailOnlyContainerUtil {
      *
      * @return the site or root path to the detail only container page (dependent on providing site or root path for the detailPath).
      */
-    public static String getDetailOnlyPageName(
+    public static @RUntainted String getDetailOnlyPageName(
         CmsObject cms,
         CmsResource pageResource,
-        String detailPath,
+        @RUntainted String detailPath,
         String locale) {
 
         return getDetailOnlyPageNameWithoutLocaleCheck(detailPath, getDetailContainerLocale(cms, locale, pageResource));
@@ -321,7 +322,7 @@ public final class CmsDetailOnlyContainerUtil {
      *
      * @return <code>true</code> if the given resource path is of a detail containers page
      */
-    public static boolean isDetailContainersPage(CmsObject cms, String detailContainersPage) {
+    public static boolean isDetailContainersPage(CmsObject cms, @RUntainted String detailContainersPage) {
 
         boolean result = false;
         try {
@@ -352,7 +353,7 @@ public final class CmsDetailOnlyContainerUtil {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsResource readOrCreateDetailOnlyPage(CmsObject cms, CmsUUID detailId, String detailOnlyRootPath)
+    public static @RUntainted CmsResource readOrCreateDetailOnlyPage(CmsObject cms, @RUntainted CmsUUID detailId, @RUntainted String detailOnlyRootPath)
     throws CmsException {
 
         CmsObject rootCms = OpenCms.initCmsObject(cms);
@@ -361,14 +362,14 @@ public final class CmsDetailOnlyContainerUtil {
         if (rootCms.existsResource(detailOnlyRootPath)) {
             containerpage = rootCms.readResource(detailOnlyRootPath);
         } else {
-            String parentFolder = CmsResource.getFolderPath(detailOnlyRootPath);
+            @RUntainted String parentFolder = CmsResource.getFolderPath(detailOnlyRootPath);
             List<String> foldersToCreate = new ArrayList<String>();
             // ensure the parent folder exists
             while (!rootCms.existsResource(parentFolder)) {
                 foldersToCreate.add(0, parentFolder);
                 parentFolder = CmsResource.getParentFolder(parentFolder);
             }
-            for (String folderName : foldersToCreate) {
+            for (@RUntainted String folderName : foldersToCreate) {
                 CmsResource parentRes = rootCms.createResource(
                     folderName,
                     OpenCms.getResourceManager().getResourceType(CmsResourceTypeFolder.getStaticTypeName()));
@@ -447,8 +448,8 @@ public final class CmsDetailOnlyContainerUtil {
 
     throws CmsException {
 
-        String detailOnlyPath = getDetailOnlyPageNameWithoutLocaleCheck(content.getRootPath(), locale);
-        CmsResource resource = readOrCreateDetailOnlyPage(cms, content.getStructureId(), detailOnlyPath);
+        @RUntainted String detailOnlyPath = getDetailOnlyPageNameWithoutLocaleCheck(content.getRootPath(), locale);
+        @RUntainted CmsResource resource = readOrCreateDetailOnlyPage(cms, content.getStructureId(), detailOnlyPath);
         CmsXmlContainerPage xmlCntPage = CmsXmlContainerPageFactory.unmarshal(cms, cms.readFile(resource));
         xmlCntPage.save(cms, page);
         return xmlCntPage;
@@ -461,7 +462,7 @@ public final class CmsDetailOnlyContainerUtil {
      *
      * @return <code>true</code> if single locale detail containers should be used for the given site root
      */
-    public static boolean useSingleLocaleDetailContainers(String siteRoot) {
+    public static boolean useSingleLocaleDetailContainers(@RUntainted String siteRoot) {
 
         boolean result = false;
         if ((siteRoot != null)
@@ -482,7 +483,7 @@ public final class CmsDetailOnlyContainerUtil {
      *
      * @return the site path to the detail only container page
      */
-    static String getDetailOnlyPageNameWithoutLocaleCheck(String detailContentSitePath, String contentLocale) {
+    static @RUntainted String getDetailOnlyPageNameWithoutLocaleCheck(@RUntainted String detailContentSitePath, String contentLocale) {
 
         String result = CmsResource.getFolderPath(detailContentSitePath);
         if (contentLocale != null) {

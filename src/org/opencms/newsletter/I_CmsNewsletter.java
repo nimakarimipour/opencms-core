@@ -34,6 +34,7 @@ import org.opencms.main.CmsException;
 import javax.mail.MessagingException;
 
 import org.apache.commons.mail.Email;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for the newsletter.<p>

@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This manager provide access to the role related operations.<p>
@@ -72,7 +73,7 @@ public class CmsRoleManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public void addUserToRole(CmsObject cms, CmsRole role, String username) throws CmsException {
+    public void addUserToRole(CmsObject cms, CmsRole role, @RUntainted String username) throws CmsException {
 
         m_securityManager.addUserToGroup(cms.getRequestContext(), username, role.getGroupName(), true);
     }
@@ -125,7 +126,7 @@ public class CmsRoleManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsGroup> getManageableGroups(CmsObject cms, String ouFqn, boolean includeSubOus) throws CmsException {
+    public List<CmsGroup> getManageableGroups(CmsObject cms, @RUntainted String ouFqn, boolean includeSubOus) throws CmsException {
 
         List<CmsGroup> groups = new ArrayList<CmsGroup>();
         Iterator<CmsOrganizationalUnit> it = getOrgUnitsForRole(
@@ -153,7 +154,7 @@ public class CmsRoleManager {
      */
     public List<CmsOrganizationalUnit> getManageableOrgUnits(
         CmsObject cms,
-        String ouFqn,
+        @RUntainted String ouFqn,
         boolean includeSubOus,
         boolean includeWebusers)
     throws CmsException {
@@ -199,7 +200,7 @@ public class CmsRoleManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsUser> getManageableUsers(CmsObject cms, String ouFqn, boolean includeSubOus) throws CmsException {
+    public List<CmsUser> getManageableUsers(CmsObject cms, @RUntainted String ouFqn, boolean includeSubOus) throws CmsException {
 
         return getManageableUsers(cms, ouFqn, includeSubOus, false);
     }
@@ -217,7 +218,7 @@ public class CmsRoleManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsUser> getManageableUsers(CmsObject cms, String ouFqn, boolean includeSubOus, boolean includeWebusers)
+    public List<CmsUser> getManageableUsers(CmsObject cms, @RUntainted String ouFqn, boolean includeSubOus, boolean includeWebusers)
     throws CmsException {
 
         List<CmsOrganizationalUnit> ous = getManageableOrgUnits(cms, ouFqn, includeSubOus, includeWebusers);
@@ -275,7 +276,7 @@ public class CmsRoleManager {
      *
      * @throws CmsException if operation was not successful
      */
-    public List<CmsRole> getRoles(CmsObject cms, String ouFqn, boolean includeSubOus) throws CmsException {
+    public List<CmsRole> getRoles(CmsObject cms, @RUntainted String ouFqn, boolean includeSubOus) throws CmsException {
 
         CmsOrganizationalUnit ou = OpenCms.getOrgUnitManager().readOrganizationalUnit(cms, ouFqn);
         List<CmsGroup> groups = m_securityManager.getGroups(cms.getRequestContext(), ou, includeSubOus, true);
@@ -315,7 +316,7 @@ public class CmsRoleManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsRole> getRolesForResource(CmsObject cms, String userFqn, String resourceName) throws CmsException {
+    public List<CmsRole> getRolesForResource(CmsObject cms, @RUntainted String userFqn, String resourceName) throws CmsException {
 
         CmsUser user = cms.readUser(userFqn);
         CmsResource resource = cms.readResource(resourceName, CmsResourceFilter.ALL);
@@ -338,8 +339,8 @@ public class CmsRoleManager {
      */
     public List<CmsRole> getRolesOfUser(
         CmsObject cms,
-        String username,
-        String ouFqn,
+        @RUntainted String username,
+        @RUntainted String ouFqn,
         boolean includeChildOus,
         boolean directRolesOnly,
         boolean recursive)
@@ -437,7 +438,7 @@ public class CmsRoleManager {
      *
      * @return <code>true</code> if the given user has the given role in the given organizational unit
      */
-    public boolean hasRole(CmsObject cms, String userName, CmsRole role) {
+    public boolean hasRole(CmsObject cms, @RUntainted String userName, CmsRole role) {
 
         CmsUser user;
         try {
@@ -502,7 +503,7 @@ public class CmsRoleManager {
      *
      * @return <code>true</code> if the given context user has the given role for the given resource
      */
-    public boolean hasRoleForResource(CmsObject cms, String userName, CmsRole role, String resourceName) {
+    public boolean hasRoleForResource(CmsObject cms, @RUntainted String userName, CmsRole role, String resourceName) {
 
         CmsResource resource;
         try {
@@ -530,7 +531,7 @@ public class CmsRoleManager {
      *
      * @throws CmsException if operation was not successful
      */
-    public void removeUserFromRole(CmsObject cms, CmsRole role, String username) throws CmsException {
+    public void removeUserFromRole(CmsObject cms, CmsRole role, @RUntainted String username) throws CmsException {
 
         m_securityManager.removeUserFromGroup(cms.getRequestContext(), username, role.getGroupName(), true);
     }

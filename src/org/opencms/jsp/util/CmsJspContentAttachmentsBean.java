@@ -55,6 +55,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows accessing 'attachments' of an XML content via the EL in JSP code, which in OpenCms are defined as the contents of its detail-only containers.
@@ -97,7 +98,7 @@ public class CmsJspContentAttachmentsBean {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsJspContentAttachmentsBean(CmsObject cms, CmsResource pageResource)
+    public CmsJspContentAttachmentsBean(CmsObject cms, @RUntainted CmsResource pageResource)
     throws CmsException {
 
         CmsXmlContainerPage xmlContainerPage = CmsXmlContainerPageFactory.unmarshal(
@@ -156,7 +157,7 @@ public class CmsJspContentAttachmentsBean {
             cms,
             cms.getRequestContext().getLocale().toString(),
             page);
-        Optional<CmsResource> detailOnly = CmsDetailOnlyContainerUtil.getDetailOnlyPage(cms, content, locale);
+        @RUntainted Optional<@RUntainted CmsResource> detailOnly = CmsDetailOnlyContainerUtil.getDetailOnlyPage(cms, content, locale);
         if (detailOnly.isPresent()) {
             try {
                 return new CmsJspContentAttachmentsBean(cms, detailOnly.get());
@@ -183,7 +184,7 @@ public class CmsJspContentAttachmentsBean {
         CmsResource content,
         String locale) {
 
-        Optional<CmsResource> detailOnly = CmsDetailOnlyContainerUtil.getDetailOnlyPage(cms, content, locale);
+        @RUntainted Optional<@RUntainted CmsResource> detailOnly = CmsDetailOnlyContainerUtil.getDetailOnlyPage(cms, content, locale);
         if (!detailOnly.isPresent()) {
             return new CmsJspContentAttachmentsBean();
         } else {

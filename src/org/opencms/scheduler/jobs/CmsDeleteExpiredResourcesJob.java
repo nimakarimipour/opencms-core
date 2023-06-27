@@ -49,6 +49,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A schedulable OpenCms job to delete expired resources.<p>
@@ -113,7 +114,7 @@ public class CmsDeleteExpiredResourcesJob implements I_CmsScheduledJob {
             long currenttime = System.currentTimeMillis();
 
             // read the parameter for the versions to keep
-            int expirationdays = 30;
+            @RUntainted int expirationdays = 30;
             String expirationdaysparam = parameters.get(PARAM_EXPIRATIONSDAYS);
             if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(expirationdaysparam)) {
                 try {
@@ -125,7 +126,7 @@ public class CmsDeleteExpiredResourcesJob implements I_CmsScheduledJob {
 
             // read the parameter if to clear versions of deleted resources
             String resTypes = parameters.get(PARAM_RESOURCETYPES);
-            String[] resTypesArr = null;
+            @RUntainted String[] resTypesArr = null;
             if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(resTypes)) {
                 resTypesArr = CmsStringUtil.splitAsArray(resTypes, ',');
             }
@@ -201,7 +202,7 @@ public class CmsDeleteExpiredResourcesJob implements I_CmsScheduledJob {
         final CmsObject cms,
         final I_CmsReport report,
         final List<CmsResource> resources,
-        final int expirationdays,
+        final @RUntainted int expirationdays,
         final long currenttime) {
 
         int result = 0;
@@ -210,9 +211,9 @@ public class CmsDeleteExpiredResourcesJob implements I_CmsScheduledJob {
         CmsProperty property;
         String propertyValue;
         long expirationdate;
-        int expirationDaysPropertyOverride;
+        @RUntainted int expirationDaysPropertyOverride;
         Iterator<CmsResource> it = resources.iterator();
-        String resourcePath;
+        @RUntainted String resourcePath;
         while (it.hasNext()) {
             resource = it.next();
             resourcePath = cms.getRequestContext().removeSiteRoot(resource.getRootPath());

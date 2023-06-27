@@ -59,6 +59,7 @@ import javax.imageio.ImageReader;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Creates scaled images, acting as it's own parameter container.<p>
@@ -173,7 +174,7 @@ public class CmsImageScaler {
     private int m_renderMode;
 
     /** The final (parsed and corrected) scale parameters. */
-    private String m_scaleParameters;
+    private @RUntainted String m_scaleParameters;
 
     /** The target scale type (optional). */
     private int m_type;
@@ -205,7 +206,7 @@ public class CmsImageScaler {
      * @param content the image to calculate the dimensions for
      * @param rootPath the root path of the resource (for error logging)
      */
-    public CmsImageScaler(byte[] content, String rootPath) {
+    public CmsImageScaler(byte[] content, @RUntainted String rootPath) {
 
         init();
         try {
@@ -370,7 +371,7 @@ public class CmsImageScaler {
      * @return dimensions of image
      * @throws IOException if the file is not a known image
      */
-    public static Dimension getImageDimensions(String path, byte[] content) throws IOException {
+    public static Dimension getImageDimensions(@RUntainted String path, byte[] content) throws IOException {
 
         String name = CmsResource.getName(path);
         int pos = name.lastIndexOf(".");
@@ -1575,7 +1576,7 @@ public class CmsImageScaler {
      *
      * @return a request parameter configured with the values from this image scaler
      */
-    public String toRequestParam() {
+    public @RUntainted String toRequestParam() {
 
         StringBuffer result = new StringBuffer(128);
         result.append('?');
@@ -1590,7 +1591,7 @@ public class CmsImageScaler {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         if (m_scaleParameters != null) {
             return m_scaleParameters;

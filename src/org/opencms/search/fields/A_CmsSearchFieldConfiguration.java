@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.solr.uninverting.UninvertingReader.Type;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for a typical field configuration. Basically handles name and description
@@ -47,7 +48,7 @@ public abstract class A_CmsSearchFieldConfiguration implements I_CmsSearchFieldC
     /** Description of the field configuration. */
     private String m_description;
     /** Name of the field configuration. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** Map to lookup the configured {@link CmsSearchField} instances by name. */
     private Map<String, CmsSearchField> m_fields;
@@ -148,7 +149,7 @@ public abstract class A_CmsSearchFieldConfiguration implements I_CmsSearchFieldC
     /**
      * @see org.opencms.search.fields.I_CmsSearchFieldConfiguration#getName()
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -183,7 +184,7 @@ public abstract class A_CmsSearchFieldConfiguration implements I_CmsSearchFieldC
     /**
      * @see org.opencms.search.fields.I_CmsSearchFieldConfiguration#setName(java.lang.String)
      */
-    public void setName(String name) {
+    public void setName(@RUntainted String name) {
 
         m_name = name;
 

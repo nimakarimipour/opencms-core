@@ -47,6 +47,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.List;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Definitions of all required project driver methods. <p>
@@ -59,7 +60,7 @@ public interface I_CmsProjectDriver {
     int DRIVER_TYPE_ID = 1;
 
     /** Name of the setup project. */
-    String SETUP_PROJECT_NAME = "_setupProject";
+    @RUntainted String SETUP_PROJECT_NAME = "_setupProject";
 
     /** The name of the temp file project. */
     String TEMP_FILE_PROJECT_NAME = "tempFileProject";
@@ -95,11 +96,11 @@ public interface I_CmsProjectDriver {
      */
     CmsProject createProject(
         CmsDbContext dbc,
-        CmsUUID id,
+        @RUntainted CmsUUID id,
         CmsUser owner,
         CmsGroup group,
         CmsGroup managergroup,
-        String name,
+        @RUntainted String name,
         String description,
         int flags,
         CmsProjectType type)
@@ -114,7 +115,7 @@ public interface I_CmsProjectDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    void createProjectResource(CmsDbContext dbc, CmsUUID projectId, String resourceName) throws CmsDataAccessException;
+    void createProjectResource(CmsDbContext dbc, CmsUUID projectId, @RUntainted String resourceName) throws CmsDataAccessException;
 
     /**
      * Inserts an entry for a publish job .<p>
@@ -439,7 +440,7 @@ public interface I_CmsProjectDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    List<CmsLock> readLocks(CmsDbContext dbc) throws CmsDataAccessException;
+    @RUntainted List<@RUntainted CmsLock> readLocks(CmsDbContext dbc) throws CmsDataAccessException;
 
     /**
      * Reads log entries matching the given filter.<p>
@@ -474,7 +475,7 @@ public interface I_CmsProjectDriver {
      * @return the project with the given name
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsProject readProject(CmsDbContext dbc, String name) throws CmsDataAccessException;
+    CmsProject readProject(CmsDbContext dbc, @RUntainted String name) throws CmsDataAccessException;
 
     /**
      * Reads the project resource path for a given project and resource path,
@@ -487,7 +488,7 @@ public interface I_CmsProjectDriver {
      * @return String the project's resource path
      * @throws CmsDataAccessException if something goes wrong
      */
-    String readProjectResource(CmsDbContext dbc, CmsUUID projectId, String resourcename) throws CmsDataAccessException;
+    String readProjectResource(CmsDbContext dbc, CmsUUID projectId, @RUntainted String resourcename) throws CmsDataAccessException;
 
     /**
      * Reads the project resources for a specified project.<p>
@@ -593,7 +594,7 @@ public interface I_CmsProjectDriver {
      * @return the assigned publish list
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsPublishList readPublishList(CmsDbContext dbc, CmsUUID publishHistoryId) throws CmsDataAccessException;
+    CmsPublishList readPublishList(CmsDbContext dbc, @RUntainted CmsUUID publishHistoryId) throws CmsDataAccessException;
 
     /**
      * Reads the publish report assigned to a publish job.<p>
@@ -715,7 +716,7 @@ public interface I_CmsProjectDriver {
      * @param content the report output
      * @throws CmsDataAccessException if something goes wrong
      */
-    void writePublishReport(CmsDbContext dbc, CmsUUID publishId, byte[] content) throws CmsDataAccessException;
+    void writePublishReport(CmsDbContext dbc, @RUntainted CmsUUID publishId, byte[] content) throws CmsDataAccessException;
 
     /**
      * Inserts an entry in the published resource table.<p>

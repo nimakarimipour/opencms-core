@@ -71,6 +71,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the OpenCms Import Interface ({@link org.opencms.importexport.I_CmsImport}) for
@@ -106,10 +107,10 @@ public class CmsImportVersion2 extends A_CmsImport {
     protected String m_webappUrl;
 
     /** folder storage for page file and body conversion. */
-    private List<String> m_folderStorage;
+    private @RUntainted List<@RUntainted String> m_folderStorage;
 
     /** page file storage for page file and body co.version. */
-    private List<String> m_pageStorage;
+    private @RUntainted List<@RUntainted String> m_pageStorage;
 
     /**
      * Translates directory Strings from OpenCms 4.x structure to new 5.0 structure.<p>
@@ -118,11 +119,11 @@ public class CmsImportVersion2 extends A_CmsImport {
      * @param rules the translation rules
      * @return String the manipulated file content
      */
-    public static String setDirectories(String content, String[] rules) {
+    public static String setDirectories(String content, @RUntainted String[] rules) {
 
         // get translation rules
         for (int i = 0; i < rules.length; i++) {
-            String actRule = rules[i];
+            @RUntainted String actRule = rules[i];
             // cut String "/default/vfs/" from rule
             actRule = CmsStringUtil.substitute(actRule, "/default/vfs", "");
             // divide rule into search and replace parts and delete regular expressions
@@ -265,7 +266,7 @@ public class CmsImportVersion2 extends A_CmsImport {
      * @param resType the type of the resource
      * @return the (prepared) content of the resource
      */
-    protected byte[] convertContent(String source, String destination, byte[] content, String resType) {
+    protected @RUntainted byte[] convertContent(String source, @RUntainted String destination, @RUntainted byte[] content, String resType) {
 
         // if the import is older than version 3, some additional conversions must be made
         if (getVersion() < 3) {
@@ -313,15 +314,15 @@ public class CmsImportVersion2 extends A_CmsImport {
      */
     @Override
     protected void importUser(
-        String name,
+        @RUntainted String name,
         String flags,
         String password,
-        String firstname,
-        String lastname,
-        String email,
-        long dateCreated,
-        Map<String, Object> userInfo,
-        List<String> userGroups)
+        @RUntainted String firstname,
+        @RUntainted String lastname,
+        @RUntainted String email,
+        @RUntainted long dateCreated,
+        @RUntainted Map<@RUntainted String, @RUntainted Object> userInfo,
+        @RUntainted List<@RUntainted String> userGroups)
     throws CmsImportExportException {
 
         boolean convert = false;
@@ -434,10 +435,10 @@ public class CmsImportVersion2 extends A_CmsImport {
         List<Node> fileNodes = null;
         List<Node> acentryNodes = null;
         Element currentElement = null, currentEntry = null;
-        String source = null, destination = null, resourceTypeName = null, timestamp = null, uuid = null,
+        @RUntainted String source = null, destination = null, resourceTypeName = null, timestamp = null, uuid = null,
         uuidresource = null;
         long lastmodified = 0;
-        int resourceTypeId = CmsResourceTypePlain.getStaticTypeId();
+        @RUntainted int resourceTypeId = CmsResourceTypePlain.getStaticTypeId();
         List<CmsProperty> properties = null;
         boolean old_overwriteCollidingResources = false;
         try {
@@ -545,7 +546,7 @@ public class CmsImportVersion2 extends A_CmsImport {
                             destination));
                 }
 
-                String translatedName = m_cms.getRequestContext().addSiteRoot(m_importPath + destination);
+                @RUntainted String translatedName = m_cms.getRequestContext().addSiteRoot(m_importPath + destination);
                 if (CmsResourceTypeFolder.RESOURCE_TYPE_NAME.equals(resourceTypeName)) {
                     // ensure folders end with a "/"
                     if (!CmsResource.isFolder(translatedName)) {
@@ -693,17 +694,17 @@ public class CmsImportVersion2 extends A_CmsImport {
      */
     private CmsResource importResource(
         String source,
-        String destination,
+        @RUntainted String destination,
         String uuid,
-        String uuidresource,
-        int resourceTypeId,
+        @RUntainted String uuidresource,
+        @RUntainted int resourceTypeId,
         String resourceTypeName,
-        long lastmodified,
+        @RUntainted long lastmodified,
         List<CmsProperty> properties) {
 
-        byte[] content = null;
+        @RUntainted byte[] content = null;
         CmsResource res = null;
-        String targetName = null;
+        @RUntainted String targetName = null;
 
         try {
             // get the file content
@@ -714,14 +715,14 @@ public class CmsImportVersion2 extends A_CmsImport {
             content = convertContent(source, destination, content, resourceTypeName);
 
             // get all required information to create a CmsResource
-            int size = 0;
+            @RUntainted int size = 0;
             if (content != null) {
                 size = content.length;
             }
             // get the required UUIDs
             CmsUUID curUser = m_cms.getRequestContext().getCurrentUser().getId();
-            CmsUUID newUuidstructure = new CmsUUID();
-            CmsUUID newUuidresource = new CmsUUID();
+            @RUntainted CmsUUID newUuidstructure = new CmsUUID();
+            @RUntainted CmsUUID newUuidresource = new CmsUUID();
             if (uuid != null) {
                 newUuidstructure = new CmsUUID(uuid);
             }
@@ -817,7 +818,7 @@ public class CmsImportVersion2 extends A_CmsImport {
      * @throws CmsImportExportException if something goes wrong
      * @throws CmsXmlException if the page file could not be unmarshalled
      */
-    private void mergePageFile(String resourcename) throws CmsXmlException, CmsImportExportException {
+    private void mergePageFile(@RUntainted String resourcename) throws CmsXmlException, CmsImportExportException {
 
         try {
 
@@ -834,7 +835,7 @@ public class CmsImportVersion2 extends A_CmsImport {
 
             // get the <masterTemplate> node to check the content. this node contains the name of the template file.
             String masterTemplateNodeName = "//masterTemplate";
-            Node masterTemplateNode = contentXml.selectSingleNode(masterTemplateNodeName);
+            @RUntainted Node masterTemplateNode = contentXml.selectSingleNode(masterTemplateNodeName);
             if (masterTemplateNode == null) {
                 masterTemplateNode = contentXml.selectSingleNode(masterTemplateNodeName.toLowerCase());
             }
@@ -843,7 +844,7 @@ public class CmsImportVersion2 extends A_CmsImport {
             }
 
             // there is only one <masterTemplate> allowed
-            String mastertemplate = null;
+            @RUntainted String mastertemplate = null;
             if (masterTemplateNode != null) {
                 // get the name of the mastertemplate
                 mastertemplate = masterTemplateNode.getText().trim();
@@ -861,13 +862,13 @@ public class CmsImportVersion2 extends A_CmsImport {
             if (bodyNode != null) {
 
                 String bodyclass = null;
-                String bodyname = null;
+                @RUntainted String bodyname = null;
                 Map<String, String> bodyparams = null;
 
                 List<Element> nodes = ((Element)bodyNode).elements();
                 for (int i = 0, n = nodes.size(); i < n; i++) {
 
-                    Node node = nodes.get(i);
+                    @RUntainted Node node = nodes.get(i);
 
                     if ("CLASS".equalsIgnoreCase(node.getName())) {
                         bodyclass = node.getText().trim();
@@ -1077,10 +1078,10 @@ public class CmsImportVersion2 extends A_CmsImport {
         // iterate through the list of all page controlfiles found during the import process
         int size = m_pageStorage.size();
         m_report.println(Messages.get().container(Messages.RPT_MERGE_START_0), I_CmsReport.FORMAT_HEADLINE);
-        Iterator<String> i = m_pageStorage.iterator();
+        @RUntainted Iterator<@RUntainted String> i = m_pageStorage.iterator();
         int counter = 1;
         while (i.hasNext()) {
-            String resname = i.next();
+            @RUntainted String resname = i.next();
             // adjust the resourcename if nescessary
             if (!resname.startsWith("/")) {
                 resname = "/" + resname;
@@ -1130,7 +1131,7 @@ public class CmsImportVersion2 extends A_CmsImport {
             // as folders habe to be deleted in the reverse order.
             int counter = 1;
             for (int j = (size - 1); j >= 0; j--) {
-                String resname = m_folderStorage.get(j);
+                @RUntainted String resname = m_folderStorage.get(j);
                 resname = (resname.startsWith("/") ? "" : "/") + resname + (resname.endsWith("/") ? "" : "/");
                 // now check if the folder is really empty. Only delete empty folders
                 List<CmsResource> files = m_cms.getFilesInFolder(resname, CmsResourceFilter.IGNORE_EXPIRATION);

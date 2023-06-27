@@ -33,6 +33,7 @@ import org.opencms.file.types.A_CmsResourceType;
 import org.opencms.util.CmsMacroResolver;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a resource to copy during the creation of a new resource.<p>
@@ -57,7 +58,7 @@ public class CmsConfigurationCopyResource implements Serializable {
     private static final long serialVersionUID = 3698327414935524194L;
 
     /** The source resource. */
-    private String m_source;
+    private @RUntainted String m_source;
 
     /** The target resource (may contain macros). */
     private String m_target;
@@ -81,7 +82,7 @@ public class CmsConfigurationCopyResource implements Serializable {
      * @param target the target resource (may contain macros)
      * @param type the type of the copy, for example "as new", "as sibling" etc
      */
-    public CmsConfigurationCopyResource(String source, String target, String type) {
+    public CmsConfigurationCopyResource(@RUntainted String source, String target, String type) {
 
         m_source = source;
 
@@ -109,7 +110,7 @@ public class CmsConfigurationCopyResource implements Serializable {
      *
      * @return the source resource
      */
-    public String getSource() {
+    public @RUntainted String getSource() {
 
         return m_source;
     }

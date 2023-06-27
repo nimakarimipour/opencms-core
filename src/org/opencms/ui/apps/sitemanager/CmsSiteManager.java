@@ -73,6 +73,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.event.FieldEvents.TextChangeEvent;
 import com.vaadin.v7.event.FieldEvents.TextChangeListener;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manager class for the Site manager app.
@@ -84,10 +85,10 @@ public class CmsSiteManager extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Cm
     public static final String BUNDLE_NAME = "siteMacroBundle";
 
     /**Constant.*/
-    public static final String FAVICON = "favicon.ico";
+    public static final @RUntainted String FAVICON = "favicon.ico";
 
     /** Name of the macros folder for site templates.*/
-    public static final String MACRO_FOLDER = ".macros";
+    public static final @RUntainted String MACRO_FOLDER = ".macros";
 
     /** The add project path name. */
     public static final String PATH_NAME_ADD = "newSite";
@@ -250,7 +251,7 @@ public class CmsSiteManager extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Cm
     /**
      * @see org.opencms.ui.apps.I_CmsCRUDApp#getElement(java.lang.String)
      */
-    public CmsSite getElement(String elementId) {
+    public CmsSite getElement(@RUntainted String elementId) {
 
         return OpenCms.getSiteManager().getSiteForSiteRoot(elementId);
     }
@@ -351,7 +352,7 @@ public class CmsSiteManager extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Cm
         CmsObject cms,
         String defaultUri,
         Map<String, CmsSSLMode> workplaceServers,
-        String sharedFolder) {
+        @RUntainted String sharedFolder) {
 
         try {
             OpenCms.getSiteManager().updateGeneralSettings(cms, defaultUri, workplaceServers, sharedFolder);

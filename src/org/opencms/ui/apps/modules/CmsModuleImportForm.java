@@ -57,6 +57,7 @@ import com.vaadin.v7.ui.Upload.StartedListener;
 import com.vaadin.v7.ui.Upload.SucceededEvent;
 import com.vaadin.v7.ui.Upload.SucceededListener;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The form for importing modules via HTTP.<p>
@@ -79,7 +80,7 @@ public class CmsModuleImportForm extends A_CmsModuleImportForm {
     protected Button m_ok;
 
     /** The site  selector. */
-    protected CmsAutoItemCreatingComboBox m_siteSelect;
+    protected @RUntainted CmsAutoItemCreatingComboBox m_siteSelect;
 
     /** The upload widget. */
     protected Upload m_upload;
@@ -251,7 +252,7 @@ public class CmsModuleImportForm extends A_CmsModuleImportForm {
      * @see org.opencms.ui.apps.modules.A_CmsModuleImportForm#getSiteSelector()
      */
     @Override
-    protected CmsAutoItemCreatingComboBox getSiteSelector() {
+    protected @RUntainted CmsAutoItemCreatingComboBox getSiteSelector() {
 
         return m_siteSelect;
     }

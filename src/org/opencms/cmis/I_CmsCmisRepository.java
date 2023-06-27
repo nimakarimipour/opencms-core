@@ -55,6 +55,7 @@ import org.apache.chemistry.opencmis.commons.enums.RelationshipDirection;
 import org.apache.chemistry.opencmis.commons.enums.UnfileObject;
 import org.apache.chemistry.opencmis.commons.enums.VersioningState;
 import org.apache.chemistry.opencmis.commons.spi.Holder;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base interface for OpenCms CMIS repositories.<p>
@@ -168,7 +169,7 @@ public interface I_CmsCmisRepository extends I_CmsRepository {
     String createDocument(
         CmsCmisCallContext context,
         Properties propertiesObj,
-        String folderId,
+        @RUntainted String folderId,
         ContentStream contentStream,
         VersioningState versioningState,
         List<String> policies,
@@ -191,9 +192,9 @@ public interface I_CmsCmisRepository extends I_CmsRepository {
      */
     String createDocumentFromSource(
         CmsCmisCallContext context,
-        String sourceId,
+        @RUntainted String sourceId,
         Properties propertiesObj,
-        String folderId,
+        @RUntainted String folderId,
         VersioningState versioningState,
         List<String> policies,
         Acl addAces,
@@ -214,7 +215,7 @@ public interface I_CmsCmisRepository extends I_CmsRepository {
     String createFolder(
         CmsCmisCallContext context,
         Properties propertiesObj,
-        String folderId,
+        @RUntainted String folderId,
         List<String> policies,
         Acl addAces,
         Acl removeAces);
@@ -288,7 +289,7 @@ public interface I_CmsCmisRepository extends I_CmsRepository {
      */
     FailedToDeleteData deleteTree(
         CmsCmisCallContext context,
-        String folderId,
+        @RUntainted String folderId,
         boolean allVersions,
         UnfileObject unfileObjects,
         boolean continueOnFailure);
@@ -386,7 +387,7 @@ public interface I_CmsCmisRepository extends I_CmsRepository {
      */
     ObjectInFolderList getChildren(
         CmsCmisCallContext context,
-        String folderId,
+        @RUntainted String folderId,
         String filter,
         String orderBy,
         boolean includeAllowableActions,
@@ -436,7 +437,7 @@ public interface I_CmsCmisRepository extends I_CmsRepository {
      */
     ContentStream getContentStream(
         CmsCmisCallContext context,
-        String objectId,
+        @RUntainted String objectId,
         String streamId,
         BigInteger offset,
         BigInteger length);
@@ -455,7 +456,7 @@ public interface I_CmsCmisRepository extends I_CmsRepository {
      */
     List<ObjectInFolderContainer> getDescendants(
         CmsCmisCallContext context,
-        String folderId,
+        @RUntainted String folderId,
         BigInteger depth,
         String filter,
         boolean includeAllowableActions,
@@ -483,7 +484,7 @@ public interface I_CmsCmisRepository extends I_CmsRepository {
      *
      * @return the parent object data
      */
-    ObjectData getFolderParent(CmsCmisCallContext context, String folderId, String filter);
+    ObjectData getFolderParent(CmsCmisCallContext context, @RUntainted String folderId, String filter);
 
     /**
      * Gets the repository id.<p>
@@ -515,7 +516,7 @@ public interface I_CmsCmisRepository extends I_CmsRepository {
      */
     ObjectData getObject(
         CmsCmisCallContext context,
-        String objectId,
+        @RUntainted String objectId,
         String filter,
         boolean includeAllowableActions,
         IncludeRelationships includeRelationships,
@@ -588,7 +589,7 @@ public interface I_CmsCmisRepository extends I_CmsRepository {
      */
     List<ObjectParentData> getObjectParents(
         CmsCmisCallContext context,
-        String objectId,
+        @RUntainted String objectId,
         String filter,
         boolean includeAllowableActions,
         boolean includeRelativePathSegment);
@@ -610,7 +611,7 @@ public interface I_CmsCmisRepository extends I_CmsRepository {
      */
     ObjectList getObjectRelationships(
         CmsCmisCallContext context,
-        String objectId,
+        @RUntainted String objectId,
         boolean includeSubRelationshipTypes,
         RelationshipDirection relationshipDirection,
         String typeId,
@@ -661,7 +662,7 @@ public interface I_CmsCmisRepository extends I_CmsRepository {
      */
     List<RenditionData> getRenditions(
         CmsCmisCallContext context,
-        String objectId,
+        @RUntainted String objectId,
         String renditionFilter,
         BigInteger maxItems,
         BigInteger skipCount);
@@ -725,7 +726,7 @@ public interface I_CmsCmisRepository extends I_CmsRepository {
      * @param targetFolderId source source folder id
      * @param sourceFolderId the target folder id
      */
-    void moveObject(CmsCmisCallContext context, Holder<String> objectId, String targetFolderId, String sourceFolderId);
+    void moveObject(CmsCmisCallContext context, @RUntainted Holder<@RUntainted String> objectId, @RUntainted String targetFolderId, String sourceFolderId);
 
     /**
      * Performs a query on the repository.<p>
@@ -780,7 +781,7 @@ public interface I_CmsCmisRepository extends I_CmsRepository {
      */
     void setContentStream(
         CmsCmisCallContext context,
-        Holder<String> objectId,
+        @RUntainted Holder<@RUntainted String> objectId,
         boolean overwriteFlag,
         Holder<String> changeToken,
         ContentStream contentStream);
@@ -795,7 +796,7 @@ public interface I_CmsCmisRepository extends I_CmsRepository {
      */
     void updateProperties(
         CmsCmisCallContext context,
-        Holder<String> objectId,
+        @RUntainted Holder<@RUntainted String> objectId,
         Holder<String> changeToken,
         Properties properties);
 

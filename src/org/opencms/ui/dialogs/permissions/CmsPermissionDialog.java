@@ -80,6 +80,7 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The permission dialog.<p>
@@ -237,7 +238,7 @@ public class CmsPermissionDialog extends CmsBasicDialog implements PermissionCha
     /**
      * @see org.opencms.ui.dialogs.permissions.CmsPermissionView.PermissionChangeHandler#deletePermissionSet(java.lang.String, java.lang.String)
      */
-    public void deletePermissionSet(String principalType, String principalName) {
+    public void deletePermissionSet(@RUntainted String principalType, @RUntainted String principalName) {
 
         CmsPermissionBean bean = new CmsPermissionBean(principalType, principalName);
         m_permissionToChange.remove(bean);
@@ -248,7 +249,7 @@ public class CmsPermissionDialog extends CmsBasicDialog implements PermissionCha
     /**
      * @see org.opencms.ui.dialogs.permissions.CmsPrincipalSelect.I_PrincipalSelectHandler#onPrincipalSelect(java.lang.String, java.lang.String)
      */
-    public void onPrincipalSelect(String principalType, String principalName) {
+    public void onPrincipalSelect(@RUntainted String principalType, @RUntainted String principalName) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(principalName)) {
             String permissionString = "";
@@ -538,7 +539,7 @@ public class CmsPermissionDialog extends CmsBasicDialog implements PermissionCha
      * @return String with HTML code of the form
      */
     private CmsPermissionView buildPermissionEntryForm(
-        CmsUUID id,
+        @RUntainted CmsUUID id,
         CmsPermissionSet curSet,
         boolean editable,
         boolean extendedView) {

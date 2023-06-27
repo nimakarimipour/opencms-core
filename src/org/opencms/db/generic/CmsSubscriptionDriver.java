@@ -68,6 +68,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic implementation of the user tracking and subscription driver interface.<p>
@@ -211,7 +212,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
 
         if (!entryExists) {
             // new entry, check if maximum number of stored visited resources is exceeded
-            PreparedStatement stmt = null;
+            @RUntainted PreparedStatement stmt = null;
             Connection conn = null;
             ResultSet res = null;
             int count = 0;
@@ -276,9 +277,9 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
     public List<CmsResource> readAllSubscribedResources(CmsDbContext dbc, String poolName, CmsPrincipal principal)
     throws CmsDataAccessException {
 
-        PreparedStatement stmt = null;
+        @RUntainted PreparedStatement stmt = null;
         Connection conn = null;
-        ResultSet res = null;
+        @RUntainted ResultSet res = null;
         CmsResource currentResource = null;
         List<CmsResource> resources = new ArrayList<CmsResource>();
 
@@ -343,7 +344,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
             }
 
             conn = m_sqlManager.getConnection(poolName);
-            String query = m_sqlManager.readQuery(dbc.currentProject(), "C_VISITED_USER_READ_4");
+            @RUntainted String query = m_sqlManager.readQuery(dbc.currentProject(), "C_VISITED_USER_READ_4");
             query = CmsStringUtil.substitute(query, "%(CONDITIONS)", conditions.toString());
             stmt = m_sqlManager.getPreparedStatementForSql(conn, query);
 
@@ -455,8 +456,8 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
         if (parent != null) {
             parentFolderPath = CmsResource.getFolderPath(parent.getRootPath());
         }
-        for (Iterator<CmsUUID> i = historyIDs.iterator(); i.hasNext();) {
-            CmsUUID id = i.next();
+        for (@RUntainted Iterator<@RUntainted CmsUUID> i = historyIDs.iterator(); i.hasNext();) {
+            @RUntainted CmsUUID id = i.next();
             int version = m_driverManager.getHistoryDriver(dbc).readLastVersion(dbc, id);
             if (version > 0) {
                 I_CmsHistoryResource histRes = m_driverManager.getHistoryDriver(dbc).readResource(dbc, id, version);
@@ -489,7 +490,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
         CmsResource currentResource = null;
         List<CmsResource> resources = new ArrayList<CmsResource>();
 
-        String queryBuf = m_sqlManager.readQuery(dbc.currentProject(), "C_SUBSCRIPTION_FILTER_READ");
+        @RUntainted String queryBuf = m_sqlManager.readQuery(dbc.currentProject(), "C_SUBSCRIPTION_FILTER_READ");
 
         StringBuffer conditions = new StringBuffer(256);
         List<I_CmsPreparedStatementParameter> params = new ArrayList<I_CmsPreparedStatementParameter>();

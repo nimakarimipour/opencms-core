@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.collections4.CollectionUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility methods for getting widget informations out of content definitions.<p>
@@ -149,7 +150,7 @@ public final class CmsWidgetUtil {
     public static WidgetInfo collectWidgetInfo(
         CmsObject cms,
         CmsXmlContentDefinition rootContentDefinition,
-        String path,
+        @RUntainted String path,
         CmsMessages messages) {
 
         String widgetConfig = null;

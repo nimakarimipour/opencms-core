@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.htmlparser.Tag;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The CmsDecoratorConfiguration initalizes and stores the text decorations.<p>
@@ -239,7 +240,7 @@ public class CmsDecoratorConfiguration implements I_CmsDecoratorConfiguration {
      * @param i the number of the decoration definition to create
      * @return CmsDecorationDefintion created form configuration file
      */
-    public CmsDecorationDefintion getDecorationDefinition(CmsXmlContent configuration, int i) {
+    public CmsDecorationDefintion getDecorationDefinition(CmsXmlContent configuration, @RUntainted int i) {
 
         CmsDecorationDefintion decDef = new CmsDecorationDefintion();
         String name = configuration.getValue(XPATH_DECORATION + "[" + i + "]/" + XPATH_NAME, m_configurationLocale).getStringValue(

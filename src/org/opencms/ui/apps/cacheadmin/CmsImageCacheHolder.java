@@ -45,6 +45,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for getting information about cached images.<p>
@@ -161,7 +162,7 @@ public class CmsImageCacheHolder {
      * @param oName Name of cached image file
      * @return vfs resource name (root path)
      */
-    String getVFSName(CmsObject cms, String oName) {
+    String getVFSName(CmsObject cms, @RUntainted String oName) {
 
         oName = CmsStringUtil.substitute(oName, "\\", "/");
         if (!oName.startsWith("/")) {
@@ -172,7 +173,7 @@ public class CmsImageCacheHolder {
             return PATH_TO_VFS_NAME.get(oName);
         }
 
-        String imgName = oName;
+        @RUntainted String imgName = oName;
         CmsResource res = null;
         boolean found = false;
         while (!found) {

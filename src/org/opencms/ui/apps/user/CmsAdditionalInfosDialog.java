@@ -58,6 +58,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the Additional User info dialog.<p>
@@ -108,7 +109,7 @@ public class CmsAdditionalInfosDialog extends CmsBasicDialog {
      * @param window window
      * @param app
      */
-    public CmsAdditionalInfosDialog(CmsObject cms, CmsUUID userID, final Window window, CmsAccountsApp app) {
+    public CmsAdditionalInfosDialog(CmsObject cms, @RUntainted CmsUUID userID, final Window window, CmsAccountsApp app) {
 
         CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 
@@ -192,13 +193,13 @@ public class CmsAdditionalInfosDialog extends CmsBasicDialog {
 
         for (I_CmsEditableGroupRow row : m_userinfoGroup.getRows()) {
             String key = ((TextField)(((HorizontalLayout)row.getComponent()).getComponent(0))).getValue();
-            String value = ((TextField)(((HorizontalLayout)row.getComponent()).getComponent(1))).getValue();
+            @RUntainted String value = ((TextField)(((HorizontalLayout)row.getComponent()).getComponent(1))).getValue();
             saveAddInfo(key, value);
             m_addInfoEditable.remove(key);
         }
 
         //Remaining items in list seem to be deleted by the user..
-        for (String key : m_addInfoEditable.keySet()) {
+        for (@RUntainted String key : m_addInfoEditable.keySet()) {
             saveAddInfo(key, null);
         }
         try {
@@ -280,7 +281,7 @@ public class CmsAdditionalInfosDialog extends CmsBasicDialog {
      * @param key string
      * @param value string
      */
-    private void saveAddInfo(String key, String value) {
+    private void saveAddInfo(@RUntainted String key, @RUntainted String value) {
 
         int pos = key.indexOf("@");
 

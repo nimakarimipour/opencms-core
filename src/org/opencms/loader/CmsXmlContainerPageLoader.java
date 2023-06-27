@@ -41,6 +41,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * OpenCms loader for resources of type <code>{@link org.opencms.file.types.CmsResourceTypeXmlContainerPage}</code>.<p>
@@ -96,7 +97,7 @@ public class CmsXmlContainerPageLoader extends CmsXmlContentLoader {
      * @see org.opencms.loader.A_CmsXmlDocumentLoader#load(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public void load(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+    public void load(@RUntainted CmsObject cms, CmsResource resource, @RUntainted HttpServletRequest req, HttpServletResponse res)
     throws ServletException, IOException, CmsException {
 
         CmsTemplateLoaderFacade loaderFacade = OpenCms.getResourceManager().getTemplateLoaderFacade(

@@ -29,6 +29,7 @@ package org.opencms.gwt;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -139,28 +140,28 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String GUI_STATUS_STRUCTURE_ID_0 = "GUI_STATUS_STRUCTURE_ID_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_STATUS_TAB_FROM_CP_0 = "GUI_STATUS_TAB_FROM_CP_0";
+    public static final @RUntainted String GUI_STATUS_TAB_FROM_CP_0 = "GUI_STATUS_TAB_FROM_CP_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_STATUS_TAB_FROM_OTHER_0 = "GUI_STATUS_TAB_FROM_OTHER_0";
+    public static final @RUntainted String GUI_STATUS_TAB_FROM_OTHER_0 = "GUI_STATUS_TAB_FROM_OTHER_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_STATUS_TAB_FROM_XML_0 = "GUI_STATUS_TAB_FROM_XML_0";
+    public static final @RUntainted String GUI_STATUS_TAB_FROM_XML_0 = "GUI_STATUS_TAB_FROM_XML_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_STATUS_TAB_SIBLINGS_0 = "GUI_STATUS_TAB_SIBLINGS_0";
+    public static final @RUntainted String GUI_STATUS_TAB_SIBLINGS_0 = "GUI_STATUS_TAB_SIBLINGS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_STATUS_TAB_STATUS_0 = "GUI_STATUS_TAB_STATUS_0";
+    public static final @RUntainted String GUI_STATUS_TAB_STATUS_0 = "GUI_STATUS_TAB_STATUS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_STATUS_TAB_TO_CP_0 = "GUI_STATUS_TAB_TO_CP_0";
+    public static final @RUntainted String GUI_STATUS_TAB_TO_CP_0 = "GUI_STATUS_TAB_TO_CP_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_STATUS_TAB_TO_OTHER_0 = "GUI_STATUS_TAB_TO_OTHER_0";
+    public static final @RUntainted String GUI_STATUS_TAB_TO_OTHER_0 = "GUI_STATUS_TAB_TO_OTHER_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_STATUS_TAB_TO_XML_0 = "GUI_STATUS_TAB_TO_XML_0";
+    public static final @RUntainted String GUI_STATUS_TAB_TO_XML_0 = "GUI_STATUS_TAB_TO_XML_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_TOO_MANY_RELATIONS_1 = "GUI_TOO_MANY_RELATIONS_1";
@@ -200,7 +201,7 @@ public final class Messages extends A_CmsMessageBundle {
      *
      * @return the bundle name for this OpenCms package
      */
-    public String getBundleName() {
+    public @RUntainted String getBundleName() {
 
         return BUNDLE_NAME;
     }

@@ -44,6 +44,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Controller for getting access to the CmsObject, should be used as a
@@ -63,16 +64,16 @@ public class CmsFlexController {
     private static Set<String> uncacheableAttributes = new HashSet<String>();
 
     /** The CmsFlexCache where the result will be cached in, required for the dispatcher. */
-    private CmsFlexCache m_cache;
+    private @RUntainted CmsFlexCache m_cache;
 
     /** The wrapped CmsObject provides JSP with access to the core system. */
-    private CmsObject m_cmsObject;
+    private @RUntainted CmsObject m_cmsObject;
 
     /** List of wrapped RequestContext info object. */
     private List<CmsFlexRequestContextInfo> m_flexContextInfoList;
 
     /** List of wrapped CmsFlexRequests. */
-    private List<CmsFlexRequest> m_flexRequestList;
+    private @RUntainted List<@RUntainted CmsFlexRequest> m_flexRequestList;
 
     /** List of wrapped CmsFlexResponses. */
     private List<CmsFlexResponse> m_flexResponseList;
@@ -93,10 +94,10 @@ public class CmsFlexController {
     private boolean m_streaming;
 
     /** Exception that was caught during inclusion of sub elements. */
-    private Throwable m_throwable;
+    private @RUntainted Throwable m_throwable;
 
     /** URI of a VFS resource that caused the exception. */
-    private String m_throwableResourceUri;
+    private @RUntainted String m_throwableResourceUri;
 
     /** Indicates if the request is the top request. */
     private boolean m_top;
@@ -107,7 +108,7 @@ public class CmsFlexController {
      * @param cms the OpenCms user context for this controller
      * @param base the base controller
      */
-    public CmsFlexController(CmsObject cms, CmsFlexController base) {
+    public CmsFlexController(@RUntainted CmsObject cms, CmsFlexController base) {
 
         m_cmsObject = cms;
         m_resource = base.m_resource;
@@ -135,9 +136,9 @@ public class CmsFlexController {
      * @param top indicates if the response is the top response
      */
     public CmsFlexController(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsResource resource,
-        CmsFlexCache cache,
+        @RUntainted CmsFlexCache cache,
         HttpServletRequest req,
         HttpServletResponse res,
         boolean streaming,
@@ -164,7 +165,7 @@ public class CmsFlexController {
      * @param req the current request
      * @return the wrapped CmsObject
      */
-    public static CmsObject getCmsObject(ServletRequest req) {
+    public static @RUntainted CmsObject getCmsObject(ServletRequest req) {
 
         CmsFlexController controller = (CmsFlexController)req.getAttribute(ATTRIBUTE_NAME);
         if (controller != null) {
@@ -182,7 +183,7 @@ public class CmsFlexController {
      *
      * @return the controller from the given request, or <code>null</code> if the request is not running inside OpenCms
      */
-    public static CmsFlexController getController(ServletRequest req) {
+    public static @RUntainted CmsFlexController getController(@RUntainted ServletRequest req) {
 
         return (CmsFlexController)req.getAttribute(ATTRIBUTE_NAME);
     }
@@ -196,7 +197,7 @@ public class CmsFlexController {
      *
      * @see #getThrowable()
      */
-    public static Throwable getThrowable(ServletRequest req) {
+    public static @RUntainted Throwable getThrowable(ServletRequest req) {
 
         CmsFlexController controller = (CmsFlexController)req.getAttribute(ATTRIBUTE_NAME);
         if (controller != null) {
@@ -215,7 +216,7 @@ public class CmsFlexController {
      *
      * @see #getThrowableResourceUri()
      */
-    public static String getThrowableResourceUri(ServletRequest req) {
+    public static @RUntainted String getThrowableResourceUri(ServletRequest req) {
 
         CmsFlexController controller = (CmsFlexController)req.getAttribute(ATTRIBUTE_NAME);
         if (controller != null) {
@@ -233,7 +234,7 @@ public class CmsFlexController {
      * @return <code>true</code> if the request is running in OpenCms and the current users project is
      *      the online project, <code>false</code> otherwise
      */
-    public static boolean isCmsOnlineRequest(ServletRequest req) {
+    public static boolean isCmsOnlineRequest(@RUntainted ServletRequest req) {
 
         if (req == null) {
             return false;
@@ -411,7 +412,7 @@ public class CmsFlexController {
      *
      * @return the CmsFlexCache instance where all results from this request will be cached in
      */
-    public CmsFlexCache getCmsCache() {
+    public @RUntainted CmsFlexCache getCmsCache() {
 
         return m_cache;
     }
@@ -421,7 +422,7 @@ public class CmsFlexController {
      *
      * @return the wrapped CmsObject
      */
-    public CmsObject getCmsObject() {
+    public @RUntainted CmsObject getCmsObject() {
 
         return m_cmsObject;
     }
@@ -444,7 +445,7 @@ public class CmsFlexController {
      *
      * @return the current flex request
      */
-    public CmsFlexRequest getCurrentRequest() {
+    public @RUntainted CmsFlexRequest getCurrentRequest() {
 
         return m_flexRequestList.get(m_flexRequestList.size() - 1);
     }
@@ -505,7 +506,7 @@ public class CmsFlexController {
      *
      * @return an exception (Throwable) that was caught during inclusion of sub elements
      */
-    public Throwable getThrowable() {
+    public @RUntainted Throwable getThrowable() {
 
         return m_throwable;
     }
@@ -516,7 +517,7 @@ public class CmsFlexController {
      *
      * @return the URI of a VFS resource that caused the exception that was caught during inclusion of sub elements
      */
-    public String getThrowableResourceUri() {
+    public @RUntainted String getThrowableResourceUri() {
 
         return m_throwableResourceUri;
     }
@@ -614,7 +615,7 @@ public class CmsFlexController {
      * @param req the request to add
      * @param res the response to add
      */
-    public void push(CmsFlexRequest req, CmsFlexResponse res) {
+    public void push(@RUntainted CmsFlexRequest req, CmsFlexResponse res) {
 
         m_flexRequestList.add(req);
         m_flexResponseList.add(res);
@@ -658,7 +659,7 @@ public class CmsFlexController {
      *
      * @return the exception stored in the controller
      */
-    public Throwable setThrowable(Throwable throwable, String resource) {
+    public @RUntainted Throwable setThrowable(@RUntainted Throwable throwable, @RUntainted String resource) {
 
         if (m_throwable == null) {
             m_throwable = throwable;

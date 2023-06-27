@@ -28,6 +28,7 @@
 package org.opencms.i18n;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bundle of i18n setting to be used to setup a new request context.<p>
@@ -69,7 +70,7 @@ public class CmsI18nInfo {
      *
      * @return the locale to use
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_locale;
     }

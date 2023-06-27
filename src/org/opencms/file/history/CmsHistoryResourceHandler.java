@@ -44,6 +44,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource init handler that loads historical versions of resources.<p>
@@ -75,7 +76,7 @@ public class CmsHistoryResourceHandler implements I_CmsResourceInit {
      *
      * @return the historical resource if the given request is displaying an historical version
      */
-    public static I_CmsHistoryResource getHistoryResource(ServletRequest req) {
+    public static @RUntainted I_CmsHistoryResource getHistoryResource(ServletRequest req) {
 
         return (I_CmsHistoryResource)req.getAttribute(ATTRIBUTE_NAME);
     }
@@ -117,7 +118,7 @@ public class CmsHistoryResourceHandler implements I_CmsResourceInit {
             int pos = resourceUri.indexOf(CmsRequestUtil.URL_DELIMITER);
             Map<String, String[]> params = CmsRequestUtil.createParameterMap(resourceUri.substring(pos));
             if (params.containsKey(CmsHistoryResourceHandler.PARAM_VERSION)) {
-                int version = Integer.parseInt(params.get(CmsHistoryResourceHandler.PARAM_VERSION)[0]);
+                @RUntainted int version = Integer.parseInt(params.get(CmsHistoryResourceHandler.PARAM_VERSION)[0]);
                 String sitemapPath = resourceUri.substring(0, pos);
                 resource = cms.readResource(sitemapPath);
                 resource = (CmsResource)cms.readResource(resource.getStructureId(), version);
@@ -145,9 +146,9 @@ public class CmsHistoryResourceHandler implements I_CmsResourceInit {
      * @see org.opencms.main.I_CmsResourceInit#initResource(org.opencms.file.CmsResource, org.opencms.file.CmsObject, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public CmsResource initResource(
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         CmsObject cms,
-        HttpServletRequest req,
+        @RUntainted HttpServletRequest req,
         HttpServletResponse res)
     throws CmsResourceInitException {
 
@@ -158,7 +159,7 @@ public class CmsHistoryResourceHandler implements I_CmsResourceInit {
             String uri = cms.getRequestContext().getUri();
             // check if the resource starts with the HISTORY_HANDLER
             if (uri.startsWith(HISTORY_HANDLER)) {
-                String version = req.getParameter(PARAM_VERSION);
+                @RUntainted String version = req.getParameter(PARAM_VERSION);
 
                 // only do something if the resource was not found and there was a "versionid" parameter included
                 if ((resource == null) && (version != null)) {
@@ -180,7 +181,7 @@ public class CmsHistoryResourceHandler implements I_CmsResourceInit {
                                 // get the current resource
                                 CmsResource currRes = cms.readResource(uri, CmsResourceFilter.IGNORE_EXPIRATION);
                                 // get the historical version of the resource
-                                CmsHistoryFile hisRes = (CmsHistoryFile)cms.readResource(
+                                @RUntainted CmsHistoryFile hisRes = (CmsHistoryFile)cms.readResource(
                                     cms.readResource(uri, CmsResourceFilter.IGNORE_EXPIRATION).getStructureId(),
                                     id);
 

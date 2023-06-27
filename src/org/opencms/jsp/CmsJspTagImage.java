@@ -49,6 +49,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Creates HTML code for &lt;img src&gt; tags that use the OpenCms image scaling capabilities.<p>
@@ -197,12 +198,12 @@ public class CmsJspTagImage extends CmsJspImageScalerTagSupport implements I_Cms
      * @throws CmsException in case something goes wrong
      */
     public static String imageTagAction(
-        String src,
+        @RUntainted String src,
         CmsImageScaler scaler,
         Map<String, String> attributes,
         boolean partialTag,
         boolean noDim,
-        ServletRequest req)
+        @RUntainted ServletRequest req)
     throws CmsException {
 
         CmsFlexController controller = CmsFlexController.getController(req);
@@ -254,9 +255,9 @@ public class CmsJspTagImage extends CmsJspImageScalerTagSupport implements I_Cms
 
         if (attributes != null) {
             // append the HTML attributes
-            for (Map.Entry<String, String> entry : attributes.entrySet()) {
+            for (Map.@RUntainted Entry<@RUntainted String, @RUntainted String> entry : attributes.entrySet()) {
                 String attr = entry.getKey();
-                String value = entry.getValue();
+                @RUntainted String value = entry.getValue();
                 result.append(" ");
                 result.append(attr);
                 result.append("=\"");
@@ -286,7 +287,7 @@ public class CmsJspTagImage extends CmsJspImageScalerTagSupport implements I_Cms
      * @throws CmsException in case something goes wrong
      */
     public static String imageTagAction(
-        String src,
+        @RUntainted String src,
         CmsImageScaler scaler,
         Map<String, String> attributes,
         boolean partialTag,
@@ -299,7 +300,7 @@ public class CmsJspTagImage extends CmsJspImageScalerTagSupport implements I_Cms
     /**
      * @see org.opencms.jsp.I_CmsJspTagParamParent#addParameter(java.lang.String, java.lang.String)
      */
-    public void addParameter(String name, String value) {
+    public void addParameter(String name, @RUntainted String value) {
 
         String key = name.trim().toLowerCase();
         switch (SCALER_ATTRS_LIST.indexOf(key)) {

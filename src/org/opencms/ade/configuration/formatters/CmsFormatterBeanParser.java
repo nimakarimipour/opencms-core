@@ -73,6 +73,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parses formatter beans from formatter configuration XML contents.<p>
@@ -353,7 +354,7 @@ public class CmsFormatterBeanParser {
      * @throws ParseException if parsing goes wrong
      * @throws CmsException if something else goes wrong
      */
-    public I_CmsFormatterBean parse(CmsXmlContent content, String location, String id)
+    public I_CmsFormatterBean parse(CmsXmlContent content, @RUntainted String location, @RUntainted String id)
     throws CmsException, ParseException {
 
         I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(content.getFile());
@@ -466,7 +467,7 @@ public class CmsFormatterBeanParser {
                 CmsXmlVfsFileValue defContentValue = (CmsXmlVfsFileValue)(defContentLoc.getValue());
                 CmsLink defContentLink = defContentValue.getLink(m_cms);
                 if (defContentLink != null) {
-                    CmsUUID defContentID = defContentLink.getStructureId();
+                    @RUntainted CmsUUID defContentID = defContentLink.getStructureId();
                     defContentRes = m_cms.readResource(defContentID);
                 }
             }
@@ -534,7 +535,7 @@ public class CmsFormatterBeanParser {
             CmsXmlVfsFileValue jspValue = (CmsXmlVfsFileValue)(jspLoc.getValue());
             CmsLink link = jspValue.getLink(m_cms);
 
-            CmsUUID jspID = null;
+            @RUntainted CmsUUID jspID = null;
             if (link == null) {
                 if (isFunction) {
                     CmsResource defaultFormatter = CmsFunctionRenderer.getDefaultFunctionJsp(m_cms);
@@ -640,7 +641,7 @@ public class CmsFormatterBeanParser {
      *
      * @return the found value
      */
-    private String getString(I_CmsXmlContentLocation val, String path, String defaultValue) {
+    private String getString(I_CmsXmlContentLocation val, @RUntainted String path, String defaultValue) {
 
         if ((val != null)) {
             I_CmsXmlContentValueLocation subVal = val.getSubValue(path);
@@ -659,7 +660,7 @@ public class CmsFormatterBeanParser {
      *
      * @return a set of string values
      */
-    private Set<String> getStringSet(I_CmsXmlContentLocation val, String path) {
+    private Set<String> getStringSet(I_CmsXmlContentLocation val, @RUntainted String path) {
 
         Set<String> valueSet = new HashSet<String>();
         if ((val != null)) {

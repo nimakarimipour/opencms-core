@@ -32,6 +32,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 import org.opencms.xml.I_CmsXmlDocument;
 import org.opencms.xml.content.CmsXmlContentFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for context sensitive custom beans that supports creation via {@link CmsJspStandardContextBean#getBean(String className)}.
@@ -84,7 +85,7 @@ public abstract class A_CmsJspCustomContextBean {
      * @return the resource for the input.
      * @throws CmsException if resource conversion fails.
      */
-    protected CmsResource toResource(Object input) throws CmsException {
+    protected CmsResource toResource(@RUntainted Object input) throws CmsException {
 
         return CmsJspElFunctions.convertRawResource(getCmsObject(), input);
     }
@@ -102,7 +103,7 @@ public abstract class A_CmsJspCustomContextBean {
      * @return the XML document specified by the input.
      * @throws CmsException if converting the input to a XML document fails.
      */
-    protected I_CmsXmlDocument toXml(Object input) throws CmsException {
+    protected I_CmsXmlDocument toXml(@RUntainted Object input) throws CmsException {
 
         if (input instanceof CmsJspContentAccessBean) {
             return ((CmsJspContentAccessBean)input).getRawContent();

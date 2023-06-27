@@ -33,6 +33,7 @@ import org.opencms.file.types.I_CmsResourceType;
 import org.opencms.loader.CmsLoaderException;
 import org.opencms.main.OpenCms;
 import org.opencms.workplace.CmsDialog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines an action to be performed before the workplace editor is opened for the first time.<p>
@@ -50,7 +51,7 @@ public abstract class A_CmsPreEditorActionDefinition implements I_CmsPreEditorAc
     private I_CmsResourceType m_resourceType;
 
     /** The resource type name for which the action should be performed. */
-    private String m_resourceTypeName;
+    private @RUntainted String m_resourceTypeName;
 
     /**
      * Constructor, without parameters.<p>
@@ -116,7 +117,7 @@ public abstract class A_CmsPreEditorActionDefinition implements I_CmsPreEditorAc
     /**
      * @see org.opencms.workplace.editors.I_CmsPreEditorActionDefinition#setResourceTypeName(java.lang.String)
      */
-    public void setResourceTypeName(String resourceTypeName) {
+    public void setResourceTypeName(@RUntainted String resourceTypeName) {
 
         m_resourceTypeName = resourceTypeName;
     }

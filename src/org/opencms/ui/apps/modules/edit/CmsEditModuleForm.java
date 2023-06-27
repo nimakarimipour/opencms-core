@@ -99,6 +99,7 @@ import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Form for editing a module.<p>
@@ -281,7 +282,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
 
         m_oldModuleInstance = module;
         m_module = (module.clone());
-        String site = m_module.getSite();
+        @RUntainted String site = m_module.getSite();
         if (!CmsStringUtil.isEmptyOrWhitespaceOnly(site)) {
             site = site.trim();
             if (!site.equals("/")) {
@@ -350,7 +351,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
 
             private static final long serialVersionUID = 1L;
 
-            public void validate(Object value) throws InvalidValueException {
+            public void validate(@RUntainted Object value) throws InvalidValueException {
 
                 try {
                     @SuppressWarnings("unused")
@@ -478,9 +479,9 @@ public class CmsEditModuleForm extends CmsBasicDialog {
             private static final long serialVersionUID = 1L;
 
             @SuppressWarnings("synthetic-access")
-            public void valueChange(ValueChangeEvent event) {
+            public void valueChange(@RUntainted ValueChangeEvent event) {
 
-                String siteRoot = (String)(event.getProperty().getValue());
+                @RUntainted String siteRoot = (String)(event.getProperty().getValue());
                 updateSiteInfo(siteRoot);
 
             }
@@ -582,7 +583,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
             for (I_CmsEditableGroupRow row : m_exportPointGroup.getRows()) {
                 CmsExportPointWidget widget = (CmsExportPointWidget)(row.getComponent());
                 String source = widget.getUri().trim();
-                String target = widget.getDestination().trim();
+                @RUntainted String target = widget.getDestination().trim();
                 if (CmsStringUtil.isEmpty(source) || CmsStringUtil.isEmpty(target)) {
                     continue;
                 }
@@ -596,7 +597,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
                 m_dependencies,
                 CmsModuleDependencyWidget.class)) {
                 String moduleName = widget.getModuleName();
-                String moduleVersion = widget.getModuleVersion();
+                @RUntainted String moduleVersion = widget.getModuleVersion();
                 try {
                     CmsModuleDependency dep = new CmsModuleDependency(moduleName, new CmsModuleVersion(moduleVersion));
                     dependencies.add(dep);
@@ -665,7 +666,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
      * @param moduleName the module name
      * @param version the module version
      */
-    void addDependency(String moduleName, String version) {
+    void addDependency(String moduleName, @RUntainted String version) {
 
         try {
             m_dependencies.addComponent(
@@ -974,7 +975,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
      *
      * @param siteRoot the new module site root
      */
-    private void updateSiteInfo(final String siteRoot) {
+    private void updateSiteInfo(final @RUntainted String siteRoot) {
 
         String top = "";
         String bottom = "";

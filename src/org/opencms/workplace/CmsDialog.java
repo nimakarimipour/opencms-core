@@ -56,6 +56,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods for building the dialog windows of OpenCms.<p>
@@ -272,7 +273,7 @@ public class CmsDialog extends CmsToolDialog {
     private String m_paramRedirect;
 
     /** The resource parameter. */
-    private String m_paramResource;
+    private @RUntainted String m_paramResource;
 
     /** The title parameter. */
     private String m_paramTitle;
@@ -294,7 +295,7 @@ public class CmsDialog extends CmsToolDialog {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsDialog(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsDialog(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
     }
@@ -317,7 +318,7 @@ public class CmsDialog extends CmsToolDialog {
      *
      * @return an initialized CmsDialog instance that is read from the request attributes
      */
-    public static CmsDialog initCmsDialog(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public static CmsDialog initCmsDialog(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         CmsDialog wp = (CmsDialog)req.getAttribute(CmsWorkplace.SESSION_WORKPLACE_CLASS);
         if (wp == null) {
@@ -387,7 +388,7 @@ public class CmsDialog extends CmsToolDialog {
         } else if (getParamFramename() != null) {
             // no workplace frame mode (currently used for galleries)
             // frame name parameter found, get URI
-            String frameUri = getSettings().getFrameUris().get(getParamFramename());
+            @RUntainted String frameUri = getSettings().getFrameUris().get(getParamFramename());
             // resetting the action parameter
             params.put(PARAM_ACTION, "");
             if (frameUri != null) {
@@ -1270,7 +1271,7 @@ public class CmsDialog extends CmsToolDialog {
      *
      * @return the value of the file parameter
      */
-    public String getParamResource() {
+    public @RUntainted String getParamResource() {
 
         if ((m_paramResource != null) && !"null".equals(m_paramResource)) {
             return m_paramResource;
@@ -1625,7 +1626,7 @@ public class CmsDialog extends CmsToolDialog {
      *
      * @param value the value to set
      */
-    public void setParamResource(String value) {
+    public void setParamResource(@RUntainted String value) {
 
         m_paramResource = value;
     }
@@ -1903,7 +1904,7 @@ public class CmsDialog extends CmsToolDialog {
      * @see org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings, javax.servlet.http.HttpServletRequest)
      */
     @Override
-    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
+    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
         fillParamValues(request);
         if (DIALOG_CANCEL.equals(getParamAction())) {

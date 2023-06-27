@@ -50,6 +50,7 @@ import javax.servlet.ServletRequest;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.xml.sax.EntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides factory methods to unmarshal (read) an group container object.<p>
@@ -80,7 +81,7 @@ public final class CmsXmlGroupContainerFactory {
      *
      * @return the created group container
      */
-    public static CmsXmlGroupContainer createDocument(CmsObject cms, Locale locale, String modelUri)
+    public static CmsXmlGroupContainer createDocument(CmsObject cms, @RUntainted Locale locale, String modelUri)
     throws CmsException {
 
         // create the XML content
@@ -105,7 +106,7 @@ public final class CmsXmlGroupContainerFactory {
     public static CmsXmlGroupContainer createDocument(
         CmsObject cms,
         Locale locale,
-        String encoding,
+        @RUntainted String encoding,
         CmsXmlContentDefinition contentDefinition) {
 
         // create the XML content
@@ -138,7 +139,7 @@ public final class CmsXmlGroupContainerFactory {
     public static CmsXmlGroupContainer unmarshal(
         CmsObject cms,
         byte[] xmlData,
-        String encoding,
+        @RUntainted String encoding,
         EntityResolver resolver) throws CmsXmlException {
 
         return unmarshal(cms, CmsXmlUtils.unmarshalHelper(xmlData, resolver), encoding, resolver);
@@ -271,7 +272,7 @@ public final class CmsXmlGroupContainerFactory {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsXmlGroupContainer unmarshal(CmsObject cms, CmsResource resource) throws CmsException {
+    public static CmsXmlGroupContainer unmarshal(CmsObject cms, @RUntainted CmsResource resource) throws CmsException {
 
         // check the cache
         CmsXmlGroupContainer content = getCache(cms, resource, true);
@@ -301,7 +302,7 @@ public final class CmsXmlGroupContainerFactory {
      * @throws CmsLoaderException if no loader for the given <code>resource</code> type ({@link CmsResource#getTypeId()}) is available
      * @throws CmsXmlException if the given <code>resource</code> is not of type group container
      */
-    public static CmsXmlGroupContainer unmarshal(CmsObject cms, CmsResource resource, ServletRequest req)
+    public static CmsXmlGroupContainer unmarshal(CmsObject cms, @RUntainted CmsResource resource, ServletRequest req)
     throws CmsXmlException, CmsLoaderException, CmsException {
 
         String rootPath = resource.getRootPath();
@@ -340,8 +341,8 @@ public final class CmsXmlGroupContainerFactory {
      */
     public static CmsXmlGroupContainer unmarshal(
         CmsObject cms,
-        Document document,
-        String encoding,
+        @RUntainted Document document,
+        @RUntainted String encoding,
         EntityResolver resolver) {
 
         CmsXmlGroupContainer content = new CmsXmlGroupContainer(cms, document, encoding, resolver);
@@ -372,7 +373,7 @@ public final class CmsXmlGroupContainerFactory {
     public static CmsXmlGroupContainer unmarshal(
         CmsObject cms,
         String xmlData,
-        String encoding,
+        @RUntainted String encoding,
         EntityResolver resolver) throws CmsXmlException {
 
         // create the XML content object from the provided String

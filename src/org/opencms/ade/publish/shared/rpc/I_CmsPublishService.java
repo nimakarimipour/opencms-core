@@ -39,6 +39,7 @@ import org.opencms.gwt.CmsRpcException;
 import java.util.HashMap;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The synchronous publish list interface.<p>
@@ -81,7 +82,7 @@ public interface I_CmsPublishService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsPublishGroupList getResourceGroups(CmsWorkflow workflow, CmsPublishOptions options, boolean projectChanged)
+    CmsPublishGroupList getResourceGroups(CmsWorkflow workflow, @RUntainted CmsPublishOptions options, boolean projectChanged)
     throws CmsRpcException;
 
     /**

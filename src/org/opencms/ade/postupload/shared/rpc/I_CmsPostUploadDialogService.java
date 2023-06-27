@@ -33,6 +33,7 @@ import org.opencms.gwt.CmsRpcException;
 import org.opencms.util.CmsUUID;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Synchronous service interface for the upload property dialog.<p>
@@ -50,7 +51,7 @@ public interface I_CmsPostUploadDialogService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsPostUploadDialogPanelBean load(CmsUUID uuid, boolean useConfiguration, boolean addBasicProperties)
+    CmsPostUploadDialogPanelBean load(@RUntainted CmsUUID uuid, boolean useConfiguration, boolean addBasicProperties)
     throws CmsRpcException;
 
     /**

@@ -60,6 +60,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Utils to read and update the list configuration. */
 public final class CmsConfigParserUtils {
@@ -154,7 +155,7 @@ public final class CmsConfigParserUtils {
      *
      * @return the configuration data bean
      */
-    public static CmsConfigurationBean parseListConfiguration(CmsObject cms, CmsResource res) {
+    public static CmsConfigurationBean parseListConfiguration(CmsObject cms, @RUntainted CmsResource res) {
 
         CmsConfigurationBean result = new CmsConfigurationBean();
         try {
@@ -165,7 +166,7 @@ public final class CmsConfigParserUtils {
             if (!content.hasLocale(locale)) {
                 locale = content.getLocales().get(0);
             }
-            for (String field : PARAMETER_FIELDS) {
+            for (@RUntainted String field : PARAMETER_FIELDS) {
                 String val = content.getStringValue(cms, field, locale);
                 if (N_CATEGORY.equals(field)) {
                     if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(val)) {
@@ -367,7 +368,7 @@ public final class CmsConfigParserUtils {
         while (content.hasValue(N_BLACKLIST, locale)) {
             content.removeValue(N_BLACKLIST, locale, 0);
         }
-        for (CmsUUID hiddenId : configBean.getBlacklist()) {
+        for (@RUntainted CmsUUID hiddenId : configBean.getBlacklist()) {
             CmsXmlVfsFileValue contentVal;
             contentVal = (CmsXmlVfsFileValue)content.addValue(cms, N_BLACKLIST, locale, count);
             contentVal.setIdValue(cms, hiddenId);

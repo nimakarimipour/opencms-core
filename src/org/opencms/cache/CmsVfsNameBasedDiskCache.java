@@ -37,6 +37,7 @@ import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements a name based RFS file based disk cache, that handles parameter based versions of VFS files.<p>
@@ -59,7 +60,7 @@ public class CmsVfsNameBasedDiskCache {
     private static final Log LOG = CmsLog.getLog(CmsVfsNameBasedDiskCache.class);
 
     /** The name of the cache base repository folder in the RFS. */
-    private String m_rfsRepository;
+    private @RUntainted String m_rfsRepository;
 
     /**
      * Creates a new disk cache.<p>
@@ -67,7 +68,7 @@ public class CmsVfsNameBasedDiskCache {
      * @param basepath the base path for the cache in the RFS
      * @param foldername the folder name for this cache, to be used a sub-folder for the base folder
      */
-    public CmsVfsNameBasedDiskCache(String basepath, String foldername) {
+    public CmsVfsNameBasedDiskCache(@RUntainted String basepath, @RUntainted String foldername) {
 
         // normalize the given folder name
         m_rfsRepository = CmsFileUtil.normalizePath(basepath + foldername + File.separatorChar);
@@ -111,7 +112,7 @@ public class CmsVfsNameBasedDiskCache {
     public String getCacheName(CmsResource resource, String parameters) {
 
         // calculate the base cache path for the resource
-        String rfsName = m_rfsRepository + resource.getRootPath();
+        @RUntainted String rfsName = m_rfsRepository + resource.getRootPath();
         String extension = CmsFileUtil.getExtension(rfsName);
 
         // create a StringBuffer for the result

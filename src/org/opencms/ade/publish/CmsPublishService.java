@@ -76,6 +76,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The implementation of the publish service. <p>
@@ -156,7 +157,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
                 CmsPublishOptions options = getCachedOptions();
                 CmsPublish pub = new CmsPublish(cms, options);
                 List<CmsResource> publishResources = idsToResources(cms, params.getPublishIds());
-                Set<CmsUUID> toRemove = new HashSet<CmsUUID>(params.getRemoveIds());
+                @RUntainted Set<@RUntainted CmsUUID> toRemove = new HashSet<@RUntainted CmsUUID>(params.getRemoveIds());
                 pub.removeResourcesFromPublishList(toRemove);
                 response = OpenCms.getWorkflowManager().executeAction(cms, action, options, publishResources);
             } else {
@@ -217,7 +218,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
     public CmsPublishData getPublishData(
         CmsObject cms,
         HashMap<String, String> params,
-        String workflowId,
+        @RUntainted String workflowId,
         String projectParam,
         List<String> pathList,
         String closeLink,
@@ -335,7 +336,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
      */
     public CmsPublishGroupList getResourceGroups(
         CmsWorkflow workflow,
-        CmsPublishOptions options,
+        @RUntainted CmsPublishOptions options,
         boolean projectChanged)
     throws CmsRpcException {
 
@@ -552,7 +553,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
      *
      * @param options the options to save
      */
-    private void setCachedOptions(CmsPublishOptions options) {
+    private void setCachedOptions(@RUntainted CmsPublishOptions options) {
 
         getRequest().getSession().setAttribute(SESSION_ATTR_ADE_PUB_OPTS_CACHE, options);
     }
@@ -564,7 +565,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
      *
      * @throws CmsException if something goes wrong writing the user object
      */
-    private void setLastWorkflowForUser(String workflowId) throws CmsException {
+    private void setLastWorkflowForUser(@RUntainted String workflowId) throws CmsException {
 
         CmsUser user = getCmsObject().getRequestContext().getCurrentUser();
         user.setAdditionalInfo(PARAM_WORKFLOW_ID, workflowId);

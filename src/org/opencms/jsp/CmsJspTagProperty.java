@@ -45,6 +45,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the properties of a resource in the OpenCms VFS .<p>
@@ -115,7 +116,7 @@ public class CmsJspTagProperty extends TagSupport {
          * @param req the current servlet request.
          * @param action the action to perform.
          */
-        public CmsPropertyAction(ServletRequest req, String action) {
+        public CmsPropertyAction(@RUntainted ServletRequest req, @RUntainted String action) {
 
             CmsFlexController controller = CmsFlexController.getController(req);
 
@@ -249,7 +250,7 @@ public class CmsJspTagProperty extends TagSupport {
     private static final long serialVersionUID = -4040833541258687977L;
 
     /** The default value. */
-    private String m_defaultValue;
+    private @RUntainted String m_defaultValue;
 
     /** The locale for which the property should be read. */
     private Locale m_locale;
@@ -273,7 +274,7 @@ public class CmsJspTagProperty extends TagSupport {
      *
      * @throws CmsException if something goes wrong
      */
-    public static Map<String, String> propertiesTagAction(String action, ServletRequest req) throws CmsException {
+    public static Map<String, String> propertiesTagAction(@RUntainted String action, @RUntainted ServletRequest req) throws CmsException {
 
         CmsFlexController controller = CmsFlexController.getController(req);
 
@@ -300,10 +301,10 @@ public class CmsJspTagProperty extends TagSupport {
      *
      * @throws CmsException if something goes wrong
      */
-    public static String propertyTagAction(
-        String property,
-        String action,
-        String defaultValue,
+    public static @RUntainted String propertyTagAction(
+        @RUntainted String property,
+        @RUntainted String action,
+        @RUntainted String defaultValue,
         boolean escape,
         ServletRequest req)
     throws CmsException {
@@ -325,17 +326,17 @@ public class CmsJspTagProperty extends TagSupport {
      *
      * @throws CmsException if something goes wrong
      */
-    public static String propertyTagAction(
-        String property,
-        String action,
-        String defaultValue,
+    public static @RUntainted String propertyTagAction(
+        @RUntainted String property,
+        @RUntainted String action,
+        @RUntainted String defaultValue,
         boolean escape,
-        ServletRequest req,
+        @RUntainted ServletRequest req,
         Locale locale)
     throws CmsException {
 
         CmsFlexController controller = CmsFlexController.getController(req);
-        String value = null;
+        @RUntainted String value = null;
         CmsPropertyAction propertyAction = new CmsPropertyAction(req, action);
         if (null != propertyAction.getVfsUri()) {
             value = controller.getCmsObject().readPropertyObject(
@@ -454,7 +455,7 @@ public class CmsJspTagProperty extends TagSupport {
      *
      * @param def the default value
      */
-    public void setDefault(String def) {
+    public void setDefault(@RUntainted String def) {
 
         if (def != null) {
             m_defaultValue = def;

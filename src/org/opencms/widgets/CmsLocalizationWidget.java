@@ -45,6 +45,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a standard HTML form input widget for overwriting localized values of a resource bundle, for use on a widget dialog.<p>
@@ -83,10 +84,10 @@ public class CmsLocalizationWidget extends A_CmsWidget implements I_CmsADEWidget
     private static Pattern PATTERN_MESSAGEARGUMENT = Pattern.compile(".*(\\{)(\\d*)(\\}).*");
 
     /** The bundle key (optional, if not equal to the element name). */
-    private String m_bundleKey;
+    private @RUntainted String m_bundleKey;
 
     /** The locale to get the value for. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** The localized bundle to get the value from. */
     private CmsMessages m_messages;
@@ -164,7 +165,7 @@ public class CmsLocalizationWidget extends A_CmsWidget implements I_CmsADEWidget
         result.append("\" value=\"");
 
         // determine value to show in editor
-        String value = getValue(cms, param);
+        @RUntainted String value = getValue(cms, param);
         result.append(CmsEncoder.escapeXml(value));
         result.append("\">");
         result.append("</td>");
@@ -271,10 +272,10 @@ public class CmsLocalizationWidget extends A_CmsWidget implements I_CmsADEWidget
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(getConfiguration())) {
             //initialize messages, the optional bundle key name and the optional locale from configuration String
             String bundleName = "";
-            List<String> configs = CmsStringUtil.splitAsList(getConfiguration(), '|');
-            Iterator<String> i = configs.iterator();
+            @RUntainted List<@RUntainted String> configs = CmsStringUtil.splitAsList(getConfiguration(), '|');
+            @RUntainted Iterator<@RUntainted String> i = configs.iterator();
             while (i.hasNext()) {
-                String config = i.next();
+                @RUntainted String config = i.next();
                 if (config.startsWith(OPTION_KEY)) {
                     m_bundleKey = config.substring(OPTION_KEY.length());
                 } else if (config.startsWith(OPTION_LOCALE)) {
@@ -315,9 +316,9 @@ public class CmsLocalizationWidget extends A_CmsWidget implements I_CmsADEWidget
             //initialize messages, the optional bundle key name and the optional locale from configuration String
             String bundleName = "";
             List<String> configs = CmsStringUtil.splitAsList(getConfiguration(), '|');
-            Iterator<String> i = configs.iterator();
+            @RUntainted Iterator<@RUntainted String> i = configs.iterator();
             while (i.hasNext()) {
-                String config = i.next();
+                @RUntainted String config = i.next();
                 if (config.startsWith(OPTION_KEY)) {
                     m_bundleKey = config.substring(OPTION_KEY.length());
                 } else if (config.startsWith(OPTION_LOCALE)) {
@@ -341,19 +342,19 @@ public class CmsLocalizationWidget extends A_CmsWidget implements I_CmsADEWidget
      *
      * @return value to show in editor
      */
-    private String getValue(CmsObject cms, I_CmsWidgetParameter param) {
+    private @RUntainted String getValue(CmsObject cms, I_CmsWidgetParameter param) {
 
-        String value = m_messages.key(m_bundleKey);
+        @RUntainted String value = m_messages.key(m_bundleKey);
         if ((CmsStringUtil.isNotEmptyOrWhitespaceOnly(param.getStringValue(cms))
             && !value.equals(param.getStringValue(cms))) || value.startsWith(CmsMessages.UNKNOWN_KEY_EXTENSION)) {
             // saved value is provided and different from localized value in bundle or no value found in bundle, use it
             value = param.getStringValue(cms);
             // replace OpenCms macro syntax with message bundle arguments
-            Matcher matcher = PATTERN_MACRO.matcher(value);
+            @RUntainted Matcher matcher = PATTERN_MACRO.matcher(value);
             while (matcher.matches()) {
                 int startIndex = matcher.start(1);
                 int endIndex = matcher.end(3);
-                String number = matcher.group(2);
+                @RUntainted String number = matcher.group(2);
                 value = value.substring(0, startIndex) + "{" + number + "}" + value.substring(endIndex);
                 matcher = PATTERN_MACRO.matcher(value);
             }

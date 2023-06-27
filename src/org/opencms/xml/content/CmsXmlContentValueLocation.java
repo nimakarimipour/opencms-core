@@ -43,6 +43,7 @@ import java.util.Locale;
 
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents the concrete location of an XML content value.<p>
@@ -82,7 +83,7 @@ public class CmsXmlContentValueLocation implements I_CmsXmlContentValueLocation 
     /**
      * @see org.opencms.xml.content.I_CmsXmlContentValueLocation#asString(org.opencms.file.CmsObject)
      */
-    public String asString(CmsObject cms) {
+    public @RUntainted String asString(CmsObject cms) {
 
         return m_value.getStringValue(cms);
     }
@@ -106,7 +107,7 @@ public class CmsXmlContentValueLocation implements I_CmsXmlContentValueLocation 
     /**
      * @see org.opencms.xml.content.I_CmsXmlContentLocation#getSubValue(java.lang.String)
      */
-    public CmsXmlContentValueLocation getSubValue(String subPath) {
+    public CmsXmlContentValueLocation getSubValue(@RUntainted String subPath) {
 
         Locale locale = m_value.getLocale();
 
@@ -122,7 +123,7 @@ public class CmsXmlContentValueLocation implements I_CmsXmlContentValueLocation 
     /**
      * @see org.opencms.xml.content.I_CmsXmlContentLocation#getSubValues(java.lang.String)
      */
-    public List<I_CmsXmlContentValueLocation> getSubValues(String subPath) {
+    public List<I_CmsXmlContentValueLocation> getSubValues(@RUntainted String subPath) {
 
         List<I_CmsXmlContentValueLocation> result = new ArrayList<I_CmsXmlContentValueLocation>();
         String requiredLastElement = CmsXmlUtils.getLastXpathElement(subPath);

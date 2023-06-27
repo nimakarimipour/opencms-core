@@ -28,6 +28,7 @@
 package org.opencms.workplace;
 
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Evaluates the repository folder.<p>
@@ -43,5 +44,5 @@ public interface I_CmsRepositoryFolderHandler {
      *
      * @return the site path of the repository folder
      */
-    String getRepositoryFolder(CmsObject cms, String reference, String type);
+    String getRepositoryFolder(CmsObject cms, String reference, @RUntainted String type);
 }

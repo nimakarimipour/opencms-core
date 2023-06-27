@@ -41,6 +41,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Jsp tag to initialize an editing session for user generated content.<p>
@@ -63,10 +64,10 @@ public class CmsJspTagUgc extends TagSupport {
     private String m_configPath;
 
     /** The structure id of the edit resource. */
-    private String m_editId;
+    private @RUntainted String m_editId;
 
     /** The file name of the edit resource. */
-    private String m_editName;
+    private @RUntainted String m_editName;
 
     /** The page context attribute name for the form error message. */
     private String m_error;
@@ -95,7 +96,7 @@ public class CmsJspTagUgc extends TagSupport {
     @Override
     public int doStartTag() throws JspException {
 
-        HttpServletRequest req = (HttpServletRequest)pageContext.getRequest();
+        @RUntainted HttpServletRequest req = (HttpServletRequest)pageContext.getRequest();
         CmsFlexController controller = CmsFlexController.getController(req);
         if (controller != null) {
             CmsObject cms = controller.getCmsObject();

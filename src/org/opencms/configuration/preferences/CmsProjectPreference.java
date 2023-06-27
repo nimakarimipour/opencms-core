@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Preference subclass for selecting the start project.<p>
@@ -119,7 +120,7 @@ public class CmsProjectPreference extends CmsBuiltinPreference {
      *
      * @return the options for the project selector
      */
-    private String getProjectSelectOptions(CmsObject cms, Locale locale) {
+    private String getProjectSelectOptions(CmsObject cms, @RUntainted Locale locale) {
 
         List<CmsProject> allProjects;
         try {

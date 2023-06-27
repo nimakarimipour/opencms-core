@@ -60,6 +60,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "containerpage".<p>
@@ -151,7 +152,7 @@ public class CmsResourceTypeXmlContainerPage extends CmsResourceTypeXmlContent {
      *
      * @return the static type name of this (default) resource type
      */
-    public static String getStaticTypeName() {
+    public static @RUntainted String getStaticTypeName() {
 
         return RESOURCE_TYPE_NAME;
     }
@@ -226,7 +227,7 @@ public class CmsResourceTypeXmlContainerPage extends CmsResourceTypeXmlContent {
     public CmsResource createResource(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        String resourcename,
+        @RUntainted String resourcename,
         byte[] content,
         List<CmsProperty> properties)
     throws CmsException {
@@ -238,7 +239,7 @@ public class CmsResourceTypeXmlContainerPage extends CmsResourceTypeXmlContent {
             CmsXmlContentDefinition contentDefinition = CmsXmlContentDefinition.unmarshal(cms, getSchema());
 
             // read the default locale for the new resource
-            Locale locale = OpenCms.getLocaleManager().getDefaultLocales(
+            @RUntainted Locale locale = OpenCms.getLocaleManager().getDefaultLocales(
                 cms,
                 CmsResource.getParentFolder(resourcename)).get(0);
 
@@ -265,7 +266,7 @@ public class CmsResourceTypeXmlContainerPage extends CmsResourceTypeXmlContent {
         }
 
         // now create the resource using the super class
-        CmsResource resource = super.createResource(cms, securityManager, resourcename, content, properties);
+        @RUntainted CmsResource resource = super.createResource(cms, securityManager, resourcename, content, properties);
 
         // a model file was used, call the content handler for post-processing
         if (hasModelUri) {
@@ -289,7 +290,7 @@ public class CmsResourceTypeXmlContainerPage extends CmsResourceTypeXmlContent {
      * @see org.opencms.file.types.A_CmsResourceType#initConfiguration(java.lang.String, java.lang.String, String)
      */
     @Override
-    public void initConfiguration(String name, String id, String className) throws CmsConfigurationException {
+    public void initConfiguration(String name, String id, @RUntainted String className) throws CmsConfigurationException {
 
         if (!RESOURCE_TYPE_NAME.equals(name) && !MODEL_GROUP_TYPE_NAME.equals(name)) {
             // default resource type MUST have default name

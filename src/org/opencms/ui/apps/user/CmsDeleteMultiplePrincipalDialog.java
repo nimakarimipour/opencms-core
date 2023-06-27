@@ -60,6 +60,7 @@ import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog for delete multiple principal.<p>
@@ -130,7 +131,7 @@ public class CmsDeleteMultiplePrincipalDialog extends CmsBasicDialog {
         m_groupIDs = new HashSet<CmsUUID>();
         m_userIDs = new HashSet<CmsUUID>();
         List<CmsResourceInfo> infos = new ArrayList<CmsResourceInfo>();
-        for (String id : m_ids) {
+        for (@RUntainted String id : m_ids) {
             try {
                 CmsPrincipal principal = (CmsPrincipal)CmsPrincipal.readPrincipal(cms, new CmsUUID(id));
                 if (OpenCms.getDefaultUsers().isDefaultUser(principal.getName())
@@ -183,7 +184,7 @@ public class CmsDeleteMultiplePrincipalDialog extends CmsBasicDialog {
     protected void deletePrincipal() {
 
         try {
-            String principalNameToCopyTo = m_principalSelect.getValue();
+            @RUntainted String principalNameToCopyTo = m_principalSelect.getValue();
             I_CmsPrincipal principalTarget = null;
             if (!CmsStringUtil.isEmptyOrWhitespaceOnly(principalNameToCopyTo)) {
                 principalTarget = CmsPrincipal.readPrincipal(m_cms, principalNameToCopyTo);
@@ -192,7 +193,7 @@ public class CmsDeleteMultiplePrincipalDialog extends CmsBasicDialog {
             for (CmsUUID id : m_groupIDs) {
                 m_cms.deleteGroup(id, principalTarget != null ? principalTarget.getId() : null);
             }
-            for (CmsUUID id : m_userIDs) {
+            for (@RUntainted CmsUUID id : m_userIDs) {
                 m_cms.deleteUser(id, principalTarget != null ? principalTarget.getId() : null);
             }
         } catch (CmsException e) {

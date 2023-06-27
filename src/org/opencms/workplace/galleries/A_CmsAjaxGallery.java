@@ -69,6 +69,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the general helper methods to generate the content of a gallery dialog used in the XML content editors,
@@ -207,7 +208,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public A_CmsAjaxGallery(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public A_CmsAjaxGallery(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
     }
@@ -220,7 +221,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      *
      * @return a new gallery instance of the given gallery type name
      */
-    public static A_CmsAjaxGallery createInstance(String galleryTypeName, CmsJspActionElement jsp) {
+    public static A_CmsAjaxGallery createInstance(@RUntainted String galleryTypeName, CmsJspActionElement jsp) {
 
         if (jsp != null) {
             // must have a valid JSP in order to read from the user session
@@ -641,7 +642,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      *
      * @param itemUrl the URL of the currently selected item
      */
-    protected void buildJsonActiveItem(String itemUrl) {
+    protected void buildJsonActiveItem(@RUntainted String itemUrl) {
 
         if (itemUrl.startsWith(OpenCms.getSiteManager().getWorkplaceServer())) {
             // remove workplace server prefix
@@ -788,14 +789,14 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
         // check the value of last Used, if gallery is opened for the first time
         if (CmsStringUtil.isEmpty(lastUsed)) {
             // start gallery settings for this gallery type for the current user
-            String startGallerySetting = getSettings().getUserSettings().getStartGallery(
+            @RUntainted String startGallerySetting = getSettings().getUserSettings().getStartGallery(
                 getGalleryTypeName(),
                 getCms());
             if (startGallerySetting != null) {
                 // handle the case, "global settings" are selected
                 if (startGallerySetting.equals(CmsWorkplace.INPUT_DEFAULT)) {
                     // get selected value from workplace xml settings
-                    String preselectedValue = OpenCms.getWorkplaceManager().getDefaultUserSettings().getStartGallery(
+                    @RUntainted String preselectedValue = OpenCms.getWorkplaceManager().getDefaultUserSettings().getStartGallery(
                         getGalleryTypeName());
                     if (preselectedValue != null) {
                         startGallerySetting = preselectedValue;
@@ -877,7 +878,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      * @param res the resource to create the object from
      * @param sitePath site path to the object
      */
-    protected void buildJsonItemCommonPart(JSONObject jsonObj, CmsResource res, String sitePath) {
+    protected void buildJsonItemCommonPart(JSONObject jsonObj, CmsResource res, @RUntainted String sitePath) {
 
         try {
             // 1: file item site path
@@ -957,7 +958,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
             jsonObj.put("writepermission", writePermission);
             jsonObj.put("directpublish", directPublishPermission);
             // 11: item description
-            String desc = getJsp().property(CmsPropertyDefinition.PROPERTY_DESCRIPTION, sitePath, "");
+            @RUntainted String desc = getJsp().property(CmsPropertyDefinition.PROPERTY_DESCRIPTION, sitePath, "");
             jsonObj.put("description", CmsStringUtil.escapeJavaScript(desc));
         } catch (JSONException e) {
             if (LOG.isErrorEnabled()) {
@@ -974,7 +975,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      * @param res the resource to create the object from
      * @return the JSON object containing information from the given resource
      */
-    protected JSONObject buildJsonItemObject(CmsResource res) {
+    protected JSONObject buildJsonItemObject(@RUntainted CmsResource res) {
 
         // create a new JSON object
         JSONObject jsonObj = new JSONObject();
@@ -994,7 +995,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      * @param res the resource to create the object from
      * @param sitePath site path to the object
      */
-    protected abstract void buildJsonItemSpecificPart(JSONObject jsonObj, CmsResource res, String sitePath);
+    protected abstract void buildJsonItemSpecificPart(JSONObject jsonObj, @RUntainted CmsResource res, @RUntainted String sitePath);
 
     /**
      * Builds the JSON code to create items for the folder.<p>
@@ -1128,7 +1129,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
             try {
                 CmsCategoryService service = CmsCategoryService.getInstance();
                 // get the edited resource if present
-                String editedResource = "/";
+                @RUntainted String editedResource = "/";
                 if (CmsStringUtil.isNotEmpty(getParamResource())) {
                     editedResource = CmsResource.getFolderPath(getParamResource());
                 }
@@ -1166,7 +1167,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      * @see org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings, javax.servlet.http.HttpServletRequest)
      */
     @Override
-    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
+    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
         // fill the parameter values in the get/set methods
         fillParamValues(request);

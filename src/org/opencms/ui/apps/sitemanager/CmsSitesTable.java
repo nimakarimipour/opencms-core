@@ -78,6 +78,7 @@ import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  *  Class to create Vaadin Table object with all available sites.<p>
@@ -256,9 +257,9 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(@RUntainted Set<@RUntainted String> data) {
 
-            String siteRoot = data.iterator().next();
+            @RUntainted String siteRoot = data.iterator().next();
             A_CmsUI.getCmsObject().getRequestContext().setSiteRoot(siteRoot);
             CmsAppWorkplaceUi.get().showApp(
                 CmsFileExplorerConfiguration.APP_ID,
@@ -271,7 +272,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getTitle(java.util.Locale)
          */
-        public String getTitle(Locale locale) {
+        public String getTitle(@RUntainted Locale locale) {
 
             return Messages.get().getBundle(locale).key(Messages.GUI_EXPLORER_TITLE_0);
         }
@@ -330,7 +331,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
          */
         public void executeAction(Set<String> data) {
 
-            String siteRoot = data.iterator().next();
+            @RUntainted String siteRoot = data.iterator().next();
             A_CmsUI.get().changeSite(siteRoot);
 
             CmsPageEditorConfiguration pageeditorApp = new CmsPageEditorConfiguration();
@@ -381,7 +382,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
          */
         public void executeAction(Set<String> data) {
 
-            String siteRoot = data.iterator().next();
+            @RUntainted String siteRoot = data.iterator().next();
             A_CmsUI.get().changeSite(siteRoot);
 
             CmsSitemapEditorConfiguration sitemapApp = new CmsSitemapEditorConfiguration();

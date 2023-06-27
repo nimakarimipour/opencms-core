@@ -60,6 +60,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.shared.ui.combobox.FilteringMode;
 import com.vaadin.v7.ui.ComboBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The project select dialog.<p>
@@ -82,7 +83,7 @@ public class CmsProjectSelectDialog extends CmsBasicDialog {
     private I_CmsDialogContext m_context;
 
     /** The project select. */
-    private ComboBox m_projectComboBox;
+    private @RUntainted ComboBox m_projectComboBox;
 
     /** The site select. */
     private CmsExtendedSiteSelector m_siteComboBox;
@@ -135,10 +136,10 @@ public class CmsProjectSelectDialog extends CmsBasicDialog {
      */
     public static void changeSiteOrProject(
         I_CmsDialogContext context,
-        CmsUUID projectId,
+        @RUntainted CmsUUID projectId,
         SiteSelectorOption siteOption) {
 
-        String siteRoot = null;
+        @RUntainted String siteRoot = null;
         try {
             CmsProject project = null;
             if (projectId != null) {
@@ -207,7 +208,7 @@ public class CmsProjectSelectDialog extends CmsBasicDialog {
     void submit() {
 
         I_CmsDialogContext context = m_context;
-        CmsUUID projectId = (CmsUUID)m_projectComboBox.getValue();
+        @RUntainted CmsUUID projectId = (CmsUUID)m_projectComboBox.getValue();
         SiteSelectorOption option = m_siteComboBox.getValue();
         changeSiteOrProject(context, projectId, option);
     }
@@ -259,9 +260,9 @@ public class CmsProjectSelectDialog extends CmsBasicDialog {
      *
      * @return the combo box
      */
-    private ComboBox prepareComboBox(IndexedContainer container, String captionKey) {
+    private @RUntainted ComboBox prepareComboBox(IndexedContainer container, @RUntainted String captionKey) {
 
-        ComboBox result = new ComboBox(CmsVaadinUtils.getWpMessagesForCurrentLocale().key(captionKey), container);
+        @RUntainted ComboBox result = new ComboBox(CmsVaadinUtils.getWpMessagesForCurrentLocale().key(captionKey), container);
         result.setTextInputAllowed(true);
         result.setNullSelectionAllowed(false);
         result.setWidth("100%");
@@ -279,7 +280,7 @@ public class CmsProjectSelectDialog extends CmsBasicDialog {
      *
      * @return the combo box
      */
-    private CmsExtendedSiteSelector prepareSiteSelector(String captionKey) {
+    private CmsExtendedSiteSelector prepareSiteSelector(@RUntainted String captionKey) {
 
         CmsExtendedSiteSelector result = new CmsExtendedSiteSelector();
         boolean isExplorer = CmsFileExplorerConfiguration.APP_ID.equals(m_context.getAppId());

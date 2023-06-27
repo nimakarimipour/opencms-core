@@ -83,6 +83,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of a object used to access and manage the xml data of a container page.<p>
@@ -167,7 +168,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
      * @param encoding the encoding of the container page
      * @param resolver the XML entity resolver to use
      */
-    protected CmsXmlContainerPage(CmsObject cms, Document document, String encoding, EntityResolver resolver) {
+    protected CmsXmlContainerPage(CmsObject cms, @RUntainted Document document, @RUntainted String encoding, EntityResolver resolver) {
 
         // must set document first to be able to get the content definition
         m_document = document;
@@ -189,7 +190,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
      *
      * @throws CmsException in case the model file is not found or not valid
      */
-    protected CmsXmlContainerPage(CmsObject cms, Locale locale, String modelUri)
+    protected CmsXmlContainerPage(CmsObject cms, @RUntainted Locale locale, String modelUri)
     throws CmsException {
 
         // init model from given modelUri
@@ -232,13 +233,13 @@ public class CmsXmlContainerPage extends CmsXmlContent {
     protected CmsXmlContainerPage(
         CmsObject cms,
         Locale locale,
-        String encoding,
+        @RUntainted String encoding,
         CmsXmlContentDefinition contentDefinition) {
 
         // content definition must be set here since it's used during document creation
         m_contentDefinition = contentDefinition;
         // create the XML document according to the content definition
-        Document document = m_contentDefinition.createDocument(cms, this, CmsLocaleManager.MASTER_LOCALE);
+        @RUntainted Document document = m_contentDefinition.createDocument(cms, this, CmsLocaleManager.MASTER_LOCALE);
         // initialize the XML content structure
         initDocument(cms, document, encoding, m_contentDefinition);
     }
@@ -353,7 +354,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
         CmsContainerPageBean savePage = cleanupContainersContainers(cms, cntPage);
         savePage = removeEmptyContainers(cntPage);
         // Replace existing locales with master locale
-        for (Locale locale : getLocales()) {
+        for (@RUntainted Locale locale : getLocales()) {
             removeLocale(locale);
         }
         Locale masterLocale = CmsLocaleManager.MASTER_LOCALE;
@@ -480,7 +481,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
      *
      * @throws CmsException if the resource can not be read
      */
-    protected CmsResource fillResource(CmsObject cms, Element element, CmsUUID resourceId) throws CmsException {
+    protected CmsResource fillResource(CmsObject cms, Element element, @RUntainted CmsUUID resourceId) throws CmsException {
 
         String xpath = element.getPath();
         int pos = xpath.lastIndexOf("/" + XmlNode.Containers.name() + "/");
@@ -497,7 +498,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
      * @see org.opencms.xml.content.CmsXmlContent#initDocument(org.opencms.file.CmsObject, org.dom4j.Document, java.lang.String, org.opencms.xml.CmsXmlContentDefinition)
      */
     @Override
-    protected void initDocument(CmsObject cms, Document document, String encoding, CmsXmlContentDefinition definition) {
+    protected void initDocument(CmsObject cms, @RUntainted Document document, @RUntainted String encoding, CmsXmlContentDefinition definition) {
 
         m_document = document;
         m_contentDefinition = definition;
@@ -513,9 +514,9 @@ public class CmsXmlContainerPage extends CmsXmlContent {
         }
 
         // initialize the bookmarks
-        for (Iterator<Element> itCntPages = CmsXmlGenericWrapper.elementIterator(
+        for (@RUntainted Iterator<@RUntainted Element> itCntPages = CmsXmlGenericWrapper.elementIterator(
             m_document.getRootElement()); itCntPages.hasNext();) {
-            Element cntPage = itCntPages.next();
+            @RUntainted Element cntPage = itCntPages.next();
 
             try {
                 Locale locale = CmsLocaleManager.getLocale(
@@ -527,7 +528,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
                 for (Iterator<Element> itCnts = CmsXmlGenericWrapper.elementIterator(
                     cntPage,
                     XmlNode.Containers.name()); itCnts.hasNext();) {
-                    Element container = itCnts.next();
+                    @RUntainted Element container = itCnts.next();
 
                     // container itself
                     int cntIndex = CmsXmlUtils.getXpathIndexInt(container.getUniquePath(cntPage));
@@ -538,21 +539,21 @@ public class CmsXmlContainerPage extends CmsXmlContent {
                     CmsXmlContentDefinition cntDef = ((CmsXmlNestedContentDefinition)cntSchemaType).getNestedContentDefinition();
 
                     // name
-                    Element name = container.element(XmlNode.Name.name());
+                    @RUntainted Element name = container.element(XmlNode.Name.name());
                     String containerName = name.getText();
                     addBookmarkForElement(name, locale, container, cntPath, cntDef);
 
                     // type
-                    Element type = container.element(XmlNode.Type.name());
+                    @RUntainted Element type = container.element(XmlNode.Type.name());
                     addBookmarkForElement(type, locale, container, cntPath, cntDef);
 
                     // parent instance id
-                    Element parentInstance = container.element(XmlNode.ParentInstanceId.name());
+                    @RUntainted Element parentInstance = container.element(XmlNode.ParentInstanceId.name());
                     if (parentInstance != null) {
                         addBookmarkForElement(parentInstance, locale, container, cntPath, cntDef);
                     }
 
-                    Element isRootContainer = container.element(XmlNode.IsRootContainer.name());
+                    @RUntainted Element isRootContainer = container.element(XmlNode.IsRootContainer.name());
                     if (isRootContainer != null) {
                         addBookmarkForElement(isRootContainer, locale, container, cntPath, cntDef);
                     }
@@ -562,7 +563,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
                     for (Iterator<Element> itElems = CmsXmlGenericWrapper.elementIterator(
                         container,
                         XmlNode.Elements.name()); itElems.hasNext();) {
-                        Element element = itElems.next();
+                        @RUntainted Element element = itElems.next();
 
                         // element itself
                         int elemIndex = CmsXmlUtils.getXpathIndexInt(element.getUniquePath(container));
@@ -587,11 +588,11 @@ public class CmsXmlContainerPage extends CmsXmlContent {
                         }
 
                         // uri
-                        Element uri = element.element(XmlNode.Uri.name());
+                        @RUntainted Element uri = element.element(XmlNode.Uri.name());
                         CmsUUID elementId = null;
                         if (uri != null) {
                             addBookmarkForElement(uri, locale, element, elemPath, elemDef);
-                            Element uriLink = uri.element(CmsXmlPage.NODE_LINK);
+                            @RUntainted Element uriLink = uri.element(CmsXmlPage.NODE_LINK);
                             if (uriLink == null) {
                                 // this can happen when adding the elements node to the xml content
                                 // it is not dangerous since the link has to be set before saving
@@ -610,11 +611,11 @@ public class CmsXmlContainerPage extends CmsXmlContent {
                             && Boolean.parseBoolean(createNewElement.getStringValue());
 
                         // formatter
-                        Element formatter = element.element(XmlNode.Formatter.name());
+                        @RUntainted Element formatter = element.element(XmlNode.Formatter.name());
                         CmsUUID formatterId = null;
                         if (formatter != null) {
                             addBookmarkForElement(formatter, locale, element, elemPath, elemDef);
-                            Element formatterLink = formatter.element(CmsXmlPage.NODE_LINK);
+                            @RUntainted Element formatterLink = formatter.element(CmsXmlPage.NODE_LINK);
 
                             if (formatterLink == null) {
                                 // this can happen when adding the elements node to the xml content
@@ -715,7 +716,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
      * @see org.opencms.xml.A_CmsXmlDocument#initDocument(org.dom4j.Document, java.lang.String, org.opencms.xml.CmsXmlContentDefinition)
      */
     @Override
-    protected void initDocument(Document document, String encoding, CmsXmlContentDefinition definition) {
+    protected void initDocument(@RUntainted Document document, @RUntainted String encoding, CmsXmlContentDefinition definition) {
 
         initDocument(null, document, encoding, definition);
     }

@@ -36,6 +36,7 @@ import org.opencms.search.documents.CmsIndexNoContentException;
 import org.opencms.search.documents.I_CmsDocumentFactory;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the indexing method for a single resource as thread.<p>
@@ -63,7 +64,7 @@ public class CmsIndexingThread extends Thread {
     private I_CmsReport m_report;
 
     /** The resource to index. */
-    private CmsResource m_res;
+    private @RUntainted CmsResource m_res;
 
     /** The result document. */
     private I_CmsSearchDocument m_result;
@@ -80,7 +81,7 @@ public class CmsIndexingThread extends Thread {
      * @param count the report count
      * @param report the report to write the output to
      */
-    public CmsIndexingThread(CmsObject cms, CmsResource res, I_CmsSearchIndex index, int count, I_CmsReport report) {
+    public CmsIndexingThread(CmsObject cms, @RUntainted CmsResource res, I_CmsSearchIndex index, int count, I_CmsReport report) {
 
         super("OpenCms: Indexing '" + res.getName() + "'");
 
@@ -225,7 +226,7 @@ public class CmsIndexingThread extends Thread {
      */
     protected I_CmsSearchDocument createIndexDocument(
         CmsObject cms,
-        CmsResource res,
+        @RUntainted CmsResource res,
         I_CmsSearchIndex index,
         int count,
         I_CmsReport report)

@@ -55,6 +55,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This bean provides methods to generate customized http status error pages, e.g. to handle 404 (not found) errors.<p>
@@ -93,7 +94,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
     private Throwable m_exception;
 
     /** The Locale to use for displayed messages. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** Contains all possible parameters usable by localized messages. */
     private Object[] m_localizeParameters;
@@ -114,7 +115,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
     private Integer m_statusCode;
 
     /** The status code as message. */
-    private String m_statusCodeMessage;
+    private @RUntainted String m_statusCodeMessage;
 
     /** The URI used for template part inclusion. */
     private String m_templateUri;
@@ -134,7 +135,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsJspStatusBean(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsJspStatusBean(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         super(context, req, res);
         initMembers(req, null);
@@ -148,7 +149,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
      * @param res the JSP response
      * @param t the exception that lead to the error
      */
-    public CmsJspStatusBean(PageContext context, HttpServletRequest req, HttpServletResponse res, Throwable t) {
+    public CmsJspStatusBean(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res, Throwable t) {
 
         super(context, req, res);
         initMembers(req, t);
@@ -176,13 +177,13 @@ public class CmsJspStatusBean extends CmsJspActionElement {
             if (site != null) {
                 clone.getRequestContext().setSiteRoot(site.getSiteRoot());
             }
-            String relPath = clone.getRequestContext().removeSiteRoot(rootPath);
+            @RUntainted String relPath = clone.getRequestContext().removeSiteRoot(rootPath);
             clone.getRequestContext().setUri(relPath);
 
             // create a new flex controller together with its flex request/response
             // initialized with the context of the error page
             CmsFlexController ori = CmsFlexController.getController(getRequest());
-            CmsFlexController controller = new CmsFlexController(
+            @RUntainted CmsFlexController controller = new CmsFlexController(
                 clone,
                 clone.readResource(relPath),
                 ori.getCmsCache(),
@@ -192,7 +193,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
                 false);
             // controller.setForwardMode(true);
             CmsFlexController.setController(getRequest(), controller);
-            CmsFlexRequest f_req = new CmsFlexRequest(getRequest(), controller);
+            @RUntainted CmsFlexRequest f_req = new CmsFlexRequest(getRequest(), controller);
             CmsFlexResponse f_res = new CmsFlexResponse(getResponse(), controller, false, false);
             controller.push(f_req, f_res);
 
@@ -253,7 +254,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
      * @param element name of the element
      * @return the processed output of the specified element of an OpenCms page
      */
-    public String getPageContent(String element) {
+    public String getPageContent(@RUntainted String element) {
 
         // Determine the folder to read the contents from
         String contentFolder = property(CmsPropertyDefinition.PROPERTY_TEMPLATE_ELEMENTS, "search", "");
@@ -342,7 +343,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
      *
      * @return the status code message
      */
-    public String getStatusCodeMessage() {
+    public @RUntainted String getStatusCodeMessage() {
 
         return m_statusCodeMessage;
     }
@@ -368,7 +369,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
      *
      * @throws JspException in case there were problems including the target
      */
-    public void includeTemplatePart(String target, String element) throws JspException {
+    public void includeTemplatePart(@RUntainted String target, @RUntainted String element) throws JspException {
 
         includeTemplatePart(target, element, null);
     }
@@ -382,7 +383,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
      *
      * @throws JspException in case there were problems including the target
      */
-    public void includeTemplatePart(String target, String element, Map<String, Object> parameterMap)
+    public void includeTemplatePart(@RUntainted String target, @RUntainted String element, Map<String, Object> parameterMap)
     throws JspException {
 
         // store current site root and URI
@@ -420,7 +421,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
      * @param keyName the key for the desired string
      * @return the resource string for the given key
      */
-    public String key(String keyName) {
+    public String key(@RUntainted String keyName) {
 
         return key(keyName, null);
     }
@@ -434,7 +435,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
      * @param defaultKeyName the default key for the desired string, used if the keyName delivered no resource string
      * @return the resource string for the given key
      */
-    public String key(String keyName, String defaultKeyName) {
+    public String key(@RUntainted String keyName, @RUntainted String defaultKeyName) {
 
         String value = getMessages().key(keyName, getLocalizeParameters());
         if (value.startsWith(CmsMessages.UNKNOWN_KEY_EXTENSION) && CmsStringUtil.isNotEmpty(defaultKeyName)) {
@@ -452,7 +453,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
      * @param keyName the key for the desired string
      * @return the resource string for the given key
      */
-    public String keyStatus(String keyName) {
+    public String keyStatus(@RUntainted String keyName) {
 
         keyName += "_";
         return key(keyName + getStatusCodeMessage(), keyName + UNKKNOWN_STATUS_CODE);
@@ -528,7 +529,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
      * @param req the JSP request
      * @param t the exception that lead to the error
      */
-    protected void initMembers(HttpServletRequest req, Throwable t) {
+    protected void initMembers(@RUntainted HttpServletRequest req, Throwable t) {
 
         // get the status error attribute values from the request
         m_servletName = (String)req.getAttribute(ERROR_SERVLET_NAME);
@@ -612,7 +613,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
      *
      * @param locale the locale to use for the error page
      */
-    protected void setLocale(Locale locale) {
+    protected void setLocale(@RUntainted Locale locale) {
 
         m_locale = locale;
         getCmsObject().getRequestContext().setLocale(m_locale);

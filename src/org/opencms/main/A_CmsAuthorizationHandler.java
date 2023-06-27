@@ -38,6 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract class to grant the needed access to the session manager.<p>
@@ -71,7 +72,7 @@ public abstract class A_CmsAuthorizationHandler implements I_CmsAuthorizationHan
      *
      * @throws CmsException if something goes wrong
      */
-    protected CmsObject initCmsObjectFromSession(HttpServletRequest request) throws CmsException {
+    protected CmsObject initCmsObjectFromSession(@RUntainted HttpServletRequest request) throws CmsException {
 
         // try to get an OpenCms user session info object for this request
         return OpenCmsCore.getInstance().initCmsObjectFromSession(request);
@@ -87,7 +88,7 @@ public abstract class A_CmsAuthorizationHandler implements I_CmsAuthorizationHan
      *
      * @throws CmsException if something goes wrong
      */
-    protected CmsObject registerSession(HttpServletRequest request, CmsObject cms) throws CmsException {
+    protected CmsObject registerSession(@RUntainted HttpServletRequest request, CmsObject cms) throws CmsException {
 
         if (!cms.getRequestContext().getCurrentUser().isGuestUser()) {
             // make sure we have a new session after login for security reasons

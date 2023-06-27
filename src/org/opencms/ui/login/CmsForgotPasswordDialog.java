@@ -58,6 +58,7 @@ import com.vaadin.v7.data.validator.EmailValidator;
 import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to request a password reset link if you forgot your passsword.<p>
@@ -90,7 +91,7 @@ public class CmsForgotPasswordDialog extends VerticalLayout implements I_CmsHasB
      *
      * @param startOu the organizational unit that should be preselected
      */
-    public CmsForgotPasswordDialog(String startOu) {
+    public CmsForgotPasswordDialog(@RUntainted String startOu) {
 
         Locale locale = A_CmsUI.get().getLocale();
         CmsVaadinUtils.readAndLocalizeDesign(this, OpenCms.getWorkplaceManager().getMessages(locale), null);
@@ -175,7 +176,7 @@ public class CmsForgotPasswordDialog extends VerticalLayout implements I_CmsHasB
      * @param email the email address entered by the user
      * @return true if the mail could be sent
      */
-    public static boolean sendPasswordResetLink(CmsObject cms, String fullUserName, String email) {
+    public static boolean sendPasswordResetLink(CmsObject cms, @RUntainted String fullUserName, String email) {
 
         LOG.info("Trying to find user for email " + email);
         email = email.trim();
@@ -200,8 +201,8 @@ public class CmsForgotPasswordDialog extends VerticalLayout implements I_CmsHasB
             long now = System.currentTimeMillis();
             long expiration = OpenCms.getLoginManager().getTokenLifetime() + now;
             String expirationStr = CmsVfsService.formatDateTime(cms, expiration);
-            String token = CmsTokenValidator.createToken(cms, foundUser, now);
-            String link = OpenCms.getLinkManager().getWorkplaceLink(cms, CmsWorkplaceLoginHandler.LOGIN_HANDLER, false)
+            @RUntainted String token = CmsTokenValidator.createToken(cms, foundUser, now);
+            @RUntainted String link = OpenCms.getLinkManager().getWorkplaceLink(cms, CmsWorkplaceLoginHandler.LOGIN_HANDLER, false)
                 + "?at="
                 + token;
             LOG.info("Sending password reset link to user " + foundUser.getName() + ": " + link);

@@ -33,6 +33,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * CmsEntity attribute type data.<p>
@@ -40,7 +41,7 @@ import java.util.Map;
 public class CmsType implements Serializable {
 
     /** The choice attribute name. */
-    public static final String CHOICE_ATTRIBUTE_NAME = "ATTRIBUTE_CHOICE";
+    public static final @RUntainted String CHOICE_ATTRIBUTE_NAME = "ATTRIBUTE_CHOICE";
 
     /** The serial version id. */
     private static final long serialVersionUID = -7965094404314721990L;

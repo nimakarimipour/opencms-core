@@ -46,6 +46,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action element class for displaying the XML sitemap from a JSP.<p>
@@ -70,7 +71,7 @@ public class CmsXmlSitemapActionElement extends CmsJspActionElement {
      */
     public CmsXmlSitemapActionElement(
         PageContext pageContext,
-        HttpServletRequest request,
+        @RUntainted HttpServletRequest request,
         HttpServletResponse response) {
 
         super(pageContext, request, response);
@@ -85,7 +86,7 @@ public class CmsXmlSitemapActionElement extends CmsJspActionElement {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsXmlSitemapGenerator createSitemapGenerator(String className, String folderRootPath)
+    public static CmsXmlSitemapGenerator createSitemapGenerator(String className, @RUntainted String folderRootPath)
     throws CmsException {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(className)) {
@@ -129,10 +130,10 @@ public class CmsXmlSitemapActionElement extends CmsJspActionElement {
                 baseFolderRootPath);
             xmlSitemapGenerator.setComputeContainerPageDates(config.shouldComputeContainerPageModificationDates());
             CmsPathIncludeExcludeSet inexcludeSet = xmlSitemapGenerator.getIncludeExcludeSet();
-            for (String include : config.getIncludes()) {
+            for (@RUntainted String include : config.getIncludes()) {
                 inexcludeSet.addInclude(include);
             }
-            for (String exclude : config.getExcludes()) {
+            for (@RUntainted String exclude : config.getExcludes()) {
                 inexcludeSet.addExclude(exclude);
             }
             xmlSitemapGenerator.setServerUrl(config.getServerUrl());
@@ -200,7 +201,7 @@ public class CmsXmlSitemapActionElement extends CmsJspActionElement {
         List<CmsResource> seoFiles = cms.readResources(
             "/",
             CmsResourceFilter.DEFAULT_FILES.addRequireVisible().addRequireType(seoFileType));
-        for (CmsResource seoFile : seoFiles) {
+        for (@RUntainted CmsResource seoFile : seoFiles) {
             try {
                 if (seoFile.getName().contains("test")) {
                     continue;

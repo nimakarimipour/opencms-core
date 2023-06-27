@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A user principal in the OpenCms permission system.<p>
@@ -83,28 +84,28 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
     private static final long serialVersionUID = 4812858003805477345L;
 
     /** Storage for additional user information. */
-    private Map<String, Object> m_additionalInfo;
+    private @RUntainted Map<@RUntainted String, @RUntainted Object> m_additionalInfo;
 
     /** The creation date. */
-    private long m_dateCreated;
+    private @RUntainted long m_dateCreated;
 
     /**  The email of the user. */
-    private String m_email;
+    private @RUntainted String m_email;
 
     /** The first name of this user. */
-    private String m_firstname;
+    private @RUntainted String m_firstname;
 
     /** Boolean flag whether the last-login time stamp of this user was modified. */
     private boolean m_isTouched;
 
     /** The last login date of this user. */
-    private long m_lastlogin;
+    private @RUntainted long m_lastlogin;
 
     /** The last name of this user. */
-    private String m_lastname;
+    private @RUntainted String m_lastname;
 
     /** The password of this user. */
-    private String m_password;
+    private @RUntainted String m_password;
 
     /**
      * Creates a new, empty OpenCms user principal.<p>
@@ -141,16 +142,16 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      * @param additionalInfo user related information
      */
     public CmsUser(
-        CmsUUID id,
-        String name,
-        String password,
-        String firstname,
+        @RUntainted CmsUUID id,
+        @RUntainted String name,
+        @RUntainted String password,
+        @RUntainted String firstname,
         String lastname,
-        String email,
-        long lastlogin,
-        int flags,
-        long dateCreated,
-        Map<String, Object> additionalInfo) {
+        @RUntainted String email,
+        @RUntainted long lastlogin,
+        @RUntainted int flags,
+        @RUntainted long dateCreated,
+        @RUntainted Map<@RUntainted String, @RUntainted Object> additionalInfo) {
 
         m_id = id;
         m_name = name;
@@ -181,7 +182,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @param email the email to validate
      */
-    public static void checkEmail(String email) {
+    public static void checkEmail(@RUntainted String email) {
 
         OpenCms.getValidationHandler().checkEmail(email);
     }
@@ -193,7 +194,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @param zipcode the zip code to validate
      */
-    public static void checkZipCode(String zipcode) {
+    public static void checkZipCode(@RUntainted String zipcode) {
 
         OpenCms.getValidationHandler().checkZipCode(zipcode);
     }
@@ -287,9 +288,9 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @return the given String with the prefix {@link I_CmsPrincipal#PRINCIPAL_USER} and the following dot removed
      */
-    public static String removePrefix(String principalName) {
+    public static @RUntainted String removePrefix(@RUntainted String principalName) {
 
-        String result = principalName;
+        @RUntainted String result = principalName;
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(principalName)) {
             if (hasPrefix(principalName)) {
                 result = principalName.trim().substring(I_CmsPrincipal.PRINCIPAL_USER.length() + 1);
@@ -306,7 +307,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @throws CmsIllegalArgumentException if the check fails
      */
-    public void checkName(String name) throws CmsIllegalArgumentException {
+    public void checkName(@RUntainted String name) throws CmsIllegalArgumentException {
 
         OpenCms.getValidationHandler().checkUserName(name);
     }
@@ -315,7 +316,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      * @see java.lang.Object#clone()
      */
     @Override
-    public CmsUser clone() {
+    public @RUntainted CmsUser clone() {
 
         return new CmsUser(
             m_id,
@@ -367,7 +368,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @see #getAdditionalInfo()
      */
-    public Object getAdditionalInfo(String key) {
+    public @RUntainted Object getAdditionalInfo(String key) {
 
         return m_additionalInfo.get(key);
     }
@@ -461,7 +462,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @return the description of this organizational unit
      */
-    public String getDescription(Locale locale) {
+    public String getDescription(@RUntainted Locale locale) {
 
         CmsMacroResolver macroResolver = new CmsMacroResolver();
         macroResolver.setMessages(org.opencms.db.generic.Messages.get().getBundle(locale));
@@ -472,7 +473,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      * @see org.opencms.security.CmsPrincipal#getDisplayName(org.opencms.file.CmsObject, java.util.Locale)
      */
     @Override
-    public String getDisplayName(CmsObject cms, Locale locale) throws CmsException {
+    public @RUntainted String getDisplayName(CmsObject cms, @RUntainted Locale locale) throws CmsException {
 
         if (OpenCms.getOrgUnitManager().getOrganizationalUnits(cms, "", true).size() > 0) {
             return org.opencms.security.Messages.get().getBundle(locale).key(
@@ -489,7 +490,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @return the email address of this user
      */
-    public String getEmail() {
+    public @RUntainted String getEmail() {
 
         return m_email;
     }
@@ -499,7 +500,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @return the first name of this user
      */
-    public String getFirstname() {
+    public @RUntainted String getFirstname() {
 
         return m_firstname;
     }
@@ -556,7 +557,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @return the last name of this user
      */
-    public String getLastname() {
+    public @RUntainted String getLastname() {
 
         return m_lastname;
     }
@@ -649,7 +650,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @see #getAdditionalInfo()
      */
-    public void setAdditionalInfo(Map<String, Object> additionalInfo) {
+    public void setAdditionalInfo(@RUntainted Map<@RUntainted String, @RUntainted Object> additionalInfo) {
 
         m_additionalInfo = additionalInfo;
     }
@@ -662,7 +663,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @see #getAdditionalInfo()
      */
-    public void setAdditionalInfo(String key, Object value) {
+    public void setAdditionalInfo(@RUntainted String key, @RUntainted Object value) {
 
         if (key == null) {
             throw new CmsIllegalArgumentException(
@@ -676,7 +677,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @param address the address line to set
      */
-    public void setAddress(String address) {
+    public void setAddress(@RUntainted String address) {
 
         setAdditionalInfo(CmsUserSettings.ADDITIONAL_INFO_ADDRESS, address);
     }
@@ -686,7 +687,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @param city the city information to set
      */
-    public void setCity(String city) {
+    public void setCity(@RUntainted String city) {
 
         setAdditionalInfo(CmsUserSettings.ADDITIONAL_INFO_CITY, city);
     }
@@ -696,7 +697,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @param country the city information to set
      */
-    public void setCountry(String country) {
+    public void setCountry(@RUntainted String country) {
 
         setAdditionalInfo(CmsUserSettings.ADDITIONAL_INFO_COUNTRY, country);
     }
@@ -705,7 +706,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      * @see org.opencms.security.CmsPrincipal#setDescription(java.lang.String)
      */
     @Override
-    public void setDescription(String description) {
+    public void setDescription(@RUntainted String description) {
 
         setAdditionalInfo(CmsUserSettings.ADDITIONAL_INFO_DESCRIPTION, description);
     }
@@ -715,7 +716,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @param email the email address to set
      */
-    public void setEmail(String email) {
+    public void setEmail(@RUntainted String email) {
 
         checkEmail(email);
         if (email != null) {
@@ -743,7 +744,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @param institution the institution information to set
      */
-    public void setInstitution(String institution) {
+    public void setInstitution(@RUntainted String institution) {
 
         setAdditionalInfo(CmsUserSettings.ADDITIONAL_INFO_INSTITUTION, institution);
     }
@@ -753,7 +754,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @param value the last login time stamp to set
      */
-    public void setLastlogin(long value) {
+    public void setLastlogin(@RUntainted long value) {
 
         m_isTouched = true;
         m_lastlogin = value;
@@ -764,7 +765,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @param lastname the name to set
      */
-    public void setLastname(String lastname) {
+    public void setLastname(@RUntainted String lastname) {
 
         OpenCms.getValidationHandler().checkLastname(lastname);
         if (lastname != null) {
@@ -790,7 +791,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @param value the password to set
      */
-    public void setPassword(String value) {
+    public void setPassword(@RUntainted String value) {
 
         try {
             OpenCms.getPasswordHandler().validatePassword(value);
@@ -805,7 +806,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @param zipcode the zip code information to set
      */
-    public void setZipcode(String zipcode) {
+    public void setZipcode(@RUntainted String zipcode) {
 
         checkZipCode(zipcode);
         if (zipcode != null) {

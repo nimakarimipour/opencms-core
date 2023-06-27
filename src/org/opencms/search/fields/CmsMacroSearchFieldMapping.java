@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Field mapping to resolve macros as for gallery names.
@@ -80,7 +81,7 @@ public class CmsMacroSearchFieldMapping implements I_CmsSearchFieldMapping {
     private String m_defaultValue = null;
 
     /** The content locale to index for. */
-    private Locale m_locale = null;
+    private @RUntainted Locale m_locale = null;
 
     /**
      * Public constructor for a new search field mapping.
@@ -130,7 +131,7 @@ public class CmsMacroSearchFieldMapping implements I_CmsSearchFieldMapping {
      */
     public String getStringValue(
         CmsObject cms,
-        CmsResource res,
+        @RUntainted CmsResource res,
         I_CmsExtractionResult extractionResult,
         List<CmsProperty> properties,
         List<CmsProperty> propertiesSearched) {
@@ -174,7 +175,7 @@ public class CmsMacroSearchFieldMapping implements I_CmsSearchFieldMapping {
      * @see org.opencms.search.fields.I_CmsSearchFieldMapping#setLocale(java.util.Locale)
      */
     @Override
-    public void setLocale(Locale locale) {
+    public void setLocale(@RUntainted Locale locale) {
 
         m_locale = locale;
     }

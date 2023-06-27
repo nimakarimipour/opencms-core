@@ -26,6 +26,7 @@
  */
 
 package org.opencms.report;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a single report entry.<p>
@@ -33,7 +34,7 @@ package org.opencms.report;
 public class CmsReportUpdateItem {
 
     /** Either a string, or an exception. */
-    private Object m_message;
+    private @RUntainted Object m_message;
 
     /** String indicating the report type. */
     private CmsReportFormatType m_type;
@@ -44,7 +45,7 @@ public class CmsReportUpdateItem {
      * @param type the entry type
      * @param message the message (either a string or an exception)
      */
-    public CmsReportUpdateItem(CmsReportFormatType type, Object message) {
+    public CmsReportUpdateItem(CmsReportFormatType type, @RUntainted Object message) {
         m_type = type;
         m_message = message;
     }
@@ -56,7 +57,7 @@ public class CmsReportUpdateItem {
      *
      * @return the message
      */
-    public Object getMessage() {
+    public @RUntainted Object getMessage() {
 
         return m_message;
     }

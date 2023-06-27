@@ -69,6 +69,7 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Displays the current user info.<p>
@@ -118,7 +119,7 @@ public class CmsUserInfo extends VerticalLayout {
      *
      * @param cmsUUID uuid of user to show info for
      */
-    public CmsUserInfo(CmsUUID cmsUUID) {
+    public CmsUserInfo(@RUntainted CmsUUID cmsUUID) {
 
         this(cmsUUID, null);
 
@@ -130,7 +131,7 @@ public class CmsUserInfo extends VerticalLayout {
      * @param cmsUUID of user
      * @param widthString valid width string or null
      */
-    public CmsUserInfo(CmsUUID cmsUUID, String widthString) {
+    public CmsUserInfo(@RUntainted CmsUUID cmsUUID, String widthString) {
 
         CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 
@@ -316,7 +317,7 @@ public class CmsUserInfo extends VerticalLayout {
      *
      * @return the user info details
      */
-    private String generateInfoDetails(CmsObject cms, Locale locale) {
+    private String generateInfoDetails(CmsObject cms, @RUntainted Locale locale) {
 
         StringBuffer infoHtml = new StringBuffer(128);
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_user.getEmail())) {
@@ -329,7 +330,7 @@ public class CmsUserInfo extends VerticalLayout {
             if (!info.getField().equals(Field.firstname)
                 && !info.getField().equals(Field.lastname)
                 && !Field.email.equals(info.getField())) {
-                String value = info.getValue(m_user);
+                @RUntainted String value = info.getValue(m_user);
                 if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(value)) {
                     infoHtml.append(CmsStringUtil.escapeHtml(value)).append(LINE_BREAK);
                 }

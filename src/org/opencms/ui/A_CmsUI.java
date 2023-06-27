@@ -60,6 +60,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract UI class providing access to the OpenCms context.<p>
@@ -100,7 +101,7 @@ public abstract class A_CmsUI extends UI {
      *
      * @return the current UI
      */
-    public static A_CmsUI get() {
+    public static @RUntainted A_CmsUI get() {
 
         return (A_CmsUI)(UI.getCurrent());
     }
@@ -138,7 +139,7 @@ public abstract class A_CmsUI extends UI {
      *
      * @param siteRoot the site to change to
      */
-    public void changeSite(String siteRoot) {
+    public void changeSite(@RUntainted String siteRoot) {
 
         if (!getCmsObject().getRequestContext().getSiteRoot().equals(siteRoot)) {
             getCmsObject().getRequestContext().setSiteRoot(siteRoot);
@@ -184,7 +185,7 @@ public abstract class A_CmsUI extends UI {
      *
      * @return the HTTP session
      */
-    public HttpSession getHttpSession() {
+    public @RUntainted HttpSession getHttpSession() {
 
         return ((WrappedHttpSession)getSession().getSession()).getHttpSession();
     }
@@ -337,7 +338,7 @@ public abstract class A_CmsUI extends UI {
      * @see com.vaadin.ui.UI#init(com.vaadin.server.VaadinRequest)
      */
     @Override
-    protected void init(VaadinRequest request) {
+    protected void init(@RUntainted VaadinRequest request) {
 
         m_displayType = CmsDisplayType.getDisplayType(getPage().getBrowserWindowWidth());
     }

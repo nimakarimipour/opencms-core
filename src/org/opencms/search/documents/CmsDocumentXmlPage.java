@@ -44,6 +44,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Lucene document factory class to extract index data from a cms resource
@@ -68,7 +69,7 @@ public class CmsDocumentXmlPage extends A_CmsVfsDocument {
      *
      * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource, I_CmsSearchIndex)
      */
-    public I_CmsExtractionResult extractContent(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+    public I_CmsExtractionResult extractContent(CmsObject cms, @RUntainted CmsResource resource, I_CmsSearchIndex index)
     throws CmsException {
 
         logContentExtraction(resource, index);
@@ -81,7 +82,7 @@ public class CmsDocumentXmlPage extends A_CmsVfsDocument {
             StringBuffer content = new StringBuffer();
             LinkedHashMap<String, String> items = new LinkedHashMap<String, String>();
             for (Iterator<String> i = elements.iterator(); i.hasNext();) {
-                String elementName = i.next();
+                @RUntainted String elementName = i.next();
                 String value = page.getStringValue(cms, elementName, locale);
                 String extracted = CmsHtmlExtractor.extractText(value, page.getEncoding());
                 if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(extracted)) {

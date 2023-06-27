@@ -31,6 +31,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.workplace.I_CmsGroupNameTranslation;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper around CmsRole objects so they can be used as principals.
@@ -65,7 +66,7 @@ public class CmsRoleAsPrincipal extends CmsPrincipal {
     /**
      * @see org.opencms.security.I_CmsPrincipal#getDescription(java.util.Locale)
      */
-    public String getDescription(Locale locale) {
+    public String getDescription(@RUntainted Locale locale) {
 
         return m_role.getDescription(locale);
     }
@@ -74,7 +75,7 @@ public class CmsRoleAsPrincipal extends CmsPrincipal {
      * @see org.opencms.security.CmsPrincipal#getDisplayName(org.opencms.file.CmsObject, java.util.Locale)
      */
     @Override
-    public String getDisplayName(CmsObject cms, Locale locale) {
+    public String getDisplayName(CmsObject cms, @RUntainted Locale locale) {
 
         return m_role.getName(locale);
     }

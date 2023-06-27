@@ -50,6 +50,7 @@ import org.htmlparser.tags.LinkTag;
 import org.htmlparser.tags.ObjectTag;
 import org.htmlparser.util.ParserException;
 import org.htmlparser.util.SimpleNodeIterator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the HTML parser node visitor pattern to
@@ -187,7 +188,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
      * @param source the String to unescape
      * @return the unescaped String
      */
-    public static String unescapeLink(String source) {
+    public static String unescapeLink(@RUntainted String source) {
 
         if (source == null) {
             return null;
@@ -232,7 +233,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
      *
      * @throws ParserException if something goes wrong
      */
-    public String replaceLinks(String content) throws ParserException {
+    public @RUntainted String replaceLinks(String content) throws ParserException {
 
         m_mode = REPLACE_LINKS;
         return process(content, m_encoding);
@@ -244,7 +245,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
      * @param tag the tag to process
      */
     @Override
-    public void visitTag(Tag tag) {
+    public void visitTag(@RUntainted Tag tag) {
 
         if (tag instanceof LinkTag) {
             processLinkTag((LinkTag)tag);
@@ -276,7 +277,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
      *
      * @param tag the tag to process
      */
-    protected void processAreaTag(Tag tag) {
+    protected void processAreaTag(@RUntainted Tag tag) {
 
         processLink(tag, ATTRIBUTE_HREF, CmsRelationType.HYPERLINK);
     }
@@ -286,7 +287,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
      *
      * @param tag the tag to process
      */
-    protected void processEmbedTag(Tag tag) {
+    protected void processEmbedTag(@RUntainted Tag tag) {
 
         for (int i = 0; i < EMBED_TAG_LINKED_ATTRIBS.length; i++) {
             String attr = EMBED_TAG_LINKED_ATTRIBS[i];
@@ -299,7 +300,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
      *
      * @param tag the tag to process
      */
-    protected void processImageTag(ImageTag tag) {
+    protected void processImageTag(@RUntainted ImageTag tag) {
 
         processLink(tag, ATTRIBUTE_SRC, CmsRelationType.valueOf(tag.getTagName()));
     }
@@ -311,7 +312,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
      * @param attr the attribute
      * @param type the link type
      */
-    protected void processLink(Tag tag, String attr, CmsRelationType type) {
+    protected void processLink(@RUntainted Tag tag, String attr, CmsRelationType type) {
 
         if (tag.getAttribute(attr) == null) {
             return;
@@ -323,7 +324,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
                 link = m_linkTable.getLink(CmsMacroResolver.stripMacro(tag.getAttribute(attr)));
                 if (link != null) {
                     // link management check
-                    String l = link.getLink(m_cms);
+                    @RUntainted String l = link.getLink(m_cms);
                     if (TAG_PARAM.equals(tag.getTagName())) {
                         // HACK: to distinguish link parameters the link itself has to end with '&' or '?'
                         // another solution should be a kind of macro...
@@ -342,9 +343,9 @@ public class CmsLinkProcessor extends CmsHtmlParser {
                 break;
             case REPLACE_LINKS:
                 // links are replaced with macros
-                String targetUri = tag.getAttribute(attr);
+                @RUntainted String targetUri = tag.getAttribute(attr);
                 if (CmsStringUtil.isNotEmpty(targetUri)) {
-                    String internalUri = null;
+                    @RUntainted String internalUri = null;
                     if (!CmsMacroResolver.isMacro(targetUri)) {
                         m_cms.getRequestContext().setAttribute(
                             CmsDefaultLinkSubstitutionHandler.DONT_USE_CURRENT_SITE_FOR_WORKPLACE_REQUESTS,
@@ -386,7 +387,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
      *
      * @param tag the tag to process
      */
-    protected void processLinkTag(LinkTag tag) {
+    protected void processLinkTag(@RUntainted LinkTag tag) {
 
         processLink(tag, ATTRIBUTE_HREF, CmsRelationType.valueOf(tag.getTagName()));
     }
@@ -396,7 +397,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
      *
      * @param tag the tag to process
      */
-    protected void processObjectTag(ObjectTag tag) {
+    protected void processObjectTag(@RUntainted ObjectTag tag) {
 
         CmsRelationType type = CmsRelationType.valueOf(tag.getTagName());
         for (int i = 0; i < OBJECT_TAG_LINKED_ATTRIBS.length; i++) {

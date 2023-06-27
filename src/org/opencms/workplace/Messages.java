@@ -30,6 +30,7 @@ package org.opencms.workplace;
 import org.opencms.db.CmsResourceState;
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -216,7 +217,7 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String GUI_LABEL_OU_0 = "GUI_LABEL_OU_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_LABEL_PROJECT_0 = "GUI_LABEL_PROJECT_0";
+    public static final @RUntainted String GUI_LABEL_PROJECT_0 = "GUI_LABEL_PROJECT_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_LABEL_SITE_0 = "GUI_LABEL_SITE_0";
@@ -534,7 +535,7 @@ public final class Messages extends A_CmsMessageBundle {
      *
      * @return the bundle name for this OpenCms package
      */
-    public String getBundleName() {
+    public @RUntainted String getBundleName() {
 
         return BUNDLE_NAME;
     }

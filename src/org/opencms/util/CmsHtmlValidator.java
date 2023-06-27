@@ -43,6 +43,7 @@ import org.htmlparser.lexer.Lexer;
 import org.htmlparser.lexer.Page;
 import org.htmlparser.util.ParserException;
 import org.htmlparser.visitors.NodeVisitor;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Validates HTML.<p>
@@ -193,15 +194,15 @@ public class CmsHtmlValidator extends NodeVisitor {
      * @see org.htmlparser.visitors.NodeVisitor#visitEndTag(org.htmlparser.Tag)
      */
     @Override
-    public void visitEndTag(Tag tag) {
+    public void visitEndTag(@RUntainted Tag tag) {
 
-        String tagName = tag.getTagName();
+        @RUntainted String tagName = tag.getTagName();
         if (tagName.equals(m_stack.peek())) {
             m_stack.pop();
         } else {
             if (m_stack.contains(tagName)) {
                 while (!tagName.equals(m_stack.peek())) {
-                    String enclosedTag = m_stack.pop();
+                    @RUntainted String enclosedTag = m_stack.pop();
                     if (AUTOCLOSE_TAGS.contains(enclosedTag)) {
                         System.out.println("Unbalanced void tag " + enclosedTag + ", will be ignored.");
                     } else {

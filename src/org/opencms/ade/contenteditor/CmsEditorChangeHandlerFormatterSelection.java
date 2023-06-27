@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Editor change handler implementation for the formatter selection in the sitemap config.
  *
@@ -70,7 +71,7 @@ public class CmsEditorChangeHandlerFormatterSelection extends A_CmsXmlContentEdi
         final CmsObject cms,
         final CmsXmlContent content,
         final Locale locale,
-        final Collection<String> changedPaths) {
+        final @RUntainted Collection<@RUntainted String> changedPaths) {
 
         if ((changedPaths.size() != 1)
             && content.getValue(changedPaths.iterator().next(), locale).getTypeName().equals(
@@ -82,13 +83,13 @@ public class CmsEditorChangeHandlerFormatterSelection extends A_CmsXmlContentEdi
             return content;
         }
 
-        String removeAllPath = changedPaths.iterator().next();
+        @RUntainted String removeAllPath = changedPaths.iterator().next();
         String removeAllStringValue = content.getStringValue(cms, removeAllPath, locale);
         boolean removeAll = Boolean.valueOf(removeAllStringValue).booleanValue();
         if (removeAll && content.hasValue(REMOVE_PATH, locale)) {
             content.removeValue(REMOVE_PATH, locale, 0);
         } else if (content.hasValue(ADD_PATH, locale)) {
-            String rootPath = content.getFile().getRootPath();
+            @RUntainted String rootPath = content.getFile().getRootPath();
             List<String> optionValues = CmsAddFormatterWidget.getSelectOptionValues(cms, rootPath, false);
             CmsXmlContentValueSequence addSequence = content.getValueSequence(ADD_PATH_SINGLE_NODE, locale);
             List<I_CmsXmlContentValue> values = addSequence.getValues();

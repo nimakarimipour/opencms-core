@@ -59,6 +59,7 @@ import java.util.Set;
 import javax.servlet.ServletRequest;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles special XML content livetime events, and also provides XML content editor rendering hints.<p>
@@ -160,10 +161,10 @@ public interface I_CmsXmlContentHandler {
     String MAPTO_PERMISSION = "permission:";
 
     /** Prefix for property mappings. */
-    String MAPTO_PROPERTY = "property:";
+    @RUntainted String MAPTO_PROPERTY = "property:";
 
     /** Prefix for property mappings. */
-    String MAPTO_PROPERTY_INDIVIDUAL = MAPTO_PROPERTY + CmsProperty.TYPE_INDIVIDUAL + ":";
+    @RUntainted String MAPTO_PROPERTY_INDIVIDUAL = MAPTO_PROPERTY + CmsProperty.TYPE_INDIVIDUAL + ":";
 
     /** Prefix for property list mappings. */
     String MAPTO_PROPERTY_LIST = "propertyList:";
@@ -175,7 +176,7 @@ public interface I_CmsXmlContentHandler {
     String MAPTO_PROPERTY_LIST_SHARED = MAPTO_PROPERTY_LIST + CmsProperty.TYPE_SHARED + ":";
 
     /** Prefix for property mappings. */
-    String MAPTO_PROPERTY_SHARED = MAPTO_PROPERTY + CmsProperty.TYPE_SHARED + ":";
+    @RUntainted String MAPTO_PROPERTY_SHARED = MAPTO_PROPERTY + CmsProperty.TYPE_SHARED + ":";
 
     /** Prefix for URL name mappings. */
     String MAPTO_URLNAME = "urlName";
@@ -196,7 +197,7 @@ public interface I_CmsXmlContentHandler {
         CmsXmlContent content,
         CmsMappingResolutionContext.AttributeType attr,
         List<Locale> locales,
-        long value)
+        @RUntainted long value)
     throws CmsException;
 
     /**
@@ -293,7 +294,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @see org.opencms.xml.types.I_CmsXmlSchemaType#getDefault(Locale)
      */
-    String getDefault(CmsObject cms, CmsResource resource, I_CmsXmlSchemaType type, String path, Locale locale);
+    String getDefault(CmsObject cms, CmsResource resource, I_CmsXmlSchemaType type, @RUntainted String path, @RUntainted Locale locale);
 
     /**
      * Returns the default String value for the given XML content schema type object in the given XML content.<p>
@@ -308,7 +309,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @see org.opencms.xml.types.I_CmsXmlSchemaType#getDefault(Locale)
      */
-    String getDefault(CmsObject cms, I_CmsXmlContentValue value, Locale locale);
+    @RUntainted String getDefault(CmsObject cms, I_CmsXmlContentValue value, @RUntainted Locale locale);
 
     /**
      * Gets the default complex widget to be used for this type.<p>
@@ -446,7 +447,7 @@ public interface I_CmsXmlContentHandler {
      * @return the {@link CmsMessages} that are used to resolve localized keys
      * for the given locale in this content handler
      */
-    CmsMessages getMessages(Locale locale);
+    CmsMessages getMessages(@RUntainted Locale locale);
 
     /**
      * Returns the folder name that contains eventual XML content model files to use for this resource type.<p>
@@ -465,7 +466,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @return the nested formatter ids
      */
-    List<String> getNestedFormatters(CmsObject cms, CmsResource res, Locale locale, ServletRequest req);
+    List<String> getNestedFormatters(CmsObject cms, @RUntainted CmsResource res, Locale locale, ServletRequest req);
 
     /**
     * Gets the parameter with the given name..<p>
@@ -486,7 +487,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @return the preview URI for the given XML content value object to be displayed in the editor
      */
-    String getPreview(CmsObject cms, CmsXmlContent content, String resourcename);
+    @RUntainted String getPreview(CmsObject cms, CmsXmlContent content, String resourcename);
 
     /**
      * Returns the relation type for the given value.<p>
@@ -507,7 +508,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @return the relation type for the given path
      */
-    CmsRelationType getRelationType(String path);
+    CmsRelationType getRelationType(@RUntainted String path);
 
     /**
      * Returns the relation type for the given path.<p>
@@ -517,7 +518,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @return the relation type for the given path
      */
-    CmsRelationType getRelationType(String xpath, CmsRelationType defaultType);
+    CmsRelationType getRelationType(@RUntainted String xpath, CmsRelationType defaultType);
 
     /**
      * Returns the search content type, ie., the way how to integrate the value into full text search.<p>
@@ -595,7 +596,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @return the "Title" mapping set for the given XML content document in the given Locale
      */
-    String getTitleMapping(CmsObject cms, CmsXmlContent document, Locale locale);
+    @RUntainted String getTitleMapping(CmsObject cms, CmsXmlContent document, @RUntainted Locale locale);
 
     /**
      * Gets the version transformation VFS path.
@@ -605,7 +606,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @return the VFS path to read an XSLT file for version transformation from
      */
-    String getVersionTransformation();
+    @RUntainted String getVersionTransformation();
 
     /**
      * Gets the widget for the given path and CMS context.
@@ -668,7 +669,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    void initialize(Element appInfoElement, CmsXmlContentDefinition contentDefinition) throws CmsXmlException;
+    void initialize(@RUntainted Element appInfoElement, CmsXmlContentDefinition contentDefinition) throws CmsXmlException;
 
     /**
      * Performs a check of the given XML document.<p>
@@ -770,7 +771,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @throws CmsException in case something goes wrong
      */
-    CmsFile prepareForWrite(CmsObject cms, CmsXmlContent content, CmsFile file) throws CmsException;
+    @RUntainted CmsFile prepareForWrite(CmsObject cms, CmsXmlContent content, CmsFile file) throws CmsException;
 
     /**
      * Resolves the value mappings of the given XML content value, according

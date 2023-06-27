@@ -89,6 +89,7 @@ import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.AbstractTextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Controller for the VAADIN UI of the Message Bundle Editor.
@@ -186,7 +187,7 @@ I_OptionListener, I_CmsHasShortcutActions {
     CmsMessageBundleEditorTypes.OptionColumnGenerator m_optionsColumn;
 
     /** The place where to go when the editor is closed. */
-    private String m_backLink;
+    private @RUntainted String m_backLink;
 
     /** The options view of the editor. */
     private CmsMessageBundleEditorOptions m_options;
@@ -395,7 +396,7 @@ I_OptionListener, I_CmsHasShortcutActions {
     /**
      * @see org.opencms.ui.editors.I_CmsEditor#initUI(org.opencms.ui.apps.I_CmsAppUIContext, org.opencms.file.CmsResource, java.lang.String, java.util.Map)
      */
-    public void initUI(I_CmsAppUIContext context, CmsResource resource, String backLink, Map<String, String> params) {
+    public void initUI(I_CmsAppUIContext context, CmsResource resource, @RUntainted String backLink, Map<String, String> params) {
 
         m_cms = ((CmsUIServlet)VaadinServlet.getCurrent()).getCmsObject();
         m_messages = Messages.get().getBundle(UI.getCurrent().getLocale());

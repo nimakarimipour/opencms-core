@@ -63,6 +63,7 @@ import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Extension used for the Vaadin dialogs in the sitemap editor.<p>
@@ -141,7 +142,7 @@ public class CmsSitemapExtension extends AbstractExtension implements I_CmsSitem
         /**
          * @see org.opencms.ui.I_CmsDialogContext#getAllStructureIdsInView()
          */
-        public List<CmsUUID> getAllStructureIdsInView() {
+        public @RUntainted List<@RUntainted CmsUUID> getAllStructureIdsInView() {
 
             return Collections.emptyList();
         }
@@ -310,7 +311,7 @@ public class CmsSitemapExtension extends AbstractExtension implements I_CmsSitem
     /**
      * @see org.opencms.ui.shared.rpc.I_CmsSitemapServerRpc#openPageCopyDialog(java.lang.String, java.lang.String)
      */
-    public void openPageCopyDialog(final String callId, final String structureId) {
+    public void openPageCopyDialog(final String callId, final @RUntainted String structureId) {
 
         CmsObject cms = A_CmsUI.getCmsObject();
         try {
@@ -374,7 +375,7 @@ public class CmsSitemapExtension extends AbstractExtension implements I_CmsSitem
     /**
      * @see org.opencms.ui.shared.rpc.I_CmsSitemapServerRpc#showLocaleComparison(java.lang.String)
      */
-    public void showLocaleComparison(String id) {
+    public void showLocaleComparison(@RUntainted String id) {
 
         if (m_localeCompareContainer == null) {
             m_localeCompareContainer = new VerticalLayout();

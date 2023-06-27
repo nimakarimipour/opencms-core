@@ -34,6 +34,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
 import java.util.concurrent.ConcurrentHashMap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Performs some additional checks on publish lists to prevent inconsistent VFS states.<p>
@@ -48,10 +49,10 @@ public class CmsPublishListVerifier {
     private class ForbiddenFolderEntry {
 
         /** Reason why publishing is not allowed. */
-        String m_reason;
+        @RUntainted String m_reason;
 
         /** Root path of the forbidden parent folder. */
-        String m_rootPath;
+        @RUntainted String m_rootPath;
 
         /**
          * Creates a new entry.<p>
@@ -59,7 +60,7 @@ public class CmsPublishListVerifier {
          * @param rootPath the root path of the forbidden entry
          * @param reason the reason why publishing is not allowed
          */
-        public ForbiddenFolderEntry(String rootPath, String reason) {
+        public ForbiddenFolderEntry(@RUntainted String rootPath, @RUntainted String reason) {
             m_rootPath = rootPath;
             m_reason = reason;
         }
@@ -69,7 +70,7 @@ public class CmsPublishListVerifier {
          *
          * @return the reason
          */
-        public String getReason() {
+        public @RUntainted String getReason() {
 
             return m_reason;
         }
@@ -79,7 +80,7 @@ public class CmsPublishListVerifier {
          *
          * @return the rootPath
          */
-        public String getRootPath() {
+        public @RUntainted String getRootPath() {
 
             return m_rootPath;
         }
@@ -102,7 +103,7 @@ public class CmsPublishListVerifier {
      * @param reason the reason why publishing is not allowed
      * @return an ID which can be used later to remove the forbidden parent folder
      */
-    public CmsUUID addForbiddenParentFolder(String parentFolder, String reason) {
+    public CmsUUID addForbiddenParentFolder(@RUntainted String parentFolder, @RUntainted String reason) {
 
         CmsUUID id = new CmsUUID();
         m_forbiddenParentFolders.put(id, new ForbiddenFolderEntry(parentFolder, reason));

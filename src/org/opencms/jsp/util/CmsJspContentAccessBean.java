@@ -61,6 +61,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.collections.Transformer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows access to the individual elements of an XML content, usually used inside a loop of a
@@ -460,10 +461,10 @@ public class CmsJspContentAccessBean {
     private Map<String, Map<String, List<CmsJspContentAccessValueWrapper>>> m_localeValueList;
 
     /** The original locale requested for accessing entries from the XML content. */
-    private Locale m_requestedLocale;
+    private @RUntainted Locale m_requestedLocale;
 
     /** Resource the XML content is created from. */
-    private CmsResource m_resource;
+    private @RUntainted CmsResource m_resource;
 
     /** JSP EL access wrapped version of the resource the XML content is created from. */
     private CmsJspResourceWrapper m_resourceWrapper;
@@ -525,9 +526,9 @@ public class CmsJspContentAccessBean {
      *
      * @return the HTML attribute "data-imagednd" that enables the ADE image drag and drop feature
      */
-    protected static String createImageDndAttr(CmsUUID structureId, String imagePath, String locale) {
+    protected static String createImageDndAttr(@RUntainted CmsUUID structureId, @RUntainted String imagePath, @RUntainted String locale) {
 
-        String attrValue = structureId + "|" + imagePath + "|" + locale;
+        @RUntainted String attrValue = structureId + "|" + imagePath + "|" + locale;
         String escapedAttrValue = CmsEncoder.escapeXml(attrValue);
         return ("data-imagednd=\"" + escapedAttrValue + "\"");
     }
@@ -847,7 +848,7 @@ public class CmsJspContentAccessBean {
             m_json = CmsCollectionsGenericWrapper.createLazyMap(key -> {
                 CmsXmlContent content = (CmsXmlContent)getRawContent();
 
-                Locale locale;
+                @RUntainted Locale locale;
                 if (key instanceof Locale) {
                     locale = (Locale)key;
                 } else {
@@ -1230,7 +1231,7 @@ public class CmsJspContentAccessBean {
      * @param content the XML content to access
      * @param resource the resource to create the content from
      */
-    public void init(CmsObject cms, Locale locale, I_CmsXmlDocument content, CmsResource resource) {
+    public void init(CmsObject cms, @RUntainted Locale locale, I_CmsXmlDocument content, @RUntainted CmsResource resource) {
 
         m_cms = cms;
         m_requestedLocale = locale;

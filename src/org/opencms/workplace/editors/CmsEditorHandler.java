@@ -39,6 +39,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsRequestUtil;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This editor handler class returns the editor URI depending on various factors.<p>
@@ -98,7 +99,7 @@ public class CmsEditorHandler implements I_CmsEditorHandler {
 
         Object resObj = cms.getRequestContext().getAttribute("EDITORHANDLER_RESOURCE");
         if (resObj != null) {
-            CmsResource resource = (CmsResource)resObj;
+            @RUntainted CmsResource resource = (CmsResource)resObj;
             if ((editorUri != null) && editorUri.contains("acacia")) {
                 if (CmsResourceTypeXmlContent.isXmlContent(resource)) {
                     String fallback = "/system/workplace/editors/xmlcontent/editor.jsp";

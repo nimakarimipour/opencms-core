@@ -113,6 +113,7 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient.Builder;
 import org.apache.solr.core.CoreContainer;
 import org.apache.solr.core.CoreDescriptor;
 import org.apache.solr.core.SolrCore;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the general management and configuration of the search and
@@ -757,7 +758,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
     private long m_maxIndexWaitTime;
 
     /** Path to index files below WEB-INF/. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /** The Solr configuration. */
     private CmsSolrConfiguration m_solrConfig;
@@ -940,7 +941,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
         }
 
         // name: not null or emtpy and unique
-        String name = searchIndex.getName();
+        @RUntainted String name = searchIndex.getName();
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(name)) {
             throw new CmsIllegalArgumentException(
                 Messages.get().container(Messages.ERR_SEARCHINDEX_CREATE_MISSING_NAME_0));
@@ -1045,7 +1046,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
             case I_CmsEventListener.EVENT_REINDEX_OFFLINE:
             case I_CmsEventListener.EVENT_REINDEX_ONLINE:
                 boolean isOnline = I_CmsEventListener.EVENT_REINDEX_ONLINE == event.getType();
-                Map<String, Object> eventData = event.getData();
+                @RUntainted Map<@RUntainted String, @RUntainted Object> eventData = event.getData();
                 CmsUUID userId = (CmsUUID)eventData.get(I_CmsEventListener.KEY_USER_ID);
                 CmsUser user = null;
                 if (userId != null) {
@@ -1101,7 +1102,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
                     cms = null;
                     SEARCH_MANAGER_LOCK.unlock();
                     if (null != user) {
-                        Locale l = OpenCms.getWorkplaceManager().getWorkplaceLocale(user);
+                        @RUntainted Locale l = OpenCms.getWorkplaceManager().getWorkplaceLocale(user);
                         OpenCms.getSessionManager().sendBroadcast(
                             null,
                             Messages.get().getBundle(l).key(Messages.GUI_REINDEXING_SUCCESS_0),
@@ -1165,7 +1166,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
      *
      * @throws CmsSearchException if something goes wrong
      */
-    public Analyzer getAnalyzer(Locale locale) throws CmsSearchException {
+    public Analyzer getAnalyzer(@RUntainted Locale locale) throws CmsSearchException {
 
         Analyzer analyzer = null;
         String className = null;
@@ -1213,7 +1214,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
      *
      * @return the name of the directory below WEB-INF/ where the search indexes are stored
      */
-    public String getDirectory() {
+    public @RUntainted String getDirectory() {
 
         return m_path;
     }
@@ -1286,7 +1287,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
 
         // first get the MIME type of the resource
         String mimeType = OpenCms.getResourceManager().getMimeType(resource.getRootPath(), null, "unknown");
-        String resourceType = null;
+        @RUntainted String resourceType = null;
         try {
             resourceType = OpenCms.getResourceManager().getResourceType(resource.getTypeId()).getTypeName();
         } catch (CmsLoaderException e) {
@@ -1331,7 +1332,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
      * @param mimeType the mime type to generate the list of document type keys for.
      * @return the document type keys.
      */
-    public List<String> getDocumentTypeKeys(String resourceType, String mimeType) {
+    public List<String> getDocumentTypeKeys(@RUntainted String resourceType, String mimeType) {
 
         List<String> result = new ArrayList<>(8);
         if (null != resourceType) {
@@ -2293,7 +2294,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
      *
      * @param value the name of the directory below WEB-INF/ where the search indexes are stored
      */
-    public void setDirectory(String value) {
+    public void setDirectory(@RUntainted String value) {
 
         m_path = value;
     }
@@ -2794,7 +2795,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
     protected void initAvailableDocumentTypes() {
 
         CmsSearchDocumentType documenttype = null;
-        String className = null;
+        @RUntainted String className = null;
         String name = null;
         I_CmsDocumentFactory documentFactory = null;
         List<String> resourceTypes = null;
@@ -3409,7 +3410,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
      * @param containerPages the containerpages
      * @param containerPage the container page site path
      */
-    private void addDetailContent(CmsObject adminCms, Set<CmsResource> containerPages, String containerPage) {
+    private void addDetailContent(CmsObject adminCms, Set<CmsResource> containerPages, @RUntainted String containerPage) {
 
         if (CmsDetailOnlyContainerUtil.isDetailContainersPage(adminCms, containerPage)) {
 
@@ -3462,7 +3463,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
      * Remove write.lock file in the data directory to ensure the index is unlocked.
      * @param dataDir the data directory of the Solr index that should be unlocked.
      */
-    private void ensureIndexIsUnlocked(String dataDir) {
+    private void ensureIndexIsUnlocked(@RUntainted String dataDir) {
 
         Collection<File> lockFiles = new ArrayList<File>(2);
         lockFiles.add(
@@ -3537,7 +3538,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
      */
     private boolean isGroup(int type) {
 
-        for (String groupType : groupTypes) {
+        for (@RUntainted String groupType : groupTypes) {
             if (OpenCms.getResourceManager().matchResourceType(groupType, type)) {
                 return true;
             }

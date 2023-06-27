@@ -150,6 +150,7 @@ import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.Table.CellStyleGenerator;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manager for list configuration files.<p>
@@ -355,7 +356,7 @@ I_CmsCachableApp {
             I_CmsDialogContext context) {
 
             try {
-                CmsUUID id = editHandler.prepareForEdit(
+                @RUntainted CmsUUID id = editHandler.prepareForEdit(
                     context.getCms(),
                     elementBean,
                     editOption,

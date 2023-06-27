@@ -61,6 +61,7 @@ import com.google.common.collect.Lists;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontIcon;
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the data for the buttons in the quick launch menu.<p>
@@ -119,7 +120,7 @@ public final class CmsQuickLaunchProvider {
                 String errorMessage = null;
                 boolean useLegacyButtonStyle = config instanceof CmsLegacyAppConfiguration;
                 if (CmsFileExplorerConfiguration.APP_ID.equals(config.getId())) {
-                    String page = locationCache.getFileExplorerLocation(cms.getRequestContext().getSiteRoot());
+                    @RUntainted String page = locationCache.getFileExplorerLocation(cms.getRequestContext().getSiteRoot());
                     if (page != null) {
                         link = CmsCoreService.getVaadinWorkplaceLink(cms, cms.getRequestContext().addSiteRoot(page));
                     } else {

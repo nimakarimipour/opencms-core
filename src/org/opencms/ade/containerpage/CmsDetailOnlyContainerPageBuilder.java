@@ -43,6 +43,7 @@ import java.util.TreeMap;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is a simple helper class to more easily produce container page beans to be used as detail-only containers.<p>
@@ -71,7 +72,7 @@ public class CmsDetailOnlyContainerPageBuilder {
         private String m_name;
 
         /** Container type. */
-        private String m_type;
+        private @RUntainted String m_type;
 
         /** Container width. */
         private String m_width;
@@ -149,7 +150,7 @@ public class CmsDetailOnlyContainerPageBuilder {
          *
          * @return the type
          */
-        public String getType() {
+        public @RUntainted String getType() {
 
             return m_type;
         }
@@ -238,7 +239,7 @@ public class CmsDetailOnlyContainerPageBuilder {
      * @param name the container name
      * @param type the container type
      */
-    public void setContainerType(String name, String type) {
+    public void setContainerType(String name, @RUntainted String type) {
 
         getContainerInfo(name).setType(type);
     }
@@ -263,7 +264,7 @@ public class CmsDetailOnlyContainerPageBuilder {
     private CmsContainerBean buildContainerBean(ContainerInfo cnt) {
 
         List<CmsContainerElementBean> elements = Lists.newArrayList();
-        for (CmsResource resource : cnt.getResources()) {
+        for (@RUntainted CmsResource resource : cnt.getResources()) {
             CmsContainerElementBean elementBean = buildContainerElementBean(cnt, resource);
             elements.add(elementBean);
         }
@@ -279,7 +280,7 @@ public class CmsDetailOnlyContainerPageBuilder {
      *
      * @return the container element bean
      */
-    private CmsContainerElementBean buildContainerElementBean(ContainerInfo cnt, CmsResource resource) {
+    private CmsContainerElementBean buildContainerElementBean(ContainerInfo cnt, @RUntainted CmsResource resource) {
 
         I_CmsFormatterBean formatter = m_config.getFormatters(m_cms, resource).getDefaultFormatter(
             cnt.getEffectiveType(),

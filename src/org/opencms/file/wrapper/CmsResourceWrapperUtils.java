@@ -50,6 +50,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class with several methods used by different implementations of the
@@ -105,14 +106,14 @@ public final class CmsResourceWrapperUtils {
      *
      * @return the resource name with the added file extension
      */
-    public static String addFileExtension(CmsObject cms, String resourcename, String extension) {
+    public static @RUntainted String addFileExtension(CmsObject cms, @RUntainted String resourcename, @RUntainted String extension) {
 
         if (!extension.startsWith(".")) {
             extension = "." + extension;
         }
 
         if (!resourcename.endsWith(extension)) {
-            String name = resourcename + extension;
+            @RUntainted String name = resourcename + extension;
             int count = 0;
             while (cms.existsResource(name)) {
                 count++;
@@ -171,7 +172,7 @@ public final class CmsResourceWrapperUtils {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsFile createPropertyFile(CmsObject cms, CmsResource res, String path) throws CmsException {
+    public static CmsFile createPropertyFile(CmsObject cms, CmsResource res, @RUntainted String path) throws CmsException {
 
         StringBuffer content = new StringBuffer();
 
@@ -203,8 +204,8 @@ public final class CmsResourceWrapperUtils {
                 currentProperty = new CmsProperty();
             }
 
-            String individualValue = currentProperty.getStructureValue();
-            String sharedValue = currentProperty.getResourceValue();
+            @RUntainted String individualValue = currentProperty.getStructureValue();
+            @RUntainted String sharedValue = currentProperty.getResourceValue();
 
             if (individualValue == null) {
                 individualValue = "";
@@ -268,7 +269,7 @@ public final class CmsResourceWrapperUtils {
      *
      * @return the resource name without the removed file extension
      */
-    public static String removeFileExtension(CmsObject cms, String resourcename, String extension) {
+    public static @RUntainted String removeFileExtension(CmsObject cms, @RUntainted String resourcename, String extension) {
 
         if (resourcename.equals("")) {
             resourcename = "/";
@@ -313,7 +314,7 @@ public final class CmsResourceWrapperUtils {
 
         if (suffix != null) {
 
-            String path = resourcename.substring(0, resourcename.length() - suffix.length());
+            @RUntainted String path = resourcename.substring(0, resourcename.length() - suffix.length());
             return path;
         }
 
@@ -410,7 +411,7 @@ public final class CmsResourceWrapperUtils {
      *
      * @return the escaped string
      */
-    private static String escapeString(String value) {
+    private static String escapeString(@RUntainted String value) {
 
         Map<String, String> substitutions = new HashMap<String, String>();
         substitutions.put("\n", "\\n");

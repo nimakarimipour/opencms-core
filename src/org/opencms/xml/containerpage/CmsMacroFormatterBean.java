@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Formatter configuration for macro formatters.<p>
@@ -51,7 +52,7 @@ public class CmsMacroFormatterBean extends CmsFormatterBean {
     private String m_defaultContentRootPath;
 
     /** The UUID of the default content resource. */
-    private CmsUUID m_defaultContentStructureId;
+    private @RUntainted CmsUUID m_defaultContentStructureId;
 
     /** The macro input. */
     private String m_macroInput;
@@ -97,18 +98,18 @@ public class CmsMacroFormatterBean extends CmsFormatterBean {
     public CmsMacroFormatterBean(
         Set<String> containerTypes,
         String jspRootPath,
-        CmsUUID jspStructureId,
+        @RUntainted CmsUUID jspStructureId,
         int minWidth,
         int maxWidth,
         boolean searchContent,
-        String location,
+        @RUntainted String location,
         String niceName,
         String description,
         Collection<String> resourceTypeNames,
         int rank,
-        String id,
+        @RUntainted String id,
         String defaultContentRootPath,
-        CmsUUID defaultContentStructureId,
+        @RUntainted CmsUUID defaultContentStructureId,
         CmsSettingConfiguration settingConfig,
         boolean isAutoEnabled,
         boolean isDetail,
@@ -176,7 +177,7 @@ public class CmsMacroFormatterBean extends CmsFormatterBean {
      *
      * @return the UUID of the default content
      */
-    public CmsUUID getDefaultContentStructureId() {
+    public @RUntainted CmsUUID getDefaultContentStructureId() {
 
         return m_defaultContentStructureId;
     }

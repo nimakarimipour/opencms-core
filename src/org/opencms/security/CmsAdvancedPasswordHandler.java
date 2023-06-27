@@ -33,6 +33,7 @@ import org.opencms.main.CmsLog;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Validates the user passwords in with advanced password requirements.<p>
@@ -72,7 +73,7 @@ public class CmsAdvancedPasswordHandler extends CmsDefaultPasswordHandler {
      * @see org.opencms.security.I_CmsPasswordSecurityEvaluator#getPasswordSecurityHint(java.util.Locale)
      */
     @Override
-    public String getPasswordSecurityHint(Locale locale) {
+    public String getPasswordSecurityHint(@RUntainted Locale locale) {
 
         // return the hint
         return Messages.get().container(Messages.GUI_PWD_HINT_0).key(locale);
@@ -112,7 +113,7 @@ public class CmsAdvancedPasswordHandler extends CmsDefaultPasswordHandler {
         }
 
         // for the rest we need the char array
-        char[] pw = password.toCharArray();
+        @RUntainted char[] pw = password.toCharArray();
         int letters = 0;
         int specialCharacter = 0;
         for (int i = 0; i < pw.length; i++) {
@@ -138,12 +139,12 @@ public class CmsAdvancedPasswordHandler extends CmsDefaultPasswordHandler {
 
         // no descending or ascending row of more than two characters
         // and no more than two of a kind in a row
-        char last = pw[0];
+        @RUntainted char last = pw[0];
         int ascending = 0;
         int descending = 0;
         int equals = 0;
         for (int i = 1; i < pw.length; i++) {
-            char current = pw[i];
+            @RUntainted char current = pw[i];
             if ((last + 1) == current) {
                 ascending++;
             } else {
@@ -160,7 +161,7 @@ public class CmsAdvancedPasswordHandler extends CmsDefaultPasswordHandler {
                 equals = 0;
             }
             if ((descending > 1) || (ascending > 1) || (equals > 1)) {
-                Object[] msgArgs = new Object[] {
+                @RUntainted Object[] msgArgs = new Object[] {
                     new Character(last),
                     new Character(current),
                     new Integer(descending),

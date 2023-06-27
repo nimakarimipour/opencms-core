@@ -61,6 +61,7 @@ import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides information about how to handle imported resources.<p>
@@ -929,7 +930,7 @@ public class CmsImportExportManager {
      * @deprecated use {@link #importData(CmsObject, I_CmsReport, CmsImportParameters)} instead
      */
     @Deprecated
-    public void importData(CmsObject cms, String importFile, String importPath, I_CmsReport report)
+    public void importData(CmsObject cms, @RUntainted String importFile, String importPath, I_CmsReport report)
     throws CmsImportExportException, CmsXmlException, CmsRoleViolationException, CmsException {
 
         CmsImportParameters parameters = new CmsImportParameters(importFile, importPath, false);
@@ -1072,12 +1073,12 @@ public class CmsImportExportManager {
      * @param name the group name to translate
      * @return the translated name for the given group name
      */
-    public String translateGroup(String name) {
+    public @RUntainted String translateGroup(@RUntainted String name) {
 
         if (m_importGroupTranslations == null) {
             return name;
         }
-        String match = m_importGroupTranslations.get(name);
+        @RUntainted String match = m_importGroupTranslations.get(name);
         if (match != null) {
             return match;
         } else {
@@ -1093,12 +1094,12 @@ public class CmsImportExportManager {
      * @param name the user name to translate
      * @return the translated name for the given user name
      */
-    public String translateUser(String name) {
+    public @RUntainted String translateUser(@RUntainted String name) {
 
         if (m_importUserTranslations == null) {
             return name;
         }
-        String match = m_importUserTranslations.get(name);
+        @RUntainted String match = m_importUserTranslations.get(name);
         if (match != null) {
             return match;
         } else {

@@ -57,6 +57,7 @@ import org.apache.commons.collections.map.LRUMap;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class implements the FlexCache.<p>
@@ -269,13 +270,13 @@ public class CmsFlexCache extends Object implements I_CmsEventListener {
         long maxCacheBytes = configuration.getMaxCacheBytes();
         long avgCacheBytes = configuration.getAvgCacheBytes();
         int maxEntryBytes = configuration.getMaxEntryBytes();
-        int maxKeys = configuration.getMaxKeys();
+        @RUntainted int maxKeys = configuration.getMaxKeys();
 
         m_variationCache = new CmsLruCache(maxCacheBytes, avgCacheBytes, maxEntryBytes);
         OpenCms.getMemoryMonitor().register(getClass().getName() + ".m_entryLruCache", m_variationCache);
 
         if (m_enabled) {
-            CmsFlexKeyMap flexKeyMap = new CmsFlexKeyMap(maxKeys);
+            @RUntainted CmsFlexKeyMap flexKeyMap = new CmsFlexKeyMap(maxKeys);
             m_keyCache = Collections.synchronizedMap(
                 CmsCollectionsGenericWrapper.<String, CmsFlexCacheVariation> map(flexKeyMap));
             OpenCms.getMemoryMonitor().register(getClass().getName() + ".m_resourceMap", flexKeyMap);

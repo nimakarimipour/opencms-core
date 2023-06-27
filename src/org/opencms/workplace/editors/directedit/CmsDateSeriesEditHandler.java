@@ -60,6 +60,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Special edit handler for contents that define multiple instances in a date series. */
 public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
@@ -95,7 +96,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
         private Date m_instanceDate;
 
         /** UUID of the container page we currently act on. */
-        private CmsUUID m_pageContextId;
+        private @RUntainted CmsUUID m_pageContextId;
 
         /** The current request parameters. */
         private Map<String, String[]> m_requestParameters;
@@ -117,7 +118,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
             CmsObject cms,
             CmsContainerElementBean elementBean,
             Map<String, String[]> requestParams,
-            CmsUUID pageContextId) {
+            @RUntainted CmsUUID pageContextId) {
 
             try {
                 m_cms = cms;
@@ -247,7 +248,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
          * @return the structure id of the content that should be edited.
          * @throws CmsException thrown if preparing the edit operation fails.
          */
-        public CmsUUID prepareForEdit(String editOption) throws CmsException {
+        public @RUntainted CmsUUID prepareForEdit(String editOption) throws CmsException {
 
             if (Objects.equals(OPTION_INSTANCE, editOption)) {
                 return extractDate();
@@ -271,7 +272,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
                 try {
                     m_cms.lockResource(m_file);
                     m_value.addException(m_instanceDate);
-                    String stringValue = m_value.toString();
+                    @RUntainted String stringValue = m_value.toString();
                     for (Locale l : m_content.getLocales()) {
                         I_CmsXmlContentValue contentValue = getSerialDateContentValue(m_content, l);
                         contentValue.setStringValue(m_cms, stringValue);
@@ -325,7 +326,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
                     newValue.setParentSeriesId(m_file.getStructureId());
                     newValue.setWholeDay(Boolean.valueOf(m_value.isWholeDay()));
                     newValue.setPatternType(PatternType.NONE);
-                    String newValueString = newValue.toString();
+                    @RUntainted String newValueString = newValue.toString();
                     for (Locale l : newContent.getLocales()) {
                         I_CmsXmlContentValue newContentValue = getSerialDateContentValue(newContent, l);
                         newContentValue.setStringValue(m_cms, newValueString);
@@ -450,7 +451,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
     public CmsDialogOptions getDeleteOptions(
         CmsObject cms,
         CmsContainerElementBean elementBean,
-        CmsUUID pageContextId,
+        @RUntainted CmsUUID pageContextId,
         Map<String, String[]> requestParams) {
 
         InternalHandler internalHandler = new InternalHandler(cms, elementBean, requestParams, pageContextId);
@@ -464,7 +465,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
     public CmsDialogOptions getEditOptions(
         CmsObject cms,
         CmsContainerElementBean elementBean,
-        CmsUUID pageContextId,
+        @RUntainted CmsUUID pageContextId,
         Map<String, String[]> requestParams,
         boolean isListElement) {
 
@@ -492,7 +493,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
         CmsObject cms,
         CmsContainerElementBean elementBean,
         String deleteOption,
-        CmsUUID pageContextId,
+        @RUntainted CmsUUID pageContextId,
         Map<String, String[]> requestParams)
     throws CmsException {
 
@@ -524,11 +525,11 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
      * @see org.opencms.workplace.editors.directedit.I_CmsEditHandler#prepareForEdit(org.opencms.file.CmsObject, org.opencms.xml.containerpage.CmsContainerElementBean, java.lang.String, org.opencms.util.CmsUUID, java.util.Map)
      */
     @Override
-    public CmsUUID prepareForEdit(
+    public @RUntainted CmsUUID prepareForEdit(
         CmsObject cms,
         CmsContainerElementBean elementBean,
         String editOption,
-        CmsUUID pageContextId,
+        @RUntainted CmsUUID pageContextId,
         Map<String, String[]> requestParams)
     throws CmsException {
 

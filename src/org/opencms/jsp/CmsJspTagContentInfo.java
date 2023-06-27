@@ -44,6 +44,7 @@ import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used to access and display XML content item information from the VFS.<p>

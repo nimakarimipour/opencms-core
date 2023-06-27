@@ -56,6 +56,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This manager provide access to the publish engine runtime information.<p>
@@ -747,7 +748,7 @@ public class CmsPublishManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public void removeResourceFromUsersPubList(CmsObject cms, Collection<CmsUUID> structureIds) throws CmsException {
+    public void removeResourceFromUsersPubList(CmsObject cms, @RUntainted Collection<@RUntainted CmsUUID> structureIds) throws CmsException {
 
         m_securityManager.removeResourceFromUsersPubList(cms.getRequestContext(), structureIds);
     }

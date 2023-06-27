@@ -68,6 +68,7 @@ import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The source search form.<p>
@@ -169,7 +170,7 @@ public class CmsSourceSearchForm extends VerticalLayout {
     private CheckBox m_ignoreSubSites;
 
     /** The search locale select. */
-    private ComboBox m_locale;
+    private @RUntainted ComboBox m_locale;
 
     /** Vaadin component.*/
     private TextField m_newName;
@@ -202,7 +203,7 @@ public class CmsSourceSearchForm extends VerticalLayout {
     private ComboBox m_searchIndex;
 
     /** The search pattern field. */
-    private TextField m_searchPattern;
+    private @RUntainted TextField m_searchPattern;
 
     /** The search root path select. */
     private CmsPathSelectField m_searchRoot;
@@ -211,13 +212,13 @@ public class CmsSourceSearchForm extends VerticalLayout {
     private ComboBox m_searchType;
 
     /** The site select. */
-    private ComboBox m_siteSelect;
+    private @RUntainted ComboBox m_siteSelect;
 
     /** The SOLR query field. */
     private TextField m_solrQuery;
 
     /** The replace project. */
-    private ComboBox m_workProject;
+    private @RUntainted ComboBox m_workProject;
 
     /** The XPath field. */
     private TextField m_xPath;

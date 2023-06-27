@@ -31,6 +31,7 @@ import org.opencms.file.CmsObject;
 
 import java.util.Collection;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles changes during the xml content editor session.<p>
@@ -63,7 +64,7 @@ public interface I_CmsXmlContentEditorChangeHandler {
      *
      * @return the changed content
      */
-    CmsXmlContent handleChange(CmsObject cms, CmsXmlContent content, Locale locale, Collection<String> changedPaths);
+    CmsXmlContent handleChange(CmsObject cms, CmsXmlContent content, @RUntainted Locale locale, Collection<String> changedPaths);
 
     /**
      * Sets the configuration.<p>

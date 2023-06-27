@@ -51,6 +51,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Super class for workplace apps to help implementing the app navigation and layout.<p>
@@ -167,7 +168,7 @@ public abstract class A_CmsWorkplaceApp implements I_CmsWorkplaceApp {
      *
      * @return the state
      */
-    public static String addParamToState(String state, String paramName, String value) {
+    public static String addParamToState(@RUntainted String state, @RUntainted String paramName, String value) {
 
         return state + PARAM_SEPARATOR + paramName + PARAM_ASSIGN + CmsEncoder.encode(value, CmsEncoder.ENCODING_UTF_8);
     }
@@ -180,11 +181,11 @@ public abstract class A_CmsWorkplaceApp implements I_CmsWorkplaceApp {
      *
      * @return the parameter value
      */
-    public static String getParamFromState(String state, String paramName) {
+    public static @RUntainted String getParamFromState(@RUntainted String state, String paramName) {
 
         String prefix = PARAM_SEPARATOR + paramName + PARAM_ASSIGN;
         if (state.contains(prefix)) {
-            String result = state.substring(state.indexOf(prefix) + prefix.length());
+            @RUntainted String result = state.substring(state.indexOf(prefix) + prefix.length());
             if (result.contains(PARAM_SEPARATOR)) {
                 result = result.substring(0, result.indexOf(PARAM_SEPARATOR));
             }
@@ -200,7 +201,7 @@ public abstract class A_CmsWorkplaceApp implements I_CmsWorkplaceApp {
      *
      * @return the parameters
      */
-    public static Map<String, String> getParamsFromState(String state) {
+    public static Map<String, String> getParamsFromState(@RUntainted String state) {
 
         Map<String, String> result = new HashMap<String, String>();
         int separatorIndex = state.indexOf(PARAM_SEPARATOR);
@@ -211,7 +212,7 @@ public abstract class A_CmsWorkplaceApp implements I_CmsWorkplaceApp {
                 String key = state.substring(0, assignIndex);
                 state = state.substring(assignIndex + 2);
                 separatorIndex = state.indexOf(PARAM_SEPARATOR);
-                String value = null;
+                @RUntainted String value = null;
                 if (separatorIndex < 0) {
                     value = state;
                 } else if (separatorIndex > 0) {
@@ -289,7 +290,7 @@ public abstract class A_CmsWorkplaceApp implements I_CmsWorkplaceApp {
     /**
      * @see org.opencms.ui.apps.I_CmsWorkplaceApp#onStateChange(java.lang.String)
      */
-    public void onStateChange(String state) {
+    public void onStateChange(@RUntainted String state) {
 
         openSubView(state, false);
     }
@@ -300,7 +301,7 @@ public abstract class A_CmsWorkplaceApp implements I_CmsWorkplaceApp {
      * @param state the state
      * @param updateState <code>true</code> to update the state URL token
      */
-    public void openSubView(String state, boolean updateState) {
+    public void openSubView(@RUntainted String state, boolean updateState) {
 
         if (updateState) {
             CmsAppWorkplaceUi.get().changeCurrentAppState(state);
@@ -342,7 +343,7 @@ public abstract class A_CmsWorkplaceApp implements I_CmsWorkplaceApp {
      *
      * @return bread crumb entry name by state, in case the state is empty, the entry will be disabled
      */
-    protected abstract LinkedHashMap<String, String> getBreadCrumbForState(String state);
+    protected abstract LinkedHashMap<String, String> getBreadCrumbForState(@RUntainted String state);
 
     /**
      * Returns the app component for the given state.<p>
@@ -351,7 +352,7 @@ public abstract class A_CmsWorkplaceApp implements I_CmsWorkplaceApp {
      *
      * @return the app component
      */
-    protected abstract Component getComponentForState(String state);
+    protected abstract Component getComponentForState(@RUntainted String state);
 
     /**
      * Returns the last path level.<p>

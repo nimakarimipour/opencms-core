@@ -46,6 +46,7 @@ import java.util.Optional;
 import org.apache.commons.logging.Log;
 
 import com.vaadin.ui.Component;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Context for the favorite dialog opened from the workplace.
@@ -74,9 +75,9 @@ public class CmsExplorerFavoriteContext implements I_CmsFavoriteContext {
 
         if (explorer != null) {
             m_explorer = explorer;
-            CmsUUID currentFolder = explorer.getCurrentFolder();
+            @RUntainted CmsUUID currentFolder = explorer.getCurrentFolder();
             String siteRoot = cms.getRequestContext().getSiteRoot();
-            CmsUUID project = cms.getRequestContext().getCurrentProject().getId();
+            @RUntainted CmsUUID project = cms.getRequestContext().getCurrentProject().getId();
             CmsFavoriteEntry entry = new CmsFavoriteEntry();
             entry.setType(Type.explorerFolder);
             entry.setSiteRoot(siteRoot);
@@ -89,7 +90,7 @@ public class CmsExplorerFavoriteContext implements I_CmsFavoriteContext {
     /**
      * @see org.opencms.ui.favorites.I_CmsFavoriteContext#changeProject(org.opencms.util.CmsUUID)
      */
-    public void changeProject(CmsUUID value) {
+    public void changeProject(@RUntainted CmsUUID value) {
 
         close();
         CmsExplorerDialogContext context = new CmsExplorerDialogContext(

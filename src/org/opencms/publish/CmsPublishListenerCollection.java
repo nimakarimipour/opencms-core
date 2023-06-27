@@ -36,6 +36,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Publish job information bean.<p>
@@ -69,7 +70,7 @@ public final class CmsPublishListenerCollection extends Vector<I_CmsPublishEvent
      * @param userId the id of the user that aborted the job
      * @param publishJob the publish job that is going to be aborted.
      */
-    protected void fireAbort(CmsUUID userId, CmsPublishJobEnqueued publishJob) {
+    protected void fireAbort(@RUntainted CmsUUID userId, CmsPublishJobEnqueued publishJob) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_PUBLISH_JOB_ABORT_0));

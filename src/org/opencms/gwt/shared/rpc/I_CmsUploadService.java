@@ -34,6 +34,7 @@ import org.opencms.gwt.shared.CmsUploadProgessInfo;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles all RPC services related to the upload dialog.<p>
@@ -66,7 +67,7 @@ public interface I_CmsUploadService extends RemoteService {
      * @return a {@link CmsUploadFileBean} that holds the list of resource names (without the path)
      * that already exist in the VFS and a list of filenames that are invalid
      */
-    CmsUploadFileBean checkUploadFiles(List<String> fileNames, String targetFolder, boolean isRootPath);
+    CmsUploadFileBean checkUploadFiles(List<String> fileNames, @RUntainted String targetFolder, boolean isRootPath);
 
     /**
      * Returns the upload progress information.<p>

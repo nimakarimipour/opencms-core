@@ -36,6 +36,7 @@ import org.opencms.ugc.shared.CmsUgcException;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class which implements some of the security checks for user generated content creation.<p>
@@ -92,7 +93,7 @@ public class CmsUgcSessionSecurityUtil {
      *  @throws CmsUgcException if something goes wrong
      *
      */
-    public static void checkCreateUpload(CmsObject cms, CmsUgcConfiguration config, String name, long size)
+    public static void checkCreateUpload(CmsObject cms, CmsUgcConfiguration config, @RUntainted String name, long size)
     throws CmsUgcException {
 
         if (!config.getUploadParentFolder().isPresent()) {

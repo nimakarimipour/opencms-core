@@ -52,6 +52,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Replacement configuration for the 'add content' dialog.
@@ -216,7 +217,7 @@ public class CmsAddContentRestriction {
      *
      * @return the content restriction
      */
-    public static CmsAddContentRestriction read(CmsObject cms, I_CmsXmlContentLocation parent, String nodeName) {
+    public static CmsAddContentRestriction read(CmsObject cms, I_CmsXmlContentLocation parent, @RUntainted String nodeName) {
 
         List<TypeEntry> entries = new ArrayList<>();
         for (I_CmsXmlContentValueLocation entryLoc : parent.getSubValues(nodeName)) {

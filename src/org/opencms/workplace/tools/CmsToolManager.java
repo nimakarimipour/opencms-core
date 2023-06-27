@@ -49,6 +49,7 @@ import java.util.Map;
 import javax.servlet.ServletException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the registered tools, actualizing its state every time the workplace is reinitialize.<p>
@@ -221,7 +222,7 @@ public class CmsToolManager {
             return "<div class='pathbar'>&nbsp;</div>\n";
         }
         CmsTool adminTool = resolveAdminTool(getCurrentRoot(wp).getKey(), toolPath);
-        String html = A_CmsHtmlIconButton.defaultButtonHtml(
+        @RUntainted String html = A_CmsHtmlIconButton.defaultButtonHtml(
             CmsHtmlIconButtonStyleEnum.SMALL_ICON_TEXT,
             "nav" + adminTool.getId(),
             adminTool.getHandler().getName(),
@@ -240,7 +241,7 @@ public class CmsToolManager {
             String id = "nav" + adminTool.getId();
             String link = linkForToolPath(wp.getJsp(), parent, adminTool.getHandler().getParameters(wp));
             String onClic = "openPage('" + link + "');";
-            String buttonHtml = A_CmsHtmlIconButton.defaultButtonHtml(
+            @RUntainted String buttonHtml = A_CmsHtmlIconButton.defaultButtonHtml(
                 CmsHtmlIconButtonStyleEnum.SMALL_ICON_TEXT,
                 id,
                 adminTool.getHandler().getName(),
@@ -472,7 +473,7 @@ public class CmsToolManager {
      * @throws IOException in case of errors during forwarding
      * @throws ServletException in case of errors during forwarding
      */
-    public void jspForwardPage(CmsWorkplace wp, String pagePath, Map<String, String[]> params)
+    public void jspForwardPage(CmsWorkplace wp, @RUntainted String pagePath, Map<String, String[]> params)
     throws IOException, ServletException {
 
         Map<String, String[]> newParams = createToolParams(wp, pagePath, params);

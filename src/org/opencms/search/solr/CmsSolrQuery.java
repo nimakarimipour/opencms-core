@@ -50,6 +50,7 @@ import java.util.Map;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.common.params.CommonParams;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A Solr search query.<p>
@@ -175,7 +176,7 @@ public class CmsSolrQuery extends SolrQuery {
      *
      * @return the type or <code>null</code>
      */
-    public static String getResourceType(String[] fqs) {
+    public static @RUntainted String getResourceType(String[] fqs) {
 
         String ret = null;
         int count = 0;
@@ -233,9 +234,9 @@ public class CmsSolrQuery extends SolrQuery {
      * @see java.lang.Object#clone()
      */
     @Override
-    public CmsSolrQuery clone() {
+    public @RUntainted CmsSolrQuery clone() {
 
-        CmsSolrQuery sq = new CmsSolrQuery(null, CmsRequestUtil.createParameterMap(toString(), true, null));
+        @RUntainted CmsSolrQuery sq = new CmsSolrQuery(null, CmsRequestUtil.createParameterMap(toString(), true, null));
         if (m_ignoreExpiration) {
             sq.removeExpiration();
         }

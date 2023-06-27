@@ -36,6 +36,7 @@ import org.opencms.xml.containerpage.CmsContainerElementBean;
 
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Edit handlers are optional and can be configured within the XSD-schema of a resource type.<p>
@@ -57,7 +58,7 @@ public interface I_CmsEditHandler {
     CmsDialogOptions getDeleteOptions(
         CmsObject cms,
         CmsContainerElementBean elementBean,
-        CmsUUID pageContextId,
+        @RUntainted CmsUUID pageContextId,
         Map<String, String[]> requestParams);
 
     /**
@@ -74,7 +75,7 @@ public interface I_CmsEditHandler {
     CmsDialogOptions getEditOptions(
         CmsObject cms,
         CmsContainerElementBean elementBean,
-        CmsUUID pageContextId,
+        @RUntainted CmsUUID pageContextId,
         Map<String, String[]> requestParams,
         boolean isListElement);
 
@@ -111,7 +112,7 @@ public interface I_CmsEditHandler {
         CmsObject cms,
         CmsContainerElementBean elementBean,
         String deleteOption,
-        CmsUUID pageContextId,
+        @RUntainted CmsUUID pageContextId,
         Map<String, String[]> requestParams)
     throws CmsException;
 
@@ -158,11 +159,11 @@ public interface I_CmsEditHandler {
      *
      * @throws CmsException if something goes wrong
      */
-    CmsUUID prepareForEdit(
+    @RUntainted CmsUUID prepareForEdit(
         CmsObject cms,
         CmsContainerElementBean elementBean,
         String editOption,
-        CmsUUID pageContextId,
+        @RUntainted CmsUUID pageContextId,
         Map<String, String[]> requestParams)
     throws CmsException;
 

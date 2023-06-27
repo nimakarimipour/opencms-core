@@ -48,6 +48,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Module data read from a module zip file.<p>
@@ -138,7 +139,7 @@ public class CmsModuleImportData {
 
             // Reject imports which have an entry with (parentId=A,name=B,structureId=C1) if there is a VFS entry with (parentId=A,name=B,structureId=C2), unless
             // C1 does not occur in the VFS and C2 does not occur in the import.
-            for (CmsUUID parentId : parentFolderMaps.keySet()) {
+            for (@RUntainted CmsUUID parentId : parentFolderMaps.keySet()) {
                 for (CmsObject cmsToRead : Arrays.asList(cms, onlineCms)) {
                     try {
                         CmsResource parent = cmsToRead.readResource(parentId, CmsResourceFilter.IGNORE_EXPIRATION);
@@ -179,7 +180,7 @@ public class CmsModuleImportData {
             for (CmsResourceImportData resData : getResourceData()) {
                 String importPath = CmsModuleUpdater.normalizePath(resData.getResource().getRootPath());
                 if (resData.hasStructureId()) {
-                    CmsUUID importId = resData.getResource().getStructureId();
+                    @RUntainted CmsUUID importId = resData.getResource().getStructureId();
                     for (CmsObject cmsToRead : Arrays.asList(cms, onlineCms)) {
                         try {
                             CmsResource resourceFromVfs = cmsToRead.readResource(importPath, CmsResourceFilter.ALL);
@@ -300,7 +301,7 @@ public class CmsModuleImportData {
      *
      * @return the resource data objects
      */
-    public List<CmsResourceImportData> getResourceData() {
+    public @RUntainted List<@RUntainted CmsResourceImportData> getResourceData() {
 
         return Collections.unmodifiableList(m_resources);
     }
@@ -349,7 +350,7 @@ public class CmsModuleImportData {
      *
      * @return true if the VFS contains a resource with the given id
      */
-    private boolean vfsResourceWithStructureId(CmsUUID importId) {
+    private boolean vfsResourceWithStructureId(@RUntainted CmsUUID importId) {
 
         return m_cms.existsResource(importId, CmsResourceFilter.ALL)
             || m_onlineCms.existsResource(importId, CmsResourceFilter.ALL);

@@ -33,6 +33,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A collector that generates list of {@link org.opencms.file.CmsResource} objects from the VFS.<p>
@@ -89,7 +90,7 @@ public interface I_CmsResourceCollector extends Comparable<I_CmsResourceCollecto
      * @see #getCreateParam(CmsObject, String, String)
      *
      */
-    String getCreateLink(CmsObject cms, String collectorName, String param) throws CmsException, CmsDataAccessException;
+    @RUntainted String getCreateLink(CmsObject cms, @RUntainted String collectorName, @RUntainted String param) throws CmsException, CmsDataAccessException;
 
     /**
      * Returns the default parameter that must be passed to the
@@ -127,7 +128,7 @@ public interface I_CmsResourceCollector extends Comparable<I_CmsResourceCollecto
      *
      * @see #getCreateLink(CmsObject, String, String)
      */
-    String getCreateParam(CmsObject cms, String collectorName, String param) throws CmsDataAccessException;
+    String getCreateParam(CmsObject cms, @RUntainted String collectorName, String param) throws CmsDataAccessException;
 
     /**
      * Returns the id of the resource type for new collector items.<p>
@@ -141,7 +142,7 @@ public interface I_CmsResourceCollector extends Comparable<I_CmsResourceCollecto
      *
      * @throws CmsException if something goes wrong
      */
-    int getCreateTypeId(CmsObject cms, String collectorName, String param) throws CmsException;
+    @RUntainted int getCreateTypeId(CmsObject cms, String collectorName, @RUntainted String param) throws CmsException;
 
     /**
      * Returns the default collector name to use for collecting resources.<p>
@@ -194,7 +195,7 @@ public interface I_CmsResourceCollector extends Comparable<I_CmsResourceCollecto
      * @throws CmsException if something goes wrong
      * @throws CmsDataAccessException if the parameter attribute of the corresponding collector tag is invalid
      */
-    List<CmsResource> getResults(CmsObject cms, String collectorName, String param)
+    List<CmsResource> getResults(CmsObject cms, @RUntainted String collectorName, @RUntainted String param)
     throws CmsDataAccessException, CmsException;
 
     /**
@@ -215,7 +216,7 @@ public interface I_CmsResourceCollector extends Comparable<I_CmsResourceCollecto
      * @throws CmsException if something goes wrong
      * @throws CmsDataAccessException if the parameter attribute of the corresponding collector tag is invalid
      */
-    List<CmsResource> getResults(CmsObject cms, String collectorName, String params, int numResults)
+    List<CmsResource> getResults(CmsObject cms, @RUntainted String collectorName, @RUntainted String params, int numResults)
     throws CmsException;
 
     /**
@@ -223,14 +224,14 @@ public interface I_CmsResourceCollector extends Comparable<I_CmsResourceCollecto
      *
      * @param collectorName the default collector name
      */
-    void setDefaultCollectorName(String collectorName);
+    void setDefaultCollectorName(@RUntainted String collectorName);
 
     /**
      * Sets the default collector parameter to use for collecting resources.<p>
      *
      * @param param the default collector parameter
      */
-    void setDefaultCollectorParam(String param);
+    void setDefaultCollectorParam(@RUntainted String param);
 
     /**
      * Sets the "order weight" of this collector.<p>

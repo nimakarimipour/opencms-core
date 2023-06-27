@@ -38,6 +38,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The file table dialog context.<p>
@@ -106,7 +107,7 @@ public class CmsFileTableDialogContext extends A_CmsDialogContext implements I_C
     /**
      * @see org.opencms.ui.I_CmsDialogContext#focus(org.opencms.util.CmsUUID)
      */
-    public void focus(CmsUUID cmsUUID) {
+    public void focus(@RUntainted CmsUUID cmsUUID) {
 
         // nothing to do
     }
@@ -114,7 +115,7 @@ public class CmsFileTableDialogContext extends A_CmsDialogContext implements I_C
     /**
      * @see org.opencms.ui.I_CmsDialogContext#getAllStructureIdsInView()
      */
-    public List<CmsUUID> getAllStructureIdsInView() {
+    public @RUntainted List<@RUntainted CmsUUID> getAllStructureIdsInView() {
 
         return Lists.newArrayList(m_fileTable.getAllIds());
     }

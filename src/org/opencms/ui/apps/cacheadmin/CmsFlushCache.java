@@ -58,6 +58,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Vaadin Layout with Buttons to clear the different types of cache.<p>

@@ -3,6 +3,7 @@ package org.opencms.report.wrapper;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bundle with the keys of report messages<p>
@@ -63,7 +64,7 @@ public final class DefaultReportMessages extends A_CmsMessageBundle {
      * @return the bundle name for this OpenCms package
      */
     @Override
-    public String getBundleName() {
+    public @RUntainted String getBundleName() {
 
         return BUNDLE_NAME;
     }

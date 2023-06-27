@@ -56,6 +56,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "xmlpage".<p>
@@ -74,7 +75,7 @@ public class CmsResourceTypeXmlPage extends A_CmsResourceTypeLinkParseable {
     private static final Log LOG = CmsLog.getLog(CmsResourceTypeXmlPage.class);
 
     /** The static type id of this resource type. */
-    private static int m_staticTypeId;
+    private static @RUntainted int m_staticTypeId;
 
     /** The type id of this resource type. */
     private static final int RESOURCE_TYPE_ID = 6;
@@ -100,7 +101,7 @@ public class CmsResourceTypeXmlPage extends A_CmsResourceTypeLinkParseable {
      *
      * @return the static type id of this (default) resource type
      */
-    public static int getStaticTypeId() {
+    public static @RUntainted int getStaticTypeId() {
 
         return m_staticTypeId;
     }
@@ -110,7 +111,7 @@ public class CmsResourceTypeXmlPage extends A_CmsResourceTypeLinkParseable {
      *
      * @return the static type name of this (default) resource type
      */
-    public static String getStaticTypeName() {
+    public static @RUntainted String getStaticTypeName() {
 
         return RESOURCE_TYPE_NAME;
     }
@@ -143,7 +144,7 @@ public class CmsResourceTypeXmlPage extends A_CmsResourceTypeLinkParseable {
     public CmsResource createResource(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        String resourcename,
+        @RUntainted String resourcename,
         byte[] content,
         List<CmsProperty> properties)
     throws CmsException {
@@ -165,7 +166,7 @@ public class CmsResourceTypeXmlPage extends A_CmsResourceTypeLinkParseable {
      * @see org.opencms.file.types.I_CmsResourceType#getCachePropertyDefault()
      */
     @Override
-    public String getCachePropertyDefault() {
+    public @RUntainted String getCachePropertyDefault() {
 
         return "element;locale;";
     }
@@ -183,7 +184,7 @@ public class CmsResourceTypeXmlPage extends A_CmsResourceTypeLinkParseable {
      * @see org.opencms.file.types.A_CmsResourceType#initConfiguration(java.lang.String, java.lang.String, String)
      */
     @Override
-    public void initConfiguration(String name, String id, String className) throws CmsConfigurationException {
+    public void initConfiguration(@RUntainted String name, String id, @RUntainted String className) throws CmsConfigurationException {
 
         super.initConfiguration(name, id, className);
         m_staticTypeId = m_typeId;

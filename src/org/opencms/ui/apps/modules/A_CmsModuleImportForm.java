@@ -50,6 +50,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract superclass for the module import forms.<p>
@@ -182,7 +183,7 @@ public abstract class A_CmsModuleImportForm extends CssLayout {
      *
      * @return the site selector
      **/
-    protected abstract CmsAutoItemCreatingComboBox getSiteSelector();
+    protected abstract @RUntainted CmsAutoItemCreatingComboBox getSiteSelector();
 
     /**
      * Takes the file name given in the upload and processes it to return the file name under which the upload should be stored in the file system.<p>

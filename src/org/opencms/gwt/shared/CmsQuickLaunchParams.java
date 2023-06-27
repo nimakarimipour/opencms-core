@@ -30,6 +30,7 @@ package org.opencms.gwt.shared;
 import org.opencms.util.CmsUUID;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parameters used by the quick launch provider.<p>
@@ -40,13 +41,13 @@ public class CmsQuickLaunchParams implements IsSerializable {
     private String m_context;
 
     /** Page id. */
-    private CmsUUID m_pageId;
+    private @RUntainted CmsUUID m_pageId;
 
     /** Detail content id. */
     private CmsUUID m_detailId;
 
     /** The last opened page id from the session storage. */
-    private CmsUUID m_sessionPageId;
+    private @RUntainted CmsUUID m_sessionPageId;
 
     /** Return code. */
     private String m_returnCode;
@@ -66,11 +67,11 @@ public class CmsQuickLaunchParams implements IsSerializable {
      */
     public CmsQuickLaunchParams(
         String context,
-        CmsUUID pageId,
+        @RUntainted CmsUUID pageId,
         CmsUUID detailId,
         String returnCode,
         String path,
-        CmsUUID sessionPageId) {
+        @RUntainted CmsUUID sessionPageId) {
 
         m_context = context;
         m_pageId = pageId;
@@ -113,7 +114,7 @@ public class CmsQuickLaunchParams implements IsSerializable {
      *
      * @return the pageId
      */
-    public CmsUUID getPageId() {
+    public @RUntainted CmsUUID getPageId() {
 
         return m_pageId;
     }
@@ -143,7 +144,7 @@ public class CmsQuickLaunchParams implements IsSerializable {
      *
      * @return the id of the last edited container page
      */
-    public CmsUUID getSessionPageId() {
+    public @RUntainted CmsUUID getSessionPageId() {
 
         return m_sessionPageId;
     }

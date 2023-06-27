@@ -47,6 +47,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Publish resource formatter for the extended workflow manager.<p>
@@ -95,7 +96,7 @@ public class CmsExtendedPublishResourceFormatter extends CmsDefaultPublishResour
     protected LoadingCache<CmsUUID, Boolean> m_workflowProjectStatus = CacheBuilder.newBuilder().build(
         CacheLoader.from(new Function<CmsUUID, Boolean>() {
 
-            public Boolean apply(CmsUUID projectId) {
+            public Boolean apply(@RUntainted CmsUUID projectId) {
 
                 try {
                     CmsProject project = m_cms.readProject(projectId);
@@ -150,7 +151,7 @@ public class CmsExtendedPublishResourceFormatter extends CmsDefaultPublishResour
      *
      * @return the message from the message bundle
      */
-    protected String getMessage(String key, String... args) {
+    protected String getMessage(@RUntainted String key, String... args) {
 
         return Messages.get().getBundle(m_cms.getRequestContext().getLocale()).key(key, args);
     }

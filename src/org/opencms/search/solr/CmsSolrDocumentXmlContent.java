@@ -85,6 +85,7 @@ import java.util.function.Consumer;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Special document text extraction factory for Solr index.<p>
@@ -113,7 +114,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
         private String m_defaultTitleValue;
 
         /** Current locale. */
-        private Locale m_locale;
+        private @RUntainted Locale m_locale;
 
         /** Content value mapped to Description property. */
         private String m_mappedDescriptionValue;
@@ -166,7 +167,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
             *
             * @throws CmsException of something goes wrong
             */
-        public String getDescription(Locale locale) throws CmsException {
+        public String getDescription(@RUntainted Locale locale) throws CmsException {
 
             String result = null;
             for (String resultCandidateWithMacros : new String[] {
@@ -210,7 +211,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
         *
         * @throws CmsException of something goes wrong
         */
-        public String getGalleryName(Locale locale) throws CmsException {
+        public String getGalleryName(@RUntainted Locale locale) throws CmsException {
 
             String result = null;
             for (String resultCandidateWithMacros : new String[] {
@@ -349,7 +350,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
      *
      * @throws CmsException in case reading or unmarshalling the content fails
      */
-    public static CmsExtractionResult extractXmlContent(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+    public static CmsExtractionResult extractXmlContent(CmsObject cms, @RUntainted CmsResource resource, I_CmsSearchIndex index)
     throws CmsException {
 
         return extractXmlContent(cms, resource, index, null);
@@ -369,7 +370,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
      */
     public static CmsExtractionResult extractXmlContent(
         CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         I_CmsSearchIndex index,
         Locale forceLocale)
     throws CmsException {
@@ -391,7 +392,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
      */
     public static CmsExtractionResult extractXmlContent(
         CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         I_CmsSearchIndex index,
         Locale forceLocale,
         Set<CmsUUID> alreadyExtracted)
@@ -423,7 +424,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
      */
     public static CmsExtractionResult extractXmlContent(
         CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         I_CmsSearchIndex index,
         Locale forceLocale,
         Set<CmsUUID> alreadyExtracted,
@@ -455,7 +456,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
         LinkedHashMap<String, String> localeItems = null;
         GalleryNameChooser galleryNameChooser = null;
         // loop over the locales of the content
-        for (Locale locale : contentLocales) {
+        for (@RUntainted Locale locale : contentLocales) {
             galleryNameChooser = new GalleryNameChooser(cms, xmlContent, locale);
             localeItems = new LinkedHashMap<String, String>();
             StringBuffer textContent = new StringBuffer();
@@ -506,7 +507,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
                             if ((null != potentialLinkValue)
                                 && !potentialLinkValue.isEmpty()
                                 && cms.existsResource(potentialLinkValue)) {
-                                CmsResource linkedRes = cms.readResource(potentialLinkValue);
+                                @RUntainted CmsResource linkedRes = cms.readResource(potentialLinkValue);
                                 if (CmsResourceTypeXmlContent.isXmlContent(linkedRes)
                                     && !alreadyExtracted.contains(linkedRes.getStructureId())) {
                                     Set<CmsUUID> newAlreadyExtracted = new HashSet<>(alreadyExtracted);
@@ -677,7 +678,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
             if (forceLocale != null) {
                 items.put(forceLocale, localeItems);
             } else {
-                for (Locale l : OpenCms.getLocaleManager().getAvailableLocales()) {
+                for (@RUntainted Locale l : OpenCms.getLocaleManager().getAvailableLocales()) {
                     items.put(l, localeItems);
                     if (null != galleryNameChooser) {
                         final String galleryTitleFieldKey = CmsSearchFieldConfiguration.getLocaleExtendedName(
@@ -702,7 +703,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
      * @see org.opencms.search.documents.CmsDocumentXmlContent#extractContent(org.opencms.file.CmsObject, org.opencms.file.CmsResource, org.opencms.search.I_CmsSearchIndex)
      */
     @Override
-    public I_CmsExtractionResult extractContent(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+    public I_CmsExtractionResult extractContent(CmsObject cms, @RUntainted CmsResource resource, I_CmsSearchIndex index)
     throws CmsException {
 
         logContentExtraction(resource, index);
@@ -712,7 +713,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
             List<I_CmsExtractionResult> ex = new ArrayList<I_CmsExtractionResult>();
             for (CmsResource detailContainers : CmsDetailOnlyContainerUtil.getDetailOnlyResources(cms, resource)) {
                 CmsSolrDocumentContainerPage containerpageExtractor = new CmsSolrDocumentContainerPage("");
-                String localeTemp = detailContainers.getRootPath();
+                @RUntainted String localeTemp = detailContainers.getRootPath();
                 localeTemp = CmsResource.getParentFolder(localeTemp);
                 localeTemp = CmsResource.getName(localeTemp);
                 localeTemp = localeTemp.substring(0, localeTemp.length() - 1);

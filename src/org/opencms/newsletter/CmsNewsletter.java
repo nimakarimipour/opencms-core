@@ -48,6 +48,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Basic implementation of the interface {@link I_CmsNewsletter}.
@@ -125,7 +126,7 @@ public class CmsNewsletter implements I_CmsNewsletter {
                 htmlMail.setHtmlMsg(replaceMacros(htmlMsg.toString(), recipient));
                 Iterator<CmsResource> attachments = m_attachments.iterator();
                 while (attachments.hasNext()) {
-                    CmsResource resource = attachments.next();
+                    @RUntainted CmsResource resource = attachments.next();
                     // set the description of the attachment either to the
                     // property description, if it is set, or
                     // to the property title

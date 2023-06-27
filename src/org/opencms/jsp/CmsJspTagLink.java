@@ -46,6 +46,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the <code>&lt;cms:link&gt;[filename]&lt;/cms:link&gt;</code>
@@ -70,7 +71,7 @@ public class CmsJspTagLink extends BodyTagSupport {
     private String m_detailPage;
 
     /** The optional locale attribute. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /**
      * Tries to read the active locale for the given (site) path, or for its parent path if the path can't be read.
@@ -81,7 +82,7 @@ public class CmsJspTagLink extends BodyTagSupport {
      * @param baseUri the base URI for which to read the locale
      * @return the locale
      */
-    public static Locale getBaseUriLocale(CmsObject cms, String baseUri) {
+    public static @RUntainted Locale getBaseUriLocale(CmsObject cms, @RUntainted String baseUri) {
 
         try {
             try {
@@ -124,7 +125,7 @@ public class CmsJspTagLink extends BodyTagSupport {
      *
      * @see org.opencms.staticexport.CmsLinkManager#substituteLinkForUnknownTarget(org.opencms.file.CmsObject, String)
      */
-    public static String linkTagAction(String target, ServletRequest req) {
+    public static String linkTagAction(@RUntainted String target, ServletRequest req) {
 
         return linkTagAction(target, req, null);
     }
@@ -149,7 +150,7 @@ public class CmsJspTagLink extends BodyTagSupport {
      *
      * @since 8.0.3
      */
-    public static String linkTagAction(String target, ServletRequest req, String baseUri) {
+    public static @RUntainted String linkTagAction(@RUntainted String target, ServletRequest req, @RUntainted String baseUri) {
 
         return linkTagAction(target, req, baseUri, null);
     }
@@ -180,7 +181,7 @@ public class CmsJspTagLink extends BodyTagSupport {
      *
      * @since 8.0.3
      */
-    public static String linkTagAction(String target, ServletRequest req, String baseUri, Locale locale) {
+    public static @RUntainted String linkTagAction(@RUntainted String target, ServletRequest req, @RUntainted String baseUri, @RUntainted Locale locale) {
 
         return linkTagAction(target, req, baseUri, null, locale);
     }
@@ -212,16 +213,16 @@ public class CmsJspTagLink extends BodyTagSupport {
      *
      * @since 8.0.3
      */
-    public static String linkTagAction(
-        String target,
-        ServletRequest req,
-        String baseUri,
+    public static @RUntainted String linkTagAction(
+        @RUntainted String target,
+        @RUntainted ServletRequest req,
+        @RUntainted String baseUri,
         String detailPage,
-        Locale locale) {
+        @RUntainted Locale locale) {
 
         CmsFlexController controller = CmsFlexController.getController(req);
         // be sure the link is absolute
-        String uri = CmsLinkManager.getAbsoluteUri(target, controller.getCurrentRequest().getElementUri());
+        @RUntainted String uri = CmsLinkManager.getAbsoluteUri(target, controller.getCurrentRequest().getElementUri());
         CmsObject cms = controller.getCmsObject();
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(baseUri) || (null != locale)) {
             try {
@@ -335,7 +336,7 @@ public class CmsJspTagLink extends BodyTagSupport {
      *
      * @param localeName name of the locale, e.g. "en", "en_US", ...
      */
-    public void setLocale(String localeName) {
+    public void setLocale(@RUntainted String localeName) {
 
         m_locale = CmsLocaleManager.getLocale(localeName);
     }

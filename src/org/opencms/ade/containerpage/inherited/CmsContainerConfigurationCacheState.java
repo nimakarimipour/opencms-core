@@ -42,6 +42,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A cache class for storing inherited container configurations.<p>
@@ -82,7 +83,7 @@ public class CmsContainerConfigurationCacheState {
      *
      * @return the container configuration for the given combination of parameters
      */
-    public synchronized CmsContainerConfiguration getContainerConfiguration(String rootPath, String name) {
+    public synchronized CmsContainerConfiguration getContainerConfiguration(@RUntainted String rootPath, String name) {
 
         String key = getCacheKey(rootPath);
         if (m_configurationsByPath.containsKey(key)) {
@@ -141,7 +142,7 @@ public class CmsContainerConfigurationCacheState {
      *
      * @return the cache key for the base path
      */
-    protected String getCacheKey(String basePath) {
+    protected String getCacheKey(@RUntainted String basePath) {
 
         assert !basePath.endsWith(INHERITANCE_CONFIG_FILE_NAME);
         return CmsFileUtil.addTrailingSeparator(basePath);

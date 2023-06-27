@@ -73,6 +73,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class responsible for loading / saving properties when using the property dialog.<p>
@@ -89,7 +90,7 @@ public class CmsPropertyEditorHelper {
     private boolean m_updateIndex;
 
     /** Structure id which should be used instead of the structure id in a property change set (can be null). */
-    private CmsUUID m_overrideStructureId;
+    private @RUntainted CmsUUID m_overrideStructureId;
 
     /**
      * Creates a new instance.<p>
@@ -184,7 +185,7 @@ public class CmsPropertyEditorHelper {
         CmsObject cms = m_cms;
 
         Map<CmsUUID, Map<String, CmsXmlContentProperty>> result = Maps.newHashMap();
-        for (CmsUUID structureId : structureIds) {
+        for (@RUntainted CmsUUID structureId : structureIds) {
             CmsResource resource = cms.readResource(structureId, CmsResourceFilter.ALL);
             String typeName = OpenCms.getResourceManager().getResourceType(resource).getTypeName();
             Map<String, CmsXmlContentProperty> propertyConfig = getDefaultPropertiesForType(typeName);
@@ -201,7 +202,7 @@ public class CmsPropertyEditorHelper {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsPropertiesBean loadPropertyData(CmsUUID id) throws CmsException {
+    public CmsPropertiesBean loadPropertyData(@RUntainted CmsUUID id) throws CmsException {
 
         CmsObject cms = m_cms;
         String originalSiteRoot = cms.getRequestContext().getSiteRoot();
@@ -257,7 +258,7 @@ public class CmsPropertyEditorHelper {
      *
      * @param structureId the new structure id
      */
-    public void overrideStructureId(CmsUUID structureId) {
+    public void overrideStructureId(@RUntainted CmsUUID structureId) {
 
         m_overrideStructureId = structureId;
     }
@@ -271,7 +272,7 @@ public class CmsPropertyEditorHelper {
     public void saveProperties(CmsPropertyChangeSet changes) throws CmsException {
 
         CmsObject cms = m_cms;
-        CmsUUID structureId = changes.getTargetStructureId();
+        @RUntainted CmsUUID structureId = changes.getTargetStructureId();
         if (m_overrideStructureId != null) {
             structureId = m_overrideStructureId;
         }
@@ -299,7 +300,7 @@ public class CmsPropertyEditorHelper {
                         }
                     }
                     CmsResource.checkResourceName(propMod.getValue());
-                    String oldSitePath = CmsFileUtil.removeTrailingSeparator(cms.getSitePath(resource));
+                    @RUntainted String oldSitePath = CmsFileUtil.removeTrailingSeparator(cms.getSitePath(resource));
                     String parentPath = CmsResource.getParentFolder(oldSitePath);
                     String newSitePath = CmsFileUtil.removeTrailingSeparator(
                         CmsStringUtil.joinPaths(parentPath, propMod.getValue()));

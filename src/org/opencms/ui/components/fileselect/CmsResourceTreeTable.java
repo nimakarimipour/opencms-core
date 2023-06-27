@@ -64,6 +64,7 @@ import com.vaadin.v7.ui.Tree.CollapseListener;
 import com.vaadin.v7.ui.Tree.ExpandEvent;
 import com.vaadin.v7.ui.Tree.ExpandListener;
 import com.vaadin.v7.ui.TreeTable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Tree subclass used to display VFS resource trees.<p>
@@ -94,17 +95,17 @@ public class CmsResourceTreeTable extends TreeTable {
          * @see com.vaadin.v7.data.util.DefaultItemSorter#compareProperty(java.lang.Object, boolean, com.vaadin.v7.data.Item, com.vaadin.v7.data.Item)
          */
         @Override
-        protected int compareProperty(Object propertyId, boolean sortDirection, Item item1, Item item2) {
+        protected int compareProperty(Object propertyId, boolean sortDirection, Item item1, @RUntainted Item item2) {
 
             if (CAPTION_FOLDERS.equals(propertyId)) {
                 Boolean isFolder1 = (Boolean)item1.getItemProperty(
                     CmsResourceTableProperty.PROPERTY_IS_FOLDER).getValue();
                 Boolean isFolder2 = (Boolean)item2.getItemProperty(
                     CmsResourceTableProperty.PROPERTY_IS_FOLDER).getValue();
-                String name1 = (String)(item1.getItemProperty(
+                @RUntainted String name1 = (String)(item1.getItemProperty(
                     CmsResourceTableProperty.PROPERTY_RESOURCE_NAME).getValue());
                 name1 = CmsFileUtil.removeTrailingSeparator(name1);
-                String name2 = (String)(item2.getItemProperty(
+                @RUntainted String name2 = (String)(item2.getItemProperty(
                     CmsResourceTableProperty.PROPERTY_RESOURCE_NAME).getValue());
                 name2 = CmsFileUtil.removeTrailingSeparator(name2);
                 return (sortDirection ? 1 : -1)
@@ -254,7 +255,7 @@ public class CmsResourceTreeTable extends TreeTable {
 
             private static final long serialVersionUID = 1L;
 
-            public void nodeExpand(ExpandEvent event) {
+            public void nodeExpand(@RUntainted ExpandEvent event) {
 
                 getTreeContainer().readTreeLevel(m_cms, (CmsUUID)event.getItemId());
                 getTreeContainer().updateSort();

@@ -59,6 +59,7 @@ import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The principal select widget.<p>
@@ -76,7 +77,7 @@ public class CmsPrincipalSelect extends CustomComponent implements Field<String>
          * @param principalType the principal type
          * @param principalName the principal name
          */
-        void onPrincipalSelect(String principalType, String principalName);
+        void onPrincipalSelect(@RUntainted String principalType, @RUntainted String principalName);
     }
 
     /** Type of principal. */
@@ -306,7 +307,7 @@ public class CmsPrincipalSelect extends CustomComponent implements Field<String>
     /**
      * @see com.vaadin.v7.data.Property#getValue()
      */
-    public String getValue() {
+    public @RUntainted String getValue() {
 
         return m_principalName.getValue();
     }

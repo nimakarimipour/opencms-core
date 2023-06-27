@@ -73,6 +73,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** The class provides methods to automatically export modules from OpenCms and check in the exported,
  *  unzipped modules into some git repository.
@@ -86,7 +87,7 @@ public class CmsGitCheckin {
     private static final String DEFAULT_LOGFILE_PATH = OpenCms.getSystemInfo().getWebInfRfsPath() + "logs/git.log";
     /** The variable under which the export path is set. */
     /** The default path to the script. */
-    private static final String DEFAULT_RFS_PATH = OpenCms.getSystemInfo().getWebInfRfsPath() + "git-scripts/";
+    private static final @RUntainted String DEFAULT_RFS_PATH = OpenCms.getSystemInfo().getWebInfRfsPath() + "git-scripts/";
     /** The default folder for configuration files. */
     private static final String DEFAULT_CONFIG_FOLDER = DEFAULT_RFS_PATH + "config/";
     /** The default script file used for the git check in. */
@@ -109,7 +110,7 @@ public class CmsGitCheckin {
     /** The CMS context. */
     private CmsObject m_cms;
     /** The commit message. */
-    private String m_commitMessage;
+    private @RUntainted String m_commitMessage;
     /** Flag, indicating if modules should be exported and unzipped. */
     private Boolean m_copyAndUnzip;
 
@@ -134,9 +135,9 @@ public class CmsGitCheckin {
     /** Flag, indicating if the lib/ folder of the modules should be deleted before the commit. */
     private Boolean m_excludeLibs;
     /** The git user email. */
-    private String m_gitUserEmail;
+    private @RUntainted String m_gitUserEmail;
     /** The git user name. */
-    private String m_gitUserName;
+    private @RUntainted String m_gitUserName;
     /** Flag, indicating if execution of the script should go on for an unclean repository. */
     private Boolean m_ignoreUnclean;
 
@@ -283,7 +284,7 @@ public class CmsGitCheckin {
      *
      * @return the commitMessage
      */
-    public String getCommitMessage() {
+    public @RUntainted String getCommitMessage() {
 
         return m_commitMessage;
     }
@@ -310,7 +311,7 @@ public class CmsGitCheckin {
      *
      * @return the gitUserEmail
      */
-    public String getGitUserEmail() {
+    public @RUntainted String getGitUserEmail() {
 
         return m_gitUserEmail;
     }
@@ -320,7 +321,7 @@ public class CmsGitCheckin {
      *
      * @return the gitUserName
      */
-    public String getGitUserName() {
+    public @RUntainted String getGitUserName() {
 
         return m_gitUserName;
     }
@@ -408,7 +409,7 @@ public class CmsGitCheckin {
     /** Setter for the commit message.
      * @param message the commit message to set.
      */
-    public void setCommitMessage(final String message) {
+    public void setCommitMessage(final @RUntainted String message) {
 
         m_commitMessage = message;
     }
@@ -459,7 +460,7 @@ public class CmsGitCheckin {
     /** Setter for the git user email.
      * @param useremail the git user email to set.
      */
-    public void setGitUserEmail(final String useremail) {
+    public void setGitUserEmail(final @RUntainted String useremail) {
 
         m_gitUserEmail = useremail;
     }
@@ -467,7 +468,7 @@ public class CmsGitCheckin {
     /** Setter for the git user name.
      * @param username the git user name to set.
      */
-    public void setGitUserName(final String username) {
+    public void setGitUserName(final @RUntainted String username) {
 
         m_gitUserName = username;
     }
@@ -751,7 +752,7 @@ public class CmsGitCheckin {
      *
      * @return true if there were no errors during the import
      */
-    private boolean importModule(File file) throws CmsException {
+    private boolean importModule(@RUntainted File file) throws CmsException {
 
         m_logStream.println("Trying to import module from " + file.getAbsolutePath());
         I_CmsReport report = new CmsPrintStreamReport(
@@ -832,7 +833,7 @@ public class CmsGitCheckin {
                 }
                 try {
                     m_logStream.println("Creating temp file for module " + moduleName);
-                    File outputFile = File.createTempFile(moduleName + "-", ".zip");
+                    @RUntainted File outputFile = File.createTempFile(moduleName + "-", ".zip");
                     FileOutputStream fos = new FileOutputStream(outputFile);
                     m_logStream.println("Zipping module structure to " + outputFile.getAbsolutePath());
                     zipRfsFolder(dirEntry, fos);
@@ -917,7 +918,7 @@ public class CmsGitCheckin {
             } else {
                 commandParam = checkinScriptCommand();
             }
-            String[] cmd = {"bash", "-c", commandParam};
+            @RUntainted String[] cmd = {"bash", "-c", commandParam};
             m_logStream.println("Calling the script as follows:");
             m_logStream.println();
             m_logStream.println(cmd[0] + " " + cmd[1] + " " + cmd[2]);

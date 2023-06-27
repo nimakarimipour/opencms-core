@@ -56,6 +56,7 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manager class for template context providers.<p>
@@ -332,7 +333,7 @@ public class CmsTemplateContextManager {
      *
      * @return the property value
      */
-    public String readPropertyFromTemplate(CmsObject cms, CmsResource res, String propertyName, String fallbackValue) {
+    public String readPropertyFromTemplate(CmsObject cms, CmsResource res, @RUntainted String propertyName, @RUntainted String fallbackValue) {
 
         try {
             CmsProperty templateProp = cms.readPropertyObject(res, CmsPropertyDefinition.PROPERTY_TEMPLATE, true);
@@ -377,7 +378,7 @@ public class CmsTemplateContextManager {
      */
     protected CmsXmlContentProperty createTemplateContextsPropertyDefinition(
         I_CmsTemplateContextProvider contextProvider,
-        Locale locale) {
+        @RUntainted Locale locale) {
 
         if (contextProvider == null) {
             return null;

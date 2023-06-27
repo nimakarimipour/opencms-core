@@ -33,6 +33,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the data on which a workflow action should act (usually, a list of resources).<p>
@@ -43,7 +44,7 @@ public class CmsWorkflowActionParams implements IsSerializable {
     private List<CmsUUID> m_publishIds = Lists.newArrayList();
 
     /** The list of structure ids of resources to remove. */
-    private List<CmsUUID> m_removeIds = Lists.newArrayList();
+    private @RUntainted List<@RUntainted CmsUUID> m_removeIds = Lists.newArrayList();
 
     /** The publish list token. */
     private CmsPublishListToken m_token;
@@ -64,7 +65,7 @@ public class CmsWorkflowActionParams implements IsSerializable {
      * @param publishIds the list of structure ids of resources to publish
      * @param removeIds the list of structure ids of resources to remove
      */
-    public CmsWorkflowActionParams(List<CmsUUID> publishIds, List<CmsUUID> removeIds) {
+    public CmsWorkflowActionParams(List<CmsUUID> publishIds, @RUntainted List<@RUntainted CmsUUID> removeIds) {
 
         m_publishIds = publishIds;
         m_removeIds = removeIds;
@@ -93,7 +94,7 @@ public class CmsWorkflowActionParams implements IsSerializable {
      *
      * @return the removeIds
      */
-    public List<CmsUUID> getRemoveIds() {
+    public @RUntainted List<@RUntainted CmsUUID> getRemoveIds() {
 
         return m_removeIds;
     }

@@ -28,6 +28,7 @@
 package org.opencms.workplace.editors.directedit;
 
 import org.opencms.xml.containerpage.CmsContainerElementBean;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A parameter set to start a direct edit element, for internal use only.<p>
@@ -46,7 +47,7 @@ public class CmsDirectEditParams {
     protected String m_element;
 
     /** The link to the current page useed when closing an editor or dialog. */
-    protected String m_linkForClose;
+    protected @RUntainted String m_linkForClose;
 
     /** The link to create a new VFS resource of the edited type. */
     protected String m_linkForNew;
@@ -58,7 +59,7 @@ public class CmsDirectEditParams {
     protected CmsDirectEditButtonSelection m_options;
 
     /** The edit target VFS resource name. */
-    protected String m_resourceName;
+    protected @RUntainted String m_resourceName;
 
     /** The upload folder. */
     protected String m_uploadFolder;
@@ -190,7 +191,7 @@ public class CmsDirectEditParams {
      *
      * @return the link to the current page useed when closing an editor or dialog
      */
-    public String getLinkForClose() {
+    public @RUntainted String getLinkForClose() {
 
         return m_linkForClose;
     }
@@ -200,7 +201,7 @@ public class CmsDirectEditParams {
      *
      * @return the link to delete the selected VFS resource
      */
-    public String getLinkForDelete() {
+    public @RUntainted String getLinkForDelete() {
 
         return "/system/workplace/commons/delete.jsp";
     }
@@ -210,7 +211,7 @@ public class CmsDirectEditParams {
      *
      * @return the link to edit the selected VFS resource (element)
      */
-    public String getLinkForEdit() {
+    public @RUntainted String getLinkForEdit() {
 
         return "/system/workplace/editors/editor.jsp";
     }
@@ -250,7 +251,7 @@ public class CmsDirectEditParams {
      *
      * @return the edit target VFS resource name
      */
-    public String getResourceName() {
+    public @RUntainted String getResourceName() {
 
         return m_resourceName;
     }

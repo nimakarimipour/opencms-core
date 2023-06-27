@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A default resource collector to generate some example list of resources from the VFS.<p>
@@ -55,7 +56,7 @@ import org.apache.commons.logging.Log;
 public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
 
     /** Static array of the collectors implemented by this class. */
-    private static final String[] COLLECTORS = {
+    private static final @RUntainted String[] COLLECTORS = {
         "singleFile",
         "allInFolder",
         "allInFolderDateReleasedDesc",
@@ -81,7 +82,7 @@ public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateLink(CmsObject cms, String collectorName, String param)
+    public @RUntainted String getCreateLink(CmsObject cms, @RUntainted String collectorName, @RUntainted String param)
     throws CmsDataAccessException, CmsException {
 
         // if action is not set, use default action
@@ -116,7 +117,7 @@ public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateParam(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateParam(CmsObject cms, String collectorName, String param) throws CmsDataAccessException {
+    public String getCreateParam(CmsObject cms, @RUntainted String collectorName, String param) throws CmsDataAccessException {
 
         // if action is not set, use default action
         if (collectorName == null) {
@@ -151,9 +152,9 @@ public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
      * @see org.opencms.file.collectors.A_CmsResourceCollector#getCreateTypeId(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
     @Override
-    public int getCreateTypeId(CmsObject cms, String collectorName, String param) {
+    public @RUntainted int getCreateTypeId(CmsObject cms, String collectorName, @RUntainted String param) {
 
-        int result = -1;
+        @RUntainted int result = -1;
         if (param != null) {
             result = new CmsCollectorData(param).getType();
         }
@@ -163,7 +164,7 @@ public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getResults(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public List<CmsResource> getResults(CmsObject cms, String collectorName, String param)
+    public List<CmsResource> getResults(CmsObject cms, @RUntainted String collectorName, @RUntainted String param)
     throws CmsDataAccessException, CmsException {
 
         return getResults(cms, collectorName, param, -1);
@@ -172,7 +173,7 @@ public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getResults(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public List<CmsResource> getResults(CmsObject cms, String collectorName, String param, int numResults)
+    public List<CmsResource> getResults(CmsObject cms, @RUntainted String collectorName, @RUntainted String param, int numResults)
     throws CmsDataAccessException, CmsException {
 
         // if action is not set use default
@@ -222,7 +223,7 @@ public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
      *
      * @throws CmsException if something goes wrong
      */
-    protected List<CmsResource> allInFolderDateReleasedDesc(CmsObject cms, String param, boolean tree, int numResults)
+    protected List<CmsResource> allInFolderDateReleasedDesc(CmsObject cms, @RUntainted String param, boolean tree, int numResults)
     throws CmsException {
 
         CmsCollectorData data = new CmsCollectorData(param);
@@ -252,7 +253,7 @@ public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
      * @throws CmsException if something goes wrong
      *
      */
-    protected List<CmsResource> allInFolderNavPos(CmsObject cms, String param, boolean readSubTree, int numResults)
+    protected List<CmsResource> allInFolderNavPos(CmsObject cms, @RUntainted String param, boolean readSubTree, int numResults)
     throws CmsException {
 
         CmsCollectorData data = new CmsCollectorData(param);
@@ -317,7 +318,7 @@ public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
      * @throws CmsIllegalArgumentException if the given param argument is not a link to a single file
      *
      */
-    protected List<CmsResource> getAllInFolder(CmsObject cms, String param, boolean tree, int numResults)
+    protected List<CmsResource> getAllInFolder(CmsObject cms, @RUntainted String param, boolean tree, int numResults)
     throws CmsException, CmsIllegalArgumentException {
 
         CmsCollectorData data = new CmsCollectorData(param);

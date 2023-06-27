@@ -42,6 +42,7 @@ import org.opencms.xml.types.A_CmsXmlContentValue;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for all gallery widget implementations.<p>

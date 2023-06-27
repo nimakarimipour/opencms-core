@@ -30,6 +30,7 @@ package org.opencms.db.urlname;
 import org.opencms.util.CmsUUID;
 
 import java.util.Comparator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An URL name mapping entry.<p>
@@ -77,7 +78,7 @@ public class CmsUrlNameMappingEntry {
     protected long m_dateChanged;
 
     /** The locale of the mapping. */
-    protected String m_locale;
+    protected @RUntainted String m_locale;
 
     /** The name to which the mapping entry belongs. */
     protected String m_name;
@@ -97,7 +98,7 @@ public class CmsUrlNameMappingEntry {
      * @param dateChanged the date of the entry's last change
      * @param locale the locale of the mapping
      */
-    public CmsUrlNameMappingEntry(String name, CmsUUID structureId, int state, long dateChanged, String locale) {
+    public CmsUrlNameMappingEntry(String name, CmsUUID structureId, int state, long dateChanged, @RUntainted String locale) {
 
         m_name = name;
         m_structureId = structureId;
@@ -123,7 +124,7 @@ public class CmsUrlNameMappingEntry {
      *
      * @return the locale of the mapping entry
      */
-    public String getLocale() {
+    public @RUntainted String getLocale() {
 
         return m_locale;
     }
@@ -153,7 +154,7 @@ public class CmsUrlNameMappingEntry {
      *
      * @return the structure id which is mapped to the name
      */
-    public CmsUUID getStructureId() {
+    public @RUntainted CmsUUID getStructureId() {
 
         return m_structureId;
     }

@@ -38,6 +38,7 @@ import org.opencms.util.CmsRequestUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action element for container-page editor includes.<p>
@@ -62,7 +63,7 @@ public class CmsContainerpageActionElement extends CmsGwtActionElement {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsContainerpageActionElement(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsContainerpageActionElement(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         super(context, req, res);
     }

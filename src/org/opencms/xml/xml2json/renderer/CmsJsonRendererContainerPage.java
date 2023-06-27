@@ -58,6 +58,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used for rendering container pages as a JSON structure.
@@ -241,7 +242,7 @@ public class CmsJsonRendererContainerPage {
     private CmsObject m_cms;
 
     /** The container page. */
-    private CmsResource m_page;
+    private @RUntainted CmsResource m_page;
 
     /** The property filter. */
     private Predicate<String> m_propFilter;
@@ -253,7 +254,7 @@ public class CmsJsonRendererContainerPage {
      * @param page the container page to render
      * @param propertyFilter the property filter
      */
-    public CmsJsonRendererContainerPage(CmsObject cms, CmsResource page, Predicate<String> propertyFilter) {
+    public CmsJsonRendererContainerPage(CmsObject cms, @RUntainted CmsResource page, Predicate<String> propertyFilter) {
 
         m_cms = cms;
         m_page = page;

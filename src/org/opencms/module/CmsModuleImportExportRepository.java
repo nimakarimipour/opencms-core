@@ -66,6 +66,7 @@ import com.google.common.base.Objects;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class which manages import/export of modules from repositories configured in opencms-importexport.xml.<p>
@@ -295,7 +296,7 @@ public class CmsModuleImportExportRepository {
                 LOG.debug("Zero-length module import content, ignoring it...");
             } else {
                 ensureFoldersExist();
-                String targetFilePath = createImportZipPath(name);
+                @RUntainted String targetFilePath = createImportZipPath(name);
                 try {
                     FileOutputStream out = new FileOutputStream(new File(targetFilePath));
                     out.write(content);
@@ -402,7 +403,7 @@ public class CmsModuleImportExportRepository {
      *
      * @return the generated path
      */
-    private String createImportZipPath(String name) {
+    private @RUntainted String createImportZipPath(String name) {
 
         String path = "";
         do {

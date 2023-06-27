@@ -48,6 +48,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to deal with loading and saving user preferences from the ADE user interface.<p>
@@ -69,7 +70,7 @@ public class CmsClientUserSettingConverter {
          * @param req the current request
          * @param res the current response
          */
-        public NoJspActionElement(CmsObject cms, HttpServletRequest req, HttpServletResponse res) {
+        public NoJspActionElement(CmsObject cms, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
             super(null, req, res);
             m_setCms = cms;

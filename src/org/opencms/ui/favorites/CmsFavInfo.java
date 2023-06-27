@@ -39,6 +39,7 @@ import org.apache.commons.logging.Log;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Label;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource info box.<p>
@@ -138,7 +139,7 @@ public class CmsFavInfo extends CustomLayout implements I_CmsEditableGroupRow {
     /**
      * @see org.opencms.ui.components.editablegroup.I_CmsEditableGroupRow#getComponent()
      */
-    public Component getComponent() {
+    public @RUntainted Component getComponent() {
 
         return this;
     }

@@ -60,6 +60,7 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides static methods for XML content version transformations.
@@ -82,12 +83,12 @@ public class CmsVersionTransformer {
      * @return the converted document
      */
     @SuppressWarnings("synthetic-access")
-    public static Document transformDocumentToCurrentVersion(
+    public static @RUntainted Document transformDocumentToCurrentVersion(
         CmsObject cms,
-        Document document,
+        @RUntainted Document document,
         CmsXmlContentDefinition contentDefinition) {
 
-        String transformation = contentDefinition.getContentHandler().getVersionTransformation();
+        @RUntainted String transformation = contentDefinition.getContentHandler().getVersionTransformation();
         if (transformation == null) {
             LOG.warn(
                 "Schema version detected, but no version transformation defined for "
@@ -164,7 +165,7 @@ public class CmsVersionTransformer {
             if (errors.size() > 0) {
                 throw errors.get(0);
             }
-            Document result = CmsXmlUtils.convertDocumentFromW3CToDom4j(targetDoc);
+            @RUntainted Document result = CmsXmlUtils.convertDocumentFromW3CToDom4j(targetDoc);
             result.getRootElement().addAttribute(CmsXmlContent.A_VERSION, "" + contentDefinition.getVersion());
             if (LOG.isDebugEnabled()) {
                 try {

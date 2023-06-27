@@ -35,6 +35,7 @@ import org.opencms.xml.I_CmsXmlDocument;
 import org.opencms.xml.page.CmsXmlPageFactory;
 
 import javax.servlet.ServletRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * OpenCms loader for resources of type <code>{@link org.opencms.file.types.CmsResourceTypeXmlPage}</code>.<p>
@@ -69,7 +70,7 @@ public class CmsXmlPageLoader extends A_CmsXmlDocumentLoader {
      * @see org.opencms.loader.A_CmsXmlDocumentLoader#unmarshalXmlDocument(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.ServletRequest)
      */
     @Override
-    protected I_CmsXmlDocument unmarshalXmlDocument(CmsObject cms, CmsResource resource, ServletRequest req)
+    protected I_CmsXmlDocument unmarshalXmlDocument(CmsObject cms, @RUntainted CmsResource resource, ServletRequest req)
     throws CmsException {
 
         return CmsXmlPageFactory.unmarshal(cms, resource, req);

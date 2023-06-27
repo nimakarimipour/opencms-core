@@ -31,6 +31,7 @@ import org.opencms.db.CmsResourceState;
 import org.opencms.util.CmsUUID;
 
 import java.util.Comparator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Common ancestor interface for {@link CmsFile} and {@link CmsFolder}
@@ -224,7 +225,7 @@ public interface I_CmsResource {
      *
      * @return the date of the creation of this resource
      */
-    long getDateCreated();
+    @RUntainted long getDateCreated();
 
     /**
      * Returns the expiration date this resource.<p>
@@ -262,14 +263,14 @@ public interface I_CmsResource {
      *
      * @return the content length of this resource
      */
-    int getLength();
+    @RUntainted int getLength();
 
     /**
      * Returns the file name of this resource without parent folders, for example <code>index.html</code>.<p>
      *
      * @return the file name of this resource without parent folders
      */
-    String getName();
+    @RUntainted String getName();
 
     /**
      * Returns the id of the {@link CmsProject} where this resource has been last modified.<p>
@@ -283,7 +284,7 @@ public interface I_CmsResource {
      *
      * @return the id of the database content record of this resource
      */
-    CmsUUID getResourceId();
+    @RUntainted CmsUUID getResourceId();
 
     /**
      * Returns the name of this resource with it's full path from the top level root folder,
@@ -291,7 +292,7 @@ public interface I_CmsResource {
      *
      * @return name of this resource with it's full path from the top level root folder
      */
-    String getRootPath();
+    @RUntainted String getRootPath();
 
     /**
      * Returns the number of siblings of this resource, also counting this resource.<p>
@@ -315,28 +316,28 @@ public interface I_CmsResource {
      *
      * @return the id of the database structure record of this resource
      */
-    CmsUUID getStructureId();
+    @RUntainted CmsUUID getStructureId();
 
     /**
      * Returns the resource type id for this resource.<p>
      *
      * @return the resource type id of this resource
      */
-    int getTypeId();
+    @RUntainted int getTypeId();
 
     /**
      * Returns the id of the {@link CmsUser} who created this resource.<p>
      *
      * @return the id of the {@link CmsUser} who created this resource
      */
-    CmsUUID getUserCreated();
+    @RUntainted CmsUUID getUserCreated();
 
     /**
      * Returns the id of the {@link CmsUser} who made the last modification on this resource.<p>
      *
      * @return the id of the {@link CmsUser} who made the last modification on this resource<p>
      */
-    CmsUUID getUserLastModified();
+    @RUntainted CmsUUID getUserLastModified();
 
     /**
      * Returns the current version number of this resource.<p>

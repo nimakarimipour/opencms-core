@@ -35,6 +35,7 @@ import org.opencms.xml.containerpage.CmsContainerElementBean;
 import org.opencms.xml.containerpage.CmsContainerPageBean;
 import org.opencms.xml.containerpage.CmsXmlContainerPage;
 import org.opencms.xml.containerpage.CmsXmlContainerPageFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * 'Wrapper' around XML container page used for programmatic editing operations on container pages.
@@ -59,7 +60,7 @@ public class CmsContainerPageWrapper {
      * @param res the resource
      * @throws CmsException if something goes wrong
      */
-    public CmsContainerPageWrapper(CmsObject cms, CmsResource res)
+    public CmsContainerPageWrapper(CmsObject cms, @RUntainted CmsResource res)
     throws CmsException {
 
         m_cms = cms;

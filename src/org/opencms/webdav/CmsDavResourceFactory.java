@@ -35,6 +35,7 @@ import org.apache.jackrabbit.webdav.DavServletRequest;
 import org.apache.jackrabbit.webdav.DavServletResponse;
 import org.apache.jackrabbit.webdav.DavSession;
 import org.apache.jackrabbit.webdav.lock.LockManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The resource factory.
@@ -47,7 +48,7 @@ public class CmsDavResourceFactory implements DavResourceFactory {
      * @see org.apache.jackrabbit.webdav.DavResourceFactory#createResource(org.apache.jackrabbit.webdav.DavResourceLocator, org.apache.jackrabbit.webdav.DavServletRequest, org.apache.jackrabbit.webdav.DavServletResponse)
      */
     public DavResource createResource(
-        DavResourceLocator locator,
+        @RUntainted DavResourceLocator locator,
         DavServletRequest request,
         DavServletResponse response)
     throws DavException {
@@ -59,7 +60,7 @@ public class CmsDavResourceFactory implements DavResourceFactory {
     /**
      * @see org.apache.jackrabbit.webdav.DavResourceFactory#createResource(org.apache.jackrabbit.webdav.DavResourceLocator, org.apache.jackrabbit.webdav.DavSession)
      */
-    public DavResource createResource(DavResourceLocator locator, DavSession session) throws DavException {
+    public DavResource createResource(@RUntainted DavResourceLocator locator, DavSession session) throws DavException {
 
         return new CmsDavResource(locator, this, (CmsDavSession)session, m_lockManager);
     }

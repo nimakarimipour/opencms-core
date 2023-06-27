@@ -41,6 +41,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for select widgets.<p>
@@ -206,7 +207,7 @@ public abstract class A_CmsSelectWidget extends A_CmsWidget implements I_CmsADEW
      * @see org.opencms.widgets.A_CmsWidget#setConfiguration(java.lang.String)
      */
     @Override
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(configuration)) {
             int heightIndex = configuration.indexOf(CONFIGURATION_HEIGHT);
@@ -240,9 +241,9 @@ public abstract class A_CmsSelectWidget extends A_CmsWidget implements I_CmsADEW
      *
      * @return the resource path
      */
-    protected String getResourcePath(CmsObject cms, I_CmsWidgetDialog dialog) {
+    protected @RUntainted String getResourcePath(CmsObject cms, I_CmsWidgetDialog dialog) {
 
-        String result = null;
+        @RUntainted String result = null;
         if (dialog instanceof CmsDummyWidgetDialog) {
             result = ((CmsDummyWidgetDialog)dialog).getResource().getRootPath();
         } else if (dialog instanceof CmsDialog) {
@@ -266,9 +267,9 @@ public abstract class A_CmsSelectWidget extends A_CmsWidget implements I_CmsADEW
      *
      * @return the currently selected value of the select widget
      */
-    protected String getSelectedValue(CmsObject cms, I_CmsWidgetParameter param) {
+    protected @RUntainted String getSelectedValue(CmsObject cms, I_CmsWidgetParameter param) {
 
-        String paramValue = param.getStringValue(cms);
+        @RUntainted String paramValue = param.getStringValue(cms);
         if (CmsStringUtil.isEmpty(paramValue)) {
             CmsSelectWidgetOption option = CmsSelectWidgetOption.getDefaultOption(m_selectOptions);
             if (option != null) {
@@ -339,7 +340,7 @@ public abstract class A_CmsSelectWidget extends A_CmsWidget implements I_CmsADEW
         I_CmsWidgetParameter param) {
 
         if (m_selectOptions == null) {
-            String configuration = getConfiguration();
+            @RUntainted String configuration = getConfiguration();
             if (configuration == null) {
                 // workaround: use the default value to parse the options
                 configuration = param.getDefault(cms);

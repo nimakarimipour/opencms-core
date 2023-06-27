@@ -31,6 +31,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 
 import java.io.File;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines methods which can be pluged into the syncronisation process between VFS and "real" FS.<p>
@@ -75,5 +76,5 @@ public interface I_CmsSynchronizeModification {
      * @return the translated resource name or null
      * @throws CmsSynchronizeException if something goes wrong
      */
-    String translate(CmsObject cms, String resName) throws CmsSynchronizeException;
+    @RUntainted String translate(CmsObject cms, String resName) throws CmsSynchronizeException;
 }

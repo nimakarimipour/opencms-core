@@ -66,6 +66,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the OpenCms Import Interface ({@link org.opencms.importexport.I_CmsImport}) for
@@ -185,15 +186,15 @@ public class CmsImportVersion4 extends A_CmsImport {
      */
     @Override
     protected void importUser(
-        String name,
+        @RUntainted String name,
         String flags,
         String password,
-        String firstname,
-        String lastname,
-        String email,
-        long dateCreated,
-        Map<String, Object> userInfo,
-        List<String> userGroups)
+        @RUntainted String firstname,
+        @RUntainted String lastname,
+        @RUntainted String email,
+        @RUntainted long dateCreated,
+        @RUntainted Map<@RUntainted String, @RUntainted Object> userInfo,
+        @RUntainted List<@RUntainted String> userGroups)
     throws CmsImportExportException {
 
         boolean convert = false;
@@ -222,9 +223,9 @@ public class CmsImportVersion4 extends A_CmsImport {
         m_report.println(Messages.get().container(Messages.RPT_START_PARSE_LINKS_0), I_CmsReport.FORMAT_HEADLINE);
 
         int i = 0;
-        Iterator<CmsResource> it = m_parseables.iterator();
+        @RUntainted Iterator<@RUntainted CmsResource> it = m_parseables.iterator();
         while (it.hasNext()) {
-            CmsResource res = it.next();
+            @RUntainted CmsResource res = it.next();
 
             m_report.print(
                 org.opencms.report.Messages.get().container(
@@ -313,13 +314,13 @@ public class CmsImportVersion4 extends A_CmsImport {
      */
     private CmsResource importResource(
         String source,
-        String destination,
+        @RUntainted String destination,
         I_CmsResourceType type,
-        String uuidresource,
+        @RUntainted String uuidresource,
         long datelastmodified,
-        String userlastmodified,
-        long datecreated,
-        String usercreated,
+        @RUntainted String userlastmodified,
+        @RUntainted long datecreated,
+        @RUntainted String usercreated,
         long datereleased,
         long dateexpired,
         String flags,
@@ -334,7 +335,7 @@ public class CmsImportVersion4 extends A_CmsImport {
             if (source != null) {
                 content = getFileBytes(source);
             }
-            int size = 0;
+            @RUntainted int size = 0;
             if (content != null) {
                 size = content.length;
             }
@@ -359,7 +360,7 @@ public class CmsImportVersion4 extends A_CmsImport {
             }
 
             // get UUIDs for the resource and content
-            CmsUUID newUuidresource = null;
+            @RUntainted CmsUUID newUuidresource = null;
             if ((uuidresource != null) && (!type.isFolder())) {
                 // create a UUID from the provided string
                 newUuidresource = new CmsUUID(uuidresource);
@@ -469,7 +470,7 @@ public class CmsImportVersion4 extends A_CmsImport {
                 destination = getChildElementTextValue(currentElement, A_CmsImport.N_DESTINATION);
 
                 // <type>
-                String typeName = getChildElementTextValue(currentElement, A_CmsImport.N_TYPE);
+                @RUntainted String typeName = getChildElementTextValue(currentElement, A_CmsImport.N_TYPE);
                 I_CmsResourceType type;
                 try {
                     type = OpenCms.getResourceManager().getResourceType(typeName);
@@ -529,7 +530,7 @@ public class CmsImportVersion4 extends A_CmsImport {
                 flags = getChildElementTextValue(currentElement, A_CmsImport.N_FLAGS);
 
                 // apply name translation and import path
-                String translatedName = m_cms.getRequestContext().addSiteRoot(m_importPath + destination);
+                @RUntainted String translatedName = m_cms.getRequestContext().addSiteRoot(m_importPath + destination);
                 if (type.isFolder()) {
                     // ensure folders end with a "/"
                     if (!CmsResource.isFolder(translatedName)) {

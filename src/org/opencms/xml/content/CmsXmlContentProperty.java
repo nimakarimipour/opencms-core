@@ -30,6 +30,7 @@ package org.opencms.xml.content;
 import org.opencms.util.CmsStringUtil;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes both VFS properties and Container Page Element settings, used by the GWT client.<p>
@@ -336,7 +337,7 @@ public class CmsXmlContentProperty implements Serializable {
      *
      * @return the description
      */
-    public String getDescription() {
+    public @RUntainted String getDescription() {
 
         return m_description;
     }
@@ -346,7 +347,7 @@ public class CmsXmlContentProperty implements Serializable {
      *
      * @return the error
      */
-    public String getError() {
+    public @RUntainted String getError() {
 
         return m_error;
     }
@@ -384,7 +385,7 @@ public class CmsXmlContentProperty implements Serializable {
      *
      * @return the niceName
      */
-    public String getNiceName() {
+    public @RUntainted String getNiceName() {
 
         return m_niceName;
     }
@@ -449,7 +450,7 @@ public class CmsXmlContentProperty implements Serializable {
      *
      * @return the widget
      */
-    public String getWidget() {
+    public @RUntainted String getWidget() {
 
         if (m_widget == null) {
             return "string";
@@ -462,7 +463,7 @@ public class CmsXmlContentProperty implements Serializable {
      *
      * @return the widgetConfiguration
      */
-    public String getWidgetConfiguration() {
+    public @RUntainted String getWidgetConfiguration() {
 
         return m_widgetConfiguration;
     }

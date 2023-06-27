@@ -121,6 +121,7 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Vaadin utility functions.<p>
@@ -335,7 +336,7 @@ public final class CmsVaadinUtils {
      */
     @SuppressWarnings("unchecked")
     public static <T> void defaultHandleContextMenuForMultiselect(
-        Table table,
+        @RUntainted Table table,
         CmsContextMenu menu,
         ItemClickEvent event,
         List<I_CmsSimpleContextMenuEntry<Collection<T>>> entries) {
@@ -346,7 +347,7 @@ public final class CmsVaadinUtils {
                 if (oldValue.isEmpty() || !oldValue.contains(event.getItemId())) {
                     table.setValue(new HashSet<Object>(Arrays.asList(event.getItemId())));
                 }
-                Collection<T> selection = (Collection<T>)table.getValue();
+                @RUntainted Collection<@RUntainted T> selection = (Collection<T>)table.getValue();
                 menu.setEntries(entries, selection);
                 menu.openForTable(event, table);
             }
@@ -393,7 +394,7 @@ public final class CmsVaadinUtils {
      */
     public static IndexedContainer getAvailableGroupsContainerWithout(
         CmsObject cms,
-        String ouFqn,
+        @RUntainted String ouFqn,
         String propCaption,
         String propIcon,
         String propOu,
@@ -648,7 +649,7 @@ public final class CmsVaadinUtils {
      *
      * @return the message text for the current locale
      */
-    public static String getMessageText(I_CmsMessageBundle messages, String key, Object... args) {
+    public static String getMessageText(I_CmsMessageBundle messages, @RUntainted String key, Object... args) {
 
         return messages.getBundle(A_CmsUI.get().getLocale()).key(key, args);
     }
@@ -661,7 +662,7 @@ public final class CmsVaadinUtils {
      *
      * @return the message text for the current locale
      */
-    public static String getMessageText(String key, Object... args) {
+    public static @RUntainted String getMessageText(@RUntainted String key, Object... args) {
 
         return getWpMessagesForCurrentLocale().key(key, args);
     }
@@ -694,7 +695,7 @@ public final class CmsVaadinUtils {
         try {
             IndexedContainer container = new IndexedContainer();
             container.addContainerProperty("desc", String.class, "");
-            for (String ou : CmsOUHandler.getManagableOUs(cms)) {
+            for (@RUntainted String ou : CmsOUHandler.getManagableOUs(cms)) {
                 if (includeWebOU | !OpenCms.getOrgUnitManager().readOrganizationalUnit(cms, ou).hasFlagWebuser()) {
                     Item item = container.addItem(ou);
                     if (ou == "") {
@@ -764,7 +765,7 @@ public final class CmsVaadinUtils {
         String descID,
         String iconID,
         String ouID,
-        String icon,
+        @RUntainted String icon,
         List<FontIcon> iconList) {
 
         IndexedContainer res = new IndexedContainer();
@@ -965,7 +966,7 @@ public final class CmsVaadinUtils {
      *
      * @return the link to the workplace
      */
-    public static String getWorkplaceLink() {
+    public static @RUntainted String getWorkplaceLink() {
 
         return OpenCms.getSystemInfo().getWorkplaceContext();
     }
@@ -1210,7 +1211,7 @@ public final class CmsVaadinUtils {
         CmsMacroResolver resolver = new CmsMacroResolver() {
 
             @Override
-            public String getMacroValue(String macro) {
+            public @RUntainted String getMacroValue(@RUntainted String macro) {
 
                 return CmsEncoder.escapeXml(super.getMacroValue(macro));
             }
@@ -1431,9 +1432,9 @@ public final class CmsVaadinUtils {
             CmsMacroResolver resolver = new CmsMacroResolver() {
 
                 @Override
-                public String getMacroValue(String macro) {
+                public @RUntainted String getMacroValue(@RUntainted String macro) {
 
-                    String result = super.getMacroValue(macro);
+                    @RUntainted String result = super.getMacroValue(macro);
                     // The macro may contain quotes or angle brackets, so we need to escape the values for insertion into the design file
                     return CmsEncoder.escapeXml(result);
 

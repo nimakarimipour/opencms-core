@@ -52,6 +52,7 @@ import javax.servlet.ServletException;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods for building editors for the CmsDefaultPage page type.<p>
@@ -201,10 +202,10 @@ public abstract class CmsDefaultPageEditor extends CmsEditor {
             //write the modified xml content
             m_file.setContents(m_page.marshal());
             m_file = getCms().writeFile(m_file);
-            List<Locale> locales = m_page.getLocales();
+            @RUntainted List<@RUntainted Locale> locales = m_page.getLocales();
             if (locales.size() > 0) {
                 // set first locale as new display locale
-                Locale newLoc = locales.get(0);
+                @RUntainted Locale newLoc = locales.get(0);
                 setParamElementlanguage(newLoc.toString());
                 m_elementLocale = newLoc;
             } else {
@@ -509,8 +510,8 @@ public abstract class CmsDefaultPageEditor extends CmsEditor {
      */
     protected void initBodyElementLanguage() {
 
-        List<Locale> locales = m_page.getLocales();
-        Locale defaultLocale = OpenCms.getLocaleManager().getDefaultLocales(getCms(), getCms().getSitePath(m_file)).get(
+        @RUntainted List<@RUntainted Locale> locales = m_page.getLocales();
+        @RUntainted Locale defaultLocale = OpenCms.getLocaleManager().getDefaultLocales(getCms(), getCms().getSitePath(m_file)).get(
             0);
 
         if (locales.size() == 0) {
@@ -553,7 +554,7 @@ public abstract class CmsDefaultPageEditor extends CmsEditor {
      *
      * @param elementName the name of the element to initialize or null, if default element should be used
      */
-    protected void initBodyElementName(String elementName) {
+    protected void initBodyElementName(@RUntainted String elementName) {
 
         if ((elementName == null)
             || (m_page.hasValue(elementName, getElementLocale())
@@ -635,7 +636,7 @@ public abstract class CmsDefaultPageEditor extends CmsEditor {
      * @param locale the body locale to write
      * @throws CmsException if writing the file fails
      */
-    protected void performSaveContent(String body, Locale locale) throws CmsException {
+    protected void performSaveContent(@RUntainted String body, @RUntainted Locale locale) throws CmsException {
 
         // prepare the content for saving
         String content = prepareContent(true);

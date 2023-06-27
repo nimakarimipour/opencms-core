@@ -54,6 +54,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.base.Predicate;
 import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.util.IndexedContainer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to select a resource which should be linked to a locale group.<p>
@@ -150,7 +151,7 @@ public class CmsLocaleLinkTargetSelectionDialog extends CmsResourceSelectDialog 
         if (group.hasLocale(secondaryLocale)) {
 
             CmsResource res = group.getResourcesByLocale().get(secondaryLocale);
-            String folder = res.getRootPath();
+            @RUntainted String folder = res.getRootPath();
             if (res.isFile()) {
                 folder = CmsResource.getParentFolder(folder);
             }

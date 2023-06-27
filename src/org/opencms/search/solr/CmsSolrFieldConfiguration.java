@@ -77,6 +77,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.solr.common.SolrInputDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The search field implementation for Solr.<p>
@@ -92,7 +93,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
     private Collection<Locale> m_contentLocales;
 
     /** A list of Solr fields. */
-    private Map<String, CmsSolrField> m_solrFields = new HashMap<String, CmsSolrField>();
+    private @RUntainted Map<@RUntainted String, @RUntainted CmsSolrField> m_solrFields = new HashMap<String, CmsSolrField>();
 
     /**
      * Default constructor.<p>
@@ -110,7 +111,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
     public void addAdditionalFields(List<CmsSolrField> additionalFields) {
 
         if (additionalFields != null) {
-            for (CmsSolrField solrField : additionalFields) {
+            for (@RUntainted CmsSolrField solrField : additionalFields) {
                 m_solrFields.put(solrField.getName(), solrField);
             }
         }
@@ -223,14 +224,14 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
     @Override
     protected I_CmsSearchDocument appendFieldMapping(
         I_CmsSearchDocument document,
-        CmsSearchField sfield,
+        @RUntainted CmsSearchField sfield,
         CmsObject cms,
         CmsResource resource,
         I_CmsExtractionResult extractionResult,
         List<CmsProperty> properties,
         List<CmsProperty> propertiesSearched) {
 
-        CmsSolrField field = (CmsSolrField)sfield;
+        @RUntainted CmsSolrField field = (CmsSolrField)sfield;
         try {
             StringBuffer text = new StringBuffer();
             for (I_CmsSearchFieldMapping mapping : field.getMappings()) {
@@ -307,7 +308,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
     protected I_CmsSearchDocument appendFieldMappings(
         I_CmsSearchDocument document,
         CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         I_CmsExtractionResult extractionResult,
         List<CmsProperty> properties,
         List<CmsProperty> propertiesSearched) {
@@ -316,9 +317,9 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
         // append field mappings directly stored in the extraction result
         if (null != extractionResult) {
             Map<String, String> fieldMappings = extractionResult.getFieldMappings();
-            for (String fieldName : fieldMappings.keySet()) {
+            for (@RUntainted String fieldName : fieldMappings.keySet()) {
                 String value = fieldMappings.get(fieldName);
-                CmsSolrField f = new CmsSolrField(fieldName, null, null, null);
+                @RUntainted CmsSolrField f = new CmsSolrField(fieldName, null, null, null);
                 document.addSearchField(f, value);
                 systemFields.add(fieldName);
             }
@@ -377,7 +378,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
     protected I_CmsSearchDocument appendFieldMappingsFromElementsOnThePage(
         I_CmsSearchDocument document,
         CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         List<String> systemFields) {
 
         try {
@@ -387,11 +388,11 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
             if (containerBean != null) {
                 for (CmsContainerElementBean element : containerBean.getElements()) {
                     element.initResource(cms);
-                    CmsResource elemResource = element.getResource();
+                    @RUntainted CmsResource elemResource = element.getResource();
                     Set<CmsSearchField> mappedFields = getXSDMappingsForPage(cms, elemResource);
                     if (mappedFields != null) {
 
-                        for (CmsSearchField field : mappedFields) {
+                        for (@RUntainted CmsSearchField field : mappedFields) {
                             if (!systemFields.contains(field.getName())) {
                                 try {
                                     I_CmsExtractionResult extractionResult = CmsSolrDocumentXmlContent.extractXmlContent(
@@ -494,11 +495,11 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
                         final String lang = locale.getLanguage();
                         // Don't proceed if a field has already written for this locale.
                         if (!resourceLocales.contains(lang)) {
-                            final String effFieldName = CmsSearchFieldConfiguration.getLocaleExtendedName(
+                            final @RUntainted String effFieldName = CmsSearchFieldConfiguration.getLocaleExtendedName(
                                 CmsSearchField.FIELD_TITLE_UNSTORED,
                                 locale) + "_s";
 
-                            final CmsSolrField f = new CmsSolrField(effFieldName, null, null, null);
+                            final @RUntainted CmsSolrField f = new CmsSolrField(effFieldName, null, null, null);
                             document.addSearchField(f, value);
                         }
                     }
@@ -664,9 +665,9 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
         /*
          * Add fields from opencms-search.xml (Lucene fields)
          */
-        for (CmsSearchField field : getFields()) {
+        for (@RUntainted CmsSearchField field : getFields()) {
             if (field instanceof CmsLuceneField) {
-                CmsSolrField newSolrField = new CmsSolrField((CmsLuceneField)field);
+                @RUntainted CmsSolrField newSolrField = new CmsSolrField((CmsLuceneField)field);
                 m_solrFields.put(newSolrField.getName(), newSolrField);
             }
         }
@@ -675,11 +676,11 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
          * Add the content fields (multiple for contents with more than one locale)
          */
         // add the content_<locale> fields to this configuration
-        CmsSolrField solrField = new CmsSolrField(CmsSearchField.FIELD_CONTENT, null, null, null);
+        @RUntainted CmsSolrField solrField = new CmsSolrField(CmsSearchField.FIELD_CONTENT, null, null, null);
         solrField.addMapping(
             new CmsSearchFieldMapping(CmsSearchFieldMappingType.CONTENT, CmsSearchField.FIELD_CONTENT));
         m_solrFields.put(solrField.getName(), solrField);
-        for (Locale locale : OpenCms.getLocaleManager().getAvailableLocales()) {
+        for (@RUntainted Locale locale : OpenCms.getLocaleManager().getAvailableLocales()) {
             solrField = new CmsSolrField(
                 CmsSearchFieldConfiguration.getLocaleExtendedName(CmsSearchField.FIELD_CONTENT, locale),
                 Collections.singletonList(locale.toString() + CmsSearchField.FIELD_EXCERPT),
@@ -778,7 +779,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
 
         // add non-localized fields
         // add instance date
-        String fieldName = CmsSearchField.FIELD_INSTANCEDATE + CmsSearchField.FIELD_POSTFIX_DATE;
+        @RUntainted String fieldName = CmsSearchField.FIELD_INSTANCEDATE + CmsSearchField.FIELD_POSTFIX_DATE;
         Date instanceDate = document.getFieldValueAsDate(fieldName);
         if ((null == instanceDate) || (instanceDate.getTime() == 0)) {
             String instanceDateCopyField = document.getFieldValueAsString(
@@ -842,7 +843,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
         }
 
         // add localized fields
-        for (String locale : document.getMultivaluedFieldAsStringList(CmsSearchField.FIELD_CONTENT_LOCALES)) {
+        for (@RUntainted String locale : document.getMultivaluedFieldAsStringList(CmsSearchField.FIELD_CONTENT_LOCALES)) {
             // instance date
             fieldName = CmsSearchField.FIELD_INSTANCEDATE + "_" + locale + CmsSearchField.FIELD_POSTFIX_DATE;
             Date localeInstanceDate = document.getFieldValueAsDate(fieldName);
@@ -929,7 +930,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
         document.addSearchField(
             new CmsSolrField(CmsSearchField.FIELD_SPELL, null, null, null),
             document.getFieldValueAsString(CmsSearchField.FIELD_CONTENT) + "\n" + title);
-        for (Locale locale : OpenCms.getLocaleManager().getAvailableLocales()) {
+        for (@RUntainted Locale locale : OpenCms.getLocaleManager().getAvailableLocales()) {
             document.addSearchField(
                 new CmsSolrField(locale + "_" + CmsSearchField.FIELD_SPELL, null, locale, null),
                 document.getFieldValueAsString(

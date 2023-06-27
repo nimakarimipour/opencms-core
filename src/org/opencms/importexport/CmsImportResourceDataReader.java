@@ -41,6 +41,7 @@ import org.opencms.report.I_CmsReport;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Subclass which doesn't actually import anything, but just reads the module data into a
@@ -120,7 +121,7 @@ public class CmsImportResourceDataReader extends CmsImportVersion10 {
                 return;
             }
             // apply name translation and import path
-            String translatedName = getRequestContext().addSiteRoot(m_parameters.getDestinationPath() + m_destination);
+            @RUntainted String translatedName = getRequestContext().addSiteRoot(m_parameters.getDestinationPath() + m_destination);
             boolean resourceImmutable = checkImmutable(translatedName);
             translatedName = getRequestContext().removeSiteRoot(translatedName);
             if (!resourceImmutable) {

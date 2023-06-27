@@ -73,6 +73,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class to parse ADE sitemap or module configuration files and create configuration objects from them.<p>
@@ -507,7 +508,7 @@ public class CmsConfigurationReader {
      * @return the created configuration object with the data from the XML content
      * @throws CmsException if something goes wrong
      */
-    public CmsADEConfigDataInternal parseConfiguration(String basePath, CmsXmlContent content) throws CmsException {
+    public CmsADEConfigDataInternal parseConfiguration(@RUntainted String basePath, CmsXmlContent content) throws CmsException {
 
         m_detailPageConfigs = Lists.newArrayList();
         m_functionReferences = Lists.newArrayList();
@@ -828,7 +829,7 @@ public class CmsConfigurationReader {
     public void parseResourceTypeConfig(String basePath, I_CmsXmlContentLocation node) throws CmsException {
 
         I_CmsXmlContentValueLocation typeNameLoc = node.getSubValue(N_TYPE_NAME);
-        String typeName = typeNameLoc.asString(m_cms);
+        @RUntainted String typeName = typeNameLoc.asString(m_cms);
         CmsContentFolderDescriptor folderOrName = parseFolderOrName(basePath, node.getSubValue(N_FOLDER));
         I_CmsXmlContentValueLocation disabledLoc = node.getSubValue(N_DISABLED);
         boolean disabled = false;
@@ -904,10 +905,10 @@ public class CmsConfigurationReader {
             CmsXmlVfsFileValue locationValue = (CmsXmlVfsFileValue)locationLoc.getValue();
             CmsLink link = locationValue.getLink(m_cms);
             if (null != link) {
-                String stringValue = link.getSitePath(m_cms);
+                @RUntainted String stringValue = link.getSitePath(m_cms);
                 // extract bundle base name from the path to the bundle file
                 int lastSlashIndex = stringValue.lastIndexOf("/");
-                String fileName = stringValue.substring(lastSlashIndex + 1);
+                @RUntainted String fileName = stringValue.substring(lastSlashIndex + 1);
                 if (CmsFileUtil.getExtension(fileName).equals(".properties")) {
                     fileName = fileName.substring(0, fileName.length() - ".properties".length());
                 }
@@ -976,7 +977,7 @@ public class CmsConfigurationReader {
      * @return the parsed configuration data
      * @throws CmsException if something goes wrong
      */
-    public CmsADEConfigDataInternal parseSitemapConfiguration(String basePath, CmsResource configRes)
+    public CmsADEConfigDataInternal parseSitemapConfiguration(@RUntainted String basePath, @RUntainted CmsResource configRes)
     throws CmsException {
 
         LOG.info("Parsing configuration " + configRes.getRootPath());
@@ -1028,7 +1029,7 @@ public class CmsConfigurationReader {
      * @param name the name of the XML content value
      * @return the boolean value
      */
-    protected boolean getBoolean(I_CmsXmlContentLocation parent, String name) {
+    protected boolean getBoolean(I_CmsXmlContentLocation parent, @RUntainted String name) {
 
         I_CmsXmlContentValueLocation location = parent.getSubValue(name);
         if (location == null) {
@@ -1072,7 +1073,7 @@ public class CmsConfigurationReader {
                 "Missing detail page link in " + CmsLog.eval(LOG, () -> node.getDocument().getFile().getRootPath()));
             return;
         }
-        String page = uncheckedLink.getTarget();
+        @RUntainted String page = uncheckedLink.getTarget();
         CmsUUID structureId = uncheckedLink.getStructureId();
         if (structureId == null) {
             return;
@@ -1136,8 +1137,8 @@ public class CmsConfigurationReader {
     protected void parseFunctionReference(I_CmsXmlContentLocation node) {
 
         String name = node.getSubValue(N_NAME).asString(m_cms);
-        CmsUUID functionId = node.getSubValue(N_FUNCTION).asId(m_cms);
-        CmsUUID functionDefaultPageId = null;
+        @RUntainted CmsUUID functionId = node.getSubValue(N_FUNCTION).asId(m_cms);
+        @RUntainted CmsUUID functionDefaultPageId = null;
         I_CmsXmlContentValueLocation defaultPageValue = node.getSubValue(N_FUNCTION_DEFAULT_PAGE);
         if (defaultPageValue != null) {
             functionDefaultPageId = defaultPageValue.asId(m_cms);
@@ -1181,8 +1182,8 @@ public class CmsConfigurationReader {
      */
     private Set<CmsUUID> readInternalLinkListTargetIds(
         I_CmsXmlContentLocation root,
-        String childName,
-        String grandchildName) {
+        @RUntainted String childName,
+        @RUntainted String grandchildName) {
 
         Set<CmsUUID> result = new LinkedHashSet<>();
         for (I_CmsXmlContentValueLocation parent : root.getSubValues(childName)) {

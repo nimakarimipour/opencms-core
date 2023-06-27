@@ -29,6 +29,7 @@ package org.opencms.ade.postupload;
 
 import org.opencms.gwt.A_CmsClientMessageBundle;
 import org.opencms.gwt.I_CmsClientMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Client message class for the org.opencms.ade.postupload module.<p>
@@ -36,7 +37,7 @@ import org.opencms.gwt.I_CmsClientMessageBundle;
 public final class ClientMessages extends A_CmsClientMessageBundle {
 
     /** Internal instance. */
-    private static ClientMessages INSTANCE;
+    private static @RUntainted ClientMessages INSTANCE;
 
     /**
      * Hides the public constructor for this utility class.<p>
@@ -51,7 +52,7 @@ public final class ClientMessages extends A_CmsClientMessageBundle {
      *
      * @return the client message instance
      */
-    public static I_CmsClientMessageBundle get() {
+    public static @RUntainted I_CmsClientMessageBundle get() {
 
         if (INSTANCE == null) {
             INSTANCE = new ClientMessages();

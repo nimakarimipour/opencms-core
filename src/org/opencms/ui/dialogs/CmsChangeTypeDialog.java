@@ -46,6 +46,7 @@ import org.opencms.workplace.explorer.CmsExplorerTypeSettings;
 import java.util.Arrays;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog for changing the resource type.<p>
@@ -119,7 +120,7 @@ public class CmsChangeTypeDialog extends CmsNewDialog {
                     return true;
                 }
 
-                String typeName = type.getType();
+                @RUntainted String typeName = type.getType();
                 try {
                     boolean isFolder = m_dialogContext.getResources().get(0).isFolder();
                     boolean identicalTypeGroup = OpenCms.getResourceManager().getResourceType(

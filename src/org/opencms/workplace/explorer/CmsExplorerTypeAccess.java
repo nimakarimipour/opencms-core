@@ -50,6 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Explorer type access object, encapsulates access control entries and lists of a explorer type.<p>
@@ -76,7 +77,7 @@ public class CmsExplorerTypeAccess implements Serializable {
     }
 
     /** The map of configured access control entries. */
-    private Map<String, String> m_accessControl;
+    private @RUntainted Map<@RUntainted String, @RUntainted String> m_accessControl;
 
     /** The acl based on the map of configured access control entries. */
     private CmsAccessControlList m_accessControlList;
@@ -102,7 +103,7 @@ public class CmsExplorerTypeAccess implements Serializable {
      * @param key the principal of the ace
      * @param value the permissions for the principal
      */
-    public void addAccessEntry(String key, String value) {
+    public void addAccessEntry(@RUntainted String key, @RUntainted String value) {
 
         m_accessControl.put(key, value);
         if (LOG.isDebugEnabled()) {
@@ -131,18 +132,18 @@ public class CmsExplorerTypeAccess implements Serializable {
         }
 
         m_accessControlList = new CmsAccessControlList();
-        Iterator<String> i = m_accessControl.keySet().iterator();
+        @RUntainted Iterator<@RUntainted String> i = m_accessControl.keySet().iterator();
         while (i.hasNext()) {
-            String key = i.next();
+            @RUntainted String key = i.next();
             if (!PRINCIPAL_DEFAULT.equals(key)) {
                 String value = m_accessControl.get(key);
                 // get the principal name from the principal String
-                String principal = key.substring(key.indexOf('.') + 1, key.length());
+                @RUntainted String principal = key.substring(key.indexOf('.') + 1, key.length());
 
                 // create an OpenCms user context with "Guest" permissions
                 CmsObject cms = OpenCms.initCmsObject(OpenCms.getDefaultUsers().getUserGuest());
 
-                CmsUUID principalId = null;
+                @RUntainted CmsUUID principalId = null;
                 if (key.startsWith(I_CmsPrincipal.PRINCIPAL_GROUP)) {
                     // read the group
                     principal = OpenCms.getImportExportManager().translateGroup(principal);

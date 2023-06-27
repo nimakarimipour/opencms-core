@@ -44,6 +44,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Advanced locale handler allowing single tree localization.<p>
@@ -63,14 +64,14 @@ public class CmsSingleTreeLocaleHandler extends CmsDefaultLocaleHandler {
      *
      * @return the locale or <code>null</code> if no matching locale was found
      */
-    public static Locale getLocaleFromPath(String sitePath) {
+    public static Locale getLocaleFromPath(@RUntainted String sitePath) {
 
         Locale result = null;
         if (sitePath.indexOf("/") == 0) {
             sitePath = sitePath.substring(1);
         }
         if (sitePath.length() > 1) {
-            String localePrefix;
+            @RUntainted String localePrefix;
             if (!sitePath.contains("/")) {
                 // this may be the case for paths pointing to the root folder of a site
                 // check for parameters
@@ -107,7 +108,7 @@ public class CmsSingleTreeLocaleHandler extends CmsDefaultLocaleHandler {
      * @see org.opencms.i18n.CmsDefaultLocaleHandler#getI18nInfo(javax.servlet.http.HttpServletRequest, org.opencms.file.CmsUser, org.opencms.file.CmsProject, java.lang.String)
      */
     @Override
-    public CmsI18nInfo getI18nInfo(HttpServletRequest req, CmsUser user, CmsProject project, String resourceName) {
+    public CmsI18nInfo getI18nInfo(@RUntainted HttpServletRequest req, CmsUser user, CmsProject project, @RUntainted String resourceName) {
 
         CmsSite site = OpenCms.getSiteManager().getSiteForRootPath(resourceName);
         if ((site != null) && CmsSite.LocalizationMode.singleTree.equals(site.getLocalizationMode())) {

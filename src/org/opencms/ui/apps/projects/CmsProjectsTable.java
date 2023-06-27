@@ -73,6 +73,7 @@ import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Table;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The projects table.<p>
@@ -179,9 +180,9 @@ public class CmsProjectsTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<CmsUUID> data) {
+        public void executeAction(@RUntainted Set<@RUntainted CmsUUID> data) {
 
-            CmsUUID id = data.iterator().next();
+            @RUntainted CmsUUID id = data.iterator().next();
 
             Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);
             CmsEditProjectForm form = new CmsEditProjectForm(CmsProjectsTable.this, id, window);
@@ -221,9 +222,9 @@ public class CmsProjectsTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<CmsUUID> data) {
+        public void executeAction(@RUntainted Set<@RUntainted CmsUUID> data) {
 
-            CmsUUID projectId = data.iterator().next();
+            @RUntainted CmsUUID projectId = data.iterator().next();
             CmsAppWorkplaceUi.get().disableGlobalShortcuts();
             CmsGwtDialogExtension extension = new CmsGwtDialogExtension(A_CmsUI.get(), null);
             try {
@@ -245,13 +246,13 @@ public class CmsProjectsTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<CmsUUID> data) {
+        public CmsMenuItemVisibilityMode getVisibility(@RUntainted Set<@RUntainted CmsUUID> data) {
 
             if ((data != null) && (data.size() == 1)) {
                 if (A_CmsUI.getCmsObject().getRequestContext().getCurrentProject().isOnlineProject()) {
                     return CmsMenuItemVisibilityMode.VISIBILITY_INACTIVE;
                 }
-                CmsUUID projectId = data.iterator().next();
+                @RUntainted CmsUUID projectId = data.iterator().next();
                 try {
                     return A_CmsUI.getCmsObject().countLockedResources(projectId) == 0
                     ? CmsMenuItemVisibilityMode.VISIBILITY_ACTIVE
@@ -322,7 +323,7 @@ public class CmsProjectsTable extends Table {
          */
         public void executeAction(Set<CmsUUID> data) {
 
-            for (CmsUUID projectId : data) {
+            for (@RUntainted CmsUUID projectId : data) {
                 try {
                     A_CmsUI.getCmsObject().unlockProject(projectId);
                 } catch (CmsException e) {
@@ -343,13 +344,13 @@ public class CmsProjectsTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<CmsUUID> data) {
+        public CmsMenuItemVisibilityMode getVisibility(@RUntainted Set<@RUntainted CmsUUID> data) {
 
             if (A_CmsUI.getCmsObject().getRequestContext().getCurrentProject().isOnlineProject()) {
                 return CmsMenuItemVisibilityMode.VISIBILITY_INACTIVE;
             }
             if (data.size() == 1) {
-                CmsUUID projectId = data.iterator().next();
+                @RUntainted CmsUUID projectId = data.iterator().next();
                 try {
                     if (A_CmsUI.getCmsObject().countLockedResources(projectId) == 0) {
                         return CmsMenuItemVisibilityMode.VISIBILITY_INACTIVE;

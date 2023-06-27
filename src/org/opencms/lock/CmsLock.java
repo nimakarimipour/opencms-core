@@ -31,6 +31,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.file.CmsProject;
 import org.opencms.file.CmsUser;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents the lock state of a VFS resource.<p>
@@ -53,19 +54,19 @@ public class CmsLock implements Comparable<CmsLock> {
         CmsLockType.UNLOCKED);
 
     /** The project where the resource is locked. */
-    private CmsProject m_project;
+    private @RUntainted CmsProject m_project;
 
     /** The related lock. */
     private CmsLock m_relatedLock;
 
     /** The name of the locked resource. */
-    private String m_resourceName;
+    private @RUntainted String m_resourceName;
 
     /** Indicates how the resource is locked. */
-    private CmsLockType m_type;
+    private @RUntainted CmsLockType m_type;
 
     /** The ID of the user who locked the resource. */
-    private CmsUUID m_userId;
+    private @RUntainted CmsUUID m_userId;
 
     /**
      * Constructor for a new Cms lock.<p>
@@ -75,7 +76,7 @@ public class CmsLock implements Comparable<CmsLock> {
      * @param project the project where the resource is locked
      * @param type flag indicating how the resource is locked
      */
-    public CmsLock(String resourceName, CmsUUID userId, CmsProject project, CmsLockType type) {
+    public CmsLock(@RUntainted String resourceName, @RUntainted CmsUUID userId, CmsProject project, CmsLockType type) {
 
         m_resourceName = resourceName;
         m_userId = userId;
@@ -88,7 +89,7 @@ public class CmsLock implements Comparable<CmsLock> {
      *
      * @return the shared Null CmsLock
      */
-    public static CmsLock getNullLock() {
+    public static @RUntainted CmsLock getNullLock() {
 
         return CmsLock.NULL_LOCK;
     }
@@ -141,7 +142,7 @@ public class CmsLock implements Comparable<CmsLock> {
      *
      * @return the project where the resource is currently locked
      */
-    public CmsProject getProject() {
+    public @RUntainted CmsProject getProject() {
 
         return m_project;
     }
@@ -161,7 +162,7 @@ public class CmsLock implements Comparable<CmsLock> {
      *
      * @return the name of the locked resource
      */
-    public String getResourceName() {
+    public @RUntainted String getResourceName() {
 
         return m_resourceName;
     }
@@ -171,7 +172,7 @@ public class CmsLock implements Comparable<CmsLock> {
      *
      * @return the system lock
      */
-    public CmsLock getSystemLock() {
+    public @RUntainted CmsLock getSystemLock() {
 
         if (!isSystemLock()) {
             return getRelatedLock();
@@ -184,7 +185,7 @@ public class CmsLock implements Comparable<CmsLock> {
      *
      * @return the type of the lock
      */
-    public CmsLockType getType() {
+    public @RUntainted CmsLockType getType() {
 
         return m_type;
     }
@@ -194,7 +195,7 @@ public class CmsLock implements Comparable<CmsLock> {
      *
      * @return the ID of the user
      */
-    public CmsUUID getUserId() {
+    public @RUntainted CmsUUID getUserId() {
 
         return m_userId;
     }
@@ -460,7 +461,7 @@ public class CmsLock implements Comparable<CmsLock> {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         StringBuffer buf = new StringBuffer();
 

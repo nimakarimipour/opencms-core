@@ -63,6 +63,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for preparing the resource type lists for gallery and new dialog.<p>
@@ -122,7 +123,7 @@ public class CmsAddDialogTypeHelper {
      */
     public List<CmsResourceTypeBean> getResourceTypes(
         CmsObject cms,
-        String folderRootPath,
+        @RUntainted String folderRootPath,
         String checkViewableReferenceUri,
         CmsElementView elementView,
         I_CmsResourceTypeEnabledCheck checkEnabled)
@@ -152,7 +153,7 @@ public class CmsAddDialogTypeHelper {
         if (OpenCms.getRoleManager().hasRole(cms, CmsRole.DEVELOPER) && elementView.isOther()) {
             Set<String> hiddenTypes = new HashSet<String>(m_allAdeTypes);
             hiddenTypes.removeAll(m_includedAdeTypes);
-            for (String typeName : hiddenTypes) {
+            for (@RUntainted String typeName : hiddenTypes) {
                 if (OpenCms.getResourceManager().hasResourceType(typeName)) {
                     additionalTypeMap.put(typeName, OpenCms.getResourceManager().getResourceType(typeName));
                 }
@@ -181,7 +182,7 @@ public class CmsAddDialogTypeHelper {
      */
     public void precomputeTypeLists(
         CmsObject cms,
-        String folderRootPath,
+        @RUntainted String folderRootPath,
         String checkViewableReferenceUri,
         List<CmsElementView> views,
         I_CmsResourceTypeEnabledCheck check) {
@@ -238,7 +239,7 @@ public class CmsAddDialogTypeHelper {
      */
     private List<CmsResourceTypeBean> internalGetResourceTypesFromConfig(
         CmsObject cms,
-        String folderRootPath,
+        @RUntainted String folderRootPath,
         String checkViewableReferenceUri,
         CmsElementView elementView,
         List<I_CmsResourceType> additionalTypes,
@@ -337,7 +338,7 @@ public class CmsAddDialogTypeHelper {
             }
         });
         for (I_CmsResourceType addType : additionalTypes) {
-            String typeName = addType.getTypeName();
+            @RUntainted String typeName = addType.getTypeName();
             if (typesFromConfig.contains(typeName) && !elementView.isOther()) { //  type was already processed (although it may not be in the result list)
                 continue;
             }

@@ -31,6 +31,7 @@ import org.opencms.ade.galleries.CmsGalleryService;
 import org.opencms.configuration.CmsDefaultUserSettings;
 import org.opencms.i18n.CmsLocaleManager;
 import org.opencms.main.CmsContextInfo;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean used to access the built-in preferences via reflection.<p>
@@ -852,7 +853,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new locale
      */
-    public void setLocale(String s) {
+    public void setLocale(@RUntainted String s) {
 
         m_settings.setLocale(CmsLocaleManager.getLocale(s));
     }
@@ -1074,7 +1075,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new start folder
      */
-    public void setStartFolder(String s) {
+    public void setStartFolder(@RUntainted String s) {
 
         m_settings.setStartFolder(s);
     }
@@ -1141,7 +1142,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new upload applet client folder
      */
-    public void setUploadAppletClientFolder(String s) {
+    public void setUploadAppletClientFolder(@RUntainted String s) {
 
         m_settings.setUploadAppletClientFolder(s);
 

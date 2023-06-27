@@ -33,6 +33,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 import org.opencms.security.CmsPrincipal;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A historical version of a file in the OpenCms VFS resource history.<p>
@@ -45,10 +46,10 @@ public class CmsHistoryFolder extends CmsFolder implements I_CmsHistoryResource 
     private static final long serialVersionUID = -374285965677032786L;
 
     /** The structure id of the parent of this historical resource. */
-    private CmsUUID m_parentId;
+    private @RUntainted CmsUUID m_parentId;
 
     /** The publish tag of this historical resource. */
-    private int m_publishTag;
+    private @RUntainted int m_publishTag;
 
     /** The version number of the resource part for this historical resource. */
     private int m_resourceVersion;
@@ -107,22 +108,22 @@ public class CmsHistoryFolder extends CmsFolder implements I_CmsHistoryResource 
      * @param structureVersion the version number of the structure part for this historical resource
      */
     public CmsHistoryFolder(
-        int publishTag,
-        CmsUUID structureId,
-        CmsUUID resourceId,
-        String path,
-        int type,
+        @RUntainted int publishTag,
+        @RUntainted CmsUUID structureId,
+        @RUntainted CmsUUID resourceId,
+        @RUntainted String path,
+        @RUntainted int type,
         int flags,
-        CmsUUID projectId,
+        @RUntainted CmsUUID projectId,
         CmsResourceState state,
         long dateCreated,
-        CmsUUID userCreated,
+        @RUntainted CmsUUID userCreated,
         long dateLastModified,
-        CmsUUID userLastModified,
+        @RUntainted CmsUUID userLastModified,
         long dateReleased,
         long dateExpired,
-        int version,
-        CmsUUID parentId,
+        @RUntainted int version,
+        @RUntainted CmsUUID parentId,
         int resourceVersion,
         int structureVersion) {
 
@@ -180,7 +181,7 @@ public class CmsHistoryFolder extends CmsFolder implements I_CmsHistoryResource 
     /**
      * @see org.opencms.file.history.I_CmsHistoryResource#getParentId()
      */
-    public CmsUUID getParentId() {
+    public @RUntainted CmsUUID getParentId() {
 
         return m_parentId;
     }
@@ -188,7 +189,7 @@ public class CmsHistoryFolder extends CmsFolder implements I_CmsHistoryResource 
     /**
      * @see org.opencms.file.history.I_CmsHistoryResource#getPublishTag()
      */
-    public int getPublishTag() {
+    public @RUntainted int getPublishTag() {
 
         return m_publishTag;
     }

@@ -47,6 +47,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Image Cache helper.<p>
@@ -227,7 +228,7 @@ public class CmsImageCacheHelper {
      * @param res CmsResource to be read
      * @return a String representation of the dimension of the given image
      */
-    private String getSingleSize(CmsObject cms, CmsResource res) {
+    private String getSingleSize(CmsObject cms, @RUntainted CmsResource res) {
 
         try {
             BufferedImage img = Simapi.read(cms.readFile(res).getContents());
@@ -277,7 +278,7 @@ public class CmsImageCacheHelper {
         if (!oName.startsWith("/")) {
             oName = "/" + oName;
         }
-        String imgName = oName;
+        @RUntainted String imgName = oName;
         CmsResource res = null;
         boolean found = false;
         while (!found) {

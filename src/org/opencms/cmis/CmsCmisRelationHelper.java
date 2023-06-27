@@ -71,6 +71,7 @@ import org.apache.chemistry.opencmis.commons.impl.dataobjects.AllowableActionsIm
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.ObjectDataImpl;
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.PropertiesImpl;
 import org.apache.chemistry.opencmis.commons.impl.server.ObjectInfoImpl;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for CMIS CRUD operations on relation objects.<p>
@@ -97,7 +98,7 @@ public class CmsCmisRelationHelper implements I_CmsCmisObjectHelper {
         private CmsResource m_source;
 
         /** The source id of the relation. */
-        private CmsUUID m_sourceId;
+        private @RUntainted CmsUUID m_sourceId;
 
         /** The target id of the relation. */
         private CmsUUID m_targetId;
@@ -109,7 +110,7 @@ public class CmsCmisRelationHelper implements I_CmsCmisObjectHelper {
          * @param targetId the target id
          * @param relType the relation type
          */
-        public RelationKey(CmsUUID sourceId, CmsUUID targetId, String relType) {
+        public RelationKey(@RUntainted CmsUUID sourceId, CmsUUID targetId, String relType) {
 
             m_sourceId = sourceId;
             m_targetId = targetId;
@@ -172,7 +173,7 @@ public class CmsCmisRelationHelper implements I_CmsCmisObjectHelper {
          *
          * @return the source id
          */
-        public CmsUUID getSourceId() {
+        public @RUntainted CmsUUID getSourceId() {
 
             return m_sourceId;
         }
@@ -202,7 +203,7 @@ public class CmsCmisRelationHelper implements I_CmsCmisObjectHelper {
          *
          * @param sourceId the source id
          */
-        public void setSourceId(CmsUUID sourceId) {
+        public void setSourceId(@RUntainted CmsUUID sourceId) {
 
             m_sourceId = sourceId;
         }
@@ -286,7 +287,7 @@ public class CmsCmisRelationHelper implements I_CmsCmisObjectHelper {
         try {
 
             RelationKey rk = parseRelationKey(objectId);
-            CmsUUID sourceId = rk.getSourceId();
+            @RUntainted CmsUUID sourceId = rk.getSourceId();
             CmsObject cms = m_repository.getCmsObject(context);
             CmsResource sourceResource = cms.readResource(sourceId);
             boolean wasLocked = CmsCmisUtil.ensureLock(cms, sourceResource);
@@ -582,9 +583,9 @@ public class CmsCmisRelationHelper implements I_CmsCmisObjectHelper {
      */
     protected RelationKey parseRelationKey(String id) {
 
-        Matcher matcher = RELATION_PATTERN.matcher(id);
+        @RUntainted Matcher matcher = RELATION_PATTERN.matcher(id);
         matcher.find();
-        CmsUUID src = new CmsUUID(matcher.group(1));
+        @RUntainted CmsUUID src = new CmsUUID(matcher.group(1));
         CmsUUID tgt = new CmsUUID(matcher.group(2));
         String tp = matcher.group(3);
         return new RelationKey(src, tgt, tp);

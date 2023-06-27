@@ -56,6 +56,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Lucene document factory class to extract index data from a resource
@@ -108,7 +109,7 @@ public class CmsSolrDocumentContainerPage extends CmsSolrDocumentXmlContent {
      */
     public I_CmsExtractionResult extractContent(
         CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         I_CmsSearchIndex index,
         Locale forceLocale)
     throws CmsException {
@@ -129,7 +130,7 @@ public class CmsSolrDocumentContainerPage extends CmsSolrDocumentXmlContent {
                         // get the formatter configuration for this element
                         try {
                             element.initResource(cms);
-                            CmsResource elementResource = element.getResource();
+                            @RUntainted CmsResource elementResource = element.getResource();
                             if (!(cms.readProject(index.getProject()).isOnlineProject()
                                 && elementResource.isExpired(System.currentTimeMillis()))) {
                                 CmsADEConfigData adeConfig = OpenCms.getADEManager().lookupConfigurationWithCache(

@@ -38,6 +38,7 @@ import org.opencms.workplace.explorer.Messages;
 
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The undelete dialog action.<p>
@@ -77,7 +78,7 @@ public class CmsUndeleteDialogAction extends A_CmsWorkplaceAction implements I_C
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
      */
-    public String getJspPath() {
+    public @RUntainted String getJspPath() {
 
         return null;
     }

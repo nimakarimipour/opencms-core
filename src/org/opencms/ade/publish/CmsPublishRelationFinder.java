@@ -54,6 +54,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for finding all related resources for a set of resources to be published, for use with the new ADE publish dialog.<p>
@@ -430,7 +431,7 @@ public class CmsPublishRelationFinder {
      * @param structureId the structure id
      * @return the resource with the given structure id
      */
-    private CmsResource getResource(CmsUUID structureId) {
+    private CmsResource getResource(@RUntainted CmsUUID structureId) {
 
         CmsResource resource = m_resources.get(structureId);
         if (resource == null) {
@@ -489,7 +490,7 @@ public class CmsPublishRelationFinder {
      */
     private boolean shouldAddWeakRelationTarget(CmsResource weakRelationTarget) {
 
-        for (String typeName : VALID_WEAK_RELATION_TARGET_TYPES) {
+        for (@RUntainted String typeName : VALID_WEAK_RELATION_TARGET_TYPES) {
             if (OpenCms.getResourceManager().matchResourceType(typeName, weakRelationTarget.getTypeId())) {
                 return true;
             }

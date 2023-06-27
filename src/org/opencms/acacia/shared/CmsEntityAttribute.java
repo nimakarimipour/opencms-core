@@ -31,6 +31,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Serializable entity attribute implementation.<p>
@@ -44,7 +45,7 @@ public class CmsEntityAttribute implements Serializable {
     private List<CmsEntity> m_entityValues;
 
     /** The attribute name. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** The simple type values. */
     private List<String> m_simpleValues;
@@ -64,7 +65,7 @@ public class CmsEntityAttribute implements Serializable {
      *
      * @return the newly created attribute
      */
-    public static CmsEntityAttribute createEntityAttribute(String name, List<CmsEntity> values) {
+    public static CmsEntityAttribute createEntityAttribute(@RUntainted String name, List<CmsEntity> values) {
 
         CmsEntityAttribute result = new CmsEntityAttribute();
         result.m_name = name;
@@ -80,7 +81,7 @@ public class CmsEntityAttribute implements Serializable {
      *
      * @return the newly created attribute
      */
-    public static CmsEntityAttribute createSimpleAttribute(String name, List<String> values) {
+    public static CmsEntityAttribute createSimpleAttribute(@RUntainted String name, List<String> values) {
 
         CmsEntityAttribute result = new CmsEntityAttribute();
         result.m_name = name;
@@ -93,7 +94,7 @@ public class CmsEntityAttribute implements Serializable {
      *
      * @return the attribute name
      */
-    public String getAttributeName() {
+    public @RUntainted String getAttributeName() {
 
         return m_name;
     }

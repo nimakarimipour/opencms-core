@@ -42,6 +42,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The result of a document text extraction.<p>
@@ -57,13 +58,13 @@ public class CmsExtractionResult implements I_CmsExtractionResult, Serializable 
     private static final long serialVersionUID = 1465447302192195154L;
 
     /** The extracted individual content items. */
-    private Map<Locale, LinkedHashMap<String, String>> m_contentItems;
+    private @RUntainted Map<@RUntainted Locale, @RUntainted LinkedHashMap<@RUntainted String, @RUntainted String>> m_contentItems;
 
     /** The locales of the content. */
     private Collection<Locale> m_locales;
 
     /** The default locale of the content. Can be <code>null</code> for unilingual extraction results. */
-    private Locale m_defaultLocale;
+    private @RUntainted Locale m_defaultLocale;
 
     /** The extracted values directly added to the index. */
     private Map<String, String> m_fieldMappings;
@@ -77,7 +78,7 @@ public class CmsExtractionResult implements I_CmsExtractionResult, Serializable 
      * @param fieldMappings special mappings to search fields with values extracted from the content
      */
     public CmsExtractionResult(
-        Locale defaultLocale,
+        @RUntainted Locale defaultLocale,
         Map<Locale, LinkedHashMap<String, String>> multilingualContentItems,
         Map<String, String> fieldMappings) {
 
@@ -107,7 +108,7 @@ public class CmsExtractionResult implements I_CmsExtractionResult, Serializable 
      *
      * @param content the extracted content
      */
-    public CmsExtractionResult(String content) {
+    public CmsExtractionResult(@RUntainted String content) {
 
         this(content, null, null);
         m_contentItems.get(m_defaultLocale).put(ITEM_RAW, content);
@@ -119,7 +120,7 @@ public class CmsExtractionResult implements I_CmsExtractionResult, Serializable 
      * @param content the extracted content
      * @param contentItems the individual extracted content items
      */
-    public CmsExtractionResult(String content, LinkedHashMap<String, String> contentItems) {
+    public CmsExtractionResult(@RUntainted String content, @RUntainted LinkedHashMap<@RUntainted String, @RUntainted String> contentItems) {
 
         this(content, contentItems, null);
     }
@@ -132,8 +133,8 @@ public class CmsExtractionResult implements I_CmsExtractionResult, Serializable 
      * @param fieldMappings extraction results that should directly be indexed
      */
     public CmsExtractionResult(
-        String content,
-        LinkedHashMap<String, String> contentItems,
+        @RUntainted String content,
+        @RUntainted LinkedHashMap<@RUntainted String, @RUntainted String> contentItems,
         Map<String, String> fieldMappings) {
 
         m_defaultLocale = null;
@@ -208,7 +209,7 @@ public class CmsExtractionResult implements I_CmsExtractionResult, Serializable 
     /**
      * @see org.opencms.search.extractors.I_CmsExtractionResult#getContent()
      */
-    public String getContent() {
+    public @RUntainted String getContent() {
 
         return m_contentItems.get(m_defaultLocale).get(ITEM_CONTENT);
     }
@@ -337,7 +338,7 @@ public class CmsExtractionResult implements I_CmsExtractionResult, Serializable 
      * @param multilingualContentItems the map where replacement should take place
      * @return the map with all <code>null</code> values replaced with empty maps.
      */
-    private Map<Locale, LinkedHashMap<String, String>> removeNullEntries(
+    private @RUntainted Map<@RUntainted Locale, @RUntainted LinkedHashMap<@RUntainted String, @RUntainted String>> removeNullEntries(
         Map<Locale, LinkedHashMap<String, String>> multilingualContentItems) {
 
         for (Locale locale : multilingualContentItems.keySet()) {

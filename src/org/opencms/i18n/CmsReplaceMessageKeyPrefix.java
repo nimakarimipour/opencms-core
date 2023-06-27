@@ -32,6 +32,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.Map;
 
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Message key fallback handler which replaces a given set of prefixes with alternative prefixes.<p>
@@ -55,7 +56,7 @@ public class CmsReplaceMessageKeyPrefix implements CmsMultiMessages.I_KeyFallbac
     /**
      * @see org.opencms.i18n.CmsMultiMessages.I_KeyFallbackHandler#getFallbackKey(java.lang.String)
      */
-    public Optional<String> getFallbackKey(String key) {
+    public @RUntainted Optional<@RUntainted String> getFallbackKey(String key) {
 
         for (String prefix : m_substitutions.keySet()) {
             if (key.startsWith(prefix)) {

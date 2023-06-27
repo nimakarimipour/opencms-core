@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper bean for querying information related to a container type in JSPs.
@@ -118,7 +119,7 @@ public class CmsContainerTypeInfoWrapper {
     public List<I_CmsFormatterInfo> getAllowedResourceTypes() {
 
         List<I_CmsFormatterInfo> result = new ArrayList<>();
-        for (String name : m_matchingResourceTypes) {
+        for (@RUntainted String name : m_matchingResourceTypes) {
             try {
                 I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(name);
                 CmsResourceTypeInfoWrapper wrapper = new CmsResourceTypeInfoWrapper(m_cms, m_config, type);

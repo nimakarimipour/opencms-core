@@ -71,6 +71,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.xml.sax.EntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of a object used to access and manage the xml data of a group container.<p>
@@ -122,7 +123,7 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
      * @param encoding the encoding of the container page
      * @param resolver the XML entity resolver to use
      */
-    protected CmsXmlGroupContainer(CmsObject cms, Document document, String encoding, EntityResolver resolver) {
+    protected CmsXmlGroupContainer(CmsObject cms, @RUntainted Document document, @RUntainted String encoding, EntityResolver resolver) {
 
         // must set document first to be able to get the content definition
         m_document = document;
@@ -144,7 +145,7 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
      *
      * @throws CmsException in case the model file is not found or not valid
      */
-    protected CmsXmlGroupContainer(CmsObject cms, Locale locale, String modelUri)
+    protected CmsXmlGroupContainer(CmsObject cms, @RUntainted Locale locale, String modelUri)
     throws CmsException {
 
         // init model from given modelUri
@@ -186,13 +187,13 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
     protected CmsXmlGroupContainer(
         CmsObject cms,
         Locale locale,
-        String encoding,
+        @RUntainted String encoding,
         CmsXmlContentDefinition contentDefinition) {
 
         // content definition must be set here since it's used during document creation
         m_contentDefinition = contentDefinition;
         // create the XML document according to the content definition
-        Document document = m_contentDefinition.createDocument(cms, this, locale);
+        @RUntainted Document document = m_contentDefinition.createDocument(cms, this, locale);
         // initialize the XML content structure
         initDocument(cms, document, encoding, m_contentDefinition);
     }
@@ -204,7 +205,7 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
      */
     public void clearLocales() throws CmsXmlException {
 
-        for (Locale locale : getLocales()) {
+        for (@RUntainted Locale locale : getLocales()) {
             removeLocale(locale);
         }
     }
@@ -245,7 +246,7 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
      *
      * @throws CmsException if something goes wrong
      */
-    public void save(CmsObject cms, CmsGroupContainerBean groupContainer, Locale locale) throws CmsException {
+    public void save(CmsObject cms, CmsGroupContainerBean groupContainer, @RUntainted Locale locale) throws CmsException {
 
         CmsFile file = getFile();
 
@@ -293,7 +294,7 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
      * @see org.opencms.xml.A_CmsXmlDocument#initDocument(org.dom4j.Document, java.lang.String, org.opencms.xml.CmsXmlContentDefinition)
      */
     @Override
-    protected void initDocument(Document document, String encoding, CmsXmlContentDefinition definition) {
+    protected void initDocument(@RUntainted Document document, @RUntainted String encoding, CmsXmlContentDefinition definition) {
 
         m_document = document;
         m_contentDefinition = definition;
@@ -305,16 +306,16 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
         clearBookmarks();
 
         // initialize the bookmarks
-        for (Iterator<Element> itGroupContainers = CmsXmlGenericWrapper.elementIterator(
+        for (@RUntainted Iterator<@RUntainted Element> itGroupContainers = CmsXmlGenericWrapper.elementIterator(
             m_document.getRootElement()); itGroupContainers.hasNext();) {
-            Element cntPage = itGroupContainers.next();
+            @RUntainted Element cntPage = itGroupContainers.next();
 
             try {
                 Locale locale = CmsLocaleManager.getLocale(
                     cntPage.attribute(CmsXmlContentDefinition.XSD_ATTRIBUTE_VALUE_LANGUAGE).getValue());
 
                 addLocale(locale);
-                Element groupContainer = cntPage.element(XmlNode.GroupContainers.name());
+                @RUntainted Element groupContainer = cntPage.element(XmlNode.GroupContainers.name());
 
                 // container itself
                 int cntIndex = CmsXmlUtils.getXpathIndexInt(groupContainer.getUniquePath(cntPage));
@@ -325,11 +326,11 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
                 CmsXmlContentDefinition cntDef = ((CmsXmlNestedContentDefinition)cntSchemaType).getNestedContentDefinition();
 
                 //title
-                Element title = groupContainer.element(XmlNode.Title.name());
+                @RUntainted Element title = groupContainer.element(XmlNode.Title.name());
                 addBookmarkForElement(title, locale, groupContainer, cntPath, cntDef);
 
                 //description
-                Element description = groupContainer.element(XmlNode.Description.name());
+                @RUntainted Element description = groupContainer.element(XmlNode.Description.name());
                 addBookmarkForElement(description, locale, groupContainer, cntPath, cntDef);
 
                 // types
@@ -337,7 +338,7 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
                 for (Iterator<Element> itTypes = CmsXmlGenericWrapper.elementIterator(
                     groupContainer,
                     XmlNode.Type.name()); itTypes.hasNext();) {
-                    Element type = itTypes.next();
+                    @RUntainted Element type = itTypes.next();
                     addBookmarkForElement(type, locale, groupContainer, cntPath, cntDef);
                     String typeName = type.getTextTrim();
                     if (!CmsStringUtil.isEmptyOrWhitespaceOnly(typeName)) {
@@ -347,7 +348,7 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
 
                 List<CmsContainerElementBean> elements = new ArrayList<CmsContainerElementBean>();
                 // Elements
-                for (Element element : CmsXmlGenericWrapper.elementIterable(groupContainer, XmlNode.Element.name())) {
+                for (@RUntainted Element element : CmsXmlGenericWrapper.elementIterable(groupContainer, XmlNode.Element.name())) {
                     // element itself
                     int elemIndex = CmsXmlUtils.getXpathIndexInt(element.getUniquePath(groupContainer));
                     String elemPath = CmsXmlUtils.concatXpath(
@@ -359,9 +360,9 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
                     CmsXmlContentDefinition elemDef = ((CmsXmlNestedContentDefinition)elemSchemaType).getNestedContentDefinition();
 
                     // uri
-                    Element uri = element.element(XmlNode.Uri.name());
+                    @RUntainted Element uri = element.element(XmlNode.Uri.name());
                     addBookmarkForElement(uri, locale, element, elemPath, elemDef);
-                    Element uriLink = uri.element(CmsXmlPage.NODE_LINK);
+                    @RUntainted Element uriLink = uri.element(CmsXmlPage.NODE_LINK);
                     CmsUUID elementId = null;
                     if (uriLink == null) {
                         // this can happen when adding the elements node to the xml content

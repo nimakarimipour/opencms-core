@@ -55,6 +55,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The configuration for a single resource type.<p>
@@ -133,7 +134,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
     private Boolean m_showInDefaultView;
 
     /** The name of the resource type. */
-    private String m_typeName;
+    private @RUntainted String m_typeName;
 
     /** True if availability has not been set in the configuration file.*/
     private boolean m_availabilityNotSet;
@@ -152,7 +153,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
      * @param folder the folder reference
      * @param pattern the name pattern
      */
-    public CmsResourceTypeConfig(String typeName, boolean disabled, CmsContentFolderDescriptor folder, String pattern) {
+    public CmsResourceTypeConfig(@RUntainted String typeName, boolean disabled, CmsContentFolderDescriptor folder, String pattern) {
 
         this(
             typeName,
@@ -195,7 +196,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
      *
      */
     public CmsResourceTypeConfig(
-        String typeName,
+        @RUntainted String typeName,
         boolean disabled,
         CmsContentFolderDescriptor folder,
         String pattern,
@@ -240,7 +241,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
      *
      * @throws CmsException if something goes wrong
      */
-    public boolean checkCreatable(CmsObject cms, String pageFolderRootPath) throws CmsException {
+    public boolean checkCreatable(CmsObject cms, @RUntainted String pageFolderRootPath) throws CmsException {
 
         if (cms.getRequestContext().getCurrentProject().isOnlineProject()) {
             return false;
@@ -260,12 +261,12 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
                     + " not creatable for pageFolderRootPath=null because it is configured to be page-relative");
             return false;
         }
-        String folderPath = getFolderPath(cms, pageFolderRootPath);
+        @RUntainted String folderPath = getFolderPath(cms, pageFolderRootPath);
         String oldSiteRoot = cms.getRequestContext().getSiteRoot();
         cms.getRequestContext().setSiteRoot("");
         //tryToUnlock(cms, folderPath);
         CmsResource permissionCheckFolder = null;
-        for (String currentPath = folderPath; currentPath != null; currentPath = CmsResource.getParentFolder(
+        for (@RUntainted String currentPath = folderPath; currentPath != null; currentPath = CmsResource.getParentFolder(
             currentPath)) {
             try {
                 permissionCheckFolder = cms.readResource(currentPath);
@@ -361,12 +362,12 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
      *
      * @throws CmsException if something goes wrong
      */
-    public void configureCreateNewElement(CmsObject cms, String pageFolderRootPath, CmsNewResourceBuilder builder)
+    public void configureCreateNewElement(CmsObject cms, @RUntainted String pageFolderRootPath, CmsNewResourceBuilder builder)
     throws CmsException {
 
         checkOffline(cms);
         checkInitialized();
-        String folderPath = getFolderPath(cms, pageFolderRootPath);
+        @RUntainted String folderPath = getFolderPath(cms, pageFolderRootPath);
         CmsVfsUtil.createFolder(cms, folderPath);
         String destination = CmsStringUtil.joinPaths(folderPath, getNamePattern(true));
         builder.setSiteRoot("");
@@ -386,13 +387,13 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsResource createNewElement(CmsObject userCms, CmsResource modelResource, String pageFolderRootPath)
+    public @RUntainted CmsResource createNewElement(CmsObject userCms, CmsResource modelResource, @RUntainted String pageFolderRootPath)
     throws CmsException {
 
         checkOffline(userCms);
         checkInitialized();
         CmsObject rootCms = rootCms(userCms);
-        String folderPath = getFolderPath(userCms, pageFolderRootPath);
+        @RUntainted String folderPath = getFolderPath(userCms, pageFolderRootPath);
         CmsVfsUtil.createFolder(userCms, folderPath);
         String destination = CmsStringUtil.joinPaths(folderPath, getNamePattern(true));
         String creationPath = OpenCms.getResourceManager().getNameGenerator().getNewFileName(rootCms, destination, 5);
@@ -434,7 +435,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsResource createNewElement(CmsObject userCms, String pageFolderRootPath) throws CmsException {
+    public @RUntainted CmsResource createNewElement(CmsObject userCms, @RUntainted String pageFolderRootPath) throws CmsException {
 
         return createNewElement(userCms, null, pageFolderRootPath);
     }
@@ -504,7 +505,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
      *
      * @return the folder root path for this resource type
      */
-    public String getFolderPath(CmsObject cms, String pageFolderRootPath) {
+    public @RUntainted String getFolderPath(CmsObject cms, @RUntainted String pageFolderRootPath) {
 
         checkInitialized();
         if (m_folderOrName != null) {
@@ -578,7 +579,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
      *
      * @return the type name
      */
-    public String getTypeName() {
+    public @RUntainted String getTypeName() {
 
         return m_typeName;
     }
@@ -816,7 +817,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
      *
      * @throws CmsException if something goes wrong
      */
-    protected void tryToUnlock(CmsObject cms, String folderPath) throws CmsException {
+    protected void tryToUnlock(CmsObject cms, @RUntainted String folderPath) throws CmsException {
 
         // Get path of first ancestor that actually exists
         while (!cms.existsResource(folderPath)) {

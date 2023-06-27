@@ -67,6 +67,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is the internal cache class used for storing configuration data. It is not public because it is only meant
@@ -217,7 +218,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
      *
      * @throws CmsException if the resource with the given id was not found or another error occurred
      */
-    public String getPathForStructureId(CmsUUID structureId) throws CmsException {
+    public @RUntainted String getPathForStructureId(@RUntainted CmsUUID structureId) throws CmsException {
 
         String rootPath;
         if (structureId == null) {
@@ -340,7 +341,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
                             OpenCms.getResourceManager().getResourceType(TYPE_SITEMAP_MASTER_CONFIG)));
                     configFileCandidates.addAll(masterCandidates);
                 }
-                for (CmsResource candidate : configFileCandidates) {
+                for (@RUntainted CmsResource candidate : configFileCandidates) {
                     if (isSitemapConfiguration(candidate.getRootPath(), candidate.getTypeId())) {
                         try {
                             CmsConfigurationReader reader = new CmsConfigurationReader(m_cms);
@@ -449,7 +450,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
      *
      * @return <code>true</code> in case of a macro or flex formatter
      */
-    protected boolean isMacroOrFlexFormatter(int type, String rootPath) {
+    protected boolean isMacroOrFlexFormatter(@RUntainted int type, @RUntainted String rootPath) {
 
         boolean result = false;
         try {
@@ -598,7 +599,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
                         ID_UPDATE_ATTRIBUTE_EDITOR_CONFIGURATIONS);
                     updateIds.remove(ID_UPDATE_FOLDERTYPES); // folder types are always updated when the update set is not empty, so at this point we don't care whether the id for folder type updates actually is in the update set
                     Map<CmsUUID, CmsADEConfigDataInternal> updateMap = Maps.newHashMap();
-                    for (CmsUUID structureId : updateIds) {
+                    for (@RUntainted CmsUUID structureId : updateIds) {
                         CmsADEConfigDataInternal sitemapConfig = parseSitemapConfiguration(structureId);
                         // sitemapConfig may be null at this point
                         updateMap.put(structureId, sitemapConfig);
@@ -650,7 +651,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
      * @param rootPath the resource root path
      * @param type the resource type
      */
-    protected void remove(CmsUUID structureId, String rootPath, int type) {
+    protected void remove(CmsUUID structureId, @RUntainted String rootPath, int type) {
 
         if (CmsResource.isTemporaryFileName(rootPath)) {
             return;
@@ -679,7 +680,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
      * @param type the type id of the resource
      * @param resState the state of the resource
      */
-    protected void update(CmsUUID structureId, String rootPath, int type, CmsResourceState resState) {
+    protected void update(CmsUUID structureId, @RUntainted String rootPath, @RUntainted int type, CmsResourceState resState) {
 
         if (CmsResource.isTemporaryFileName(rootPath)) {
             return;
@@ -722,10 +723,10 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
      * @param id the structure id of a resource
      * @return the sitemap configuration parsed from the resource, or null on failure
      */
-    CmsADEConfigDataInternal parseSitemapConfiguration(CmsUUID id) {
+    CmsADEConfigDataInternal parseSitemapConfiguration(@RUntainted CmsUUID id) {
 
         try {
-            CmsResource configResource = m_cms.readResource(id);
+            @RUntainted CmsResource configResource = m_cms.readResource(id);
             // Path or type may have changed in the meantime, so need to check if it's still a sitemap configuration
             if (isSitemapConfiguration(configResource.getRootPath(), configResource.getTypeId())) {
                 CmsConfigurationReader reader = new CmsConfigurationReader(m_cms);
@@ -774,7 +775,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
                 CmsResourceFilter filter = CmsResourceFilter.ONLY_VISIBLE_NO_DELETED.addRequireType(
                     OpenCms.getResourceManager().getResourceType(TYPE_ATTRIBUTE_EDITOR_CONFIG).getTypeId());
                 List<CmsResource> configResources = m_cms.readResources("/", filter);
-                for (CmsResource res : configResources) {
+                for (@RUntainted CmsResource res : configResources) {
                     try {
                         CmsSitemapAttributeEditorConfiguration config = CmsSitemapAttributeEditorConfiguration.read(
                             m_cms,
@@ -808,7 +809,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
                 CmsResourceFilter filter = CmsResourceFilter.ONLY_VISIBLE_NO_DELETED.addRequireType(
                     OpenCms.getResourceManager().getResourceType(TYPE_SITE_PLUGIN).getTypeId());
                 List<CmsResource> pluginResources = m_cms.readResources("/", filter);
-                for (CmsResource res : pluginResources) {
+                for (@RUntainted CmsResource res : pluginResources) {
                     try {
                         CmsSitePlugin sitePlugin = CmsSitePlugin.read(m_cms, res);
                         result.put(res.getStructureId(), sitePlugin);

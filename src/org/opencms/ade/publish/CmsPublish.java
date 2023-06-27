@@ -64,6 +64,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * ADE publishing features.<p>
@@ -143,7 +144,7 @@ public class CmsPublish {
     protected final CmsPublishOptions m_options;
 
     /** The current user workplace locale. */
-    protected final Locale m_workplaceLocale;
+    protected final @RUntainted Locale m_workplaceLocale;
 
     /** The relation validator instance. */
     private CmsRelationPublishValidator m_relationValidator;
@@ -190,7 +191,7 @@ public class CmsPublish {
      *
      * @return the simple name if the ou is the same as the current user's ou
      */
-    protected static String getOuAwareName(CmsObject cms, String name) {
+    protected static String getOuAwareName(CmsObject cms, @RUntainted String name) {
 
         String ou = CmsOrganizationalUnit.getParentFqn(name);
         if (ou.equals(cms.getRequestContext().getCurrentUser().getOuFqn())) {
@@ -351,7 +352,7 @@ public class CmsPublish {
      *
      * @throws CmsException if something goes wrong
      */
-    public void removeResourcesFromPublishList(Collection<CmsUUID> idsToRemove) throws CmsException {
+    public void removeResourcesFromPublishList(@RUntainted Collection<@RUntainted CmsUUID> idsToRemove) throws CmsException {
 
         OpenCms.getPublishManager().removeResourceFromUsersPubList(m_cms, idsToRemove);
     }

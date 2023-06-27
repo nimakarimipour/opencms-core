@@ -55,6 +55,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generates user ident-icons.<p>
@@ -117,19 +118,19 @@ public class CmsUserIconHelper {
     public static final Color ADMIN_COLOR = new Color(0x00, 0x30, 0x82);
 
     /** The big icon suffix. */
-    public static final String BIG_ICON_SUFFIX = "_big_icon.png";
+    public static final @RUntainted String BIG_ICON_SUFFIX = "_big_icon.png";
 
     /** The target folder name. */
     public static final String ICON_FOLDER = "user_icons";
 
     /** The small icon suffix. */
-    public static final String SMALL_ICON_SUFFIX = "_small_icon.png";
+    public static final @RUntainted String SMALL_ICON_SUFFIX = "_small_icon.png";
 
     /** The temp folder name. */
     public static final String TEMP_FOLDER = "temp/";
 
     /** The tiny icon suffix. */
-    public static final String TINY_ICON_SUFFIX = "_tiny_icon.png";
+    public static final @RUntainted String TINY_ICON_SUFFIX = "_tiny_icon.png";
 
     /** The user image folder. */
     public static final String USER_IMAGE_FOLDER = "/system/userimages/";
@@ -185,7 +186,7 @@ public class CmsUserIconHelper {
     public void deleteUserImage(CmsObject cms) {
 
         CmsUser user = cms.getRequestContext().getCurrentUser();
-        String userIconPath = (String)user.getAdditionalInfo(USER_IMAGE_INFO);
+        @RUntainted String userIconPath = (String)user.getAdditionalInfo(USER_IMAGE_INFO);
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(userIconPath)) {
             try {
                 CmsObject adminCms = OpenCms.initCmsObject(m_adminCms);
@@ -259,7 +260,7 @@ public class CmsUserIconHelper {
      *
      * @return <code>true</code> in case the image was set successfully
      */
-    public boolean handleImageUpload(CmsObject cms, CmsUser user, String uploadedFile) {
+    public boolean handleImageUpload(CmsObject cms, CmsUser user, @RUntainted String uploadedFile) {
 
         boolean result = false;
         try {
@@ -315,7 +316,7 @@ public class CmsUserIconHelper {
             scaler.setHeight(192);
             scaler.setWidth(192);
             byte[] content = scaler.scaleImage(tempFile);
-            String previousImage = (String)user.getAdditionalInfo(CmsUserIconHelper.USER_IMAGE_INFO);
+            @RUntainted String previousImage = (String)user.getAdditionalInfo(CmsUserIconHelper.USER_IMAGE_INFO);
             String newFileName = USER_IMAGE_FOLDER
                 + user.getId().toString()
                 + "_"
@@ -382,7 +383,7 @@ public class CmsUserIconHelper {
      */
     private String getIconPath(CmsObject cms, CmsUser user, IconSize size) {
 
-        String userIconPath = (String)user.getAdditionalInfo(USER_IMAGE_INFO);
+        @RUntainted String userIconPath = (String)user.getAdditionalInfo(USER_IMAGE_INFO);
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(userIconPath)) {
             userIconPath += size.equals(IconSize.Big)
             ? ""

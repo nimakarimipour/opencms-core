@@ -43,6 +43,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This tag is used to dynamically add request parameters which are available during the execution of its body.<p>
@@ -153,7 +154,7 @@ public class CmsJspTagAddParams extends TagSupport implements I_CmsJspTagParamPa
     @Override
     public int doStartTag() {
 
-        HttpServletRequest request = (HttpServletRequest)(pageContext.getRequest());
+        @RUntainted HttpServletRequest request = (HttpServletRequest)(pageContext.getRequest());
         if (CmsFlexController.isCmsRequest(request)) {
             CmsFlexController controller = CmsFlexController.getController(request);
             m_state = new ParamState(controller.getCurrentRequest());

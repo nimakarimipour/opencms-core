@@ -70,6 +70,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Iterables;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The service implementation for the org.opencms.ade.postupload module.<p>
@@ -115,7 +116,7 @@ public class CmsPostUploadDialogService extends CmsGwtService implements I_CmsPo
     /**
      * @see org.opencms.ade.postupload.shared.rpc.I_CmsPostUploadDialogService#load(org.opencms.util.CmsUUID, boolean,boolean)
      */
-    public CmsPostUploadDialogPanelBean load(CmsUUID id, boolean useConfiguration, boolean addBasicProperties)
+    public CmsPostUploadDialogPanelBean load(@RUntainted CmsUUID id, boolean useConfiguration, boolean addBasicProperties)
     throws CmsRpcException {
 
         try {
@@ -254,8 +255,8 @@ public class CmsPostUploadDialogService extends CmsGwtService implements I_CmsPo
                 // this dialog is used as upload hook
                 String resourcesParam = getRequest().getParameter(I_CmsDialogConstants.PARAM_RESOURCES);
                 List<String> resourceUUIDs = CmsStringUtil.splitAsList(resourcesParam, ",");
-                for (String uuidAsString : resourceUUIDs) {
-                    CmsUUID uuid = new CmsUUID(uuidAsString);
+                for (@RUntainted String uuidAsString : resourceUUIDs) {
+                    @RUntainted CmsUUID uuid = new CmsUUID(uuidAsString);
                     CmsResource res = getCmsObject().readResource(uuid);
                     resources.add(res);
                 }

@@ -31,6 +31,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.util.CmsUUID;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents the state of a published resource *before* it got published.<p>
@@ -102,22 +103,22 @@ public class CmsPublishedResource implements Serializable, Comparable<CmsPublish
     private int m_publishTag;
 
     /** The resource ID of the published resource.<p> */
-    private CmsUUID m_resourceId;
+    private @RUntainted CmsUUID m_resourceId;
 
     /** The state of the resource *before* it was published.<p> */
     private CmsResourceState m_resourceState;
 
     /** The type of the published resource.<p> */
-    private int m_resourceType;
+    private @RUntainted int m_resourceType;
 
     /** The root path of the published resource.<p> */
-    private String m_rootPath;
+    private @RUntainted String m_rootPath;
 
     /** The count of siblings of the published resource. */
     private int m_siblingCount;
 
     /** The structure ID of the published resource.<p> */
-    private CmsUUID m_structureId;
+    private @RUntainted CmsUUID m_structureId;
 
     /**
      * Creates an object for published VFS resources.<p>
@@ -175,11 +176,11 @@ public class CmsPublishedResource implements Serializable, Comparable<CmsPublish
      * @param siblingCount count of siblings of the published resource
      */
     public CmsPublishedResource(
-        CmsUUID structureId,
-        CmsUUID resourceId,
+        @RUntainted CmsUUID structureId,
+        @RUntainted CmsUUID resourceId,
         int publishTag,
-        String rootPath,
-        int resourceType,
+        @RUntainted String rootPath,
+        @RUntainted int resourceType,
         boolean isFolder,
         CmsResourceState resourceState,
         int siblingCount) {
@@ -266,7 +267,7 @@ public class CmsPublishedResource implements Serializable, Comparable<CmsPublish
      *
      * @return the resource ID of the published resource
      */
-    public CmsUUID getResourceId() {
+    public @RUntainted CmsUUID getResourceId() {
 
         return m_resourceId;
     }
@@ -276,7 +277,7 @@ public class CmsPublishedResource implements Serializable, Comparable<CmsPublish
      *
      * @return the root path of the published resource
      */
-    public String getRootPath() {
+    public @RUntainted String getRootPath() {
 
         return m_rootPath;
     }
@@ -309,7 +310,7 @@ public class CmsPublishedResource implements Serializable, Comparable<CmsPublish
      *
      * @return the structure ID of the published resource
      */
-    public CmsUUID getStructureId() {
+    public @RUntainted CmsUUID getStructureId() {
 
         return m_structureId;
     }
@@ -319,7 +320,7 @@ public class CmsPublishedResource implements Serializable, Comparable<CmsPublish
      *
      * @return the resource type of the published resource
      */
-    public int getType() {
+    public @RUntainted int getType() {
 
         return m_resourceType;
     }

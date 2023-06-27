@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource init handler that loads a resource given its permalink.<p>
@@ -68,10 +69,10 @@ public class CmsPermalinkResourceHandler implements I_CmsResourceInit {
     private static final Log LOG = CmsLog.getLog(CmsPermalinkResourceHandler.class);
 
     /** The compiled pattern for detail page permalinks. */
-    private Pattern m_detailPattern;
+    private @RUntainted Pattern m_detailPattern;
 
     /** The pattern used to match permalink uris and extract the structure id. */
-    private Pattern m_simplePermalinkPattern;
+    private @RUntainted Pattern m_simplePermalinkPattern;
 
     /**
      * Default constructor.<p>
@@ -98,11 +99,11 @@ public class CmsPermalinkResourceHandler implements I_CmsResourceInit {
         if (resource == null) {
             String uri = cms.getRequestContext().getUri();
             // check if the resource starts with the PERMALINK_HANDLER
-            Matcher matcher = m_simplePermalinkPattern.matcher(uri);
+            @RUntainted Matcher matcher = m_simplePermalinkPattern.matcher(uri);
             if (matcher.find()) {
                 CmsResource resource1 = resource;
                 // get the id of the real resource
-                String id = matcher.group(1);
+                @RUntainted String id = matcher.group(1);
                 String storedSiteRoot = cms.getRequestContext().getSiteRoot();
                 try {
                     // we now must switch to the root site to read the resource
@@ -151,8 +152,8 @@ public class CmsPermalinkResourceHandler implements I_CmsResourceInit {
                             } else {
                                 parentFolder = pageResource;
                             }
-                            String baseLink = OpenCms.getLinkManager().substituteLink(cms, parentFolder);
-                            String redirectLink = baseLink + (baseLink.endsWith("/") ? "" : "/") + detailName;
+                            @RUntainted String baseLink = OpenCms.getLinkManager().substituteLink(cms, parentFolder);
+                            @RUntainted String redirectLink = baseLink + (baseLink.endsWith("/") ? "" : "/") + detailName;
                             CmsResourceInitException resInitException = new CmsResourceInitException(getClass());
 
                             resInitException.setClearErrors(true);

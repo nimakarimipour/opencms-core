@@ -58,6 +58,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract superclass for widgets used to enable or disable formatters.<p>
@@ -145,7 +146,7 @@ public abstract class A_CmsFormatterWidget extends CmsSelectWidget {
      *
      * @return the message string
      */
-    static String getMessage(CmsObject cms, String message, Object... args) {
+    static String getMessage(CmsObject cms, @RUntainted String message, Object... args) {
 
         Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
         return Messages.get().getBundle(locale).key(message, args);
@@ -196,7 +197,7 @@ public abstract class A_CmsFormatterWidget extends CmsSelectWidget {
     protected abstract List<CmsSelectWidgetOption> getFormatterOptions(
         CmsObject cms,
         CmsADEConfigData config,
-        String rootPath,
+        @RUntainted String rootPath,
         boolean allRemoved);
 
     /**
@@ -258,7 +259,7 @@ public abstract class A_CmsFormatterWidget extends CmsSelectWidget {
         I_CmsWidgetParameter param,
         boolean allRemoved) {
 
-        String path = getResourcePath(cms, widgetDialog);
+        @RUntainted String path = getResourcePath(cms, widgetDialog);
         try {
             cms = OpenCms.initCmsObject(cms);
             cms.getRequestContext().setSiteRoot("");

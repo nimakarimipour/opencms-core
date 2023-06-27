@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Loads/saves favorites.
@@ -80,7 +81,7 @@ public class CmsFavoriteDAO {
     private CmsObject m_rootCms;
 
     /** Name of user from which bookmarks should be loaded. */
-    private String m_userName;
+    private @RUntainted String m_userName;
 
     /**
      * Creates a new instance.
@@ -101,7 +102,7 @@ public class CmsFavoriteDAO {
      * @param userName the name of the user in whose additional infos the bookmarks are stored
      * @throws CmsException if something goes wrong
      */
-    public CmsFavoriteDAO(CmsObject cms, String userName)
+    public CmsFavoriteDAO(CmsObject cms, @RUntainted String userName)
     throws CmsException {
 
         m_cms = cms;
@@ -161,7 +162,7 @@ public class CmsFavoriteDAO {
                 array.put(entry.toJson());
             }
             json.put(BASE_KEY, array);
-            String data = json.toString();
+            @RUntainted String data = json.toString();
             CmsUser user = readUser();
             user.setAdditionalInfo(ADDINFO_KEY, data);
             m_cms.writeUser(user);
@@ -193,12 +194,12 @@ public class CmsFavoriteDAO {
                 m_rootCms.readResource(siteRoot);
                 m_okSiteRoots.add(siteRoot);
             }
-            CmsUUID project = entry.getProjectId();
+            @RUntainted CmsUUID project = entry.getProjectId();
             if (!m_okProjects.contains(project)) {
                 m_cms.readProject(project);
                 m_okProjects.add(project);
             }
-            for (CmsUUID id : Arrays.asList(entry.getDetailId(), entry.getStructureId())) {
+            for (@RUntainted CmsUUID id : Arrays.asList(entry.getDetailId(), entry.getStructureId())) {
                 if ((id != null) && !m_okStructureIds.contains(id)) {
                     m_cms.readResource(id, CmsResourceFilter.IGNORE_EXPIRATION.addRequireVisible());
                     m_okStructureIds.add(id);

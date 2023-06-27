@@ -60,6 +60,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class used for rendering dynamic functions (v2).<p>
@@ -73,7 +74,7 @@ public class CmsFunctionRenderer {
     private CmsObject m_cms;
 
     /** The page context. */
-    private PageContext m_context;
+    private @RUntainted PageContext m_context;
 
     /** The JSP context bean. */
     private CmsJspStandardContextBean m_contextBean;
@@ -82,7 +83,7 @@ public class CmsFunctionRenderer {
     private CmsContainerElementBean m_element;
 
     /** The request. */
-    private HttpServletRequest m_request;
+    private @RUntainted HttpServletRequest m_request;
 
     /** The response. */
     private HttpServletResponse m_response;
@@ -94,7 +95,7 @@ public class CmsFunctionRenderer {
      * @param req the request
      * @param res the response
      */
-    public CmsFunctionRenderer(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsFunctionRenderer(@RUntainted PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         m_context = context;
         m_request = req;
@@ -115,7 +116,7 @@ public class CmsFunctionRenderer {
      * @param request the current request
      * @return the default HTML output
      */
-    public static String defaultHtml(HttpServletRequest request) {
+    public static String defaultHtml(@RUntainted HttpServletRequest request) {
 
         CmsObject cms = CmsFlexController.getController(request).getCmsObject();
 

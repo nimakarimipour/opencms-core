@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widget that can be used to view a running report that is not generated specifically by an OpenCms report thread,
@@ -169,7 +170,7 @@ public class CmsStreamReportWidget extends CmsReportWidget {
             return "";
         }
         StringBuilder buffer = new StringBuilder();
-        for (String line : content.split("\n")) {
+        for (@RUntainted String line : content.split("\n")) {
             buffer.append(CmsEncoder.escapeXml(line) + "<br>");
         }
         return buffer.toString();

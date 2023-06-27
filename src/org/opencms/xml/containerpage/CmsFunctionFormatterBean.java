@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean containing formatter configuration data as strings.<p>
@@ -46,7 +47,7 @@ import java.util.Set;
 public class CmsFunctionFormatterBean extends CmsFormatterBean {
 
     /** The standard function formatter structure id. */
-    private CmsUUID m_functionFormatterId;
+    private @RUntainted CmsUUID m_functionFormatterId;
 
     /** The request parameters to add for the included JSP. */
     private Map<String, String[]> m_parameters = new HashMap<>();
@@ -82,13 +83,13 @@ public class CmsFunctionFormatterBean extends CmsFormatterBean {
     public CmsFunctionFormatterBean(
         Set<String> containerTypes,
         String jspRootPath,
-        CmsUUID jspStructureId,
+        @RUntainted CmsUUID jspStructureId,
         String key,
         Set<String> aliasKeys,
-        CmsUUID functionFormatterId,
+        @RUntainted CmsUUID functionFormatterId,
         int minWidth,
         int maxWidth,
-        String location,
+        @RUntainted String location,
         List<String> cssHeadIncludes,
         String inlineCss,
         List<String> javascriptHeadIncludes,
@@ -96,7 +97,7 @@ public class CmsFunctionFormatterBean extends CmsFormatterBean {
         List<CmsTemplatePlugin> plugins,
         String niceName,
         String description,
-        String id,
+        @RUntainted String id,
         CmsSettingConfiguration settingConfig,
         boolean isAllowsSettingsInEditor,
         boolean isStrictContainers,
@@ -147,7 +148,7 @@ public class CmsFunctionFormatterBean extends CmsFormatterBean {
      * This is not the configured JSP, but the formatter JSP for the function_config type itself.
      */
     @Override
-    public String getJspRootPath() {
+    public @RUntainted String getJspRootPath() {
 
         return CmsResourceTypeFunctionConfig.FORMATTER_PATH;
     }
@@ -158,7 +159,7 @@ public class CmsFunctionFormatterBean extends CmsFormatterBean {
      * This is not the configured JSP, but the formatter JSP for the function_config type itself.
      */
     @Override
-    public CmsUUID getJspStructureId() {
+    public @RUntainted CmsUUID getJspStructureId() {
 
         return m_functionFormatterId;
     }

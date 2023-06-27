@@ -48,6 +48,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the import user thread.<p>
@@ -64,10 +65,10 @@ public class CmsImportUserThread extends A_CmsReportThread {
     private List<CmsRole> m_roleList;
 
     /**List of groups. */
-    private List<String> m_groupList;
+    private @RUntainted List<@RUntainted String> m_groupList;
 
     /**Current ou. */
-    private String m_ou;
+    private @RUntainted String m_ou;
 
     /**indicates if mail to user should be send. */
     private boolean m_sendMail;
@@ -84,9 +85,9 @@ public class CmsImportUserThread extends A_CmsReportThread {
      */
     protected CmsImportUserThread(
         CmsObject cms,
-        String ou,
+        @RUntainted String ou,
         List<CmsUser> userList,
-        List<String> groups,
+        @RUntainted List<@RUntainted String> groups,
         List<CmsRole> roles,
         boolean sendmail) {
 
@@ -159,7 +160,7 @@ public class CmsImportUserThread extends A_CmsReportThread {
 
                     if (!m_groupList.isEmpty()) {
 
-                        Iterator<String> itGroups = m_groupList.iterator();
+                        @RUntainted Iterator<@RUntainted String> itGroups = m_groupList.iterator();
                         while (itGroups.hasNext()) {
                             try {
                                 getCms().addUserToGroup(createdUser.getName(), itGroups.next());

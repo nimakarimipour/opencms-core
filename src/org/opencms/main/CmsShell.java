@@ -61,6 +61,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A command line interface to access OpenCms functions which
@@ -432,7 +433,7 @@ public class CmsShell {
     private OpenCmsCore m_opencms;
 
     /** The shell prompt format. */
-    private String m_prompt;
+    private @RUntainted String m_prompt;
 
     /** The current users settings. */
     private CmsUserSettings m_settings;
@@ -451,7 +452,7 @@ public class CmsShell {
      */
     public CmsShell(
         CmsObject cms,
-        String prompt,
+        @RUntainted String prompt,
         I_CmsShellCommands additionalShellCommands,
         PrintStream out,
         PrintStream err) {
@@ -481,10 +482,10 @@ public class CmsShell {
      * @param additionalShellCommands optional object for additional shell commands, or null
      */
     public CmsShell(
-        String webInfPath,
-        String servletMapping,
+        @RUntainted String webInfPath,
+        @RUntainted String servletMapping,
         String defaultWebAppName,
-        String prompt,
+        @RUntainted String prompt,
         I_CmsShellCommands additionalShellCommands) {
 
         this(
@@ -511,10 +512,10 @@ public class CmsShell {
      * @param interactive if <code>true</code> this is an interactive session with a user sitting on a console
      */
     public CmsShell(
-        String webInfPath,
-        String servletMapping,
+        @RUntainted String webInfPath,
+        @RUntainted String servletMapping,
         String defaultWebAppName,
-        String prompt,
+        @RUntainted String prompt,
         I_CmsShellCommands additionalShellCommands,
         PrintStream out,
         PrintStream err,
@@ -608,13 +609,13 @@ public class CmsShell {
      *
      * @param args parameters passed to the application via the command line
      */
-    public static void main(String[] args) {
+    public static void main(@RUntainted String[] args) {
 
         JLAN_DISABLED = true;
         boolean wrongUsage = false;
         String webInfPath = null;
         String script = null;
-        String servletMapping = null;
+        @RUntainted String servletMapping = null;
         String defaultWebApp = null;
         String additional = null;
         int errorCode = -1;
@@ -622,7 +623,7 @@ public class CmsShell {
             wrongUsage = true;
         } else {
             for (int i = 0; i < args.length; i++) {
-                String arg = args[i];
+                @RUntainted String arg = args[i];
                 if (arg.startsWith(SHELL_PARAM_BASE)) {
                     webInfPath = arg.substring(SHELL_PARAM_BASE.length());
                 } else if (arg.startsWith(SHELL_PARAM_SCRIPT)) {
@@ -1000,7 +1001,7 @@ public class CmsShell {
      */
     public String getPrompt() {
 
-        String prompt = m_prompt;
+        @RUntainted String prompt = m_prompt;
         try {
             prompt = CmsStringUtil.substitute(prompt, "${user}", m_cms.getRequestContext().getCurrentUser().getName());
             prompt = CmsStringUtil.substitute(prompt, "${siteroot}", m_cms.getRequestContext().getSiteRoot());
@@ -1137,7 +1138,7 @@ public class CmsShell {
      *
      * @throws CmsException in case the locale of the current user can not be stored
      */
-    public void setLocale(Locale locale) throws CmsException {
+    public void setLocale(@RUntainted Locale locale) throws CmsException {
 
         CmsUserSettings settings = getSettings();
         if (settings != null) {
@@ -1169,7 +1170,7 @@ public class CmsShell {
      *
      * @return <code>true</code> if the user is valid
      */
-    public boolean validateUser(String userName, String password, CmsRole requiredRole) {
+    public boolean validateUser(@RUntainted String userName, String password, CmsRole requiredRole) {
 
         boolean result = false;
         try {
@@ -1254,7 +1255,7 @@ public class CmsShell {
      *
      * @param prompt the prompt to set
      */
-    protected void setPrompt(String prompt) {
+    protected void setPrompt(@RUntainted String prompt) {
 
         m_prompt = prompt;
     }

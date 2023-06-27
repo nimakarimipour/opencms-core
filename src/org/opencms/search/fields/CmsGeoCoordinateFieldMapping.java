@@ -51,6 +51,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class extracting the Geo coordinates from a content field.
@@ -158,7 +159,7 @@ public class CmsGeoCoordinateFieldMapping implements I_CmsSearchFieldMapping {
 
                         for (String path : paths) {
                             try {
-                                CmsResource linkedResource = cms.readResource(path);
+                                @RUntainted CmsResource linkedResource = cms.readResource(path);
                                 A_CmsXmlDocument[] contentHolder = new A_CmsXmlDocument[] {null};
                                 CmsExtractionResult linkExtractionResult = CmsSolrDocumentXmlContent.extractXmlContent(
                                     cms,
@@ -250,7 +251,7 @@ public class CmsGeoCoordinateFieldMapping implements I_CmsSearchFieldMapping {
      * @param extractionResult the extraction result
      * @return the coordinates value
      */
-    private String findFirstCoordinatesValue(I_CmsExtractionResult extractionResult, String xpath) {
+    private String findFirstCoordinatesValue(I_CmsExtractionResult extractionResult, @RUntainted String xpath) {
 
         xpath = CmsXmlUtils.createXpath(xpath, 1);
         String value = extractionResult.getContentItems().get(xpath);

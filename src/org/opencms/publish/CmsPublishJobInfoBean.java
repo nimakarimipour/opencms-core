@@ -39,6 +39,7 @@ import org.opencms.report.I_CmsReport;
 import org.opencms.util.CmsUUID;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Publish job information bean.<p>
@@ -63,16 +64,16 @@ public final class CmsPublishJobInfoBean {
     private long m_finishTime;
 
     /** The locale to use for publishing. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** Project to use for publishing. */
-    private CmsUUID m_projectId;
+    private @RUntainted CmsUUID m_projectId;
 
     /** Name of the project used for publishing. */
     private String m_projectName;
 
     /** Publish history id. */
-    private CmsUUID m_publishHistoryId;
+    private @RUntainted CmsUUID m_publishHistoryId;
 
     /** List of resources to publish, will be set to <code>null</code> after publishing. */
     private CmsPublishList m_publishList;
@@ -93,7 +94,7 @@ public final class CmsPublishJobInfoBean {
     private CmsUUID m_threadUUID;
 
     /** User to use for publishing. */
-    private CmsUUID m_userId;
+    private @RUntainted CmsUUID m_userId;
 
     /** The original publish list. */
     private CmsPublishList m_originalPublishList;
@@ -113,11 +114,11 @@ public final class CmsPublishJobInfoBean {
      * @param finishTime time when the job was finished
      */
     public CmsPublishJobInfoBean(
-        CmsUUID historyId,
-        CmsUUID projectId,
+        @RUntainted CmsUUID historyId,
+        @RUntainted CmsUUID projectId,
         String projectName,
-        CmsUUID userId,
-        String localeName,
+        @RUntainted CmsUUID userId,
+        @RUntainted String localeName,
         int flags,
         int resourceCount,
         long enqueueTime,
@@ -202,7 +203,7 @@ public final class CmsPublishJobInfoBean {
      *
      * @return the locale for this publish job
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_locale;
     }
@@ -243,7 +244,7 @@ public final class CmsPublishJobInfoBean {
      *
      * @return the publish history id
      */
-    public CmsUUID getPublishHistoryId() {
+    public @RUntainted CmsUUID getPublishHistoryId() {
 
         return m_publishHistoryId;
     }
@@ -328,7 +329,7 @@ public final class CmsPublishJobInfoBean {
      *
      * @return the user for this publish job
      */
-    public CmsUUID getUserId() {
+    public @RUntainted CmsUUID getUserId() {
 
         return m_userId;
     }

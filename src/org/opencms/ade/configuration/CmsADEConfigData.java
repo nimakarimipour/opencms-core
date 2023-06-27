@@ -90,6 +90,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class which represents the accessible configuration data at a given point in a sitemap.<p>
@@ -115,7 +116,7 @@ public class CmsADEConfigData {
         private String m_folderPath;
 
         /** The detail type. */
-        private String m_type;
+        private @RUntainted String m_type;
 
         /**
          * Creates a new instance.<p>
@@ -125,7 +126,7 @@ public class CmsADEConfigData {
          * @param type the detail type
          * @param basePath the base path of the sitemap configuration
          */
-        public DetailInfo(String folderPath, CmsDetailPageInfo detailPageInfo, String type, String basePath) {
+        public DetailInfo(String folderPath, CmsDetailPageInfo detailPageInfo, @RUntainted String type, String basePath) {
 
             m_folderPath = folderPath;
             m_detailPageInfo = detailPageInfo;
@@ -159,7 +160,7 @@ public class CmsADEConfigData {
          *
          * @return the content folder path
          */
-        public String getFolderPath() {
+        public @RUntainted String getFolderPath() {
 
             return m_folderPath;
         }
@@ -169,7 +170,7 @@ public class CmsADEConfigData {
          *
          * @return the detail type
          */
-        public String getType() {
+        public @RUntainted String getType() {
 
             return m_type;
         }
@@ -629,7 +630,7 @@ public class CmsADEConfigData {
      *
      * @return the attribute value
      */
-    public String getAttribute(String key, String defaultValue) {
+    public @RUntainted String getAttribute(String key, String defaultValue) {
 
         AttributeValue value = getAttributes().get(key);
         if (value != null) {
@@ -703,7 +704,7 @@ public class CmsADEConfigData {
      *
      * @return the base path of the configuration
      */
-    public String getBasePath() {
+    public @RUntainted String getBasePath() {
 
         return m_data.getBasePath();
     }
@@ -772,7 +773,7 @@ public class CmsADEConfigData {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResourceTypeConfig> getCreatableTypes(CmsObject cms, String pageFolderRootPath) throws CmsException {
+    public List<CmsResourceTypeConfig> getCreatableTypes(CmsObject cms, @RUntainted String pageFolderRootPath) throws CmsException {
 
         List<CmsResourceTypeConfig> result = new ArrayList<CmsResourceTypeConfig>();
         for (CmsResourceTypeConfig typeConfig : getResourceTypes()) {
@@ -1043,7 +1044,7 @@ public class CmsADEConfigData {
      *
      * @return the configuration of formatters for the resource
      */
-    public CmsFormatterConfiguration getFormatters(CmsObject cms, CmsResource res) {
+    public CmsFormatterConfiguration getFormatters(CmsObject cms, @RUntainted CmsResource res) {
 
         if (CmsResourceTypeFunctionConfig.isFunction(res)) {
 
@@ -1260,7 +1261,7 @@ public class CmsADEConfigData {
      *
      * @return the resource from which this configuration was read
      */
-    public CmsResource getResource() {
+    public @RUntainted CmsResource getResource() {
 
         return m_data.getResource();
     }
@@ -1744,7 +1745,7 @@ public class CmsADEConfigData {
         CmsObject cms = OpenCms.initCmsObject(getCms());
         if (m_data.isModuleConfig()) {
             Set<String> siteRoots = OpenCms.getSiteManager().getSiteRoots();
-            for (String siteRoot : siteRoots) {
+            for (@RUntainted String siteRoot : siteRoots) {
                 cms.getRequestContext().setSiteRoot(siteRoot);
                 for (CmsResourceTypeConfig config : getResourceTypes()) {
                     if (!config.isDetailPagesDisabled()) {

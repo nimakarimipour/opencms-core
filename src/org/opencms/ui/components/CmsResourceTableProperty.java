@@ -65,6 +65,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import com.google.common.collect.Maps;
 import com.vaadin.ui.Component;
 import com.vaadin.v7.data.util.converter.Converter;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class whose instances contain the static data needed for a table column.<p>
@@ -640,7 +641,7 @@ public class CmsResourceTableProperty implements Serializable {
      *
      * @return the headerKey
      */
-    public String getHeaderKey() {
+    public @RUntainted String getHeaderKey() {
 
         return m_headerKey;
     }

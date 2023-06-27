@@ -30,6 +30,7 @@ package org.opencms.gwt.shared.alias;
 import org.opencms.util.CmsUUID;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean representing a row of the alias table.<p>
@@ -64,7 +65,7 @@ public class CmsAliasTableRow implements IsSerializable {
     private String m_resourcePath;
 
     /** The structure id of the alias target. */
-    private CmsUUID m_structureId;
+    private @RUntainted CmsUUID m_structureId;
 
     /**
      * Default constructor.<p>
@@ -221,7 +222,7 @@ public class CmsAliasTableRow implements IsSerializable {
      *
      * @return the structure id
      */
-    public CmsUUID getStructureId() {
+    public @RUntainted CmsUUID getStructureId() {
 
         return m_structureId;
     }

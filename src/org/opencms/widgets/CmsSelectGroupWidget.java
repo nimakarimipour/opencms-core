@@ -48,6 +48,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget for group selection select boxes.<p>
@@ -90,13 +91,13 @@ public class CmsSelectGroupWidget extends CmsSelectWidget {
     Pattern m_groupFilter;
 
     /** The configured group names to show in the select box. */
-    List<String> m_groupNames;
+    @RUntainted List<@RUntainted String> m_groupNames;
 
     /** Indicates if sub OUs should be included when reading the groups. */
     private boolean m_includeSubOus;
 
     /** The fully qualified name of the OU to read the groups from. */
-    private String m_ouFqn;
+    private @RUntainted String m_ouFqn;
 
     /**
      * Creates a new group select widget.<p>
@@ -206,8 +207,8 @@ public class CmsSelectGroupWidget extends CmsSelectWidget {
 
             if (isUseGroupNames()) {
                 // a list of group names is configured, show them
-                for (Iterator<String> i = getGroupNames().iterator(); i.hasNext();) {
-                    String groupName = i.next();
+                for (@RUntainted Iterator<@RUntainted String> i = getGroupNames().iterator(); i.hasNext();) {
+                    @RUntainted String groupName = i.next();
                     try {
                         // ensure that only existing groups are available in the select box
                         CmsGroup group = cms.readGroup(getOuFqn() + groupName);
@@ -267,7 +268,7 @@ public class CmsSelectGroupWidget extends CmsSelectWidget {
      *
      * @return configured group names to show in the select box
      */
-    private List<String> getGroupNames() {
+    private @RUntainted List<@RUntainted String> getGroupNames() {
 
         return m_groupNames;
     }
@@ -277,7 +278,7 @@ public class CmsSelectGroupWidget extends CmsSelectWidget {
      *
      * @return the fully qualified name of the OU to read the groups from
      */
-    private String getOuFqn() {
+    private @RUntainted String getOuFqn() {
 
         return m_ouFqn;
     }
@@ -323,7 +324,7 @@ public class CmsSelectGroupWidget extends CmsSelectWidget {
         String configString = "";
         if (widgetDialog != null) {
             configString = CmsMacroResolver.resolveMacros(getConfiguration(), cms, widgetDialog);
-            Map<String, String> config = CmsStringUtil.splitAsMap(configString, "|", "=");
+            @RUntainted Map<@RUntainted String, @RUntainted String> config = CmsStringUtil.splitAsMap(configString, "|", "=");
             // get the list of group names to show
             String groups = config.get(CONFIGURATION_GROUPS);
             if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(groups)) {

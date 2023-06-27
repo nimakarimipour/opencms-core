@@ -39,6 +39,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.activation.DataSource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * DataSource wrapper for VFS resources, allows easy sending of VFS resources as email attachments.<p>
@@ -61,7 +62,7 @@ public class CmsVfsDataSource implements DataSource {
      *
      * @throws CmsException in case of errors accessing the resource in the VFS
      */
-    public CmsVfsDataSource(CmsObject cms, CmsResource resource)
+    public CmsVfsDataSource(CmsObject cms, @RUntainted CmsResource resource)
     throws CmsException {
 
         m_file = cms.readFile(resource);

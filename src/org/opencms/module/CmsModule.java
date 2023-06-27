@@ -54,6 +54,7 @@ import java.util.TreeMap;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes an OpenCms module.<p>
@@ -105,7 +106,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
     private static final long serialVersionUID = -2639349161445831665L;
 
     /** The module action class name. */
-    private String m_actionClass;
+    private @RUntainted String m_actionClass;
 
     /** Initialized module action instance. */
     private transient I_CmsModuleAction m_actionInstance;
@@ -191,7 +192,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
     private String m_importScript;
 
     /** The name of this module, must be a valid Java package name. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** The "nice" display name of this module. */
     private String m_niceName;
@@ -209,13 +210,13 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
     private transient List<I_CmsResourceType> m_resourceTypes;
 
     /** The module site. */
-    private String m_site;
+    private @RUntainted String m_site;
 
     /** The name of the user who installed this module. */
     private String m_userInstalled;
 
     /** The version of this module. */
-    private CmsModuleVersion m_version;
+    private @RUntainted CmsModuleVersion m_version;
 
     /**
      * Creates a new, empty CmsModule object.<p>
@@ -258,16 +259,16 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      * @param parameters the parameters for this module
      */
     public CmsModule(
-        String name,
+        @RUntainted String name,
         String niceName,
         String group,
-        String actionClass,
+        @RUntainted String actionClass,
         String importScript,
-        String site,
+        @RUntainted String site,
         boolean isImportSite,
         ExportMode exportMode,
         String description,
-        CmsModuleVersion version,
+        @RUntainted CmsModuleVersion version,
         String authorName,
         String authorEmail,
         long dateCreated,
@@ -407,7 +408,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      * @return the calculated module resources
      * @throws CmsException thrown if reading resources fails.
      */
-    public static List<String> calculateModuleResourceNames(final CmsObject cms, final CmsModule module)
+    public static @RUntainted List<@RUntainted String> calculateModuleResourceNames(final CmsObject cms, final CmsModule module)
     throws CmsException {
 
         // adjust the site root, if necessary
@@ -789,7 +790,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      *
      * @return the list of VFS resources that do not belong to this module
      */
-    public List<String> getExcludeResources() {
+    public @RUntainted List<@RUntainted String> getExcludeResources() {
 
         return m_excluderesources;
     }
@@ -871,7 +872,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      *
      * @return the import site
      */
-    public String getImportSite() {
+    public @RUntainted String getImportSite() {
 
         if (m_hasImportSite) {
             return m_site;
@@ -888,7 +889,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      *
      * @return the name of this module
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -973,7 +974,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      *
      * @return the site of the module
      */
-    public String getSite() {
+    public @RUntainted String getSite() {
 
         return m_site;
     }
@@ -993,7 +994,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      *
      * @return the version of this module
      */
-    public CmsModuleVersion getVersion() {
+    public @RUntainted CmsModuleVersion getVersion() {
 
         return m_version;
     }
@@ -1035,7 +1036,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
     public boolean hasModuleResourcesWithUndefinedSite() {
 
         if (getSite() == null) {
-            for (String modRes : getResources()) {
+            for (@RUntainted String modRes : getResources()) {
                 if (!CmsStringUtil.isPrefixPath("/system/", modRes)
                     && !OpenCms.getSiteManager().startsWithShared(modRes)) {
                     return true;
@@ -1053,7 +1054,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      */
     public boolean hasOnlySystemAndSharedResources() {
 
-        for (String modRes : getResources()) {
+        for (@RUntainted String modRes : getResources()) {
             if (!CmsStringUtil.isPrefixPath("/system/", modRes) && !OpenCms.getSiteManager().startsWithShared(modRes)) {
                 return false;
             }
@@ -1224,7 +1225,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      *
      * @param value the class name of this modules (optional) action class to set
      */
-    public void setActionClass(String value) {
+    public void setActionClass(@RUntainted String value) {
 
         checkFrozen();
         if (CmsStringUtil.isEmpty(value)) {
@@ -1522,7 +1523,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      *
      * @param importSite the import site
      */
-    public void setImportSite(String importSite) {
+    public void setImportSite(@RUntainted String importSite) {
 
         checkFrozen();
         if (importSite != null) {
@@ -1542,7 +1543,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      *
      * @param value the module name to set
      */
-    public void setName(String value) {
+    public void setName(@RUntainted String value) {
 
         checkFrozen();
         if (!CmsStringUtil.isValidJavaClassName(value)) {
@@ -1622,7 +1623,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      *
      * @param siteRoot the module site root
      */
-    public void setSite(String siteRoot) {
+    public void setSite(@RUntainted String siteRoot) {
 
         if (siteRoot == null) {
             m_hasImportSite = false;
@@ -1650,7 +1651,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      *
      * @param versionString the version number string
      */
-    public void setVersionStr(String versionString) {
+    public void setVersionStr(@RUntainted String versionString) {
 
         checkFrozen();
         m_version = new CmsModuleVersion(versionString);

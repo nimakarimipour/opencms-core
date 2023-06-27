@@ -53,6 +53,7 @@ import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the dialog to edit and view roles of user.<p>
@@ -88,7 +89,7 @@ public class CmsUserEditRoleDialog extends A_CmsEditUserGroupRoleDialog {
      * @param window window
      * @param app
      */
-    public CmsUserEditRoleDialog(CmsObject cms, CmsUUID userId, final Window window, CmsAccountsApp app) {
+    public CmsUserEditRoleDialog(CmsObject cms, @RUntainted CmsUUID userId, final Window window, CmsAccountsApp app) {
 
         super(cms, userId, window, app);
     }
@@ -97,11 +98,11 @@ public class CmsUserEditRoleDialog extends A_CmsEditUserGroupRoleDialog {
      * @see org.opencms.ui.apps.user.A_CmsEditUserGroupRoleDialog#addItem(java.util.Set)
      */
     @Override
-    public void addItem(Set<String> data) {
+    public void addItem(@RUntainted Set<@RUntainted String> data) {
 
-        Iterator<String> it = data.iterator();
+        @RUntainted Iterator<@RUntainted String> it = data.iterator();
         while (it.hasNext()) {
-            String roleName = it.next();
+            @RUntainted String roleName = it.next();
             try {
                 OpenCms.getRoleManager().addUserToRole(m_cms, CmsRole.valueOfRoleName(roleName), m_principal.getName());
             } catch (CmsException e) {
@@ -313,7 +314,7 @@ public class CmsUserEditRoleDialog extends A_CmsEditUserGroupRoleDialog {
      * @see org.opencms.ui.apps.user.A_CmsEditUserGroupRoleDialog#getStringSetValue(java.util.Set)
      */
     @Override
-    public Set<String> getStringSetValue(Set<Object> value) {
+    public @RUntainted Set<@RUntainted String> getStringSetValue(Set<Object> value) {
 
         Set<String> res = new HashSet<String>();
         for (Object o : value) {
@@ -336,10 +337,10 @@ public class CmsUserEditRoleDialog extends A_CmsEditUserGroupRoleDialog {
      * @see org.opencms.ui.apps.user.A_CmsEditUserGroupRoleDialog#removeItem(java.util.Set)
      */
     @Override
-    public void removeItem(Set<String> items) {
+    public void removeItem(@RUntainted Set<@RUntainted String> items) {
 
         try {
-            Iterator<String> iterator = items.iterator();
+            @RUntainted Iterator<@RUntainted String> iterator = items.iterator();
             while (iterator.hasNext()) {
                 CmsRole role = CmsRole.valueOfRoleName(iterator.next());
                 OpenCms.getRoleManager().removeUserFromRole(m_cms, role, m_principal.getName());

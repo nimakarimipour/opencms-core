@@ -43,6 +43,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resolves link macros for jsp pages.<p>
@@ -81,7 +82,7 @@ public class CmsJspLinkMacroResolver implements I_CmsMacroResolver {
     private boolean m_forRfs;
 
     /** The jsp root path. */
-    private String m_jspRootPath;
+    private @RUntainted String m_jspRootPath;
 
     /** The list of links. */
     private List<CmsLink> m_links = new ArrayList<CmsLink>();
@@ -93,7 +94,7 @@ public class CmsJspLinkMacroResolver implements I_CmsMacroResolver {
      * @param jspRootPath the (optional) jsp root path, needed for saving from the editor to resolve relative links
      * @param forRfs Only if <code>true</code> the macros get really resolved to valid vfs paths
      */
-    public CmsJspLinkMacroResolver(CmsObject cms, String jspRootPath, boolean forRfs) {
+    public CmsJspLinkMacroResolver(CmsObject cms, @RUntainted String jspRootPath, boolean forRfs) {
 
         m_cms = cms;
         m_forRfs = forRfs;
@@ -113,15 +114,15 @@ public class CmsJspLinkMacroResolver implements I_CmsMacroResolver {
     /**
      * @see org.opencms.util.I_CmsMacroResolver#getMacroValue(java.lang.String)
      */
-    public String getMacroValue(String macro) {
+    public String getMacroValue(@RUntainted String macro) {
 
-        String path = null;
+        @RUntainted String path = null;
         String id = null;
 
         // validate macro command
-        Iterator<String> it = VALUE_NAMES.iterator();
+        @RUntainted Iterator<@RUntainted String> it = VALUE_NAMES.iterator();
         while (it.hasNext()) {
-            String cmd = it.next().toString();
+            @RUntainted String cmd = it.next().toString();
             if (macro.startsWith(cmd)) {
                 // a macro was found
                 path = macro.substring(cmd.length());

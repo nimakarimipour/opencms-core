@@ -79,6 +79,7 @@ import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.Table.CellStyleGenerator;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Types and helper classes used by the message bundle editor. */
 public final class CmsMessageBundleEditorTypes {
@@ -97,7 +98,7 @@ public final class CmsMessageBundleEditorTypes {
          * @param value the resource type name that should be transformed into BundleType
          * @return The bundle type for the resource type name, or null, if the resource has no bundle type.
          */
-        public static BundleType toBundleType(String value) {
+        public static @RUntainted BundleType toBundleType(String value) {
 
             if (null == value) {
                 return null;
@@ -119,7 +120,7 @@ public final class CmsMessageBundleEditorTypes {
          * @see java.lang.Enum#toString()
          */
         @Override
-        public String toString() {
+        public @RUntainted String toString() {
 
             switch (this) {
                 case PROPERTY:
@@ -327,7 +328,7 @@ public final class CmsMessageBundleEditorTypes {
          * Returns the value after it was edited.
          * @return the value after it was edited.
          */
-        public String getNewValue() {
+        public @RUntainted String getNewValue() {
 
             return m_newValue;
         }
@@ -973,13 +974,13 @@ public final class CmsMessageBundleEditorTypes {
      * @param basename the bundle base name, for which the descriptor is searched.
      * @return the bundle descriptor, or <code>null</code> if it does not exist or searching fails.
      */
-    public static CmsResource getDescriptor(CmsObject cms, String basename) {
+    public static @RUntainted CmsResource getDescriptor(CmsObject cms, String basename) {
 
         CmsSolrQuery query = new CmsSolrQuery();
         query.setResourceTypes(CmsMessageBundleEditorTypes.BundleType.DESCRIPTOR.toString());
         query.setFilterQueries("filename:\"" + basename + CmsMessageBundleEditorTypes.Descriptor.POSTFIX + "\"");
         query.add("fl", "path");
-        CmsSolrResultList results;
+        @RUntainted CmsSolrResultList results;
         try {
             boolean isOnlineProject = cms.getRequestContext().getCurrentProject().isOnlineProject();
             String indexName = isOnlineProject

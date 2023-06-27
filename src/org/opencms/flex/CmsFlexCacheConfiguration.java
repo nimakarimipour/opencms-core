@@ -32,6 +32,7 @@ import org.opencms.jsp.util.I_CmsJspDeviceSelector;
 import org.opencms.main.CmsLog;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Flex Cache configuration class.<p>
@@ -72,7 +73,7 @@ public class CmsFlexCacheConfiguration {
     private int m_maxEntryBytes;
 
     /** The maximum key. */
-    private int m_maxKeys;
+    private @RUntainted int m_maxKeys;
 
     /**
      * Empty public constructor for the digester.
@@ -140,7 +141,7 @@ public class CmsFlexCacheConfiguration {
      *
      * @return the maxKeys
      */
-    public int getMaxKeys() {
+    public @RUntainted int getMaxKeys() {
 
         return m_maxKeys;
     }
@@ -283,7 +284,7 @@ public class CmsFlexCacheConfiguration {
      *
      * @param maxKeys the maxKeys to set
      */
-    public void setMaxKeys(int maxKeys) {
+    public void setMaxKeys(@RUntainted int maxKeys) {
 
         m_maxKeys = maxKeys;
     }

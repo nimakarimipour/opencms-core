@@ -55,6 +55,7 @@ import org.opencms.xml.xml2json.handler.CmsJsonHandlerXmlContent.PathNotFoundExc
 
 import java.util.Collections;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class representing a JSON document for a CMS list.
@@ -164,7 +165,7 @@ public class CmsJsonDocumentList extends CmsJsonDocumentXmlContent {
             searchConfigurationParser.setSortOption(paramSort);
         }
 
-        CmsSolrQuery query = searchConfigurationParser.getInitialQuery();
+        @RUntainted CmsSolrQuery query = searchConfigurationParser.getInitialQuery();
         Integer paramStart = m_jsonRequest.getParamStart();
         Integer paramRows = m_jsonRequest.getParamRows();
         if (paramStart != null) {

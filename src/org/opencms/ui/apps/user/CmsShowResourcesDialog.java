@@ -46,6 +46,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to show resources with permissions for principle.<p>
@@ -84,7 +85,7 @@ public class CmsShowResourcesDialog extends CmsBasicDialog {
      * @param id of principal
      * @param window holding dialog
      */
-    public CmsShowResourcesDialog(String id, final Window window) {
+    public CmsShowResourcesDialog(@RUntainted String id, final Window window) {
 
         CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 

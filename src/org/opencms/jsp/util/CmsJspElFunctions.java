@@ -66,6 +66,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides utility methods to be used as functions from a JSP with the EL.<p>
@@ -116,7 +117,7 @@ public final class CmsJspElFunctions {
      *
      * @return an OpenCms user context created from an Object
      */
-    public static CmsObject convertCmsObject(Object input) {
+    public static CmsObject convertCmsObject(@RUntainted Object input) {
 
         CmsObject result;
         if (input instanceof CmsObject) {
@@ -144,7 +145,7 @@ public final class CmsJspElFunctions {
             try {
                 result = OpenCms.initCmsObject(OpenCms.getDefaultUsers().getUserGuest());
                 // try to set the right site root
-                ServletRequest req = convertRequest(input);
+                @RUntainted ServletRequest req = convertRequest(input);
                 if (req instanceof HttpServletRequest) {
                     result.getRequestContext().setSiteRoot(
                         OpenCms.getSiteManager().matchRequest((HttpServletRequest)req).getSiteRoot());
@@ -306,7 +307,7 @@ public final class CmsJspElFunctions {
      *
      * @throws CmsException in case of errors accessing the OpenCms VFS for reading the resource
      */
-    public static CmsResource convertRawResource(CmsObject cms, Object input) throws CmsException {
+    public static @RUntainted CmsResource convertRawResource(CmsObject cms, @RUntainted Object input) throws CmsException {
 
         CmsResource result;
         CmsResourceFilter filter = CmsResourceFilter.ignoreExpirationOffline(cms);
@@ -343,9 +344,9 @@ public final class CmsJspElFunctions {
      *
      * @return a request object, or <code>null</code>
      */
-    public static ServletRequest convertRequest(Object input) {
+    public static @RUntainted ServletRequest convertRequest(@RUntainted Object input) {
 
-        ServletRequest req = null;
+        @RUntainted ServletRequest req = null;
         if (input instanceof ServletRequest) {
             req = (ServletRequest)input;
         } else if (input instanceof PageContext) {
@@ -366,7 +367,7 @@ public final class CmsJspElFunctions {
      *
      * @throws CmsException in case of errors accessing the OpenCms VFS for reading the resource
      */
-    public static CmsJspResourceWrapper convertResource(CmsObject cms, Object input) throws CmsException {
+    public static CmsJspResourceWrapper convertResource(CmsObject cms, @RUntainted Object input) throws CmsException {
 
         CmsJspResourceWrapper result;
         if (input instanceof CmsResource) {
@@ -488,7 +489,7 @@ public final class CmsJspElFunctions {
      * @deprecated On a JSP use <code>${cms.requestContext.uri}</code> instead.
      */
     @Deprecated
-    public static String getNavigationUri(Object input) {
+    public static String getNavigationUri(@RUntainted Object input) {
 
         ServletRequest req = convertRequest(input);
         if (req == null) {

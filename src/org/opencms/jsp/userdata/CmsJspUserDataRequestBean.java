@@ -54,6 +54,7 @@ import javax.mail.internet.AddressException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.mail.EmailException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean used by the dynamic function JSP for user data requests.<p>
@@ -131,7 +132,7 @@ public class CmsJspUserDataRequestBean {
     private String m_infoHtml;
 
     /** The request parameters (duplicate parameters are removed). */
-    private Map<String, String> m_params;
+    private @RUntainted Map<@RUntainted String, @RUntainted String> m_params;
 
     /** Lazy map to access messages. */
     private Map<String, String> m_texts;
@@ -192,7 +193,7 @@ public class CmsJspUserDataRequestBean {
             m_errorHtml = messages.key(Messages.ERR_RESOURCE_INIT_HANDLER_NOT_CONFIGURED_0);
             return State.error.toString();
         }
-        String email = m_params.get(PARAM_EMAIL);
+        @RUntainted String email = m_params.get(PARAM_EMAIL);
         String user = m_params.get(PARAM_USER);
         String password = m_params.get(PARAM_PASSWORD);
         String path = m_params.get(PARAM_ROOTPATH);
@@ -274,7 +275,7 @@ public class CmsJspUserDataRequestBean {
                 if (hasUser && hasPassword) {
                     try {
                         CmsObject cloneCms = OpenCms.initCmsObject(cms);
-                        String fullName = info.getUserName();
+                        @RUntainted String fullName = info.getUserName();
                         CmsUser readUser = cms.readUser(fullName);
                         if (!readUser.getSimpleName().equals(user)) {
                             m_errorHtml = "login error";
@@ -378,10 +379,10 @@ public class CmsJspUserDataRequestBean {
     private void init(Map<String, String[]> requestParams) {
 
         m_params = new HashMap<>();
-        for (Map.Entry<String, String[]> entry : requestParams.entrySet()) {
-            String[] vals = entry.getValue();
+        for (Map.@RUntainted Entry<@RUntainted String, @RUntainted String[]> entry : requestParams.entrySet()) {
+            @RUntainted String[] vals = entry.getValue();
             if (vals.length > 0) {
-                String val = vals[0];
+                @RUntainted String val = vals[0];
                 m_params.put(entry.getKey(), val);
             }
         }
@@ -404,7 +405,7 @@ public class CmsJspUserDataRequestBean {
      *
      * @throws CmsException if something goes wrong
      */
-    private Optional<CmsUser> lookupUser(CmsObject cms, String configuredOu, String path, String user, String password)
+    private Optional<CmsUser> lookupUser(CmsObject cms, @RUntainted String configuredOu, String path, String user, String password)
     throws CmsException {
 
         List<CmsOrganizationalUnit> ous;

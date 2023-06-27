@@ -53,6 +53,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class which represents the context for resolving all content value mappings of an XML content.<p>
@@ -78,7 +79,7 @@ public class CmsMappingResolutionContext {
         private Locale m_locale;
 
         /** URL name of the mapping. */
-        private String m_name;
+        private @RUntainted String m_name;
 
         /** Structure ID of the mapping. */
         private CmsUUID m_structureId;
@@ -112,7 +113,7 @@ public class CmsMappingResolutionContext {
          *
          * @return the name
          */
-        public String getName() {
+        public @RUntainted String getName() {
 
             return m_name;
         }
@@ -139,10 +140,10 @@ public class CmsMappingResolutionContext {
     private CmsXmlContent m_content;
 
     /** Stored expiration dates. */
-    private Map<Locale, Long> m_dateExpired = new HashMap<>();
+    private @RUntainted Map<@RUntainted Locale, @RUntainted Long> m_dateExpired = new HashMap<>();
 
     /** Stored release dates. */
-    private Map<Locale, Long> m_dateReleased = new HashMap<>();
+    private @RUntainted Map<@RUntainted Locale, @RUntainted Long> m_dateReleased = new HashMap<>();
 
     /** True if the schema for the content has attribute mappings. */
     private boolean m_hasAttributeMappings;
@@ -174,7 +175,7 @@ public class CmsMappingResolutionContext {
         }
 
         boolean urlnameReplace = false;
-        for (CmsUUID structureId : structureIds) {
+        for (@RUntainted CmsUUID structureId : structureIds) {
             try {
                 CmsResource resource = m_cms.readResource(structureId, CmsResourceFilter.ALL);
                 CmsProperty prop = m_cms.readPropertyObject(
@@ -192,7 +193,7 @@ public class CmsMappingResolutionContext {
 
         I_CmsFileNameGenerator nameGen = OpenCms.getResourceManager().getNameGenerator();
         for (InternalUrlNameMappingEntry entry : m_urlNameMappingEntries) {
-            Iterator<String> nameSeq = nameGen.getUrlNameSequence(entry.getName());
+            @RUntainted Iterator<@RUntainted String> nameSeq = nameGen.getUrlNameSequence(entry.getName());
             m_cms.writeUrlNameMapping(nameSeq, entry.getStructureId(), entry.getLocale().toString(), urlnameReplace);
         }
 
@@ -218,7 +219,7 @@ public class CmsMappingResolutionContext {
      * @param locale the locale
      * @param expiration the expiration date
      */
-    public void putExpirationDate(Locale locale, long expiration) {
+    public void putExpirationDate(@RUntainted Locale locale, long expiration) {
 
         m_dateExpired.put(locale, Long.valueOf(expiration));
     }
@@ -229,7 +230,7 @@ public class CmsMappingResolutionContext {
      * @param locale the locale
      * @param release the release date
      */
-    public void putReleaseDate(Locale locale, long release) {
+    public void putReleaseDate(@RUntainted Locale locale, long release) {
 
         m_dateReleased.put(locale, Long.valueOf(release));
     }
@@ -245,10 +246,10 @@ public class CmsMappingResolutionContext {
      *
      * @throws CmsException if something goes wrong
      */
-    public void setAttribute(CmsResource res, AttributeType type, Long value) throws CmsException {
+    public void setAttribute(CmsResource res, AttributeType type, @RUntainted Long value) throws CmsException {
 
         if (type == AttributeType.release) {
-            long actualValue = value != null ? value.longValue() : 0;
+            @RUntainted long actualValue = value != null ? value.longValue() : 0;
             m_cms.setDateReleased(res, actualValue, false);
             if ((m_content.getFile() != null) && res.getStructureId().equals(m_content.getFile().getStructureId())) {
                 m_content.getFile().setDateReleased(actualValue);

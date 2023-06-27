@@ -77,6 +77,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages all configured sites in OpenCms.<p>
@@ -139,7 +140,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
          * @param path a site root
          * @return the site for the site root
          */
-        public CmsSite getSiteForSiteRoot(String path) {
+        public CmsSite getSiteForSiteRoot(@RUntainted String path) {
 
             CmsPath key = new CmsPath(path);
             CmsSite result = m_alternativeSites.get(key);
@@ -205,7 +206,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
     private volatile AlternativeSiteData m_alternativeSiteData = new AlternativeSiteData(new ArrayList<>());
 
     /**Map with webserver scripting parameter. */
-    private Map<String, String> m_apacheConfig;
+    private @RUntainted Map<@RUntainted String, @RUntainted String> m_apacheConfig;
 
     /**CmsObject.*/
     private CmsObject m_clone;
@@ -214,7 +215,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
     private CmsSite m_defaultSite;
 
     /** The default URI. */
-    private String m_defaultUri;
+    private @RUntainted String m_defaultUri;
 
     /** Indicates if the configuration is finalized (frozen). */
     private boolean m_frozen;
@@ -229,7 +230,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
     private List<CmsSite> m_onlyOfflineSites;
 
     /** The shared folder name. */
-    private String m_sharedFolder;
+    private @RUntainted String m_sharedFolder;
 
     /** Contains all configured site matchers in a list for direct access. */
     private List<CmsSiteMatcher> m_siteMatchers;
@@ -275,7 +276,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      *
      * @return the alias site matcher
      */
-    public static CmsSiteMatcher createAliasSiteMatcher(String alias, String redirect, String offset) {
+    public static CmsSiteMatcher createAliasSiteMatcher(@RUntainted String alias, String redirect, String offset) {
 
         long timeOffset = 0;
         try {
@@ -381,14 +382,14 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      * @throws CmsConfigurationException if the site contains a server name, that is already assigned
      */
     public void addSite(
-        String server,
-        String uri,
-        String title,
+        @RUntainted String server,
+        @RUntainted String uri,
+        @RUntainted String title,
         String position,
         String errorPage,
         String webserver,
         String sslMode,
-        String secureServer,
+        @RUntainted String secureServer,
         String exclusive,
         String error,
         String usePermanentRedirects,
@@ -497,14 +498,14 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      *
      */
     public void addSiteInternally(
-        String server,
-        String uri,
-        String title,
+        @RUntainted String server,
+        @RUntainted String uri,
+        @RUntainted String title,
         String position,
         String errorPage,
         String webserver,
         String sslMode,
-        String secureServer,
+        @RUntainted String secureServer,
         String exclusive,
         String error,
         String usePermanentRedirects,
@@ -671,7 +672,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      *
      * @return a list of all site available for the current user
      */
-    public List<CmsSite> getAvailableSites(CmsObject cms, boolean workplaceMode, boolean showShared, String ouFqn) {
+    public List<CmsSite> getAvailableSites(CmsObject cms, boolean workplaceMode, boolean showShared, @RUntainted String ouFqn) {
 
         return getAvailableSites(cms, workplaceMode, showShared, ouFqn, null);
     }
@@ -692,7 +693,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
         CmsObject cms,
         boolean workplaceMode,
         boolean showShared,
-        String ouFqn,
+        @RUntainted String ouFqn,
         CmsSSLMode filterMode) {
 
         List<String> siteroots = new ArrayList<String>(m_siteMatcherSites.size() + 1);
@@ -782,7 +783,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
                             // CmsSite configuredSite = m_siteRootSites.get(CmsFileUtil.removeTrailingSeparator(folder));
 
                             // get the title
-                            String title = null;
+                            @RUntainted String title = null;
                             if ((configuredSite != null)
                                 && CmsStringUtil.isNotEmptyOrWhitespaceOnly(configuredSite.getTitle())) {
                                 title = configuredSite.getTitle();
@@ -887,7 +888,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      *
      * @return a list of all site available for the current user
      */
-    public List<CmsSite> getAvailableSites(CmsObject cms, boolean workplaceMode, String ouFqn) {
+    public List<CmsSite> getAvailableSites(CmsObject cms, boolean workplaceMode, @RUntainted String ouFqn) {
 
         return getAvailableSites(cms, workplaceMode, workplaceMode, ouFqn);
     }
@@ -933,7 +934,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      *
      * @return the shared folder path
      */
-    public String getSharedFolder() {
+    public @RUntainted String getSharedFolder() {
 
         return m_sharedFolder;
     }
@@ -961,7 +962,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      *
      * @see #getSiteForRootPath(String)
      */
-    public CmsSite getSite(String rootPath, String fallbackSiteRoot) {
+    public CmsSite getSite(String rootPath, @RUntainted String fallbackSiteRoot) {
 
         CmsSite result = getSiteForRootPath(rootPath);
         if (result == null) {
@@ -1008,7 +1009,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
             return result;
         }
         // look through all folders that are not below "/sites/"
-        String siteRoot = lookupAdditionalSite(rootPath);
+        @RUntainted String siteRoot = lookupAdditionalSite(rootPath);
         if (siteRoot != null) {
             return getSiteForSiteRoot(siteRoot);
         }
@@ -1031,7 +1032,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      *
      * @see #getSiteForRootPath(String)
      */
-    public CmsSite getSiteForSiteRoot(String siteRoot) {
+    public CmsSite getSiteForSiteRoot(@RUntainted String siteRoot) {
 
         if (siteRoot == null) {
             return null;
@@ -1059,7 +1060,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      *
      * @see #getSiteForRootPath(String)
      */
-    public String getSiteRoot(String rootPath) {
+    public @RUntainted String getSiteRoot(String rootPath) {
 
         // add a trailing slash, because the path may be the path of a site root itself
         if (!rootPath.endsWith("/")) {
@@ -1071,7 +1072,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
             return site.getSiteRoot();
         }
         // look through all folders that are not below "/sites/"
-        String result = lookupAdditionalSite(rootPath);
+        @RUntainted String result = lookupAdditionalSite(rootPath);
         if (result != null) {
             return result;
         }
@@ -1116,9 +1117,9 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      *
      * @throws CmsException in case reading the title property fails
      */
-    public String getSiteTitle(CmsObject cms, CmsResource resource) throws CmsException {
+    public @RUntainted String getSiteTitle(CmsObject cms, CmsResource resource) throws CmsException {
 
-        String title = cms.readPropertyObject(resource, CmsPropertyDefinition.PROPERTY_TITLE, false).getValue();
+        @RUntainted String title = cms.readPropertyObject(resource, CmsPropertyDefinition.PROPERTY_TITLE, false).getValue();
         if (title == null) {
             title = resource.getRootPath();
         }
@@ -1151,7 +1152,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      *
      * @return Map with configuration data
      */
-    public Map<String, String> getWebServerConfig() {
+    public @RUntainted Map<@RUntainted String, @RUntainted String> getWebServerConfig() {
 
         return m_apacheConfig;
     }
@@ -1465,7 +1466,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      */
     public boolean isSiteUnderSite(String siteRootPath) {
 
-        for (String siteRoot : getSiteRoots()) {
+        for (@RUntainted String siteRoot : getSiteRoots()) {
             if ((siteRootPath.length() > siteRoot.length())
                 & siteRootPath.startsWith(CmsFileUtil.addTrailingSeparator(siteRoot))) {
                 return true;
@@ -1493,7 +1494,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      *
      * @return <code>true</code> if the given request is against the configured OpenCms workplace
      */
-    public boolean isWorkplaceRequest(HttpServletRequest req) {
+    public boolean isWorkplaceRequest(@RUntainted HttpServletRequest req) {
 
         if (req == null) {
             // this may be true inside a static export test case scenario
@@ -1510,7 +1511,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      *
      * @return the matching site, or the default site if no sites matches
      */
-    public CmsSite matchRequest(HttpServletRequest req) {
+    public CmsSite matchRequest(@RUntainted HttpServletRequest req) {
 
         CmsSiteMatcher matcher = getRequestMatcher(req);
         if (matcher.getTimeOffset() != 0) {
@@ -1614,7 +1615,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      *
      * @param defaultUri the defaultUri to set
      */
-    public void setDefaultUri(String defaultUri) {
+    public void setDefaultUri(@RUntainted String defaultUri) {
 
         if (m_frozen) {
             throw new CmsRuntimeException(Messages.get().container(Messages.ERR_CONFIG_FROZEN_0));
@@ -1657,12 +1658,12 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      * @param loggingdir path
      */
     public void setWebServerScripting(
-        String webserverscript,
-        String targetpath,
-        String configtemplate,
-        String securetemplate,
-        String filenameprefix,
-        String loggingdir) {
+        @RUntainted String webserverscript,
+        @RUntainted String targetpath,
+        @RUntainted String configtemplate,
+        @RUntainted String securetemplate,
+        @RUntainted String filenameprefix,
+        @RUntainted String loggingdir) {
 
         m_apacheConfig = new HashMap<String, String>();
         m_apacheConfig.put(WEB_SERVER_CONFIG_WEBSERVERSCRIPT, webserverscript);
@@ -1680,7 +1681,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      *
      * @return true if the path starts with the shared folder path
      */
-    public boolean startsWithShared(String path) {
+    public boolean startsWithShared(@RUntainted String path) {
 
         return (m_sharedFolder != null) && CmsFileUtil.addTrailingSeparator(path).startsWith(m_sharedFolder);
     }
@@ -1700,7 +1701,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
         CmsObject cms,
         String defaultUri,
         List<String> workplaceServersList,
-        String sharedFolder)
+        @RUntainted String sharedFolder)
     throws CmsException {
 
         Map<String, CmsSSLMode> workplaceServers = new LinkedHashMap<String, CmsSSLMode>();
@@ -1728,7 +1729,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
         CmsObject cms,
         String defaulrUri,
         Map<String, CmsSSLMode> workplaceServers,
-        String sharedFolder)
+        @RUntainted String sharedFolder)
     throws CmsException {
 
         CmsObject clone = OpenCms.initCmsObject(cms);
@@ -1782,7 +1783,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      *
      * @return true if the request goes to a secure site
      */
-    public boolean usesSecureSite(HttpServletRequest req) {
+    public boolean usesSecureSite(@RUntainted HttpServletRequest req) {
 
         CmsSite site = matchRequest(req);
         if (site == null) {
@@ -1801,7 +1802,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      *
      * @param siteRoot the site root to check
      */
-    public void validateSiteRoot(String siteRoot) {
+    public void validateSiteRoot(@RUntainted String siteRoot) {
 
         if (!isValidSiteRoot(siteRoot)) {
             throw new CmsRuntimeException(Messages.get().container(Messages.ERR_INVALID_SITE_ROOT_1, siteRoot));
@@ -1881,7 +1882,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      *
      * @return the site matcher for the given request
      */
-    private CmsSiteMatcher getRequestMatcher(HttpServletRequest req) {
+    private CmsSiteMatcher getRequestMatcher(@RUntainted HttpServletRequest req) {
 
         CmsSiteMatcher matcher = new CmsSiteMatcher(req.getScheme(), req.getServerName(), req.getServerPort());
         // this is required to get the right configured time offset
@@ -1908,7 +1909,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
         List<CmsSiteMatcher> matchers = new ArrayList<CmsSiteMatcher>();
         if (!m_workplaceServers.isEmpty()) {
             Map<String, CmsSiteMatcher> matchersByUrl = Maps.newHashMap();
-            for (String server : m_workplaceServers.keySet()) {
+            for (@RUntainted String server : m_workplaceServers.keySet()) {
                 CmsSSLMode mode = m_workplaceServers.get(server);
                 CmsSiteMatcher matcher = new CmsSiteMatcher(server);
                 if ((mode == CmsSSLMode.LETS_ENCRYPT) || (mode == CmsSSLMode.MANUAL_EP_TERMINATION)) {

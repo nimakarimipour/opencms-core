@@ -90,6 +90,7 @@ import org.apache.chemistry.opencmis.commons.impl.dataobjects.PropertiesImpl;
 import org.apache.chemistry.opencmis.commons.impl.server.ObjectInfoImpl;
 import org.apache.chemistry.opencmis.commons.impl.server.RenditionInfoImpl;
 import org.apache.chemistry.opencmis.commons.server.RenditionInfo;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for CRUD operations on resources.<p>
@@ -116,11 +117,11 @@ public class CmsCmisResourceHelper implements I_CmsCmisObjectHelper {
      * @param objectId the id of the object to delete
      * @param allVersions flag to delete all version
      */
-    public synchronized void deleteObject(CmsCmisCallContext context, String objectId, boolean allVersions) {
+    public synchronized void deleteObject(CmsCmisCallContext context, @RUntainted String objectId, boolean allVersions) {
 
         try {
             CmsObject cms = m_repository.getCmsObject(context);
-            CmsUUID structureId = new CmsUUID(objectId);
+            @RUntainted CmsUUID structureId = new CmsUUID(objectId);
             CmsResource resource = cms.readResource(structureId);
             if (resource.isFolder()) {
                 boolean isLeaf = !hasChildren(cms, resource);
@@ -144,12 +145,12 @@ public class CmsCmisResourceHelper implements I_CmsCmisObjectHelper {
      *
      * @return the ACL for the object
      */
-    public synchronized Acl getAcl(CmsCmisCallContext context, String objectId, boolean onlyBasicPermissions) {
+    public synchronized Acl getAcl(CmsCmisCallContext context, @RUntainted String objectId, boolean onlyBasicPermissions) {
 
         try {
 
             CmsObject cms = m_repository.getCmsObject(context);
-            CmsUUID structureId = new CmsUUID(objectId);
+            @RUntainted CmsUUID structureId = new CmsUUID(objectId);
             CmsResource resource = cms.readResource(structureId);
             return collectAcl(cms, resource, onlyBasicPermissions);
         } catch (CmsException e) {
@@ -166,11 +167,11 @@ public class CmsCmisResourceHelper implements I_CmsCmisObjectHelper {
      * @param objectId the object id
      * @return the allowable actions
      */
-    public synchronized AllowableActions getAllowableActions(CmsCmisCallContext context, String objectId) {
+    public synchronized AllowableActions getAllowableActions(CmsCmisCallContext context, @RUntainted String objectId) {
 
         try {
             CmsObject cms = m_repository.getCmsObject(context);
-            CmsUUID structureId = new CmsUUID(objectId);
+            @RUntainted CmsUUID structureId = new CmsUUID(objectId);
             CmsResource file = cms.readResource(structureId);
             return collectAllowableActions(cms, file);
         } catch (CmsException e) {
@@ -195,7 +196,7 @@ public class CmsCmisResourceHelper implements I_CmsCmisObjectHelper {
      */
     public synchronized ObjectData getObject(
         CmsCmisCallContext context,
-        String objectId,
+        @RUntainted String objectId,
         String filter,
         boolean includeAllowableActions,
         IncludeRelationships includeRelationships,

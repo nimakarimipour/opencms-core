@@ -31,6 +31,7 @@ import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.util.CmsStringUtil;
 
 import com.vaadin.server.FontIcon;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An icon resource. Will be rendered as &lt;span class="v-icon styleName"&gt;&amp;bnsp;&lt;/span&gt;.<p>
@@ -41,13 +42,13 @@ public class CmsCssIcon implements FontIcon {
     private static final long serialVersionUID = -1013502165062622197L;
 
     /** The additional style to apply to buttons generated with this icon. */
-    private String m_additionalButtonStyle;
+    private @RUntainted String m_additionalButtonStyle;
 
     /** The unicode codepoint (character location) for this icon. */
     private int m_codePoint = 0x00A0;
 
     /** The icon css class. */
-    private String m_styleName;
+    private @RUntainted String m_styleName;
 
     /**The icon overlay css class.*/
     private String m_styleNameOverlay;
@@ -57,7 +58,7 @@ public class CmsCssIcon implements FontIcon {
      *
      * @param icon the icon to clone
      */
-    public CmsCssIcon(FontIcon icon) {
+    public CmsCssIcon(@RUntainted FontIcon icon) {
 
         m_styleName = icon.getFontFamily();
         m_codePoint = icon.getCodepoint();
@@ -72,7 +73,7 @@ public class CmsCssIcon implements FontIcon {
      *
      * @param styleName the style name to assign to the icon.<p>
      */
-    public CmsCssIcon(String styleName) {
+    public CmsCssIcon(@RUntainted String styleName) {
 
         m_styleName = styleName;
     }
@@ -83,7 +84,7 @@ public class CmsCssIcon implements FontIcon {
      * @param styleName the style name to assign to the icon.<p>
      * @param additionalStyle the additional style to apply to buttons generated with this icon
      */
-    public CmsCssIcon(String styleName, String additionalStyle) {
+    public CmsCssIcon(@RUntainted String styleName, @RUntainted String additionalStyle) {
 
         m_styleName = styleName;
         m_additionalButtonStyle = additionalStyle;
@@ -120,7 +121,7 @@ public class CmsCssIcon implements FontIcon {
      * @see com.vaadin.server.FontIcon#getHtml()
      */
     @Override
-    public String getHtml() {
+    public @RUntainted String getHtml() {
 
         return "<span class=\"v-icon "
             + m_styleName
@@ -206,7 +207,7 @@ public class CmsCssIcon implements FontIcon {
      *
      * @param additionalStyle the additional style to apply to buttons generated with this icon
      */
-    public void setAdditionalButtonStyle(String additionalStyle) {
+    public void setAdditionalButtonStyle(@RUntainted String additionalStyle) {
 
         m_additionalButtonStyle = additionalStyle;
     }

@@ -53,6 +53,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains a single search result from the gallery search index.<p>
@@ -101,10 +102,10 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
     protected List<String> m_locales;
 
     /** The resource path of this search result. */
-    protected String m_path;
+    protected @RUntainted String m_path;
 
     /** The resource type of the search result. */
-    protected String m_resourceType;
+    protected @RUntainted String m_resourceType;
 
     /** The score of this search result. */
     protected int m_score;
@@ -113,7 +114,7 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
     protected int m_state;
 
     /** The structure UUID of the resource. */
-    protected String m_structureId;
+    protected @RUntainted String m_structureId;
 
     /** The title of this search result. */
     protected String m_title;
@@ -488,7 +489,7 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
      *
      * @see org.opencms.file.CmsResource#getRootPath()
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }
@@ -500,7 +501,7 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
      *
      * @see org.opencms.loader.CmsResourceManager#getResourceType(String)
      */
-    public String getResourceType() {
+    public @RUntainted String getResourceType() {
 
         return m_resourceType;
     }
@@ -532,7 +533,7 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
      *
      * @return the structure id of the resource
      */
-    public String getStructureId() {
+    public @RUntainted String getStructureId() {
 
         return m_structureId;
     }
@@ -620,7 +621,7 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
      * @param cms the current CMS context
      * @param structureId the current structure id
      */
-    protected void initializeMissingFieldsFromVfs(CmsObject cms, CmsUUID structureId) {
+    protected void initializeMissingFieldsFromVfs(CmsObject cms, @RUntainted CmsUUID structureId) {
 
         if (structureId == null) {
             return;

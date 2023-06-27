@@ -70,6 +70,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The 'display' tag can be used to display a single resource using a formatter. It also allows to activate direct editing.<p>
@@ -86,7 +87,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
     private static final long serialVersionUID = 2285680951218629093L;
 
     /** The base URI. */
-    private String m_baseUri;
+    private @RUntainted String m_baseUri;
 
     /** True if the display formatter include should go through the flex cache. */
     private Boolean m_cacheable;
@@ -125,7 +126,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
     private String m_uploadFolder;
 
     /** The site path to the resource to display. */
-    private String m_value;
+    private @RUntainted String m_value;
 
     /**
      * Constructor.<p>
@@ -163,13 +164,13 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
         String creationSiteMap,
         String postCreateHandler,
         String uploadFolder,
-        PageContext context,
-        ServletRequest request,
+        @RUntainted PageContext context,
+        @RUntainted ServletRequest request,
         ServletResponse response) {
 
         if (CmsFlexController.isCmsRequest(request)) {
             // this will always be true if the page is called through OpenCms
-            CmsObject cms = CmsFlexController.getCmsObject(request);
+            @RUntainted CmsObject cms = CmsFlexController.getCmsObject(request);
             CmsADEConfigData adeConfig = OpenCms.getADEManager().lookupConfigurationWithCache(
                 cms,
                 cms.getRequestContext().getRootUri());
@@ -247,8 +248,8 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
     public static void displayAction(
         CmsContainerElementBean element,
         I_CmsFormatterBean formatter,
-        PageContext context,
-        ServletRequest request,
+        @RUntainted PageContext context,
+        @RUntainted ServletRequest request,
         ServletResponse response) {
 
         displayAction(element, formatter, true, false, false, false, null, null, null, context, request, response);
@@ -282,8 +283,8 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
         String creationSiteMap,
         String postCreateHandler,
         String uploadFolder,
-        PageContext context,
-        ServletRequest request,
+        @RUntainted PageContext context,
+        @RUntainted ServletRequest request,
         ServletResponse response) {
 
         CmsContainerElementBean element = new CmsContainerElementBean(
@@ -375,7 +376,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
     @Override
     public int doEndTag() throws JspException {
 
-        ServletRequest request = pageContext.getRequest();
+        @RUntainted ServletRequest request = pageContext.getRequest();
         ServletResponse response = pageContext.getResponse();
         if (CmsFlexController.isCmsRequest(request)) {
             // this will always be true if the page is called through OpenCms
@@ -384,7 +385,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
                 boolean isOnline = cms.getRequestContext().getCurrentProject().isOnlineProject();
                 CmsResource res = null;
                 if (CmsUUID.isValidUUID(m_value)) {
-                    CmsUUID structureId = new CmsUUID(m_value);
+                    @RUntainted CmsUUID structureId = new CmsUUID(m_value);
                     res = isOnline
                     ? cms.readResource(structureId)
                     : cms.readResource(structureId, CmsResourceFilter.IGNORE_EXPIRATION);
@@ -518,7 +519,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
      *
      * @param uri the base URI
      */
-    public void setBaseUri(String uri) {
+    public void setBaseUri(@RUntainted String uri) {
 
         m_baseUri = uri;
     }
@@ -669,7 +670,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
      *
      * @param value the value to set
      */
-    public void setValue(String value) {
+    public void setValue(@RUntainted String value) {
 
         m_value = value;
     }
@@ -701,7 +702,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
      *
      * @return the formatter configuration bean
      */
-    private I_CmsFormatterBean getFormatterForType(CmsObject cms, CmsResource resource, boolean isOnline) {
+    private I_CmsFormatterBean getFormatterForType(CmsObject cms, @RUntainted CmsResource resource, boolean isOnline) {
 
         String typeName = OpenCms.getResourceManager().getResourceType(resource).getTypeName();
         CmsADEConfigData config = OpenCms.getADEManager().lookupConfigurationWithCache(

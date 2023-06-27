@@ -60,6 +60,7 @@ import java.util.TreeMap;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Object to conveniently access and modify the users workplace settings.<p>
@@ -324,7 +325,7 @@ public class CmsUserSettings {
     private boolean m_listAllProjects;
 
     /** The locale.*/
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** Controls if the "create index page" check box in the new folder dialog should be initially be checked or not. */
     private Boolean m_newFolderCreateIndexPage;
@@ -357,31 +358,31 @@ public class CmsUserSettings {
     private Boolean m_showUploadTypeDialog;
 
     /** The start folder. */
-    private String m_startFolder;
+    private @RUntainted String m_startFolder;
 
     /** Contains the key value entries with start setting for different gallery types. */
     private SortedMap<String, String> m_startGalleriesSettings;
 
     /** The start site. */
-    private String m_startSite;
+    private @RUntainted String m_startSite;
 
     /** The synchronize settings. */
     private CmsSynchronizeSettings m_synchronizeSettings;
 
     /** The custom user surf time. */
-    private long m_timeWarp;
+    private @RUntainted long m_timeWarp;
 
     /** The path of the preselected folder for the upload applet on the client machine. */
-    private String m_uploadAppletClientFolder;
+    private @RUntainted String m_uploadAppletClientFolder;
 
     /** Stores the upload variant enum. */
-    private UploadVariant m_uploadVariant;
+    private @RUntainted UploadVariant m_uploadVariant;
 
     /** The user. */
     private CmsUser m_user;
 
     /** The view. */
-    private String m_view;
+    private @RUntainted String m_view;
 
     /** The workplace button style. */
     private int m_workplaceButtonStyle;
@@ -673,7 +674,7 @@ public class CmsUserSettings {
      *
      * @return the locale of the user
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_locale;
     }
@@ -774,7 +775,7 @@ public class CmsUserSettings {
      *
      * @return the start folder of the user
      */
-    public String getStartFolder() {
+    public @RUntainted String getStartFolder() {
 
         return m_startFolder;
     }
@@ -808,7 +809,7 @@ public class CmsUserSettings {
      * @param cms Cms object
      * @return the root site path to the start gallery or the default key, null if "not set"
      */
-    public String getStartGallery(String galleryType, CmsObject cms) {
+    public @RUntainted String getStartGallery(String galleryType, CmsObject cms) {
 
         String startGallerySetting = getStartGallery(galleryType);
         String pathSetting = null;
@@ -833,7 +834,7 @@ public class CmsUserSettings {
      *
      * @return the start project of the user
      */
-    public String getStartProject() {
+    public @RUntainted String getStartProject() {
 
         return m_project;
     }
@@ -853,7 +854,7 @@ public class CmsUserSettings {
      *
      * @return the current start view of the user
      */
-    public String getStartView() {
+    public @RUntainted String getStartView() {
 
         return m_view;
     }
@@ -876,7 +877,7 @@ public class CmsUserSettings {
      * @return the current users time warp time, or
      *      {@link org.opencms.main.CmsContextInfo#CURRENT_TIME} if this feature is disabled
      */
-    public long getTimeWarp() {
+    public @RUntainted long getTimeWarp() {
 
         return m_timeWarp;
     }
@@ -896,7 +897,7 @@ public class CmsUserSettings {
      *
      * @return the uploadVariant
      */
-    public UploadVariant getUploadVariant() {
+    public @RUntainted UploadVariant getUploadVariant() {
 
         return m_uploadVariant;
     }
@@ -1223,7 +1224,7 @@ public class CmsUserSettings {
             m_startSite = OpenCms.getWorkplaceManager().getDefaultUserSettings().getStartSite();
         }
         // start folder, we use the setter here for default logic in case of illegal folder string:
-        String startFolder = (String)m_user.getAdditionalInfo(
+        @RUntainted String startFolder = (String)m_user.getAdditionalInfo(
             PREFERENCES + CmsWorkplaceConfiguration.N_WORKPLACESTARTUPSETTINGS + CmsWorkplaceConfiguration.N_FOLDER);
         if (startFolder == null) {
             startFolder = OpenCms.getWorkplaceManager().getDefaultUserSettings().getStartFolder();
@@ -1722,12 +1723,12 @@ public class CmsUserSettings {
                 additionalInfosToDelete.add(key);
             }
         }
-        for (String key : additionalInfosToDelete) {
+        for (@RUntainted String key : additionalInfosToDelete) {
             m_user.deleteAdditionalInfo(key);
         }
-        for (Map.Entry<String, String> entry : m_additionalPreferences.entrySet()) {
+        for (Map.@RUntainted @RUntainted Entry<@RUntainted String, @RUntainted String> entry : m_additionalPreferences.entrySet()) {
             String key = entry.getKey();
-            String value = entry.getValue();
+            @RUntainted String value = entry.getValue();
             m_user.setAdditionalInfo(PREFERENCES_ADDITIONAL_PREFIX + key, value);
         }
 
@@ -1937,7 +1938,7 @@ public class CmsUserSettings {
      *
      * @param locale the locale of the user
      */
-    public void setLocale(Locale locale) {
+    public void setLocale(@RUntainted Locale locale) {
 
         m_locale = locale;
     }
@@ -2181,7 +2182,7 @@ public class CmsUserSettings {
      *
      * @param folder the start folder of the user
      */
-    public void setStartFolder(String folder) {
+    public void setStartFolder(@RUntainted String folder) {
 
         if (!folder.startsWith("/")) {
             folder = "/" + folder;
@@ -2242,7 +2243,7 @@ public class CmsUserSettings {
      *
      * @param view the current start view of the user
      */
-    public void setStartView(String view) {
+    public void setStartView(@RUntainted String view) {
 
         m_view = view;
     }
@@ -2282,7 +2283,7 @@ public class CmsUserSettings {
      *
      * @param uploadAppletClientFolder the folder path  of the upload applet on the client machine
      */
-    public void setUploadAppletClientFolder(String uploadAppletClientFolder) {
+    public void setUploadAppletClientFolder(@RUntainted String uploadAppletClientFolder) {
 
         m_uploadAppletClientFolder = uploadAppletClientFolder;
     }
@@ -2294,7 +2295,7 @@ public class CmsUserSettings {
      */
     public void setUploadVariant(String uploadVariant) {
 
-        UploadVariant upload = null;
+        @RUntainted UploadVariant upload = null;
         try {
             upload = UploadVariant.valueOf(uploadVariant);
         } catch (Exception e) {
@@ -2314,7 +2315,7 @@ public class CmsUserSettings {
      *
      * @param uploadVariant the upload variant
      */
-    public void setUploadVariant(UploadVariant uploadVariant) {
+    public void setUploadVariant(@RUntainted UploadVariant uploadVariant) {
 
         m_uploadVariant = uploadVariant;
     }

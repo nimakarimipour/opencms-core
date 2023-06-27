@@ -70,6 +70,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.FormLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The publish schedule dialog.<p>
@@ -182,7 +183,7 @@ public class CmsPublishScheduledDialog extends CmsBasicDialog {
         //            return;
         //        }
         long current = System.currentTimeMillis();
-        Date dateValue = m_dateField.getDate();
+        @RUntainted Date dateValue = m_dateField.getDate();
         long publishTime = dateValue.getTime();
         if (current > publishTime) {
             m_context.error(
@@ -336,7 +337,7 @@ public class CmsPublishScheduledDialog extends CmsBasicDialog {
      *
      * @return the publish project name
      */
-    private String computeProjectName(String rootPath, Date date) {
+    private @RUntainted String computeProjectName(String rootPath, Date date) {
 
         // create the temporary project, which is deleted after publishing
         // the publish scheduled date in project name
@@ -372,11 +373,11 @@ public class CmsPublishScheduledDialog extends CmsBasicDialog {
 
         CmsProject tmpProject;
 
-        String rootPath = resources.get(0).getRootPath();
+        @RUntainted String rootPath = resources.get(0).getRootPath();
         if (resources.size() > 1) {
             rootPath = CmsResource.getParentFolder(rootPath);
         }
-        String projectName = computeProjectName(rootPath, date);
+        @RUntainted String projectName = computeProjectName(rootPath, date);
 
         try {
             // create the project

@@ -29,6 +29,7 @@ package org.opencms.ade.sitemap.shared;
 
 import org.opencms.gwt.shared.CmsListInfoBean;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean representing a resource type for use in the detail page creation menu.<p>
@@ -41,7 +42,7 @@ public class CmsNewResourceInfo extends CmsListInfoBean {
     public static final String NAVIGATION_LEVEL_PARAMETER = "new_navigation_level";
 
     /** The structure id of the copy resource. */
-    private CmsUUID m_copyResourceId;
+    private @RUntainted CmsUUID m_copyResourceId;
 
     /** The additional parameter used for creating new resources. */
     private String m_createParameter;
@@ -86,7 +87,7 @@ public class CmsNewResourceInfo extends CmsListInfoBean {
         String typeName,
         String title,
         String description,
-        CmsUUID copyResourceId,
+        @RUntainted CmsUUID copyResourceId,
         boolean editable,
         String subTitle) {
         super(title, subTitle, null);
@@ -110,7 +111,7 @@ public class CmsNewResourceInfo extends CmsListInfoBean {
      *
      * @return the structure id of the copy resource
      */
-    public CmsUUID getCopyResourceId() {
+    public @RUntainted CmsUUID getCopyResourceId() {
 
         return m_copyResourceId;
     }

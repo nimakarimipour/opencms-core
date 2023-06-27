@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Replaces a module.<p>
@@ -63,7 +64,7 @@ public class CmsModuleReplaceThread extends A_CmsReportThread {
     private String m_reportContent;
 
     /** The zip file name. */
-    private String m_zipName;
+    private @RUntainted String m_zipName;
 
     /**
      * Creates the module replace thread.<p>

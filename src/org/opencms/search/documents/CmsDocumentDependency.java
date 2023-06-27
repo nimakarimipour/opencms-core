@@ -56,6 +56,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the dependency information about one search result document,
@@ -167,7 +168,7 @@ public final class CmsDocumentDependency {
      * @param resource the VFS resource for which the dependencies are calculated
      * @param rootPath the root path to use
      */
-    private CmsDocumentDependency(CmsPublishedResource resource, String rootPath) {
+    private CmsDocumentDependency(CmsPublishedResource resource, @RUntainted String rootPath) {
 
         m_resource = resource;
         m_rootPath = rootPath;
@@ -235,7 +236,7 @@ public final class CmsDocumentDependency {
      *
      * @return the dependency object created from a String representation
      */
-    public static CmsDocumentDependency fromDependencyString(String input, String rootPath) {
+    public static CmsDocumentDependency fromDependencyString(String input, @RUntainted String rootPath) {
 
         CmsDocumentDependency result = new CmsDocumentDependency(null, rootPath);
         if (input != null) {
@@ -256,9 +257,9 @@ public final class CmsDocumentDependency {
                     }
                 } else {
                     // special handling for news
-                    String[] docs = CmsStringUtil.splitAsArray(input, '|');
+                    @RUntainted String[] docs = CmsStringUtil.splitAsArray(input, '|');
                     for (int i = 0; i < docs.length; i++) {
-                        String doc = docs[i];
+                        @RUntainted String doc = docs[i];
 
                         String lang = doc.substring(0, 2);
                         Locale loc = new Locale(lang);
@@ -266,7 +267,7 @@ public final class CmsDocumentDependency {
                         if (i == 0) {
                             result.setLocale(loc);
                         } else {
-                            String rp = doc.substring(3);
+                            @RUntainted String rp = doc.substring(3);
                             CmsDocumentDependency dep = new CmsDocumentDependency(null, rp);
                             if (!loc.equals(result.getLocale())) {
                                 dep.setLocale(new Locale(lang));
@@ -291,7 +292,7 @@ public final class CmsDocumentDependency {
      *
      * @return the locale of the given resource based on the resource root path
      */
-    public static Locale getLocale(String rootPath) {
+    public static Locale getLocale(@RUntainted String rootPath) {
 
         return (new CmsDocumentDependency(null, rootPath)).getLocale();
     }
@@ -358,7 +359,7 @@ public final class CmsDocumentDependency {
      *
      * @return a dependency object for the given parameters
      */
-    protected static CmsDocumentDependency loadForTest(String rootPath) {
+    protected static CmsDocumentDependency loadForTest(@RUntainted String rootPath) {
 
         return new CmsDocumentDependency(null, rootPath);
     }

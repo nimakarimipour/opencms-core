@@ -57,6 +57,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  *Class for the Global configuration dialog.<p>
@@ -88,7 +89,7 @@ public class CmsGlobalForm extends CmsBasicDialog {
     private ComboBox m_fieldDefaultURI;
 
     /**Vaadin field.*/
-    private ComboBox m_fieldSharedFolder;
+    private @RUntainted ComboBox m_fieldSharedFolder;
 
     /**Site manager instance. */
     private CmsSiteManager m_manager;
@@ -245,7 +246,7 @@ public class CmsGlobalForm extends CmsBasicDialog {
             }
         }, "Add");
 
-        for (String server : OpenCms.getSiteManager().getWorkplaceServers()) {
+        for (@RUntainted String server : OpenCms.getSiteManager().getWorkplaceServers()) {
             CmsWorkplaceServerWidget row = new CmsWorkplaceServerWidget(sites, server);
             m_workplaceServerGroup.addRow(row);
         }
@@ -265,7 +266,7 @@ public class CmsGlobalForm extends CmsBasicDialog {
         m_fieldDefaultURI.setItemCaptionPropertyId("title");
 
         //set value
-        String siteRoot = OpenCms.getSiteManager().getDefaultUri();
+        @RUntainted String siteRoot = OpenCms.getSiteManager().getDefaultUri();
         if (siteRoot.endsWith("/")) {
             siteRoot = siteRoot.substring(0, siteRoot.length() - 1);
         }

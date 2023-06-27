@@ -28,6 +28,7 @@
 package org.opencms.security;
 
 import org.opencms.main.CmsIllegalArgumentException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines general validation methods.<p>
@@ -43,7 +44,7 @@ public interface I_CmsValidationHandler {
      *
      * @throws CmsIllegalArgumentException if the given email address is not valid
      */
-    void checkEmail(String email) throws CmsIllegalArgumentException;
+    void checkEmail(@RUntainted String email) throws CmsIllegalArgumentException;
 
     /**
      * Checks if the provided first name is valid.<p>
@@ -79,7 +80,7 @@ public interface I_CmsValidationHandler {
      *
      * @throws CmsIllegalArgumentException if the given user name is not valid
      */
-    void checkUserName(String userName) throws CmsIllegalArgumentException;
+    void checkUserName(@RUntainted String userName) throws CmsIllegalArgumentException;
 
     /**
      * Checks if the provided string is a valid zip code.<p>
@@ -88,5 +89,5 @@ public interface I_CmsValidationHandler {
      *
      * @throws CmsIllegalArgumentException if the given zip code is not valid
      */
-    void checkZipCode(String zipcode) throws CmsIllegalArgumentException;
+    void checkZipCode(@RUntainted String zipcode) throws CmsIllegalArgumentException;
 }

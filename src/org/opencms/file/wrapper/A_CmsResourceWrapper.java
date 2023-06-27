@@ -39,6 +39,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsIllegalArgumentException;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default abstract implementation of the interface {@link I_CmsResourceWrapper}.<p>
@@ -59,7 +60,7 @@ public abstract class A_CmsResourceWrapper implements I_CmsResourceWrapper {
     /**
      * @see org.opencms.file.wrapper.I_CmsResourceWrapper#addResourcesToFolder(org.opencms.file.CmsObject, java.lang.String, org.opencms.file.CmsResourceFilter)
      */
-    public List<CmsResource> addResourcesToFolder(CmsObject cms, String resourcename, CmsResourceFilter filter)
+    public List<CmsResource> addResourcesToFolder(CmsObject cms, @RUntainted String resourcename, CmsResourceFilter filter)
     throws CmsException {
 
         if (m_isWrappedResource) {
@@ -81,7 +82,7 @@ public abstract class A_CmsResourceWrapper implements I_CmsResourceWrapper {
     /**
      * @see org.opencms.file.wrapper.I_CmsResourceWrapper#copyResource(org.opencms.file.CmsObject, java.lang.String, java.lang.String, org.opencms.file.CmsResource.CmsResourceCopyMode)
      */
-    public boolean copyResource(CmsObject cms, String source, String destination, CmsResourceCopyMode siblingMode)
+    public boolean copyResource(CmsObject cms, @RUntainted String source, @RUntainted String destination, CmsResourceCopyMode siblingMode)
     throws CmsException, CmsIllegalArgumentException {
 
         if (m_isWrappedResource) {
@@ -97,7 +98,7 @@ public abstract class A_CmsResourceWrapper implements I_CmsResourceWrapper {
     public CmsResource createResource(
         CmsObject cms,
         String resourcename,
-        int type,
+        @RUntainted int type,
         byte[] content,
         List<CmsProperty> properties) throws CmsException, CmsIllegalArgumentException {
 
@@ -137,7 +138,7 @@ public abstract class A_CmsResourceWrapper implements I_CmsResourceWrapper {
     /**
      * @see org.opencms.file.wrapper.I_CmsResourceWrapper#lockResource(org.opencms.file.CmsObject, java.lang.String, boolean)
      */
-    public boolean lockResource(CmsObject cms, String resourcename, boolean temporary) throws CmsException {
+    public boolean lockResource(CmsObject cms, @RUntainted String resourcename, boolean temporary) throws CmsException {
 
         if (m_isWrappedResource) {
             if (temporary) {
@@ -154,7 +155,7 @@ public abstract class A_CmsResourceWrapper implements I_CmsResourceWrapper {
     /**
      * @see org.opencms.file.wrapper.I_CmsResourceWrapper#moveResource(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public boolean moveResource(CmsObject cms, String source, String destination)
+    public boolean moveResource(CmsObject cms, @RUntainted String source, String destination)
     throws CmsException, CmsIllegalArgumentException {
 
         if (m_isWrappedResource) {
@@ -200,7 +201,7 @@ public abstract class A_CmsResourceWrapper implements I_CmsResourceWrapper {
     /**
      * @see org.opencms.file.wrapper.I_CmsResourceWrapper#rewriteLink(CmsObject, CmsResource)
      */
-    public String rewriteLink(CmsObject cms, CmsResource res) {
+    public @RUntainted String rewriteLink(CmsObject cms, CmsResource res) {
 
         return null;
     }

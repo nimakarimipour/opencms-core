@@ -48,6 +48,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import org.apache.commons.logging.Log;
 
 import org.htmlparser.util.ParserException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the <code>&lt;cms:parse&gt;&lt;/cms:parse&gt;</code> tag to allow parsing of nested
@@ -95,7 +96,7 @@ public class CmsJspTagParse extends BodyTagSupport {
     @Override
     public int doEndTag() throws JspException {
 
-        ServletRequest req = pageContext.getRequest();
+        @RUntainted ServletRequest req = pageContext.getRequest();
         A_CmsConfiguredHtmlParser parser;
         if (m_allowInlineEdit && CmsJspTagEditable.isEditableRequest(req)) {
             // during inline editing the content should not be parsed

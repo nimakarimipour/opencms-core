@@ -48,6 +48,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Loader for images from the OpenCms VSF with integrated image scaling and processing capabilities.<p>
@@ -160,7 +161,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
     }
 
     /** The name of the configured image cache repository. */
-    protected String m_imageRepositoryFolder;
+    protected @RUntainted String m_imageRepositoryFolder;
 
     /** The maximum image size (width or height) to allow when up scaling an image using request parameters. */
     protected int m_maxScaleSize = CmsImageScaler.SCALE_DEFAULT_MAX_SIZE;
@@ -177,7 +178,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
      */
     @Override
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
         if (CmsStringUtil.isNotEmpty(paramName) && CmsStringUtil.isNotEmpty(paramValue)) {
             if (CONFIGURATION_SCALING_ENABLED.equals(paramName)) {
@@ -288,7 +289,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
      * @throws IOException in case of errors accessing the disk based cache
      * @throws CmsException in case of errors accessing the OpenCms VFS
      */
-    protected CmsFile getScaledImage(CmsObject cms, CmsResource resource, CmsImageScaler scaler)
+    protected CmsFile getScaledImage(CmsObject cms, @RUntainted CmsResource resource, CmsImageScaler scaler)
     throws IOException, CmsException {
 
         String cacheParam = scaler.isValid() ? scaler.toString() : null;
@@ -357,7 +358,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
      * @see org.opencms.loader.I_CmsResourceLoader#load(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public void load(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+    public void load(CmsObject cms, @RUntainted CmsResource resource, HttpServletRequest req, HttpServletResponse res)
     throws IOException, CmsException {
 
         if (m_enabled) {
@@ -368,7 +369,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
             // get the scale information from the request
             CmsImageScaler scaler = new CmsImageScaler(req, m_maxScaleSize, m_maxBlurSize);
             // load the file from the cache
-            CmsFile file = getScaledImage(cms, resource, scaler);
+            @RUntainted CmsFile file = getScaledImage(cms, resource, scaler);
             // now perform standard load operation inherited from dump loader
             super.load(cms, file, req, res);
         } else {

@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Helper with methods commonly used in editor widgets. */
 public class CmsWidgetUtil {
@@ -79,7 +80,7 @@ public class CmsWidgetUtil {
      * @param defaultValue the default value to return if the option is not set.
      * @return the value of an option, or the default if the value is null or the key is not part of the map.
      */
-    public static String getStringOption(Map<String, String> configOptions, String optionKey, String defaultValue) {
+    public static @RUntainted String getStringOption(Map<String, String> configOptions, String optionKey, String defaultValue) {
 
         String result = configOptions.get(optionKey);
         return null != result ? result : defaultValue;

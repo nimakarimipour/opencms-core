@@ -83,6 +83,7 @@ import com.vaadin.ui.Upload.Receiver;
 import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog for CSV im- and export.<p>
@@ -142,7 +143,7 @@ implements Receiver, I_CmsPasswordFetcher {
     private boolean m_groupEditable = true;
 
     /**ID of group. */
-    private CmsUUID m_groupID;
+    private @RUntainted CmsUUID m_groupID;
 
     /**Stream for upload file. */
     private ByteArrayOutputStream m_importFileStream;
@@ -187,7 +188,7 @@ implements Receiver, I_CmsPasswordFetcher {
      */
     private CmsImportExportUserDialog(
         final String ou,
-        CmsUUID groupID,
+        @RUntainted CmsUUID groupID,
         Window window,
         boolean allowTechnicalFieldsExport) {
 
@@ -367,12 +368,12 @@ implements Receiver, I_CmsPasswordFetcher {
      */
     public static Map<CmsUUID, CmsUser> addExportUsersFromGroups(
         CmsObject cms,
-        List<String> groups,
+        @RUntainted List<@RUntainted String> groups,
         Map<CmsUUID, CmsUser> exportUsers)
     throws CmsException {
 
         if ((groups != null) && (groups.size() > 0)) {
-            Iterator<String> itGroups = groups.iterator();
+            @RUntainted Iterator<@RUntainted String> itGroups = groups.iterator();
             while (itGroups.hasNext()) {
                 List<CmsUser> groupUsers = cms.getUsersOfGroup(itGroups.next());
                 Iterator<CmsUser> itGroupUsers = groupUsers.iterator();
@@ -401,7 +402,7 @@ implements Receiver, I_CmsPasswordFetcher {
      */
     public static Map<CmsUUID, CmsUser> addExportUsersFromRoles(
         CmsObject cms,
-        String ou,
+        @RUntainted String ou,
         List<String> roles,
         Map<CmsUUID, CmsUser> exportUsers)
     throws CmsException {
@@ -489,7 +490,7 @@ implements Receiver, I_CmsPasswordFetcher {
      * @param groupID default value
      * @return CmsPrinicpalSelect
      */
-    protected CmsPrincipalSelect getGroupSelect(String ou, boolean enabled, CmsUUID groupID) {
+    protected CmsPrincipalSelect getGroupSelect(String ou, boolean enabled, @RUntainted CmsUUID groupID) {
 
         CmsPrincipalSelect select = new CmsPrincipalSelect();
         select.setOU(ou);
@@ -516,7 +517,7 @@ implements Receiver, I_CmsPasswordFetcher {
      * @param ou name
      * @return ComboBox
      */
-    protected ComboBox<CmsRole> getRoleComboBox(String ou) {
+    protected ComboBox<CmsRole> getRoleComboBox(@RUntainted String ou) {
 
         ComboBox<CmsRole> box = new ComboBox<CmsRole>();
         CmsUserEditDialog.iniRole(A_CmsUI.getCmsObject(), ou, box, null);
@@ -575,7 +576,7 @@ implements Receiver, I_CmsPasswordFetcher {
                     CmsUser curUser = new CmsUser();
                     try {
                         for (int i = 0; i < values.size(); i++) {
-                            String curValue = (String)values.get(i);
+                            @RUntainted String curValue = (String)values.get(i);
                             try {
                                 Method method = CmsUser.class.getMethod(
                                     "set" + curValue.substring(0, 1).toUpperCase() + curValue.substring(1),
@@ -670,7 +671,7 @@ implements Receiver, I_CmsPasswordFetcher {
     Map<CmsUUID, CmsUser> getUserToExport() {
 
         // get the data object from session
-        List<String> groups = getGroupsList(m_exportGroups, false);
+        @RUntainted List<@RUntainted String> groups = getGroupsList(m_exportGroups, false);
 
         Iterator<I_CmsEditableGroupRow> it = m_exportRolesGroup.getRows().iterator();
         List<String> roles = new ArrayList<String>();
@@ -709,7 +710,7 @@ implements Receiver, I_CmsPasswordFetcher {
      * @param importCase boolean
      * @return List of group names
      */
-    private List<String> getGroupsList(VerticalLayout parent, boolean importCase) {
+    private @RUntainted List<@RUntainted String> getGroupsList(VerticalLayout parent, boolean importCase) {
 
         List<String> res = new ArrayList<String>();
 

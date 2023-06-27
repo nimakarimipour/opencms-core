@@ -93,6 +93,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.IOContext;
 import org.apache.solr.uninverting.UninvertingReader;
 import org.apache.solr.uninverting.UninvertingReader.Type;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract search index implementation.<p>
@@ -267,7 +268,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @throws CmsIllegalArgumentException if the given name is null, empty or already taken by another search index
      */
-    public CmsSearchIndex(String name)
+    public CmsSearchIndex(@RUntainted String name)
     throws CmsIllegalArgumentException {
 
         this();
@@ -607,7 +608,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      */
     public I_CmsSearchDocument getDocument(String field, String term) {
 
-        Document result = null;
+        @RUntainted Document result = null;
         IndexSearcher searcher = getSearcher();
         if (searcher != null) {
             // search for an exact match on the selected field
@@ -685,7 +686,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      * @return the path where this index stores it's data in the "real" file system
      */
     @Override
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         if (super.getPath() == null) {
             setPath(generateIndexDirectory());
@@ -869,7 +870,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @throws CmsSearchException if something goes wrong
      */
-    public CmsSearchResultList search(CmsObject cms, CmsSearchParameters params) throws CmsSearchException {
+    public CmsSearchResultList search(CmsObject cms, @RUntainted CmsSearchParameters params) throws CmsSearchException {
 
         long timeTotal = -System.currentTimeMillis();
         long timeLucene;
@@ -1066,7 +1067,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
                 long visibleHitCount = hitCount;
                 for (int i = 0, cnt = 0; (i < hitCount) && (cnt < end); i++) {
                     try {
-                        Document doc = searcher.doc(hits.scoreDocs[i].doc, returnFields);
+                        @RUntainted Document doc = searcher.doc(hits.scoreDocs[i].doc, returnFields);
                         I_CmsSearchDocument searchDoc = new CmsLuceneDocument(doc);
                         searchDoc.setScore(hits.scoreDocs[i].score);
                         if ((isInTimeRange(doc, params)) && (hasReadPermission(searchCms, searchDoc))) {
@@ -1075,7 +1076,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
                                 // do not use the resource to obtain the raw content, read it from the lucene document!
                                 String excerpt = null;
                                 if (isCreatingExcerpt() && (fieldsQuery != null)) {
-                                    Document exDoc = searcher.doc(hits.scoreDocs[i].doc, excerptFields);
+                                    @RUntainted Document exDoc = searcher.doc(hits.scoreDocs[i].doc, excerptFields);
                                     I_CmsTermHighlighter highlighter = OpenCms.getSearchManager().getHighlighter();
                                     excerpt = highlighter.getExcerpt(exDoc, this, params, fieldsQuery, getAnalyzer());
                                 }

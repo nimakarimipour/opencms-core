@@ -85,6 +85,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Main class of Log management app.<p>
@@ -427,7 +428,7 @@ public class CmsLogFileApp extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Log
      * @throws CmsRfsException exception
      * @throws CmsRuntimeException exception
      */
-    public String getLogFilePortion(CmsRfsFileViewer logView, String currentFile)
+    public String getLogFilePortion(CmsRfsFileViewer logView, @RUntainted String currentFile)
     throws CmsRfsException, CmsRuntimeException {
 
         logView.setFilePath(currentFile);

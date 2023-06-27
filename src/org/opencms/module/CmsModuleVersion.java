@@ -32,6 +32,7 @@ import org.opencms.main.CmsRuntimeException;
 import org.opencms.util.CmsStringUtil;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A version number for an OpenCms module.<p>
@@ -72,14 +73,14 @@ public class CmsModuleVersion implements Comparable<Object>, Serializable {
     private boolean m_updated;
 
     /** The version String. */
-    private String m_version;
+    private @RUntainted String m_version;
 
     /**
      * Creates a new module version based on a String.<p>
      *
      * @param version the version to set
      */
-    public CmsModuleVersion(String version) {
+    public CmsModuleVersion(@RUntainted String version) {
 
         setVersion(version);
     }
@@ -129,7 +130,7 @@ public class CmsModuleVersion implements Comparable<Object>, Serializable {
      *
      * @return the current version String
      */
-    public String getVersion() {
+    public @RUntainted String getVersion() {
 
         return m_version;
     }
@@ -152,7 +153,7 @@ public class CmsModuleVersion implements Comparable<Object>, Serializable {
      *
      * @param version the version String to set
      */
-    public void setVersion(String version) {
+    public void setVersion(@RUntainted String version) {
 
         m_number = 0L;
         if ((version == null) || (version.charAt(0) == '.') || (version.charAt(version.length() - 1) == '.')) {
@@ -172,7 +173,7 @@ public class CmsModuleVersion implements Comparable<Object>, Serializable {
         }
         for (int i = numbers.length - 1; i >= 0; i--) {
             try {
-                int number = Integer.valueOf(numbers[numbers.length - i - 1]).intValue();
+                @RUntainted int number = Integer.valueOf(numbers[numbers.length - i - 1]).intValue();
 
                 if ((number > 999) || (number < 0)) {
                     throw new CmsIllegalArgumentException(
@@ -237,9 +238,9 @@ public class CmsModuleVersion implements Comparable<Object>, Serializable {
      */
     private void setVersion(long number) {
 
-        String result = "";
+        @RUntainted String result = "";
         for (int i = 0; i < 4; i++) {
-            long mod = number % 1000L;
+            @RUntainted long mod = number % 1000L;
             number = number / 1000L;
             if (m_dots >= (4 - i)) {
                 if (m_dots > (4 - i)) {

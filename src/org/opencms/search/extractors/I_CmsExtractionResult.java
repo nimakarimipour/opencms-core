@@ -32,6 +32,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The result of a document text extraction.<p>
@@ -56,7 +57,7 @@ public interface I_CmsExtractionResult {
     String ITEM_COMPANY = "company";
 
     /** Key for accessing the default (combined) content in {@link #getContentItems()}. */
-    String ITEM_CONTENT = "__content";
+    @RUntainted String ITEM_CONTENT = "__content";
 
     /** Key to access the document creator name in the item map. */
     String ITEM_CREATOR = "creator";
@@ -71,7 +72,7 @@ public interface I_CmsExtractionResult {
     String ITEM_PRODUCER = "producer";
 
     /** Key for accessing the raw content in {@link #getContentItems()}. */
-    String ITEM_RAW = "__raw";
+    @RUntainted String ITEM_RAW = "__raw";
 
     /** Key to access the document subject in the item map. */
     String ITEM_SUBJECT = "subject";
@@ -94,7 +95,7 @@ public interface I_CmsExtractionResult {
      *
      * @return the extracted content of the best fitting locale combined as a String
      */
-    String getContent();
+    @RUntainted String getContent();
 
     /**
      * Returns the extracted content for the given locale combined as a String.<p>

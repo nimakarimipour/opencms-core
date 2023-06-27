@@ -75,6 +75,7 @@ import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Main widget for the Git check-in tool.<p>
@@ -418,9 +419,9 @@ public class CmsGitToolOptionsPanel extends VerticalLayout {
         boolean error = false;
         switch (action) {
             case checkIn:
-                String messageToSave = m_checkinBean.getCommitMessage();
-                String emailToSave = m_checkinBean.getGitUserEmail();
-                String userToSave = m_checkinBean.getGitUserName();
+                @RUntainted String messageToSave = m_checkinBean.getCommitMessage();
+                @RUntainted String emailToSave = m_checkinBean.getGitUserEmail();
+                @RUntainted String userToSave = m_checkinBean.getGitUserName();
                 CmsObject cms = m_checkinBean.getCmsObject();
                 CmsUser user = cms.getRequestContext().getCurrentUser();
                 setUserInfo(user, ADDINFO_USER, userToSave);
@@ -770,7 +771,7 @@ public class CmsGitToolOptionsPanel extends VerticalLayout {
      * @param key the additional info key
      * @param value the additional info value
      */
-    private void setUserInfo(CmsUser user, String key, String value) {
+    private void setUserInfo(CmsUser user, @RUntainted String key, @RUntainted String value) {
 
         if (!CmsStringUtil.isEmptyOrWhitespaceOnly(value)) {
             user.getAdditionalInfo().put(key, value);

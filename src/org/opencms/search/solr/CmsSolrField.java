@@ -37,6 +37,7 @@ import org.opencms.search.fields.I_CmsSearchFieldMapping;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An individual field for the Solr search index.<p>
@@ -65,7 +66,7 @@ public class CmsSolrField extends CmsSearchField {
     public CmsSolrField(CmsLuceneField luceneField) {
 
         super();
-        String name = luceneField.getName();
+        @RUntainted String name = luceneField.getName();
         if (null != luceneField.getType()) {
             name = name + "_" + luceneField.getType();
         }
@@ -85,7 +86,7 @@ public class CmsSolrField extends CmsSearchField {
      * @param locale the locale
      * @param defaultValue the default value
      */
-    public CmsSolrField(String targetField, List<String> copyFields, Locale locale, String defaultValue) {
+    public CmsSolrField(@RUntainted String targetField, List<String> copyFields, Locale locale, String defaultValue) {
 
         super(targetField, defaultValue);
         m_targetField = targetField;

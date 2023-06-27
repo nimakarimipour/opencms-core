@@ -28,6 +28,7 @@
 package org.opencms.loader;
 
 import org.opencms.file.CmsResource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Facade object that provides access to the template loader for a resource.<p>
@@ -97,7 +98,7 @@ public class CmsTemplateLoaderFacade {
      *
      * @return the loaders start resource
      */
-    public CmsResource getLoaderStartResource() {
+    public @RUntainted CmsResource getLoaderStartResource() {
 
         if (m_loader.isUsingUriWhenLoadingTemplate()) {
             return m_resource;

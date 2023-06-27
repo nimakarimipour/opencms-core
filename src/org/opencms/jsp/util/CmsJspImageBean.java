@@ -44,6 +44,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean containing image information for the use in JSP (for example formatters).
@@ -169,7 +170,7 @@ public class CmsJspImageBean {
      *
      * @throws CmsException in case of problems reading the image from the VFS
      */
-    public CmsJspImageBean(CmsObject cms, String imageUri)
+    public CmsJspImageBean(CmsObject cms, @RUntainted String imageUri)
     throws CmsException {
 
         setCmsObject(cms);
@@ -200,7 +201,7 @@ public class CmsJspImageBean {
      *
      * @throws CmsException in case of problems reading the image from the VFS
      */
-    public CmsJspImageBean(CmsObject cms, String imageUri, CmsImageScaler initScaler)
+    public CmsJspImageBean(CmsObject cms, @RUntainted String imageUri, CmsImageScaler initScaler)
     throws CmsException {
 
         this(cms, imageUri);

@@ -33,6 +33,7 @@ import org.opencms.xml.containerpage.CmsContainerElementBean;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A mutable bean representing a container for use in programmaticall editing container pages.
@@ -47,7 +48,7 @@ public class CmsMutableContainer {
     private String m_name;
 
     /** The container type. */
-    private String m_type;
+    private @RUntainted String m_type;
 
     /** The parent instance id. */
     private String m_parentInstanceId;
@@ -66,7 +67,7 @@ public class CmsMutableContainer {
      */
     public CmsMutableContainer(
         String name,
-        String type,
+        @RUntainted String type,
         String parentInstanceId,
         boolean isRootContainer,
         List<CmsContainerElementBean> elements) {
@@ -194,7 +195,7 @@ public class CmsMutableContainer {
      *
      * @param type the type
      */
-    public void setType(String type) {
+    public void setType(@RUntainted String type) {
 
         m_type = type;
     }

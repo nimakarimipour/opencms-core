@@ -52,6 +52,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ImmutableList;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean containing formatter configuration data as strings.<p>
@@ -97,7 +98,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
     protected String m_displayType;
 
     /** The id for this formatter. */
-    protected String m_id;
+    protected @RUntainted String m_id;
 
     /** Inline CSS snippets. */
     protected String m_inlineCss;
@@ -121,16 +122,16 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
     protected List<String> m_javascriptHeadIncludes = new ArrayList<String>();
 
     /** The formatter JSP. */
-    protected String m_jspRootPath;
+    protected @RUntainted String m_jspRootPath;
 
     /** The UUID of the JSP resource for this formatter. */
-    protected CmsUUID m_jspStructureId;
+    protected @RUntainted CmsUUID m_jspStructureId;
 
     /** The formatter key. */
     protected String m_key;
 
     /** The location this formatter was configured in. */
-    protected String m_location;
+    protected @RUntainted String m_location;
 
     /** If true, will match any container/width combination. */
     protected boolean m_matchAll;
@@ -214,15 +215,15 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      */
     public CmsFormatterBean(
         Set<String> containerTypes,
-        String jspRootPath,
-        CmsUUID jspStructureId,
+        @RUntainted String jspRootPath,
+        @RUntainted CmsUUID jspStructureId,
         String key,
         Set<String> aliasKeys,
         int minWidth,
         int maxWidth,
         boolean preview,
         boolean searchContent,
-        String location,
+        @RUntainted String location,
         List<String> cssHeadIncludes,
         String inlineCss,
         List<String> javascriptHeadIncludes,
@@ -232,7 +233,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
         String description,
         Collection<String> resourceTypeNames,
         int rank,
-        String id,
+        @RUntainted String id,
         CmsSettingConfiguration settingConfig,
         boolean isFromConfigFile,
         boolean isAutoEnabled,
@@ -303,12 +304,12 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
     public CmsFormatterBean(
         String containerType,
         String rootPath,
-        CmsUUID structureId,
+        @RUntainted CmsUUID structureId,
         int minWidth,
         int maxWidth,
         boolean preview,
         boolean searchContent,
-        String location) {
+        @RUntainted String location) {
 
         this(
             isWildcardType(containerType) ? Collections.<String> emptySet() : Collections.singleton(containerType),
@@ -358,12 +359,12 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      */
     public CmsFormatterBean(
         String containerType,
-        String jspRootPath,
+        @RUntainted String jspRootPath,
         String minWidthStr,
         String maxWidthStr,
         String preview,
         String searchContent,
-        String location) {
+        @RUntainted String location) {
 
         m_jspRootPath = jspRootPath;
         m_containerTypes = Collections.singleton(containerType);
@@ -407,7 +408,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      * @param location the formatter location
      * @param preview the preview formatter flag
      */
-    CmsFormatterBean(String jspRootPath, CmsUUID jspStructureId, String location, boolean preview) {
+    CmsFormatterBean(String jspRootPath, @RUntainted CmsUUID jspStructureId, @RUntainted String location, boolean preview) {
 
         this(
             Collections.<String> emptySet(),
@@ -515,7 +516,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
     /**
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getDescription(Locale)
      */
-    public String getDescription(Locale locale) {
+    public String getDescription(@RUntainted Locale locale) {
 
         if (locale == null) {
             return m_description;
@@ -537,7 +538,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getId()
      */
     @Override
-    public String getId() {
+    public @RUntainted String getId() {
 
         return m_id;
     }
@@ -573,7 +574,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getJspRootPath()
      */
     @Override
-    public String getJspRootPath() {
+    public @RUntainted String getJspRootPath() {
 
         return m_jspRootPath;
     }
@@ -582,7 +583,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getJspStructureId()
      */
     @Override
-    public CmsUUID getJspStructureId() {
+    public @RUntainted CmsUUID getJspStructureId() {
 
         return m_jspStructureId;
     }
@@ -599,7 +600,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getLocation()
      */
     @Override
-    public String getLocation() {
+    public @RUntainted String getLocation() {
 
         return m_location;
     }
@@ -634,7 +635,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getNiceName(Locale)
      */
     @Override
-    public String getNiceName(Locale locale) {
+    public String getNiceName(@RUntainted Locale locale) {
 
         if (locale == null) {
             return m_niceName;
@@ -792,7 +793,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      *
      * @param jspStructureId the structure id of the JSP for this formatter
      */
-    public void setJspStructureId(CmsUUID jspStructureId) {
+    public void setJspStructureId(@RUntainted CmsUUID jspStructureId) {
 
         // package visibility is wanted
         m_jspStructureId = jspStructureId;

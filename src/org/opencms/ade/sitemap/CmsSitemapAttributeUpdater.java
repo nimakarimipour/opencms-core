@@ -40,6 +40,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Performs attribute changes in a sitemap configuration file CmsXmlContent instance.
@@ -141,7 +142,7 @@ public class CmsSitemapAttributeUpdater {
             m_sitemapConfig.removeValue(CmsConfigurationReader.N_ATTRIBUTE, Locale.ENGLISH, 0);
         }
         CmsObject cms = m_cms;
-        for (Map.Entry<String, String> entry : allValues.entrySet()) {
+        for (Map.@RUntainted Entry<@RUntainted String, @RUntainted String> entry : allValues.entrySet()) {
             I_CmsXmlContentValue newAttrValue = m_sitemapConfig.addValue(
                 cms,
                 CmsConfigurationReader.N_ATTRIBUTE,

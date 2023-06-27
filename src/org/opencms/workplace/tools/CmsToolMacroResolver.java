@@ -38,6 +38,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resolves special macros for the admin view.<p>
@@ -121,7 +122,7 @@ public class CmsToolMacroResolver implements I_CmsMacroResolver {
      *
      * @return the input with the macros resolved
      */
-    public static String resolveMacros(String input, CmsWorkplace wp) {
+    public static @RUntainted String resolveMacros(@RUntainted String input, CmsWorkplace wp) {
 
         return new CmsToolMacroResolver(wp).resolveMacros(input);
     }
@@ -129,18 +130,18 @@ public class CmsToolMacroResolver implements I_CmsMacroResolver {
     /**
      * @see org.opencms.util.I_CmsMacroResolver#getMacroValue(java.lang.String)
      */
-    public String getMacroValue(String macro) {
+    public String getMacroValue(@RUntainted String macro) {
 
         if (!macro.startsWith(CmsToolMacroResolver.PREFIX_ADMIN)) {
             // the key is not an admin macro, fallback
             return m_wp.getMacroResolver().getMacroValue(macro);
         }
         macro = macro.substring(CmsToolMacroResolver.PREFIX_ADMIN.length());
-        String id = null;
+        @RUntainted String id = null;
         // validate macro command
-        Iterator<String> it = VALUE_NAMES.iterator();
+        @RUntainted Iterator<@RUntainted String> it = VALUE_NAMES.iterator();
         while (it.hasNext()) {
-            String cmd = it.next();
+            @RUntainted String cmd = it.next();
             if (macro.startsWith(cmd)) {
                 id = macro.substring(cmd.length());
                 macro = cmd;
@@ -191,9 +192,9 @@ public class CmsToolMacroResolver implements I_CmsMacroResolver {
      *
      * @see org.opencms.util.I_CmsMacroResolver#resolveMacros(java.lang.String)
      */
-    public String resolveMacros(String input) {
+    public @RUntainted String resolveMacros(@RUntainted String input) {
 
-        String result = input;
+        @RUntainted String result = input;
 
         if (input != null) {
             String lastResult;

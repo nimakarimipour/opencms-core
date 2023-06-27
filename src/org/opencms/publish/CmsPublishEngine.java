@@ -57,6 +57,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class is responsible for the publish process.<p>
@@ -69,7 +70,7 @@ public final class CmsPublishEngine {
     private static final Log LOG = CmsLog.getLog(CmsPublishEngine.class);
 
     /** The id of the admin user. */
-    private CmsUUID m_adminUserId;
+    private @RUntainted CmsUUID m_adminUserId;
 
     /** The current running publish job. */
     private CmsPublishThread m_currentPublishThread;
@@ -393,7 +394,7 @@ public final class CmsPublishEngine {
      * @throws CmsException if there is some problem during unlocking the resources
      * @throws CmsPublishException if the publish job can not be aborted
      */
-    protected void abortPublishJob(CmsUUID userId, CmsPublishJobEnqueued publishJob, boolean removeJob)
+    protected void abortPublishJob(@RUntainted CmsUUID userId, CmsPublishJobEnqueued publishJob, boolean removeJob)
     throws CmsException, CmsPublishException {
 
         // abort event should be raised before the job is removed implicitly
@@ -548,7 +549,7 @@ public final class CmsPublishEngine {
      *
      * @return the user identified by the given id
      */
-    protected CmsUser getUser(CmsUUID userId) {
+    protected CmsUser getUser(@RUntainted CmsUUID userId) {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext();
         try {
@@ -746,7 +747,7 @@ public final class CmsPublishEngine {
      * @param message the message to send
      * @param hasErrors flag to determine if the message to send shows an error
      */
-    protected void sendMessage(CmsUUID toUserId, String message, boolean hasErrors) {
+    protected void sendMessage(@RUntainted CmsUUID toUserId, String message, boolean hasErrors) {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext();
         try {

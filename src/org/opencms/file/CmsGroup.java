@@ -35,6 +35,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A group principal in the OpenCms permission system.<p>
@@ -49,7 +50,7 @@ public class CmsGroup extends CmsPrincipal {
     private static final long serialVersionUID = 468957888179396857L;
 
     /** The parent id of the group. */
-    private CmsUUID m_parentId;
+    private @RUntainted CmsUUID m_parentId;
 
     /**
      * Creates a new, empty OpenCms group principal.
@@ -68,7 +69,7 @@ public class CmsGroup extends CmsPrincipal {
      * @param description the description of the group
      * @param flags the flags of the group
      */
-    public CmsGroup(CmsUUID id, CmsUUID parentId, String name, String description, int flags) {
+    public CmsGroup(@RUntainted CmsUUID id, @RUntainted CmsUUID parentId, @RUntainted String name, String description, @RUntainted int flags) {
 
         m_id = id;
         m_name = name;
@@ -112,9 +113,9 @@ public class CmsGroup extends CmsPrincipal {
      *
      * @return the given String with the prefix {@link I_CmsPrincipal#PRINCIPAL_GROUP} with the following dot removed
      */
-    public static String removePrefix(String principalName) {
+    public static @RUntainted String removePrefix(@RUntainted String principalName) {
 
-        String result = principalName;
+        @RUntainted String result = principalName;
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(principalName)) {
             if (hasPrefix(principalName)) {
                 result = principalName.trim().substring(I_CmsPrincipal.PRINCIPAL_GROUP.length() + 1);
@@ -154,7 +155,7 @@ public class CmsGroup extends CmsPrincipal {
      *
      * @return the description of this organizational unit
      */
-    public String getDescription(Locale locale) {
+    public String getDescription(@RUntainted Locale locale) {
 
         CmsMacroResolver macroResolver = new CmsMacroResolver();
         macroResolver.setMessages(org.opencms.db.generic.Messages.get().getBundle(locale));
@@ -166,7 +167,7 @@ public class CmsGroup extends CmsPrincipal {
      *
      * @return the parent group id of this group
      */
-    public CmsUUID getParentId() {
+    public @RUntainted CmsUUID getParentId() {
 
         return m_parentId;
     }
@@ -214,7 +215,7 @@ public class CmsGroup extends CmsPrincipal {
      *
      * @param parentId the parent group id to set
      */
-    public void setParentId(CmsUUID parentId) {
+    public void setParentId(@RUntainted CmsUUID parentId) {
 
         m_parentId = parentId;
     }

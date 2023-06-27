@@ -91,6 +91,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Element;
 import org.w3c.dom.Document;
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * System master configuration class.<p>
@@ -651,7 +652,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
     private String m_credentialsResolverClass;
 
     /** The default content encoding. */
-    private String m_defaultContentEncoding;
+    private @RUntainted String m_defaultContentEncoding;
 
     /** The detail page handler. */
     private I_CmsDetailPageHandler m_detailPageHandler = new CmsDefaultDetailPageHandler();
@@ -684,7 +685,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
     private CmsMailSettings m_mailSettings;
 
     /** Notification project. */
-    private String m_notificationProject;
+    private @RUntainted String m_notificationProject;
 
     /** The duration after which responsibles will be notified about out-dated content (in days). */
     // It is an Integer object so that it can be distinguished if this optional element was set or not
@@ -694,7 +695,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
     private I_CmsPasswordHandler m_passwordHandler;
 
     /** The permission handler. */
-    private String m_permissionHandler;
+    private @RUntainted String m_permissionHandler;
 
     /** The configured publish list remove mode. */
     private String m_publishListRemoveMode;
@@ -2015,7 +2016,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      *
      * @return the defaultContentEncoding
      */
-    public String getDefaultContentEncoding() {
+    public @RUntainted String getDefaultContentEncoding() {
 
         return m_defaultContentEncoding;
     }
@@ -2144,7 +2145,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      *
      * @return the project in which timestamps for the content notification are read
      */
-    public String getNotificationProject() {
+    public @RUntainted String getNotificationProject() {
 
         return m_notificationProject;
     }
@@ -2178,7 +2179,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      *
      * @return the permission Handler class name
      */
-    public String getPermissionHandler() {
+    public @RUntainted String getPermissionHandler() {
 
         return m_permissionHandler;
     }
@@ -2499,13 +2500,13 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      */
     public void setCmsDefaultUsers(
 
-        String userAdmin,
-        String userGuest,
-        String userExport,
-        String userDeletedResource,
-        String groupAdministrators,
-        String groupUsers,
-        String groupGuests) {
+        @RUntainted String userAdmin,
+        @RUntainted String userGuest,
+        @RUntainted String userExport,
+        @RUntainted String userDeletedResource,
+        @RUntainted String groupAdministrators,
+        @RUntainted String groupUsers,
+        @RUntainted String groupGuests) {
 
         if (CmsLog.INIT.isInfoEnabled()) {
             CmsLog.INIT.info(Messages.get().getBundle().key(Messages.INIT_CHECKING_DEFAULT_USER_NAMES_0));
@@ -2583,7 +2584,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      *
      * @param defaultContentEncoding the defaultContentEncoding to set
      */
-    public void setDefaultContentEncoding(String defaultContentEncoding) {
+    public void setDefaultContentEncoding(@RUntainted String defaultContentEncoding) {
 
         m_defaultContentEncoding = defaultContentEncoding;
     }
@@ -2675,9 +2676,9 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
         String passwordChangeInterval,
         String userDataCheckInterval,
         String requireOrgUnitStr,
-        String logoutUri) {
+        @RUntainted String logoutUri) {
 
-        int disableMinutes;
+        @RUntainted int disableMinutes;
         try {
             disableMinutes = Integer.valueOf(disableMinutesStr).intValue();
         } catch (NumberFormatException e) {
@@ -2776,7 +2777,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      *
      * @param permissionHandler the class name to set
      */
-    public void setPermissionHandler(String permissionHandler) {
+    public void setPermissionHandler(@RUntainted String permissionHandler) {
 
         m_permissionHandler = permissionHandler;
     }

@@ -64,6 +64,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A JSONObject is an unordered collection of name/value pairs. Its
@@ -799,7 +800,7 @@ public class JSONObject {
      * @return      the object associated with the key
      * @throws   JSONException if the key is not found
      */
-    public Object get(String key) throws JSONException {
+    public @RUntainted Object get(String key) throws JSONException {
 
         Object o = opt(key);
         if (o == null) {
@@ -917,7 +918,7 @@ public class JSONObject {
      * @return      a string which is the value
      * @throws   JSONException if the key is not found
      */
-    public String getString(String key) throws JSONException {
+    public @RUntainted String getString(String key) throws JSONException {
 
         return get(key).toString();
     }
@@ -1027,7 +1028,7 @@ public class JSONObject {
      * @param key   a key string
      * @return      an object which is the value, or null if there is no value
      */
-    public Object opt(String key) {
+    public @RUntainted Object opt(String key) {
 
         return key == null ? null : m_map.get(key);
     }
@@ -1210,7 +1211,7 @@ public class JSONObject {
      * @param key   a key string
      * @return      a string which is the value
      */
-    public String optString(String key) {
+    public @RUntainted String optString(String key) {
 
         return optString(key, "");
     }
@@ -1223,7 +1224,7 @@ public class JSONObject {
      * @param defaultValue     the default
      * @return      a string which is the value
      */
-    public String optString(String key, String defaultValue) {
+    public @RUntainted String optString(String key, String defaultValue) {
 
         Object o = opt(key);
         return o != null ? o.toString() : defaultValue;
@@ -1422,7 +1423,7 @@ public class JSONObject {
      *  with <code>}</code>&nbsp;<small>(right brace)</small>.
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         try {
             Iterator<String> keys = keys();

@@ -35,6 +35,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for the different types of diff modes.<p>
@@ -51,12 +52,12 @@ import java.util.List;
 public final class CmsDiffViewMode implements Serializable {
 
     /** Constant for viewing all lines. */
-    public static final CmsDiffViewMode ALL = new CmsDiffViewMode(
+    public static final @RUntainted CmsDiffViewMode ALL = new CmsDiffViewMode(
         "all",
         Messages.get().container(Messages.GUI_DIFF_MODE_DIFFONLY_NAME_0));
 
     /** Constant for viewing only the different lines. */
-    public static final CmsDiffViewMode DIFF_ONLY = new CmsDiffViewMode(
+    public static final @RUntainted CmsDiffViewMode DIFF_ONLY = new CmsDiffViewMode(
         "diff_only",
         Messages.get().container(Messages.GUI_DIFF_MODE_ALL_NAME_0));
 
@@ -98,7 +99,7 @@ public final class CmsDiffViewMode implements Serializable {
      * @throws CmsIllegalArgumentException if the given value could not be matched against an
      *             element of this type.
      */
-    public static CmsDiffViewMode valueOf(String value) throws CmsIllegalArgumentException {
+    public static CmsDiffViewMode valueOf(@RUntainted String value) throws CmsIllegalArgumentException {
 
         if (value == null) {
             return null;

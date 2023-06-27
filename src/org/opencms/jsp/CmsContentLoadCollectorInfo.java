@@ -28,6 +28,7 @@
 package org.opencms.jsp;
 
 import org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean containing the data needed to call a collector.<p>
@@ -35,13 +36,13 @@ import org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo;
 public class CmsContentLoadCollectorInfo implements I_CmsContentLoadCollectorInfo {
 
     /** The collector name. */
-    private String m_collectorName;
+    private @RUntainted String m_collectorName;
 
     /** The collector class. */
     private String m_collectorClass;
 
     /** The collector parameters. */
-    private String m_collectorParams;
+    private @RUntainted String m_collectorParams;
 
     /** The contentload id. */
     private String m_id;
@@ -66,7 +67,7 @@ public class CmsContentLoadCollectorInfo implements I_CmsContentLoadCollectorInf
      * @see org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo#getCollectorName()
      */
     @Override
-    public String getCollectorName() {
+    public @RUntainted String getCollectorName() {
 
         return m_collectorName;
     }
@@ -75,7 +76,7 @@ public class CmsContentLoadCollectorInfo implements I_CmsContentLoadCollectorInf
      * @see org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo#getCollectorParams()
      */
     @Override
-    public String getCollectorParams() {
+    public @RUntainted String getCollectorParams() {
 
         return m_collectorParams;
     }
@@ -103,7 +104,7 @@ public class CmsContentLoadCollectorInfo implements I_CmsContentLoadCollectorInf
      * @see org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo#setCollectorName(java.lang.String)
      */
     @Override
-    public void setCollectorName(String collectorName) {
+    public void setCollectorName(@RUntainted String collectorName) {
 
         m_collectorName = collectorName;
     }

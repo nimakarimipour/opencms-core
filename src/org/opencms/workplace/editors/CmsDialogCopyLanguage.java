@@ -55,6 +55,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods for the editor copy language dialog.<p>
@@ -91,7 +92,7 @@ public class CmsDialogCopyLanguage extends CmsDialog {
     private String m_paramElementlanguage;
 
     /** The selected languages. */
-    private Set<String> m_paramSelectedLanguages;
+    private @RUntainted Set<@RUntainted String> m_paramSelectedLanguages;
 
     /** Temporary file parameter. */
     private String m_paramTempFile;
@@ -113,7 +114,7 @@ public class CmsDialogCopyLanguage extends CmsDialog {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsDialogCopyLanguage(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsDialogCopyLanguage(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
     }
@@ -131,8 +132,8 @@ public class CmsDialogCopyLanguage extends CmsDialog {
                 CmsXmlContent content = CmsXmlContentFactory.unmarshal(getCms(), file);
 
                 List<Locale> toLocales = new ArrayList<Locale>();
-                for (Iterator<String> i = m_paramSelectedLanguages.iterator(); i.hasNext();) {
-                    String language = i.next();
+                for (@RUntainted Iterator<@RUntainted String> i = m_paramSelectedLanguages.iterator(); i.hasNext();) {
+                    @RUntainted String language = i.next();
                     toLocales.add(CmsLocaleManager.getLocale(language));
                 }
 
@@ -150,7 +151,7 @@ public class CmsDialogCopyLanguage extends CmsDialog {
                 }
                 // the file content might have been modified during the write operation
                 CmsObject cloneCms = OpenCms.initCmsObject(getCms());
-                CmsUUID tempProjectId = OpenCms.getWorkplaceManager().getTempFileProjectId();
+                @RUntainted CmsUUID tempProjectId = OpenCms.getWorkplaceManager().getTempFileProjectId();
                 cloneCms.getRequestContext().setCurrentProject(getCms().readProject(tempProjectId));
                 cloneCms.writeFile(file);
 
@@ -283,7 +284,7 @@ public class CmsDialogCopyLanguage extends CmsDialog {
                 m_paramSelectedLanguages = new HashSet<String>();
             }
             // add all available values here
-            String[] values = getParameterMap().get(PARAM_LANGUAGE);
+            @RUntainted String[] values = getParameterMap().get(PARAM_LANGUAGE);
             for (int i = 0; i < values.length; i++) {
                 m_paramSelectedLanguages.add(decodeParamValue(PARAM_LANGUAGE, values[i]));
             }
@@ -304,7 +305,7 @@ public class CmsDialogCopyLanguage extends CmsDialog {
      * @see org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings, javax.servlet.http.HttpServletRequest)
      */
     @Override
-    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
+    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
         // fill the parameter values in the get/set methods
         fillParamValues(request);
@@ -328,11 +329,11 @@ public class CmsDialogCopyLanguage extends CmsDialog {
      * @param destLocales a list of destination locales
      * @throws CmsException if something goes wrong
      */
-    protected void transferContents(CmsXmlContent content, Locale sourceLocale, List<Locale> destLocales)
+    protected void transferContents(CmsXmlContent content, @RUntainted Locale sourceLocale, List<Locale> destLocales)
     throws CmsException {
 
-        for (Iterator<Locale> i = destLocales.iterator(); i.hasNext();) {
-            Locale to = i.next();
+        for (@RUntainted Iterator<@RUntainted Locale> i = destLocales.iterator(); i.hasNext();) {
+            @RUntainted Locale to = i.next();
             if (content.hasLocale(to)) {
                 content.removeLocale(to);
             }

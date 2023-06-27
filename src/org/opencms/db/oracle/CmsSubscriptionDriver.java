@@ -43,6 +43,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Oracle implementation of the subscription driver.<p>
@@ -83,7 +84,7 @@ public class CmsSubscriptionDriver extends org.opencms.db.generic.CmsSubscriptio
 
         if (!entryExists) {
             // new entry, check if maximum number of stored visited resources is exceeded
-            PreparedStatement stmt = null;
+            @RUntainted PreparedStatement stmt = null;
             Connection conn = null;
             ResultSet res = null;
             int count = 0;

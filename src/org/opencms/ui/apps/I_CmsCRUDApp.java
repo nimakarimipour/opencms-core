@@ -28,6 +28,7 @@
 package org.opencms.ui.apps;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for apps which perform CRUD operations on any kind of element like CmsSites or CmsScheduledJobs.

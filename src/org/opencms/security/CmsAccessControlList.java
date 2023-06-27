@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An access control list contains the permission sets of all principals for a distinct resource
@@ -63,7 +64,7 @@ public class CmsAccessControlList implements Serializable {
     /**
      * Collected permissions of a principal on this resource .
      */
-    private Map<CmsUUID, CmsPermissionSetCustom> m_permissions;
+    private @RUntainted Map<@RUntainted CmsUUID, @RUntainted CmsPermissionSetCustom> m_permissions;
 
     /**
      * Constructor to create an empty access control list for a given resource.<p>
@@ -198,9 +199,9 @@ public class CmsAccessControlList implements Serializable {
      *
      * @return enumeration of principals (each group or user)
      */
-    public List<CmsUUID> getPrincipals() {
+    public @RUntainted List<@RUntainted CmsUUID> getPrincipals() {
 
-        List<CmsUUID> principals = new ArrayList<CmsUUID>(m_permissions.keySet());
+        @RUntainted List<@RUntainted CmsUUID> principals = new ArrayList<@RUntainted CmsUUID>(m_permissions.keySet());
         Collections.sort(principals, CmsAccessControlEntry.COMPARATOR_PRINCIPALS);
         return principals;
     }

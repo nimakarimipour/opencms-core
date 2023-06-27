@@ -58,6 +58,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Lucene document factory class to extract index data from a resource
@@ -113,7 +114,7 @@ public class CmsDocumentContainerPage extends A_CmsVfsDocument {
      *
      * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource, I_CmsSearchIndex)
      */
-    public I_CmsExtractionResult extractContent(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+    public I_CmsExtractionResult extractContent(CmsObject cms, @RUntainted CmsResource resource, I_CmsSearchIndex index)
     throws CmsException {
 
         logContentExtraction(resource, index);
@@ -155,7 +156,7 @@ public class CmsDocumentContainerPage extends A_CmsVfsDocument {
                         CmsFile elementFile = readFile(cms, element.getResource());
                         A_CmsXmlDocument elementContent = CmsXmlContentFactory.unmarshal(cms, elementFile);
                         List<String> elementNames = elementContent.getNames(locale);
-                        for (String xpath : elementNames) {
+                        for (@RUntainted String xpath : elementNames) {
                             // xpath will have the form "Text[1]" or "Nested[1]/Text[1]"
                             I_CmsXmlContentValue value = elementContent.getValue(xpath, locale);
                             if (value.getContentDefinition().getContentHandler().isSearchable(value)) {

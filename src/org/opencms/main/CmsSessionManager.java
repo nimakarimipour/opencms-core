@@ -61,6 +61,7 @@ import org.apache.commons.collections.Buffer;
 import org.apache.commons.collections.BufferUtils;
 import org.apache.commons.collections.buffer.CircularFifoBuffer;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Keeps track of the sessions running on the OpenCms server and
@@ -573,7 +574,7 @@ public class CmsSessionManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public String switchUser(CmsObject cms, HttpServletRequest req, CmsUser user) throws CmsException {
+    public String switchUser(CmsObject cms, HttpServletRequest req, @RUntainted CmsUser user) throws CmsException {
 
         return switchUserFromSession(cms, req, user, null);
     }
@@ -591,7 +592,7 @@ public class CmsSessionManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public String switchUserFromSession(CmsObject cms, HttpServletRequest req, CmsUser user, CmsSessionInfo sessionInfo)
+    public String switchUserFromSession(CmsObject cms, HttpServletRequest req, @RUntainted CmsUser user, CmsSessionInfo sessionInfo)
     throws CmsException {
 
         // only user with root administrator role are allowed to switch the user
@@ -612,7 +613,7 @@ public class CmsSessionManager {
         String ouFqn = user.getOuFqn();
 
         CmsProject userProject;
-        String userSiteRoot;
+        @RUntainted String userSiteRoot;
 
         if (sessionInfo == null) {
             userProject = cms.readProject(
@@ -819,7 +820,7 @@ public class CmsSessionManager {
             CmsSessionInfo sessionInfo = i.next();
             // check is the project stored in this session is not existing anymore
             // if so, set it to the online project
-            CmsUUID projectId = sessionInfo.getProject();
+            @RUntainted CmsUUID projectId = sessionInfo.getProject();
             try {
                 cms.readProject(projectId);
             } catch (CmsException e) {
@@ -1009,7 +1010,7 @@ public class CmsSessionManager {
      *
      * @return the client token
      */
-    private String generateClientToken(HttpServletRequest request) {
+    private @RUntainted String generateClientToken(HttpServletRequest request) {
 
         String ip = request.getHeader(HEADER_TRUE_CLIENT_IP);
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(ip)) {

@@ -101,6 +101,7 @@ import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the dialog to edit user settings.<p>
@@ -119,7 +120,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
         /**
          * @see com.vaadin.v7.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             if (value == null) {
                 throw new InvalidValueException(
@@ -145,7 +146,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
         /**
          * @see com.vaadin.v7.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             if (value == null) {
                 throw new InvalidValueException(
@@ -328,7 +329,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
     CmsPasswordForm m_pw;
 
     /**vaadin component.*/
-    ComboBox m_site;
+    @RUntainted ComboBox m_site;
 
     /**vaadin component.*/
     CmsPathSelectField m_startfolder;
@@ -340,7 +341,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
     private CmsObject m_cms;
 
     /**vaadin component.*/
-    private TextArea m_description;
+    private @RUntainted TextArea m_description;
 
     /** Label containing invisible dummy password fields to dissuade Firefox from saving the password *after* the user edit dialog. */
     private Label m_dummyPasswordLabel;
@@ -364,10 +365,10 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
     private CheckBox m_resetTwoFactorAuthentication;
 
     /**vaadin component.*/
-    private ComboBox m_language;
+    private @RUntainted ComboBox m_language;
 
     /**vaadin component.*/
-    private TextField m_loginname;
+    private @RUntainted TextField m_loginname;
 
     /**Flag indicates if name was empty. */
     private boolean m_name_was_empty;
@@ -379,7 +380,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
     private Button m_ok;
 
     /**vaadin component.*/
-    private Label m_ou;
+    private @RUntainted Label m_ou;
 
     /**vaadin component.*/
     private ComboBox m_project;
@@ -417,7 +418,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
      * @param window to be closed
      * @param app account app instance
      */
-    public CmsUserEditDialog(CmsObject cms, CmsUUID userId, final Window window, final CmsAccountsApp app) {
+    public CmsUserEditDialog(CmsObject cms, @RUntainted CmsUUID userId, final Window window, final CmsAccountsApp app) {
 
         CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
         setPasswordFields();
@@ -499,7 +500,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
      * @param ou organizational unit
      * @param app accounts app instance
      */
-    public CmsUserEditDialog(CmsObject cms, final Window window, String ou, final CmsAccountsApp app) {
+    public CmsUserEditDialog(CmsObject cms, final Window window, @RUntainted String ou, final CmsAccountsApp app) {
 
         CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
         CmsOrganizationalUnit myOu = null;
@@ -572,7 +573,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
      * @param roleComboBox ComboBox
      * @param log LOG
      */
-    protected static void iniRole(CmsObject cms, String ou, com.vaadin.ui.ComboBox<CmsRole> roleComboBox, Log log) {
+    protected static void iniRole(CmsObject cms, @RUntainted String ou, com.vaadin.ui.ComboBox<CmsRole> roleComboBox, Log log) {
 
         try {
             List<CmsRole> roles = OpenCms.getRoleManager().getRoles(cms, ou, false);
@@ -605,7 +606,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
      * @param roleComboBox ComboBox
      * @param log LOG
      */
-    protected static void iniRole(CmsObject cms, String ou, ComboBox roleComboBox, Log log) {
+    protected static void iniRole(CmsObject cms, @RUntainted String ou, ComboBox roleComboBox, Log log) {
 
         iniRole(cms, ou, roleComboBox, log, false);
     }
@@ -621,7 +622,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
      */
     protected static void iniRole(
         CmsObject cms,
-        String ou,
+        @RUntainted String ou,
         ComboBox roleComboBox,
         Log log,
         boolean includeNoRoleEntry) {
@@ -684,7 +685,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
         CmsObject cms,
         String password,
         CmsUser user,
-        String ou,
+        @RUntainted String ou,
         boolean newUser,
         boolean changePassword) {
 
@@ -968,7 +969,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
      * @param username to check
      * @return boolean
      */
-    protected boolean userAlreadyExists(String username) {
+    protected boolean userAlreadyExists(@RUntainted String username) {
 
         if (m_user != null) {
             return false;
@@ -1028,7 +1029,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
      * @param siteRoot to be used
      * @return CmsObject
      */
-    CmsObject getCmsObjectWithSite(String siteRoot) {
+    CmsObject getCmsObjectWithSite(@RUntainted String siteRoot) {
 
         if (siteRoot == null) {
             siteRoot = "/";
@@ -1173,7 +1174,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
     private void createNewUser() throws CmsException {
 
         //Password was checked by validator before
-        String ou = m_ou.getValue();
+        @RUntainted String ou = m_ou.getValue();
         if (!ou.endsWith("/")) {
             ou += "/";
         }

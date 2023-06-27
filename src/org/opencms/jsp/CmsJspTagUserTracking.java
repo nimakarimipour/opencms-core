@@ -53,6 +53,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;cms:usertracking/&gt;</code> tag.<p>
@@ -98,10 +99,10 @@ public class CmsJspTagUserTracking extends TagSupport {
     private boolean m_currentuser;
 
     /** The value of the <code>file</code> attribute. */
-    private String m_file;
+    private @RUntainted String m_file;
 
     /** The value of the <code>group</code> attribute. */
-    private String m_group;
+    private @RUntainted String m_group;
 
     /** The value of the <code>includegroups</code> attribute. */
     private boolean m_includegroups;
@@ -113,7 +114,7 @@ public class CmsJspTagUserTracking extends TagSupport {
     private boolean m_subfolder;
 
     /** The value of the <code>user</code> attribute. */
-    private String m_user;
+    private @RUntainted String m_user;
 
     /**
      * Tracks an OpenCms file according to the parameters.<p>
@@ -133,13 +134,13 @@ public class CmsJspTagUserTracking extends TagSupport {
      */
     public static String userTrackingTagAction(
         String action,
-        String fileName,
+        @RUntainted String fileName,
         boolean subFolder,
         boolean currentUser,
-        String userName,
+        @RUntainted String userName,
         boolean includeGroups,
-        String groupName,
-        HttpServletRequest req) throws JspException {
+        @RUntainted String groupName,
+        @RUntainted HttpServletRequest req) throws JspException {
 
         String result = "";
 
@@ -232,9 +233,9 @@ public class CmsJspTagUserTracking extends TagSupport {
      *
      * @return a unique session key
      */
-    protected static String generateSessionKey(
+    protected static @RUntainted String generateSessionKey(
         String prefix,
-        String fileName,
+        @RUntainted String fileName,
         boolean subFolder,
         CmsUser user,
         List<CmsGroup> groups) {
@@ -274,19 +275,19 @@ public class CmsJspTagUserTracking extends TagSupport {
      */
     protected static boolean isResourceSubscribed(
         CmsObject cms,
-        String fileName,
+        @RUntainted String fileName,
         boolean subFolder,
         CmsUser user,
         List<CmsGroup> groups,
-        HttpServletRequest req) throws CmsException {
+        @RUntainted HttpServletRequest req) throws CmsException {
 
         CmsResource checkResource = cms.readResource(fileName);
 
-        HttpSession session = req.getSession(true);
-        String sessionKey = generateSessionKey(SESSION_PREFIX_SUBSCRIBED, fileName, subFolder, user, groups);
+        @RUntainted HttpSession session = req.getSession(true);
+        @RUntainted String sessionKey = generateSessionKey(SESSION_PREFIX_SUBSCRIBED, fileName, subFolder, user, groups);
         // try to get the subscribed resources from a session attribute
         @SuppressWarnings("unchecked")
-        List<CmsResource> subscribedResources = (List<CmsResource>)session.getAttribute(sessionKey);
+        @RUntainted List<@RUntainted CmsResource> subscribedResources = (List<CmsResource>)session.getAttribute(sessionKey);
         if (subscribedResources == null) {
             // first call, read subscribed resources and store them to session attribute
             CmsSubscriptionFilter filter = new CmsSubscriptionFilter();
@@ -316,18 +317,18 @@ public class CmsJspTagUserTracking extends TagSupport {
      */
     protected static boolean isResourceVisited(
         CmsObject cms,
-        String fileName,
+        @RUntainted String fileName,
         boolean subFolder,
         CmsUser user,
-        HttpServletRequest req) throws CmsException {
+        @RUntainted HttpServletRequest req) throws CmsException {
 
         CmsResource checkResource = cms.readResource(fileName);
 
         HttpSession session = req.getSession(true);
-        String sessionKey = generateSessionKey(SESSION_PREFIX_VISITED, fileName, subFolder, user, null);
+        @RUntainted String sessionKey = generateSessionKey(SESSION_PREFIX_VISITED, fileName, subFolder, user, null);
         // try to get the visited resources from a session attribute
         @SuppressWarnings("unchecked")
-        List<CmsResource> visitedResources = (List<CmsResource>)req.getSession(true).getAttribute(sessionKey);
+        @RUntainted List<@RUntainted CmsResource> visitedResources = (List<CmsResource>)req.getSession(true).getAttribute(sessionKey);
         if (visitedResources == null) {
             // first call, read visited resources and store them to session attribute
             CmsVisitedByFilter filter = new CmsVisitedByFilter();
@@ -368,7 +369,7 @@ public class CmsJspTagUserTracking extends TagSupport {
     @Override
     public int doStartTag() throws JspException {
 
-        ServletRequest req = pageContext.getRequest();
+        @RUntainted ServletRequest req = pageContext.getRequest();
 
         // this will always be true if the page is called through OpenCms
         if (CmsFlexController.isCmsRequest(req)) {
@@ -527,7 +528,7 @@ public class CmsJspTagUserTracking extends TagSupport {
      *
      * @param file the file name to track
      */
-    public void setFile(String file) {
+    public void setFile(@RUntainted String file) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(file)) {
             m_file = file;
@@ -539,7 +540,7 @@ public class CmsJspTagUserTracking extends TagSupport {
      *
      * @param group the group name that is used for the tracking
      */
-    public void setGroup(String group) {
+    public void setGroup(@RUntainted String group) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(group)) {
             m_group = group;
@@ -593,7 +594,7 @@ public class CmsJspTagUserTracking extends TagSupport {
      *
      * @param user the user name that is used for the tracking
      */
-    public void setUser(String user) {
+    public void setUser(@RUntainted String user) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(user)) {
             m_user = user;

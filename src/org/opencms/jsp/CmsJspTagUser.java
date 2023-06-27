@@ -41,6 +41,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the data of the currently logged in user.<p>
@@ -56,7 +57,7 @@ public class CmsJspTagUser extends TagSupport {
     private static final Log LOG = CmsLog.getLog(CmsJspTagUser.class);
 
     /** Static array of the possible user properties. */
-    private static final String[] USER_PROPERTIES = {
+    private static final @RUntainted String[] USER_PROPERTIES = {
         "name",
         "firstname",
         "lastname",
@@ -75,7 +76,7 @@ public class CmsJspTagUser extends TagSupport {
     private static final List<String> USER_PROPERTIES_LIST = Arrays.asList(USER_PROPERTIES);
 
     /** The property name. */
-    private String m_property;
+    private @RUntainted String m_property;
 
     /**
      * Internal action method.<p>
@@ -84,7 +85,7 @@ public class CmsJspTagUser extends TagSupport {
      * @param req the current request
      * @return String the value of the selected user property
      */
-    public static String userTagAction(String property, ServletRequest req) {
+    public static String userTagAction(@RUntainted String property, @RUntainted ServletRequest req) {
 
         CmsFlexController controller = CmsFlexController.getController(req);
 
@@ -197,7 +198,7 @@ public class CmsJspTagUser extends TagSupport {
      *
      * @param name the property name
      */
-    public void setProperty(String name) {
+    public void setProperty(@RUntainted String name) {
 
         if (name != null) {
             m_property = name.toLowerCase();

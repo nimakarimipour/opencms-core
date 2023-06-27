@@ -68,6 +68,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.xml.sax.InputSource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of a page object used to access and manage xml data.<p>
@@ -135,7 +136,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
      * @param document the document to create the CmsXmlPage from
      * @param encoding the encoding of the xml page
      */
-    public CmsXmlPage(Document document, String encoding) {
+    public CmsXmlPage(@RUntainted Document document, @RUntainted String encoding) {
 
         initDocument(document, encoding, getContentDefinition());
     }
@@ -150,7 +151,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
      * @param locale the initial locale of the XML page
      * @param encoding the encoding of the XML page
      */
-    public CmsXmlPage(Locale locale, String encoding) {
+    public CmsXmlPage(Locale locale, @RUntainted String encoding) {
 
         initDocument(CmsXmlPageFactory.createDocument(locale), encoding, getContentDefinition());
     }
@@ -158,7 +159,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
     /**
      * @see org.opencms.xml.I_CmsXmlDocument#addLocale(org.opencms.file.CmsObject, java.util.Locale)
      */
-    public void addLocale(CmsObject cms, Locale locale) throws CmsXmlException {
+    public void addLocale(CmsObject cms, @RUntainted Locale locale) throws CmsXmlException {
 
         if (hasLocale(locale)) {
             throw new CmsXmlException(Messages.get().container(Messages.ERR_XML_PAGE_LOCALE_EXISTS_1, locale));
@@ -180,7 +181,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
      *         given locale already exists in the xmlpage.
      *
      */
-    public void addValue(String name, Locale locale) throws CmsIllegalArgumentException {
+    public void addValue(@RUntainted String name, @RUntainted Locale locale) throws CmsIllegalArgumentException {
 
         if (name.indexOf('[') >= 0) {
             throw new CmsIllegalArgumentException(
@@ -194,11 +195,11 @@ public class CmsXmlPage extends A_CmsXmlDocument {
 
         Element pages = m_document.getRootElement();
         String localeStr = locale.toString();
-        Element page = null;
+        @RUntainted Element page = null;
 
         // search if a page for the selected language is already available
         for (Iterator<Element> i = CmsXmlGenericWrapper.elementIterator(pages, NODE_PAGE); i.hasNext();) {
-            Element nextPage = i.next();
+            @RUntainted Element nextPage = i.next();
             String language = nextPage.attributeValue(ATTRIBUTE_LANGUAGE);
             if (localeStr.equals(language)) {
                 // a page for the selected language was found
@@ -208,7 +209,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
         }
 
         // create the new element
-        Element element;
+        @RUntainted Element element;
         if (page != null) {
             // page for selected language already available
             element = page.addElement(NODE_ELEMENT).addAttribute(ATTRIBUTE_NAME, name);
@@ -292,7 +293,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
      * @param locale locale of the element
      * @return the link table
      */
-    public CmsLinkTable getLinkTable(String name, Locale locale) {
+    public CmsLinkTable getLinkTable(@RUntainted String name, Locale locale) {
 
         CmsXmlHtmlValue value = (CmsXmlHtmlValue)getValue(name, locale);
         if (value != null) {
@@ -305,14 +306,14 @@ public class CmsXmlPage extends A_CmsXmlDocument {
      * @see org.opencms.xml.A_CmsXmlDocument#getNames(java.util.Locale)
      */
     @Override
-    public List<String> getNames(Locale locale) {
+    public @RUntainted List<@RUntainted String> getNames(Locale locale) {
 
-        Set<String> sn = m_elementNames.get(locale);
+        @RUntainted Set<@RUntainted String> sn = m_elementNames.get(locale);
         if (sn != null) {
             List<String> result = new ArrayList<String>();
-            Iterator<String> i = sn.iterator();
+            @RUntainted Iterator<@RUntainted String> i = sn.iterator();
             while (i.hasNext()) {
-                String path = i.next();
+                @RUntainted String path = i.next();
                 result.add(CmsXmlUtils.removeXpathIndex(path));
             }
             return result;
@@ -328,7 +329,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
      * @return true if the element exists and is not disabled
      */
     @Override
-    public boolean isEnabled(String name, Locale locale) {
+    public boolean isEnabled(@RUntainted String name, Locale locale) {
 
         CmsXmlHtmlValue value = (CmsXmlHtmlValue)getValue(name, locale);
 
@@ -348,7 +349,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
      * @param name the name of the value
      * @param locale the locale of the value
      */
-    public void removeValue(String name, Locale locale) {
+    public void removeValue(@RUntainted String name, Locale locale) {
 
         I_CmsXmlContentValue value = removeBookmark(CmsXmlUtils.createXpath(name, 1), locale);
         if (value != null) {
@@ -368,7 +369,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
      *         given locale already exists in the xmlpage or the the old value does not exist for the locale in the xmlpage.
      *
      */
-    public void renameValue(String oldValue, String newValue, Locale locale) throws CmsIllegalArgumentException {
+    public void renameValue(@RUntainted String oldValue, @RUntainted String newValue, @RUntainted Locale locale) throws CmsIllegalArgumentException {
 
         CmsXmlHtmlValue oldXmlHtmlValue = (CmsXmlHtmlValue)getValue(oldValue, locale);
         if (oldXmlHtmlValue == null) {
@@ -405,7 +406,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
      * @param locale locale of the element
      * @param isEnabled enabled flag for the element
      */
-    public void setEnabled(String name, Locale locale, boolean isEnabled) {
+    public void setEnabled(@RUntainted String name, Locale locale, boolean isEnabled) {
 
         CmsXmlHtmlValue value = (CmsXmlHtmlValue)getValue(name, locale);
         Element element = value.getElement();
@@ -436,7 +437,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public void setStringValue(CmsObject cms, String name, Locale locale, String content) throws CmsXmlException {
+    public void setStringValue(CmsObject cms, @RUntainted String name, @RUntainted Locale locale, String content) throws CmsXmlException {
 
         CmsXmlHtmlValue value = (CmsXmlHtmlValue)getValue(name, locale);
 
@@ -462,7 +463,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
      * @see org.opencms.xml.A_CmsXmlDocument#initDocument(org.dom4j.Document, java.lang.String, org.opencms.xml.CmsXmlContentDefinition)
      */
     @Override
-    protected void initDocument(Document document, String encoding, CmsXmlContentDefinition definition) {
+    protected void initDocument(@RUntainted Document document, @RUntainted String encoding, CmsXmlContentDefinition definition) {
 
         m_encoding = CmsEncoder.lookupEncoding(encoding, encoding);
         m_document = document;
@@ -479,14 +480,14 @@ public class CmsXmlPage extends A_CmsXmlDocument {
         clearBookmarks();
         Element pages = m_document.getRootElement();
         try {
-            for (Iterator<Element> i = CmsXmlGenericWrapper.elementIterator(pages, NODE_PAGE); i.hasNext();) {
+            for (@RUntainted Iterator<@RUntainted Element> i = CmsXmlGenericWrapper.elementIterator(pages, NODE_PAGE); i.hasNext();) {
 
-                Element page = i.next();
+                @RUntainted Element page = i.next();
                 Locale locale = CmsLocaleManager.getLocale(page.attributeValue(ATTRIBUTE_LANGUAGE));
                 for (Iterator<Element> j = CmsXmlGenericWrapper.elementIterator(page, NODE_ELEMENT); j.hasNext();) {
 
-                    Element element = j.next();
-                    String name = element.attributeValue(ATTRIBUTE_NAME);
+                    @RUntainted Element element = j.next();
+                    @RUntainted String name = element.attributeValue(ATTRIBUTE_NAME);
 
                     String elementEnabled = element.attributeValue(ATTRIBUTE_ENABLED);
                     boolean enabled = (elementEnabled == null) ? true : Boolean.valueOf(elementEnabled).booleanValue();

@@ -53,6 +53,7 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides some helpful base implementations for resource collector classes.<p>
@@ -72,10 +73,10 @@ public abstract class A_CmsResourceCollector implements I_CmsResourceCollector {
     protected int m_order;
 
     /** The name of the configured default collector. */
-    private String m_defaultCollectorName;
+    private @RUntainted String m_defaultCollectorName;
 
     /** The default collector parameters. */
-    private String m_defaultCollectorParam;
+    private @RUntainted String m_defaultCollectorParam;
 
     /** The hash code of this collector. */
     private int m_hashcode;
@@ -103,9 +104,9 @@ public abstract class A_CmsResourceCollector implements I_CmsResourceCollector {
      *
      * @throws CmsException if something goes wrong
      */
-    public static String createResourceForCollector(
+    public static @RUntainted String createResourceForCollector(
         CmsObject cms,
-        String newLink,
+        @RUntainted String newLink,
         Locale locale,
         String referenceResource,
         String modelFile,
@@ -115,10 +116,10 @@ public abstract class A_CmsResourceCollector implements I_CmsResourceCollector {
 
         // get the collector used to create the new content
         int pos = newLink.indexOf('|');
-        String collectorName = newLink.substring(0, pos);
+        @RUntainted String collectorName = newLink.substring(0, pos);
         String collectorParams = newLink.substring(pos + 1);
 
-        String param;
+        @RUntainted String param;
         String templateFileName;
 
         pos = collectorParams.indexOf(A_CmsResourceCollector.SEPARATOR_TEMPLATEFILE);
@@ -138,7 +139,7 @@ public abstract class A_CmsResourceCollector implements I_CmsResourceCollector {
         // one resource serves as a "template" for the new resource
         CmsResource templateResource = cms.readResource(templateFileName, CmsResourceFilter.IGNORE_EXPIRATION);
         CmsXmlContent newContent = null;
-        int typeId;
+        @RUntainted int typeId;
         CmsObject cloneCms = OpenCms.initCmsObject(cms);
         cloneCms.getRequestContext().setRequestTime(CmsResource.DATE_RELEASED_EXPIRED_IGNORE);
         // the reference resource may be a folder in case of creating for an empty collector list
@@ -265,7 +266,7 @@ public abstract class A_CmsResourceCollector implements I_CmsResourceCollector {
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateTypeId(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
     @SuppressWarnings("unused")
-    public int getCreateTypeId(CmsObject cms, String collectorName, String param) throws CmsException {
+    public @RUntainted int getCreateTypeId(CmsObject cms, String collectorName, @RUntainted String param) throws CmsException {
 
         // overwrite to allow creation of new items
         return -1;
@@ -330,7 +331,7 @@ public abstract class A_CmsResourceCollector implements I_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#setDefaultCollectorName(java.lang.String)
      */
-    public void setDefaultCollectorName(String collectorName) {
+    public void setDefaultCollectorName(@RUntainted String collectorName) {
 
         m_defaultCollectorName = collectorName;
     }
@@ -338,7 +339,7 @@ public abstract class A_CmsResourceCollector implements I_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#setDefaultCollectorParam(java.lang.String)
      */
-    public void setDefaultCollectorParam(String param) {
+    public void setDefaultCollectorParam(@RUntainted String param) {
 
         m_defaultCollectorParam = param;
     }
@@ -380,7 +381,7 @@ public abstract class A_CmsResourceCollector implements I_CmsResourceCollector {
      *
      * @since 7.0.2
      */
-    protected String getCreateInFolder(CmsObject cms, CmsCollectorData data) throws CmsException {
+    protected @RUntainted String getCreateInFolder(CmsObject cms, CmsCollectorData data) throws CmsException {
 
         return OpenCms.getResourceManager().getNameGenerator().getNewFileName(cms, data.getFileName(), 4);
     }
@@ -395,7 +396,7 @@ public abstract class A_CmsResourceCollector implements I_CmsResourceCollector {
      *
      * @throws CmsException if something goes wrong
      */
-    protected String getCreateInFolder(CmsObject cms, String param) throws CmsException {
+    protected @RUntainted String getCreateInFolder(CmsObject cms, @RUntainted String param) throws CmsException {
 
         return getCreateInFolder(cms, new CmsCollectorData(param));
     }

@@ -29,6 +29,7 @@ package org.opencms.i18n;
 
 import java.io.Serializable;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains a localized message key, it's arguments and a <code>{@link I_CmsMessageBundle}</code>.<p>
@@ -118,7 +119,7 @@ public class CmsMessageContainer implements Serializable, I_CmsMessageContainer 
      *
      * @return the localized message described by this container for the OpenCms default locale
      */
-    public String key() {
+    public @RUntainted String key() {
 
         if (getBundle() == null) {
             return getKey();
@@ -132,7 +133,7 @@ public class CmsMessageContainer implements Serializable, I_CmsMessageContainer 
      * @param locale the locale to use
      * @return the localized message described by this container for the given locale
      */
-    public String key(Locale locale) {
+    public @RUntainted String key(@RUntainted Locale locale) {
 
         if (getBundle() == null) {
             return getKey();

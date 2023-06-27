@@ -37,6 +37,7 @@ import org.opencms.workplace.CmsWorkplace;
 
 import java.util.HashMap;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Pre editor action for XML content resource types, checks if model files are available for the XML content
@@ -64,9 +65,9 @@ public class CmsPreEditorActionDefinitionXmlContent extends A_CmsPreEditorAction
         if (CmsStringUtil.isNotEmpty(newlink)) {
             // pre editor action not executed yet and new link is provided, now check model files for resource type
             I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(resource.getTypeId());
-            String folderPath = dialog.getSettings().getExplorerResource();
+            @RUntainted String folderPath = dialog.getSettings().getExplorerResource();
             // get the name of the currently edited resource
-            String resName = dialog.getJsp().getRequest().getParameter(CmsDialog.PARAM_RESOURCE);
+            @RUntainted String resName = dialog.getJsp().getRequest().getParameter(CmsDialog.PARAM_RESOURCE);
             if (CmsStringUtil.isNotEmpty(resName)) {
                 // get the folder path from the currently edited resource
                 folderPath = CmsResource.getFolderPath(resName);

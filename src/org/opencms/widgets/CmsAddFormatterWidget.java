@@ -50,6 +50,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widget used to select a formatter to add.<p>
@@ -82,7 +83,7 @@ public class CmsAddFormatterWidget extends A_CmsFormatterWidget {
      * @param allRemoved flag, indicating if all inheritedly available formatters should be disabled
      * @return all values that can be selected in the widget.
      */
-    public static List<String> getSelectOptionValues(CmsObject cms, String rootPath, boolean allRemoved) {
+    public static List<String> getSelectOptionValues(CmsObject cms, @RUntainted String rootPath, boolean allRemoved) {
 
         try {
             cms = OpenCms.initCmsObject(cms);
@@ -121,7 +122,7 @@ public class CmsAddFormatterWidget extends A_CmsFormatterWidget {
     protected static List<CmsSelectWidgetOption> getFormatterOptionsStatic(
         CmsObject cms,
         CmsADEConfigData config,
-        String rootPath,
+        @RUntainted String rootPath,
         boolean allRemoved) {
 
         Map<CmsUUID, I_CmsFormatterBean> inactiveFormatters = config.getInactiveFormatters();
@@ -243,7 +244,7 @@ public class CmsAddFormatterWidget extends A_CmsFormatterWidget {
     protected List<CmsSelectWidgetOption> getFormatterOptions(
         CmsObject cms,
         CmsADEConfigData config,
-        String rootPath,
+        @RUntainted String rootPath,
         boolean allRemoved) {
 
         return getFormatterOptionsStatic(cms, config, rootPath, allRemoved);

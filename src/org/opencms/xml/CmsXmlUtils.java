@@ -66,6 +66,7 @@ import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides some basic XML handling utilities.<p>
@@ -138,7 +139,7 @@ public final class CmsXmlUtils {
      *
      * @return the concatenated Xpath build from prefix and suffix
      */
-    public static String concatXpath(String prefix, String suffix) {
+    public static @RUntainted String concatXpath(String prefix, @RUntainted String suffix) {
 
         if (suffix == null) {
             // ensure suffix is not null
@@ -178,7 +179,7 @@ public final class CmsXmlUtils {
      * @param doc the document to convert
      * @return the converted document
      */
-    public static Document convertDocumentFromW3CToDom4j(org.w3c.dom.Document doc) {
+    public static @RUntainted Document convertDocumentFromW3CToDom4j(org.w3c.dom.Document doc) {
 
         org.dom4j.io.DOMReader reader = new DOMReader();
         return reader.read(doc);
@@ -202,14 +203,14 @@ public final class CmsXmlUtils {
      *
      * @return the simplified Xpath for the given name
      */
-    public static String createXpath(String path, int index) {
+    public static @RUntainted String createXpath(@RUntainted String path, int index) {
 
         if (path.indexOf('/') > -1) {
             // this is a complex path over more then 1 node
-            StringBuffer result = new StringBuffer(path.length() + 32);
+            @RUntainted StringBuffer result = new StringBuffer(path.length() + 32);
 
             // split the path into sub elements
-            List<String> elements = CmsStringUtil.splitAsList(path, '/');
+            @RUntainted List<@RUntainted String> elements = CmsStringUtil.splitAsList(path, '/');
             int end = elements.size() - 1;
             for (int i = 0; i <= end; i++) {
                 // append [i] to path element if required
@@ -238,9 +239,9 @@ public final class CmsXmlUtils {
      *
      * @return the simplified Xpath for the given name
      */
-    public static String createXpathElement(String path, int index) {
+    public static @RUntainted String createXpathElement(@RUntainted String path, int index) {
 
-        StringBuffer result = new StringBuffer(path.length() + 5);
+        @RUntainted StringBuffer result = new StringBuffer(path.length() + 5);
         result.append(path);
         result.append('[');
         result.append(index);
@@ -262,7 +263,7 @@ public final class CmsXmlUtils {
      *
      * @return the simplified Xpath for the given name
      */
-    public static String createXpathElementCheck(String path, int index) {
+    public static @RUntainted String createXpathElementCheck(@RUntainted String path, int index) {
 
         if (path.charAt(path.length() - 1) == ']') {
             // path is already in the form "title[1]"
@@ -288,7 +289,7 @@ public final class CmsXmlUtils {
      *
      * @return the first Xpath element from the provided path
      */
-    public static String getFirstXpathElement(String path) {
+    public static @RUntainted String getFirstXpathElement(@RUntainted String path) {
 
         int pos = path.indexOf('/');
         if (pos >= 0) {
@@ -312,7 +313,7 @@ public final class CmsXmlUtils {
      *
      * @return the last Xpath element from the provided path
      */
-    public static String getLastXpathElement(String path) {
+    public static @RUntainted String getLastXpathElement(@RUntainted String path) {
 
         int pos = path.lastIndexOf('/');
         if (pos >= 0) {
@@ -404,7 +405,7 @@ public final class CmsXmlUtils {
      *
      * @return the last Xpath index from the given path as integer
      */
-    public static int getXpathIndexInt(String path) {
+    public static @RUntainted int getXpathIndexInt(String path) {
 
         int pos1 = path.lastIndexOf('/');
         int pos2 = path.lastIndexOf('[');
@@ -581,7 +582,7 @@ public final class CmsXmlUtils {
      *
      * @return the path with the first element removed
      */
-    public static String removeFirstXpathElement(String path) {
+    public static @RUntainted String removeFirstXpathElement(@RUntainted String path) {
 
         int pos = path.indexOf('/');
         if (pos < 0) {
@@ -646,7 +647,7 @@ public final class CmsXmlUtils {
      *
      * @return the path with the last element removed
      */
-    public static String removeLastXpathElement(String path) {
+    public static @RUntainted String removeLastXpathElement(@RUntainted String path) {
 
         int pos = path.lastIndexOf('/');
         if (pos < 0) {
@@ -669,14 +670,14 @@ public final class CmsXmlUtils {
      *
      * @return the simplified Xpath for the given name
      */
-    public static String removeXpath(String path) {
+    public static @RUntainted String removeXpath(@RUntainted String path) {
 
         if (path.indexOf('/') > -1) {
             // this is a complex path over more then 1 node
             StringBuffer result = new StringBuffer(path.length() + 32);
 
             // split the path into sub-elements
-            List<String> elements = CmsStringUtil.splitAsList(path, '/');
+            @RUntainted List<@RUntainted String> elements = CmsStringUtil.splitAsList(path, '/');
             int end = elements.size() - 1;
             for (int i = 0; i <= end; i++) {
                 // remove [i] from path element if required
@@ -706,7 +707,7 @@ public final class CmsXmlUtils {
      *
      * @return the path with the last Xpath index removed
      */
-    public static String removeXpathIndex(String path) {
+    public static @RUntainted String removeXpathIndex(@RUntainted String path) {
 
         int pos1 = path.lastIndexOf('/');
         int pos2 = path.lastIndexOf('[');
@@ -751,7 +752,7 @@ public final class CmsXmlUtils {
      *
      * @return the path components
      */
-    public static List<String> splitXpath(String xpath) {
+    public static @RUntainted List<@RUntainted String> splitXpath(String xpath) {
 
         return Arrays.stream(xpath.split("/")).filter(s -> !s.isEmpty()).collect(Collectors.toList());
 
@@ -771,7 +772,7 @@ public final class CmsXmlUtils {
      *
      * @see CmsXmlUtils#unmarshalHelper(InputSource, EntityResolver)
      */
-    public static Document unmarshalHelper(byte[] xmlData, EntityResolver resolver) throws CmsXmlException {
+    public static @RUntainted Document unmarshalHelper(byte[] xmlData, EntityResolver resolver) throws CmsXmlException {
 
         return CmsXmlUtils.unmarshalHelper(new InputSource(new ByteArrayInputStream(xmlData)), resolver);
     }
@@ -814,7 +815,7 @@ public final class CmsXmlUtils {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static Document unmarshalHelper(InputSource source, EntityResolver resolver) throws CmsXmlException {
+    public static @RUntainted Document unmarshalHelper(InputSource source, EntityResolver resolver) throws CmsXmlException {
 
         return unmarshalHelper(source, resolver, false);
     }
@@ -837,7 +838,7 @@ public final class CmsXmlUtils {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static Document unmarshalHelper(InputSource source, EntityResolver resolver, boolean validate)
+    public static @RUntainted Document unmarshalHelper(InputSource source, EntityResolver resolver, boolean validate)
     throws CmsXmlException {
 
         if (null == source) {
@@ -882,7 +883,7 @@ public final class CmsXmlUtils {
      * @throws CmsXmlException if something goes wrong
      * @see CmsXmlUtils#unmarshalHelper(InputSource, EntityResolver)
      */
-    public static Document unmarshalHelper(String xmlData, EntityResolver resolver) throws CmsXmlException {
+    public static @RUntainted Document unmarshalHelper(String xmlData, EntityResolver resolver) throws CmsXmlException {
 
         return CmsXmlUtils.unmarshalHelper(new InputSource(new StringReader(xmlData)), resolver);
     }

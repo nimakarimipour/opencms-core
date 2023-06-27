@@ -46,6 +46,7 @@ import java.util.Iterator;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Container page handler to validate consistency.<p>
@@ -176,7 +177,7 @@ public class CmsXmlContainerPageHandler extends CmsDefaultXmlContentHandler {
         // get the current name
         Locale locale = value.getLocale();
         String namePath = CmsXmlUtils.concatXpath(value.getPath(), CmsXmlContainerPage.XmlNode.Name.name());
-        String name = content.getValue(namePath, locale).getStringValue(cms);
+        @RUntainted String name = content.getValue(namePath, locale).getStringValue(cms);
         // iterate over all containers
         Iterator<I_CmsXmlContentValue> itValues = content.getValues(
             CmsXmlContainerPage.XmlNode.Containers.name(),

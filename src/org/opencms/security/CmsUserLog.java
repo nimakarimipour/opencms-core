@@ -35,6 +35,7 @@ import org.opencms.util.CmsFileUtil;
 import java.util.TreeMap;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class with static methods for logging user-related operations in a centralized manner.
@@ -205,7 +206,7 @@ public class CmsUserLog {
      * @param userName the user nam
      * @return the formatted user name
      */
-    private static String formatUser(String userName) {
+    private static String formatUser(@RUntainted String userName) {
 
         return CmsFileUtil.removeLeadingSeparator(userName);
     }

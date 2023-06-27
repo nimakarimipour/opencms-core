@@ -55,6 +55,7 @@ import org.apache.commons.fileupload.servlet.ServletRequestContext;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The form editing service.<p>
@@ -123,7 +124,7 @@ public class CmsUgcEditService extends CmsGwtService implements I_CmsUgcEditServ
     /**
      * @see org.opencms.ugc.shared.rpc.I_CmsUgcEditService#getLink(java.lang.String)
      */
-    public String getLink(String path) {
+    public String getLink(@RUntainted String path) {
 
         return OpenCms.getLinkManager().substituteLink(getCmsObject(), path);
     }

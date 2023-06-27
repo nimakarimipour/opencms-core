@@ -45,6 +45,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.Maps;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Database connection pool class using HikariCP.
@@ -329,7 +330,7 @@ public final class CmsDbPoolV11 {
      *
      * @return the pool url
      */
-    public String getPoolUrl() {
+    public @RUntainted String getPoolUrl() {
 
         return m_poolUrl;
     }

@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report class used for the publish operations.<p>
@@ -76,7 +77,7 @@ public class CmsPublishReport extends CmsPrintStreamReport {
      * @param locale the locale to use for the output language
      *
      */
-    private CmsPublishReport(ByteArrayOutputStream outputStream, Locale locale) {
+    private CmsPublishReport(ByteArrayOutputStream outputStream, @RUntainted Locale locale) {
 
         super(new PrintStream(outputStream), locale, true);
         init(locale, null);
@@ -276,7 +277,7 @@ public class CmsPublishReport extends CmsPrintStreamReport {
      * @see org.opencms.report.CmsPrintStreamReport#println(java.lang.Throwable)
      */
     @Override
-    public synchronized void println(Throwable t) {
+    public synchronized void println(@RUntainted Throwable t) {
 
         if (!m_busy && (m_report != null)) {
             m_report.println(t);
@@ -290,7 +291,7 @@ public class CmsPublishReport extends CmsPrintStreamReport {
      * @see org.opencms.report.A_CmsReport#printMessageWithParam(org.opencms.i18n.CmsMessageContainer, java.lang.Object)
      */
     @Override
-    public void printMessageWithParam(CmsMessageContainer container, Object param) {
+    public void printMessageWithParam(CmsMessageContainer container, @RUntainted Object param) {
 
         if (!m_busy && (m_report != null)) {
             m_report.printMessageWithParam(container, param);
@@ -304,7 +305,7 @@ public class CmsPublishReport extends CmsPrintStreamReport {
      * @see org.opencms.report.A_CmsReport#printMessageWithParam(int, int, org.opencms.i18n.CmsMessageContainer, java.lang.Object)
      */
     @Override
-    public void printMessageWithParam(int m, int n, CmsMessageContainer container, Object param) {
+    public void printMessageWithParam(int m, int n, CmsMessageContainer container, @RUntainted Object param) {
 
         if (!m_busy && (m_report != null)) {
             m_report.printMessageWithParam(m, n, container, param);

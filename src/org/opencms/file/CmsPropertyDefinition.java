@@ -32,6 +32,7 @@ import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.util.A_CmsModeIntEnumeration;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines a property name, so that <code>{@link CmsProperty}</code> instances can be created with that name.<p>
@@ -250,7 +251,7 @@ public class CmsPropertyDefinition implements Cloneable, Comparable<CmsPropertyD
     public static final String PROPERTY_TEMPLATE_PROVIDER = "template.provider";
 
     /** Property for the resource title. */
-    public static final String PROPERTY_TITLE = "Title";
+    public static final @RUntainted String PROPERTY_TITLE = "Title";
 
     /** Property for user data request configuration. */
     public static final String PROPERTY_UDR_CONFIG = "udr.config";
@@ -289,7 +290,7 @@ public class CmsPropertyDefinition implements Cloneable, Comparable<CmsPropertyD
     private CmsUUID m_id;
 
     /** The name of this property definition. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** The type of this property definition.*/
     private CmsPropertyType m_type;
@@ -301,7 +302,7 @@ public class CmsPropertyDefinition implements Cloneable, Comparable<CmsPropertyD
      * @param id the id of the property definition
      * @param name the name of the property definition
      */
-    public CmsPropertyDefinition(CmsUUID id, String name) {
+    public CmsPropertyDefinition(CmsUUID id, @RUntainted String name) {
 
         this(id, name, TYPE_NORMAL);
     }
@@ -313,7 +314,7 @@ public class CmsPropertyDefinition implements Cloneable, Comparable<CmsPropertyD
      * @param name the name of the property definition
      * @param propertyType the type of the property
      */
-    public CmsPropertyDefinition(CmsUUID id, String name, CmsPropertyType propertyType) {
+    public CmsPropertyDefinition(CmsUUID id, @RUntainted String name, CmsPropertyType propertyType) {
 
         m_id = id;
         m_name = name;
@@ -331,7 +332,7 @@ public class CmsPropertyDefinition implements Cloneable, Comparable<CmsPropertyD
      *
      * @throws CmsIllegalArgumentException if the given property name is not valid
      */
-    public static void checkPropertyName(String name) throws CmsIllegalArgumentException {
+    public static void checkPropertyName(@RUntainted String name) throws CmsIllegalArgumentException {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(name)) {
             throw new CmsIllegalArgumentException(
@@ -403,7 +404,7 @@ public class CmsPropertyDefinition implements Cloneable, Comparable<CmsPropertyD
      *
      * @return name The name of this property definition
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }

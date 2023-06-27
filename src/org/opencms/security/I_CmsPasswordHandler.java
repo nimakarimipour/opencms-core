@@ -28,6 +28,7 @@
 package org.opencms.security;
 
 import org.opencms.configuration.I_CmsConfigurationParameterHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines methods for OpenCms password validation.<p>
@@ -44,7 +45,7 @@ public interface I_CmsPasswordHandler extends I_CmsConfigurationParameterHandler
     /**
      * String to identify the key value for md5 password hashes.<p>
      */
-    String DIGEST_TYPE_MD5 = "md5";
+    @RUntainted String DIGEST_TYPE_MD5 = "md5";
 
     /**
      * String to identify the key value for unhashed passwords.<p>
@@ -64,7 +65,7 @@ public interface I_CmsPasswordHandler extends I_CmsConfigurationParameterHandler
     /**
      * String to identify the key value for SCrypt password hashes.<p>
      */
-    String DIGEST_TYPE_SCRYPT = "scrypt";
+    @RUntainted String DIGEST_TYPE_SCRYPT = "scrypt";
 
     /**
      * This method checks if the given plain text password is equal to the given
@@ -101,7 +102,7 @@ public interface I_CmsPasswordHandler extends I_CmsConfigurationParameterHandler
      * @return the password digest
      * @throws CmsPasswordEncryptionException if something goes wrong
      */
-    String digest(String password, String digestType, String inputEncoding) throws CmsPasswordEncryptionException;
+    String digest(String password, @RUntainted String digestType, @RUntainted String inputEncoding) throws CmsPasswordEncryptionException;
 
     /**
      * Returns the default digest type.<p>
@@ -122,14 +123,14 @@ public interface I_CmsPasswordHandler extends I_CmsConfigurationParameterHandler
      *
      * @param digestType the digest type used
      */
-    void setDigestType(String digestType);
+    void setDigestType(@RUntainted String digestType);
 
     /**
      * Sets the default input encoding.<p>
      *
      * @param inputEncoding the encoding used for translation the password string to bytes
      */
-    void setInputEncoding(String inputEncoding);
+    void setInputEncoding(@RUntainted String inputEncoding);
 
     /**
      * This method checks if a new password follows the rules for

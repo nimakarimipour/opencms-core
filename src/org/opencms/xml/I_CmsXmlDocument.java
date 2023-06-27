@@ -37,6 +37,7 @@ import org.opencms.xml.types.I_CmsXmlContentValue;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the API to access the values of a XML content document.<p>
@@ -53,7 +54,7 @@ public interface I_CmsXmlDocument {
      *
      * @throws CmsXmlException in case the locale already existed, or if something else goes wrong
      */
-    void addLocale(CmsObject cms, Locale locale) throws CmsXmlException;
+    void addLocale(CmsObject cms, @RUntainted Locale locale) throws CmsXmlException;
 
     /**
      * Copies the content from the first matching source locale that exists in this XML document
@@ -70,7 +71,7 @@ public interface I_CmsXmlDocument {
      * @throws CmsXmlException in case non of the source locales did not exist,
      *      or the destination locale already exists in the document, or if something else goes wrong
      */
-    void copyLocale(List<Locale> possibleSources, Locale destination) throws CmsXmlException;
+    void copyLocale(List<Locale> possibleSources, @RUntainted Locale destination) throws CmsXmlException;
 
     /**
      * Copies the content of the given source locale to the given destination locale in this XML document.<p>
@@ -81,7 +82,7 @@ public interface I_CmsXmlDocument {
      * @throws CmsXmlException in case either the source locale did not exist,
      *      or the destination locale already exists in the document, or if something else goes wrong
      */
-    void copyLocale(Locale source, Locale destination) throws CmsXmlException;
+    void copyLocale(@RUntainted Locale source, @RUntainted Locale destination) throws CmsXmlException;
 
     /**
      * Returns the first matching locale (eventually simplified) from the available locales.<p>
@@ -142,7 +143,7 @@ public interface I_CmsXmlDocument {
      *
      * @return the index count for the given key name
      */
-    int getIndexCount(String path, Locale locale);
+    int getIndexCount(@RUntainted String path, Locale locale);
 
     /**
      * Returns a link processor for the values of this XML document.<p>
@@ -169,7 +170,7 @@ public interface I_CmsXmlDocument {
      * @param path the path to look up the locale List for
      * @return a List of all locales that have at least one element with the given path in this XML document
      */
-    List<Locale> getLocales(String path);
+    List<Locale> getLocales(@RUntainted String path);
 
     /**
      * Returns a List of all available elements paths (Strings) used in this document for the given locale.<p>
@@ -195,7 +196,7 @@ public interface I_CmsXmlDocument {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    String getStringValue(CmsObject cms, String path, Locale locale) throws CmsXmlException;
+    String getStringValue(CmsObject cms, @RUntainted String path, Locale locale) throws CmsXmlException;
 
     /**
      * Returns the content value for the given path and the selected index as a String,
@@ -210,7 +211,7 @@ public interface I_CmsXmlDocument {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    String getStringValue(CmsObject cms, String path, Locale locale, int index) throws CmsXmlException;
+    String getStringValue(CmsObject cms, @RUntainted String path, Locale locale, int index) throws CmsXmlException;
 
     /**
      * Returns all content values (of type {@link I_CmsXmlContentValue}) directly below the given path
@@ -224,7 +225,7 @@ public interface I_CmsXmlDocument {
      * @return all content values (of type {@link I_CmsXmlContentValue}) directly below the given path
      *      available in this document for the given locale
      */
-    List<I_CmsXmlContentValue> getSubValues(String path, Locale locale);
+    List<I_CmsXmlContentValue> getSubValues(@RUntainted String path, Locale locale);
 
     /**
      * Returns the content value Object for the given path,
@@ -239,7 +240,7 @@ public interface I_CmsXmlDocument {
      *
      * @return the content value Object for the given path
      */
-    I_CmsXmlContentValue getValue(String path, Locale locale);
+    I_CmsXmlContentValue getValue(@RUntainted String path, Locale locale);
 
     /**
      * Returns the content value Object for the given path and the selected index,
@@ -251,7 +252,7 @@ public interface I_CmsXmlDocument {
      *
      * @return the content value Object for the given path and the selected index
      */
-    I_CmsXmlContentValue getValue(String path, Locale locale, int index);
+    I_CmsXmlContentValue getValue(@RUntainted String path, Locale locale, int index);
 
     /**
      * Returns all available content values (of type {@link I_CmsXmlContentValue})
@@ -278,7 +279,7 @@ public interface I_CmsXmlDocument {
      * @return all content values (of type {@link I_CmsXmlContentValue}) with the given path
      *      available in this document for the given locale
      */
-    List<I_CmsXmlContentValue> getValues(String path, Locale locale);
+    List<I_CmsXmlContentValue> getValues(@RUntainted String path, Locale locale);
 
     /**
      * Returns <code>true</code> if the given locale exists in this XML document.<p>
@@ -302,7 +303,7 @@ public interface I_CmsXmlDocument {
      *
      * @return <code>true</code> if a value with the given path exists for the selected locale in this XML document
      */
-    boolean hasValue(String path, Locale locale);
+    boolean hasValue(@RUntainted String path, Locale locale);
 
     /**
      * Returns <code>true</code> if a value with the given path and the provided index exists for the selected locale
@@ -315,7 +316,7 @@ public interface I_CmsXmlDocument {
      * @return <code>true</code> if a value with the given path and the provided index exists for the selected locale
      *      in this XML document
      */
-    boolean hasValue(String path, Locale locale, int index);
+    boolean hasValue(@RUntainted String path, Locale locale, int index);
 
     /**
      * Initializes this XML document, required after structural changes to the internal XML.<p>
@@ -344,7 +345,7 @@ public interface I_CmsXmlDocument {
      * @return <code>true</code> if a value with the given path exists for the selected locale in this XML document,
      *      and that value is enabled
      */
-    boolean isEnabled(String path, Locale locale);
+    boolean isEnabled(@RUntainted String path, Locale locale);
 
     /**
      * Returns <code>true</code> if a value with the given path and the provided index exists for the selected locale
@@ -361,7 +362,7 @@ public interface I_CmsXmlDocument {
      * @return <code>true</code> if a value with the given path and the provided index exists for the selected locale
      *      in this XML document, and that value is enabled
      */
-    boolean isEnabled(String path, Locale locale, int index);
+    boolean isEnabled(@RUntainted String path, Locale locale, int index);
 
     /**
      * Moves the content of the given source locale to the given destination locale in this XML document.<p>
@@ -372,7 +373,7 @@ public interface I_CmsXmlDocument {
      * @throws CmsXmlException in case either the source locale does not exist,
      *      or the destination locale already exists in the document, or if something else goes wrong
      */
-    void moveLocale(Locale source, Locale destination) throws CmsXmlException;
+    void moveLocale(@RUntainted Locale source, @RUntainted Locale destination) throws CmsXmlException;
 
     /**
      * Removes the given locale from this XML document.
@@ -381,7 +382,7 @@ public interface I_CmsXmlDocument {
      *
      * @throws CmsXmlException in case the locale did not exist in the document, or if something else goes wrong
      */
-    void removeLocale(Locale locale) throws CmsXmlException;
+    void removeLocale(@RUntainted Locale locale) throws CmsXmlException;
 
     /**
      * Validates the content of this XML document.<p>

@@ -43,6 +43,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource bundle loader for property based resource bundles from OpenCms that has a flushable cache.<p>
@@ -369,7 +370,7 @@ public final class CmsResourceBundleLoader {
         try {
 
             String resourceName = localizedName.replace('.', '/') + ".properties";
-            URL url = CmsResourceBundleLoader.class.getClassLoader().getResource(resourceName);
+            @RUntainted URL url = CmsResourceBundleLoader.class.getClassLoader().getResource(resourceName);
 
             I_CmsResourceBundle additionalBundle = m_permanentCache.get(localizedName);
             if (additionalBundle != null) {

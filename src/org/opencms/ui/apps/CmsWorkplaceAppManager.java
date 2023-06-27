@@ -113,6 +113,7 @@ import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The workplace app manager.<p>
@@ -688,7 +689,7 @@ public class CmsWorkplaceAppManager {
 
         JSONArray appIds = new JSONArray(apps);
         CmsUser user = cms.getRequestContext().getCurrentUser();
-        String infoValue = appIds.toString();
+        @RUntainted String infoValue = appIds.toString();
         String previousApps = (String)user.getAdditionalInfo(QUICK_LAUCH_APPS_KEY);
         // remove the additional info value to use default setting, in case the selected apps match the default apps
         if (new JSONArray(DEFAULT_USER_APPS).toString().equals(infoValue)) {

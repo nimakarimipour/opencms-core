@@ -53,6 +53,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.gwt.user.server.rpc.SerializationPolicy;
 import com.google.gwt.user.server.rpc.SerializationPolicyLoader;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class contains the data that should be cached for a specific service class.<p>

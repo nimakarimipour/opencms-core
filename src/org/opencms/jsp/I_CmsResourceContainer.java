@@ -32,6 +32,7 @@ import org.opencms.file.CmsResource;
 import java.util.List;
 
 import javax.servlet.jsp.JspException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to a <code>{@link org.opencms.file.CmsResource}</code> object that was previously loaded by a parent tag.<p>
@@ -52,7 +53,7 @@ public interface I_CmsResourceContainer {
      *
      * @return the parameters of the currently used resource collector
      */
-    String getCollectorParam();
+    @RUntainted String getCollectorParam();
 
     /**
      * Returns the list of all currently loaded resources (instances of <code>{@link org.opencms.file.CmsResource}</code>).<p>

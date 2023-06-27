@@ -33,6 +33,7 @@ import org.opencms.util.CmsUUID;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for a DB log entry.<p>
@@ -121,7 +122,7 @@ public class CmsLogEntry {
      *
      * @return the formatted details for this log entry
      */
-    public String getDetails(Locale locale) {
+    public String getDetails(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(m_type.getDetailKey(), m_data);
     }

@@ -44,6 +44,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The state of an inherited container at a given point in the VFS tree.<p>
@@ -67,9 +68,9 @@ public class CmsInheritedContainerState {
      * @param rootPath the root path
      * @param name the name of the container configuration
      */
-    public void addConfigurations(CmsContainerConfigurationCache cache, String rootPath, String name) {
+    public void addConfigurations(CmsContainerConfigurationCache cache, @RUntainted String rootPath, String name) {
 
-        String currentPath = rootPath;
+        @RUntainted String currentPath = rootPath;
         List<CmsContainerConfiguration> configurations = new ArrayList<CmsContainerConfiguration>();
         CmsContainerConfigurationCacheState state = cache.getState();
         while (currentPath != null) {

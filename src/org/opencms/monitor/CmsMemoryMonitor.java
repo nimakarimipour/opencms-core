@@ -94,6 +94,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Monitors OpenCms memory consumption.<p>
@@ -186,10 +187,10 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
     private Map<String, Boolean> m_cacheHasRoles;
 
     /** A cache for accelerated locale lookup. */
-    private Map<String, Locale> m_cacheLocale;
+    private @RUntainted Map<@RUntainted String, @RUntainted Locale> m_cacheLocale;
 
     /** Cache for the resource locks. */
-    private Map<String, CmsLock> m_cacheLock;
+    private @RUntainted Map<@RUntainted String, @RUntainted CmsLock> m_cacheLock;
 
     /** The memory object cache map. */
     private Map<String, Object> m_cacheMemObject;
@@ -612,7 +613,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
      * @param key the cache key
      * @param locale the locale to cache
      */
-    public void cacheLocale(String key, Locale locale) {
+    public void cacheLocale(@RUntainted String key, @RUntainted Locale locale) {
 
         if (m_cacheLocale != null) {
             if (m_disabled.get(CacheType.LOCALE) != null) {
@@ -630,7 +631,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
      *
      * @param lock the lock to cache
      */
-    public void cacheLock(CmsLock lock) {
+    public void cacheLock(@RUntainted CmsLock lock) {
 
         if (m_disabled.get(CacheType.LOCK) != null) {
             return;
@@ -1170,14 +1171,14 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
      *
      * @param newLocks if not <code>null</code> the lock cache is replaced by the given map
      */
-    public void flushLocks(Map<String, CmsLock> newLocks) {
+    public void flushLocks(@RUntainted Map<@RUntainted String, @RUntainted CmsLock> newLocks) {
 
         if ((newLocks == null) || newLocks.isEmpty()) {
             flushCache(CacheType.LOCK);
             return;
         }
         // initialize new lock cache
-        Map<String, CmsLock> newLockCache = new ConcurrentHashMap<String, CmsLock>(newLocks);
+        @RUntainted Map<@RUntainted String, @RUntainted CmsLock> newLockCache = new ConcurrentHashMap<@RUntainted String, @RUntainted CmsLock>(newLocks);
         // register it
         register(CmsLockManager.class.getName(), newLockCache);
         // save the old cache
@@ -1493,7 +1494,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
      *
      * @return the locale cached with the given cache key
      */
-    public Locale getCachedLocale(String key) {
+    public @RUntainted Locale getCachedLocale(String key) {
 
         if (m_cacheLocale == null) {
             // this may be accessed before initialization
@@ -1509,7 +1510,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
      *
      * @return the lock cached with the given root path
      */
-    public CmsLock getCachedLock(String rootPath) {
+    public @RUntainted CmsLock getCachedLock(String rootPath) {
 
         return m_cacheLock.get(rootPath);
     }
@@ -2771,8 +2772,8 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
             }
             sm = null;
 
-            for (Iterator<String> i = OpenCms.getSqlManager().getDbPoolUrls().iterator(); i.hasNext();) {
-                String poolname = i.next();
+            for (@RUntainted Iterator<@RUntainted String> i = OpenCms.getSqlManager().getDbPoolUrls().iterator(); i.hasNext();) {
+                @RUntainted String poolname = i.next();
                 try {
                     LOG.info(
                         Messages.get().getBundle().key(

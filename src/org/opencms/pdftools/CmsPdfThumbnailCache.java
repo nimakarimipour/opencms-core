@@ -32,6 +32,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.file.wrapper.CmsWrappedResource;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsFileUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Cache for PDF thumbnails.<p>
@@ -39,7 +40,7 @@ import org.opencms.util.CmsFileUtil;
 public class CmsPdfThumbnailCache extends CmsVfsNameBasedDiskCache {
 
     /** The folder name for the cache folder. */
-    public static final String PDF_CACHE_FOLDER = "imagecache/pdfthumbnails";
+    public static final @RUntainted String PDF_CACHE_FOLDER = "imagecache/pdfthumbnails";
 
     /**
      * Creates a new cache instance.<p>
@@ -57,7 +58,7 @@ public class CmsPdfThumbnailCache extends CmsVfsNameBasedDiskCache {
 
         String extension = CmsFileUtil.getExtension(resource.getRootPath());
         CmsWrappedResource wrapper = new CmsWrappedResource(resource);
-        String fakePath = "/thumbnail_" + resource.getStructureId() + extension;
+        @RUntainted String fakePath = "/thumbnail_" + resource.getStructureId() + extension;
         wrapper.setRootPath(fakePath);
         CmsResource fakeResource = wrapper.getResource();
         return super.getCacheName(fakeResource, parameters);

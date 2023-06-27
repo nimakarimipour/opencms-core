@@ -84,6 +84,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Validator;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to edit or create resourcetypes.<p>
@@ -97,20 +98,20 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
     public static class XMLPath {
 
         /**Module Config Constant.  */
-        private static final String CONFIG_RESOURCETYPE = "ResourceType";
+        private static final @RUntainted String CONFIG_RESOURCETYPE = "ResourceType";
 
         /**Module Config Constant.  */
         private static final String CONFIG_RESOURCETYPE_TYPENAME = "/TypeName";
 
         /**Module Config Constant.  */
-        private static final String CONFIG_RESOURCETYPE_NAMEPATTERN = "/NamePattern";
+        private static final @RUntainted String CONFIG_RESOURCETYPE_NAMEPATTERN = "/NamePattern";
 
         /**
          * Adds the count to the path, e.g., <code>"Title" + num(2)</code> results in <code>"Title[2]"</code>.
          * @param i the count to add to the XPath
          * @return the argument wrapped in square brackets.
          */
-        public static String num(int i) {
+        public static @RUntainted String num(@RUntainted int i) {
 
             return "[" + i + "]";
         }
@@ -168,7 +169,7 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
                 throw new InvalidValueException(
                     CmsVaadinUtils.getMessageText(Messages.GUI_RESOURCETYPE_EDIT_INVALID_ID_0));
             }
-            int id = Integer.parseInt((String)value);
+            @RUntainted int id = Integer.parseInt((String)value);
             if (!CmsResourceTypeApp.isResourceTypeIdFree(id)) {
                 throw new InvalidValueException(
                     CmsVaadinUtils.getMessageText(Messages.GUI_RESOURCETYPE_EDIT_INVALID_ID_0));
@@ -189,7 +190,7 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
         /**
          * @see com.vaadin.v7.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             if (((String)value).isEmpty()) {
                 throw new InvalidValueException(
@@ -215,13 +216,13 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
         /**
          * @see com.vaadin.v7.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             if ((value == null) || ((String)value).isEmpty()) {
                 return;
             }
 
-            String resource = (String)value;
+            @RUntainted String resource = (String)value;
             if (!resource.startsWith("/system/")) {
                 throw new InvalidValueException(
                     CmsVaadinUtils.getMessageText(Messages.GUI_RESOURCETYPE_EDIT_INVALID_RESORUCE_0));
@@ -318,10 +319,10 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
     private TextField m_typeID;
 
     /** vaadin component.*/
-    private TextField m_typeName;
+    private @RUntainted TextField m_typeName;
 
     /** vaadin component.*/
-    private TextField m_typeShortName;
+    private @RUntainted TextField m_typeShortName;
 
     /** vaadin component.*/
     private TextField m_typeXPathName;
@@ -392,10 +393,10 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
      * @param xmlPath the path of the (nested) element, for which the parents should be created
      * @param l the locale for which the XML content is edited.
      */
-    protected void createParentXmlElements(CmsXmlContent xmlContent, String xmlPath, Locale l) {
+    protected void createParentXmlElements(CmsXmlContent xmlContent, @RUntainted String xmlPath, @RUntainted Locale l) {
 
         if (CmsXmlUtils.isDeepXpath(xmlPath)) {
-            String parentPath = CmsXmlUtils.removeLastXpathElement(xmlPath);
+            @RUntainted String parentPath = CmsXmlUtils.removeLastXpathElement(xmlPath);
             if (null == xmlContent.getValue(parentPath, l)) {
                 createParentXmlElements(xmlContent, parentPath, l);
                 xmlContent.addValue(m_cms, parentPath, l, CmsXmlUtils.getXpathIndexInt(parentPath) - 1);
@@ -504,7 +505,7 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
         lockTemporary(vfsBundleFile);
         CmsObject cms = m_cms;
         CmsXmlContent content = CmsXmlContentFactory.unmarshal(cms, vfsBundleFile);
-        Locale locale = CmsLocaleManager.getDefaultLocale();
+        @RUntainted Locale locale = CmsLocaleManager.getDefaultLocale();
         if (!content.hasLocale(locale)) {
             content.addLocale(cms, locale);
         }
@@ -642,7 +643,7 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
             CmsResource config = m_cms.readResource(m_config.getValue());
             CmsFile configFile = m_cms.readFile(config);
             CmsXmlContent xmlContent = CmsXmlContentFactory.unmarshal(m_cms, configFile);
-            int number = xmlContent.getIndexCount(XMLPath.CONFIG_RESOURCETYPE, l) + 1;
+            @RUntainted int number = xmlContent.getIndexCount(XMLPath.CONFIG_RESOURCETYPE, l) + 1;
             createParentXmlElements(
                 xmlContent,
                 XMLPath.CONFIG_RESOURCETYPE + XMLPath.num(number) + XMLPath.CONFIG_RESOURCETYPE_TYPENAME,
@@ -684,7 +685,7 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
             macroResolver.setKeepEmptyMacros(true);
 
             macroResolver.addMacro(SAMPLE_TYPE_SCHEMA_ELEMENT, newElementString);
-            String bundleName = m_bundle.getValue();
+            @RUntainted String bundleName = m_bundle.getValue();
 
             bundleName = bundleName.split("/")[bundleName.split("/").length - 1];
             if (bundleName.contains("_")) {
@@ -753,9 +754,9 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
 
             }
 
-            String formatterPath = m_parentFormatter.getValue() + m_typeShortName.getValue() + ".jsp";
-            String formatterConfigPath = m_parentFormatter.getValue() + m_typeShortName.getValue() + ".xml";
-            String schemaPath = m_parentSchema.getValue() + m_typeShortName.getValue() + ".xsd";
+            @RUntainted String formatterPath = m_parentFormatter.getValue() + m_typeShortName.getValue() + ".jsp";
+            @RUntainted String formatterConfigPath = m_parentFormatter.getValue() + m_typeShortName.getValue() + ".xml";
+            @RUntainted String schemaPath = m_parentSchema.getValue() + m_typeShortName.getValue() + ".xsd";
             if (!m_cms.existsResource(formatterPath)) {
                 m_cms.copyResource(SAMPLE_FORMATTER, formatterPath);
             }

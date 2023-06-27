@@ -42,6 +42,7 @@ import java.io.IOException;
 import javax.servlet.http.Cookie;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Login bean which sets a cookie that can be used by {@link CmsPersistentLoginAuthorizationHandler} to automatically
@@ -52,7 +53,7 @@ import org.apache.commons.logging.Log;
 public class CmsJspLoginPersistingBean extends CmsJspLoginBean {
 
     /** The token life time. */
-    private long m_tokenLifetime = CmsPersistentLoginTokenHandler.DEFAULT_LIFETIME;
+    private @RUntainted long m_tokenLifetime = CmsPersistentLoginTokenHandler.DEFAULT_LIFETIME;
 
     /** The cookie path. */
     private String m_cookiePath = "%(CONTEXT_NAME)%(SERVLET_NAME)";
@@ -96,7 +97,7 @@ public class CmsJspLoginPersistingBean extends CmsJspLoginBean {
      * @see org.opencms.jsp.CmsJspLoginBean#login(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public void login(String userName, String password, String projectName) {
+    public void login(@RUntainted String userName, String password, @RUntainted String projectName) {
 
         super.login(userName, password, projectName);
         if (isLoginSuccess()) {
@@ -174,7 +175,7 @@ public class CmsJspLoginPersistingBean extends CmsJspLoginBean {
      *
      * @param lifetime the token life time
      */
-    public void setTokenLifetime(long lifetime) {
+    public void setTokenLifetime(@RUntainted long lifetime) {
 
         m_tokenLifetime = lifetime;
     }

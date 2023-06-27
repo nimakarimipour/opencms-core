@@ -63,6 +63,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.logging.Log;
 
 import org.w3c.dom.Document;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Transforms all resources of a given type by
@@ -79,10 +80,10 @@ public class CmsXmlFileTransformer {
     private CmsObject m_onlineCms;
 
     /** The path. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /** The type name. */
-    private String m_type;
+    private @RUntainted String m_type;
 
     /** The bytes of the XSL transformation. */
     private byte[] m_xslt;
@@ -94,7 +95,7 @@ public class CmsXmlFileTransformer {
     private I_CmsReport m_report;
 
     /** The origin of the XSL transform. */
-    private String m_xslName;
+    private @RUntainted String m_xslName;
 
     /**
      * Creates a new instance.
@@ -111,9 +112,9 @@ public class CmsXmlFileTransformer {
      */
     public CmsXmlFileTransformer(
         CmsObject cms,
-        String path,
-        String type,
-        String xslName,
+        @RUntainted String path,
+        @RUntainted String type,
+        @RUntainted String xslName,
         InputStream xslStream,
         I_CmsReport report)
     throws CmsException, IOException {
@@ -190,7 +191,7 @@ public class CmsXmlFileTransformer {
      * @param content the message string
      * @return the message container
      */
-    private CmsMessageContainer message(String content) {
+    private CmsMessageContainer message(@RUntainted String content) {
 
         content = CmsXmlFileTransformer.class.getSimpleName() + ": " + content;
         return org.opencms.report.Messages.get().container(org.opencms.report.Messages.RPT_GENERIC_1, content);
@@ -224,7 +225,7 @@ public class CmsXmlFileTransformer {
     private void processResources(List<CmsResource> resources) {
 
         List<String> changedPaths = new ArrayList<>();
-        for (CmsResource resource : resources) {
+        for (@RUntainted CmsResource resource : resources) {
             boolean changed = false;
             CmsResourceState state = resource.getState();
             m_report.println(message("Processing " + resource.getRootPath()));
@@ -299,7 +300,7 @@ public class CmsXmlFileTransformer {
         m_report.println();
         m_report.println(message("Summary of changed resources: "));
         m_report.println();
-        for (String path : changedPaths) {
+        for (@RUntainted String path : changedPaths) {
             m_report.println(message(path));
         }
     }
@@ -329,7 +330,7 @@ public class CmsXmlFileTransformer {
      *
      * @throws CmsException if something goes wrong
      */
-    private byte[] readOfflineContent(CmsResource res) throws CmsException {
+    private byte[] readOfflineContent(@RUntainted CmsResource res) throws CmsException {
 
         return m_offlineCms.readFile(res).getContents();
     }
@@ -408,7 +409,7 @@ public class CmsXmlFileTransformer {
      *
      * @throws CmsException if something goes wrong
      */
-    private boolean writeContent(CmsResource res, byte[] content) throws CmsException {
+    private boolean writeContent(@RUntainted CmsResource res, byte[] content) throws CmsException {
 
         CmsFile file = m_offlineCms.readFile(res);
         file.setContents(content);

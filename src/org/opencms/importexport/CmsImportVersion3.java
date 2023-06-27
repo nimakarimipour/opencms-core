@@ -66,6 +66,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the OpenCms Import Interface ({@link org.opencms.importexport.I_CmsImport}) for
@@ -179,15 +180,15 @@ public class CmsImportVersion3 extends A_CmsImport {
      */
     @Override
     protected void importUser(
-        String name,
+        @RUntainted String name,
         String flags,
         String password,
-        String firstname,
-        String lastname,
-        String email,
-        long dateCreated,
-        Map<String, Object> userInfo,
-        List<String> userGroups)
+        @RUntainted String firstname,
+        @RUntainted String lastname,
+        @RUntainted String email,
+        @RUntainted long dateCreated,
+        @RUntainted Map<@RUntainted String, @RUntainted Object> userInfo,
+        @RUntainted List<@RUntainted String> userGroups)
     throws CmsImportExportException {
 
         boolean convert = false;
@@ -285,7 +286,7 @@ public class CmsImportVersion3 extends A_CmsImport {
                 // <flags>
                 flags = getChildElementTextValue(currentElement, A_CmsImport.N_FLAGS);
 
-                String translatedName = m_cms.getRequestContext().addSiteRoot(m_importPath + destination);
+                @RUntainted String translatedName = m_cms.getRequestContext().addSiteRoot(m_importPath + destination);
                 if (CmsResourceTypeFolder.RESOURCE_TYPE_NAME.equals(type)) {
                     translatedName += "/";
                 }
@@ -411,17 +412,17 @@ public class CmsImportVersion3 extends A_CmsImport {
      */
     private CmsResource importResource(
         String source,
-        String destination,
-        String type,
-        String uuidresource,
+        @RUntainted String destination,
+        @RUntainted String type,
+        @RUntainted String uuidresource,
         long datelastmodified,
-        String userlastmodified,
-        long datecreated,
-        String usercreated,
+        @RUntainted String userlastmodified,
+        @RUntainted long datecreated,
+        @RUntainted String usercreated,
         String flags,
         List<CmsProperty> properties) {
 
-        byte[] content = null;
+        @RUntainted byte[] content = null;
         CmsResource result = null;
 
         try {
@@ -430,7 +431,7 @@ public class CmsImportVersion3 extends A_CmsImport {
             if (source != null) {
                 content = getFileBytes(source);
             }
-            int size = 0;
+            @RUntainted int size = 0;
             if (content != null) {
                 size = content.length;
             }
@@ -487,7 +488,7 @@ public class CmsImportVersion3 extends A_CmsImport {
             }
 
             // get UUIDs for the resource and content
-            CmsUUID newUuidresource = null;
+            @RUntainted CmsUUID newUuidresource = null;
             if ((uuidresource != null) && (!resType.isFolder())) {
                 // create a UUID from the provided string
                 newUuidresource = new CmsUUID(uuidresource);

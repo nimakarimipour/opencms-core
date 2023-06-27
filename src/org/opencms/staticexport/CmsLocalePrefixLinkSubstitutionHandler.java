@@ -39,6 +39,7 @@ import org.opencms.workplace.CmsWorkplace;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Link substitution handler required to render single tree localized sites.<p>
@@ -62,7 +63,7 @@ public class CmsLocalePrefixLinkSubstitutionHandler extends CmsDefaultLinkSubsti
                 Pattern pattern = Pattern.compile("(.*)" + CmsLocaleManager.PARAMETER_LOCALE + "=([^&]*)(.*)");
                 Matcher matcher = pattern.matcher(parameters);
                 if (matcher.find()) {
-                    String localeFromParameterString = matcher.group(2);
+                    @RUntainted String localeFromParameterString = matcher.group(2);
                     if ((localeFromParameterString != null) && !localeFromParameterString.isEmpty()) {
                         Locale l = CmsLocaleManager.getLocale(localeFromParameterString);
                         if (OpenCms.getLocaleManager().getAvailableLocales(cms, vfsName).contains(l)) {
@@ -120,7 +121,7 @@ public class CmsLocalePrefixLinkSubstitutionHandler extends CmsDefaultLinkSubsti
      * @see org.opencms.staticexport.CmsDefaultLinkSubstitutionHandler#getRootPathForSite(org.opencms.file.CmsObject, java.lang.String, java.lang.String, boolean)
      */
     @Override
-    protected String getRootPathForSite(CmsObject cms, String path, String siteRoot, boolean isRootPath) {
+    protected String getRootPathForSite(CmsObject cms, @RUntainted String path, @RUntainted String siteRoot, boolean isRootPath) {
 
         CmsSite site = OpenCms.getSiteManager().getSiteForSiteRoot(siteRoot);
         if ((site != null) && CmsSite.LocalizationMode.singleTree.equals(site.getLocalizationMode())) {
@@ -141,7 +142,7 @@ public class CmsLocalePrefixLinkSubstitutionHandler extends CmsDefaultLinkSubsti
      * @see org.opencms.staticexport.CmsDefaultLinkSubstitutionHandler#prepareExportParameters(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
     @Override
-    protected String prepareExportParameters(CmsObject cms, String vfsName, String parameters) {
+    protected @RUntainted String prepareExportParameters(CmsObject cms, @RUntainted String vfsName, @RUntainted String parameters) {
 
         CmsSite site = OpenCms.getSiteManager().getSiteForSiteRoot(cms.getRequestContext().getSiteRoot());
         if ((site != null) && CmsSite.LocalizationMode.singleTree.equals(site.getLocalizationMode())) {

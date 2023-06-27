@@ -50,6 +50,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The parser class for creating dynamic function beans from XML contents.<p>
@@ -69,7 +70,7 @@ public class CmsDynamicFunctionParser {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsDynamicFunctionBean parseFunctionBean(CmsObject cms, CmsResource res) throws CmsException {
+    public CmsDynamicFunctionBean parseFunctionBean(CmsObject cms, @RUntainted CmsResource res) throws CmsException {
 
         CmsFile file = cms.readFile(res);
         CmsXmlContent xmlContent = CmsXmlContentFactory.unmarshal(cms, file);
@@ -183,7 +184,7 @@ public class CmsDynamicFunctionParser {
     protected Format getMainFormat(CmsObject cms, I_CmsXmlContentLocation location, CmsResource functionRes) {
 
         I_CmsXmlContentValueLocation jspLoc = location.getSubValue("FunctionProvider");
-        CmsUUID structureId = jspLoc.asId(cms);
+        @RUntainted CmsUUID structureId = jspLoc.asId(cms);
         I_CmsXmlContentValueLocation containerSettings = location.getSubValue("ContainerSettings");
         Map<String, String> parameters = parseParameters(cms, location, "Parameter");
         if (containerSettings != null) {
@@ -248,7 +249,7 @@ public class CmsDynamicFunctionParser {
         CmsResource functionRes) {
 
         I_CmsXmlContentValueLocation jspLoc = location.getSubValue("FunctionProvider");
-        CmsUUID structureId = jspLoc.asId(cms);
+        @RUntainted CmsUUID structureId = jspLoc.asId(cms);
         I_CmsXmlContentValueLocation minWidthLoc = location.getSubValue("MinWidth");
         String minWidth = getStringValue(cms, minWidthLoc, "");
         I_CmsXmlContentValueLocation maxWidthLoc = location.getSubValue("MaxWidth");
@@ -311,7 +312,7 @@ public class CmsDynamicFunctionParser {
      *
      * @return the parsed map of parameters
      */
-    protected Map<String, String> parseParameters(CmsObject cms, I_CmsXmlContentLocation location, String name) {
+    protected Map<String, String> parseParameters(CmsObject cms, I_CmsXmlContentLocation location, @RUntainted String name) {
 
         List<I_CmsXmlContentValueLocation> locations = location.getSubValues(name);
         Map<String, String> result = new LinkedHashMap<String, String>();

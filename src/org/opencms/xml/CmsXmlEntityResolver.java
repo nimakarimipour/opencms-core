@@ -56,6 +56,7 @@ import org.apache.commons.logging.Log;
 
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resolves XML entities (e.g. external DTDs) in the OpenCms VFS.<p>

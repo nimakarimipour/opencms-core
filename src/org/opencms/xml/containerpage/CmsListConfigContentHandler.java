@@ -32,6 +32,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 import org.opencms.xml.content.CmsDefaultXmlContentHandler;
 import org.opencms.xml.content.CmsXmlContent;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Special handler for list configurations that rewrites the TypesToCollect field using formatter keys if possible, rather than IDs.

@@ -29,6 +29,7 @@ package org.opencms.ui;
 
 import com.vaadin.navigator.View;
 import com.vaadin.ui.Component;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Factory to create components.<p>
@@ -50,7 +51,7 @@ public interface I_CmsAppView extends View {
      *
      * @param state the state to set
      */
-    void enter(String state);
+    void enter(@RUntainted String state);
 
     /**
      * Returns the app component, initializes it if required.<p>

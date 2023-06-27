@@ -29,6 +29,7 @@ package org.opencms.ui.apps.user;
 
 import org.opencms.file.CmsObject;
 import org.opencms.ui.CmsCssIcon;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for OU tree types.<p>
@@ -54,7 +55,7 @@ public interface I_CmsOuTreeType {
      *
      * @return id string
      */
-    public String getId();
+    public @RUntainted String getId();
 
     /**
      * Gets the name of the element.<p>

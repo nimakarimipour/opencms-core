@@ -73,6 +73,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Main module manager app class.<p>
@@ -138,10 +139,10 @@ public class CmsModuleApp extends A_CmsAttributeAwareApp implements I_CmsCachabl
          */
         @SuppressWarnings("synthetic-access")
         @Override
-        public void executeAction(final Set<String> context) {
+        public void executeAction(final @RUntainted Set<@RUntainted String> context) {
 
             try {
-                final String moduleName = context.iterator().next();
+                final @RUntainted String moduleName = context.iterator().next();
                 final CmsObject cms = OpenCms.initCmsObject(A_CmsUI.getCmsObject());
                 final CmsModule module = OpenCms.getModuleManager().getModule(moduleName);
 
@@ -182,7 +183,7 @@ public class CmsModuleApp extends A_CmsAttributeAwareApp implements I_CmsCachabl
                                 }
 
                                 @Override
-                                public void onSiteSelect(String site) {
+                                public void onSiteSelect(@RUntainted String site) {
 
                                     cms.getRequestContext().setSiteRoot(site);
                                     openReport(
@@ -284,7 +285,7 @@ public class CmsModuleApp extends A_CmsAttributeAwareApp implements I_CmsCachabl
         @Override
         public void executeAction(Set<String> context) {
 
-            String path = getModuleFolder(context.iterator().next());
+            @RUntainted String path = getModuleFolder(context.iterator().next());
             if (path != null) {
                 String link = CmsCoreService.getVaadinWorkplaceLink(A_CmsUI.getCmsObject(), path);
                 A_CmsUI.get().getPage().setLocation(link);
@@ -395,7 +396,7 @@ public class CmsModuleApp extends A_CmsAttributeAwareApp implements I_CmsCachabl
                     }
 
                     @Override
-                    public void onSiteSelect(String site) {
+                    public void onSiteSelect(@RUntainted String site) {
 
                         cms.getRequestContext().setSiteRoot(site);
                         Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);

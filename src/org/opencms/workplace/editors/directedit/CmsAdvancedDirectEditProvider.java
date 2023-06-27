@@ -71,6 +71,7 @@ import org.apache.commons.logging.Log;
 import com.google.web.bindery.autobean.shared.AutoBean;
 import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.vm.AutoBeanFactorySource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provider for the OpenCms AdvancedDirectEdit.<p>
@@ -205,7 +206,7 @@ public class CmsAdvancedDirectEditProvider extends A_CmsDirectEditProvider {
      * Similar to the method in the superclass, but removes the write permission check, as this is handled differently.
      */
     @Override
-    public CmsDirectEditResourceInfo getResourceInfo(CmsDirectEditParams params, String resourceName) {
+    public CmsDirectEditResourceInfo getResourceInfo(CmsDirectEditParams params, @RUntainted String resourceName) {
 
         try {
             // first check some simple preconditions for direct edit
@@ -283,7 +284,7 @@ public class CmsAdvancedDirectEditProvider extends A_CmsDirectEditProvider {
      * @see org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider#insertDirectEditIncludes(javax.servlet.jsp.PageContext, org.opencms.workplace.editors.directedit.CmsDirectEditParams)
      */
     @SuppressWarnings("unused")
-    public void insertDirectEditIncludes(PageContext context, CmsDirectEditParams params) throws JspException {
+    public void insertDirectEditIncludes(@RUntainted PageContext context, CmsDirectEditParams params) throws JspException {
 
         // For Advanced Direct Edit all necessary js and css-code is included by the enableADE tag. Further includes in the head are not needed.
 
@@ -302,7 +303,7 @@ public class CmsAdvancedDirectEditProvider extends A_CmsDirectEditProvider {
         }
         I_CmsAutoBeanFactory collectorInfoFactory = AutoBeanFactorySource.create(I_CmsAutoBeanFactory.class);
         AutoBean<I_CmsContentLoadCollectorInfo> collectorInfoAutoBean = collectorInfoFactory.wrapCollectorInfo(info);
-        String serializedCollectorInfo = AutoBeanCodex.encode(collectorInfoAutoBean).getPayload();
+        @RUntainted String serializedCollectorInfo = AutoBeanCodex.encode(collectorInfoAutoBean).getPayload();
 
         String marker = "<div class='"
             + CmsGwtConstants.CLASS_COLLECTOR_INFO
@@ -317,7 +318,7 @@ public class CmsAdvancedDirectEditProvider extends A_CmsDirectEditProvider {
     /**
      * @see org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider#insertDirectEditStart(javax.servlet.jsp.PageContext, org.opencms.workplace.editors.directedit.CmsDirectEditParams)
      */
-    public boolean insertDirectEditStart(PageContext context, CmsDirectEditParams params) throws JspException {
+    public boolean insertDirectEditStart(@RUntainted PageContext context, CmsDirectEditParams params) throws JspException {
 
         String content;
         // check the direct edit permissions of the current user
@@ -506,7 +507,7 @@ public class CmsAdvancedDirectEditProvider extends A_CmsDirectEditProvider {
             CmsResourceTypeImage.getStaticTypeName(),
             CmsResourceTypePlain.getStaticTypeName());
         if ((resource != null) && !resource.isFolder()) {
-            for (String type : uploadTypes) {
+            for (@RUntainted String type : uploadTypes) {
                 if (OpenCms.getResourceManager().matchResourceType(type, resource.getTypeId())) {
                     isUploadType = true;
                     break;

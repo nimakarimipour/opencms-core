@@ -60,6 +60,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides basic methods for building the file editors of OpenCms.<p>
@@ -176,7 +177,7 @@ public abstract class CmsEditor extends CmsEditorBase {
     private String m_fileEncoding;
 
     /** Back link parameter. */
-    private String m_paramBackLink;
+    private @RUntainted String m_paramBackLink;
 
     /** Content parameter. */
     private String m_paramContent;
@@ -191,7 +192,7 @@ public abstract class CmsEditor extends CmsEditorBase {
     private String m_paramEditormode;
 
     /** Element language parameter. */
-    private String m_paramElementlanguage;
+    private @RUntainted String m_paramElementlanguage;
 
     /** Load default parameter. */
     private String m_paramLoadDefault;
@@ -251,12 +252,12 @@ public abstract class CmsEditor extends CmsEditorBase {
      * @param selectedLocale the currently selected Locale
      * @return the html for the element language selectbox
      */
-    public String buildSelectElementLanguage(String attributes, String resourceName, Locale selectedLocale) {
+    public String buildSelectElementLanguage(String attributes, @RUntainted String resourceName, Locale selectedLocale) {
 
         // get locale names based on properties and global settings
-        List<Locale> locales = OpenCms.getLocaleManager().getAvailableLocales(getCms(), resourceName);
+        @RUntainted List<@RUntainted Locale> locales = OpenCms.getLocaleManager().getAvailableLocales(getCms(), resourceName);
         List<String> options = new ArrayList<String>(locales.size());
-        List<String> selectList = new ArrayList<String>(locales.size());
+        @RUntainted List<@RUntainted String> selectList = new ArrayList<@RUntainted String>(locales.size());
         int currentIndex = -1;
 
         //get the locales already used in the resource
@@ -280,7 +281,7 @@ public abstract class CmsEditor extends CmsEditorBase {
 
         for (int counter = 0; counter < locales.size(); counter++) {
             // create the list of options and values
-            Locale curLocale = locales.get(counter);
+            @RUntainted Locale curLocale = locales.get(counter);
             selectList.add(curLocale.toString());
             StringBuffer buf = new StringBuffer();
             buf.append(curLocale.getDisplayName(getLocale()));
@@ -404,7 +405,7 @@ public abstract class CmsEditor extends CmsEditorBase {
      * @see org.opencms.workplace.CmsWorkplace#checkLock(String, CmsLockType)
      */
     @Override
-    public void checkLock(String resource, CmsLockType type) throws CmsException {
+    public void checkLock(@RUntainted String resource, CmsLockType type) throws CmsException {
 
         CmsResource res = getCms().readResource(resource, CmsResourceFilter.ALL);
         CmsLock lock = getCms().getLock(res);
@@ -498,7 +499,7 @@ public abstract class CmsEditor extends CmsEditorBase {
      *
      * @return the back link
      */
-    public String getParamBacklink() {
+    public @RUntainted String getParamBacklink() {
 
         if ((m_editorSessionInfo != null)
             && CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_editorSessionInfo.getBackLink())) {
@@ -628,7 +629,7 @@ public abstract class CmsEditor extends CmsEditorBase {
      *
      * @param backLink the back link
      */
-    public void setParamBacklink(String backLink) {
+    public void setParamBacklink(@RUntainted String backLink) {
 
         m_paramBackLink = backLink;
     }
@@ -681,7 +682,7 @@ public abstract class CmsEditor extends CmsEditorBase {
      *
      * @param elementLanguage the current element language
      */
-    public void setParamElementlanguage(String elementLanguage) {
+    public void setParamElementlanguage(@RUntainted String elementLanguage) {
 
         m_paramElementlanguage = elementLanguage;
     }
@@ -857,7 +858,7 @@ public abstract class CmsEditor extends CmsEditorBase {
      * @param content the content to decode
      * @return the decoded content
      */
-    protected String decodeContent(String content) {
+    protected String decodeContent(@RUntainted String content) {
 
         return CmsEncoder.unescape(content, CmsEncoder.ENCODING_UTF_8);
     }
@@ -874,7 +875,7 @@ public abstract class CmsEditor extends CmsEditorBase {
      * @return the encoded value of the parameter
      */
     @Override
-    protected String decodeParamValue(String paramName, String paramValue) {
+    protected String decodeParamValue(String paramName, @RUntainted String paramValue) {
 
         if ((paramName != null) && (paramValue != null)) {
             if (PARAM_CONTENT.equals(paramName)) {
@@ -1020,7 +1021,7 @@ public abstract class CmsEditor extends CmsEditorBase {
             // ignore
         }
 
-        CmsEditorSessionInfo info = null;
+        @RUntainted CmsEditorSessionInfo info = null;
         if (editedResource != null) {
             HttpSession session = getSession();
             info = (CmsEditorSessionInfo)session.getAttribute(
@@ -1047,7 +1048,7 @@ public abstract class CmsEditor extends CmsEditorBase {
      *
      * @param value the encoding value to set
      */
-    protected void setFileEncoding(String value) {
+    protected void setFileEncoding(@RUntainted String value) {
 
         m_fileEncoding = CmsEncoder.lookupEncoding(value, value);
     }

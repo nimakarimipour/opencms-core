@@ -46,6 +46,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CopyOnWriteArraySet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the OpenCms logging mechanism.<p>
@@ -106,10 +107,10 @@ public final class CmsLog {
     public static Log INIT;
 
     /** The absolute path to the folder of the main OpenCms log file (in the "real" file system). */
-    private static String m_logFileRfsFolder;
+    private static @RUntainted String m_logFileRfsFolder;
 
     /** The absolute path to the OpenCms log file (in the "real" file system). */
-    private static String m_logFileRfsPath;
+    private static @RUntainted String m_logFileRfsPath;
 
     /** Set of names of channels that should not be managed via the GUI. */
     private static CopyOnWriteArraySet<String> NON_MANAGEABLE_CHANNELS = new CopyOnWriteArraySet<>();
@@ -213,7 +214,7 @@ public final class CmsLog {
      * @param obj the object channel to use
      * @return the log for the selected object channel
      */
-    public static Log getLog(Object obj) {
+    public static @RUntainted Log getLog(Object obj) {
 
         if (obj instanceof String) {
             return LogFactory.getLog((String)obj);
@@ -288,7 +289,7 @@ public final class CmsLog {
      *
      * @return the filename of the log file (in the "real" file system)
      */
-    protected static String getLogFileRfsPath() {
+    protected static @RUntainted String getLogFileRfsPath() {
 
         return m_logFileRfsPath;
     }
@@ -303,7 +304,7 @@ public final class CmsLog {
      * @return the absolute path to the folder of the main OpenCms log file (in
      * the "real" file system)
      */
-    protected static String getLogFileRfsFolder() {
+    protected static @RUntainted String getLogFileRfsFolder() {
 
         return m_logFileRfsFolder;
     }

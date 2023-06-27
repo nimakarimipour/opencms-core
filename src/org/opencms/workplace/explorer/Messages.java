@@ -30,6 +30,7 @@ package org.opencms.workplace.explorer;
 import org.opencms.db.CmsResourceState;
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -303,61 +304,61 @@ public final class Messages extends A_CmsMessageBundle {
     public static final String GUI_INPUT_ADRESS_0 = "GUI_INPUT_ADRESS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_INPUT_CACHE_0 = "GUI_INPUT_CACHE_0";
+    public static final @RUntainted String GUI_INPUT_CACHE_0 = "GUI_INPUT_CACHE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_INPUT_COPYRIGHT_0 = "GUI_INPUT_COPYRIGHT_0";
+    public static final @RUntainted String GUI_INPUT_COPYRIGHT_0 = "GUI_INPUT_COPYRIGHT_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_INPUT_DATECREATED_0 = "GUI_INPUT_DATECREATED_0";
+    public static final @RUntainted String GUI_INPUT_DATECREATED_0 = "GUI_INPUT_DATECREATED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_INPUT_DATEEXPIRED_0 = "GUI_INPUT_DATEEXPIRED_0";
+    public static final @RUntainted String GUI_INPUT_DATEEXPIRED_0 = "GUI_INPUT_DATEEXPIRED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_INPUT_DATELASTMODIFIED_0 = "GUI_INPUT_DATELASTMODIFIED_0";
+    public static final @RUntainted String GUI_INPUT_DATELASTMODIFIED_0 = "GUI_INPUT_DATELASTMODIFIED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_INPUT_DATERELEASED_0 = "GUI_INPUT_DATERELEASED_0";
+    public static final @RUntainted String GUI_INPUT_DATERELEASED_0 = "GUI_INPUT_DATERELEASED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_INPUT_INTERNAL_TYPE_0 = "GUI_INPUT_INTERNAL_TYPE_0";
+    public static final @RUntainted String GUI_INPUT_INTERNAL_TYPE_0 = "GUI_INPUT_INTERNAL_TYPE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_INPUT_LOCKEDBY_0 = "GUI_INPUT_LOCKEDBY_0";
+    public static final @RUntainted String GUI_INPUT_LOCKEDBY_0 = "GUI_INPUT_LOCKEDBY_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_INPUT_NAME_0 = "GUI_INPUT_NAME_0";
+    public static final @RUntainted String GUI_INPUT_NAME_0 = "GUI_INPUT_NAME_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_INPUT_NAVTEXT_0 = "GUI_INPUT_NAVTEXT_0";
+    public static final @RUntainted String GUI_INPUT_NAVTEXT_0 = "GUI_INPUT_NAVTEXT_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_INPUT_PAGE_0 = "GUI_INPUT_PAGE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_INPUT_PATH_0 = "GUI_INPUT_PATH_0";
+    public static final @RUntainted String GUI_INPUT_PATH_0 = "GUI_INPUT_PATH_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_INPUT_PERMISSIONS_0 = "GUI_INPUT_PERMISSIONS_0";
+    public static final @RUntainted String GUI_INPUT_PERMISSIONS_0 = "GUI_INPUT_PERMISSIONS_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_INPUT_SIZE_0 = "GUI_INPUT_SIZE_0";
+    public static final @RUntainted String GUI_INPUT_SIZE_0 = "GUI_INPUT_SIZE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_INPUT_STATE_0 = "GUI_INPUT_STATE_0";
+    public static final @RUntainted String GUI_INPUT_STATE_0 = "GUI_INPUT_STATE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_INPUT_TITLE_0 = "GUI_INPUT_TITLE_0";
+    public static final @RUntainted String GUI_INPUT_TITLE_0 = "GUI_INPUT_TITLE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_INPUT_TYPE_0 = "GUI_INPUT_TYPE_0";
+    public static final @RUntainted String GUI_INPUT_TYPE_0 = "GUI_INPUT_TYPE_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_INPUT_USERCREATED_0 = "GUI_INPUT_USERCREATED_0";
+    public static final @RUntainted String GUI_INPUT_USERCREATED_0 = "GUI_INPUT_USERCREATED_0";
 
     /** Message constant for key in the resource bundle. */
-    public static final String GUI_INPUT_USERLASTMODIFIED_0 = "GUI_INPUT_USERLASTMODIFIED_0";
+    public static final @RUntainted String GUI_INPUT_USERLASTMODIFIED_0 = "GUI_INPUT_USERLASTMODIFIED_0";
 
     /** Message constant for key in the resource bundle. */
     public static final String GUI_LABEL_LOADING_0 = "GUI_LABEL_LOADING_0";
@@ -724,7 +725,7 @@ public final class Messages extends A_CmsMessageBundle {
      *
      * @see org.opencms.file.CmsResource#getState()
      */
-    public static String getStateKey(CmsResourceState state) {
+    public static @RUntainted String getStateKey(CmsResourceState state) {
 
         StringBuffer sb = new StringBuffer(GUI_STATE_PREFIX);
         sb.append(state.getState());
@@ -737,7 +738,7 @@ public final class Messages extends A_CmsMessageBundle {
      *
      * @return the bundle name for this OpenCms package
      */
-    public String getBundleName() {
+    public @RUntainted String getBundleName() {
 
         return BUNDLE_NAME;
     }

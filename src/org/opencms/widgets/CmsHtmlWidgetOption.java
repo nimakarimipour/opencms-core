@@ -45,6 +45,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An option of a HTML type widget.<p>
@@ -822,7 +823,7 @@ public class CmsHtmlWidgetOption {
      *
      * @return the CSS style sheet VFS path to use in the widget area
      */
-    public String getCssPath() {
+    public @RUntainted String getCssPath() {
 
         return m_cssPath;
     }

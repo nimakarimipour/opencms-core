@@ -35,6 +35,7 @@ import org.opencms.util.CmsMacroResolver;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Menu item which acts only as a container for nested menu items.<p>
@@ -117,7 +118,7 @@ public class CmsSubmenu implements I_CmsContextMenuItem {
     /**
      * @see org.opencms.ui.contextmenu.I_CmsContextMenuItem#getTitle(java.util.Locale)
      */
-    public String getTitle(Locale locale) {
+    public String getTitle(@RUntainted Locale locale) {
 
         CmsMacroResolver resolver = new CmsMacroResolver();
         resolver.setMessages(OpenCms.getWorkplaceManager().getMessages(locale));

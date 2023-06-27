@@ -37,6 +37,7 @@ import org.opencms.workplace.explorer.Messages;
 
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action to open the alias dialog.<p>
@@ -74,7 +75,7 @@ public class CmsSitemapAttributeEditorAction extends A_CmsWorkplaceAction implem
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
      */
-    public String getJspPath() {
+    public @RUntainted String getJspPath() {
 
         return null;
     }

@@ -49,6 +49,7 @@ import org.apache.commons.logging.Log;
 
 import org.quartz.CronExpression;
 import org.quartz.Trigger;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a scheduled job for the OpenCms scheduler.<p>
@@ -356,25 +357,25 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
     private boolean m_active;
 
     /** The name of the class to schedule. */
-    private String m_className;
+    private @RUntainted String m_className;
 
     /** The context information for the user to execute the job with. */
     private CmsContextInfo m_context;
 
     /** The cron expression for this scheduler job. */
-    private String m_cronExpression;
+    private @RUntainted String m_cronExpression;
 
     /** Indicates if the configuration of this job is finalized (frozen). */
     private boolean m_frozen;
 
     /** The id of this job. */
-    private String m_id;
+    private @RUntainted String m_id;
 
     /** Instance object of the scheduled job (only required when instance is re-used). */
     private transient I_CmsScheduledJob m_jobInstance;
 
     /** The name of the job (for information purposes). */
-    private String m_jobName;
+    private @RUntainted String m_jobName;
 
     /** Stores the next execution time. */
     private Date m_nextFireTime;
@@ -417,11 +418,11 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
      * @param parameters the job parameters
      */
     public CmsScheduledJobInfo(
-        String id,
-        String jobName,
-        String className,
+        @RUntainted String id,
+        @RUntainted String jobName,
+        @RUntainted String className,
         CmsContextInfo context,
-        String cronExpression,
+        @RUntainted String cronExpression,
         boolean reuseInstance,
         boolean active,
         SortedMap<String, String> parameters) {
@@ -509,7 +510,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
      *
      * @return the name of the class to schedule
      */
-    public String getClassName() {
+    public @RUntainted String getClassName() {
 
         return m_className;
     }
@@ -551,7 +552,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
      *
      * @return the cron expression for this job entry
      */
-    public String getCronExpression() {
+    public @RUntainted String getCronExpression() {
 
         return m_cronExpression;
     }
@@ -622,7 +623,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
      *
      * @return the internal id of this job in the scheduler
      */
-    public String getId() {
+    public @RUntainted String getId() {
 
         return m_id;
     }
@@ -687,7 +688,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
      *
      * @return the job name
      */
-    public String getJobName() {
+    public @RUntainted String getJobName() {
 
         return m_jobName;
     }
@@ -759,7 +760,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
      *
      * @param className the class name to set
      */
-    public void setClassName(String className) {
+    public void setClassName(@RUntainted String className) {
 
         checkFrozen();
         if (className != null) {
@@ -832,7 +833,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
      * @param cronExpression the cron expression to set
      */
     @SuppressWarnings("unused")
-    public void setCronExpression(String cronExpression) {
+    public void setCronExpression(@RUntainted String cronExpression) {
 
         checkFrozen();
 
@@ -852,7 +853,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
      *
      * @param jobName the job name to set
      */
-    public void setJobName(String jobName) {
+    public void setJobName(@RUntainted String jobName) {
 
         checkFrozen();
         if (CmsStringUtil.isEmpty(jobName) || !jobName.trim().equals(jobName)) {
@@ -943,7 +944,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
      *
      * @param id the id to set
      */
-    protected void setId(String id) {
+    protected void setId(@RUntainted String id) {
 
         checkFrozen();
         m_id = id;

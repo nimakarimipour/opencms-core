@@ -64,6 +64,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Displays either a diff for the XML file, or a table displaying the differences between individual content values,
@@ -80,11 +81,11 @@ public class CmsValueDiff implements I_CmsDiffProvider {
     public Optional<Component> diff(final CmsObject cms, CmsHistoryResourceBean v1, CmsHistoryResourceBean v2)
     throws CmsException {
 
-        CmsResource resource1 = A_CmsAttributeDiff.readResource(cms, v1);
+        @RUntainted CmsResource resource1 = A_CmsAttributeDiff.readResource(cms, v1);
         I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(resource1);
         CmsMacroResolver resolver = new CmsVersionMacroResolver(v1, v2);
         if ((type instanceof CmsResourceTypeXmlContent) || (type instanceof CmsResourceTypeXmlPage)) {
-            CmsResource resource2 = A_CmsAttributeDiff.readResource(cms, v2);
+            @RUntainted CmsResource resource2 = A_CmsAttributeDiff.readResource(cms, v2);
             final Panel panel = new Panel(
                 CmsVaadinUtils.getMessageText(Messages.GUI_HISTORY_DIALOG_CONTENT_VALUE_TABLE_CAPTION_0));
 
@@ -151,7 +152,7 @@ public class CmsValueDiff implements I_CmsDiffProvider {
 
         List<CmsValueCompareBean> rows = Lists.newArrayList();
         for (CmsElementComparison entry : comp.getElements()) {
-            final String text1 = entry.getVersion1();
+            final @RUntainted String text1 = entry.getVersion1();
             final String text2 = entry.getVersion2();
             if (Objects.equal(text1, text2)) {
                 continue;

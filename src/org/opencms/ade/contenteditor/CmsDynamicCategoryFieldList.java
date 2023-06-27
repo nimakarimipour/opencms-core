@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class used to keep track of optional dynamic category fields for a content.
@@ -73,7 +74,7 @@ public class CmsDynamicCategoryFieldList {
      * @param content the content which the fields should be added to
      */
     public void ensureFields(CmsObject cms, CmsXmlContent content) {
-        for (Locale locale: content.getLocales()) {
+        for (@RUntainted Locale locale: content.getLocales()) {
             ensureFields(cms, content, locale);
         }
     }
@@ -85,9 +86,9 @@ public class CmsDynamicCategoryFieldList {
      * @param content the content to add the fields to
      * @param locale the locale
      */
-    public void ensureFields(CmsObject cms, CmsXmlContent content, Locale locale) {
+    public void ensureFields(CmsObject cms, CmsXmlContent content, @RUntainted Locale locale) {
 
-        for (String path : m_paths) {
+        for (@RUntainted String path : m_paths) {
             if (!content.hasValue(path, locale)) {
                 try {
                     content.addValue(cms, path, locale, 0);

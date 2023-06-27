@@ -53,6 +53,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The 'simpledisplay' tag can be used to display a single resource using a formatter. It also allows to activate direct editing.<p>
@@ -105,7 +106,7 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
     private String m_uploadFolder;
 
     /** The site path to the resource to display. */
-    private String m_value;
+    private @RUntainted String m_value;
 
     /**
      * Constructor.<p>
@@ -134,7 +135,7 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
     @Override
     public int doEndTag() {
 
-        ServletRequest request = pageContext.getRequest();
+        @RUntainted ServletRequest request = pageContext.getRequest();
         ServletResponse response = pageContext.getResponse();
         if (CmsFlexController.isCmsRequest(request)) {
             // this will always be true if the page is called through OpenCms
@@ -143,7 +144,7 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
                 boolean isOnline = cms.getRequestContext().getCurrentProject().isOnlineProject();
                 CmsResource res = null;
                 if (CmsUUID.isValidUUID(m_value)) {
-                    CmsUUID structureId = new CmsUUID(m_value);
+                    @RUntainted CmsUUID structureId = new CmsUUID(m_value);
                     res = isOnline
                     ? cms.readResource(structureId)
                     : cms.readResource(structureId, CmsResourceFilter.IGNORE_EXPIRATION);
@@ -399,7 +400,7 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
      *
      * @param value the value to set
      */
-    public void setValue(String value) {
+    public void setValue(@RUntainted String value) {
 
         m_value = value;
     }

@@ -61,6 +61,7 @@ import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the clear file history dialog and execution.<p>
@@ -146,7 +147,7 @@ public class CmsFileHistoryPanel extends VerticalLayout {
     protected Button m_cleanupPublishHistory;
 
     /**Vaadin component.*/
-    ComboBox m_numberVersionsToKeep;
+    @RUntainted ComboBox m_numberVersionsToKeep;
 
     /**Vaadin component.*/
     private CmsDateField m_dateField;
@@ -295,10 +296,10 @@ public class CmsFileHistoryPanel extends VerticalLayout {
     private A_CmsReportThread makeThread() {
 
         //Maximal count of versions for current resources.
-        int versions = ((Integer)m_numberVersionsToKeep.getValue()).intValue();
+        @RUntainted int versions = ((Integer)m_numberVersionsToKeep.getValue()).intValue();
 
         //Maximal count of versions for deleted resources.
-        int versionsDeleted = versions;
+        @RUntainted int versionsDeleted = versions;
 
         if (m_deleteMode.getValue().equals(CmsFileHistoryApp.MODE_DISABLED)) {
             versionsDeleted = 0;

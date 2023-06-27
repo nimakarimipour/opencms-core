@@ -31,6 +31,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.workplace.CmsWorkplace;
 
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for an admin tool handler.<p>
@@ -75,7 +76,7 @@ public interface I_CmsToolHandler {
      *
      * @return the link
      */
-    String getLink();
+    @RUntainted String getLink();
 
     /**
      * Returns the displayed name.<p>
@@ -119,7 +120,7 @@ public interface I_CmsToolHandler {
      *
      * @return the confirmation message
      */
-    String getConfirmationMessage();
+    @RUntainted String getConfirmationMessage();
 
     /**
      * Returns the path to an optional small(16x16) icon.<p>
@@ -173,5 +174,5 @@ public interface I_CmsToolHandler {
      *
      * @return <code>false</code> if something goes wrong
      */
-    boolean setup(CmsObject cms, CmsToolRootHandler root, String resourcePath);
+    boolean setup(CmsObject cms, CmsToolRootHandler root, @RUntainted String resourcePath);
 }

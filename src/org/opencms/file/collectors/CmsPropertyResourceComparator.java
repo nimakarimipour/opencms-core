@@ -43,6 +43,7 @@ import java.text.ParsePosition;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Comparator for sorting resource objects based on a selected property value.<p>
@@ -67,7 +68,7 @@ public class CmsPropertyResourceComparator implements Serializable, Comparator<C
     private Map<CmsUUID, CmsPropertyResourceComparator> m_keys;
 
     /** The property name of this comparator key. */
-    private String m_property;
+    private @RUntainted String m_property;
 
     /** The property value of this comparator key. */
     private String m_propertyValue;
@@ -79,7 +80,7 @@ public class CmsPropertyResourceComparator implements Serializable, Comparator<C
      * @param property the name of the sort property (case sensitive)
      * @param asc the sort order (true=asc, false=desc)
      */
-    public CmsPropertyResourceComparator(CmsObject cms, String property, boolean asc) {
+    public CmsPropertyResourceComparator(CmsObject cms, @RUntainted String property, boolean asc) {
 
         m_property = property;
         m_asc = asc;
@@ -96,7 +97,7 @@ public class CmsPropertyResourceComparator implements Serializable, Comparator<C
      *
      * @return a new instance of this comparator key
      */
-    private static CmsPropertyResourceComparator create(CmsResource resource, CmsObject cms, String property) {
+    private static CmsPropertyResourceComparator create(CmsResource resource, CmsObject cms, @RUntainted String property) {
 
         CmsPropertyResourceComparator result = new CmsPropertyResourceComparator(null, null, false);
         result.init(resource, cms, property);
@@ -185,7 +186,7 @@ public class CmsPropertyResourceComparator implements Serializable, Comparator<C
      * @param cms the current OpenCms user contxt
      * @param property the name of the sort property (case sensitive)
      */
-    private void init(CmsResource resource, CmsObject cms, String property) {
+    private void init(CmsResource resource, CmsObject cms, @RUntainted String property) {
 
         try {
             cms.readPropertyDefinition(property);

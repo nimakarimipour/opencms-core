@@ -60,6 +60,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import au.com.bytecode.opencsv.CSVParser;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The alias manager provides access to the aliases stored in the database.<p>
@@ -182,7 +183,7 @@ public class CmsAliasManager {
      * @param siteRoot the site root to check
      * @return true if the user from the CMS context is allowed to mass edit the alias table
      */
-    public boolean hasPermissionsForMassEdit(CmsObject cms, String siteRoot) {
+    public boolean hasPermissionsForMassEdit(CmsObject cms, @RUntainted String siteRoot) {
 
         String originalSiteRoot = cms.getRequestContext().getSiteRoot();
         try {
@@ -237,7 +238,7 @@ public class CmsAliasManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public synchronized void saveAliases(CmsObject cms, CmsUUID structureId, List<CmsAlias> aliases)
+    public synchronized void saveAliases(CmsObject cms, @RUntainted CmsUUID structureId, List<CmsAlias> aliases)
     throws CmsException {
 
         m_securityManager.saveAliases(cms.getRequestContext(), cms.readResource(structureId), aliases);
@@ -253,7 +254,7 @@ public class CmsAliasManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public void saveRewriteAliases(CmsObject cms, String siteRoot, List<CmsRewriteAlias> newAliases)
+    public void saveRewriteAliases(CmsObject cms, @RUntainted String siteRoot, List<CmsRewriteAlias> newAliases)
     throws CmsException {
 
         checkPermissionsForMassEdit(cms, siteRoot);
@@ -297,7 +298,7 @@ public class CmsAliasManager {
             }
             saveAliases(cms, structureId, new ArrayList<CmsAlias>(aliasesToSave));
         }
-        for (CmsUUID structureId : allKeys) {
+        for (@RUntainted CmsUUID structureId : allKeys) {
             Set<CmsAlias> aliasesToSave = new HashSet<CmsAlias>(getAliasesForStructureId(cms, structureId));
             Collection<CmsAlias> toAddForId = toAddMap.get(structureId);
             if ((toAddForId != null) && !toAddForId.isEmpty()) {
@@ -335,7 +336,7 @@ public class CmsAliasManager {
      */
     protected synchronized CmsAliasImportResult importAlias(
         CmsObject cms,
-        String siteRoot,
+        @RUntainted String siteRoot,
         String aliasPath,
         String vfsPath,
         CmsAliasMode mode)
@@ -408,7 +409,7 @@ public class CmsAliasManager {
      */
     protected CmsAliasImportResult processAliasImport(
         CmsObject cms,
-        String siteRoot,
+        @RUntainted String siteRoot,
         String aliasPath,
         String vfsPath,
         CmsAliasMode mode) {
@@ -435,7 +436,7 @@ public class CmsAliasManager {
      *
      * @return the import result
      */
-    protected CmsAliasImportResult processAliasLine(CmsObject cms, String siteRoot, String line, String separator) {
+    protected CmsAliasImportResult processAliasLine(CmsObject cms, @RUntainted String siteRoot, String line, String separator) {
 
         Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
         line = line.trim();
@@ -509,7 +510,7 @@ public class CmsAliasManager {
      *
      * @throws CmsException if something goes wrong
      */
-    private void checkPermissionsForMassEdit(CmsObject cms, String siteRoot) throws CmsException {
+    private void checkPermissionsForMassEdit(CmsObject cms, @RUntainted String siteRoot) throws CmsException {
 
         String originalSiteRoot = cms.getRequestContext().getSiteRoot();
         try {
@@ -528,7 +529,7 @@ public class CmsAliasManager {
      *
      * @return the message string
      */
-    private String messageImportCantReadResource(Locale locale, String path) {
+    private String messageImportCantReadResource(@RUntainted Locale locale, String path) {
 
         return Messages.get().getBundle(locale).key(Messages.ERR_ALIAS_IMPORT_COULD_NOT_READ_RESOURCE_0);
 
@@ -542,7 +543,7 @@ public class CmsAliasManager {
      *
      * @return the message string
      */
-    private String messageImportInvalidAliasPath(Locale locale, String path) {
+    private String messageImportInvalidAliasPath(@RUntainted Locale locale, String path) {
 
         return Messages.get().getBundle(locale).key(Messages.ERR_ALIAS_IMPORT_INVALID_ALIAS_PATH_0);
 
@@ -555,7 +556,7 @@ public class CmsAliasManager {
      *
      * @return the message string
      */
-    private String messageImportInvalidFormat(Locale locale) {
+    private String messageImportInvalidFormat(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.ERR_ALIAS_IMPORT_BAD_FORMAT_0);
     }
@@ -567,7 +568,7 @@ public class CmsAliasManager {
      *
      * @return the message string
      */
-    private String messageImportOk(Locale locale) {
+    private String messageImportOk(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.ERR_ALIAS_IMPORT_OK_0);
     }
@@ -579,7 +580,7 @@ public class CmsAliasManager {
      *
      * @return the message string
      */
-    private String messageImportUpdate(Locale locale) {
+    private String messageImportUpdate(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.ERR_ALIAS_IMPORT_UPDATED_0);
     }

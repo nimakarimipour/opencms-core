@@ -80,6 +80,7 @@ import javax.servlet.jsp.PageContext;
 import org.apache.commons.collections.Buffer;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Master class for the JSP based workplace which provides default methods and
@@ -129,7 +130,7 @@ public abstract class CmsWorkplace {
     public static final String DIALOG_PATH_COMMON = PATH_DIALOGS + "includes/";
 
     /** Constant for the JSP common close dialog page. */
-    public static final String FILE_DIALOG_CLOSE = DIALOG_PATH_COMMON + "closedialog.jsp";
+    public static final @RUntainted String FILE_DIALOG_CLOSE = DIALOG_PATH_COMMON + "closedialog.jsp";
 
     /** Constant for the JSP common confirmation dialog. */
     public static final String FILE_DIALOG_SCREEN_CONFIRM = DIALOG_PATH_COMMON + "confirmation.jsp";
@@ -138,7 +139,7 @@ public abstract class CmsWorkplace {
     public static final String FILE_DIALOG_SCREEN_ERROR = DIALOG_PATH_COMMON + "error.jsp";
 
     /** Constant for the JSP common error dialog. */
-    public static final String FILE_DIALOG_SCREEN_ERRORPAGE = DIALOG_PATH_COMMON + "errorpage.jsp";
+    public static final @RUntainted String FILE_DIALOG_SCREEN_ERRORPAGE = DIALOG_PATH_COMMON + "errorpage.jsp";
 
     /** Constant for the JSP common wait screen. */
     public static final String FILE_DIALOG_SCREEN_WAIT = DIALOG_PATH_COMMON + "wait.jsp";
@@ -147,7 +148,7 @@ public abstract class CmsWorkplace {
     public static final String VFS_PATH_VIEWS = VFS_PATH_WORKPLACE + "views/";
 
     /** Constant for the JSP explorer filelist file. */
-    public static final String FILE_EXPLORER_FILELIST = VFS_PATH_VIEWS + "explorer/explorer_files.jsp";
+    public static final @RUntainted String FILE_EXPLORER_FILELIST = VFS_PATH_VIEWS + "explorer/explorer_files.jsp";
 
     /** Constant for the JSP common report page. */
     public static final String FILE_REPORT_OUTPUT = DIALOG_PATH_COMMON + "report.jsp";
@@ -168,7 +169,7 @@ public abstract class CmsWorkplace {
     public static final String PARAM_WP_SITE = "wpSite";
 
     /** Constant for the JSP workplace path. */
-    public static final String PATH_WORKPLACE = VFS_PATH_WORKPLACE;
+    public static final @RUntainted String PATH_WORKPLACE = VFS_PATH_WORKPLACE;
 
     /** Path for file type icons relative to the resources folder. */
     public static final String RES_PATH_FILETYPES = "filetypes/";
@@ -275,7 +276,7 @@ public abstract class CmsWorkplace {
     private CmsObject m_cms;
 
     /** Helper variable to store the id of the current project. */
-    private CmsUUID m_currentProjectId;
+    private @RUntainted CmsUUID m_currentProjectId;
 
     /** Flag for indicating that request forwarded was. */
     private boolean m_forwarded;
@@ -293,16 +294,16 @@ public abstract class CmsWorkplace {
     private List<FileItem> m_multiPartFileItems;
 
     /** The map of parameters read from the current request. */
-    private Map<String, String[]> m_parameterMap;
+    private @RUntainted Map<@RUntainted String, @RUntainted String[]> m_parameterMap;
 
     /** The current resource URI. */
     private String m_resourceUri;
 
     /** The current OpenCms users http session. */
-    private HttpSession m_session;
+    private @RUntainted HttpSession m_session;
 
     /** The current OpenCms users workplace settings. */
-    private CmsWorkplaceSettings m_settings;
+    private @RUntainted CmsWorkplaceSettings m_settings;
 
     /**
      * Public constructor.<p>
@@ -320,7 +321,7 @@ public abstract class CmsWorkplace {
      * @param cms the current user context
      * @param session the session
      */
-    public CmsWorkplace(CmsObject cms, HttpSession session) {
+    public CmsWorkplace(CmsObject cms, @RUntainted HttpSession session) {
 
         initWorkplaceMembers(cms, session);
     }
@@ -332,7 +333,7 @@ public abstract class CmsWorkplace {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsWorkplace(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsWorkplace(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
     }
@@ -581,9 +582,9 @@ public abstract class CmsWorkplace {
      *
      * @return the start site root
      */
-    public static String getStartSiteRoot(CmsObject cms, CmsUserSettings userSettings) {
+    public static @RUntainted String getStartSiteRoot(CmsObject cms, CmsUserSettings userSettings) {
 
-        String startSiteRoot = userSettings.getStartSite();
+        @RUntainted String startSiteRoot = userSettings.getStartSite();
         if (startSiteRoot.endsWith("/")) {
             // remove trailing slash
             startSiteRoot = startSiteRoot.substring(0, startSiteRoot.length() - 1);
@@ -626,7 +627,7 @@ public abstract class CmsWorkplace {
      *
      * @return the start site root
      */
-    public static String getStartSiteRoot(CmsObject cms, CmsWorkplaceSettings settings) {
+    public static @RUntainted String getStartSiteRoot(CmsObject cms, CmsWorkplaceSettings settings) {
 
         return getStartSiteRoot(cms, settings.getUserSettings());
     }
@@ -638,7 +639,7 @@ public abstract class CmsWorkplace {
      *
      * @return the URI
      */
-    public static String getStaticResourceUri(String resourceName) {
+    public static @RUntainted String getStaticResourceUri(String resourceName) {
 
         return getStaticResourceUri(resourceName, null);
     }
@@ -651,7 +652,7 @@ public abstract class CmsWorkplace {
      *
      * @return the URI
      */
-    public static String getStaticResourceUri(String resourceName, String versionInfo) {
+    public static @RUntainted String getStaticResourceUri(String resourceName, String versionInfo) {
 
         resourceName = CmsStaticResourceHandler.removeStaticResourcePrefix(resourceName);
         String uri = CmsStringUtil.joinPaths(OpenCms.getSystemInfo().getStaticResourceContext(), resourceName);
@@ -724,7 +725,7 @@ public abstract class CmsWorkplace {
      * @see CmsResource#isTemporaryFileName(String)
      * @see #isTemporaryFile(CmsResource)
      */
-    public static String getTemporaryFileName(String resourceName) {
+    public static @RUntainted String getTemporaryFileName(@RUntainted String resourceName) {
 
         if (resourceName == null) {
             return null;
@@ -750,7 +751,7 @@ public abstract class CmsWorkplace {
      * @return a link for the OpenCms workplace that will reload the whole workplace, switch to the explorer view, the
      *         site of the given explorerRootPath and show the folder given in the explorerRootPath.
      */
-    public static String getWorkplaceExplorerLink(final CmsJspActionElement jsp, final String explorerRootPath) {
+    public static String getWorkplaceExplorerLink(final CmsJspActionElement jsp, final @RUntainted String explorerRootPath) {
 
         return getWorkplaceExplorerLink(jsp.getCmsObject(), explorerRootPath);
 
@@ -770,7 +771,7 @@ public abstract class CmsWorkplace {
      * @return a link for the OpenCms workplace that will reload the whole workplace, switch to the explorer view, the
      *         site of the given explorerRootPath and show the folder given in the explorerRootPath.
      */
-    public static String getWorkplaceExplorerLink(final CmsObject cms, final String explorerRootPath) {
+    public static String getWorkplaceExplorerLink(final CmsObject cms, final @RUntainted String explorerRootPath) {
 
         // split the root site:
         String targetSiteRoot = OpenCms.getSiteManager().getSiteRoot(explorerRootPath);
@@ -821,10 +822,10 @@ public abstract class CmsWorkplace {
      *
      * @return the workplace settings or <code>null</code> if the user is not logged in
      */
-    public static CmsWorkplaceSettings getWorkplaceSettings(CmsObject cms, HttpServletRequest req) {
+    public static CmsWorkplaceSettings getWorkplaceSettings(CmsObject cms, @RUntainted HttpServletRequest req) {
 
-        HttpSession session = req.getSession(false);
-        CmsWorkplaceSettings workplaceSettings = null;
+        @RUntainted HttpSession session = req.getSession(false);
+        @RUntainted CmsWorkplaceSettings workplaceSettings = null;
         if (session != null) {
             // all logged in user will have a session
             workplaceSettings = (CmsWorkplaceSettings)session.getAttribute(
@@ -851,7 +852,7 @@ public abstract class CmsWorkplace {
      *
      * @see #initWorkplaceSettings(CmsObject, CmsWorkplaceSettings, boolean)
      */
-    public static CmsWorkplaceSettings initUserSettings(CmsObject cms, CmsWorkplaceSettings settings, boolean update) {
+    public static @RUntainted CmsWorkplaceSettings initUserSettings(CmsObject cms, @RUntainted CmsWorkplaceSettings settings, boolean update) {
 
         if (settings == null) {
             settings = new CmsWorkplaceSettings();
@@ -896,9 +897,9 @@ public abstract class CmsWorkplace {
      *
      * @see #initUserSettings(CmsObject, CmsWorkplaceSettings, boolean)
      */
-    public static synchronized CmsWorkplaceSettings initWorkplaceSettings(
+    public static synchronized @RUntainted CmsWorkplaceSettings initWorkplaceSettings(
         CmsObject cms,
-        CmsWorkplaceSettings settings,
+        @RUntainted CmsWorkplaceSettings settings,
         boolean update) {
 
         // init the workplace user settings
@@ -911,12 +912,12 @@ public abstract class CmsWorkplace {
         settings.setSite(currentSite);
 
         // switch to users preferred site
-        String startSiteRoot = getStartSiteRoot(cms, settings);
+        @RUntainted String startSiteRoot = getStartSiteRoot(cms, settings);
 
         try {
             CmsObject cloneCms = OpenCms.initCmsObject(cms);
             cloneCms.getRequestContext().setSiteRoot(startSiteRoot);
-            String projectName = settings.getUserSettings().getStartProject();
+            @RUntainted String projectName = settings.getUserSettings().getStartProject();
             if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(projectName)) {
                 cloneCms.getRequestContext().setCurrentProject(cloneCms.readProject(projectName));
             }
@@ -971,7 +972,7 @@ public abstract class CmsWorkplace {
      *
      * @return the locale specific site title
      */
-    public static String substituteSiteTitleStatic(String title, Locale locale) {
+    public static String substituteSiteTitleStatic(String title, @RUntainted Locale locale) {
 
         if (title.equals(CmsSiteManagerImpl.SHARED_FOLDER_TITLE)) {
             return Messages.get().getBundle(locale).key(Messages.GUI_SHARED_TITLE_0);
@@ -1009,7 +1010,7 @@ public abstract class CmsWorkplace {
      * @param session the session to store the settings in
      * @param settings the settings
      */
-    static void storeSettings(HttpSession session, CmsWorkplaceSettings settings) {
+    static void storeSettings(HttpSession session, @RUntainted CmsWorkplaceSettings settings) {
 
         // save the workplace settings in the session
         session.setAttribute(CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS, settings);
@@ -1430,7 +1431,7 @@ public abstract class CmsWorkplace {
      * @param resource the resource name which is checked
      * @throws CmsException if reading or locking the resource fails
      */
-    public void checkLock(String resource) throws CmsException {
+    public void checkLock(@RUntainted String resource) throws CmsException {
 
         checkLock(resource, CmsLockType.EXCLUSIVE);
     }
@@ -1443,7 +1444,7 @@ public abstract class CmsWorkplace {
      *
      * @throws CmsException if reading or locking the resource fails
      */
-    public void checkLock(String resource, CmsLockType type) throws CmsException {
+    public void checkLock(@RUntainted String resource, CmsLockType type) throws CmsException {
 
         CmsResource res = getCms().readResource(resource, CmsResourceFilter.ALL);
         CmsLock lock = getCms().getLock(res);
@@ -1475,7 +1476,7 @@ public abstract class CmsWorkplace {
      * @param settings the workplace settings
      * @param request the current request
      */
-    public void fillParamValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
+    public void fillParamValues(CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
         initSettings(settings, request);
         fillParamValues(request);
@@ -1492,7 +1493,7 @@ public abstract class CmsWorkplace {
      *
      * @param request the current JSP request
      */
-    public void fillParamValues(HttpServletRequest request) {
+    public void fillParamValues(@RUntainted HttpServletRequest request) {
 
         m_parameterMap = null;
         // ensure a multipart request is parsed only once (for "forward" scenarios with reports)
@@ -1517,8 +1518,8 @@ public abstract class CmsWorkplace {
         while (i.hasNext()) {
             Method m = i.next();
             String name = m.getName().substring(8).toLowerCase();
-            String[] values = m_parameterMap.get(name);
-            String value = null;
+            @RUntainted String[] values = m_parameterMap.get(name);
+            @RUntainted String value = null;
             if (values != null) {
                 // get the parameter value from the map
                 value = values[0];
@@ -1635,7 +1636,7 @@ public abstract class CmsWorkplace {
      * @param uri the absolute path of the frame
      * @return the html for the frame name and source
      */
-    public String getFrameSource(String frameName, String uri) {
+    public String getFrameSource(@RUntainted String frameName, @RUntainted String uri) {
 
         String frameString = "name=\"" + frameName + "\" src=\"" + uri + "\"";
         int paramIndex = uri.indexOf("?");
@@ -1662,7 +1663,7 @@ public abstract class CmsWorkplace {
      *
      * @return the current users workplace locale setting
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return getSettings().getUserSettings().getLocale();
     }
@@ -1787,10 +1788,10 @@ public abstract class CmsWorkplace {
      *
      * @return true, if a reload of the main body frame is required
      */
-    public boolean initSettings(CmsWorkplaceSettings settings, HttpServletRequest request) {
+    public boolean initSettings(CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
         // check if the user requested a project change
-        String project = request.getParameter(PARAM_WP_PROJECT);
+        @RUntainted String project = request.getParameter(PARAM_WP_PROJECT);
         boolean reloadRequired = false;
         if (project != null) {
             reloadRequired = true;
@@ -1873,7 +1874,7 @@ public abstract class CmsWorkplace {
      *
      * @see CmsMessages#key(String)
      */
-    public String key(String keyName) {
+    public String key(@RUntainted String keyName) {
 
         return getMessages().key(keyName);
     }
@@ -1895,7 +1896,7 @@ public abstract class CmsWorkplace {
      *
      * @see CmsMessages#key(String)
      */
-    public String key(String keyName, Object[] params) {
+    public String key(@RUntainted String keyName, Object[] params) {
 
         return getMessages().key(keyName, params);
     }
@@ -1913,7 +1914,7 @@ public abstract class CmsWorkplace {
      *
      * @see CmsMessages#keyDefault(String, String)
      */
-    public String keyDefault(String keyName, String defaultValue) {
+    public String keyDefault(@RUntainted String keyName, String defaultValue) {
 
         return getMessages().keyDefault(keyName, defaultValue);
     }
@@ -2105,7 +2106,7 @@ public abstract class CmsWorkplace {
      *
      * @see CmsMacroResolver#resolveMacros(String)
      */
-    public String resolveMacros(String input) {
+    public @RUntainted String resolveMacros(String input) {
 
         // resolve the macros
         return getMacroResolver().resolveMacros(input);
@@ -2117,7 +2118,7 @@ public abstract class CmsWorkplace {
      * @param location the location the response is redirected to
      * @throws IOException in case redirection fails
      */
-    public void sendCmsRedirect(String location) throws IOException {
+    public void sendCmsRedirect(@RUntainted String location) throws IOException {
 
         // TOOD: IBM Websphere v5 has problems here, use forward instead (which has other problems)
         getJsp().getResponse().sendRedirect(OpenCms.getSystemInfo().getOpenCmsContext() + location);
@@ -2132,7 +2133,7 @@ public abstract class CmsWorkplace {
      * @throws IOException in case the forward fails
      * @throws ServletException in case the forward fails
      */
-    public void sendForward(String location, Map<String, String[]> params) throws IOException, ServletException {
+    public void sendForward(@RUntainted String location, Map<String, String[]> params) throws IOException, ServletException {
 
         setForwarded(true);
         // params must be arrays of String, ensure this is the case
@@ -2187,7 +2188,7 @@ public abstract class CmsWorkplace {
      *
      * @param bundleName the resource bundle name to add
      */
-    protected void addMessages(String bundleName) {
+    protected void addMessages(@RUntainted String bundleName) {
 
         addMessages(new CmsMessages(bundleName, getLocale()));
     }
@@ -2249,7 +2250,7 @@ public abstract class CmsWorkplace {
      *
      * @return the encoded value of the parameter
      */
-    protected String decodeParamValue(String paramName, String paramValue) {
+    protected String decodeParamValue(String paramName, @RUntainted String paramValue) {
 
         if ((paramName != null) && (paramValue != null)) {
             return CmsEncoder.decode(paramValue, getCms().getRequestContext().getEncoding());
@@ -2266,7 +2267,7 @@ public abstract class CmsWorkplace {
      *
      * @return the map of parameters read from the current request
      */
-    protected Map<String, String[]> getParameterMap() {
+    protected @RUntainted Map<@RUntainted String, @RUntainted String[]> getParameterMap() {
 
         return m_parameterMap;
     }
@@ -2297,7 +2298,7 @@ public abstract class CmsWorkplace {
      */
     protected void initTimeWarp(CmsUserSettings settings, HttpSession session) {
 
-        long timeWarpConf = settings.getTimeWarp();
+        @RUntainted long timeWarpConf = settings.getTimeWarp();
         Long timeWarpSetLong = (Long)session.getAttribute(CmsContextInfo.ATTRIBUTE_REQUEST_TIME);
         long timeWarpSet = (timeWarpSetLong != null) ? timeWarpSetLong.longValue() : CmsContextInfo.CURRENT_TIME;
 
@@ -2337,7 +2338,7 @@ public abstract class CmsWorkplace {
      * @param cms the user context
      * @param session the session
      */
-    protected void initWorkplaceMembers(CmsObject cms, HttpSession session) {
+    protected void initWorkplaceMembers(CmsObject cms, @RUntainted HttpSession session) {
 
         m_cms = cms;
         m_session = session;
@@ -2456,7 +2457,7 @@ public abstract class CmsWorkplace {
 
         // store the current project id in member variable
         m_currentProjectId = getSettings().getProject();
-        CmsUUID tempProjectId = OpenCms.getWorkplaceManager().getTempFileProjectId();
+        @RUntainted CmsUUID tempProjectId = OpenCms.getWorkplaceManager().getTempFileProjectId();
         getCms().getRequestContext().setCurrentProject(getCms().readProject(tempProjectId));
         return tempProjectId;
     }

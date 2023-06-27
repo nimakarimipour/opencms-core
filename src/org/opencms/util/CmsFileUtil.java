@@ -63,6 +63,7 @@ import java.util.Locale;
 
 import org.apache.commons.collections.Closure;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides File utility functions.<p>
@@ -149,7 +150,7 @@ public final class CmsFileUtil {
      * @param path the path to add the trailing separator to
      * @return the path with a trailing separator
      */
-    public static String addTrailingSeparator(String path) {
+    public static @RUntainted String addTrailingSeparator(@RUntainted String path) {
 
         int l = path.length();
         if ((l == 0) || (path.charAt(l - 1) != '/')) {
@@ -226,7 +227,7 @@ public final class CmsFileUtil {
      *
      * @return the formatted filesize to Bytes, KB, MB or GB depending on the given value
      **/
-    public static String formatFilesize(long filesize, Locale locale) {
+    public static String formatFilesize(long filesize, @RUntainted Locale locale) {
 
         String result;
         filesize = Math.abs(filesize);
@@ -260,7 +261,7 @@ public final class CmsFileUtil {
      *
      * @return a comma separated list of resource paths names
      */
-    public static String formatResourceNames(CmsRequestContext context, List<CmsResource> resources) {
+    public static @RUntainted String formatResourceNames(CmsRequestContext context, List<CmsResource> resources) {
 
         if (resources == null) {
             return null;
@@ -323,7 +324,7 @@ public final class CmsFileUtil {
      *
      * @return the extension of a resource
      */
-    public static String getExtension(String resourceName) {
+    public static @RUntainted String getExtension(@RUntainted String resourceName) {
 
         // if the resource name indicates a folder
         if (resourceName.charAt(resourceName.length() - 1) == '/') {
@@ -416,7 +417,7 @@ public final class CmsFileUtil {
      *
      * @return The full uri to the JSP
      */
-    public static String getRepositoryName(String repository, String vfspath, boolean online) {
+    public static @RUntainted String getRepositoryName(String repository, String vfspath, boolean online) {
 
         StringBuffer result = new StringBuffer(64);
         result.append(repository);
@@ -462,7 +463,7 @@ public final class CmsFileUtil {
      *
      * @see #normalizePath(String, char)
      */
-    public static String normalizePath(String path) {
+    public static @RUntainted String normalizePath(@RUntainted String path) {
 
         return normalizePath(path, File.separatorChar);
     }
@@ -479,7 +480,7 @@ public final class CmsFileUtil {
      *
      * @return the normalized path
      */
-    public static String normalizePath(String path, char separatorChar) {
+    public static @RUntainted String normalizePath(@RUntainted String path, char separatorChar) {
 
         if (CmsStringUtil.isNotEmpty(path)) {
 
@@ -531,7 +532,7 @@ public final class CmsFileUtil {
      *
      * @see #normalizePath(URL, char)
      */
-    public static String normalizePath(URL url) {
+    public static String normalizePath(@RUntainted URL url) {
 
         return normalizePath(url, File.separatorChar);
     }
@@ -547,10 +548,10 @@ public final class CmsFileUtil {
      *
      * @return the normalized file path created from the given URL
      */
-    public static String normalizePath(URL url, char separatorChar) {
+    public static String normalizePath(@RUntainted URL url, char separatorChar) {
 
         // get the path part from the URL
-        String path = new File(url.getPath()).getAbsolutePath();
+        @RUntainted String path = new File(url.getPath()).getAbsolutePath();
         // trick to get the OS default encoding, taken from the official Java i18n FAQ
         String systemEncoding = (new OutputStreamWriter(new ByteArrayOutputStream())).getEncoding();
         // decode url in order to remove spaces and escaped chars from path
@@ -588,7 +589,7 @@ public final class CmsFileUtil {
      * @throws IOException in case of file access errors
      */
     @SuppressWarnings("resource")
-    public static byte[] readFile(File file) throws IOException {
+    public static @RUntainted byte[] readFile(File file) throws IOException {
 
         // create input and output stream
         FileInputStream in = new FileInputStream(file);
@@ -689,7 +690,7 @@ public final class CmsFileUtil {
      *
      * @throws IOException in case of errors in the underlying java.io methods used
      */
-    public static byte[] readFully(InputStream in, int size) throws IOException {
+    public static @RUntainted byte[] readFully(InputStream in, int size) throws IOException {
 
         return readFully(in, size, true);
     }
@@ -745,7 +746,7 @@ public final class CmsFileUtil {
      * @param path the path to remove the leading separator from
      * @return the path without a trailing separator
      */
-    public static String removeLeadingSeparator(String path) {
+    public static @RUntainted String removeLeadingSeparator(@RUntainted String path) {
 
         int l = path.length();
         if (l == 0) {
@@ -771,7 +772,7 @@ public final class CmsFileUtil {
      *
      * @see #removeRedundantResources(List)
      */
-    public static List<String> removeRedundancies(List<String> resourcenames) {
+    public static List<String> removeRedundancies(@RUntainted List<@RUntainted String> resourcenames) {
 
         if ((resourcenames == null) || (resourcenames.isEmpty())) {
             return new ArrayList<String>();
@@ -781,13 +782,13 @@ public final class CmsFileUtil {
             return new ArrayList<String>(resourcenames);
         }
         // check all resources names and see if a parent folder name is contained
-        List<String> result = new ArrayList<String>(resourcenames.size());
+        @RUntainted List<@RUntainted String> result = new ArrayList<@RUntainted String>(resourcenames.size());
         List<String> base = new ArrayList<String>(resourcenames);
         Collections.sort(base);
-        Iterator<String> i = base.iterator();
+        @RUntainted Iterator<@RUntainted String> i = base.iterator();
         while (i.hasNext()) {
             // check all resource names in the list
-            String resourcename = i.next();
+            @RUntainted String resourcename = i.next();
             if (CmsStringUtil.isEmptyOrWhitespaceOnly(resourcename)) {
                 // skip empty strings
                 continue;
@@ -864,7 +865,7 @@ public final class CmsFileUtil {
      * @param path the path to remove the trailing separator from
      * @return the path without a trailing separator
      */
-    public static String removeTrailingSeparator(String path) {
+    public static @RUntainted String removeTrailingSeparator(@RUntainted String path) {
 
         int l = path.length();
         if ((l <= 1) || (path.charAt(l - 1) != '/')) {
@@ -882,13 +883,13 @@ public final class CmsFileUtil {
      *
      * @return String the path of the 'WEB-INF' folder in the 'real' file system, or <code>null</code>
      */
-    public static String searchWebInfFolder(String startFolder) {
+    public static @RUntainted String searchWebInfFolder(@RUntainted String startFolder) {
 
         if (CmsStringUtil.isEmpty(startFolder)) {
             return null;
         }
 
-        File f = new File(startFolder);
+        @RUntainted File f = new File(startFolder);
         if (!f.exists() || !f.isDirectory()) {
             return null;
         }
@@ -913,7 +914,7 @@ public final class CmsFileUtil {
             }
         });
 
-        for (File file : fileList) {
+        for (@RUntainted File file : fileList) {
             if (file.isDirectory()) {
                 webInfFolder = searchWebInfFolder(file.getAbsolutePath());
                 if (webInfFolder != null) {

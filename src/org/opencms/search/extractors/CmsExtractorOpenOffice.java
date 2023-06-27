@@ -38,6 +38,7 @@ import java.util.zip.ZipInputStream;
 import org.dom4j.Document;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Extracts the text from OpenOffice documents (.ods, .odf).<p>
@@ -76,7 +77,7 @@ public final class CmsExtractorOpenOffice extends A_CmsTextExtractor {
         try (ZipInputStream zin = new ZipInputStream(in)) {
             ZipEntry ze;
             boolean FOUND_CONTENT = false;
-            String result = "";
+            @RUntainted String result = "";
             while (!FOUND_CONTENT) {
                 ze = zin.getNextEntry();
                 FOUND_CONTENT = ze.getName().equalsIgnoreCase("content.xml");

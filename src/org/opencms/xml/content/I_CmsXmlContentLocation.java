@@ -31,6 +31,7 @@ import org.opencms.xml.I_CmsXmlDocument;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class represents a location in an XML content for a specific locale.<p>
@@ -63,7 +64,7 @@ public interface I_CmsXmlContentLocation {
      * @param subPath the relative path
      * @return the location which the relative path points to
      */
-    I_CmsXmlContentValueLocation getSubValue(String subPath);
+    I_CmsXmlContentValueLocation getSubValue(@RUntainted String subPath);
 
     /**
      * Returns the locations for an xpath relative to the current location.<p>
@@ -71,6 +72,6 @@ public interface I_CmsXmlContentLocation {
      * @param subPath the relative path
      * @return the locations which the relative path points to
      */
-    List<I_CmsXmlContentValueLocation> getSubValues(String subPath);
+    List<I_CmsXmlContentValueLocation> getSubValues(@RUntainted String subPath);
 
 }

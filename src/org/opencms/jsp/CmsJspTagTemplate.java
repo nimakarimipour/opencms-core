@@ -43,6 +43,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used to select various template elements form a JSP template that
@@ -86,7 +87,7 @@ public class CmsJspTagTemplate extends BodyTagSupport {
         String elementlist,
         boolean checkall,
         boolean checknone,
-        ServletRequest req) {
+        @RUntainted ServletRequest req) {
 
         if (elementlist != null) {
 

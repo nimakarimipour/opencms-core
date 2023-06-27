@@ -32,6 +32,7 @@ import org.opencms.ade.publish.shared.CmsPublishResource;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default implementation of the publish group helper which operates on {@link CmsPublishResource} objects.<p>

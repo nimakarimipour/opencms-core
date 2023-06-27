@@ -54,6 +54,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods for the editor elements dialog.<p>
@@ -120,7 +121,7 @@ public class CmsDialogElements extends CmsDialog {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsDialogElements(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsDialogElements(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
         m_changeElement = "";
@@ -145,11 +146,11 @@ public class CmsDialogElements extends CmsDialog {
         List<CmsDialogElement> result = new ArrayList<CmsDialogElement>();
 
         if (xmlPage != null) {
-            List<String> elementNames = xmlPage.getNames(locale);
+            @RUntainted List<@RUntainted String> elementNames = xmlPage.getNames(locale);
 
-            Iterator<String> i = elementNames.iterator();
+            @RUntainted Iterator<@RUntainted String> i = elementNames.iterator();
             while (i.hasNext()) {
-                String name = i.next();
+                @RUntainted String name = i.next();
                 CmsDialogElement element = new CmsDialogElement(name, null, false, false, true);
                 result.add(element);
             }
@@ -182,10 +183,10 @@ public class CmsDialogElements extends CmsDialog {
             }
             if (elements != null) {
                 // elements are defined on template file, merge with available elements
-                List<String> tokens = CmsStringUtil.splitAsList(elements, ',', true);
-                Iterator<String> it = tokens.iterator();
+                @RUntainted List<@RUntainted String> tokens = CmsStringUtil.splitAsList(elements, ',', true);
+                @RUntainted Iterator<@RUntainted String> it = tokens.iterator();
                 while (it.hasNext()) {
-                    String currentElement = it.next();
+                    @RUntainted String currentElement = it.next();
                     String niceName = null;
                     boolean mandatory = false;
                     int sepIndex = currentElement.indexOf("|");
@@ -465,7 +466,7 @@ public class CmsDialogElements extends CmsDialog {
      * @see org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings, javax.servlet.http.HttpServletRequest)
      */
     @Override
-    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
+    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
         // fill the parameter values in the get/set methods
         fillParamValues(request);

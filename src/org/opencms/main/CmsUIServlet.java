@@ -83,6 +83,7 @@ import com.vaadin.server.VaadinServletService;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ApplicationConstants;
 import com.vaadin.ui.UI;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Servlet for workplace UI requests.<p>
@@ -99,7 +100,7 @@ public class CmsUIServlet extends VaadinServlet implements SystemMessagesProvide
             // nothing to do
         }
 
-        public void modifyBootstrapPage(BootstrapPageResponse response) {
+        public void modifyBootstrapPage(@RUntainted BootstrapPageResponse response) {
 
             CmsCoreService svc = new CmsCoreService();
             HttpServletRequest request = (HttpServletRequest)VaadinService.getCurrentRequest();
@@ -171,7 +172,7 @@ public class CmsUIServlet extends VaadinServlet implements SystemMessagesProvide
 
             if (shouldShowLogin() && !isLoginUIRequest(request)) {
 
-                String link = OpenCms.getLinkManager().substituteLinkForUnknownTarget(
+                @RUntainted String link = OpenCms.getLinkManager().substituteLinkForUnknownTarget(
                     ((CmsUIServlet)getCurrent()).getCmsObject(),
                     CmsWorkplaceLoginHandler.LOGIN_FORM);
                 String requestedUri = ((HttpServletRequest)request).getRequestURI();
@@ -257,7 +258,7 @@ public class CmsUIServlet extends VaadinServlet implements SystemMessagesProvide
      */
     public SystemMessages getSystemMessages(SystemMessagesInfo systemMessagesInfo) {
 
-        Locale locale = systemMessagesInfo.getLocale();
+        @RUntainted Locale locale = systemMessagesInfo.getLocale();
         if (!m_systemMessages.containsKey(locale)) {
             m_systemMessages.put(locale, createSystemMessages(locale));
         }
@@ -311,7 +312,7 @@ public class CmsUIServlet extends VaadinServlet implements SystemMessagesProvide
      * @see com.vaadin.server.VaadinServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    protected void service(HttpServletRequest request, HttpServletResponse response)
+    protected void service(@RUntainted HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
 
         CmsRequestUtil.disableCrossSiteFrameEmbedding(response);
@@ -417,7 +418,7 @@ public class CmsUIServlet extends VaadinServlet implements SystemMessagesProvide
      *
      * @return the system messages
      */
-    private SystemMessages createSystemMessages(Locale locale) {
+    private SystemMessages createSystemMessages(@RUntainted Locale locale) {
 
         CmsMessages messages = Messages.get().getBundle(locale);
         CustomizedSystemMessages systemMessages = new CustomizedSystemMessages();

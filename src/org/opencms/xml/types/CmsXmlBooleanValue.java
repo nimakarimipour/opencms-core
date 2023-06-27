@@ -38,6 +38,7 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsBoolean".<p>
@@ -74,7 +75,7 @@ public class CmsXmlBooleanValue extends A_CmsXmlValueTextBase implements I_CmsJs
      * @param locale the locale this value is created for
      * @param type the type instance to create the value for
      */
-    public CmsXmlBooleanValue(I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+    public CmsXmlBooleanValue(I_CmsXmlDocument document, @RUntainted Element element, Locale locale, I_CmsXmlSchemaType type) {
 
         super(document, element, locale, type);
         m_boolean = getBooleanValue(m_stringValue);
@@ -87,7 +88,7 @@ public class CmsXmlBooleanValue extends A_CmsXmlValueTextBase implements I_CmsJs
      * @param minOccurs minimum number of occurrences of this type according to the XML schema
      * @param maxOccurs maximum number of occurrences of this type according to the XML schema
      */
-    public CmsXmlBooleanValue(String name, String minOccurs, String maxOccurs) {
+    public CmsXmlBooleanValue(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         super(name, minOccurs, maxOccurs);
     }
@@ -133,7 +134,7 @@ public class CmsXmlBooleanValue extends A_CmsXmlValueTextBase implements I_CmsJs
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#createValue(I_CmsXmlDocument, org.dom4j.Element, Locale)
      */
-    public I_CmsXmlContentValue createValue(I_CmsXmlDocument document, Element element, Locale locale) {
+    public I_CmsXmlContentValue createValue(I_CmsXmlDocument document, @RUntainted Element element, Locale locale) {
 
         return new CmsXmlBooleanValue(document, element, locale, this);
     }
@@ -171,7 +172,7 @@ public class CmsXmlBooleanValue extends A_CmsXmlValueTextBase implements I_CmsJs
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#getTypeName()
      */
-    public String getTypeName() {
+    public @RUntainted String getTypeName() {
 
         return TYPE_NAME;
     }
@@ -189,7 +190,7 @@ public class CmsXmlBooleanValue extends A_CmsXmlValueTextBase implements I_CmsJs
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#newInstance(java.lang.String, java.lang.String, java.lang.String)
      */
-    public I_CmsXmlSchemaType newInstance(String name, String minOccurs, String maxOccurs) {
+    public I_CmsXmlSchemaType newInstance(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         return new CmsXmlBooleanValue(name, minOccurs, maxOccurs);
     }

@@ -40,6 +40,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.Tag;
 import javax.servlet.jsp.tagext.TagSupport;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used to check the availablity of an XML content item for conditional display.<p>
@@ -84,7 +85,7 @@ public class CmsJspTagContentCheck extends TagSupport {
         Locale locale) {
 
         boolean found = false;
-        String[] elements = CmsStringUtil.splitAsArray(elementList, ',');
+        @RUntainted String[] elements = CmsStringUtil.splitAsArray(elementList, ',');
         for (int i = (elements.length - 1); i >= 0; i--) {
 
             String element = CmsXmlUtils.concatXpath(prefix, elements[i].trim());
@@ -279,7 +280,7 @@ public class CmsJspTagContentCheck extends TagSupport {
      *
      * @param locale the locale to set
      */
-    public void setLocale(String locale) {
+    public void setLocale(@RUntainted String locale) {
 
         if (CmsStringUtil.isEmpty(locale)) {
             m_locale = null;

@@ -37,6 +37,7 @@ import org.apache.oro.text.PatternCacheFIFO;
 import org.apache.oro.text.perl.MalformedPerl5PatternException;
 import org.apache.oro.text.perl.Perl5Util;
 import org.apache.oro.text.regex.MalformedPatternException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a resource name / path translation facility.<p>
@@ -154,7 +155,7 @@ public class CmsResourceTranslator {
      * @param resourceName The resource name to translate
      * @return The translated name of the resource
      */
-    public String translateResource(String resourceName) {
+    public @RUntainted String translateResource(@RUntainted String resourceName) {
 
         if (m_translations.length == 0) {
             // no translations defined
@@ -164,8 +165,8 @@ public class CmsResourceTranslator {
             return null;
         }
 
-        StringBuffer result;
-        String current = resourceName;
+        @RUntainted StringBuffer result;
+        @RUntainted String current = resourceName;
         int size = current.length() * 2;
 
         Perl5Util perl5Util = getPerl5Util();

@@ -31,6 +31,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.Date;
 import java.util.SortedSet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Interface to access serial date values easily. Used on client and server. */
 public interface I_CmsSerialDateValue {
@@ -334,7 +335,7 @@ public interface I_CmsSerialDateValue {
      * @return the uuid of the original series' content,
      *         or <code>null<code>, if the event is not extracted from another event series.
      */
-    CmsUUID getParentSeriesId();
+    @RUntainted CmsUUID getParentSeriesId();
 
     /**
      * Returns the pattern type of the event series.

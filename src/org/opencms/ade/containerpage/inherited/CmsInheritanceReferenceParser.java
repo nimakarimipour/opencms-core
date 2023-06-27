@@ -46,6 +46,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parser class for parsing inheritance container references.<p>
@@ -95,7 +96,7 @@ public class CmsInheritanceReferenceParser {
      *
      * @throws CmsException if something goes wrong
      */
-    public void parse(CmsResource resource) throws CmsException {
+    public void parse(@RUntainted CmsResource resource) throws CmsException {
 
         CmsFile file = m_cms.readFile(resource);
         m_resource = resource;

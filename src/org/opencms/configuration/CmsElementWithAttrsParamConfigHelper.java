@@ -32,6 +32,7 @@ import org.apache.commons.digester3.Rule;
 
 import org.dom4j.Element;
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
 * Helper class for parsing an element with no content but several attributes into a subclass of I_CmsConfigurationParameterHandler.<p>
@@ -81,7 +82,7 @@ public class CmsElementWithAttrsParamConfigHelper {
 
                 I_CmsConfigurationParameterHandler config = (I_CmsConfigurationParameterHandler)(m_class.newInstance());
                 for (String attr : m_attrs) {
-                    String attrValue = attributes.getValue(attr);
+                    @RUntainted String attrValue = attributes.getValue(attr);
                     if (attrValue != null) {
                         config.addConfigurationParameter(attr, attrValue);
                     }

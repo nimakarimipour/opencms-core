@@ -43,6 +43,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides context information to JSON handlers.<p>
@@ -263,7 +264,7 @@ public class CmsJsonHandlerContext {
      *
      * @return the request parameters
      */
-    public Map<String, String> getParameters() {
+    public @RUntainted Map<@RUntainted String, @RUntainted String> getParameters() {
 
         return Collections.unmodifiableMap(m_parameters);
     }
@@ -283,7 +284,7 @@ public class CmsJsonHandlerContext {
      *
      * @return the resource
      */
-    public CmsResource getResource() {
+    public @RUntainted CmsResource getResource() {
 
         return m_resource;
     }

@@ -49,6 +49,7 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a DHTML calendar widget, for use on a widget dialog.<p>
@@ -238,7 +239,7 @@ public class CmsCalendarWidget extends A_CmsWidget implements I_CmsADEWidget {
      * @param dateFormat the dateformat String of the JS calendar
      * @return the parsed SimpleDateFormat pattern String
      */
-    public static String getCalendarJavaDateFormat(String dateFormat) {
+    public static String getCalendarJavaDateFormat(@RUntainted String dateFormat) {
 
         dateFormat = CmsStringUtil.substitute(dateFormat, "%", ""); // remove all "%"
         dateFormat = CmsStringUtil.substitute(dateFormat, "m", "${month}");

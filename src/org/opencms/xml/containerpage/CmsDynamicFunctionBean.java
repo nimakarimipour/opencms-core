@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class which contains the data parsed from a dynamic function XML content.<p>
@@ -51,7 +52,7 @@ public class CmsDynamicFunctionBean {
     public static class Format {
 
         /** The structure id of the function jsp. */
-        private CmsUUID m_jspStructureId;
+        private @RUntainted CmsUUID m_jspStructureId;
 
         /** The max width string of the container settings. */
         private String m_maxWidth;
@@ -79,7 +80,7 @@ public class CmsDynamicFunctionBean {
          * @param parameters the JSP parameters
          */
         public Format(
-            CmsUUID structureId,
+            @RUntainted CmsUUID structureId,
             String type,
             String minWidth,
             String maxWidth,
@@ -97,7 +98,7 @@ public class CmsDynamicFunctionBean {
          *
          * @return the structure id of the JSP
          */
-        public CmsUUID getJspStructureId() {
+        public @RUntainted CmsUUID getJspStructureId() {
 
             return m_jspStructureId;
         }

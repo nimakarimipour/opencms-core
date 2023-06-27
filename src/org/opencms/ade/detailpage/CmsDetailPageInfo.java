@@ -32,6 +32,7 @@ import org.opencms.util.CmsUUID;
 import org.opencms.xml.containerpage.CmsXmlDynamicFunctionHandler;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Data bean containing the information for a detail page.<p>
@@ -53,7 +54,7 @@ public class CmsDetailPageInfo implements Serializable {
     private String m_iconClasses;
 
     /** The id of the detail page. */
-    private CmsUUID m_id;
+    private @RUntainted CmsUUID m_id;
 
     /** Flag used to distinguish inherited detail pages from ones defined in the current sitemap config. */
     private boolean m_inherited;
@@ -65,7 +66,7 @@ public class CmsDetailPageInfo implements Serializable {
     private String m_type;
 
     /** The original URI of the detail page (for debugging purposes only). */
-    private String m_uri;
+    private @RUntainted String m_uri;
 
     /**
      * Creates a new detail page info bean.<p>
@@ -76,7 +77,7 @@ public class CmsDetailPageInfo implements Serializable {
      * @param qualifier an optional string that indicates when the detail page should be used
      * @param iconClasses the resource icon style classes
      */
-    public CmsDetailPageInfo(CmsUUID id, String uri, String type, String qualifier, String iconClasses) {
+    public CmsDetailPageInfo(@RUntainted CmsUUID id, @RUntainted String uri, String type, String qualifier, String iconClasses) {
 
         m_id = id;
         m_type = type;
@@ -177,7 +178,7 @@ public class CmsDetailPageInfo implements Serializable {
      *
      * @return the id of the detail page
      */
-    public CmsUUID getId() {
+    public @RUntainted CmsUUID getId() {
 
         return m_id;
     }
@@ -189,7 +190,7 @@ public class CmsDetailPageInfo implements Serializable {
      *
      * @return the qualified type
      */
-    public String getQualifiedType() {
+    public @RUntainted String getQualifiedType() {
 
         if (m_qualifier != null) {
             return getType() + CmsDetailPageInfo.QUALIFIER_SEPARATOR + getQualifier();
@@ -205,7 +206,7 @@ public class CmsDetailPageInfo implements Serializable {
      *
      * @return the qualifier string
      */
-    public String getQualifier() {
+    public @RUntainted String getQualifier() {
 
         return m_qualifier;
     }
@@ -225,7 +226,7 @@ public class CmsDetailPageInfo implements Serializable {
      *
      * @return the original URI for the detail page
      */
-    public String getUri() {
+    public @RUntainted String getUri() {
 
         return m_uri;
     }

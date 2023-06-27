@@ -174,6 +174,7 @@ import com.google.common.collect.Sets;
 import com.google.web.bindery.autobean.shared.AutoBean;
 import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.vm.AutoBeanFactorySource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The RPC service used by the container-page editor.<p>
@@ -395,7 +396,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      */
     public static String getSerializedElementInfo(
         CmsObject cms,
-        HttpServletRequest request,
+        @RUntainted HttpServletRequest request,
         HttpServletResponse response,
         CmsContainerElementBean elementBean,
         CmsContainerPageBean page)
@@ -495,7 +496,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
         if (CmsUUID.isValidUUID(unlockData.getPageId())) {
             ids.add(new CmsUUID(unlockData.getPageId()));
         }
-        CmsUUID detailId = null;
+        @RUntainted CmsUUID detailId = null;
         if (CmsUUID.isValidUUID(unlockData.getDetailId())) {
             detailId = new CmsUUID(unlockData.getDetailId());
             try {
@@ -514,7 +515,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
             }
         }
 
-        for (CmsUUID id : ids) {
+        for (@RUntainted CmsUUID id : ids) {
             try {
                 CmsResource page = cms.readResource(id, CmsResourceFilter.IGNORE_EXPIRATION);
                 CmsLock lock = cms.getLock(page);
@@ -537,7 +538,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      *
      * @return the server id
      */
-    private static String getServerIdString(String id) {
+    private static @RUntainted String getServerIdString(@RUntainted String id) {
 
         if (id.contains(CmsADEManager.CLIENT_ID_SEPERATOR)) {
             id = id.substring(0, id.indexOf(CmsADEManager.CLIENT_ID_SEPERATOR));
@@ -548,7 +549,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
     /**
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#addToFavoriteList(org.opencms.ade.containerpage.shared.CmsContainerPageRpcContext, java.lang.String)
      */
-    public void addToFavoriteList(CmsContainerPageRpcContext context, String clientId) throws CmsRpcException {
+    public void addToFavoriteList(CmsContainerPageRpcContext context, @RUntainted String clientId) throws CmsRpcException {
 
         try {
             ensureSession();
@@ -566,7 +567,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
     /**
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#addToRecentList(org.opencms.ade.containerpage.shared.CmsContainerPageRpcContext, java.lang.String)
      */
-    public void addToRecentList(CmsContainerPageRpcContext context, String clientId) throws CmsRpcException {
+    public void addToRecentList(CmsContainerPageRpcContext context, @RUntainted String clientId) throws CmsRpcException {
 
         try {
             ensureSession();
@@ -585,8 +586,8 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#checkContainerpageOrElementsChanged(org.opencms.util.CmsUUID, org.opencms.util.CmsUUID, java.lang.String)
      */
     public boolean checkContainerpageOrElementsChanged(
-        CmsUUID structureId,
-        CmsUUID detailContentId,
+        @RUntainted CmsUUID structureId,
+        @RUntainted CmsUUID detailContentId,
         String contentLocale)
     throws CmsRpcException {
 
@@ -635,11 +636,11 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#checkCreateNewElement(org.opencms.util.CmsUUID, java.lang.String, java.lang.String, org.opencms.ade.containerpage.shared.CmsContainer, java.lang.String)
      */
     public CmsCreateElementData checkCreateNewElement(
-        CmsUUID pageStructureId,
-        String clientId,
-        String resourceType,
+        @RUntainted CmsUUID pageStructureId,
+        @RUntainted String clientId,
+        @RUntainted String resourceType,
         CmsContainer container,
-        String locale)
+        @RUntainted String locale)
     throws CmsRpcException {
 
         CmsObject cms = getCmsObject();
@@ -681,11 +682,11 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
     /**
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#checkNewWidgetsAvailable(org.opencms.util.CmsUUID)
      */
-    public boolean checkNewWidgetsAvailable(CmsUUID structureId) throws CmsRpcException {
+    public boolean checkNewWidgetsAvailable(@RUntainted CmsUUID structureId) throws CmsRpcException {
 
         try {
             CmsObject cms = getCmsObject();
-            CmsResource resource = cms.readResource(structureId);
+            @RUntainted CmsResource resource = cms.readResource(structureId);
             return CmsWorkplaceEditorManager.checkAcaciaEditorAvailable(cms, resource);
         } catch (Throwable t) {
             error(t);
@@ -702,7 +703,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      *
      * @throws CmsIllegalArgumentException if the id has not the right format
      */
-    public CmsUUID convertToServerId(String id) throws CmsIllegalArgumentException {
+    public CmsUUID convertToServerId(@RUntainted String id) throws CmsIllegalArgumentException {
 
         if (id == null) {
             throw new CmsIllegalArgumentException(
@@ -725,7 +726,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
     /**
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#copyElement(org.opencms.util.CmsUUID, org.opencms.util.CmsUUID, java.lang.String)
      */
-    public CmsUUID copyElement(CmsUUID pageId, CmsUUID originalElementId, String locale) throws CmsRpcException {
+    public CmsUUID copyElement(@RUntainted CmsUUID pageId, @RUntainted CmsUUID originalElementId, @RUntainted String locale) throws CmsRpcException {
 
         try {
             CmsObject cms = OpenCms.initCmsObject(getCmsObject());
@@ -755,11 +756,11 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#createNewElement(org.opencms.util.CmsUUID, java.lang.String, java.lang.String, org.opencms.util.CmsUUID, java.lang.String)
      */
     public CmsContainerElement createNewElement(
-        CmsUUID pageStructureId,
-        String clientId,
+        @RUntainted CmsUUID pageStructureId,
+        @RUntainted String clientId,
         String resourceType,
-        CmsUUID modelResourceStructureId,
-        String locale)
+        @RUntainted CmsUUID modelResourceStructureId,
+        @RUntainted String locale)
     throws CmsRpcException {
 
         CmsContainerElement element = null;
@@ -778,7 +779,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
             if (modelResourceStructureId != null) {
                 modelResource = cms.readResource(modelResourceStructureId);
             }
-            CmsResource newResource = typeConfig.createNewElement(
+            @RUntainted CmsResource newResource = typeConfig.createNewElement(
                 cloneCms,
                 modelResource,
                 CmsResource.getParentFolder(pageResource.getRootPath()));
@@ -792,7 +793,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
                 null,
                 settings,
                 typeConfig.isCopyInModels());
-            String newClientId = newBean.editorHash();
+            @RUntainted String newClientId = newBean.editorHash();
             getSessionCache().setCacheContainerElement(newClientId, newBean);
             element = new CmsContainerElement();
             element.setNewEditorDisabled(!CmsWorkplaceEditorManager.checkAcaciaEditorAvailable(cms, newResource));
@@ -818,9 +819,9 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      *
      * @throws CmsException in case reading the element resource fails
      */
-    public CmsContainerElementBean getCachedElement(String clientId, String pageRootPath) throws CmsException {
+    public CmsContainerElementBean getCachedElement(@RUntainted String clientId, String pageRootPath) throws CmsException {
 
-        String id = clientId;
+        @RUntainted String id = clientId;
         CmsContainerElementBean element = null;
         element = getSessionCache().getCacheContainerElement(id);
         if (element != null) {
@@ -854,7 +855,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
     /**
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#getDeleteOptions(java.lang.String, org.opencms.util.CmsUUID, java.lang.String)
      */
-    public CmsDialogOptionsAndInfo getDeleteOptions(String clientId, CmsUUID pageId, String requestParams)
+    public CmsDialogOptionsAndInfo getDeleteOptions(@RUntainted String clientId, @RUntainted CmsUUID pageId, @RUntainted String requestParams)
     throws CmsRpcException {
 
         try {
@@ -887,9 +888,9 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#getEditOptions(java.lang.String, org.opencms.util.CmsUUID, java.lang.String, boolean)
      */
     public CmsDialogOptionsAndInfo getEditOptions(
-        String clientId,
-        CmsUUID pageId,
-        String requestParams,
+        @RUntainted String clientId,
+        @RUntainted CmsUUID pageId,
+        @RUntainted String requestParams,
         boolean isListElement)
     throws CmsRpcException {
 
@@ -937,13 +938,13 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      */
     public Map<String, CmsContainerElementData> getElementsData(
         CmsContainerPageRpcContext context,
-        CmsUUID detailContentId,
+        @RUntainted CmsUUID detailContentId,
         String reqParams,
         Collection<String> clientIds,
         Collection<CmsContainer> containers,
         boolean allwaysCopy,
         String dndSource,
-        String locale)
+        @RUntainted String locale)
     throws CmsRpcException {
 
         Map<String, CmsContainerElementData> result = null;
@@ -979,10 +980,10 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      */
     public CmsElementSettingsConfig getElementSettingsConfig(
         CmsContainerPageRpcContext context,
-        String clientId,
+        @RUntainted String clientId,
         String containerId,
         Collection<CmsContainer> containers,
-        String locale)
+        @RUntainted String locale)
     throws CmsRpcException {
 
         try {
@@ -1030,7 +1031,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
         try {
             CmsObject cms = getCmsObject();
             Set<CmsUUID> result = new HashSet<>();
-            for (CmsUUID id : idsToCheck) {
+            for (@RUntainted CmsUUID id : idsToCheck) {
                 try {
                     CmsResource resource = cms.readResource(id, CmsResourceFilter.ALL);
                     CmsLock lock = cms.getLock(resource);
@@ -1054,12 +1055,12 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      */
     public CmsContainerElementData getElementWithSettings(
         CmsContainerPageRpcContext context,
-        CmsUUID detailContentId,
+        @RUntainted CmsUUID detailContentId,
         String uriParams,
-        String clientId,
+        @RUntainted String clientId,
         Map<String, String> settings,
         Collection<CmsContainer> containers,
-        String locale)
+        @RUntainted String locale)
     throws CmsRpcException {
 
         CmsContainerElementData element = null;
@@ -1108,10 +1109,10 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#getFavoriteList(org.opencms.util.CmsUUID, org.opencms.util.CmsUUID, java.util.Collection, java.lang.String)
      */
     public List<CmsContainerElementData> getFavoriteList(
-        CmsUUID pageStructureId,
-        CmsUUID detailContentId,
+        @RUntainted CmsUUID pageStructureId,
+        @RUntainted CmsUUID detailContentId,
         Collection<CmsContainer> containers,
-        String locale)
+        @RUntainted String locale)
     throws CmsRpcException {
 
         List<CmsContainerElementData> result = null;
@@ -1213,14 +1214,14 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
     /**
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#getListElementCreationOptions(org.opencms.util.CmsUUID, java.lang.String)
      */
-    public CmsListElementCreationDialogData getListElementCreationOptions(CmsUUID structureId, String jsonListAddData)
+    public CmsListElementCreationDialogData getListElementCreationOptions(@RUntainted CmsUUID structureId, String jsonListAddData)
     throws CmsRpcException {
 
         CmsObject cms = getCmsObject();
         Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
         CmsMessages msg = Messages.get().getBundle(locale);
         try {
-            CmsUUID listId = structureId;
+            @RUntainted CmsUUID listId = structureId;
 
             String jsonConfig = jsonListAddData;
             I_CmsAutoBeanFactory beanFactory = AutoBeanFactorySource.create(I_CmsAutoBeanFactory.class);
@@ -1241,7 +1242,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
             result.setPostCreateHandler(listAddData.as().getPostCreateHandler());
             List<String> createTypes = listAddData.as().getTypes();
             Map<String, CmsResourceTypeConfig> typeMap = adeConfig.getTypesByName();
-            for (String type : createTypes) {
+            for (@RUntainted String type : createTypes) {
                 try {
                     CmsResourceTypeConfig currentType = typeMap.get(type);
                     if (currentType != null) {
@@ -1286,11 +1287,11 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      */
     public CmsContainerElementData getNewElementData(
         CmsContainerPageRpcContext context,
-        CmsUUID detailContentId,
+        @RUntainted CmsUUID detailContentId,
         String reqParams,
-        String resourceType,
+        @RUntainted String resourceType,
         Collection<CmsContainer> containers,
-        String localeName)
+        @RUntainted String localeName)
     throws CmsRpcException {
 
         CmsContainerElementData result = null;
@@ -1317,7 +1318,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
     /**
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#getNewOptions(java.lang.String, org.opencms.util.CmsUUID, java.lang.String)
      */
-    public CmsDialogOptionsAndInfo getNewOptions(String clientId, CmsUUID pageStructureId, String requestParams)
+    public CmsDialogOptionsAndInfo getNewOptions(@RUntainted String clientId, @RUntainted CmsUUID pageStructureId, @RUntainted String requestParams)
     throws CmsRpcException {
 
         try {
@@ -1351,10 +1352,10 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#getRecentList(org.opencms.util.CmsUUID, org.opencms.util.CmsUUID, java.util.Collection, java.lang.String)
      */
     public List<CmsContainerElementData> getRecentList(
-        CmsUUID pageStructureId,
-        CmsUUID detailContentId,
+        @RUntainted CmsUUID pageStructureId,
+        @RUntainted CmsUUID detailContentId,
         Collection<CmsContainer> containers,
-        String locale)
+        @RUntainted String locale)
     throws CmsRpcException {
 
         List<CmsContainerElementData> result = null;
@@ -1379,7 +1380,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
     /**
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#getRemovedElementStatus(java.lang.String, org.opencms.util.CmsUUID)
      */
-    public CmsRemovedElementStatus getRemovedElementStatus(String id, CmsUUID containerpageId) throws CmsRpcException {
+    public CmsRemovedElementStatus getRemovedElementStatus(@RUntainted String id, @RUntainted CmsUUID containerpageId) throws CmsRpcException {
 
         if ((id == null) || !id.matches(CmsUUID.UUID_REGEX + ".*$")) {
             return new CmsRemovedElementStatus(null, null, false, null);
@@ -1396,7 +1397,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
     /**
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#handleDelete(java.lang.String, java.lang.String, org.opencms.util.CmsUUID, java.lang.String)
      */
-    public void handleDelete(String clientId, String deleteOption, CmsUUID pageId, String requestParams)
+    public void handleDelete(@RUntainted String clientId, String deleteOption, @RUntainted CmsUUID pageId, @RUntainted String requestParams)
     throws CmsRpcException {
 
         try {
@@ -1429,7 +1430,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      *
      * @throws CmsException in case reading the resource fails
      */
-    public CmsRemovedElementStatus internalGetRemovedElementStatus(CmsUUID structureId, CmsUUID containerpageId)
+    public CmsRemovedElementStatus internalGetRemovedElementStatus(@RUntainted CmsUUID structureId, @RUntainted CmsUUID containerpageId)
     throws CmsException {
 
         CmsObject cms = getCmsObject();
@@ -1518,7 +1519,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
             boolean useClassicEditor = (editorUri == null) || !editorUri.contains("acacia");
             CmsResource detailResource = CmsDetailPageResourceHandler.getDetailResource(request);
             String noEditReason;
-            String detailContainerPage = null;
+            @RUntainted String detailContainerPage = null;
             CmsQuickLaunchLocationCache locationCache = CmsQuickLaunchLocationCache.getLocationCache(
                 request.getSession());
             CmsUUID detailContainerPageId = null;
@@ -1526,7 +1527,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
                 locationCache.setPageEditorResource(cms.getRequestContext().getSiteRoot(), detailResource);
                 CmsObject rootCms = OpenCms.initCmsObject(cms);
                 rootCms.getRequestContext().setSiteRoot("");
-                String detailResourcePath = detailResource.getRootPath();
+                @RUntainted String detailResourcePath = detailResource.getRootPath();
                 String locale = cms.getRequestContext().getLocale().toString();
                 detailContainerPage = CmsDetailOnlyContainerUtil.getDetailOnlyPageName(
                     cms,
@@ -1542,7 +1543,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
                         rootCms,
                         rootCms.readResource(detailContainerPage, CmsResourceFilter.IGNORE_EXPIRATION));
                 } else {
-                    String permissionFolder = CmsResource.getFolderPath(detailContainerPage);
+                    @RUntainted String permissionFolder = CmsResource.getFolderPath(detailContainerPage);
                     while (!rootCms.existsResource(permissionFolder, CmsResourceFilter.IGNORE_EXPIRATION)) {
                         permissionFolder = CmsResource.getParentFolder(permissionFolder);
                     }
@@ -1685,7 +1686,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
     /**
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#prepareForEdit(java.lang.String, java.lang.String, org.opencms.util.CmsUUID, java.lang.String)
      */
-    public CmsUUID prepareForEdit(String clientId, String editOption, CmsUUID pageId, String requestParams)
+    public CmsUUID prepareForEdit(@RUntainted String clientId, String editOption, @RUntainted CmsUUID pageId, @RUntainted String requestParams)
     throws CmsRpcException {
 
         try {
@@ -1714,12 +1715,12 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      */
     public CmsContainerElementData replaceElement(
         CmsContainerPageRpcContext context,
-        CmsUUID detailContentId,
+        @RUntainted CmsUUID detailContentId,
         String reqParams,
-        String clientId,
+        @RUntainted String clientId,
         String replaceId,
         Collection<CmsContainer> containers,
-        String locale)
+        @RUntainted String locale)
     throws CmsRpcException {
 
         CmsContainerElementData element = null;
@@ -1761,7 +1762,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
     /**
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#saveClipboardTab(int)
      */
-    public void saveClipboardTab(int tabIndex) {
+    public void saveClipboardTab(@RUntainted int tabIndex) {
 
         getRequest().getSession().setAttribute(ATTR_CLIPBOARD_TAB, new Integer(tabIndex));
     }
@@ -1769,7 +1770,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
     /**
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#saveContainerpage(org.opencms.util.CmsUUID, java.util.List)
      */
-    public long saveContainerpage(CmsUUID pageStructureId, List<CmsContainer> containers) throws CmsRpcException {
+    public long saveContainerpage(@RUntainted CmsUUID pageStructureId, List<CmsContainer> containers) throws CmsRpcException {
 
         CmsObject cms = getCmsObject();
         try {
@@ -1789,7 +1790,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
     /**
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#saveDetailContainers(org.opencms.util.CmsUUID, java.lang.String, java.util.List)
      */
-    public long saveDetailContainers(CmsUUID detailId, String detailContainerResource, List<CmsContainer> containers)
+    public long saveDetailContainers(@RUntainted CmsUUID detailId, @RUntainted String detailContainerResource, List<CmsContainer> containers)
     throws CmsRpcException {
 
         CmsObject cms = getCmsObject();
@@ -1814,12 +1815,12 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      */
     public CmsContainerElementData saveElementSettings(
         CmsContainerPageRpcContext context,
-        CmsUUID detailContentId,
+        @RUntainted CmsUUID detailContentId,
         String reqParams,
-        String clientId,
+        @RUntainted String clientId,
         Map<String, String> settings,
         List<CmsContainer> containers,
-        String locale)
+        @RUntainted String locale)
     throws CmsRpcException {
 
         CmsContainerElementData element = null;
@@ -1889,7 +1890,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
                 CmsObject rootCms = OpenCms.initCmsObject(cms);
                 rootCms.getRequestContext().setSiteRoot("");
                 CmsResource detailResource = rootCms.readResource(detailContentId, CmsResourceFilter.IGNORE_EXPIRATION);
-                String detailRootPath = detailResource.getRootPath();
+                @RUntainted String detailRootPath = detailResource.getRootPath();
                 CmsResource detailContainerPage = rootCms.readResource(
                     CmsDetailOnlyContainerUtil.getDetailOnlyPageName(cms, pageResource, detailRootPath, locale));
 
@@ -1934,11 +1935,11 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
     public CmsGroupContainerSaveResult saveGroupContainer(
         CmsContainerPageRpcContext context,
 
-        CmsUUID detailContentId,
+        @RUntainted CmsUUID detailContentId,
         String reqParams,
         CmsGroupContainer groupContainer,
         Collection<CmsContainer> containers,
-        String locale)
+        @RUntainted String locale)
     throws CmsRpcException {
 
         CmsObject cms = getCmsObject();
@@ -1965,11 +1966,11 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#saveInheritanceContainer(org.opencms.util.CmsUUID, org.opencms.util.CmsUUID, org.opencms.ade.containerpage.shared.CmsInheritanceContainer, java.util.Collection, java.lang.String)
      */
     public Map<String, CmsContainerElementData> saveInheritanceContainer(
-        CmsUUID pageStructureId,
-        CmsUUID detailContentId,
+        @RUntainted CmsUUID pageStructureId,
+        @RUntainted CmsUUID detailContentId,
         CmsInheritanceContainer inheritanceContainer,
         Collection<CmsContainer> containers,
-        String locale)
+        @RUntainted String locale)
     throws CmsRpcException {
 
         try {
@@ -1982,7 +1983,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
                 CmsResourceFilter.ignoreExpirationOffline(getCmsObject()));
             String sitePath = cms.getSitePath(containerPage);
             Locale requestedLocale = CmsLocaleManager.getLocale(locale);
-            CmsResource referenceResource = null;
+            @RUntainted CmsResource referenceResource = null;
             if (inheritanceContainer.isNew()) {
                 CmsADEConfigData config = getConfigData(containerPage.getRootPath());
                 CmsResourceTypeConfig typeConfig = config.getResourceType(
@@ -2058,7 +2059,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
     /**
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#setEditSmallElements(boolean)
      */
-    public void setEditSmallElements(boolean editSmallElements) throws CmsRpcException {
+    public void setEditSmallElements(@RUntainted boolean editSmallElements) throws CmsRpcException {
 
         try {
             CmsObject cms = getCmsObject();
@@ -2244,7 +2245,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      * @return the converted settings
      * @throws CmsException if something goes wrong
      */
-    private Map<String, String> convertSettingValues(CmsResource resource, Map<String, String> settings, Locale locale)
+    private Map<String, String> convertSettingValues(CmsResource resource, Map<String, String> settings, @RUntainted Locale locale)
     throws CmsException {
 
         CmsObject cms = getCmsObject();
@@ -2307,7 +2308,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
     throws CmsException {
 
         List<CmsContainerElementBean> result = new ArrayList<CmsContainerElementBean>();
-        for (String id : clientIds) {
+        for (@RUntainted String id : clientIds) {
             try {
                 result.add(getCachedElement(id, pageRootPath));
             } catch (CmsIllegalArgumentException e) {
@@ -2547,13 +2548,13 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
         CmsADEConfigData config,
         CmsResource page,
         Collection<String> clientIds,
-        String uriParam,
-        CmsUUID detailContentId,
+        @RUntainted String uriParam,
+        @RUntainted CmsUUID detailContentId,
         Collection<CmsContainer> containers,
         boolean allwaysCopy,
         String dndOriginContainer,
         boolean isDragMode,
-        Locale locale)
+        @RUntainted Locale locale)
     throws CmsException {
 
         CmsObject cms = getCmsObject();
@@ -2561,7 +2562,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
             containers,
             cms.getRequestContext().addSiteRoot(uriParam));
         Map<String, CmsContainerElementBean> idMapping = new HashMap<String, CmsContainerElementBean>();
-        for (String elemId : clientIds) {
+        for (@RUntainted String elemId : clientIds) {
             if ((elemId == null)) {
                 continue;
             }
@@ -2672,7 +2673,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
     private CmsGroupContainerBean getGroupContainerBean(
         CmsGroupContainer groupContainer,
         CmsResource containerPage,
-        String locale) {
+        @RUntainted String locale) {
 
         CmsObject cms = getCmsObject();
         List<CmsContainerElementBean> elements = new ArrayList<CmsContainerElementBean>();
@@ -2757,7 +2758,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      *
      * @throws CmsException if something goes wrong reading the resource
      */
-    private List<CmsContainerElementBean> getInheritedElements(CmsResource resource, Locale locale, String uriParam)
+    private List<CmsContainerElementBean> getInheritedElements(@RUntainted CmsResource resource, @RUntainted Locale locale, String uriParam)
     throws CmsException {
 
         CmsObject cms = getCmsObject();
@@ -2790,10 +2791,10 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      */
     private List<CmsContainerElementData> getListElementsData(
         List<CmsContainerElementBean> listElements,
-        String containerpageUri,
-        CmsUUID detailContentId,
+        @RUntainted String containerpageUri,
+        @RUntainted CmsUUID detailContentId,
         Collection<CmsContainer> containers,
-        Locale locale)
+        @RUntainted Locale locale)
     throws CmsException {
 
         CmsObject cms = getCmsObject();
@@ -2875,11 +2876,11 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      * @throws CmsException if something goes wrong
      */
     private CmsContainerElementData getNewElement(
-        String resourceTypeName,
-        String uriParam,
-        CmsUUID detailContentId,
+        @RUntainted String resourceTypeName,
+        @RUntainted String uriParam,
+        @RUntainted CmsUUID detailContentId,
         Collection<CmsContainer> containers,
-        Locale locale)
+        @RUntainted Locale locale)
     throws CmsException {
 
         CmsObject cms = getCmsObject();
@@ -3011,13 +3012,13 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      */
     private CmsPair<CmsContainerElement, List<CmsRemovedElementStatus>> internalSaveGroupContainer(
         CmsObject cms,
-        CmsUUID pageStructureId,
+        @RUntainted CmsUUID pageStructureId,
         CmsGroupContainer groupContainer)
     throws CmsException, CmsXmlException {
 
         ensureSession();
         CmsResource pageResource = getCmsObject().readResource(pageStructureId, CmsResourceFilter.IGNORE_EXPIRATION);
-        CmsResource groupContainerResource = null;
+        @RUntainted CmsResource groupContainerResource = null;
         if (groupContainer.isNew()) {
             CmsADEConfigData config = getConfigData(pageResource.getRootPath());
             CmsResourceTypeConfig typeConfig = config.getResourceType(
@@ -3047,7 +3048,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
         Set<CmsUUID> newElementIds = getGroupElementIds(xmlGroupContainer, locale);
         Set<CmsUUID> removedElementIds = Sets.difference(oldElementIds, newElementIds);
         List<CmsRemovedElementStatus> deletionCandidateStatuses = new ArrayList<CmsRemovedElementStatus>();
-        for (CmsUUID removedId : removedElementIds) {
+        for (@RUntainted CmsUUID removedId : removedElementIds) {
             CmsRemovedElementStatus status = internalGetRemovedElementStatus(removedId, null);
             if (status.isDeletionCandidate()) {
                 deletionCandidateStatuses.add(status);
@@ -3140,14 +3141,14 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      *
      * @throws CmsException if something goes wrong
      */
-    private void saveInheritanceGroup(CmsResource resource, CmsInheritanceContainer inheritanceContainer)
+    private void saveInheritanceGroup(@RUntainted CmsResource resource, CmsInheritanceContainer inheritanceContainer)
     throws CmsException {
 
         CmsObject cms = getCmsObject();
         CmsFile file = cms.readFile(resource);
         CmsXmlContent document = CmsXmlContentFactory.unmarshal(cms, file);
 
-        for (Locale docLocale : document.getLocales()) {
+        for (@RUntainted Locale docLocale : document.getLocales()) {
             document.removeLocale(docLocale);
         }
         Locale locale = Locale.ENGLISH;
@@ -3173,7 +3174,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      */
     private List<CmsContainerElementBean> updateFavoriteRecentList(
         CmsResource containerPage,
-        String clientId,
+        @RUntainted String clientId,
         List<CmsContainerElementBean> list)
     throws CmsException {
 

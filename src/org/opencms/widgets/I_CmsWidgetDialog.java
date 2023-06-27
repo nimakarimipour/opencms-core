@@ -31,6 +31,7 @@ import org.opencms.i18n.CmsMessages;
 
 import java.util.Locale;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a widget enabled dialog.<p>
@@ -137,7 +138,7 @@ public interface I_CmsWidgetDialog {
      * @see org.opencms.workplace.CmsWorkplace#getLocale()
      * @see org.opencms.file.CmsRequestContext#getLocale()
      */
-    Locale getLocale();
+    @RUntainted Locale getLocale();
 
     /**
      * Returns a messages object used to render localized keys for the widget dialog.<p>

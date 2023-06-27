@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean which represents a possible workflow, containing an identifier, a user-readable name
@@ -42,7 +43,7 @@ public class CmsWorkflow implements IsSerializable {
     private List<CmsWorkflowAction> m_actions;
 
     /** An identifier for the workflow type. */
-    private String m_id;
+    private @RUntainted String m_id;
 
     /** A user-readable nice name for the workflow. */
     private String m_niceName;
@@ -96,7 +97,7 @@ public class CmsWorkflow implements IsSerializable {
      *
      * @return the workflow identifier
      */
-    public String getId() {
+    public @RUntainted String getId() {
 
         return m_id;
     }

@@ -36,6 +36,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A filter to retrieve the locks.<p>
@@ -117,7 +118,7 @@ public final class CmsLockFilter implements Cloneable {
      *
      * @return an extended filter to search the subresources of the given path
      */
-    public CmsLockFilter filterIncludeChildren() {
+    public @RUntainted CmsLockFilter filterIncludeChildren() {
 
         CmsLockFilter filter = (CmsLockFilter)clone();
         filter.m_includeChildren = true;

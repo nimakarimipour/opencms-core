@@ -36,6 +36,7 @@ import org.opencms.main.CmsException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A default resource collector that supports flexible sorting based on resource dates.<p>
@@ -45,7 +46,7 @@ import java.util.List;
 public class CmsDateResourceCollector extends A_CmsResourceCollector {
 
     /** Static array of the collectors implemented by this class. */
-    private static final String[] COLLECTORS = {
+    private static final @RUntainted String[] COLLECTORS = {
         "allInFolderDateDesc",
         "allInFolderDateAsc",
         "allInSubTreeDateDesc",
@@ -65,7 +66,7 @@ public class CmsDateResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateLink(CmsObject cms, String collectorName, String param)
+    public @RUntainted String getCreateLink(CmsObject cms, @RUntainted String collectorName, @RUntainted String param)
     throws CmsDataAccessException, CmsException {
 
         // if action is not set, use default action
@@ -93,7 +94,7 @@ public class CmsDateResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateParam(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateParam(CmsObject cms, String collectorName, String param) throws CmsDataAccessException {
+    public String getCreateParam(CmsObject cms, @RUntainted String collectorName, String param) throws CmsDataAccessException {
 
         // if action is not set, use default action
         if (collectorName == null) {
@@ -121,9 +122,9 @@ public class CmsDateResourceCollector extends A_CmsResourceCollector {
      * @see org.opencms.file.collectors.A_CmsResourceCollector#getCreateTypeId(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
     @Override
-    public int getCreateTypeId(CmsObject cms, String collectorName, String param) {
+    public @RUntainted int getCreateTypeId(CmsObject cms, String collectorName, @RUntainted String param) {
 
-        int result = -1;
+        @RUntainted int result = -1;
         if (param != null) {
             result = new CmsExtendedCollectorData(param).getType();
         }
@@ -133,7 +134,7 @@ public class CmsDateResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getResults(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public List<CmsResource> getResults(CmsObject cms, String collectorName, String param)
+    public List<CmsResource> getResults(CmsObject cms, @RUntainted String collectorName, @RUntainted String param)
     throws CmsDataAccessException, CmsException {
 
         return getResults(cms, collectorName, param, -1);
@@ -142,7 +143,7 @@ public class CmsDateResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getResults(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public List<CmsResource> getResults(CmsObject cms, String collectorName, String param, int numResults)
+    public List<CmsResource> getResults(CmsObject cms, @RUntainted String collectorName, @RUntainted String param, int numResults)
     throws CmsDataAccessException, CmsException {
 
         // if action is not set use default
@@ -184,7 +185,7 @@ public class CmsDateResourceCollector extends A_CmsResourceCollector {
      *
      * @throws CmsException if something goes wrong
      */
-    protected List<CmsResource> allInFolderDate(CmsObject cms, String param, boolean tree, boolean asc, int numResults)
+    protected List<CmsResource> allInFolderDate(CmsObject cms, @RUntainted String param, boolean tree, boolean asc, int numResults)
     throws CmsException {
 
         CmsExtendedCollectorData data = new CmsExtendedCollectorData(param);

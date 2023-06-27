@@ -51,6 +51,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.solr.uninverting.UninvertingReader.Type;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract implementation for OpenCms search field configurations.<p>
@@ -63,7 +64,7 @@ public class CmsSearchFieldConfiguration extends A_CmsSearchFieldConfiguration {
     public static final List<String> LAZY_FIELDS = new ArrayList<String>();
 
     /** The name for the standard field configuration. */
-    public static final String STR_STANDARD = "standard";
+    public static final @RUntainted String STR_STANDARD = "standard";
 
     /** The serial version id. */
     private static final long serialVersionUID = -7581572963583498549L;
@@ -92,7 +93,7 @@ public class CmsSearchFieldConfiguration extends A_CmsSearchFieldConfiguration {
      *
      * @return the locale extended name for the given lookup String
      */
-    public static final String getLocaleExtendedName(String lookup, Locale locale) {
+    public static final @RUntainted String getLocaleExtendedName(@RUntainted String lookup, Locale locale) {
 
         if (locale == null) {
             return lookup;
@@ -108,7 +109,7 @@ public class CmsSearchFieldConfiguration extends A_CmsSearchFieldConfiguration {
      *
      * @return the locale extended name for the given lookup String
      */
-    public static final String getLocaleExtendedName(String lookup, String locale) {
+    public static final @RUntainted String getLocaleExtendedName(String lookup, String locale) {
 
         StringBuffer result = new StringBuffer(32);
         result.append(lookup);
@@ -124,7 +125,7 @@ public class CmsSearchFieldConfiguration extends A_CmsSearchFieldConfiguration {
      *
      * @return a space separated list of all parent folders of the given root path
      */
-    public static String getParentFolderTokens(String rootPath) {
+    public static String getParentFolderTokens(@RUntainted String rootPath) {
 
         if (CmsStringUtil.isEmpty(rootPath)) {
             return "/";
@@ -361,7 +362,7 @@ public class CmsSearchFieldConfiguration extends A_CmsSearchFieldConfiguration {
      */
     protected I_CmsSearchDocument appendFieldMapping(
         I_CmsSearchDocument document,
-        CmsSearchField field,
+        @RUntainted CmsSearchField field,
         CmsObject cms,
         CmsResource resource,
         I_CmsExtractionResult extractionResult,
@@ -405,7 +406,7 @@ public class CmsSearchFieldConfiguration extends A_CmsSearchFieldConfiguration {
         List<CmsProperty> properties,
         List<CmsProperty> propertiesSearched) {
 
-        for (CmsSearchField field : getFields()) {
+        for (@RUntainted CmsSearchField field : getFields()) {
             document = appendFieldMapping(
                 document,
                 field,

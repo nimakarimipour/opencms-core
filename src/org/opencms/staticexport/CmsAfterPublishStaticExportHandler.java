@@ -62,6 +62,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation for the <code>{@link I_CmsStaticExportHandler}</code> interface.<p>
@@ -122,7 +123,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
             }
 
             long timestamp = 0;
-            List<String> publishedTemplateResources;
+            @RUntainted List<@RUntainted String> publishedTemplateResources;
             boolean newTemplateLinksFound;
             int linkMode = CmsStaticExportManager.EXPORT_LINK_WITHOUT_PARAMETER;
             do {
@@ -517,13 +518,13 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
      *
      * @throws IOException if the http request fails
      */
-    protected int exportTemplateResource(CmsStaticExportData data, StringBuffer cookies) throws IOException {
+    protected @RUntainted int exportTemplateResource(CmsStaticExportData data, StringBuffer cookies) throws IOException {
 
         String vfsName = data.getVfsName();
-        String rfsName = data.getRfsName();
+        @RUntainted String rfsName = data.getRfsName();
         CmsStaticExportManager manager = OpenCms.getStaticExportManager();
 
-        String exportUrlStr;
+        @RUntainted String exportUrlStr;
         if (rfsName.contains(manager.getRfsPrefix(vfsName))) {
             LOG.info("rfsName " + rfsName + " contains rfsPrefix " + manager.getRfsPrefix(vfsName));
             exportUrlStr = manager.getExportUrl() + rfsName;
@@ -534,9 +535,9 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_SENDING_REQUEST_2, rfsName, exportUrlStr));
         }
         // setup the connection and request the resource
-        URL exportUrl = new URL(exportUrlStr);
+        @RUntainted URL exportUrl = new URL(exportUrlStr);
         HttpURLConnection.setFollowRedirects(false);
-        HttpURLConnection urlcon = (HttpURLConnection)exportUrl.openConnection();
+        @RUntainted HttpURLConnection urlcon = (HttpURLConnection)exportUrl.openConnection();
         // set request type to GET
         urlcon.setRequestMethod(REQUEST_METHOD_GET);
         // add special export header
@@ -587,7 +588,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
 
         // now perform the request
         urlcon.connect();
-        int status = urlcon.getResponseCode();
+        @RUntainted int status = urlcon.getResponseCode();
 
         if (cookies.length() == 0) {
             //Now retrieve the cookies. The jsessionid is here
@@ -615,10 +616,10 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
      * @param publishedTemplateResources list of potential candidates to export
      * @param report an I_CmsReport instance to print output message, or null to write messages to the log file
      */
-    protected void exportTemplateResources(CmsObject cms, List<String> publishedTemplateResources, I_CmsReport report) {
+    protected void exportTemplateResources(CmsObject cms, @RUntainted List<@RUntainted String> publishedTemplateResources, I_CmsReport report) {
 
         CmsStaticExportManager manager = OpenCms.getStaticExportManager();
-        int size = publishedTemplateResources.size();
+        @RUntainted int size = publishedTemplateResources.size();
         int count = 1;
 
         if (LOG.isDebugEnabled()) {
@@ -630,9 +631,9 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
 
         StringBuffer cookies = new StringBuffer();
         // now loop through all of them and request them from the server
-        Iterator<String> i = publishedTemplateResources.iterator();
+        @RUntainted Iterator<@RUntainted String> i = publishedTemplateResources.iterator();
         while (i.hasNext()) {
-            String rfsName = i.next();
+            @RUntainted String rfsName = i.next();
             CmsStaticExportData data = null;
             try {
                 data = manager.getVfsNameInternal(cms, rfsName);
@@ -674,7 +675,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
                 CmsResource resource = data.getResource();
                 try {
                     Collection<String> detailPages = CmsDetailPageUtil.getAllDetailPagesWithUrlName(cms, resource);
-                    for (String detailPageUri : detailPages) {
+                    for (@RUntainted String detailPageUri : detailPages) {
                         String altRfsName = manager.getRfsName(cms, detailPageUri);
                         CmsStaticExportData detailData = new CmsStaticExportData(
                             data.getVfsName(),
@@ -687,7 +688,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
                     LOG.error(e.getLocalizedMessage(), e);
                 }
 
-                int status = exportTemplateResource(data, cookies);
+                @RUntainted int status = exportTemplateResource(data, cookies);
 
                 // write the report
                 if (status == HttpServletResponse.SC_OK) {
@@ -724,7 +725,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
      * @see org.opencms.staticexport.A_CmsStaticExportHandler#getRelatedFilesToPurge(java.lang.String, java.lang.String)
      */
     @Override
-    protected List<File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
+    protected List<File> getRelatedFilesToPurge(@RUntainted String exportFileName, String vfsName) {
 
         return Collections.emptyList();
     }

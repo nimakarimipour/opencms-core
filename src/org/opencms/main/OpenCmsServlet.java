@@ -55,6 +55,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This the main servlet of the OpenCms system.<p>
@@ -345,7 +346,7 @@ public class OpenCmsServlet extends HttpServlet implements I_CmsRequestHandler {
                 }
             }
 
-            String path = OpenCmsCore.getPathInfo(req);
+            @RUntainted String path = OpenCmsCore.getPathInfo(req);
             if (path.startsWith(HANDLE_BUILTIN_SERVICE)) {
                 // built-in services are for small AJAX-related functionality in the core that doesn't need to be configurable
                 String remainder = path.substring(HANDLE_BUILTIN_SERVICE.length() - 1); // we want a leading slash in remainder
@@ -392,10 +393,10 @@ public class OpenCmsServlet extends HttpServlet implements I_CmsRequestHandler {
     /**
      * @see org.opencms.main.I_CmsRequestHandler#handle(HttpServletRequest, HttpServletResponse, String)
      */
-    public void handle(HttpServletRequest req, HttpServletResponse res, String name)
+    public void handle(@RUntainted HttpServletRequest req, HttpServletResponse res, String name)
     throws IOException, ServletException {
 
-        int errorCode;
+        @RUntainted int errorCode;
         try {
             errorCode = Integer.valueOf(name).intValue();
         } catch (NumberFormatException nf) {
@@ -406,7 +407,7 @@ public class OpenCmsServlet extends HttpServlet implements I_CmsRequestHandler {
         switch (errorCode) {
             case 404:
                 CmsObject cms = null;
-                CmsStaticExportData exportData = null;
+                @RUntainted CmsStaticExportData exportData = null;
                 try {
                     // this will be set in the root site
                     cms = OpenCms.initCmsObject(OpenCms.getDefaultUsers().getUserExport());
@@ -425,7 +426,7 @@ public class OpenCmsServlet extends HttpServlet implements I_CmsRequestHandler {
                 if (exportData != null) {
                     try {
                         // generate a static export request wrapper
-                        CmsStaticExportRequest exportReq = new CmsStaticExportRequest(req, exportData);
+                        @RUntainted CmsStaticExportRequest exportReq = new CmsStaticExportRequest(req, exportData);
                         // export the resource and set the response status according to the result
                         res.setStatus(OpenCms.getStaticExportManager().export(exportReq, res, cms, exportData));
                     } catch (Throwable t) {
@@ -447,7 +448,7 @@ public class OpenCmsServlet extends HttpServlet implements I_CmsRequestHandler {
      * @see javax.servlet.Servlet#init(javax.servlet.ServletConfig)
      */
     @Override
-    public synchronized void init(ServletConfig config) throws ServletException {
+    public synchronized void init(@RUntainted ServletConfig config) throws ServletException {
 
         super.init(config);
         try {
@@ -483,7 +484,7 @@ public class OpenCmsServlet extends HttpServlet implements I_CmsRequestHandler {
      * @throws ServletException in case an error occurs
      * @throws IOException in case an error occurs
      */
-    protected void invokeHandler(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+    protected void invokeHandler(@RUntainted HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
         String pathInfo = OpenCmsCore.getPathInfo(req);
         String name = pathInfo.substring(HANDLE_PATH.length());
@@ -512,14 +513,14 @@ public class OpenCmsServlet extends HttpServlet implements I_CmsRequestHandler {
      * @throws IOException if something goes wrong
      * @throws ServletException if something goes wrong
      */
-    protected void openErrorHandler(HttpServletRequest req, HttpServletResponse res, int errorCode)
+    protected void openErrorHandler(@RUntainted HttpServletRequest req, HttpServletResponse res, @RUntainted int errorCode)
     throws IOException, ServletException {
 
-        String handlerUri = (new StringBuffer(64)).append(HANDLE_VFS_PATH).append(errorCode).append(
+        @RUntainted String handlerUri = (new StringBuffer(64)).append(HANDLE_VFS_PATH).append(errorCode).append(
             HANDLE_VFS_SUFFIX).toString();
         // provide the original error code in a request attribute
         req.setAttribute(CmsRequestUtil.ATTRIBUTE_ERRORCODE, new Integer(errorCode));
-        CmsObject cms;
+        @RUntainted CmsObject cms;
         CmsFile file;
         try {
             // create OpenCms context, this will be set in the root site
@@ -568,8 +569,8 @@ public class OpenCmsServlet extends HttpServlet implements I_CmsRequestHandler {
      * @return a flag, indicating if the error page could be loaded
      */
     private boolean loadCustomErrorPage(
-        CmsObject cms,
-        HttpServletRequest req,
+        @RUntainted CmsObject cms,
+        @RUntainted HttpServletRequest req,
         HttpServletResponse res,
         String rootPath) {
 
@@ -578,7 +579,7 @@ public class OpenCmsServlet extends HttpServlet implements I_CmsRequestHandler {
             // get the site of the error page resource
             CmsSite errorSite = OpenCms.getSiteManager().getSiteForRootPath(rootPath);
             cms.getRequestContext().setSiteRoot(errorSite.getSiteRoot());
-            String relPath = cms.getRequestContext().removeSiteRoot(rootPath);
+            @RUntainted String relPath = cms.getRequestContext().removeSiteRoot(rootPath);
             if (cms.existsResource(relPath)) {
                 cms.getRequestContext().setUri(relPath);
                 OpenCms.getResourceManager().loadResource(cms, cms.readResource(relPath), req, res);
@@ -601,7 +602,7 @@ public class OpenCmsServlet extends HttpServlet implements I_CmsRequestHandler {
      * @param errorCode the error code to display
      * @return a flag, indicating if the custom error page could be loaded.
      */
-    private boolean tryCustomErrorPage(CmsObject cms, HttpServletRequest req, HttpServletResponse res, int errorCode) {
+    private boolean tryCustomErrorPage(@RUntainted CmsObject cms, @RUntainted HttpServletRequest req, HttpServletResponse res, int errorCode) {
 
         String siteRoot = OpenCms.getSiteManager().matchRequest(req).getSiteRoot();
         CmsSite site = OpenCms.getSiteManager().getSiteForSiteRoot(siteRoot);

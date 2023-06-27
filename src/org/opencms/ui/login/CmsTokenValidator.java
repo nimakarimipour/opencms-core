@@ -37,6 +37,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for dealing with authorization tokens for the 'forgot password' functionality.<p>
@@ -80,7 +81,7 @@ public class CmsTokenValidator {
     public static String createToken(CmsObject cms, CmsUser user, long currentTime) throws CmsException {
 
         String randomKey = RandomStringUtils.randomAlphanumeric(8);
-        String value = CmsEncoder.encodeStringsAsBase64Parameter(Arrays.asList(randomKey, "" + currentTime));
+        @RUntainted String value = CmsEncoder.encodeStringsAsBase64Parameter(Arrays.asList(randomKey, "" + currentTime));
         user.setAdditionalInfo(ADDINFO_KEY, value);
         cms.writeUser(user);
         return CmsEncoder.encodeStringsAsBase64Parameter(Arrays.asList(user.getName(), randomKey));
@@ -109,7 +110,7 @@ public class CmsTokenValidator {
     public String validateToken(CmsObject cms, String token, long maxAgeMillis) throws CmsException {
 
         try {
-            List<String> tokenValues = CmsEncoder.decodeStringsFromBase64Parameter(token);
+            @RUntainted List<@RUntainted String> tokenValues = CmsEncoder.decodeStringsFromBase64Parameter(token);
 
             if (tokenValues.size() != 2) {
                 return "Invalid token";

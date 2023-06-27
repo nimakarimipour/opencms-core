@@ -55,6 +55,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Gallery action used to generate the gallery dialog.<p>
@@ -84,7 +85,7 @@ public class CmsGalleryActionElement extends CmsGwtActionElement {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsGalleryActionElement(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsGalleryActionElement(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         super(context, req, res);
 

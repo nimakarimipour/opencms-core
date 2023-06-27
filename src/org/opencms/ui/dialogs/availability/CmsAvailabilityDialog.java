@@ -77,6 +77,7 @@ import com.vaadin.v7.data.Validator;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Availability dialog.<p>
@@ -486,9 +487,9 @@ public class CmsAvailabilityDialog extends CmsBasicDialog {
      */
     private void changeAvailability(
         CmsResource resource,
-        Date released,
+        @RUntainted Date released,
         boolean resetReleased,
-        Date expired,
+        @RUntainted Date expired,
         boolean resetExpired,
         boolean modifySubresources)
     throws CmsException {
@@ -499,12 +500,12 @@ public class CmsAvailabilityDialog extends CmsBasicDialog {
             cms.getRequestContext().setAttribute(
                 CmsResourceTypeXmlContent.ATTR_REVERSE_AVAILABILITY_MAPPING,
                 Boolean.TRUE);
-            long newDateReleased;
+            @RUntainted long newDateReleased;
             if (resetReleased || (released != null)) {
                 newDateReleased = released != null ? released.getTime() : CmsResource.DATE_RELEASED_DEFAULT;
                 cms.setDateReleased(resource, newDateReleased, modifySubresources);
             }
-            long newDateExpired;
+            @RUntainted long newDateExpired;
             if (resetExpired || (expired != null)) {
                 newDateExpired = expired != null ? expired.getTime() : CmsResource.DATE_EXPIRED_DEFAULT;
                 cms.setDateExpired(resource, newDateExpired, modifySubresources);
@@ -609,7 +610,7 @@ public class CmsAvailabilityDialog extends CmsBasicDialog {
      *
      * @throws CmsException if something goes wrong
      */
-    private void writeProperty(CmsObject cms, CmsResource resource, String propertyName, String propertyValue)
+    private void writeProperty(CmsObject cms, CmsResource resource, @RUntainted String propertyName, String propertyValue)
     throws CmsException {
 
         if (CmsStringUtil.isEmpty(propertyValue)) {

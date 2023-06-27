@@ -48,6 +48,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to validate pointer links.<p>
@@ -67,7 +68,7 @@ public class CmsExternalLinksValidator implements I_CmsScheduledJob {
      *
      * @return false if the url could not be accessed
      */
-    public static boolean checkUrl(CmsObject cms, String check) {
+    public static boolean checkUrl(CmsObject cms, @RUntainted String check) {
 
         // first, create an URI from the string representation
         URI uri = null;
@@ -148,13 +149,13 @@ public class CmsExternalLinksValidator implements I_CmsScheduledJob {
         int pointerId = OpenCms.getResourceManager().getResourceType(
             CmsResourceTypePointer.getStaticTypeName()).getTypeId();
         CmsResourceFilter filter = CmsResourceFilter.ONLY_VISIBLE_NO_DELETED.addRequireType(pointerId);
-        List<CmsResource> links = cms.readResources("/", filter);
+        @RUntainted List<@RUntainted CmsResource> links = cms.readResources("/", filter);
         Iterator<CmsResource> iterator = links.iterator();
         Map<String, String> brokenLinks = new HashMap<String, String>();
 
         for (int i = 1; iterator.hasNext(); i++) {
             CmsFile link = cms.readFile(cms.getSitePath(iterator.next()), filter);
-            String linkUrl = new String(link.getContents());
+            @RUntainted String linkUrl = new String(link.getContents());
 
             // print to the report
             m_report.print(

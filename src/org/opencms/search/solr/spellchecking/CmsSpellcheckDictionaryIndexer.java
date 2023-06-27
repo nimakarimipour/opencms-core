@@ -56,6 +56,7 @@ import org.apache.commons.logging.Log;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrInputDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helping class for manipulating the Solr spellchecker indices.
@@ -129,7 +130,7 @@ public final class CmsSpellcheckDictionaryIndexer {
                 DEFAULT_DICTIONARY_DIRECTORY,
                 CmsResourceFilter.DEFAULT_FILES);
 
-            for (final CmsResource resource : resources) {
+            for (final @RUntainted CmsResource resource : resources) {
                 final String resourceName = resource.getName();
                 // Check if the name of the file matches the dictionary naming scheme
                 String lang = null;
@@ -183,7 +184,7 @@ public final class CmsSpellcheckDictionaryIndexer {
             // List holding all input documents, regardless of language
             final List<SolrInputDocument> documents = new LinkedList<SolrInputDocument>();
 
-            for (CmsResource resource : resources) {
+            for (@RUntainted CmsResource resource : resources) {
                 final String zipFileName = resource.getName();
                 if (zipFileName.matches(ZIP_NAME_REGEX)) {
                     final CmsFile cmsFile = cms.readFile(resource);

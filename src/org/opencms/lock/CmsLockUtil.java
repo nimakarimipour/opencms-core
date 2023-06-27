@@ -45,6 +45,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Locking utility class.<p>
@@ -63,14 +64,14 @@ public final class CmsLockUtil {
         /** Flag, indicating if the file was newly created. */
         private boolean m_new;
         /** The resource that was locked. */
-        private CmsResource m_res;
+        private @RUntainted CmsResource m_res;
 
         /** Private constructor.
          * @param cms the cms user context.
          * @param resource the resource to lock and read.
          * @throws CmsException thrown if locking fails.
          */
-        private LockedFile(CmsObject cms, CmsResource resource)
+        private LockedFile(CmsObject cms, @RUntainted CmsResource resource)
         throws CmsException {
 
             m_lockRecord = CmsLockUtil.ensureLock(cms, resource);

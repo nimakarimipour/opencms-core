@@ -58,6 +58,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Displays the selected app.<p>
@@ -228,7 +229,7 @@ implements ViewChangeListener, I_CmsWindowCloseListener, I_CmsAppView, Handler, 
     /**
      * @see org.opencms.ui.I_CmsAppView#enter(java.lang.String)
      */
-    public void enter(String newState) {
+    public void enter(@RUntainted String newState) {
 
         injectAdditionalStyles();
         if (newState.startsWith(NavigationState.PARAM_SEPARATOR)) {
@@ -249,7 +250,7 @@ implements ViewChangeListener, I_CmsWindowCloseListener, I_CmsAppView, Handler, 
      */
     public void enter(ViewChangeEvent event) {
 
-        String newState = event.getParameters();
+        @RUntainted String newState = event.getParameters();
         enter(newState);
     }
 

@@ -35,6 +35,7 @@ import org.opencms.gwt.shared.CmsCoreData;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * @since 8.0.0
@@ -54,7 +55,7 @@ public class CmsPublishActionElement extends CmsGwtActionElement {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsPublishActionElement(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsPublishActionElement(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         super(context, req, res);
     }

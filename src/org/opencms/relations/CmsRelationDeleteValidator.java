@@ -46,6 +46,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Util class to find broken links in a bundle of resources to be deleted.<p>
@@ -86,7 +87,7 @@ public class CmsRelationDeleteValidator {
     public CmsRelationValidatorInfoEntry getInfoEntry(String resourceName) {
 
         String resName = resourceName;
-        String siteRoot = m_cms.getRequestContext().getSiteRoot();
+        @RUntainted String siteRoot = m_cms.getRequestContext().getSiteRoot();
         String siteName = null;
         if (resName.startsWith(m_cms.getRequestContext().getSiteRoot())) {
             resName = m_cms.getRequestContext().removeSiteRoot(resName);

@@ -48,6 +48,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Scheduled job for time based publishing.<p>
@@ -84,7 +85,7 @@ public class CmsPublishScheduledJob implements I_CmsScheduledJob {
     /**
      * @see org.opencms.scheduler.I_CmsScheduledJob#launch(org.opencms.file.CmsObject, java.util.Map)
      */
-    public synchronized String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+    public synchronized String launch(CmsObject cms, @RUntainted Map<@RUntainted String, @RUntainted String> parameters) throws Exception {
 
         Date jobStart = new Date();
         String finishMessage;
@@ -130,7 +131,7 @@ public class CmsPublishScheduledJob implements I_CmsScheduledJob {
             // resources that have not been themselves published, but have been locked by the scheduled publish dialog
             String unlockList = parameters.get(PARAM_UNLOCK_LIST);
             if (unlockList != null) {
-                for (String idStr : unlockList.split(",")) {
+                for (@RUntainted String idStr : unlockList.split(",")) {
                     try {
                         CmsResource resource = cms.readResource(
                             new CmsUUID(idStr),
@@ -182,7 +183,7 @@ public class CmsPublishScheduledJob implements I_CmsScheduledJob {
             // send publish notification
             if (report.hasWarning() || report.hasError()) {
                 try {
-                    String userName = parameters.get(PARAM_USER);
+                    @RUntainted String userName = parameters.get(PARAM_USER);
                     CmsUser user = cms.readUser(userName);
 
                     CmsPublishNotification notification = new CmsPublishNotification(cms, user, report);

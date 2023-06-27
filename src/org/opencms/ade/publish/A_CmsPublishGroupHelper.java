@@ -40,6 +40,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for splitting a publish list into publish groups.<p>
@@ -87,14 +88,14 @@ public abstract class A_CmsPublishGroupHelper<RESOURCE, GROUP> {
     private static final Log LOG = CmsLog.getLog(A_CmsPublishGroupHelper.class);
 
     /** The current locale. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /**
      * Creates a new publish group helper for a given locale.<p>
      *
      * @param locale the locale to use
      */
-    public A_CmsPublishGroupHelper(Locale locale) {
+    public A_CmsPublishGroupHelper(@RUntainted Locale locale) {
 
         m_locale = locale;
     }

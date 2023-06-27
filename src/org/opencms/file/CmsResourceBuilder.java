@@ -30,6 +30,7 @@ package org.opencms.file;
 import org.opencms.db.CmsResourceState;
 import org.opencms.file.types.I_CmsResourceType;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class allows the developer to build a CmsResource object by filling out individual fields one after the
@@ -56,7 +57,7 @@ public class CmsResourceBuilder {
     private long m_dateReleased;
 
     /** The flags of this resource. */
-    private int m_flags;
+    private @RUntainted int m_flags;
 
     /** Indicates if this resource is a folder or not. */
     private boolean m_isFolder;
@@ -65,13 +66,13 @@ public class CmsResourceBuilder {
     private boolean m_isTouched;
 
     /** The project id where this resource has been last modified in. */
-    private CmsUUID m_projectLastModified;
+    private @RUntainted CmsUUID m_projectLastModified;
 
     /** The id of the resource database record. */
-    private CmsUUID m_resourceId;
+    private @RUntainted CmsUUID m_resourceId;
 
     /** The name of a resource with it's full path from the root folder including the current site root. */
-    private String m_rootPath;
+    private @RUntainted String m_rootPath;
 
     /** The number of links that point to this resource. */
     private int m_siblingCount;
@@ -80,19 +81,19 @@ public class CmsResourceBuilder {
     private CmsResourceState m_state;
 
     /** The id of the structure database record. */
-    private CmsUUID m_structureId;
+    private @RUntainted CmsUUID m_structureId;
 
     /** The m type. */
     private I_CmsResourceType m_type;
 
     /** The id of the user who created this resource. */
-    private CmsUUID m_userCreated;
+    private @RUntainted CmsUUID m_userCreated;
 
     /** The id of the user who modified this resource last. */
-    private CmsUUID m_userLastModified;
+    private @RUntainted CmsUUID m_userLastModified;
 
     /** The version number of this resource. */
-    private int m_version;
+    private @RUntainted int m_version;
 
     /**
      * Builds the resource.
@@ -366,7 +367,7 @@ public class CmsResourceBuilder {
      *
      * @param flags the new flags
      */
-    public void setFlags(int flags) {
+    public void setFlags(@RUntainted int flags) {
 
         m_flags = flags;
     }
@@ -416,7 +417,7 @@ public class CmsResourceBuilder {
      *
      * @param rootPath the new root path
      */
-    public void setRootPath(String rootPath) {
+    public void setRootPath(@RUntainted String rootPath) {
 
         m_rootPath = rootPath;
     }
@@ -446,7 +447,7 @@ public class CmsResourceBuilder {
      *
      * @param structureId the new structure id
      */
-    public void setStructureId(CmsUUID structureId) {
+    public void setStructureId(@RUntainted CmsUUID structureId) {
 
         m_structureId = structureId;
     }
@@ -476,7 +477,7 @@ public class CmsResourceBuilder {
      *
      * @param userCreated the new user created
      */
-    public void setUserCreated(CmsUUID userCreated) {
+    public void setUserCreated(@RUntainted CmsUUID userCreated) {
 
         m_userCreated = userCreated;
     }
@@ -486,7 +487,7 @@ public class CmsResourceBuilder {
      *
      * @param userLastModified the new user last modified
      */
-    public void setUserLastModified(CmsUUID userLastModified) {
+    public void setUserLastModified(@RUntainted CmsUUID userLastModified) {
 
         m_userLastModified = userLastModified;
     }
@@ -496,7 +497,7 @@ public class CmsResourceBuilder {
      *
      * @param version the new version
      */
-    public void setVersion(int version) {
+    public void setVersion(@RUntainted int version) {
 
         m_version = version;
     }

@@ -33,6 +33,7 @@ import org.opencms.ade.galleries.shared.I_CmsGalleryProviderConstants.GalleryTab
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The gallery configuration.<p>
@@ -88,13 +89,13 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     private String m_startFolder;
 
     /** The start site. */
-    private String m_startSite;
+    private @RUntainted String m_startSite;
 
     /** The tab configuration. */
     private CmsGalleryTabConfiguration m_tabConfiguration;
 
     /** The tree token. */
-    private String m_treeToken;
+    private @RUntainted String m_treeToken;
 
     /** The upload folder. */
     private String m_uploadFolder;
@@ -249,7 +250,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     /**
      * @see org.opencms.ade.galleries.shared.I_CmsGalleryConfiguration#getStartSite()
      */
-    public String getStartSite() {
+    public @RUntainted String getStartSite() {
 
         return m_startSite;
     }
@@ -278,7 +279,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     /**
      * @see org.opencms.ade.galleries.shared.I_CmsGalleryConfiguration#getTreeToken()
      */
-    public String getTreeToken() {
+    public @RUntainted String getTreeToken() {
 
         return m_treeToken;
     }
@@ -495,7 +496,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
      *
      * @param startSite the startSite to set
      */
-    public void setStartSite(String startSite) {
+    public void setStartSite(@RUntainted String startSite) {
 
         m_startSite = startSite;
     }

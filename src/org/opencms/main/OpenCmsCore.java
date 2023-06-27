@@ -170,6 +170,7 @@ import org.antlr.stringtemplate.StringTemplate;
 import com.google.common.base.Optional;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gwt.user.client.rpc.core.java.util.LinkedHashMap_CustomFieldSerializer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The internal implementation of the core OpenCms "operating system" functions.<p>
@@ -324,7 +325,7 @@ public final class OpenCmsCore {
     private CmsSearchManager m_searchManager;
 
     /** The security manager to access the database and validate user permissions. */
-    private CmsSecurityManager m_securityManager;
+    private @RUntainted CmsSecurityManager m_securityManager;
 
     /** The session manager. */
     private CmsSessionManager m_sessionManager;
@@ -412,9 +413,9 @@ public final class OpenCmsCore {
      *
      * @return the path for the request
      */
-    public static String getPathInfo(HttpServletRequest req) {
+    public static @RUntainted String getPathInfo(@RUntainted HttpServletRequest req) {
 
-        String path = req.getPathInfo();
+        @RUntainted String path = req.getPathInfo();
         if (path == null) {
             // if the HttpServletRequest#getPathInfo() method does not work properly
             String requestErrorPageAttribute = OpenCms.getSystemInfo().getServletContainerSettings().getRequestErrorPageAttribute();
@@ -1084,7 +1085,7 @@ public final class OpenCmsCore {
      * @throws IOException if user authentication fails
      * @throws CmsException if something goes wrong
      */
-    protected void initCmsContextForUI(HttpServletRequest req, HttpServletResponse res, CmsUIServlet servlet)
+    protected void initCmsContextForUI(@RUntainted HttpServletRequest req, HttpServletResponse res, CmsUIServlet servlet)
     throws IOException, CmsException {
 
         // instantiate CMS context
@@ -1120,7 +1121,7 @@ public final class OpenCmsCore {
      * @see OpenCms#initCmsObject(CmsObject, CmsContextInfo)
      * @see OpenCms#initCmsObject(String)
      */
-    protected CmsObject initCmsObject(CmsObject cms) {
+    protected @RUntainted CmsObject initCmsObject(CmsObject cms) {
 
         CmsRequestContext requestContext = cms.getRequestContext();
         CmsRequestContext context = new CmsRequestContext(
@@ -1165,10 +1166,10 @@ public final class OpenCmsCore {
      * @see OpenCms#initCmsObject(CmsObject, CmsContextInfo)
      * @see OpenCms#initCmsObject(String)
      */
-    protected CmsObject initCmsObject(CmsObject adminCms, CmsContextInfo contextInfo)
+    protected @RUntainted CmsObject initCmsObject(CmsObject adminCms, CmsContextInfo contextInfo)
     throws CmsRoleViolationException, CmsException {
 
-        String userName = contextInfo.getUserName();
+        @RUntainted String userName = contextInfo.getUserName();
 
         if ((adminCms == null) || !m_roleManager.hasRole(adminCms, CmsRole.ROOT_ADMIN)) {
             if (!userName.endsWith(getDefaultUsers().getUserGuest())
@@ -1211,7 +1212,7 @@ public final class OpenCmsCore {
      * @throws IOException if user authentication fails
      * @throws CmsException in case something goes wrong
      */
-    protected CmsObject initCmsObject(HttpServletRequest req, HttpServletResponse res, boolean allowPrivilegedLogin)
+    protected CmsObject initCmsObject(@RUntainted HttpServletRequest req, HttpServletResponse res, boolean allowPrivilegedLogin)
     throws IOException, CmsException {
 
         // first try to restore a stored session
@@ -1228,7 +1229,7 @@ public final class OpenCmsCore {
                 /**
                  * @see org.opencms.security.I_CmsAuthorizationHandler.I_PrivilegedLoginAction#doLogin(javax.servlet.http.HttpServletRequest, java.lang.String)
                  */
-                public CmsObject doLogin(HttpServletRequest request, String principal) throws CmsException {
+                public CmsObject doLogin(HttpServletRequest request, @RUntainted String principal) throws CmsException {
 
                     try {
                         CmsUser user = m_adminCms.readUser(principal);
@@ -1247,7 +1248,7 @@ public final class OpenCmsCore {
                             || request.getRequestURI().startsWith(OpenCms.getSystemInfo().getWorkplaceContext()))
                             && getRoleManager().hasRole(newCms, CmsRole.ELEMENT_AUTHOR)) {
                             LOG.debug("Handling workplace login for user " + principal);
-                            CmsWorkplaceSettings settings = CmsLoginHelper.initSiteAndProject(newCms);
+                            @RUntainted CmsWorkplaceSettings settings = CmsLoginHelper.initSiteAndProject(newCms);
                             request.getSession(true).setAttribute(
                                 CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS,
                                 settings);
@@ -1320,7 +1321,7 @@ public final class OpenCmsCore {
      * @see OpenCms#initCmsObject(String)
      * @see #initCmsObject(CmsObject, CmsContextInfo)
      */
-    protected CmsObject initCmsObject(String user) throws CmsException {
+    protected CmsObject initCmsObject(@RUntainted String user) throws CmsException {
 
         return initCmsObject(null, new CmsContextInfo(user));
     }
@@ -1336,7 +1337,7 @@ public final class OpenCmsCore {
      *
      * @throws CmsException if something goes wrong
      */
-    protected CmsObject initCmsObjectFromSession(HttpServletRequest req) throws CmsException {
+    protected CmsObject initCmsObjectFromSession(@RUntainted HttpServletRequest req) throws CmsException {
 
         String url = req.getRequestURL().toString();
         String p = "[ " + url + " ] ";
@@ -1363,10 +1364,10 @@ public final class OpenCmsCore {
         CmsSite site = getSiteManager().matchRequest(req);
 
         // a user name is found in the session manager, reuse this user information
-        CmsUUID project = sessionInfo.getProject();
+        @RUntainted CmsUUID project = sessionInfo.getProject();
 
         // initialize site root from request
-        String siteroot = sessionInfo.getSiteRoot();
+        @RUntainted String siteroot = sessionInfo.getSiteRoot();
         if (siteroot == null) {
             // not sure if this can actually happen?
             LOG.debug(p + "site root from session info was null, determining site root from current request's host");
@@ -1459,7 +1460,7 @@ public final class OpenCmsCore {
         }
 
         // read server ethernet address (MAC) and init UUID generator
-        String ethernetAddress = configuration.getString("server.ethernet.address", CmsStringUtil.getEthernetAddress());
+        @RUntainted String ethernetAddress = configuration.getString("server.ethernet.address", CmsStringUtil.getEthernetAddress());
         if (CmsLog.INIT.isInfoEnabled()) {
             CmsLog.INIT.info(Messages.get().getBundle().key(Messages.INIT_ETHERNET_ADDRESS_1, ethernetAddress));
         }
@@ -1532,8 +1533,8 @@ public final class OpenCmsCore {
         m_eventManager = configuredEventManager;
 
         // check if the encoding setting is valid
-        String setEncoding = systemConfiguration.getDefaultContentEncoding();
-        String defaultEncoding = CmsEncoder.lookupEncoding(setEncoding, null);
+        @RUntainted String setEncoding = systemConfiguration.getDefaultContentEncoding();
+        @RUntainted String defaultEncoding = CmsEncoder.lookupEncoding(setEncoding, null);
         if (defaultEncoding == null) {
             // we can not start without a valid encoding setting
             throw new CmsInitException(Messages.get().container(Messages.ERR_CRITICAL_INIT_ENCODING_1, setEncoding));
@@ -1606,13 +1607,13 @@ public final class OpenCmsCore {
             vfsConfiguation.getXsdTranslator());
 
         // try to initialize the flex cache
-        CmsFlexCache flexCache = null;
+        @RUntainted CmsFlexCache flexCache = null;
         try {
             if (CmsLog.INIT.isInfoEnabled()) {
                 CmsLog.INIT.info(Messages.get().getBundle().key(Messages.INIT_FLEX_CACHE_STARTING_0));
             }
             // get the flex cache configuration from the SystemConfiguration
-            CmsFlexCacheConfiguration flexCacheConfiguration = systemConfiguration.getCmsFlexCacheConfiguration();
+            @RUntainted CmsFlexCacheConfiguration flexCacheConfiguration = systemConfiguration.getCmsFlexCacheConfiguration();
             getSystemInfo().setDeviceSelector(flexCacheConfiguration.getDeviceSelector());
             // pass configuration to flex cache for initialization
             flexCache = new CmsFlexCache(flexCacheConfiguration);
@@ -1721,7 +1722,7 @@ public final class OpenCmsCore {
         I_CmsSessionStorageProvider sessionStorageProvider = systemConfiguration.getSessionStorageProvider();
 
         // get an Admin cms context object with site root set to "/"
-        CmsObject adminCms;
+        @RUntainted CmsObject adminCms;
         try {
             adminCms = initCmsObject(null, null, getDefaultUsers().getUserAdmin(), (String)null, (String)null);
         } catch (CmsException e) {
@@ -1874,7 +1875,7 @@ public final class OpenCmsCore {
      * @param context configuration of OpenCms from <code>web.xml</code>
      * @throws CmsInitException in case OpenCms can not be initialized
      */
-    protected synchronized void initContext(ServletContext context) throws CmsInitException {
+    protected synchronized void initContext(@RUntainted ServletContext context) throws CmsInitException {
 
         m_gwtServiceContexts = new HashMap<String, CmsGwtServiceContext>();
 
@@ -1973,15 +1974,15 @@ public final class OpenCmsCore {
      *
      * @see OpenCms#initResource(CmsObject, String, HttpServletRequest, HttpServletResponse)
      */
-    protected CmsResource initResource(
+    protected @RUntainted CmsResource initResource(
         CmsObject cms,
-        String resourceName,
-        HttpServletRequest req,
+        @RUntainted String resourceName,
+        @RUntainted HttpServletRequest req,
         HttpServletResponse res)
     throws CmsException {
 
         CmsException tmpException = null;
-        CmsResource resource;
+        @RUntainted CmsResource resource;
         boolean handledSecure = false;
 
         try {
@@ -2090,7 +2091,7 @@ public final class OpenCmsCore {
      *
      * @throws ServletException if something goes wrong
      */
-    protected void invokeBuiltinService(String remainingPath, HttpServletRequest req, HttpServletResponse res)
+    protected void invokeBuiltinService(@RUntainted String remainingPath, @RUntainted HttpServletRequest req, HttpServletResponse res)
     throws ServletException {
 
         try {
@@ -2102,7 +2103,7 @@ public final class OpenCmsCore {
                 boolean isHeartbeatRequest = true;
                 OpenCms.getSessionManager().updateSessionInfo(cms, req, isHeartbeatRequest);
             } else if (remainingPath.startsWith(CmsGwtConstants.UNLOCK_FILE_PREFIX)) {
-                String idStr = remainingPath.substring(CmsGwtConstants.UNLOCK_FILE_PREFIX.length());
+                @RUntainted String idStr = remainingPath.substring(CmsGwtConstants.UNLOCK_FILE_PREFIX.length());
                 try {
                     cms.unlockResource(cms.readResource(new CmsUUID(idStr), CmsResourceFilter.ALL));
                 } catch (Exception e) {
@@ -2125,7 +2126,7 @@ public final class OpenCmsCore {
      */
     protected void invokeGwtService(
         String serviceName,
-        HttpServletRequest req,
+        @RUntainted HttpServletRequest req,
         HttpServletResponse res,
         ServletConfig servletConfig) {
 
@@ -2211,9 +2212,9 @@ public final class OpenCmsCore {
      * @param req the current servlet request
      * @param res the current servlet response
      */
-    protected void showResource(HttpServletRequest req, HttpServletResponse res) {
+    protected void showResource(@RUntainted HttpServletRequest req, HttpServletResponse res) {
 
-        CmsObject cms = null;
+        @RUntainted CmsObject cms = null;
         try {
             cms = initCmsObject(req, res);
             Map<String, String> logInfo = new HashMap<>();
@@ -2235,7 +2236,7 @@ public final class OpenCmsCore {
                     if (OpenCms.getStaticExportManager().isExportLink(cms, uri)) {
                         // if we used the request's query string for getRfsName, clients could cause an unlimited number
                         // of files to be exported just by varying the request parameters!
-                        String url = m_linkManager.getOnlineLink(cms, uri);
+                        @RUntainted String url = m_linkManager.getOnlineLink(cms, uri);
                         res.sendRedirect(url);
                         return;
                     }
@@ -2272,9 +2273,9 @@ public final class OpenCmsCore {
                 // a resource init handler may use its own authentication, but return a resource to be loaded instead of handling the complete request processing by itself.
                 // For this case, a request context attribute is used to pass  the CmsObject that should be used for loading the resource.
 
-                Object alternativeCmsObject = cms.getRequestContext().removeAttribute(
+                @RUntainted Object alternativeCmsObject = cms.getRequestContext().removeAttribute(
                     I_CmsResourceInit.ATTR_ALTERNATIVE_CMS_OBJECT);
-                CmsObject cmsForLoad = cms;
+                @RUntainted CmsObject cmsForLoad = cms;
                 if (alternativeCmsObject instanceof CmsObject) {
                     // we know it's not null at this point
                     cmsForLoad = (CmsObject)alternativeCmsObject;
@@ -2524,7 +2525,7 @@ public final class OpenCmsCore {
      *
      * @throws CmsException if something goes wrong
      */
-    protected CmsObject updateContext(HttpServletRequest request, CmsObject cms) throws CmsException {
+    protected CmsObject updateContext(@RUntainted HttpServletRequest request, CmsObject cms) throws CmsException {
 
         // get the right site for the request
         String siteRoot = null;
@@ -2596,7 +2597,7 @@ public final class OpenCmsCore {
      * @throws CmsInitException in case OpenCms can not be initialized
      * @return the initialized OpenCmsCore
      */
-    protected OpenCmsCore upgradeRunlevel(ServletContext context) throws CmsInitException {
+    protected OpenCmsCore upgradeRunlevel(@RUntainted ServletContext context) throws CmsInitException {
 
         synchronized (LOCK) {
             if ((m_instance != null) && (getRunLevel() >= OpenCms.RUNLEVEL_4_SERVLET_ACCESS)) {
@@ -2789,7 +2790,7 @@ public final class OpenCmsCore {
      * @param res the client response
      * @param t the exception that occurred
      */
-    private void errorHandling(CmsObject cms, HttpServletRequest req, HttpServletResponse res, Throwable t) {
+    private void errorHandling(CmsObject cms, @RUntainted HttpServletRequest req, HttpServletResponse res, @RUntainted Throwable t) {
 
         // remove the controller attribute from the request
         CmsFlexController.removeController(req);
@@ -2915,7 +2916,7 @@ public final class OpenCmsCore {
      *
      * @throws IOException in case of IO errors
      */
-    private String getLoginFormURL(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    private @RUntainted String getLoginFormURL(@RUntainted HttpServletRequest req, HttpServletResponse res) throws IOException {
 
         CmsHttpAuthenticationSettings httpAuthenticationSettings = OpenCms.getSystemInfo().getHttpAuthenticationSettings();
         String loginFormURL = null;
@@ -2988,7 +2989,7 @@ public final class OpenCmsCore {
             loginFormURL = httpAuthenticationSettings.getFormBasedHttpAuthenticationUri();
         }
 
-        String callbackURL = CmsRequestUtil.encodeParamsWithUri(path, req);
+        @RUntainted String callbackURL = CmsRequestUtil.encodeParamsWithUri(path, req);
         if (loginFormURL != null) {
             if (!loginFormURL.startsWith("http")) {
                 loginFormURL = m_linkManager.substituteLink(adminCms, loginFormURL, null, true);
@@ -3020,7 +3021,7 @@ public final class OpenCmsCore {
         HttpServletRequest req,
         HttpServletResponse res,
         CmsResource resource,
-        String resourceName)
+        @RUntainted String resourceName)
     throws CmsException, CmsVfsResourceNotFoundException {
 
         // check online project
@@ -3067,9 +3068,9 @@ public final class OpenCmsCore {
                             Messages.get().container(Messages.ERR_REQUEST_SECURE_RESOURCE_0));
                     } else {
                         // redirect
-                        String target = OpenCms.getLinkManager().getOnlineLink(cms, resourceName);
+                        @RUntainted String target = OpenCms.getLinkManager().getOnlineLink(cms, resourceName);
                         if (!target.toLowerCase().startsWith(secureUrl.toLowerCase())) {
-                            Optional<String> targetWithReplacedHost = CmsStringUtil.replacePrefix(
+                            @RUntainted Optional<@RUntainted String> targetWithReplacedHost = CmsStringUtil.replacePrefix(
                                 target,
                                 site.getSiteMatcher().getUrl(),
                                 secureUrl,
@@ -3111,20 +3112,20 @@ public final class OpenCmsCore {
      *
      * @throws CmsException if something goes wrong
      */
-    private CmsObject initCmsObject(CmsContextInfo contextInfo) throws CmsException {
+    private @RUntainted CmsObject initCmsObject(CmsContextInfo contextInfo) throws CmsException {
 
-        CmsUser user = contextInfo.getUser();
+        @RUntainted CmsUser user = contextInfo.getUser();
         if (user == null) {
             user = m_securityManager.readUser(null, contextInfo.getUserName());
         }
 
-        CmsProject project = contextInfo.getProject();
+        @RUntainted CmsProject project = contextInfo.getProject();
         if (project == null) {
             project = m_securityManager.readProject(contextInfo.getProjectName());
         }
 
         // first create the request context
-        CmsRequestContext context = new CmsRequestContext(
+        @RUntainted CmsRequestContext context = new CmsRequestContext(
             user,
             project,
             contextInfo.getRequestedUri(),
@@ -3158,12 +3159,12 @@ public final class OpenCmsCore {
      *
      * @throws CmsException in case something goes wrong
      */
-    private CmsObject initCmsObject(
-        HttpServletRequest request,
-        CmsUser user,
-        String siteRoot,
-        CmsUUID projectId,
-        String ouFqn)
+    private @RUntainted CmsObject initCmsObject(
+        @RUntainted HttpServletRequest request,
+        @RUntainted CmsUser user,
+        @RUntainted String siteRoot,
+        @RUntainted CmsUUID projectId,
+        @RUntainted String ouFqn)
     throws CmsException {
 
         CmsProject project = null;
@@ -3176,12 +3177,12 @@ public final class OpenCmsCore {
         }
 
         // get requested resource uri and remote IP address, as well as time for "time warp" browsing
-        String requestedResource = null;
+        @RUntainted String requestedResource = null;
         Long requestTimeAttr = null;
-        String remoteAddr;
+        @RUntainted String remoteAddr;
         CmsSiteMatcher requestMatcher;
 
-        boolean isSecureRequest = false;
+        @RUntainted boolean isSecureRequest = false;
         if (request != null) {
             // get path info from request
             requestedResource = getPathInfo(request);
@@ -3233,7 +3234,7 @@ public final class OpenCmsCore {
                 // GWT RPC or workplace servlet call, always keep the request encoding and use the default locale
                 i18nInfo = new CmsI18nInfo(CmsLocaleManager.getDefaultLocale(), request.getCharacterEncoding());
             } else {
-                String resourceName;
+                @RUntainted String resourceName;
                 if (requestedResource.startsWith(CmsWorkplace.VFS_PATH_SYSTEM)) {
                     // add site root only if resource name does not start with "/system"
                     resourceName = requestedResource;
@@ -3304,7 +3305,7 @@ public final class OpenCmsCore {
      * @throws IOException if user authentication fails
      * @throws CmsException in case something goes wrong
      */
-    private CmsObject initCmsObject(HttpServletRequest req, HttpServletResponse res) throws IOException, CmsException {
+    private @RUntainted CmsObject initCmsObject(@RUntainted HttpServletRequest req, HttpServletResponse res) throws IOException, CmsException {
 
         return initCmsObject(req, res, true);
     }
@@ -3327,12 +3328,12 @@ public final class OpenCmsCore {
      *
      * @throws CmsException in case the CmsObject could not be initialized
      */
-    private CmsObject initCmsObject(
-        HttpServletRequest req,
+    private @RUntainted CmsObject initCmsObject(
+        @RUntainted HttpServletRequest req,
         HttpServletResponse res,
-        String user,
+        @RUntainted String user,
         String password,
-        String ouFqn)
+        @RUntainted String ouFqn)
     throws CmsException {
 
         String siteroot = null;
@@ -3347,7 +3348,7 @@ public final class OpenCmsCore {
         if (siteroot == null) {
             siteroot = "/";
         }
-        CmsObject cms = initCmsObject(
+        @RUntainted CmsObject cms = initCmsObject(
             req,
             m_securityManager.readUser(null, user),
             siteroot,

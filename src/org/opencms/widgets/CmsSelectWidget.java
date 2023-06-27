@@ -32,6 +32,7 @@ import org.opencms.util.CmsMacroResolver;
 
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget for a standard HTML form select box.<p>
@@ -141,7 +142,7 @@ public class CmsSelectWidget extends A_CmsSelectWidget {
     public String getWidgetStringValue(CmsObject cms, I_CmsWidgetDialog widgetDialog, I_CmsWidgetParameter param) {
 
         String result = super.getWidgetStringValue(cms, widgetDialog, param);
-        String configuration = CmsMacroResolver.resolveMacros(getConfiguration(), cms, widgetDialog.getMessages());
+        @RUntainted String configuration = CmsMacroResolver.resolveMacros(getConfiguration(), cms, widgetDialog.getMessages());
         if (configuration == null) {
             configuration = param.getDefault(cms);
         }

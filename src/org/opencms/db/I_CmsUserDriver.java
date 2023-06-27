@@ -41,6 +41,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Definitions of all required user driver methods. <p>
@@ -113,11 +114,11 @@ public interface I_CmsUserDriver extends I_CmsDriver {
      */
     CmsGroup createGroup(
         CmsDbContext dbc,
-        CmsUUID groupId,
-        String groupFqn,
+        @RUntainted CmsUUID groupId,
+        @RUntainted String groupFqn,
         String description,
-        int flags,
-        String parentGroupName) throws CmsDataAccessException;
+        @RUntainted int flags,
+        @RUntainted String parentGroupName) throws CmsDataAccessException;
 
     /**
      * Creates a new organizational unit.<p>
@@ -136,7 +137,7 @@ public interface I_CmsUserDriver extends I_CmsDriver {
      */
     CmsOrganizationalUnit createOrganizationalUnit(
         CmsDbContext dbc,
-        String name,
+        @RUntainted String name,
         String description,
         int flags,
         CmsOrganizationalUnit parent,
@@ -170,8 +171,8 @@ public interface I_CmsUserDriver extends I_CmsDriver {
      */
     CmsUser createUser(
         CmsDbContext dbc,
-        CmsUUID id,
-        String userFqn,
+        @RUntainted CmsUUID id,
+        @RUntainted String userFqn,
         String password,
         String firstname,
         String lastname,
@@ -202,7 +203,7 @@ public interface I_CmsUserDriver extends I_CmsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    void deleteGroup(CmsDbContext dbc, String groupFqn) throws CmsDataAccessException;
+    void deleteGroup(CmsDbContext dbc, @RUntainted String groupFqn) throws CmsDataAccessException;
 
     /**
      * Deletes an organizational unit.<p>
@@ -225,7 +226,7 @@ public interface I_CmsUserDriver extends I_CmsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    void deleteUser(CmsDbContext dbc, String userFqn) throws CmsDataAccessException;
+    void deleteUser(CmsDbContext dbc, @RUntainted String userFqn) throws CmsDataAccessException;
 
     /**
      * Deletes the user additional information table.<p>
@@ -265,7 +266,7 @@ public interface I_CmsUserDriver extends I_CmsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    boolean existsGroup(CmsDbContext dbc, String groupFqn) throws CmsDataAccessException;
+    boolean existsGroup(CmsDbContext dbc, @RUntainted String groupFqn) throws CmsDataAccessException;
 
     /**
      * Tests if a user with the specified name exists.<p>
@@ -276,7 +277,7 @@ public interface I_CmsUserDriver extends I_CmsDriver {
      * @return true, if a user with the specified name exists, false otherwise
      * @throws CmsDataAccessException if something goes wrong
      */
-    boolean existsUser(CmsDbContext dbc, String userFqn) throws CmsDataAccessException;
+    boolean existsUser(CmsDbContext dbc, @RUntainted String userFqn) throws CmsDataAccessException;
 
     /**
      * Initializes the default organizational units, users and groups.<p>
@@ -466,8 +467,8 @@ public interface I_CmsUserDriver extends I_CmsDriver {
     CmsAccessControlEntry readAccessControlEntry(
         CmsDbContext dbc,
         CmsProject project,
-        CmsUUID resource,
-        CmsUUID principal) throws CmsDataAccessException;
+        @RUntainted CmsUUID resource,
+        @RUntainted CmsUUID principal) throws CmsDataAccessException;
 
     /**
      * Reads all child groups of a group.<p>
@@ -479,7 +480,7 @@ public interface I_CmsUserDriver extends I_CmsDriver {
      *
      * @throws CmsDataAccessException if operation was not succesful
      */
-    List<CmsGroup> readChildGroups(CmsDbContext dbc, String groupFqn) throws CmsDataAccessException;
+    List<CmsGroup> readChildGroups(CmsDbContext dbc, @RUntainted String groupFqn) throws CmsDataAccessException;
 
     /**
      * Reads a group based on the group id.<p>
@@ -491,7 +492,7 @@ public interface I_CmsUserDriver extends I_CmsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsGroup readGroup(CmsDbContext dbc, CmsUUID groupId) throws CmsDataAccessException;
+    CmsGroup readGroup(CmsDbContext dbc, @RUntainted CmsUUID groupId) throws CmsDataAccessException;
 
     /**
      * Reads a group based on the group name.<p>
@@ -503,7 +504,7 @@ public interface I_CmsUserDriver extends I_CmsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsGroup readGroup(CmsDbContext dbc, String groupFqn) throws CmsDataAccessException;
+    CmsGroup readGroup(CmsDbContext dbc, @RUntainted String groupFqn) throws CmsDataAccessException;
 
     /**
      * Reads all groups the given user is a member in.<p>
@@ -598,7 +599,7 @@ public interface I_CmsUserDriver extends I_CmsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsOrganizationalUnit readOrganizationalUnit(CmsDbContext dbc, String ouFqn) throws CmsDataAccessException;
+    CmsOrganizationalUnit readOrganizationalUnit(CmsDbContext dbc, @RUntainted String ouFqn) throws CmsDataAccessException;
 
     /**
      * Reads a user based on the user id.<p>
@@ -610,7 +611,7 @@ public interface I_CmsUserDriver extends I_CmsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsUser readUser(CmsDbContext dbc, CmsUUID id) throws CmsDataAccessException;
+    CmsUser readUser(CmsDbContext dbc, @RUntainted CmsUUID id) throws CmsDataAccessException;
 
     /**
      * Reads a user based in the user fully qualified name.<p>
@@ -622,7 +623,7 @@ public interface I_CmsUserDriver extends I_CmsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsUser readUser(CmsDbContext dbc, String userFqn) throws CmsDataAccessException;
+    CmsUser readUser(CmsDbContext dbc, @RUntainted String userFqn) throws CmsDataAccessException;
 
     /**
      * Reads a user from the database, only if the password is correct.<p>
@@ -637,7 +638,7 @@ public interface I_CmsUserDriver extends I_CmsDriver {
      * @throws CmsDataAccessException if something goes wrong
      * @throws CmsPasswordEncryptionException if the password of the user could not be encrypted
      */
-    CmsUser readUser(CmsDbContext dbc, String userFqn, String password, String remoteAddress)
+    CmsUser readUser(CmsDbContext dbc, @RUntainted String userFqn, String password, String remoteAddress)
     throws CmsDataAccessException, CmsPasswordEncryptionException;
 
     /**
@@ -663,7 +664,7 @@ public interface I_CmsUserDriver extends I_CmsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    List<CmsUser> readUsersOfGroup(CmsDbContext dbc, String groupFqn, boolean includeOtherOuUsers)
+    List<CmsUser> readUsersOfGroup(CmsDbContext dbc, @RUntainted String groupFqn, boolean includeOtherOuUsers)
     throws CmsDataAccessException;
 
     /**
@@ -903,7 +904,7 @@ public interface I_CmsUserDriver extends I_CmsDriver {
      * @throws CmsDataAccessException if something goes wrong
      * @throws CmsPasswordEncryptionException if the (new) password could not be encrypted
      */
-    void writePassword(CmsDbContext dbc, String userFqn, String oldPassword, String newPassword)
+    void writePassword(CmsDbContext dbc, @RUntainted String userFqn, String oldPassword, String newPassword)
     throws CmsDataAccessException, CmsPasswordEncryptionException;
 
     /**
@@ -931,6 +932,6 @@ public interface I_CmsUserDriver extends I_CmsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    void writeUserInfo(CmsDbContext dbc, CmsUUID userId, String key, Object value) throws CmsDataAccessException;
+    void writeUserInfo(CmsDbContext dbc, @RUntainted CmsUUID userId, String key, Object value) throws CmsDataAccessException;
 
 }

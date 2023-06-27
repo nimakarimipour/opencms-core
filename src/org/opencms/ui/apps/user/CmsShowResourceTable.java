@@ -60,6 +60,7 @@ import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table with resources for which a given principal has permissions.<p>
@@ -89,7 +90,7 @@ public class CmsShowResourceTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getTitle(java.util.Locale)
          */
-        public String getTitle(Locale locale) {
+        public String getTitle(@RUntainted Locale locale) {
 
             return Messages.get().getBundle(locale).key(Messages.GUI_EXPLORER_TITLE_0);
         }
@@ -147,7 +148,7 @@ public class CmsShowResourceTable extends Table {
      * @param principalID id of principal
      * @param type of dialog
      */
-    public CmsShowResourceTable(CmsObject cms, CmsUUID principalID, DialogType type) {
+    public CmsShowResourceTable(CmsObject cms, @RUntainted CmsUUID principalID, DialogType type) {
 
         //Set menu
         m_menu = new CmsContextMenu();
@@ -248,7 +249,7 @@ public class CmsShowResourceTable extends Table {
      * @param rootPath to be opened
      * @param uuid to be selected
      */
-    void openExplorerForParent(String rootPath, String uuid) {
+    void openExplorerForParent(@RUntainted String rootPath, String uuid) {
 
         String parentPath = CmsResource.getParentFolder(rootPath);
 
@@ -301,7 +302,7 @@ public class CmsShowResourceTable extends Table {
      * @return Principal
      * @throws CmsException exception
      */
-    private CmsPrincipal getPrincipal(CmsObject cms, DialogType type, CmsUUID id) throws CmsException {
+    private CmsPrincipal getPrincipal(CmsObject cms, DialogType type, @RUntainted CmsUUID id) throws CmsException {
 
         if (type.equals(DialogType.Group)) {
             return cms.readGroup(id);
@@ -320,7 +321,7 @@ public class CmsShowResourceTable extends Table {
      * @return Set of CmsResource
      * @throws CmsException if resources can not be read
      */
-    private Set<CmsResource> getResourcesFromPrincipal(CmsObject cms, CmsUUID id) throws CmsException {
+    private Set<CmsResource> getResourcesFromPrincipal(CmsObject cms, @RUntainted CmsUUID id) throws CmsException {
 
         return cms.getResourcesForPrincipal(id, null, false);
     }

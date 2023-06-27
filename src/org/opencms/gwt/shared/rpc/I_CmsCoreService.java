@@ -47,6 +47,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides general core services.<p>
@@ -102,7 +103,7 @@ public interface I_CmsCoreService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    List<CmsCategoryTreeEntry> getCategories(String fromCatPath, boolean includeSubCats, String refVfsPath)
+    List<CmsCategoryTreeEntry> getCategories(String fromCatPath, boolean includeSubCats, @RUntainted String refVfsPath)
     throws CmsRpcException;
 
     /**
@@ -121,7 +122,7 @@ public interface I_CmsCoreService extends RemoteService {
     List<CmsCategoryTreeEntry> getCategories(
         String fromCatPath,
         boolean includeSubCats,
-        String refVfsPath,
+        @RUntainted String refVfsPath,
         boolean withRepositories)
     throws CmsRpcException;
 
@@ -134,7 +135,7 @@ public interface I_CmsCoreService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    List<CmsCategoryTreeEntry> getCategoriesForSitePath(String sitePath) throws CmsRpcException;
+    List<CmsCategoryTreeEntry> getCategoriesForSitePath(@RUntainted String sitePath) throws CmsRpcException;
 
     /**
      * Returns the category information for the given resource.<p>
@@ -145,7 +146,7 @@ public interface I_CmsCoreService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsResourceCategoryInfo getCategoryInfo(CmsUUID structureId) throws CmsRpcException;
+    CmsResourceCategoryInfo getCategoryInfo(@RUntainted CmsUUID structureId) throws CmsRpcException;
 
     /**
      * Returns the context menu entries for the given URI.<p>
@@ -157,7 +158,7 @@ public interface I_CmsCoreService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    List<CmsContextMenuEntryBean> getContextMenuEntries(CmsUUID structureId, AdeContext context) throws CmsRpcException;
+    List<CmsContextMenuEntryBean> getContextMenuEntries(@RUntainted CmsUUID structureId, AdeContext context) throws CmsRpcException;
 
     /**
      * Given a return code, returns the link to the page which corresponds to the return code.<p>
@@ -168,7 +169,7 @@ public interface I_CmsCoreService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsReturnLinkInfo getLinkForReturnCode(String returnCode) throws CmsRpcException;
+    CmsReturnLinkInfo getLinkForReturnCode(@RUntainted String returnCode) throws CmsRpcException;
 
     /**
      * Gets the resource state for a resource with a given path.<p>
@@ -179,7 +180,7 @@ public interface I_CmsCoreService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsResourceState getResourceState(CmsUUID structureId) throws CmsRpcException;
+    CmsResourceState getResourceState(@RUntainted CmsUUID structureId) throws CmsRpcException;
 
     /**
      * Returns a unique filename for the given base name and the parent folder.<p>
@@ -191,7 +192,7 @@ public interface I_CmsCoreService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    String getUniqueFileName(String parentFolder, String baseName) throws CmsRpcException;
+    String getUniqueFileName(String parentFolder, @RUntainted String baseName) throws CmsRpcException;
 
     /**
      * Returns the user info.<p>
@@ -213,7 +214,7 @@ public interface I_CmsCoreService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    String getWorkplaceLink(CmsUUID structureId) throws CmsRpcException;
+    String getWorkplaceLink(@RUntainted CmsUUID structureId) throws CmsRpcException;
 
     /**
      * Gets the workplace link for the given path.
@@ -222,7 +223,7 @@ public interface I_CmsCoreService extends RemoteService {
      * @return the workplace link for the path
      * @throws CmsRpcException if something goes wrong
      */
-    String getWorkplaceLinkForPath(String path) throws CmsRpcException;
+    String getWorkplaceLinkForPath(@RUntainted String path) throws CmsRpcException;
 
     /**
      * Loads the user settings for the current user.<p>
@@ -243,7 +244,7 @@ public interface I_CmsCoreService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    String lockIfExists(String sitePath) throws CmsRpcException;
+    String lockIfExists(@RUntainted String sitePath) throws CmsRpcException;
 
     /**
      * Locks the given resource with a temporary lock if it exists.<p>
@@ -256,7 +257,7 @@ public interface I_CmsCoreService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    String lockIfExists(String sitePath, long loadTime) throws CmsRpcException;
+    String lockIfExists(@RUntainted String sitePath, long loadTime) throws CmsRpcException;
 
     /**
      * Locks the given resource with a temporary lock.<p>
@@ -267,7 +268,7 @@ public interface I_CmsCoreService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    String lockTemp(CmsUUID structureId) throws CmsRpcException;
+    String lockTemp(@RUntainted CmsUUID structureId) throws CmsRpcException;
 
     /**
      * Locks the given resource with a temporary lock.<p>
@@ -280,7 +281,7 @@ public interface I_CmsCoreService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    String lockTemp(CmsUUID structureId, long loadTime) throws CmsRpcException;
+    String lockTemp(@RUntainted CmsUUID structureId, long loadTime) throws CmsRpcException;
 
     /**
      * Generates core data for prefetching in the host page.<p>
@@ -309,7 +310,7 @@ public interface I_CmsCoreService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    void setResourceCategories(CmsUUID structureId, List<String> categories) throws CmsRpcException;
+    void setResourceCategories(@RUntainted CmsUUID structureId, List<String> categories) throws CmsRpcException;
 
     /**
      * Sets the show editor help flag.<p>
@@ -338,7 +339,7 @@ public interface I_CmsCoreService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    String unlock(CmsUUID structureId) throws CmsRpcException;
+    String unlock(@RUntainted CmsUUID structureId) throws CmsRpcException;
 
     /**
      * Unlocks the given resource.<p>
@@ -375,7 +376,7 @@ public interface I_CmsCoreService extends RemoteService {
      * @throws CmsRpcException if the RPC call goes wrong
      */
     Map<String, CmsValidationResult> validate(
-        String formValidatorClass,
+        @RUntainted String formValidatorClass,
         Map<String, CmsValidationQuery> validationQueries,
         Map<String, String> values,
         String config)

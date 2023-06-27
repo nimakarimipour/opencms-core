@@ -49,6 +49,7 @@ import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the dialog to edit or create a CmsGroup.<p>
@@ -74,7 +75,7 @@ public class CmsGroupEditDialog extends CmsBasicDialog {
     private CmsObject m_cms;
 
     /**vaadin component.*/
-    private TextArea m_description;
+    private @RUntainted TextArea m_description;
 
     /**vaadin component.*/
     private CheckBox m_enabled;
@@ -86,10 +87,10 @@ public class CmsGroupEditDialog extends CmsBasicDialog {
     private CmsGroupEditParameters m_groupEditParameters = new CmsGroupEditParameters();
 
     /**vaadin component.*/
-    private TextField m_name;
+    private @RUntainted TextField m_name;
 
     /**vaadin component.*/
-    private Label m_ou;
+    private @RUntainted Label m_ou;
 
     /**
      * public constructor.<p>
@@ -99,7 +100,7 @@ public class CmsGroupEditDialog extends CmsBasicDialog {
      * @param window window holding the dialog
      * @param app the app instance
      */
-    public CmsGroupEditDialog(CmsObject cms, CmsUUID groupId, final Window window, final CmsAccountsApp app) {
+    public CmsGroupEditDialog(CmsObject cms, @RUntainted CmsUUID groupId, final Window window, final CmsAccountsApp app) {
 
         CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
         m_cms = cms;
@@ -192,7 +193,7 @@ public class CmsGroupEditDialog extends CmsBasicDialog {
 
         if (m_group == null) {
             m_group = new CmsGroup();
-            String ou = m_ou.getValue();
+            @RUntainted String ou = m_ou.getValue();
             if (!ou.endsWith("/")) {
                 ou += "/";
             }

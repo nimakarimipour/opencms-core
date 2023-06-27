@@ -36,6 +36,7 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The edit page action. Available for container pages.<p>
@@ -75,7 +76,7 @@ public class CmsEditPageAction extends CmsDisplayAction implements I_CmsADEActio
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
      */
-    public String getJspPath() {
+    public @RUntainted String getJspPath() {
 
         return null;
     }

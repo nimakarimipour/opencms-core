@@ -36,6 +36,7 @@ import java.util.Locale;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Editor for the user quick launch configuration.<p>
@@ -112,7 +113,7 @@ public class CmsQuickLaunchEditorConfiguration extends A_CmsWorkplaceAppConfigur
      * @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale)
      */
     @Override
-    public String getHelpText(Locale locale) {
+    public String getHelpText(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.GUI_QUICK_LAUNCH_EDITOR_HELP_0);
     }
@@ -137,7 +138,7 @@ public class CmsQuickLaunchEditorConfiguration extends A_CmsWorkplaceAppConfigur
      * @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getName(java.util.Locale)
      */
     @Override
-    public String getName(Locale locale) {
+    public String getName(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.GUI_QUICK_LAUNCH_EDITOR_TITLE_0);
     }

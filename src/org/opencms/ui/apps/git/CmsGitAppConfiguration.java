@@ -43,6 +43,7 @@ import java.util.Locale;
 
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * App configuration for the Git checkin tool.<p>
@@ -93,7 +94,7 @@ public class CmsGitAppConfiguration extends A_CmsWorkplaceAppConfiguration {
      * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale)
      */
     @Override
-    public String getHelpText(Locale locale) {
+    public String getHelpText(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.GUI_GIT_APP_HELP_TEXT_0);
     }
@@ -118,7 +119,7 @@ public class CmsGitAppConfiguration extends A_CmsWorkplaceAppConfiguration {
      * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale)
      */
     @Override
-    public String getName(Locale locale) {
+    public String getName(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.GUI_GIT_APP_NAME_0);
     }

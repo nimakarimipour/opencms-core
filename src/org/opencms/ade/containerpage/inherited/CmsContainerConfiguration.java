@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean representing a single configuration entry for the inherited container configuration.<p>
@@ -46,31 +47,31 @@ import java.util.Map;
 public class CmsContainerConfiguration {
 
     /** Node name. **/
-    public static final String N_CONFIGURATION = "Configuration";
+    public static final @RUntainted String N_CONFIGURATION = "Configuration";
 
     /** Node name. **/
-    public static final String N_ELEMENT = "Element";
+    public static final @RUntainted String N_ELEMENT = "Element";
 
     /** Node name. **/
-    public static final String N_HIDDEN = "Hidden";
+    public static final @RUntainted String N_HIDDEN = "Hidden";
 
     /** Node name. **/
-    public static final String N_KEY = "Key";
+    public static final @RUntainted String N_KEY = "Key";
 
     /** Node name. **/
-    public static final String N_NAME = "Name";
+    public static final @RUntainted String N_NAME = "Name";
 
     /** Node name. **/
-    public static final String N_NEWELEMENT = "NewElement";
+    public static final @RUntainted String N_NEWELEMENT = "NewElement";
 
     /** Node name. **/
-    public static final String N_ORDERKEY = "OrderKey";
+    public static final @RUntainted String N_ORDERKEY = "OrderKey";
 
     /** Node name. **/
-    public static final String N_URI = "Uri";
+    public static final @RUntainted String N_URI = "Uri";
 
     /** Node name. **/
-    public static final String N_VISIBLE = "Visible";
+    public static final @RUntainted String N_VISIBLE = "Visible";
 
     /** A map containing the new elements. */
     private Map<String, CmsContainerElementBean> m_newElements;

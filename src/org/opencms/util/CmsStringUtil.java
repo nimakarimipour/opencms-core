@@ -68,6 +68,7 @@ import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides String utility functions.<p>
@@ -279,12 +280,12 @@ public final class CmsStringUtil {
      *
      * @throws CmsIllegalArgumentException if the check fails (generated from the given key and bundle)
      */
-    public static void checkName(String name, String constraints, String key, I_CmsMessageBundle bundle)
+    public static void checkName(@RUntainted String name, @RUntainted String constraints, @RUntainted String key, I_CmsMessageBundle bundle)
     throws CmsIllegalArgumentException {
 
         int l = name.length();
         for (int i = 0; i < l; i++) {
-            char c = name.charAt(i);
+            @RUntainted char c = name.charAt(i);
             if (((c < 'a') || (c > 'z'))
                 && ((c < '0') || (c > '9'))
                 && ((c < 'A') || (c > 'Z'))
@@ -304,7 +305,7 @@ public final class CmsStringUtil {
      *
      * @return the string representation for the given collection
      */
-    public static String collectionAsString(Collection<?> collection, String separator) {
+    public static @RUntainted String collectionAsString(Collection<?> collection, String separator) {
 
         StringBuffer string = new StringBuffer(128);
         Iterator<?> it = collection.iterator();
@@ -379,7 +380,7 @@ public final class CmsStringUtil {
      *
      * @return the escaped String
      */
-    public static String escapeHtml(String source) {
+    public static @RUntainted String escapeHtml(@RUntainted String source) {
 
         if (source == null) {
             return null;
@@ -403,7 +404,7 @@ public final class CmsStringUtil {
      *
      * @return the escaped String
      */
-    public static String escapeJavaScript(String source) {
+    public static @RUntainted String escapeJavaScript(@RUntainted String source) {
 
         source = CmsStringUtil.substitute(source, "\\", "\\\\");
         source = CmsStringUtil.substitute(source, "\"", "\\\"");
@@ -428,12 +429,12 @@ public final class CmsStringUtil {
      *
      * @return the escaped string
      */
-    public static String escapePattern(String source) {
+    public static @RUntainted String escapePattern(@RUntainted String source) {
 
         if (source == null) {
             return null;
         }
-        StringBuffer result = new StringBuffer(source.length() * 2);
+        @RUntainted StringBuffer result = new StringBuffer(source.length() * 2);
         for (int i = 0; i < source.length(); ++i) {
             char ch = source.charAt(i);
             switch (ch) {
@@ -671,7 +672,7 @@ public final class CmsStringUtil {
      *
      * @return the formatted runtime
      */
-    public static String formatRuntime(long runtime) {
+    public static @RUntainted String formatRuntime(long runtime) {
 
         long seconds = (runtime / SECONDS) % 60;
         long minutes = (runtime / MINUTES) % 60;
@@ -775,7 +776,7 @@ public final class CmsStringUtil {
      *
      * @return the Ethernet-Address
      */
-    public static String getEthernetAddress() {
+    public static @RUntainted String getEthernetAddress() {
 
         try {
             InetAddress ip = InetAddress.getLocalHost();
@@ -923,7 +924,7 @@ public final class CmsStringUtil {
      *
      * @return the locale suffix if found, <code>null</code> otherwise
      */
-    public static String getLocaleSuffixForName(String name) {
+    public static @RUntainted String getLocaleSuffixForName(String name) {
 
         Matcher matcher = PATTERN_LOCALE_SUFFIX.matcher(name);
         if (matcher.find()) {
@@ -1207,9 +1208,9 @@ public final class CmsStringUtil {
      *
      * @return the joined path
      */
-    public static String joinPaths(String... paths) {
+    public static @RUntainted String joinPaths(String... paths) {
 
-        StringBuffer result = new StringBuffer(paths.length * 32);
+        @RUntainted StringBuffer result = new StringBuffer(paths.length * 32);
         boolean noSlash = true;
         for (int i = 0; i < paths.length; i++) {
             for (int j = 0; j < paths[i].length(); j++) {
@@ -1286,7 +1287,7 @@ public final class CmsStringUtil {
      *
      * @return the string representation for the given map
      */
-    public static String listAsString(List<?> list, String separator) {
+    public static @RUntainted String listAsString(List<?> list, String separator) {
 
         StringBuffer string = new StringBuffer(128);
         Iterator<?> it = list.iterator();
@@ -1353,7 +1354,7 @@ public final class CmsStringUtil {
      *
      * @return the input padded to the left
      */
-    public static String padLeft(String input, int size) {
+    public static String padLeft(String input, @RUntainted int size) {
 
         return (new PrintfFormat("%" + size + "s")).sprintf(input);
     }
@@ -1366,7 +1367,7 @@ public final class CmsStringUtil {
      *
      * @return the input padded to the right
      */
-    public static String padRight(String input, int size) {
+    public static String padRight(String input, @RUntainted int size) {
 
         return (new PrintfFormat("%-" + size + "s")).sprintf(input);
     }
@@ -1445,7 +1446,7 @@ public final class CmsStringUtil {
         }
     }
 
-    public static java.util.Optional<String> removePrefixPath(String prefix, String path) {
+    public static java.util.@RUntainted Optional<@RUntainted String> removePrefixPath(@RUntainted String prefix, @RUntainted String path) {
 
         prefix = CmsFileUtil.addTrailingSeparator(prefix);
         path = CmsFileUtil.addTrailingSeparator(path);
@@ -1473,7 +1474,7 @@ public final class CmsStringUtil {
      *
      * @return an Optional containing either the string with the replaced prefix, or an absent value if the prefix could not be replaced
      */
-    public static Optional<String> replacePrefix(String text, String origPrefix, String newPrefix, boolean ignoreCase) {
+    public static @RUntainted Optional<@RUntainted String> replacePrefix(String text, String origPrefix, String newPrefix, boolean ignoreCase) {
 
         String prefixTestString = ignoreCase ? text.toLowerCase() : text;
         origPrefix = ignoreCase ? origPrefix.toLowerCase() : origPrefix;
@@ -1493,7 +1494,7 @@ public final class CmsStringUtil {
      *
      * @return the Array of splitted Substrings
      */
-    public static String[] splitAsArray(String source, char delimiter) {
+    public static @RUntainted String[] splitAsArray(String source, char delimiter) {
 
         List<String> result = splitAsList(source, delimiter);
         return result.toArray(new String[result.size()]);
@@ -1508,7 +1509,7 @@ public final class CmsStringUtil {
      *
      * @return the Array of splitted Substrings
      */
-    public static String[] splitAsArray(String source, String delimiter) {
+    public static @RUntainted String[] splitAsArray(String source, String delimiter) {
 
         List<String> result = splitAsList(source, delimiter);
         return result.toArray(new String[result.size()]);
@@ -1538,7 +1539,7 @@ public final class CmsStringUtil {
      *
      * @return the List of splitted Substrings
      */
-    public static List<String> splitAsList(String source, char delimiter, boolean trim) {
+    public static @RUntainted List<@RUntainted String> splitAsList(String source, char delimiter, boolean trim) {
 
         List<String> result = new ArrayList<String>();
         int i = 0;
@@ -1571,7 +1572,7 @@ public final class CmsStringUtil {
      *
      * @return the Array of splitted Substrings
      */
-    public static List<String> splitAsList(String source, String delimiter) {
+    public static @RUntainted List<@RUntainted String> splitAsList(String source, String delimiter) {
 
         return splitAsList(source, delimiter, false);
     }
@@ -1586,7 +1587,7 @@ public final class CmsStringUtil {
      *
      * @return the Array of splitted Substrings
      */
-    public static List<String> splitAsList(String source, String delimiter, boolean trim) {
+    public static @RUntainted List<@RUntainted String> splitAsList(String source, String delimiter, boolean trim) {
 
         int dl = delimiter.length();
         if (dl == 1) {
@@ -1657,7 +1658,7 @@ public final class CmsStringUtil {
      *
      * @return the transformed string
      */
-    public static String substitute(Pattern pattern, String text, I_CmsRegexSubstitution sub) {
+    public static @RUntainted String substitute(Pattern pattern, @RUntainted String text, I_CmsRegexSubstitution sub) {
 
         if (text == null) {
             return null;
@@ -1682,9 +1683,9 @@ public final class CmsStringUtil {
      *
      * @see #substitute(String, String, String)
      */
-    public static String substitute(String source, Map<String, String> substitions) {
+    public static String substitute(@RUntainted String source, Map<String, String> substitions) {
 
-        String result = source;
+        @RUntainted String result = source;
         Iterator<Map.Entry<String, String>> it = substitions.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<String, String> entry = it.next();
@@ -1706,7 +1707,7 @@ public final class CmsStringUtil {
      *
      * @return the substituted String
      */
-    public static String substitute(String source, String searchString, String replaceString) {
+    public static @RUntainted String substitute(@RUntainted String source, String searchString, String replaceString) {
 
         if (source == null) {
             return null;
@@ -1720,9 +1721,9 @@ public final class CmsStringUtil {
             replaceString = "";
         }
         int len = source.length();
-        int sl = searchString.length();
-        int rl = replaceString.length();
-        int length;
+        @RUntainted int sl = searchString.length();
+        @RUntainted int rl = replaceString.length();
+        @RUntainted int length;
         if (sl == rl) {
             length = len;
         } else {
@@ -1744,7 +1745,7 @@ public final class CmsStringUtil {
         if (e == -1) {
             return source;
         }
-        StringBuffer sb = new StringBuffer(length);
+        @RUntainted StringBuffer sb = new StringBuffer(length);
         while (e != -1) {
             sb.append(source.substring(s, e));
             sb.append(replaceString);
@@ -2133,7 +2134,7 @@ public final class CmsStringUtil {
      *
      * @return a substring of the source, which is at most length characters long
      */
-    public static String trimToSize(String source, int length) {
+    public static @RUntainted String trimToSize(String source, int length) {
 
         return trimToSize(source, length, length, " ...");
     }
@@ -2151,7 +2152,7 @@ public final class CmsStringUtil {
      *
      * @return a substring of the source, which is at most length characters long
      */
-    public static String trimToSize(String source, int length, int area, String suffix) {
+    public static @RUntainted String trimToSize(String source, int length, int area, String suffix) {
 
         if ((source == null) || (source.length() <= length)) {
             // no operation is required

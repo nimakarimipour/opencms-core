@@ -67,6 +67,7 @@ import java.util.concurrent.TimeoutException;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The default implementation of the workflow manager interface, which offers only publish functionality.<p>
@@ -74,7 +75,7 @@ import com.google.common.collect.Maps;
 public class CmsDefaultWorkflowManager extends A_CmsWorkflowManager {
 
     /** The forced publish workflow action. */
-    public static final String ACTION_FORCE_PUBLISH = "forcepublish";
+    public static final @RUntainted String ACTION_FORCE_PUBLISH = "forcepublish";
 
     /** The publish workflow action. */
     public static final String ACTION_PUBLISH = "publish";
@@ -142,7 +143,7 @@ public class CmsDefaultWorkflowManager extends A_CmsWorkflowManager {
      *
      * @return the simple name if the ou is the same as the current user's ou
      */
-    protected static String getOuAwareName(CmsObject cms, String name) {
+    protected static String getOuAwareName(CmsObject cms, @RUntainted String name) {
 
         String ou = CmsOrganizationalUnit.getParentFqn(name);
         if (ou.equals(cms.getRequestContext().getCurrentUser().getOuFqn())) {
@@ -193,7 +194,7 @@ public class CmsDefaultWorkflowManager extends A_CmsWorkflowManager {
         List<CmsResource> resources)
     throws CmsException {
 
-        String actionKey = action.getAction();
+        @RUntainted String actionKey = action.getAction();
         if (CmsWorkflowAction.ACTION_CANCEL.equals(actionKey)) {
             return new CmsWorkflowResponse(true, actionKey, null, null, null);
         } else if (ACTION_PUBLISH.equals(actionKey)) {
@@ -212,7 +213,7 @@ public class CmsDefaultWorkflowManager extends A_CmsWorkflowManager {
      *
      * @return the localized label
      */
-    public String getLabel(CmsObject cms, String key) {
+    public String getLabel(CmsObject cms, @RUntainted String key) {
 
         CmsMessages messages = Messages.get().getBundle(getLocale(cms));
         return messages.key(key);

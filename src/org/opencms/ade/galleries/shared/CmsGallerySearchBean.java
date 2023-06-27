@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This bean represents the current search object.<p>
@@ -109,7 +110,7 @@ public class CmsGallerySearchBean implements IsSerializable {
     private int m_lastPage;
 
     /** The selected locale for search. */
-    private String m_locale;
+    private @RUntainted String m_locale;
 
     /** The number of search results to be display pro page. */
     private int m_matchesPerPage;
@@ -441,7 +442,7 @@ public class CmsGallerySearchBean implements IsSerializable {
      *
      * @return the locale
      */
-    public String getLocale() {
+    public @RUntainted String getLocale() {
 
         return m_locale;
     }
@@ -921,7 +922,7 @@ public class CmsGallerySearchBean implements IsSerializable {
      *
      * @param locale the locale to set
      */
-    public void setLocale(String locale) {
+    public void setLocale(@RUntainted String locale) {
 
         m_locale = locale;
     }

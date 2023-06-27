@@ -33,6 +33,7 @@ import org.opencms.util.CmsUUID;
 import java.util.Optional;
 
 import com.vaadin.ui.Component;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface the favorite dialog uses to interact with the rest of the application.
@@ -44,7 +45,7 @@ public interface I_CmsFavoriteContext {
      *
      * @param id the project id
      */
-    public void changeProject(CmsUUID id);
+    public void changeProject(@RUntainted CmsUUID id);
 
     /**
      * Changes current site.

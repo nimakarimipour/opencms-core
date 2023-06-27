@@ -73,6 +73,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A helper class for writing inherited container configuration back to a VFS file.<p>
@@ -120,7 +121,7 @@ public class CmsContainerConfigurationWriter {
             name);
         Set<String> keys = state.getNewElementKeys();
 
-        CmsResource configRes = null;
+        @RUntainted CmsResource configRes = null;
         boolean needToUnlock = false;
         if (!cms.existsResource(configPath)) {
             // create it
@@ -143,7 +144,7 @@ public class CmsContainerConfigurationWriter {
         CmsContainerConfiguration configuration = createConfigurationBean(newOrdering, elements, keys);
 
         Locale saveLocale = Locale.ENGLISH;
-        for (Locale locale : content.getLocales()) {
+        for (@RUntainted Locale locale : content.getLocales()) {
             if (!saveLocale.equals(locale)) {
                 content.removeLocale(locale);
             }
@@ -310,7 +311,7 @@ public class CmsContainerConfigurationWriter {
         if (!content.hasLocale(locale)) {
             return;
         }
-        String entriesXpath = N_CONFIGURATION;
+        @RUntainted String entriesXpath = N_CONFIGURATION;
         List<I_CmsXmlContentValue> values = content.getValues(entriesXpath, locale);
         int valueIndex = 0;
         for (I_CmsXmlContentValue value : values) {
@@ -343,7 +344,7 @@ public class CmsContainerConfigurationWriter {
     protected CmsXmlContent saveInContentObject(
         CmsObject cms,
         CmsXmlContent content,
-        Locale locale,
+        @RUntainted Locale locale,
         String name,
         CmsContainerConfiguration configuration)
     throws CmsException {

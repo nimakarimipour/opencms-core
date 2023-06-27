@@ -43,6 +43,7 @@ import java.util.Map;
 import java.util.RandomAccess;
 
 import org.apache.commons.collections.Transformer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a property (meta-information) mapped to a VFS resource.<p>
@@ -650,7 +651,7 @@ public class CmsProperty implements Serializable, Cloneable, Comparable<CmsPrope
      *
      * @return the name of this property
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -670,7 +671,7 @@ public class CmsProperty implements Serializable, Cloneable, Comparable<CmsPrope
      *
      * @return the value of this property attached to the resource record
      */
-    public String getResourceValue() {
+    public @RUntainted String getResourceValue() {
 
         return m_resourceValue;
     }
@@ -720,7 +721,7 @@ public class CmsProperty implements Serializable, Cloneable, Comparable<CmsPrope
      *
      * @return the value of this property attached to the structure record
      */
-    public String getStructureValue() {
+    public @RUntainted String getStructureValue() {
 
         return m_structureValue;
     }
@@ -773,7 +774,7 @@ public class CmsProperty implements Serializable, Cloneable, Comparable<CmsPrope
      *
      * @return the compound value of this property
      */
-    public String getValue() {
+    public @RUntainted String getValue() {
 
         return (m_structureValue != null) ? m_structureValue : m_resourceValue;
     }
@@ -789,7 +790,7 @@ public class CmsProperty implements Serializable, Cloneable, Comparable<CmsPrope
      *
      * @return the compound value of this property, or the default value
      */
-    public String getValue(String defaultValue) {
+    public @RUntainted String getValue(@RUntainted String defaultValue) {
 
         if (this == CmsProperty.NULL_PROPERTY) {
             // return the default value if this property is the null property

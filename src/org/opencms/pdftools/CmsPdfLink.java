@@ -39,6 +39,7 @@ import org.opencms.util.CmsUUID;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class is responsbile for creating and parsing links to generated PDFs.<p>
@@ -87,7 +88,7 @@ public class CmsPdfLink {
     private String m_link;
 
     /** The locale of the PDF link. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /**
      * Creates a new PDF link object based on the formatter and content resources and the locale of the current CMS context.<p>
@@ -99,17 +100,17 @@ public class CmsPdfLink {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsPdfLink(CmsObject cms, CmsResource formatter, CmsResource content, String filename)
+    public CmsPdfLink(CmsObject cms, CmsResource formatter, CmsResource content, @RUntainted String filename)
     throws CmsException {
 
         Locale locale = cms.getRequestContext().getLocale();
         m_content = content;
         m_locale = locale;
-        String detailName = cms.getDetailName(
+        @RUntainted String detailName = cms.getDetailName(
             content,
             cms.getRequestContext().getLocale(),
             OpenCms.getLocaleManager().getDefaultLocales());
-        String s = "/"
+        @RUntainted String s = "/"
             + PDF_LINK_PREFIX
             + "/"
             + locale
@@ -134,13 +135,13 @@ public class CmsPdfLink {
     public CmsPdfLink(CmsObject cms, String link)
     throws CmsPdfLinkParseException, CmsException {
 
-        Matcher matcher = PDF_LINK_REGEX_COMPILED.matcher(link);
+        @RUntainted Matcher matcher = PDF_LINK_REGEX_COMPILED.matcher(link);
         m_link = link;
         if (matcher.find()) {
-            String localeStr = matcher.group(1);
+            @RUntainted String localeStr = matcher.group(1);
             String formatterId = matcher.group(2);
-            String detailName = matcher.group(3);
-            CmsUUID id = cms.readIdForUrlName(detailName);
+            @RUntainted String detailName = matcher.group(3);
+            @RUntainted CmsUUID id = cms.readIdForUrlName(detailName);
             if (id == null) {
                 throw new CmsVfsResourceNotFoundException(
                     org.opencms.db.generic.Messages.get().container(
@@ -190,7 +191,7 @@ public class CmsPdfLink {
      *
      * @return the locale
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_locale;
     }

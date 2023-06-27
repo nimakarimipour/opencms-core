@@ -40,6 +40,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains all information needed for editing an XMLContent.<p>
@@ -207,7 +208,7 @@ public class CmsContentDefinition extends org.opencms.acacia.shared.CmsContentDe
      *
      * @return the entity id
      */
-    public static CmsUUID entityIdToUuid(String entityId) {
+    public static @RUntainted CmsUUID entityIdToUuid(@RUntainted String entityId) {
 
         if (entityId.startsWith(ENTITY_ID_PREFIX)) {
             entityId = entityId.substring(entityId.lastIndexOf("/") + 1);
@@ -222,7 +223,7 @@ public class CmsContentDefinition extends org.opencms.acacia.shared.CmsContentDe
      *
      * @return the locale
      */
-    public static String getLocaleFromId(String entityId) {
+    public static @RUntainted String getLocaleFromId(@RUntainted String entityId) {
 
         if (entityId.startsWith(ENTITY_ID_PREFIX)) {
             return entityId.substring(ENTITY_ID_PREFIX.length(), entityId.lastIndexOf("/"));

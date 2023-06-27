@@ -39,6 +39,7 @@ import java.util.Set;
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.collections.map.LRUMap;
 import org.apache.commons.collections.map.LazyMap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides Map wrapping utility functions for Java generics.<p>
@@ -290,7 +291,7 @@ public final class CmsCollectionsGenericWrapper {
      * @return a {@link Map} of the required generic type
      */
     @SuppressWarnings("unchecked")
-    public static <K, V> Map<K, V> map(Object o) {
+    public static <K, V> Map<K, V> map(@RUntainted Object o) {
 
         return (Map<K, V>)o;
     }

@@ -63,6 +63,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the Link validation app.<p>
@@ -114,7 +115,7 @@ public class CmsLinkValidationApp extends A_CmsWorkplaceApp {
 
                 private static final long serialVersionUID = -7729459896374968941L;
 
-                public void itemClick(ItemClickEvent event) {
+                public void itemClick(@RUntainted ItemClickEvent event) {
 
                     if (event.getButton().equals(MouseButton.RIGHT)) {
                         return;
@@ -211,7 +212,7 @@ public class CmsLinkValidationApp extends A_CmsWorkplaceApp {
 
                 rootCms.getRequestContext().setSiteRoot("");
 
-                String siteRoot = OpenCms.getSiteManager().getSiteRoot(rootPath);
+                @RUntainted String siteRoot = OpenCms.getSiteManager().getSiteRoot(rootPath);
                 String siteName = siteRoot;
                 if (siteRoot != null) {
                     try {

@@ -82,6 +82,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Creates the editor for XML content definitions.<p>
@@ -223,7 +224,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
     private String m_paramModelFile;
 
     /** Parameter to indicate if a new XML content resource should be created. */
-    private String m_paramNewLink;
+    private @RUntainted String m_paramNewLink;
 
     /** The post-create handler class. */
     private String m_postCreateHandler;
@@ -339,7 +340,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
                 // save content of the editor only to the temporary file
                 writeContent();
                 CmsObject cloneCms = getCloneCms();
-                CmsUUID tempProjectId = OpenCms.getWorkplaceManager().getTempFileProjectId();
+                @RUntainted CmsUUID tempProjectId = OpenCms.getWorkplaceManager().getTempFileProjectId();
                 cloneCms.getRequestContext().setCurrentProject(getCms().readProject(tempProjectId));
                 // remove eventual release & expiration date from temporary file to make preview work
                 cloneCms.setDateReleased(getParamTempfile(), CmsResource.DATE_RELEASED_DEFAULT, false);
@@ -363,10 +364,10 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
             m_content.removeLocale(loc);
             //write the modified xml content
             writeContent();
-            List<Locale> locales = m_content.getLocales();
+            @RUntainted List<@RUntainted Locale> locales = m_content.getLocales();
             if (locales.size() > 0) {
                 // set first locale as new display locale
-                Locale newLoc = locales.get(0);
+                @RUntainted Locale newLoc = locales.get(0);
                 setParamElementlanguage(newLoc.toString());
                 m_elementLocale = newLoc;
             } else {
@@ -481,7 +482,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
      */
     public void actionNew() throws JspException {
 
-        String newFileName = "";
+        @RUntainted String newFileName = "";
         try {
             newFileName = A_CmsResourceCollector.createResourceForCollector(
                 getCms(),
@@ -538,7 +539,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
             setEditorValues(getElementLocale());
             writeContent();
             CmsObject cloneCms = getCloneCms();
-            CmsUUID tempProjectId = OpenCms.getWorkplaceManager().getTempFileProjectId();
+            @RUntainted CmsUUID tempProjectId = OpenCms.getWorkplaceManager().getTempFileProjectId();
             cloneCms.getRequestContext().setCurrentProject(getCms().readProject(tempProjectId));
             // remove eventual release & expiration date from temporary file to make preview work
             cloneCms.setDateReleased(getParamTempfile(), CmsResource.DATE_RELEASED_DEFAULT, false);
@@ -550,7 +551,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
         }
 
         // get preview uri from content handler
-        String previewUri = m_content.getHandler().getPreview(getCms(), m_content, getParamTempfile());
+        @RUntainted String previewUri = m_content.getHandler().getPreview(getCms(), m_content, getParamTempfile());
 
         // create locale request parameter
         StringBuffer param = new StringBuffer(8);
@@ -646,7 +647,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
                     CmsXmlUtils.removeLastXpathElement(getParamElementName()),
                     getElementLocale()).size() == 0)) {
                 // also remove the parent choice type value
-                String xpath = CmsXmlUtils.removeLastXpathElement(getParamElementName());
+                @RUntainted String xpath = CmsXmlUtils.removeLastXpathElement(getParamElementName());
                 m_content.removeValue(xpath, getElementLocale(), CmsXmlUtils.getXpathIndexInt(xpath) - 1);
             }
         } else {
@@ -655,7 +656,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
                 // when other values are present, increase index to use right position
                 index += 1;
             }
-            String elementPath = getParamElementName();
+            @RUntainted String elementPath = getParamElementName();
             if (CmsStringUtil.isNotEmpty(getParamChoiceElement())) {
                 // we have to add a choice element, first check if the element to add itself is part of a choice or not
                 boolean choiceType = Boolean.valueOf(getParamChoiceType()).booleanValue();
@@ -673,10 +674,10 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
                 // check if there are nested choice elements to add
                 if (CmsXmlUtils.isDeepXpath(getParamChoiceElement())) {
                     // create all missing elements except the last one
-                    String pathToChoice = CmsXmlUtils.removeLastXpathElement(getParamChoiceElement());
-                    String newPath = elementPath;
+                    @RUntainted String pathToChoice = CmsXmlUtils.removeLastXpathElement(getParamChoiceElement());
+                    @RUntainted String newPath = elementPath;
                     while (CmsStringUtil.isNotEmpty(pathToChoice)) {
-                        String createElement = CmsXmlUtils.getFirstXpathElement(pathToChoice);
+                        @RUntainted String createElement = CmsXmlUtils.getFirstXpathElement(pathToChoice);
                         newPath = CmsXmlUtils.concatXpath(newPath, createElement);
                         pathToChoice = CmsXmlUtils.isDeepXpath(pathToChoice)
                         ? CmsXmlUtils.removeFirstXpathElement(pathToChoice)
@@ -727,7 +728,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
      *
      * @return the JSON array with information about the choices of a given element
      */
-    public JSONArray buildElementChoices(String elementName, boolean choiceType, boolean checkChoice) {
+    public JSONArray buildElementChoices(@RUntainted String elementName, boolean choiceType, boolean checkChoice) {
 
         JSONArray choiceElements = new JSONArray();
         String choiceName = elementName;
@@ -1211,7 +1212,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
         List<String> names = m_content.getNames(locale);
         Iterator<String> i = names.iterator();
         while (i.hasNext()) {
-            String path = i.next();
+            @RUntainted String path = i.next();
             I_CmsXmlContentValue value = m_content.getValue(path, locale);
             if (value.isSimpleType()) {
                 // We don't care about the old editor for the 'inheritable' widget configuration,
@@ -1305,7 +1306,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
      *
      * @param paramNewLink the "new link" parameter to set
      */
-    public void setParamNewLink(String paramNewLink) {
+    public void setParamNewLink(@RUntainted String paramNewLink) {
 
         m_paramNewLink = CmsEncoder.decode(paramNewLink);
     }
@@ -1363,7 +1364,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
      *
      * @return the locale
      */
-    protected Locale ensureLocale(Locale locale) {
+    protected Locale ensureLocale(@RUntainted Locale locale) {
 
         // get the default locale for the resource
         List<Locale> locales = OpenCms.getLocaleManager().getDefaultLocales(getCms(), getParamResource());
@@ -1417,7 +1418,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
 
         // get the default locale for the resource
         List<Locale> locales = OpenCms.getLocaleManager().getDefaultLocales(getCms(), getParamResource());
-        Locale locale = locales.get(0);
+        @RUntainted Locale locale = locales.get(0);
         locale = ensureLocale(locale);
         setParamElementlanguage(locale.toString());
     }
@@ -1426,7 +1427,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
      * @see org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings, javax.servlet.http.HttpServletRequest)
      */
     @Override
-    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
+    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
         // fill the parameter values in the get/set methods
         fillParamValues(request);
@@ -1765,7 +1766,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
      */
     private StringBuffer getXmlEditorForm(
         CmsXmlContentDefinition contentDefinition,
-        String pathPrefix,
+        @RUntainted String pathPrefix,
         boolean showHelpBubble,
         boolean superTabOpened) {
 
@@ -2176,7 +2177,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
         }
         // the file content might have been modified during the write operation
         CmsObject cloneCms = getCloneCms();
-        CmsUUID tempProjectId = OpenCms.getWorkplaceManager().getTempFileProjectId();
+        @RUntainted CmsUUID tempProjectId = OpenCms.getWorkplaceManager().getTempFileProjectId();
         cloneCms.getRequestContext().setCurrentProject(getCms().readProject(tempProjectId));
         m_file = cloneCms.writeFile(m_file);
         m_content = CmsXmlContentFactory.unmarshal(cloneCms, m_file);

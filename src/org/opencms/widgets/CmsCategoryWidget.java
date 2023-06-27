@@ -59,6 +59,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.text.StringEscapeUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget for a category based dependent select boxes.<p>
@@ -104,7 +105,7 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
     private boolean m_parentSelection;
 
     /** The property to read the starting category from. */
-    private String m_property;
+    private @RUntainted String m_property;
 
     /** The selection type parsed from configuration string. */
     private String m_selectiontype = "multi";
@@ -457,7 +458,7 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
      * @see org.opencms.widgets.A_CmsWidget#setConfiguration(java.lang.String)
      */
     @Override
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
         Map<String, String> configOptions = CmsWidgetUtil.parsePipeSeparatedConfigString(configuration);
         // we have to validate later, since we do not have any cms object here
@@ -484,12 +485,12 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
     @Override
     public void setEditorValue(
         CmsObject cms,
-        Map<String, String[]> formParameters,
+        @RUntainted Map<@RUntainted String, @RUntainted String[]> formParameters,
         I_CmsWidgetDialog widgetDialog,
         I_CmsWidgetParameter param) {
 
         super.setEditorValue(cms, formParameters, widgetDialog, param);
-        String id = param.getStringValue(cms);
+        @RUntainted String id = param.getStringValue(cms);
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(id)) {
             return;
         }
@@ -525,7 +526,7 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
      * @return html code
      */
     protected String buildSelectBox(
-        String baseId,
+        @RUntainted String baseId,
         int level,
         List<CmsSelectWidgetOption> options,
         String selected,

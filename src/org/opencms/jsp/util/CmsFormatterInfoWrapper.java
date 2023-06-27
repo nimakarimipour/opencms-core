@@ -46,6 +46,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for accessing formatter information from JSPs.
@@ -93,10 +94,10 @@ public class CmsFormatterInfoWrapper implements I_CmsFormatterInfo {
         Locale wpLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
         CmsMultiMessages messages = new CmsMultiMessages(wpLocale);
         messages.addMessages(OpenCms.getWorkplaceManager().getMessages(wpLocale));
-        for (String type : formatter.getResourceTypeNames()) {
+        for (@RUntainted String type : formatter.getResourceTypeNames()) {
             try {
                 I_CmsResourceType typeObj = OpenCms.getResourceManager().getResourceType(type);
-                String schema = typeObj.getConfiguration().getString(
+                @RUntainted String schema = typeObj.getConfiguration().getString(
                     CmsResourceTypeXmlContent.CONFIGURATION_SCHEMA,
                     null);
                 if (schema != null) {

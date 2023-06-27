@@ -70,6 +70,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The edit project form component.<p>
@@ -87,7 +88,7 @@ public class CmsEditProjectForm extends CmsBasicDialog {
         /**
          * @see com.vaadin.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             if (m_fieldOU.isEnabled() && CmsStringUtil.isNotEmptyOrWhitespaceOnly((String)value)) {
                 try {
@@ -145,7 +146,7 @@ public class CmsEditProjectForm extends CmsBasicDialog {
     private static final long serialVersionUID = 2345799706922671537L;
 
     /** The OU field. */
-    TextField m_fieldOU;
+    @RUntainted TextField m_fieldOU;
 
     /** The add resources button. */
     private Button m_addResource;
@@ -197,7 +198,7 @@ public class CmsEditProjectForm extends CmsBasicDialog {
      * @param projectId the project to edit
      * @param window the window this form is displayed in
      */
-    public CmsEditProjectForm(CmsProjectsTable table, CmsUUID projectId, Window window) {
+    public CmsEditProjectForm(CmsProjectsTable table, @RUntainted CmsUUID projectId, Window window) {
         this(table, window);
         CmsObject cms = A_CmsUI.getCmsObject();
         try {

@@ -49,6 +49,7 @@ import com.google.common.base.Objects;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract class which is used to generate the data for showing an already opened tree in the gallery dialog.<p>
@@ -155,11 +156,11 @@ public abstract class A_CmsTreeTabDataPreloader<T extends I_CmsGalleryTreeEntry<
     protected void findRoot(Collection<CmsResource> resources) throws CmsException {
 
         m_commonRoot = getCommonSite(resources);
-        String commonPath = getCommonAncestorPath(resources);
+        @RUntainted String commonPath = getCommonAncestorPath(resources);
         try {
             m_rootResource = m_cms.readResource(m_commonRoot, m_filter);
         } catch (CmsVfsResourceNotFoundException e) {
-            String currentPath = commonPath;
+            @RUntainted String currentPath = commonPath;
             String lastWorkingPath = null;
             while (m_cms.existsResource(currentPath, m_filter)) {
                 lastWorkingPath = currentPath;
@@ -247,12 +248,12 @@ public abstract class A_CmsTreeTabDataPreloader<T extends I_CmsGalleryTreeEntry<
      *
      * @return the common ancestor path for the resources
      */
-    private String getCommonAncestorPath(Collection<CmsResource> resources) {
+    private @RUntainted String getCommonAncestorPath(Collection<CmsResource> resources) {
 
         if (resources.isEmpty()) {
             return "/";
         }
-        String commonPath = null;
+        @RUntainted String commonPath = null;
         for (CmsResource resource : resources) {
             commonPath = getCommonAncestorPath(commonPath, resource.getRootPath());
         }
@@ -267,7 +268,7 @@ public abstract class A_CmsTreeTabDataPreloader<T extends I_CmsGalleryTreeEntry<
      *
      * @return the common ancestor path
      */
-    private String getCommonAncestorPath(String rootPath1, String rootPath2) {
+    private @RUntainted String getCommonAncestorPath(@RUntainted String rootPath1, @RUntainted String rootPath2) {
 
         if (rootPath1 == null) {
             return rootPath2;

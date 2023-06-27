@@ -32,6 +32,7 @@ import org.opencms.security.I_CmsPrincipal;
 import org.opencms.util.CmsUUID;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes an OpenCms historical principal entry.<p>
@@ -64,8 +65,8 @@ public class CmsHistoryPrincipal extends CmsPrincipal implements Cloneable {
      * @param dateDeleted the date the principal was deleted
      */
     public CmsHistoryPrincipal(
-        CmsUUID id,
-        String name,
+        @RUntainted CmsUUID id,
+        @RUntainted String name,
         String description,
         String email,
         String type,

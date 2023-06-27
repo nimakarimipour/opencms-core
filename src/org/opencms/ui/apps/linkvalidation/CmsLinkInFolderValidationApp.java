@@ -67,6 +67,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * App to check relations of resources in folder to other folder.<p>
@@ -130,7 +131,7 @@ public class CmsLinkInFolderValidationApp extends A_CmsWorkplaceApp implements I
 
                 private static final long serialVersionUID = -7729459896374968941L;
 
-                public void itemClick(ItemClickEvent event) {
+                public void itemClick(@RUntainted ItemClickEvent event) {
 
                     if (event.getButton().equals(MouseButton.RIGHT)) {
                         return;
@@ -300,7 +301,7 @@ public class CmsLinkInFolderValidationApp extends A_CmsWorkplaceApp implements I
             }
             List<String> res = new ArrayList<String>();
 
-            for (String uuidString : resources.split(RESOURCE_SEPERATOR)) {
+            for (@RUntainted String uuidString : resources.split(RESOURCE_SEPERATOR)) {
                 try {
                     res.add(m_cms.readResource(new CmsUUID(uuidString)).getRootPath());
                 } catch (CmsException e) {

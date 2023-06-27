@@ -33,6 +33,7 @@ import org.opencms.relations.CmsCategory;
 import org.opencms.util.CmsUUID;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A specific bean holding all info to be displayed in the categories tab.<p>
@@ -57,7 +58,7 @@ public class CmsCategoryBean implements I_CmsHasTitle, I_CmsHasPath, IsSerializa
     private CmsUUID m_id;
 
     /** The category path. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /** The category's root path. */
     private String m_rootPath;
@@ -115,7 +116,7 @@ public class CmsCategoryBean implements I_CmsHasTitle, I_CmsHasPath, IsSerializa
         CmsUUID id,
         String title,
         String description,
-        String path,
+        @RUntainted String path,
         String basePath,
         String rootPath) {
 
@@ -178,7 +179,7 @@ public class CmsCategoryBean implements I_CmsHasTitle, I_CmsHasPath, IsSerializa
      *
      * @return the category path
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }
@@ -249,7 +250,7 @@ public class CmsCategoryBean implements I_CmsHasTitle, I_CmsHasPath, IsSerializa
      *
      * @param path the category path to set
      */
-    public void setPath(String path) {
+    public void setPath(@RUntainted String path) {
 
         m_path = path;
     }

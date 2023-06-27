@@ -50,6 +50,7 @@ import javax.servlet.ServletException;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the contents of a cached resource.<p>
@@ -98,7 +99,7 @@ public class CmsFlexCacheEntry implements I_CmsLruCacheObject, I_CmsMemoryMonito
     private long m_dateLastModified;
 
     /** The list of items for this resource. */
-    private List<Object> m_elements;
+    private @RUntainted List<@RUntainted Object> m_elements;
 
     /** A Map of cached headers for this resource. */
     private Map<String, List<String>> m_headers;
@@ -145,7 +146,7 @@ public class CmsFlexCacheEntry implements I_CmsLruCacheObject, I_CmsMemoryMonito
      *
      * @param bytes the output to save in the cache
      */
-    public void add(byte[] bytes) {
+    public void add(@RUntainted byte[] bytes) {
 
         if (m_completed) {
             return;
@@ -164,7 +165,7 @@ public class CmsFlexCacheEntry implements I_CmsLruCacheObject, I_CmsMemoryMonito
      * @param parameters a map of parameters specific to this include call
      * @param attrs a map of request attributes specific to this include call
      */
-    public void add(String resource, Map<String, String[]> parameters, Map<String, Object> attrs) {
+    public void add(@RUntainted String resource, @RUntainted Map<@RUntainted String, @RUntainted String[]> parameters, @RUntainted Map<@RUntainted String, @RUntainted Object> attrs) {
 
         if (m_completed) {
             return;
@@ -373,7 +374,7 @@ public class CmsFlexCacheEntry implements I_CmsLruCacheObject, I_CmsMemoryMonito
             boolean hasNoSubElements = (m_elements.size() == 1);
             // write output to stream and process all included elements
             for (int i = 0; i < m_elements.size(); i++) {
-                Object o = m_elements.get(i);
+                @RUntainted Object o = m_elements.get(i);
                 if (o instanceof String) {
                     // handle cached parameters
                     i++;

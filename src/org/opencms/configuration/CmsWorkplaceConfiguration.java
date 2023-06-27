@@ -70,6 +70,7 @@ import org.xml.sax.Attributes;
 import com.google.common.base.Function;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import/Export master configuration class.<p>
@@ -310,7 +311,7 @@ public class CmsWorkplaceConfiguration extends A_CmsXmlConfiguration {
     public static final String N_EDITORPREFERENCES = "editors-preferences";
 
     /** The node name of the editors preferred editors node. */
-    public static final String N_EDITORPREFERREDEDITORS = "editors-preferrededitors";
+    public static final @RUntainted String N_EDITORPREFERREDEDITORS = "editors-preferrededitors";
 
     /** The element delete mode node name. */
     public static final String N_ELEMENT_DELETE_MODE = "element-delete-mode";
@@ -511,7 +512,7 @@ public class CmsWorkplaceConfiguration extends A_CmsXmlConfiguration {
     public static final String N_SIZE = "show-size";
 
     /** The node name of the galleries start setting node. */
-    public static final String N_STARTGALLERIES = "startgalleries";
+    public static final @RUntainted String N_STARTGALLERIES = "startgalleries";
 
     /** The node name of the start gallery node. */
     public static final String N_STARTGALLERY = "startgallery";
@@ -1061,7 +1062,7 @@ public class CmsWorkplaceConfiguration extends A_CmsXmlConfiguration {
         digester.addRule("*/" + N_WORKPLACE + "/" + N_SITEMAP_CONFIG_EDIT_ROLE, new Rule() {
 
             @Override
-            public void body(String namespace, String name, String text) throws Exception {
+            public void body(String namespace, String name, @RUntainted String text) throws Exception {
 
                 CmsWorkplaceManager wpManager = (CmsWorkplaceManager)(digester.peek());
                 wpManager.setSitemapConfigEditRole(text);

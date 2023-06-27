@@ -34,6 +34,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.QName;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides generic wrappers for XML library methods that do not support Java 5 generic types.<p>
@@ -71,7 +72,7 @@ public final class CmsXmlGenericWrapper {
      *
      * @return the iterator
      */
-    public static Iterable<Element> elementIterable(final Element element, final String name) {
+    public static Iterable<Element> elementIterable(final @RUntainted Element element, final String name) {
 
         return new Iterable<Element>() {
 
@@ -90,7 +91,7 @@ public final class CmsXmlGenericWrapper {
      * @return type safe access to {@link Element#elementIterator(org.dom4j.QName)}.<p>
      */
     @SuppressWarnings("unchecked")
-    public static Iterator<Element> elementIterator(Element element) {
+    public static @RUntainted Iterator<@RUntainted Element> elementIterator(@RUntainted Element element) {
 
         return element.elementIterator();
     }
@@ -104,7 +105,7 @@ public final class CmsXmlGenericWrapper {
      * @return type safe access to {@link Element#elementIterator(String)}.<p>
      */
     @SuppressWarnings("unchecked")
-    public static Iterator<Element> elementIterator(Element element, String name) {
+    public static @RUntainted Iterator<@RUntainted Element> elementIterator(@RUntainted Element element, String name) {
 
         return element.elementIterator(name);
     }
@@ -117,7 +118,7 @@ public final class CmsXmlGenericWrapper {
      * @return type safe access to {@link Element#elements()}.<p>
      */
     @SuppressWarnings("unchecked")
-    public static List<Element> elements(Element element) {
+    public static @RUntainted List<@RUntainted Element> elements(Element element) {
 
         return element.elements();
     }
@@ -131,7 +132,7 @@ public final class CmsXmlGenericWrapper {
      * @return type safe access to {@link Element#elements(org.dom4j.QName)}.<p>
      */
     @SuppressWarnings("unchecked")
-    public static List<Element> elements(Element element, QName name) {
+    public static @RUntainted List<@RUntainted Element> elements(Element element, QName name) {
 
         return element.elements(name);
     }
@@ -145,7 +146,7 @@ public final class CmsXmlGenericWrapper {
      * @return type safe access to {@link Element#elements(String)}.<p>
      */
     @SuppressWarnings("unchecked")
-    public static List<Element> elements(Element element, String name) {
+    public static List<Element> elements(@RUntainted Element element, String name) {
 
         return element.elements(name);
     }

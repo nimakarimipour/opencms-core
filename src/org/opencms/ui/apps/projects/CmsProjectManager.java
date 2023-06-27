@@ -69,6 +69,7 @@ import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The project manager app.<p>
@@ -112,7 +113,7 @@ public class CmsProjectManager extends A_CmsWorkplaceApp {
      * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getBreadCrumbForState(java.lang.String)
      */
     @Override
-    protected LinkedHashMap<String, String> getBreadCrumbForState(String state) {
+    protected LinkedHashMap<String, String> getBreadCrumbForState(@RUntainted String state) {
 
         LinkedHashMap<String, String> crumbs = new LinkedHashMap<String, String>();
         if (!OpenCms.getRoleManager().hasRole(A_CmsUI.getCmsObject(), CmsRole.PROJECT_MANAGER)) {
@@ -127,7 +128,7 @@ public class CmsProjectManager extends A_CmsWorkplaceApp {
             crumbs.put(CmsProjectManagerConfiguration.APP_ID, CmsVaadinUtils.getMessageText(Messages.GUI_PROJECTS_0));
             crumbs.put("", CmsVaadinUtils.getMessageText(Messages.GUI_PROJECTS_HISTORY_0));
         } else if (state.startsWith(PATH_NAME_FILES)) {
-            CmsUUID projectId = getIdFromState(state);
+            @RUntainted CmsUUID projectId = getIdFromState(state);
             if (projectId != null) {
                 crumbs.put(
                     CmsProjectManagerConfiguration.APP_ID,
@@ -150,7 +151,7 @@ public class CmsProjectManager extends A_CmsWorkplaceApp {
      * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String)
      */
     @Override
-    protected Component getComponentForState(String state) {
+    protected Component getComponentForState(@RUntainted String state) {
 
         if (!OpenCms.getRoleManager().hasRole(A_CmsUI.getCmsObject(), CmsRole.PROJECT_MANAGER)) {
             return prepareProjectFilesTable(A_CmsUI.getCmsObject().getRequestContext().getCurrentProject().getUuid());
@@ -222,7 +223,7 @@ public class CmsProjectManager extends A_CmsWorkplaceApp {
      *
      * @return the file table
      */
-    protected CmsFileTable getProjectFiles(CmsUUID projectId) {
+    protected CmsFileTable getProjectFiles(@RUntainted CmsUUID projectId) {
 
         final CmsFileTable fileTable = new CmsFileTable(null);
         fileTable.applyWorkplaceAppSettings();
@@ -281,7 +282,7 @@ public class CmsProjectManager extends A_CmsWorkplaceApp {
      *
      * @return the project id
      */
-    private CmsUUID getIdFromState(String state) {
+    private @RUntainted CmsUUID getIdFromState(@RUntainted String state) {
 
         CmsUUID result = null;
         String temp = A_CmsWorkplaceApp.getParamFromState(state, "projectId");
@@ -308,7 +309,7 @@ public class CmsProjectManager extends A_CmsWorkplaceApp {
      *
      * @return the project file table
      */
-    private CmsFileTable prepareProjectFilesTable(CmsUUID projectId) {
+    private CmsFileTable prepareProjectFilesTable(@RUntainted CmsUUID projectId) {
 
         m_rootLayout.setMainHeightFull(true);
         final CmsFileTable fileTable = getProjectFiles(projectId);

@@ -26,6 +26,7 @@
  */
 
 package org.opencms.mail;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the configuration of an individual mail host.<p>
@@ -35,7 +36,7 @@ package org.opencms.mail;
 public class CmsMailHost implements Comparable<CmsMailHost> {
 
     /** The name of the mail host. */
-    private String m_hostname;
+    private @RUntainted String m_hostname;
 
     /** The order of this mail host. */
     private Integer m_order;
@@ -50,7 +51,7 @@ public class CmsMailHost implements Comparable<CmsMailHost> {
     private String m_protocol;
 
     /** The user name to use for authentication. */
-    private String m_username;
+    private @RUntainted String m_username;
 
     /** The security setting. */
     private String m_security;
@@ -67,12 +68,12 @@ public class CmsMailHost implements Comparable<CmsMailHost> {
      * @param port the port, if < 0 then 25 is used
      */
     public CmsMailHost(
-        String hostname,
+        @RUntainted String hostname,
         Integer port,
         Integer order,
         String protocol,
         String security,
-        String username,
+        @RUntainted String username,
         String password) {
 
         m_hostname = hostname;
@@ -119,7 +120,7 @@ public class CmsMailHost implements Comparable<CmsMailHost> {
      *
      * @return the host name
      */
-    public String getHostname() {
+    public @RUntainted String getHostname() {
 
         return m_hostname;
     }
@@ -179,7 +180,7 @@ public class CmsMailHost implements Comparable<CmsMailHost> {
      *
      * @return the user name used for authentication
      */
-    public String getUsername() {
+    public @RUntainted String getUsername() {
 
         return m_username;
     }

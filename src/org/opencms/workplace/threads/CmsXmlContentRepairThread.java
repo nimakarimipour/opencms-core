@@ -45,6 +45,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Repairs XML content resources according to their XSD using the corresponding settings object.<p>
@@ -135,11 +136,11 @@ public class CmsXmlContentRepairThread extends A_CmsReportThread {
         CmsXmlEntityResolver resolver = new CmsXmlEntityResolver(getCms());
 
         // iterate the resources
-        Iterator<CmsResource> i = resources.iterator();
+        @RUntainted Iterator<@RUntainted CmsResource> i = resources.iterator();
         while (i.hasNext()) {
 
             count++;
-            CmsResource res = i.next();
+            @RUntainted CmsResource res = i.next();
 
             // generate report output
             getReport().print(

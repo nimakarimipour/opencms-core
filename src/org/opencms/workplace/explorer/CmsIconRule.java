@@ -28,6 +28,7 @@
 package org.opencms.workplace.explorer;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An icon configuration rule for an explorer type.<p>
@@ -46,7 +47,7 @@ public class CmsIconRule implements Serializable {
     private String m_bigIcon;
 
     /** The big icon CSS style class. */
-    private String m_bigIconStyle;
+    private @RUntainted String m_bigIconStyle;
 
     /** The file name extension. */
     private String m_extension;
@@ -55,7 +56,7 @@ public class CmsIconRule implements Serializable {
     private String m_icon;
 
     /** The small icon CSS style class. */
-    private String m_smallIconStyle;
+    private @RUntainted String m_smallIconStyle;
 
     /**
      * Creates a new icon rule.<p>
@@ -66,7 +67,7 @@ public class CmsIconRule implements Serializable {
      * @param smallIconStyle the small icon CSS style class
      * @param bigIconStyle the big icon CSS style class
      */
-    public CmsIconRule(String extension, String icon, String bigIcon, String smallIconStyle, String bigIconStyle) {
+    public CmsIconRule(String extension, String icon, String bigIcon, @RUntainted String smallIconStyle, @RUntainted String bigIconStyle) {
 
         m_icon = icon;
         m_bigIcon = bigIcon;
@@ -109,7 +110,7 @@ public class CmsIconRule implements Serializable {
      *
      * @return the big icon style
      */
-    public String getBigIconStyle() {
+    public @RUntainted String getBigIconStyle() {
 
         return m_bigIconStyle;
     }
@@ -140,7 +141,7 @@ public class CmsIconRule implements Serializable {
      *
      * @return the small icon style
      */
-    public String getSmallIconStyle() {
+    public @RUntainted String getSmallIconStyle() {
 
         return m_smallIconStyle;
     }

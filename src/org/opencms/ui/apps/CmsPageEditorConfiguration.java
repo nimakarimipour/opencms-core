@@ -50,6 +50,7 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The page editor app configuration.<p>
@@ -94,7 +95,7 @@ public class CmsPageEditorConfiguration extends A_CmsWorkplaceAppConfiguration i
      * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale)
      */
     @Override
-    public String getHelpText(Locale locale) {
+    public String getHelpText(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.GUI_PAGEEDITOR_HELP_0);
     }
@@ -119,7 +120,7 @@ public class CmsPageEditorConfiguration extends A_CmsWorkplaceAppConfiguration i
      * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale)
      */
     @Override
-    public String getName(Locale locale) {
+    public String getName(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.GUI_PAGEEDITOR_TITLE_0);
     }
@@ -183,7 +184,7 @@ public class CmsPageEditorConfiguration extends A_CmsWorkplaceAppConfiguration i
                 throw new RuntimeException("Wrong usage, this can not be called from outside a VAADIN UI.");
             }
             CmsJspTagEnableAde.removeDirectEditFlagFromSession(req.getSession());
-            String page = getPath(cms, req.getSession());
+            @RUntainted String page = getPath(cms, req.getSession());
             if (page != null) {
                 A_CmsUI.get().getPage().setLocation(OpenCms.getLinkManager().substituteLink(cms, page));
 
@@ -202,7 +203,7 @@ public class CmsPageEditorConfiguration extends A_CmsWorkplaceAppConfiguration i
      *
      * @return the path or <code>null</code>
      */
-    private String getPath(CmsObject cms, HttpSession session) {
+    private @RUntainted String getPath(CmsObject cms, HttpSession session) {
 
         CmsQuickLaunchLocationCache locationCache = CmsQuickLaunchLocationCache.getLocationCache(session);
         String page = locationCache.getPageEditorLocation(cms, cms.getRequestContext().getSiteRoot());

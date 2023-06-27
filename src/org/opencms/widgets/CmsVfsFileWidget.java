@@ -59,6 +59,7 @@ import org.apache.commons.collections.Factory;
 import org.apache.commons.logging.Log;
 
 import com.google.common.base.Objects;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a OpenCms VFS file selection widget, for use on a widget dialog.<p>
@@ -516,7 +517,7 @@ public class CmsVfsFileWidget extends A_CmsWidget implements I_CmsADEWidget {
      * @see org.opencms.widgets.A_CmsWidget#setConfiguration(java.lang.String)
      */
     @Override
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
         m_showSiteSelector = true;
         m_includeFiles = true;
@@ -682,7 +683,7 @@ public class CmsVfsFileWidget extends A_CmsWidget implements I_CmsADEWidget {
     private boolean isOnlyFolders(String types) {
 
         boolean result = true;
-        for (String type : types.split("[, ]+")) {
+        for (@RUntainted String type : types.split("[, ]+")) {
             try {
                 if (!OpenCms.getResourceManager().getResourceType(type).isFolder()) {
                     result = false;

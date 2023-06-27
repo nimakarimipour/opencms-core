@@ -41,6 +41,7 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.PasswordField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The change password form.<p>
@@ -99,7 +100,7 @@ public class CmsPasswordForm extends VerticalLayout {
      *
      * @param locale the user locale
      */
-    public CmsPasswordForm(Locale locale) {
+    public CmsPasswordForm(@RUntainted Locale locale) {
 
         CmsVaadinUtils.readAndLocalizeDesign(this, OpenCms.getWorkplaceManager().getMessages(locale), null);
         m_securityHint.setVisible(false);

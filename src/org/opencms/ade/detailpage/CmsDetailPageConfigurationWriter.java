@@ -41,6 +41,7 @@ import org.opencms.xml.types.I_CmsXmlContentValue;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for writing detail page information to an XML configuration file.<p>
@@ -68,7 +69,7 @@ public class CmsDetailPageConfigurationWriter {
     private CmsFile m_file;
 
     /** The configuration file resource. */
-    private CmsResource m_resource;
+    private @RUntainted CmsResource m_resource;
 
     /**
      * Creates a new detail page configuration writer.<p>
@@ -76,7 +77,7 @@ public class CmsDetailPageConfigurationWriter {
      * @param cms the current CMS context
      * @param res the configuration file resource
      */
-    public CmsDetailPageConfigurationWriter(CmsObject cms, CmsResource res) {
+    public CmsDetailPageConfigurationWriter(CmsObject cms, @RUntainted CmsResource res) {
 
         m_cms = cms;
         m_resource = res;
@@ -168,7 +169,7 @@ public class CmsDetailPageConfigurationWriter {
             if (info.isInherited()) {
                 continue;
             }
-            CmsUUID id = info.getId();
+            @RUntainted CmsUUID id = info.getId();
             if (id == null) {
                 id = newId;
             }
@@ -184,7 +185,7 @@ public class CmsDetailPageConfigurationWriter {
      * @param id the page id of the detail page
      * @param index the position at which the detail page info should be added
      */
-    private void writeValue(String type, CmsUUID id, int index) {
+    private void writeValue(@RUntainted String type, @RUntainted CmsUUID id, @RUntainted int index) {
 
         Locale locale = CmsLocaleManager.getLocale("en");
         // todo: check actual locale.

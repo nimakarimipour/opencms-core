@@ -102,6 +102,7 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.Table.RowHeaderMode;
 import com.vaadin.v7.ui.Table.TableDragMode;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic table for displaying lists of resources.<p>
@@ -691,7 +692,7 @@ public class CmsResourceTable extends CustomComponent {
      *
      * @return the structure id
      */
-    public CmsUUID getUUIDFromItemID(String itemId) {
+    public @RUntainted CmsUUID getUUIDFromItemID(@RUntainted String itemId) {
 
         return new CmsUUID(itemId);
     }
@@ -802,7 +803,7 @@ public class CmsResourceTable extends CustomComponent {
     protected List<CmsUUID> itemIdsToUUIDs(Collection<String> itemIds) {
 
         List<CmsUUID> ids = new ArrayList<CmsUUID>();
-        for (String itemId : itemIds) {
+        for (@RUntainted String itemId : itemIds) {
             if (itemId != null) {
                 ids.add(getUUIDFromItemID(itemId));
             }

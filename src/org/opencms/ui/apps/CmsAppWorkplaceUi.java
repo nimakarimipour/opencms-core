@@ -73,6 +73,7 @@ import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The workplace ui.<p>
@@ -529,7 +530,7 @@ implements ViewDisplay, ViewProvider, ViewChangeListener, I_CmsWindowCloseListen
     * @see com.vaadin.ui.UI#init(com.vaadin.server.VaadinRequest)
     */
     @Override
-    protected void init(VaadinRequest req) {
+    protected void init(@RUntainted VaadinRequest req) {
 
         super.init(req);
         if (!OpenCms.getRoleManager().hasRole(getCmsObject(), CmsRole.EDITOR)) {
@@ -623,7 +624,7 @@ implements ViewDisplay, ViewProvider, ViewChangeListener, I_CmsWindowCloseListen
             getNavigator().navigateTo(fragment);
         } else {
             CmsObject cms = getCmsObject();
-            String target = CmsLoginHelper.getStartView(cms);
+            @RUntainted String target = CmsLoginHelper.getStartView(cms);
             if (target != null) {
                 if (target.startsWith("#")) {
                     getNavigator().navigateTo(target.substring(1));

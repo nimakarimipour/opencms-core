@@ -78,6 +78,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.ComboBox.ItemStyleGenerator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The copy move dialog.<p>
@@ -225,7 +226,7 @@ public class CmsCopyMoveDialog extends CmsBasicDialog {
      *
      * @throws CmsException in case the target can not be read or is not a folder
      */
-    public void setTargetFolder(CmsUUID structureId) throws CmsException {
+    public void setTargetFolder(@RUntainted CmsUUID structureId) throws CmsException {
 
         CmsObject cms = A_CmsUI.getCmsObject();
         CmsResource res = cms.readResource(structureId);
@@ -325,7 +326,7 @@ public class CmsCopyMoveDialog extends CmsBasicDialog {
         m_updateResources.add(target.getStructureId());
         m_updateResources.add(source.getStructureId());
 
-        String finalTarget = target.getRootPath();
+        @RUntainted String finalTarget = target.getRootPath();
         if (finalTarget.equals(source.getRootPath()) || finalTarget.startsWith(source.getRootPath())) {
             throw new CmsVfsException(
                 org.opencms.workplace.commons.Messages.get().container(
@@ -449,7 +450,7 @@ public class CmsCopyMoveDialog extends CmsBasicDialog {
         try {
             CmsResource targetFolder = null;
             String targetName = null;
-            String target = m_targetPath.getValue();
+            @RUntainted String target = m_targetPath.getValue();
             boolean isSingleResource = m_context.getResources().size() == 1;
             // resolve relative paths
             target = CmsLinkManager.getAbsoluteUri(
@@ -907,7 +908,7 @@ public class CmsCopyMoveDialog extends CmsBasicDialog {
 
         if (m_actionCombo != null) {
             m_defaultActions.clear();
-            String resPath = m_context.getResources().get(0).getRootPath();
+            @RUntainted String resPath = m_context.getResources().get(0).getRootPath();
             String parentFolder = CmsResource.getParentFolder(resPath);
             if ((DialogMode.copy_and_move == m_dialogMode) && !parentFolder.equals(targetRootPath)) {
                 m_defaultActions.clear();

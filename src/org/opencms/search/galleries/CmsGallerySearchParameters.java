@@ -54,6 +54,7 @@ import java.util.stream.Collectors;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 
 import com.google.common.base.Joiner;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parameters used for the gallery search index.<p>
@@ -231,7 +232,7 @@ public class CmsGallerySearchParameters {
     private boolean m_includeExpired;
 
     /** The locale for the search. */
-    private String m_locale;
+    private @RUntainted String m_locale;
 
     /** The number of search results per page. */
     private int m_matchesPerPage;
@@ -356,7 +357,7 @@ public class CmsGallerySearchParameters {
      *
      * @return the locale that has been used for the search
      */
-    public String getLocale() {
+    public @RUntainted String getLocale() {
 
         if (m_locale == null) {
             m_locale = CmsLocaleManager.getDefaultLocale().toString();
@@ -382,7 +383,7 @@ public class CmsGallerySearchParameters {
      * @param cms the openCms object.
      * @return CmsSolrQuery representation of this class.
      */
-    public CmsSolrQuery getQuery(CmsObject cms) {
+    public @RUntainted CmsSolrQuery getQuery(CmsObject cms) {
 
         final CmsSolrQuery query = new CmsSolrQuery();
 
@@ -830,7 +831,7 @@ public class CmsGallerySearchParameters {
      *
      * @param locale the locale to set
      */
-    public void setSearchLocale(String locale) {
+    public void setSearchLocale(@RUntainted String locale) {
 
         m_locale = locale;
     }

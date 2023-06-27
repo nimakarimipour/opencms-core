@@ -33,6 +33,7 @@ import org.opencms.site.CmsSite;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.Messages;
 import org.opencms.workplace.explorer.CmsExplorerTypeSettings;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the result of a database statistic set.<p>
@@ -43,7 +44,7 @@ public class CmsResourceTypeStatResult {
     private int m_count;
 
     /**Site root.*/
-    private String m_siteRoot;
+    private @RUntainted String m_siteRoot;
 
     /**Time when the statistic was generated.*/
     private long m_timestamp;

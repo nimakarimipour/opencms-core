@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * HTML report output to be used for import / export / publish operations
@@ -54,7 +55,7 @@ public class CmsHtmlReport extends A_CmsReport {
     public static final String LINEBREAK_TRADITIONAL = "<br>\\n";
 
     /** The list of report objects e.g. String, CmsPageLink, Exception ... */
-    private List<Object> m_content;
+    private @RUntainted List<@RUntainted Object> m_content;
 
     /**
      * Counter to remember what is already shown,
@@ -90,7 +91,7 @@ public class CmsHtmlReport extends A_CmsReport {
      * @param writeHtml if <code>true</code>, this report should generate HTML instead of JavaScript output
      * @param isTransient If set to <code>true</code> nothing is kept in memory
      */
-    public CmsHtmlReport(Locale locale, String siteRoot, boolean writeHtml, boolean isTransient) {
+    public CmsHtmlReport(@RUntainted Locale locale, String siteRoot, boolean writeHtml, boolean isTransient) {
 
         init(locale, siteRoot);
         m_content = new ArrayList<Object>(256);
@@ -108,7 +109,7 @@ public class CmsHtmlReport extends A_CmsReport {
         int indexEnd = m_content.size();
         for (int i = m_indexNext; i < indexEnd; i++) {
             int pos = m_transient ? 0 : i;
-            Object obj = m_content.get(pos);
+            @RUntainted Object obj = m_content.get(pos);
             if ((obj instanceof String) || (obj instanceof StringBuffer)) {
                 result.append(obj);
             } else if (obj instanceof Throwable) {
@@ -136,7 +137,7 @@ public class CmsHtmlReport extends A_CmsReport {
      * @see org.opencms.report.A_CmsReport#print(java.lang.String, int)
      */
     @Override
-    public synchronized void print(String value, int format) {
+    public synchronized void print(@RUntainted String value, int format) {
 
         StringBuffer buf = null;
 
@@ -246,7 +247,7 @@ public class CmsHtmlReport extends A_CmsReport {
     /**
      * @see org.opencms.report.I_CmsReport#println(java.lang.Throwable)
      */
-    public synchronized void println(Throwable t) {
+    public synchronized void println(@RUntainted Throwable t) {
 
         addError(t.getMessage());
         m_content.add(t);
@@ -277,7 +278,7 @@ public class CmsHtmlReport extends A_CmsReport {
      *
      * @return the formatted StringBuffer
      */
-    private StringBuffer getExceptionElement(Throwable throwable) {
+    private StringBuffer getExceptionElement(@RUntainted Throwable throwable) {
 
         StringBuffer buf = new StringBuffer(256);
 
@@ -306,7 +307,7 @@ public class CmsHtmlReport extends A_CmsReport {
                 buf.append("<span class='throw'>");
                 buf.append(getMessages().key(Messages.RPT_EXCEPTION_0));
                 String exception = CmsEncoder.escapeXml(CmsException.getStackTraceAsString(throwable));
-                StringBuffer excBuffer = new StringBuffer(exception.length() + 50);
+                @RUntainted StringBuffer excBuffer = new StringBuffer(exception.length() + 50);
                 StringTokenizer tok = new StringTokenizer(exception, "\r\n");
                 while (tok.hasMoreTokens()) {
                     excBuffer.append(tok.nextToken());

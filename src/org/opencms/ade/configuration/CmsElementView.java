@@ -51,6 +51,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Ordering;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a element view for the container page editor.<p>
@@ -114,10 +115,10 @@ public class CmsElementView {
     private CmsUUID m_parentViewId;
 
     /** The view resource. */
-    private CmsResource m_resource;
+    private @RUntainted CmsResource m_resource;
 
     /** The title localization key. */
-    private String m_titleKey;
+    private @RUntainted String m_titleKey;
 
     /**
      * Creates a new element view based on the given explorer type.<p>
@@ -140,7 +141,7 @@ public class CmsElementView {
      *
      * @throws Exception  if parsing the resource fails
      */
-    public CmsElementView(CmsObject cms, CmsResource resource)
+    public CmsElementView(CmsObject cms, @RUntainted CmsResource resource)
     throws Exception {
 
         m_resource = resource;
@@ -246,7 +247,7 @@ public class CmsElementView {
      *
      * @return the title
      */
-    public String getTitle(CmsObject cms, Locale locale) {
+    public String getTitle(CmsObject cms, @RUntainted Locale locale) {
 
         if (m_titleKey == null) {
             return m_title;

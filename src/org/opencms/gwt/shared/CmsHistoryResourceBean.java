@@ -30,6 +30,7 @@ package org.opencms.gwt.shared;
 import org.opencms.util.CmsUUID;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean representing the data to be displayed in the history dialog for a single resource version.<p>
@@ -52,7 +53,7 @@ public class CmsHistoryResourceBean implements IsSerializable {
     private int m_size;
 
     /** The structure id. */
-    private CmsUUID m_structureId;
+    private @RUntainted CmsUUID m_structureId;
 
     /** The title. */
     private String m_title;
@@ -127,7 +128,7 @@ public class CmsHistoryResourceBean implements IsSerializable {
      *
      * @return the structureId
      */
-    public CmsUUID getStructureId() {
+    public @RUntainted CmsUUID getStructureId() {
 
         return m_structureId;
     }
@@ -216,7 +217,7 @@ public class CmsHistoryResourceBean implements IsSerializable {
      * Sets the structure id
      * @param structureId the structure id to set
      */
-    public void setStructureId(CmsUUID structureId) {
+    public void setStructureId(@RUntainted CmsUUID structureId) {
 
         m_structureId = structureId;
     }

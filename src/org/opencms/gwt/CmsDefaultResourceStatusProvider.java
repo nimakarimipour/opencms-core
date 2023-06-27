@@ -93,6 +93,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to generate all the data which is necessary for the resource status dialog(s).<p>
@@ -139,7 +140,7 @@ public class CmsDefaultResourceStatusProvider {
      */
     public static CmsRelationTargetListBean getContainerpageRelationTargets(
         CmsObject cms,
-        CmsUUID source,
+        @RUntainted CmsUUID source,
         List<CmsUUID> additionalIds,
         boolean cancelIfChanged)
     throws CmsException {
@@ -148,7 +149,7 @@ public class CmsDefaultResourceStatusProvider {
         CmsResource content = cms.readResource(source, CmsResourceFilter.ALL);
         boolean isContainerPage = CmsResourceTypeXmlContainerPage.isContainerPage(content);
         if (additionalIds != null) {
-            for (CmsUUID structureId : additionalIds) {
+            for (@RUntainted CmsUUID structureId : additionalIds) {
                 try {
                     CmsResource res = cms.readResource(structureId, CmsResourceFilter.ALL);
                     result.add(res);
@@ -199,7 +200,7 @@ public class CmsDefaultResourceStatusProvider {
      */
     public static CmsRelationTargetListBean getContainerpageRelationTargetsLimited(
         CmsObject cms,
-        CmsUUID source,
+        @RUntainted CmsUUID source,
         List<CmsUUID> additionalIds,
         boolean cancelIfChanged)
     throws CmsException, TooManyRelationsException {
@@ -208,7 +209,7 @@ public class CmsDefaultResourceStatusProvider {
         CmsResource content = cms.readResource(source, CmsResourceFilter.ALL);
         boolean isContainerPage = CmsResourceTypeXmlContainerPage.isContainerPage(content);
         if (additionalIds != null) {
-            for (CmsUUID structureId : additionalIds) {
+            for (@RUntainted CmsUUID structureId : additionalIds) {
                 try {
                     CmsResource res = cms.readResource(structureId, CmsResourceFilter.ALL);
                     result.add(res);
@@ -301,17 +302,17 @@ public class CmsDefaultResourceStatusProvider {
     public CmsResourceStatusBean getResourceStatus(
         HttpServletRequest request,
         CmsObject cms,
-        CmsUUID structureId,
-        String contentLocale,
+        @RUntainted CmsUUID structureId,
+        @RUntainted String contentLocale,
         boolean includeTargets,
-        CmsUUID detailContentId,
+        @RUntainted CmsUUID detailContentId,
         List<CmsUUID> additionalStructureIds,
-        Map<String, String> context)
+        @RUntainted Map<@RUntainted String, @RUntainted String> context)
     throws CmsException {
 
-        Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
+        @RUntainted Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
         cms.getRequestContext().setLocale(locale);
-        CmsResource resource = cms.readResource(structureId, CmsResourceFilter.ALL);
+        @RUntainted CmsResource resource = cms.readResource(structureId, CmsResourceFilter.ALL);
         String localizedTitle = null;
         Locale realLocale = null;
         if (!CmsStringUtil.isEmptyOrWhitespaceOnly(contentLocale)) {
@@ -617,7 +618,7 @@ public class CmsDefaultResourceStatusProvider {
      *
      * @throws CmsException if something goes wrong
      */
-    protected List<CmsResourceStatusRelationBean> getSiblings(CmsObject cms, String locale, CmsResource resource)
+    protected List<CmsResourceStatusRelationBean> getSiblings(CmsObject cms, @RUntainted String locale, CmsResource resource)
     throws CmsException {
 
         List<CmsResourceStatusRelationBean> result = new ArrayList<CmsResourceStatusRelationBean>();
@@ -660,7 +661,7 @@ public class CmsDefaultResourceStatusProvider {
      */
     protected List<CmsResourceStatusRelationBean> getTargets(
         CmsObject cms,
-        String locale,
+        @RUntainted String locale,
         CmsResource resource,
         List<CmsUUID> additionalStructureIds)
     throws CmsException, TooManyRelationsException {
@@ -707,7 +708,7 @@ public class CmsDefaultResourceStatusProvider {
      */
     CmsResourceStatusRelationBean createRelationBean(
         CmsObject cms,
-        String locale,
+        @RUntainted String locale,
         CmsResource relationResource,
         CmsPermissionInfo permissionInfo)
     throws CmsException {
@@ -759,7 +760,7 @@ public class CmsDefaultResourceStatusProvider {
         CmsObject cms,
         HttpServletRequest request,
         CmsResource resource,
-        Map<String, String> context) {
+        @RUntainted Map<@RUntainted String, @RUntainted String> context) {
 
         CmsADEConfigData config = OpenCms.getADEManager().lookupConfiguration(
             cms,
@@ -786,7 +787,7 @@ public class CmsDefaultResourceStatusProvider {
                 LOG.error(e.getLocalizedMessage(), e);
             }
 
-            String elementId = context.get(CmsGwtConstants.ATTR_ELEMENT_ID);
+            @RUntainted String elementId = context.get(CmsGwtConstants.ATTR_ELEMENT_ID);
             String pageRootPath = context.get(CmsGwtConstants.ATTR_PAGE_ROOT_PATH);
             String containr = context.get(CmsGwtConstants.ATTR_CONTAINER_ID);
             // We need to handle the case of normal formatter element vs display formatter differently,
@@ -823,7 +824,7 @@ public class CmsDefaultResourceStatusProvider {
                     }
                 }
                 if (!foundFormatterInfo) {
-                    CmsUUID formatterId = elementBean.getFormatterId();
+                    @RUntainted CmsUUID formatterId = elementBean.getFormatterId();
                     try {
                         CmsResource formatterRes = cms.readResource(formatterId, CmsResourceFilter.IGNORE_EXPIRATION);
                         String path = formatterRes.getRootPath();

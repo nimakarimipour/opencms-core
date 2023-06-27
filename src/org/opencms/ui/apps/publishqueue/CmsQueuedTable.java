@@ -73,6 +73,7 @@ import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for Vaadin Table showing history queue elements.<p>
@@ -619,7 +620,7 @@ public class CmsQueuedTable extends Table {
      *
      * @return the status message map
      */
-    private static Map<String, String> getStatusMap() {
+    private static @RUntainted Map<@RUntainted String, @RUntainted String> getStatusMap() {
 
         Map<String, String> map = new HashMap<String, String>();
         map.put(STATE_OK, Messages.GUI_PQUEUE_STATUS_OK_0);

@@ -106,6 +106,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class representing a dialog for optimizing galleries.<p>
@@ -138,7 +139,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
         /**
          * @see org.opencms.ui.shared.rpc.I_CmsGwtContextMenuServerRpc#refresh(java.lang.String)
          */
-        public void refresh(String uuid) {
+        public void refresh(@RUntainted String uuid) {
 
             if (uuid != null) {
                 try {
@@ -842,7 +843,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
         private static final String PANEL_WIDTH = "206px";
 
         /** Image scale parameters for preview images as used by the image scaler. */
-        private static final String SCALE_PARAMETERS = "t:1,c:ffffff,w:" + IMAGE_WIDTH + ",h:" + IMAGE_HEIGHT;
+        private static final @RUntainted String SCALE_PARAMETERS = "t:1,c:ffffff,w:" + IMAGE_WIDTH + ",h:" + IMAGE_HEIGHT;
 
         /** Request query string to load a scaled preview image. */
         private static final String SCALE_QUERY_STRING = "?__scale=" + SCALE_PARAMETERS;
@@ -1643,10 +1644,10 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
     static final Log LOG = CmsLog.getLog(CmsGalleryOptimizeDialog.class);
 
     /** The height of the preview images. */
-    private static final String IMAGE_HEIGHT = "170";
+    private static final @RUntainted String IMAGE_HEIGHT = "170";
 
     /** The width of the preview images. */
-    private static final String IMAGE_WIDTH = "200";
+    private static final @RUntainted String IMAGE_WIDTH = "200";
 
     /** The default serial version UID. */
     private static final long serialVersionUID = 1L;

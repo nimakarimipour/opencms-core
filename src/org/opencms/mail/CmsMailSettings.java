@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the settings for the OpenCms mail service.<p>
@@ -81,7 +82,7 @@ public class CmsMailSettings {
      * @param username the user name to use for authentication
      * @param password the password to use for authentication
      */
-    public void addMailHost(String hostname, String order, String protocol, String username, String password) {
+    public void addMailHost(@RUntainted String hostname, String order, String protocol, @RUntainted String username, String password) {
 
         addMailHost(hostname, "25", order, protocol, null, username, password);
     }
@@ -98,12 +99,12 @@ public class CmsMailSettings {
        * @param password the password to use for authentication
        */
     public void addMailHost(
-        String hostname,
+        @RUntainted String hostname,
         String port,
         String order,
         String protocol,
         String security,
-        String username,
+        @RUntainted String username,
         String password) {
 
         Integer thePort;

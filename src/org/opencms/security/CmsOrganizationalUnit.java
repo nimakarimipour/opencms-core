@@ -33,6 +33,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An organizational unit in OpenCms.<p>
@@ -59,10 +60,10 @@ public class CmsOrganizationalUnit {
     private int m_flags;
 
     /** The unique id of this organizational unit. */
-    private final CmsUUID m_id;
+    private final @RUntainted CmsUUID m_id;
 
     /** The fully qualified name of this organizational unit. */
-    private final String m_name;
+    private final @RUntainted String m_name;
 
     /** The id of the related default project. */
     private final CmsUUID m_projectId;
@@ -76,7 +77,7 @@ public class CmsOrganizationalUnit {
      * @param flags the flags of the organizational unit
      * @param projectId the id of the related default project
      */
-    public CmsOrganizationalUnit(CmsUUID id, String fqn, String description, int flags, CmsUUID projectId) {
+    public CmsOrganizationalUnit(@RUntainted CmsUUID id, @RUntainted String fqn, String description, int flags, CmsUUID projectId) {
 
         m_id = id;
         m_name = fqn;
@@ -95,7 +96,7 @@ public class CmsOrganizationalUnit {
      *
      * @return the parent fully qualified name
      */
-    public static final String getParentFqn(String fqn) {
+    public static final @RUntainted String getParentFqn(@RUntainted String fqn) {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(fqn)) {
             // in case of the root ou
@@ -121,7 +122,7 @@ public class CmsOrganizationalUnit {
      *
      * @return the last name of the given fully qualified name
      */
-    public static final String getSimpleName(String fqn) {
+    public static final @RUntainted String getSimpleName(@RUntainted String fqn) {
 
         String parentFqn = getParentFqn(fqn);
         if (parentFqn != null) {
@@ -157,7 +158,7 @@ public class CmsOrganizationalUnit {
      *
      * @return the given fully qualified name without leading separator
      */
-    public static String removeLeadingSeparator(String fqn) {
+    public static @RUntainted String removeLeadingSeparator(@RUntainted String fqn) {
 
         if ((fqn != null) && fqn.startsWith(CmsOrganizationalUnit.SEPARATOR)) {
             return fqn.substring(1);
@@ -221,7 +222,7 @@ public class CmsOrganizationalUnit {
      *
      * @return the description of this organizational unit
      */
-    public String getDescription(Locale locale) {
+    public @RUntainted String getDescription(@RUntainted Locale locale) {
 
         CmsMacroResolver macroResolver = new CmsMacroResolver();
         macroResolver.setMessages(org.opencms.db.generic.Messages.get().getBundle(locale));
@@ -235,7 +236,7 @@ public class CmsOrganizationalUnit {
      *
      * @return the display name for this organizational unit
      */
-    public String getDisplayName(Locale locale) {
+    public String getDisplayName(@RUntainted Locale locale) {
 
         if (getParentFqn() == null) {
             // for the root ou
@@ -266,7 +267,7 @@ public class CmsOrganizationalUnit {
      *
      * @return the id of this organizational unit.
      */
-    public CmsUUID getId() {
+    public @RUntainted CmsUUID getId() {
 
         return m_id;
     }
@@ -288,7 +289,7 @@ public class CmsOrganizationalUnit {
      *
      * @return the full qualified name of the parent organizational unit of this organizational unit
      */
-    public String getParentFqn() {
+    public @RUntainted String getParentFqn() {
 
         return getParentFqn(m_name);
     }

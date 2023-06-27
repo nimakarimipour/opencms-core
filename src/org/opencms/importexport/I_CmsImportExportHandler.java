@@ -35,6 +35,7 @@ import org.opencms.security.CmsRoleViolationException;
 import org.opencms.xml.CmsXmlException;
 
 import org.dom4j.Document;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An import/export handler is an abstract layer to hide the logic how to import/export a specific
@@ -113,7 +114,7 @@ public interface I_CmsImportExportHandler {
      * @deprecated use {@link #importData(CmsObject, I_CmsReport)} instead
      */
     @Deprecated
-    void importData(CmsObject cms, String importFile, String importPath, I_CmsReport report)
+    void importData(CmsObject cms, @RUntainted String importFile, String importPath, I_CmsReport report)
     throws CmsXmlException, CmsImportExportException, CmsRoleViolationException, CmsException;
 
     /**

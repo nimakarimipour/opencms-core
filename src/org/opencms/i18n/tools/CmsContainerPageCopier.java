@@ -80,6 +80,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for copying container pages including some of their elements.<p>
@@ -186,15 +187,15 @@ public class CmsContainerPageCopier {
      *
      * @throws CmsException if something goes wrong
      */
-    public void adjustLocalesForElement(CmsResource elementResource, CmsResource originalResource) throws CmsException {
+    public void adjustLocalesForElement(@RUntainted CmsResource elementResource, @RUntainted CmsResource originalResource) throws CmsException {
 
         if (m_copyMode != CopyMode.smartCopyAndChangeLocale) {
             return;
         }
 
         CmsFile file = m_cms.readFile(elementResource);
-        Locale oldLocale = OpenCms.getLocaleManager().getDefaultLocale(m_cms, m_originalPage);
-        Locale newLocale = OpenCms.getLocaleManager().getDefaultLocale(m_cms, m_targetFolder);
+        @RUntainted Locale oldLocale = OpenCms.getLocaleManager().getDefaultLocale(m_cms, m_originalPage);
+        @RUntainted Locale newLocale = OpenCms.getLocaleManager().getDefaultLocale(m_cms, m_targetFolder);
         CmsXmlContent content = CmsXmlContentFactory.unmarshal(m_cms, file);
         try {
             if (content.hasLocale(newLocale)) {
@@ -231,7 +232,7 @@ public class CmsContainerPageCopier {
      * @throws CmsException thrown if something goes wrong.
      * @throws NoCustomReplacementException if a custom replacement is not found for a type which requires it.
      */
-    public void copyPageOnly(CmsResource originalPage, String targetPageRootPath)
+    public void copyPageOnly(CmsResource originalPage, @RUntainted String targetPageRootPath)
     throws CmsException, NoCustomReplacementException {
 
         if ((null == originalPage)
@@ -319,7 +320,7 @@ public class CmsContainerPageCopier {
                 // set the request context locale to the target content locale as this is used during content creation
                 Locale targetLocale = OpenCms.getLocaleManager().getDefaultLocale(m_cms, m_targetFolder);
                 targetCms.getRequestContext().setLocale(targetLocale);
-                CmsResource resourceCopy = typeConfig.createNewElement(
+                @RUntainted CmsResource resourceCopy = typeConfig.createNewElement(
                     targetCms,
                     originalResource,
                     CmsResource.getParentFolder(targetPage.getRootPath()));
@@ -374,7 +375,7 @@ public class CmsContainerPageCopier {
      * @throws CmsException if something goes wrong
      * @throws NoCustomReplacementException if a custom replacement element was not found for a type which requires it
      */
-    public void replaceElements(CmsResource containerPage) throws CmsException, NoCustomReplacementException {
+    public void replaceElements(@RUntainted CmsResource containerPage) throws CmsException, NoCustomReplacementException {
 
         CmsObject rootCms = getRootCms();
         CmsObject targetCms = OpenCms.initCmsObject(m_cms);

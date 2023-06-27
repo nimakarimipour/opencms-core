@@ -43,6 +43,7 @@ import org.opencms.xml.containerpage.CmsFormatterConfiguration;
 
 import java.io.Serializable;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptors for all resources in the VFS.<p>
@@ -240,7 +241,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
      * Use of int based resource type references will be discontinued in a future OpenCms release.
      */
     @Deprecated
-    void chtype(CmsObject cms, CmsSecurityManager securityManager, CmsResource resource, int type) throws CmsException;
+    void chtype(CmsObject cms, CmsSecurityManager securityManager, CmsResource resource, @RUntainted int type) throws CmsException;
 
     /**
      * Copies a resource.<p>
@@ -279,7 +280,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource source,
-        String destination,
+        @RUntainted String destination,
         CmsResource.CmsResourceCopyMode siblingMode)
     throws CmsException, CmsIllegalArgumentException;
 
@@ -326,7 +327,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
     CmsResource createResource(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        String resourcename,
+        @RUntainted String resourcename,
         byte[] content,
         List<CmsProperty> properties)
     throws CmsException, CmsIllegalArgumentException;
@@ -404,7 +405,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
      * @see org.opencms.flex.CmsFlexCache
      * @see org.opencms.flex.CmsFlexCacheKey
      */
-    String getCachePropertyDefault();
+    @RUntainted String getCachePropertyDefault();
 
     /**
      * Returns the class name configured for this resource type.<p>
@@ -437,7 +438,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
      *
      * @return a list of file extensions mappings for this resource type in an unmodifiable List
      */
-    List<String> getConfiguredMappings();
+    @RUntainted List<@RUntainted String> getConfiguredMappings();
 
     /**
      * Returns the formatter configuration for the given resource.<p>
@@ -488,7 +489,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
      * Use of int based resource type references will be discontinued in a future OpenCms release.
      */
     @Deprecated
-    int getTypeId();
+    @RUntainted int getTypeId();
 
     /**
      * Returns the name of this resource type.<p>
@@ -556,7 +557,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
      *
      * @throws CmsConfigurationException if the configuration is invalid
      */
-    void initConfiguration(String name, String id, String className) throws CmsConfigurationException;
+    void initConfiguration(@RUntainted String name, String id, @RUntainted String className) throws CmsConfigurationException;
 
     /**
      * Initializes this resource type.<p>
@@ -624,7 +625,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
      * @see CmsObject#lockResource(String)
      * @see CmsSecurityManager#lockResource(org.opencms.file.CmsRequestContext, CmsResource, CmsLockType)
      */
-    void lockResource(CmsObject cms, CmsSecurityManager securityManager, CmsResource resource, CmsLockType type)
+    void lockResource(CmsObject cms, CmsSecurityManager securityManager, CmsResource resource, @RUntainted CmsLockType type)
     throws CmsException;
 
     /**
@@ -649,7 +650,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
      * @see CmsSecurityManager#copyResource(org.opencms.file.CmsRequestContext, CmsResource, String, CmsResource.CmsResourceCopyMode)
      * @see CmsSecurityManager#deleteResource(org.opencms.file.CmsRequestContext, CmsResource, CmsResource.CmsResourceDeleteMode)
      */
-    void moveResource(CmsObject cms, CmsSecurityManager securityManager, CmsResource resource, String destination)
+    void moveResource(CmsObject cms, CmsSecurityManager securityManager, CmsResource resource, @RUntainted String destination)
     throws CmsException, CmsIllegalArgumentException;
 
     /**
@@ -740,7 +741,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
      * @see CmsObject#restoreResourceVersion(org.opencms.util.CmsUUID, int)
      * @see CmsSecurityManager#restoreResource(org.opencms.file.CmsRequestContext, CmsResource, int)
      */
-    void restoreResource(CmsObject cms, CmsSecurityManager securityManager, CmsResource resource, int version)
+    void restoreResource(CmsObject cms, CmsSecurityManager securityManager, CmsResource resource, @RUntainted int version)
     throws CmsException;
 
     /**
@@ -774,7 +775,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource resource,
-        long dateExpired,
+        @RUntainted long dateExpired,
         boolean recursive)
     throws CmsException;
 
@@ -796,7 +797,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource resource,
-        long dateLastModified,
+        @RUntainted long dateLastModified,
         boolean recursive)
     throws CmsException;
 
@@ -818,7 +819,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource resource,
-        long dateReleased,
+        @RUntainted long dateReleased,
         boolean recursive)
     throws CmsException;
 

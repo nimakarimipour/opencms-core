@@ -42,6 +42,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Creates and validates persisten login tokens for users.<p>
@@ -62,10 +63,10 @@ public class CmsPersistentLoginTokenHandler {
         public static final String SEPARATOR = "|";
 
         /** The key. */
-        private String m_key;
+        private @RUntainted String m_key;
 
         /** The name. */
-        private String m_name;
+        private @RUntainted String m_name;
 
         /**
          * Creates a new token object from the encoded representation.<p>
@@ -75,7 +76,7 @@ public class CmsPersistentLoginTokenHandler {
         public Token(String token) {
 
             if (token != null) {
-                List<String> parts = CmsStringUtil.splitAsList(token, SEPARATOR);
+                @RUntainted List<@RUntainted String> parts = CmsStringUtil.splitAsList(token, SEPARATOR);
                 if (parts.size() == 2) {
                     m_name = decodeName(parts.get(0));
                     m_key = parts.get(1);
@@ -89,7 +90,7 @@ public class CmsPersistentLoginTokenHandler {
          * @param name the name
          * @param key the key
          */
-        public Token(String name, String key) {
+        public Token(@RUntainted String name, @RUntainted String key) {
 
             m_name = name;
             m_key = key;
@@ -111,7 +112,7 @@ public class CmsPersistentLoginTokenHandler {
          *
          * @return the additional info key
          */
-        public String getAdditionalInfoKey() {
+        public @RUntainted String getAdditionalInfoKey() {
 
             return KEY_PREFIX + m_key;
         }
@@ -132,7 +133,7 @@ public class CmsPersistentLoginTokenHandler {
          *
          * @return the user name
          */
-        public String getName() {
+        public @RUntainted String getName() {
 
             return m_name;
         }
@@ -154,7 +155,7 @@ public class CmsPersistentLoginTokenHandler {
          * @return the decoded name
          */
         @SuppressWarnings("synthetic-access")
-        private String decodeName(String nameHex) {
+        private @RUntainted String decodeName(String nameHex) {
 
             try {
                 return new String(Hex.decodeHex(nameHex.toCharArray()), "UTF-8");
@@ -183,10 +184,10 @@ public class CmsPersistentLoginTokenHandler {
     }
 
     /** Default token lifetime. */
-    public static final long DEFAULT_LIFETIME = 1000 * 60 * 60 * 8;
+    public static final @RUntainted long DEFAULT_LIFETIME = 1000 * 60 * 60 * 8;
 
     /** Prefix used for the keys for the additional infos this class creates. */
-    public static final String KEY_PREFIX = "logintoken_";
+    public static final @RUntainted String KEY_PREFIX = "logintoken_";
 
     /** The logger for this class. */
     private static final Log LOG = CmsLog.getLog(CmsPersistentLoginTokenHandler.class);
@@ -195,7 +196,7 @@ public class CmsPersistentLoginTokenHandler {
     private static CmsObject m_adminCms;
 
     /** The lifetime for created tokens. */
-    private long m_lifetime = DEFAULT_LIFETIME;
+    private @RUntainted long m_lifetime = DEFAULT_LIFETIME;
 
     /**
      * Creates a new instance.<p>
@@ -231,8 +232,8 @@ public class CmsPersistentLoginTokenHandler {
         String key = RandomStringUtils.randomAlphanumeric(16);
         Token tokenObj = new Token(user.getName(), key);
         String token = tokenObj.encode();
-        String addInfoKey = tokenObj.getAdditionalInfoKey();
-        String value = "" + (System.currentTimeMillis() + m_lifetime);
+        @RUntainted String addInfoKey = tokenObj.getAdditionalInfoKey();
+        @RUntainted String value = "" + (System.currentTimeMillis() + m_lifetime);
         user.getAdditionalInfo().put(addInfoKey, value);
         removeExpiredTokens(user, System.currentTimeMillis());
         LOG.info("Generated token for user " + user.getName() + " using key " + key);
@@ -295,7 +296,7 @@ public class CmsPersistentLoginTokenHandler {
      *
      * @param duration the number of milliseconds for which the token should be valid
      */
-    public void setTokenLifetime(long duration) {
+    public void setTokenLifetime(@RUntainted long duration) {
 
         m_lifetime = duration;
     }
@@ -319,7 +320,7 @@ public class CmsPersistentLoginTokenHandler {
             LOG.warn("Invalid token: " + tokenString);
             return null;
         }
-        String name = token.getName();
+        @RUntainted String name = token.getName();
         String key = token.getKey();
         String logContext = "[user=" + name + ",key=" + key + "] ";
         try {

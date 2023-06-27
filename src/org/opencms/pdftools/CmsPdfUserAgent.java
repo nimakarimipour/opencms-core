@@ -49,6 +49,7 @@ import org.xhtmlrenderer.resource.ImageResource;
 import org.xhtmlrenderer.swing.NaiveUserAgent;
 
 import com.lowagie.text.Image;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class is responsible for loading external resources while generating PDF from XHTML.
@@ -98,7 +99,7 @@ public class CmsPdfUserAgent extends NaiveUserAgent {
      * @see org.xhtmlrenderer.swing.NaiveUserAgent#getBinaryResource(java.lang.String)
      */
     @Override
-    public byte[] getBinaryResource(String uri) {
+    public byte[] getBinaryResource(@RUntainted String uri) {
 
         return readFile(uri);
     }
@@ -107,7 +108,7 @@ public class CmsPdfUserAgent extends NaiveUserAgent {
      * @see org.xhtmlrenderer.swing.NaiveUserAgent#getCSSResource(java.lang.String)
      */
     @Override
-    public CSSResource getCSSResource(String uri) {
+    public CSSResource getCSSResource(@RUntainted String uri) {
 
         return new CSSResource(getStream(readFile(uri)));
     }
@@ -194,7 +195,7 @@ public class CmsPdfUserAgent extends NaiveUserAgent {
      * @param uriWithParams the
      * @return the file data
      */
-    private byte[] readFile(String uriWithParams) {
+    private byte[] readFile(@RUntainted String uriWithParams) {
 
         try {
             String pathAndQuery = OpenCms.getLinkManager().getRootPath(m_cms, uriWithParams);
@@ -215,7 +216,7 @@ public class CmsPdfUserAgent extends NaiveUserAgent {
      *
      * @return the image data
      */
-    private byte[] readImage(String uriWithParams) {
+    private byte[] readImage(@RUntainted String uriWithParams) {
 
         try {
             String pathAndQuery = OpenCms.getLinkManager().getRootPath(m_cms, uriWithParams);

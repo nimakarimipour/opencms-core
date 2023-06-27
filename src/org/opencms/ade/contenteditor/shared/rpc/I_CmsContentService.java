@@ -37,6 +37,7 @@ import org.opencms.util.CmsUUID;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The content editor service interface.<p>
@@ -62,7 +63,7 @@ public interface I_CmsContentService extends org.opencms.acacia.shared.rpc.I_Cms
      * @throws CmsRpcException in case anything goes wrong
      */
     CmsContentDefinition callEditorChangeHandlers(
-        String entityId,
+        @RUntainted String entityId,
         CmsEntity editedLocaleEntity,
         Collection<String> skipPaths,
         Collection<String> changedScopes)
@@ -92,7 +93,7 @@ public interface I_CmsContentService extends org.opencms.acacia.shared.rpc.I_Cms
      * @throws Exception if something goes wrong processing the request
      */
     CmsContentDefinition loadDefinition(
-        String entityId,
+        @RUntainted String entityId,
         String clientId,
         CmsEntity editedLocaleEntity,
         Collection<String> skipPaths,
@@ -119,12 +120,12 @@ public interface I_CmsContentService extends org.opencms.acacia.shared.rpc.I_Cms
      * @throws CmsRpcException if something goes wrong processing the request
      */
     CmsContentDefinition loadInitialDefinition(
-        String entityId,
+        @RUntainted String entityId,
         String clientId,
-        String newLink,
-        CmsUUID modelFileId,
+        @RUntainted String newLink,
+        @RUntainted CmsUUID modelFileId,
         String editContext,
-        String mainLocale,
+        @RUntainted String mainLocale,
         String mode,
         String postCreateHandler,
         CmsEditHandlerData editHandlerData,
@@ -147,7 +148,7 @@ public interface I_CmsContentService extends org.opencms.acacia.shared.rpc.I_Cms
      * @throws CmsRpcException if something goes wrong processing the request
      */
     CmsContentDefinition loadNewDefinition(
-        String entityId,
+        @RUntainted String entityId,
         String clientId,
         CmsEntity editedLocaleEntity,
         Collection<String> skipPaths,
@@ -180,9 +181,9 @@ public interface I_CmsContentService extends org.opencms.acacia.shared.rpc.I_Cms
     CmsSaveResult saveAndDeleteEntities(
         CmsEntity lastEditedEntity,
         String clientId,
-        List<String> deletedEntities,
+        @RUntainted List<@RUntainted String> deletedEntities,
         Collection<String> skipPaths,
-        String lastEditedLocale,
+        @RUntainted String lastEditedLocale,
         boolean clearOnSuccess)
     throws CmsRpcException;
 
@@ -197,5 +198,5 @@ public interface I_CmsContentService extends org.opencms.acacia.shared.rpc.I_Cms
      * @return not used
      * @throws CmsRpcException if something goes wrong
      */
-    String saveValue(String contentId, String contentPath, String locale, String value) throws CmsRpcException;
+    String saveValue(@RUntainted String contentId, String contentPath, @RUntainted String locale, @RUntainted String value) throws CmsRpcException;
 }

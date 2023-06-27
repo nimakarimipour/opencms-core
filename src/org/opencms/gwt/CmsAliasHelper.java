@@ -53,6 +53,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class contains the real implementations of service methods related to aliases.<p>
@@ -117,7 +118,7 @@ public class CmsAliasHelper {
      * @param aliasBeans the alias beans
      * @throws CmsException if something goes wrong
      */
-    public void saveAliases(CmsUUID structureId, List<CmsAliasBean> aliasBeans) throws CmsException {
+    public void saveAliases(@RUntainted CmsUUID structureId, List<CmsAliasBean> aliasBeans) throws CmsException {
 
         CmsAliasManager aliasManager = OpenCms.getAliasManager();
         CmsObject cms = m_cms;
@@ -151,7 +152,7 @@ public class CmsAliasHelper {
      *
      * @return null if the string is a valid alias path, else an error message
      */
-    protected String checkValidAliasPath(String path, Locale locale) {
+    protected String checkValidAliasPath(String path, @RUntainted Locale locale) {
 
         if (org.opencms.db.CmsAlias.ALIAS_PATTERN.matcher(path).matches()) {
             return null;
@@ -233,7 +234,7 @@ public class CmsAliasHelper {
                         m_cms.getRequestContext().getSiteRoot(),
                         path);
                     for (CmsAlias alias : aliases) {
-                        CmsUUID otherStructureId = alias.getStructureId();
+                        @RUntainted CmsUUID otherStructureId = alias.getStructureId();
                         if (!otherStructureId.equals(uuid)) {
                             try {
                                 CmsResource resource = m_cms.readResource(otherStructureId, CmsResourceFilter.ALL);

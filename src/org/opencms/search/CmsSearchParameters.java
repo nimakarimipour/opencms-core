@@ -46,6 +46,7 @@ import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the search parameters for a call to <code>{@link org.opencms.search.CmsSearchIndex#search(org.opencms.file.CmsObject, CmsSearchParameters)}</code>.<p>
@@ -880,7 +881,7 @@ public class CmsSearchParameters {
      *
      * @param indexName the name of the index
      */
-    public void setIndex(String indexName) {
+    public void setIndex(@RUntainted String indexName) {
 
         CmsSearchIndex index;
         if (CmsStringUtil.isNotEmpty(indexName)) {

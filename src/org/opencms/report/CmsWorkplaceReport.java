@@ -36,6 +36,7 @@ import java.util.Locale;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report class for displaying reports to the user in the workplace.<p>
@@ -77,7 +78,7 @@ public class CmsWorkplaceReport extends A_CmsReport {
      * @param isTransient If set to <code>true</code> nothing is kept in memory
      * @param logChannel the log channel to send the report output to (or null if this shouldn't be done)
      */
-    public CmsWorkplaceReport(Locale locale, String siteRoot, boolean isTransient, Object logChannel) {
+    public CmsWorkplaceReport(@RUntainted Locale locale, String siteRoot, boolean isTransient, Object logChannel) {
 
         init(locale, siteRoot);
         if (logChannel != null) {
@@ -135,7 +136,7 @@ public class CmsWorkplaceReport extends A_CmsReport {
      * @see org.opencms.report.A_CmsReport#print(java.lang.String, int)
      */
     @Override
-    public synchronized void print(String value, int format) {
+    public synchronized void print(@RUntainted String value, int format) {
 
         if (m_logReport != null) {
             m_logReport.print(value, format);
@@ -164,7 +165,7 @@ public class CmsWorkplaceReport extends A_CmsReport {
     /**
      * @see org.opencms.report.I_CmsReport#println(java.lang.Throwable)
      */
-    public synchronized void println(Throwable t) {
+    public synchronized void println(@RUntainted Throwable t) {
 
         if (m_logReport != null) {
             m_logReport.println(t);

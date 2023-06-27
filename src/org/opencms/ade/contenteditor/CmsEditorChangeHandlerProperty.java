@@ -39,6 +39,7 @@ import java.util.Collection;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles editor content changes to read OpenCms resource properties and insert their values into the edited content.<p>
@@ -49,10 +50,10 @@ public class CmsEditorChangeHandlerProperty extends A_CmsXmlContentEditorChangeH
     protected static final Log LOG = CmsLog.getLog(CmsEditorChangeHandlerProperty.class);
 
     /** The property to read. */
-    private String m_propertyName;
+    private @RUntainted String m_propertyName;
 
     /** The content field to manipulate. */
-    private String m_targetField;
+    private @RUntainted String m_targetField;
 
     /**
      * @see org.opencms.xml.content.I_CmsXmlContentEditorChangeHandler#handleChange(org.opencms.file.CmsObject, org.opencms.xml.content.CmsXmlContent, java.util.Locale, java.util.Collection)
@@ -60,12 +61,12 @@ public class CmsEditorChangeHandlerProperty extends A_CmsXmlContentEditorChangeH
     public CmsXmlContent handleChange(
         CmsObject cms,
         CmsXmlContent content,
-        Locale locale,
+        @RUntainted Locale locale,
         Collection<String> changedPaths) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_propertyName)
             && CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_targetField)) {
-            for (String path : changedPaths) {
+            for (@RUntainted String path : changedPaths) {
                 I_CmsXmlContentValue value = content.getValue(path, locale);
                 if (value != null) {
                     String val = value.getStringValue(cms);
@@ -74,7 +75,7 @@ public class CmsEditorChangeHandlerProperty extends A_CmsXmlContentEditorChangeH
                             CmsProperty prop = cms.readPropertyObject(val, m_propertyName, false);
 
                             if (!prop.isNullProperty()) {
-                                String target = resolveRelativePath(path, m_targetField);
+                                @RUntainted String target = resolveRelativePath(path, m_targetField);
                                 if (content.hasValue(target, locale)) {
                                     content.getValue(target, locale).setStringValue(cms, prop.getValue());
                                 } else {
@@ -98,7 +99,7 @@ public class CmsEditorChangeHandlerProperty extends A_CmsXmlContentEditorChangeH
     public void setConfiguration(String configuration) {
 
         super.setConfiguration(configuration);
-        String[] temp = m_configuration.split("\\|");
+        @RUntainted String[] temp = m_configuration.split("\\|");
         if (temp.length == 2) {
             m_propertyName = temp[0];
             m_targetField = temp[1];

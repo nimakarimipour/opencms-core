@@ -50,6 +50,7 @@ import org.apache.commons.logging.Log;
 
 import org.dom4j.Attribute;
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsVarLink".<p>
@@ -79,7 +80,7 @@ public class CmsXmlVarLinkValue extends A_CmsXmlContentValue implements I_CmsJso
     private CmsLink m_linkValue;
 
     /** The String value of the element node. */
-    private String m_stringValue;
+    private @RUntainted String m_stringValue;
 
     /**
      * Creates a new, empty schema type descriptor of type "OpenCmsVfsFile".<p>
@@ -97,7 +98,7 @@ public class CmsXmlVarLinkValue extends A_CmsXmlContentValue implements I_CmsJso
      * @param locale the locale this value is created for
      * @param type the type instance to create the value for
      */
-    public CmsXmlVarLinkValue(I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+    public CmsXmlVarLinkValue(I_CmsXmlDocument document, @RUntainted Element element, Locale locale, I_CmsXmlSchemaType type) {
 
         super(document, element, locale, type);
     }
@@ -109,7 +110,7 @@ public class CmsXmlVarLinkValue extends A_CmsXmlContentValue implements I_CmsJso
      * @param minOccurs minimum number of occurrences of this type according to the XML schema
      * @param maxOccurs maximum number of occurrences of this type according to the XML schema
      */
-    public CmsXmlVarLinkValue(String name, String minOccurs, String maxOccurs) {
+    public CmsXmlVarLinkValue(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         super(name, minOccurs, maxOccurs);
     }
@@ -117,7 +118,7 @@ public class CmsXmlVarLinkValue extends A_CmsXmlContentValue implements I_CmsJso
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#createValue(I_CmsXmlDocument, org.dom4j.Element, Locale)
      */
-    public I_CmsXmlContentValue createValue(I_CmsXmlDocument document, Element element, Locale locale) {
+    public I_CmsXmlContentValue createValue(I_CmsXmlDocument document, @RUntainted Element element, Locale locale) {
 
         return new CmsXmlVarLinkValue(document, element, locale, this);
     }
@@ -128,7 +129,7 @@ public class CmsXmlVarLinkValue extends A_CmsXmlContentValue implements I_CmsJso
     @Override
     public Element generateXml(CmsObject cms, I_CmsXmlDocument document, Element root, Locale locale) {
 
-        Element element = root.addElement(getName());
+        @RUntainted Element element = root.addElement(getName());
 
         // get the default value from the content handler
         String defaultValue = document.getHandler().getDefault(cms, this, locale);
@@ -199,7 +200,7 @@ public class CmsXmlVarLinkValue extends A_CmsXmlContentValue implements I_CmsJso
     /**
      * @see org.opencms.xml.types.I_CmsXmlContentValue#getStringValue(CmsObject)
      */
-    public String getStringValue(CmsObject cms) throws CmsRuntimeException {
+    public @RUntainted String getStringValue(CmsObject cms) throws CmsRuntimeException {
 
         if (m_stringValue == null) {
             m_stringValue = createStringValue(cms);
@@ -210,7 +211,7 @@ public class CmsXmlVarLinkValue extends A_CmsXmlContentValue implements I_CmsJso
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#getTypeName()
      */
-    public String getTypeName() {
+    public @RUntainted String getTypeName() {
 
         return TYPE_NAME;
     }
@@ -228,7 +229,7 @@ public class CmsXmlVarLinkValue extends A_CmsXmlContentValue implements I_CmsJso
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#newInstance(java.lang.String, java.lang.String, java.lang.String)
      */
-    public I_CmsXmlSchemaType newInstance(String name, String minOccurs, String maxOccurs) {
+    public I_CmsXmlSchemaType newInstance(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         return new CmsXmlVarLinkValue(name, minOccurs, maxOccurs);
     }
@@ -236,7 +237,7 @@ public class CmsXmlVarLinkValue extends A_CmsXmlContentValue implements I_CmsJso
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#setStringValue(org.opencms.file.CmsObject, java.lang.String)
      */
-    public void setStringValue(CmsObject cms, String value) throws CmsIllegalArgumentException {
+    public void setStringValue(CmsObject cms, @RUntainted String value) throws CmsIllegalArgumentException {
 
         // element is rebuild from given String value below
         m_element.clearContent();
@@ -249,9 +250,9 @@ public class CmsXmlVarLinkValue extends A_CmsXmlContentValue implements I_CmsJso
             return;
         }
 
-        String path = value;
+        @RUntainted String path = value;
         if (cms != null) {
-            String siteRoot = OpenCms.getSiteManager().getSiteRoot(value);
+            @RUntainted String siteRoot = OpenCms.getSiteManager().getSiteRoot(value);
             String oldSite = cms.getRequestContext().getSiteRoot();
             try {
                 if (siteRoot != null) {

@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.solr.uninverting.UninvertingReader.Type;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for search field configurations used by {@link org.opencms.search.I_CmsSearchIndex} and configured in the
@@ -103,7 +104,7 @@ public interface I_CmsSearchFieldConfiguration extends Comparable<I_CmsSearchFie
      *
      * @return the name of this field configuration
      */
-    String getName();
+    @RUntainted String getName();
 
     /**
      * Initializes this field configuration.<p>
@@ -122,6 +123,6 @@ public interface I_CmsSearchFieldConfiguration extends Comparable<I_CmsSearchFie
      *
      * @param name the name to set
      */
-    void setName(String name);
+    void setName(@RUntainted String name);
 
 }

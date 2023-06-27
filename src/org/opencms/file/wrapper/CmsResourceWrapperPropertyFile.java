@@ -47,6 +47,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Adds a folder in every existing folder with the name "__properties" which
@@ -88,10 +89,10 @@ public class CmsResourceWrapperPropertyFile extends A_CmsResourceWrapper {
      * @see org.opencms.file.wrapper.A_CmsResourceWrapper#addResourcesToFolder(CmsObject, String, CmsResourceFilter)
      */
     @Override
-    public List<CmsResource> addResourcesToFolder(CmsObject cms, String resourcename, CmsResourceFilter filter)
+    public List<CmsResource> addResourcesToFolder(CmsObject cms, @RUntainted String resourcename, CmsResourceFilter filter)
     throws CmsException {
 
-        String path = resourcename;
+        @RUntainted String path = resourcename;
         if (!path.endsWith("/")) {
             path += "/";
         }
@@ -151,7 +152,7 @@ public class CmsResourceWrapperPropertyFile extends A_CmsResourceWrapper {
     @Override
     public CmsResource createResource(
         CmsObject cms,
-        String resourcename,
+        @RUntainted String resourcename,
         int type,
         byte[] content,
         List<CmsProperty> properties) throws CmsException, CmsIllegalArgumentException {
@@ -252,7 +253,7 @@ public class CmsResourceWrapperPropertyFile extends A_CmsResourceWrapper {
 
         CmsResource res = getResource(cms, resourcename, CmsResourceFilter.DEFAULT);
         if (res != null) {
-            String path = cms.getRequestContext().removeSiteRoot(res.getRootPath());
+            @RUntainted String path = cms.getRequestContext().removeSiteRoot(res.getRootPath());
             if (temporary) {
                 cms.lockResourceTemporary(path);
             } else {
@@ -388,7 +389,7 @@ public class CmsResourceWrapperPropertyFile extends A_CmsResourceWrapper {
      * @param structureId the structure id of the resource
      * @return the resource which has been read
      */
-    CmsResource getResource(CmsObject cms, CmsUUID structureId) {
+    CmsResource getResource(CmsObject cms, @RUntainted CmsUUID structureId) {
 
         try {
             CmsResource result = cms.readResource(structureId);
@@ -444,7 +445,7 @@ public class CmsResourceWrapperPropertyFile extends A_CmsResourceWrapper {
      *
      * @return the full path to the property file of the resource
      */
-    private String getPropertyFileName(CmsResource res) {
+    private @RUntainted String getPropertyFileName(CmsResource res) {
 
         StringBuffer ret = new StringBuffer();
 

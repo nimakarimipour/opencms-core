@@ -51,6 +51,7 @@ import com.vaadin.v7.data.util.HierarchicalContainer;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Tree;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the OU Tree.<p>
@@ -94,7 +95,7 @@ public class CmsOuTree extends Tree {
      * @param app app instance
      * @param baseOU baseOu
      */
-    public CmsOuTree(CmsObject cms, CmsAccountsApp app, String baseOU) {
+    public CmsOuTree(CmsObject cms, CmsAccountsApp app, @RUntainted String baseOU) {
 
         m_cms = cms;
         try {
@@ -130,7 +131,7 @@ public class CmsOuTree extends Tree {
 
             private static final long serialVersionUID = -6475529853027436127L;
 
-            public void itemClick(ItemClickEvent event) {
+            public void itemClick(@RUntainted ItemClickEvent event) {
 
                 handleItemClick(event.getItemId());
 
@@ -140,7 +141,7 @@ public class CmsOuTree extends Tree {
 
             private static final long serialVersionUID = 589297480547091120L;
 
-            public void nodeExpand(ExpandEvent event) {
+            public void nodeExpand(@RUntainted ExpandEvent event) {
 
                 handleExpand(event.getItemId());
 
@@ -155,7 +156,7 @@ public class CmsOuTree extends Tree {
      * @param type type (ou,group or user)
      * @param groupID id of group (optional)
      */
-    public void openPath(String path, I_CmsOuTreeType type, CmsUUID groupID) {
+    public void openPath(@RUntainted String path, I_CmsOuTreeType type, CmsUUID groupID) {
 
         if (type == null) {
             return;
@@ -163,7 +164,7 @@ public class CmsOuTree extends Tree {
         try {
             expandItem(m_rootOu);
             String[] pathP = path.split("/");
-            String complPath = "";
+            @RUntainted String complPath = "";
             for (String subP : pathP) {
                 complPath += subP + "/";
                 CmsOrganizationalUnit ou = OpenCms.getOrgUnitManager().readOrganizationalUnit(m_cms, complPath);
@@ -199,7 +200,7 @@ public class CmsOuTree extends Tree {
      *
      * @param itemId which was expended
      */
-    protected void handleExpand(Object itemId) {
+    protected void handleExpand(@RUntainted Object itemId) {
 
         I_CmsOuTreeType type = (I_CmsOuTreeType)getItem(itemId).getItemProperty(PROP_TYPE).getValue();
         loadAndExpand(itemId, type);
@@ -211,7 +212,7 @@ public class CmsOuTree extends Tree {
      * @param itemId item which was clicked
      */
 
-    protected void handleItemClick(Object itemId) {
+    protected void handleItemClick(@RUntainted Object itemId) {
 
         Item item = getItem(itemId);
         I_CmsOuTreeType type = (I_CmsOuTreeType)getItem(itemId).getItemProperty(PROP_TYPE).getValue();
@@ -277,7 +278,7 @@ public class CmsOuTree extends Tree {
      * @param type the tree type
      * @param ouItem group parent item
      */
-    private void addChildrenForGroupsNode(I_CmsOuTreeType type, String ouItem) {
+    private void addChildrenForGroupsNode(I_CmsOuTreeType type, @RUntainted String ouItem) {
 
         try {
             // Cut of type-specific prefix from ouItem with substring()
@@ -383,7 +384,7 @@ public class CmsOuTree extends Tree {
      *
      * @param ouItem group parent item
      */
-    private void addChildrenForRolesNode(String ouItem) {
+    private void addChildrenForRolesNode(@RUntainted String ouItem) {
 
         try {
             List<CmsRole> roles = OpenCms.getRoleManager().getRoles(m_cms, ouItem.substring(1), false);
@@ -470,7 +471,7 @@ public class CmsOuTree extends Tree {
      * @param type of given item
      * @return name of ou
      */
-    private String getOuFromItem(Object itemId, I_CmsOuTreeType type) {
+    private @RUntainted String getOuFromItem(Object itemId, I_CmsOuTreeType type) {
 
         if (type.equals(CmsOuTreeType.OU)) {
             return ((CmsOrganizationalUnit)itemId).getName();
@@ -488,7 +489,7 @@ public class CmsOuTree extends Tree {
      * @param itemId to be expanded
      * @param type of item
      */
-    private void loadAndExpand(Object itemId, I_CmsOuTreeType type) {
+    private void loadAndExpand(@RUntainted Object itemId, I_CmsOuTreeType type) {
 
         if (type.isOrgUnit()) {
             addChildrenForOUNode((CmsOrganizationalUnit)itemId);

@@ -42,6 +42,7 @@ import org.opencms.util.CmsUUID;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The delete dialog action.<p>
@@ -94,7 +95,7 @@ public class CmsReplaceDialogAction extends A_CmsWorkplaceAction implements I_Cm
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
      */
-    public String getJspPath() {
+    public @RUntainted String getJspPath() {
 
         return null;
     }

@@ -29,6 +29,7 @@ package org.opencms.workplace.threads;
 
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -204,7 +205,7 @@ public final class Messages extends A_CmsMessageBundle {
      *
      * @return the bundle name for this OpenCms package
      */
-    public String getBundleName() {
+    public @RUntainted String getBundleName() {
 
         return BUNDLE_NAME;
     }

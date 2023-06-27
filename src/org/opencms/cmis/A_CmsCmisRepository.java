@@ -51,6 +51,7 @@ import org.apache.chemistry.opencmis.commons.enums.AclPropagation;
 import org.apache.chemistry.opencmis.commons.enums.IncludeRelationships;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisNotSupportedException;
 import org.apache.chemistry.opencmis.commons.spi.Holder;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract repository superclass.<p>
@@ -308,7 +309,7 @@ public abstract class A_CmsCmisRepository implements I_CmsCmisRepository {
      * @param principalId the principal id from the ACE
      * @return the name of the principle
      */
-    protected String getAcePrincipalName(CmsObject cms, CmsUUID principalId) {
+    protected String getAcePrincipalName(CmsObject cms, @RUntainted CmsUUID principalId) {
 
         if (CmsAccessControlEntry.PRINCIPAL_ALL_OTHERS_ID.equals(principalId)) {
             return CmsAccessControlEntry.PRINCIPAL_ALL_OTHERS_NAME;

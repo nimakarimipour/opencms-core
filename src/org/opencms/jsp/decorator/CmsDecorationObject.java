@@ -30,6 +30,7 @@ package org.opencms.jsp.decorator;
 import org.opencms.util.CmsMacroResolver;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The CmsDecorationObject defines a single text decoration.<p>

@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a OpenCms orgaizational unit selection widget, for use on a widget dialog.<p>
@@ -208,14 +209,14 @@ public class CmsOrgUnitWidget extends A_CmsSelectWidget implements I_CmsADEWidge
      * @see org.opencms.widgets.A_CmsWidget#setConfiguration(java.lang.String)
      */
     @Override
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
         m_role = null;
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(configuration)) {
             int roleIndex = configuration.indexOf(CONFIGURATION_ROLE);
             if (roleIndex != -1) {
                 // role is given
-                String groupName = configuration.substring(CONFIGURATION_ROLE.length() + 1);
+                @RUntainted String groupName = configuration.substring(CONFIGURATION_ROLE.length() + 1);
                 if (groupName.indexOf('|') != -1) {
                     // cut eventual following configuration values
                     groupName = groupName.substring(0, groupName.indexOf('|'));

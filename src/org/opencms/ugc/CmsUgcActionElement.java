@@ -33,6 +33,7 @@ import org.opencms.ugc.shared.CmsUgcException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Form action element class for use in rendering user-generated content forms.<p>
@@ -46,7 +47,7 @@ public class CmsUgcActionElement extends CmsJspActionElement {
      * @param request the current request
      * @param response the current response
      */
-    public CmsUgcActionElement(PageContext pageContext, HttpServletRequest request, HttpServletResponse response) {
+    public CmsUgcActionElement(PageContext pageContext, @RUntainted HttpServletRequest request, HttpServletResponse response) {
 
         super(pageContext, request, response);
     }
@@ -60,7 +61,7 @@ public class CmsUgcActionElement extends CmsJspActionElement {
      *
      * @throws CmsUgcException if something goes wrong
      */
-    public String createSessionForResource(String configPath, String fileName) throws CmsUgcException {
+    public String createSessionForResource(String configPath, @RUntainted String fileName) throws CmsUgcException {
 
         CmsUgcSession formSession = CmsUgcSessionFactory.getInstance().createSessionForFile(
             getCmsObject(),

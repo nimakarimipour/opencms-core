@@ -55,6 +55,7 @@ import com.vaadin.v7.shared.ui.combobox.FilteringMode;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to change OU of given user.<p>
@@ -71,9 +72,9 @@ public class CmsMoveUserToOU extends CmsBasicDialog {
         /**
          * @see com.vaadin.v7.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
-            String ou = (String)value;
+            @RUntainted String ou = (String)value;
 
             if (m_user.getOuFqn().equals(ou)) {
                 throw new InvalidValueException(
@@ -116,7 +117,7 @@ public class CmsMoveUserToOU extends CmsBasicDialog {
     private Button m_ok;
 
     /**Vaadin component. */
-    private ComboBox m_ou;
+    private @RUntainted ComboBox m_ou;
 
     /**Vaadin component. */
     private CheckBox m_removeAll;
@@ -129,7 +130,7 @@ public class CmsMoveUserToOU extends CmsBasicDialog {
      * @param window Window holding the dialog
      * @param app to be updated
      */
-    public CmsMoveUserToOU(CmsObject cms, CmsUUID userID, final Window window, final CmsAccountsApp app) {
+    public CmsMoveUserToOU(CmsObject cms, @RUntainted CmsUUID userID, final Window window, final CmsAccountsApp app) {
 
         CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
         m_cms = cms;

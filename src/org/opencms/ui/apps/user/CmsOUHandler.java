@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Ou Handler.
@@ -43,7 +44,7 @@ import java.util.Map;
 public class CmsOUHandler {
 
     /**List of all managable OUs for current user. */
-    private List<String> m_managableOU;
+    private @RUntainted List<@RUntainted String> m_managableOU;
 
     /**CmsObject. */
     private CmsObject m_cms;
@@ -74,7 +75,7 @@ public class CmsOUHandler {
      * @param cms CmsObject
      * @return List of String
      */
-    public static List<String> getManagableOUs(CmsObject cms) {
+    public static @RUntainted List<@RUntainted String> getManagableOUs(CmsObject cms) {
 
         List<String> ous = new ArrayList<String>();
         try {
@@ -104,7 +105,7 @@ public class CmsOUHandler {
      *
      * @return Base ou (may be outside of given ou)
      */
-    public String getBaseOU() {
+    public @RUntainted String getBaseOU() {
 
         if (m_isRootAccountManager) {
             return "";
@@ -113,7 +114,7 @@ public class CmsOUHandler {
         if (m_managableOU.contains("")) {
             return "";
         }
-        String base = m_managableOU.get(0);
+        @RUntainted String base = m_managableOU.get(0);
         for (String ou : m_managableOU) {
             while (!ou.startsWith(base)) {
                 base = base.substring(0, base.length() - 1);

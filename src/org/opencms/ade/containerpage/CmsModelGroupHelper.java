@@ -71,6 +71,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles all model group specific tasks.<p>
@@ -161,7 +162,7 @@ public class CmsModelGroupHelper {
      *
      * @return <code>true</code> if the resource was updated
      */
-    public static boolean updateModelGroupResource(CmsObject cms, CmsResource group, String baseContainerName) {
+    public static boolean updateModelGroupResource(CmsObject cms, @RUntainted CmsResource group, String baseContainerName) {
 
         if (!isModelGroupResource(group)) {
             // skip resources that are no model group
@@ -232,7 +233,7 @@ public class CmsModelGroupHelper {
      */
     @SuppressWarnings("resource")
     public static void updateModelGroupResources(
-        HttpServletRequest request,
+        @RUntainted HttpServletRequest request,
         HttpServletResponse response,
         String basePath,
         String baseContainerName)
@@ -325,7 +326,7 @@ public class CmsModelGroupHelper {
         List<String> foundGroups,
         CmsContainerPageBean page,
         boolean alwaysCopy,
-        Locale locale)
+        @RUntainted Locale locale)
     throws CmsException {
 
         for (Entry<String, CmsContainerElementBean> entry : elements.entrySet()) {
@@ -361,14 +362,14 @@ public class CmsModelGroupHelper {
             } else {
                 // here we need to make sure to remove the source container page setting and to set a new element instance id
 
-                Map<String, String> settings = new HashMap<String, String>(element.getIndividualSettings());
-                String source = settings.get(CmsContainerpageService.SOURCE_CONTAINERPAGE_ID_SETTING);
+                @RUntainted Map<@RUntainted String, @RUntainted String> settings = new HashMap<@RUntainted String, @RUntainted String>(element.getIndividualSettings());
+                @RUntainted String source = settings.get(CmsContainerpageService.SOURCE_CONTAINERPAGE_ID_SETTING);
                 settings.remove(CmsContainerpageService.SOURCE_CONTAINERPAGE_ID_SETTING);
                 // TODO: Make sure source id is available for second call
 
                 if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(source)) {
                     try {
-                        CmsUUID sourceId = new CmsUUID(source);
+                        @RUntainted CmsUUID sourceId = new CmsUUID(source);
                         CmsResource sourcePage = m_cms.readResource(sourceId);
                         if (CmsResourceTypeXmlContainerPage.isContainerPage(sourcePage)) {
                             CmsXmlContainerPage xmlCnt = CmsXmlContainerPageFactory.unmarshal(
@@ -852,7 +853,7 @@ public class CmsModelGroupHelper {
      *
      * @throws CmsException in case unmarshalling fails
      */
-    private CmsContainerPageBean getContainerPageBean(CmsResource resource) throws CmsException {
+    private CmsContainerPageBean getContainerPageBean(@RUntainted CmsResource resource) throws CmsException {
 
         CmsXmlContainerPage xmlCnt = CmsXmlContainerPageFactory.unmarshal(m_cms, m_cms.readFile(resource));
         return xmlCnt.getContainerPage(m_cms);

@@ -48,6 +48,7 @@ import org.opencms.xml.xml2json.handler.CmsJsonHandlerContext;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Converts an XML content to JSON by creating a CmsXmlContentTree and then recursively processing its nodes.
@@ -123,7 +124,7 @@ public class CmsJsonRendererXmlContent implements I_CmsJsonRendererXmlContent {
 
         List<Locale> locales = content.getLocales();
         JSONObject result = new JSONObject(true);
-        for (Locale locale : locales) {
+        for (@RUntainted Locale locale : locales) {
             Object jsonForLocale = renderer.render(content, locale);
             result.put(locale.toString(), jsonForLocale);
         }
@@ -190,7 +191,7 @@ public class CmsJsonRendererXmlContent implements I_CmsJsonRendererXmlContent {
      * @see org.opencms.xml.xml2json.renderer.I_CmsJsonRendererXmlContent#render(org.opencms.xml.content.CmsXmlContent, java.util.Locale)
      */
     @Override
-    public Object render(CmsXmlContent content, Locale locale) throws JSONException {
+    public Object render(CmsXmlContent content, @RUntainted Locale locale) throws JSONException {
 
         CmsXmlContentTree tree = new CmsXmlContentTree(content, locale);
         m_cms.getRequestContext().setLocale(locale);

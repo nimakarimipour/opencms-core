@@ -34,6 +34,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The interface for search documents.<p>
@@ -97,7 +98,7 @@ public interface I_CmsSearchDocument {
      *
      * @param rootPath the given path into this document
      */
-    void addPathField(String rootPath);
+    void addPathField(@RUntainted String rootPath);
 
     /**
      * Adds the locales of the resource to this document.<p>
@@ -119,7 +120,7 @@ public interface I_CmsSearchDocument {
      * @param field the field
      * @param value the value
      */
-    void addSearchField(CmsSearchField field, String value);
+    void addSearchField(@RUntainted CmsSearchField field, String value);
 
     /**
      * Adds the suffix field to the document. This field should contain the resource suffix.<p>
@@ -175,7 +176,7 @@ public interface I_CmsSearchDocument {
      *
      * @return the String value or <code>null</code> if empty
      */
-    String getFieldValueAsString(String fieldName);
+    @RUntainted String getFieldValueAsString(String fieldName);
 
     /**
      * Returns the values of a multi-valued field as list of strings.

@@ -126,6 +126,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility class to generate the element data objects used within the container-page editor.<p>
@@ -144,13 +145,13 @@ public class CmsElementUtil {
     private CmsADEConfigData m_adeConfig;
 
     /** The cms context. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** The current page uri. */
-    private String m_currentPageUri;
+    private @RUntainted String m_currentPageUri;
 
     /** The content locale. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** The current container page. */
     private CmsResource m_page;
@@ -160,7 +161,7 @@ public class CmsElementUtil {
     private Map<String, Object> m_parameterMap;
 
     /** The http request. */
-    private HttpServletRequest m_req;
+    private @RUntainted HttpServletRequest m_req;
 
     /** The http response. */
     private HttpServletResponse m_res;
@@ -185,13 +186,13 @@ public class CmsElementUtil {
      */
     public CmsElementUtil(
         CmsObject cms,
-        String currentPageUri,
+        @RUntainted String currentPageUri,
         CmsContainerPageBean containerPage,
-        CmsUUID detailContentId,
-        HttpServletRequest req,
+        @RUntainted CmsUUID detailContentId,
+        @RUntainted HttpServletRequest req,
         HttpServletResponse res,
         boolean isDragMode,
-        Locale locale)
+        @RUntainted Locale locale)
     throws CmsException {
 
         m_cms = OpenCms.initCmsObject(cms);
@@ -231,11 +232,11 @@ public class CmsElementUtil {
      */
     public CmsElementUtil(
         CmsObject cms,
-        String currentPageUri,
-        CmsUUID detailContentId,
-        HttpServletRequest req,
+        @RUntainted String currentPageUri,
+        @RUntainted CmsUUID detailContentId,
+        @RUntainted HttpServletRequest req,
         HttpServletResponse res,
-        Locale locale)
+        @RUntainted Locale locale)
     throws CmsException {
 
         m_cms = OpenCms.initCmsObject(cms);
@@ -271,12 +272,12 @@ public class CmsElementUtil {
      */
     public CmsElementUtil(
         CmsObject cms,
-        String currentPageUri,
-        CmsUUID detailContentId,
+        @RUntainted String currentPageUri,
+        @RUntainted CmsUUID detailContentId,
         String requestParameters,
-        HttpServletRequest req,
+        @RUntainted HttpServletRequest req,
         HttpServletResponse res,
-        Locale locale)
+        @RUntainted Locale locale)
     throws CmsException {
 
         this(cms, currentPageUri, detailContentId, req, res, locale);
@@ -788,7 +789,7 @@ public class CmsElementUtil {
                         }
                         CmsFormatterConfig config = new CmsFormatterConfig(id);
                         Set<String> cssResources = new LinkedHashSet<String>();
-                        for (String cssSitePath : formatter.getCssHeadIncludes()) {
+                        for (@RUntainted String cssSitePath : formatter.getCssHeadIncludes()) {
                             cssResources.add(OpenCms.getLinkManager().getOnlineLink(m_cms, cssSitePath));
                         }
                         config.setCssResources(cssResources);
@@ -847,7 +848,7 @@ public class CmsElementUtil {
         ArrayList<CmsAdditionalInfoBean> infos = new ArrayList<>();
 
         CmsResource resource = element.getResource();
-        String resTypeName = OpenCms.getResourceManager().getResourceType(resource).getTypeName();
+        @RUntainted String resTypeName = OpenCms.getResourceManager().getResourceType(resource).getTypeName();
         CmsExplorerTypeSettings cmsExplorerTypeSettings = OpenCms.getWorkplaceManager().getExplorerTypeSetting(
             resTypeName);
         if (null == cmsExplorerTypeSettings) {
@@ -858,7 +859,7 @@ public class CmsElementUtil {
                 Integer.valueOf(resource.getTypeId()));
             throw new CmsConfigurationException(errMsg);
         }
-        String key = cmsExplorerTypeSettings.getKey();
+        @RUntainted String key = cmsExplorerTypeSettings.getKey();
         Locale currentLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(m_cms);
         CmsMessages messages = OpenCms.getWorkplaceManager().getMessages(currentLocale);
         String resTypeNiceName = messages.key(key);
@@ -922,7 +923,7 @@ public class CmsElementUtil {
         CmsResource resource = elementBean.getResource();
         boolean isModelGroup = elementBean.getIndividualSettings().containsKey(CmsContainerElement.MODEL_GROUP_ID);
         if (isModelGroup) {
-            CmsUUID groupId = new CmsUUID(elementBean.getIndividualSettings().get(CmsContainerElement.MODEL_GROUP_ID));
+            @RUntainted CmsUUID groupId = new CmsUUID(elementBean.getIndividualSettings().get(CmsContainerElement.MODEL_GROUP_ID));
             resource = m_cms.readResource(groupId, CmsResourceFilter.IGNORE_EXPIRATION);
         }
 
@@ -1057,7 +1058,7 @@ public class CmsElementUtil {
      *
      * @return the formatter configuration
      */
-    CmsFormatterConfiguration getFormatterConfiguration(CmsResource resource) {
+    CmsFormatterConfiguration getFormatterConfiguration(@RUntainted CmsResource resource) {
 
         return getConfigData().getFormatters(m_cms, resource);
     }
@@ -1264,7 +1265,7 @@ public class CmsElementUtil {
      *
      * @throws CmsException if something goes wrong
      */
-    private boolean hasSettings(CmsObject cms, CmsResource resource) throws CmsException {
+    private boolean hasSettings(CmsObject cms, @RUntainted CmsResource resource) throws CmsException {
 
         if (!CmsResourceTypeXmlContent.isXmlContent(resource)) {
             return false;

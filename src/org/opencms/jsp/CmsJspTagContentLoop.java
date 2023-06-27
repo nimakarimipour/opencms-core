@@ -39,6 +39,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.Tag;
 import javax.servlet.jsp.tagext.TagSupport;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used to loop through the element values of an XML content item.<p>
@@ -60,7 +61,7 @@ public class CmsJspTagContentLoop extends TagSupport implements I_CmsXmlContentC
     private String m_currentElement;
 
     /** Name of the content node element to show. */
-    private String m_element;
+    private @RUntainted String m_element;
 
     /** Indicates if this is the first content iteration loop. */
     private boolean m_firstLoop;
@@ -85,7 +86,7 @@ public class CmsJspTagContentLoop extends TagSupport implements I_CmsXmlContentC
      * @param container the parent content container that provides the content element to loop
      * @param element the element to loop in the content
      */
-    public CmsJspTagContentLoop(I_CmsXmlContentContainer container, String element) {
+    public CmsJspTagContentLoop(I_CmsXmlContentContainer container, @RUntainted String element) {
 
         m_element = element;
         init(container);
@@ -155,7 +156,7 @@ public class CmsJspTagContentLoop extends TagSupport implements I_CmsXmlContentC
     /**
      * @see org.opencms.jsp.I_CmsXmlContentContainer#getCollectorParam()
      */
-    public String getCollectorParam() {
+    public @RUntainted String getCollectorParam() {
 
         return m_container.getCollectorParam();
     }
@@ -205,7 +206,7 @@ public class CmsJspTagContentLoop extends TagSupport implements I_CmsXmlContentC
     /**
      * @see org.opencms.jsp.I_CmsXmlContentContainer#getXmlDocumentElement()
      */
-    public String getXmlDocumentElement() {
+    public @RUntainted String getXmlDocumentElement() {
 
         return m_currentElement;
     }
@@ -275,7 +276,7 @@ public class CmsJspTagContentLoop extends TagSupport implements I_CmsXmlContentC
      *
      * @param element the name of the content node element to show
      */
-    public void setElement(String element) {
+    public void setElement(@RUntainted String element) {
 
         m_element = element;
     }

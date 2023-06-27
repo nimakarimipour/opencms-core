@@ -121,6 +121,7 @@ import com.vaadin.v7.ui.Upload.Receiver;
 import com.vaadin.v7.ui.Upload.SucceededEvent;
 import com.vaadin.v7.ui.Upload.SucceededListener;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the Form to edit or add a site.<p>
@@ -182,9 +183,9 @@ public class CmsEditSiteForm extends CmsBasicDialog {
         /**
          * @see com.vaadin.v7.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
-            String enteredServer = (String)value;
+            @RUntainted String enteredServer = (String)value;
             if (enteredServer == null) {
                 return;
             }
@@ -262,9 +263,9 @@ public class CmsEditSiteForm extends CmsBasicDialog {
         /**
          * @see com.vaadin.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
-            String enteredName = (String)value;
+            @RUntainted String enteredName = (String)value;
             if (FORBIDDEN_FOLDER_NAMES.contains(enteredName)) {
                 throw new InvalidValueException(
                     CmsVaadinUtils.getMessageText(Messages.GUI_SITE_FOLDERNAME_FORBIDDEN_1, enteredName));
@@ -387,9 +388,9 @@ public class CmsEditSiteForm extends CmsBasicDialog {
         /**
          * @see com.vaadin.v7.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
-            String parentOU = (String)value;
+            @RUntainted String parentOU = (String)value;
             if (parentOU.equals("/")) {
                 return; //ok
             }
@@ -433,9 +434,9 @@ public class CmsEditSiteForm extends CmsBasicDialog {
         /**
          * @see com.vaadin.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
-            String enteredServer = (String)value;
+            @RUntainted String enteredServer = (String)value;
             if (enteredServer.isEmpty()) {
                 throw new InvalidValueException(CmsVaadinUtils.getMessageText(Messages.GUI_SITE_SERVER_EMPTY_0));
             }
@@ -458,7 +459,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
          * @see com.vaadin.v7.data.Validator#validate(java.lang.Object)
          */
         @Deprecated
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             CmsSite parentSite = m_manager.getElement(CmsFileUtil.removeTrailingSeparator((String)value));
             if (parentSite != null) {
@@ -592,10 +593,10 @@ public class CmsEditSiteForm extends CmsBasicDialog {
     CmsObject m_clonedCms;
 
     /**vaadin component.*/
-    ComboBox m_fieldSelectOU;
+    @RUntainted ComboBox m_fieldSelectOU;
 
     /**vaadin coponent.*/
-    ComboBox m_fieldSelectParentOU;
+    @RUntainted ComboBox m_fieldSelectParentOU;
 
     /**vaadin component. */
     Upload m_fieldUploadFavIcon;
@@ -663,7 +664,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
     private ComboBox m_fieldPosition;
 
     /**vaadin component.*/
-    private TextField m_fieldSecureServer;
+    private @RUntainted TextField m_fieldSecureServer;
 
     /**vaadin component.*/
     private CheckBox m_fieldWebServer;
@@ -1239,13 +1240,13 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      * @param aliasName to check
      * @return true if it was defined double
      */
-    boolean isDoubleAlias(String aliasName) {
+    boolean isDoubleAlias(@RUntainted String aliasName) {
 
         CmsSiteMatcher testAlias = new CmsSiteMatcher(aliasName);
         int count = 0;
-        for (Component c : m_aliases) {
+        for (@RUntainted Component c : m_aliases) {
             if (c instanceof CmsRemovableFormRow<?>) {
-                String alName = (String)((CmsRemovableFormRow<? extends AbstractField<?>>)c).getInput().getValue();
+                @RUntainted String alName = (String)((CmsRemovableFormRow<? extends AbstractField<?>>)c).getInput().getValue();
                 if (testAlias.equals(new CmsSiteMatcher(alName))) {
                     count++;
                 }
@@ -1545,7 +1546,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
             }
             if ((m_simpleFieldSiteRoot != null) && m_simpleFieldSiteRoot.isVisible()) {
                 m_simpleFieldSiteRoot.addValidator(value -> {
-                    String siteRoot = (String)value;
+                    @RUntainted String siteRoot = (String)value;
                     try {
                         OpenCms.getSiteManager().validateSiteRoot(siteRoot);
                     } catch (Exception e) {
@@ -1713,9 +1714,9 @@ public class CmsEditSiteForm extends CmsBasicDialog {
 
         List<CmsSiteMatcher> ret = new ArrayList<CmsSiteMatcher>();
         for (I_CmsEditableGroupRow row : m_aliasGroup.getRows()) {
-            FormLayout layout = (FormLayout)(row.getComponent());
+            @RUntainted FormLayout layout = (FormLayout)(row.getComponent());
             ComboBox box = (ComboBox)(layout.getComponent(1));
-            TextField field = (TextField)layout.getComponent(0);
+            @RUntainted TextField field = (TextField)layout.getComponent(0);
             CmsSiteMatcher matcher = new CmsSiteMatcher(field.getValue());
             matcher.setRedirectMode((RedirectMode)(box.getValue()));
             ret.add(matcher);
@@ -1890,7 +1891,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
             ((Boolean)m_subsiteSelectionEnabled.getValue()).booleanValue());
         ret.setParameters((SortedMap<String, String>)getParameter());
         ret.setSSLMode((CmsSSLMode)m_simpleFieldEncryption.getValue());
-        String alternativeSiteRoot = m_altSiteRoot.getValue();
+        @RUntainted String alternativeSiteRoot = m_altSiteRoot.getValue();
         if (!CmsStringUtil.isEmptyOrWhitespaceOnly(alternativeSiteRoot)) {
             String suffix = m_altSiteRootSuffix.getValue();
             List<String> prefixPaths = new ArrayList<>();

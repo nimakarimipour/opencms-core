@@ -49,6 +49,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a parsed sitemap or module configuration.<p>
@@ -156,7 +157,7 @@ public class CmsADEConfigDataInternal {
     private Map<String, AttributeValue> m_attributes = Collections.emptyMap();
 
     /** The base path of this configuration. */
-    private String m_basePath;
+    private @RUntainted String m_basePath;
 
     /** The CMS context. */
     private CmsObject m_cms;
@@ -257,7 +258,7 @@ public class CmsADEConfigDataInternal {
         CmsObject cms,
         CmsResource resource,
         boolean isModuleConfig,
-        String basePath,
+        @RUntainted String basePath,
         List<CmsUUID> masterConfigs,
         List<CmsResourceTypeConfig> resourceTypeConfig,
         CmsGalleryDisabledTypesMode galleryDisabledTypesMode,
@@ -342,7 +343,7 @@ public class CmsADEConfigDataInternal {
      *
      * @param basePath the base path
      */
-    public CmsADEConfigDataInternal(String basePath) {
+    public CmsADEConfigDataInternal(@RUntainted String basePath) {
 
         m_basePath = basePath;
     }
@@ -373,7 +374,7 @@ public class CmsADEConfigDataInternal {
     protected CmsADEConfigDataInternal(
         CmsResource resource,
         boolean isModuleConfig,
-        String basePath,
+        @RUntainted String basePath,
         List<CmsUUID> masterConfigs,
         List<CmsResourceTypeConfig> resourceTypeConfig,
         boolean discardInheritedTypes,
@@ -423,7 +424,7 @@ public class CmsADEConfigDataInternal {
      *
      * @return the empty configuration object
      */
-    public static CmsADEConfigDataInternal emptyConfiguration(String basePath) {
+    public static CmsADEConfigDataInternal emptyConfiguration(@RUntainted String basePath) {
 
         return new CmsADEConfigDataInternal(basePath);
     }
@@ -472,7 +473,7 @@ public class CmsADEConfigDataInternal {
      *
      * @return the base path
      */
-    public String getBasePath() {
+    public @RUntainted String getBasePath() {
 
         return m_basePath;
     }

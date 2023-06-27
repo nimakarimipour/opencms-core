@@ -48,6 +48,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Comparison of two OpenCms resources.<p>
@@ -99,7 +100,7 @@ public class CmsResourceComparison {
                 Messages.GUI_HISTORY_COLS_SIZE_0,
                 String.valueOf(resource1.getLength()),
                 String.valueOf(resource2.getLength())));
-        String release1;
+        @RUntainted String release1;
         if (CmsResource.DATE_RELEASED_DEFAULT == resource1.getDateReleased()) {
             release1 = "-";
         } else {
@@ -118,7 +119,7 @@ public class CmsResourceComparison {
                 cms.getRequestContext().getLocale());
         }
         comparedAttributes.add(new CmsAttributeComparison(Messages.GUI_LABEL_DATE_RELEASED_0, release1, release2));
-        String expire1;
+        @RUntainted String expire1;
         if (CmsResource.DATE_EXPIRED_DEFAULT == resource1.getDateExpired()) {
             expire1 = "-";
         } else {
@@ -142,7 +143,7 @@ public class CmsResourceComparison {
                 Messages.GUI_PERMISSION_INTERNAL_0,
                 String.valueOf(resource1.isInternal()),
                 String.valueOf(resource2.isInternal())));
-        String dateLastModified1 = CmsDateUtil.getDateTime(
+        @RUntainted String dateLastModified1 = CmsDateUtil.getDateTime(
             new Date(resource1.getDateLastModified()),
             DateFormat.SHORT,
             cms.getRequestContext().getLocale());
@@ -153,13 +154,13 @@ public class CmsResourceComparison {
         comparedAttributes.add(
             new CmsAttributeComparison(Messages.GUI_LABEL_DATE_LAST_MODIFIED_0, dateLastModified1, dateLastModified2));
         try {
-            String type1 = OpenCms.getResourceManager().getResourceType(resource1.getTypeId()).getTypeName();
+            @RUntainted String type1 = OpenCms.getResourceManager().getResourceType(resource1.getTypeId()).getTypeName();
             String type2 = OpenCms.getResourceManager().getResourceType(resource2.getTypeId()).getTypeName();
             comparedAttributes.add(new CmsAttributeComparison(Messages.GUI_HISTORY_COLS_FILE_TYPE_0, type1, type2));
         } catch (CmsLoaderException e) {
             LOG.debug(e.getMessage(), e);
         }
-        String dateCreated1 = CmsDateUtil.getDateTime(
+        @RUntainted String dateCreated1 = CmsDateUtil.getDateTime(
             new Date(resource1.getDateCreated()),
             DateFormat.SHORT,
             cms.getRequestContext().getLocale());
@@ -194,7 +195,7 @@ public class CmsResourceComparison {
         } catch (CmsException e) {
             LOG.error(e.getMessage(), e);
         }
-        String path1 = cms.getRequestContext().removeSiteRoot(resource1.getRootPath());
+        @RUntainted String path1 = cms.getRequestContext().removeSiteRoot(resource1.getRootPath());
         String path2 = cms.getRequestContext().removeSiteRoot(resource2.getRootPath());
         comparedAttributes.add(new CmsAttributeComparison(Messages.GUI_HISTORY_COLS_RESOURCE_PATH_0, path1, path2));
         return comparedAttributes;

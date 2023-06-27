@@ -145,6 +145,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default implementation for the XML content handler, will be used by all XML contents that do not
@@ -280,7 +281,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     private class MappingInfo {
 
         /** The mapping source. */
-        private String m_source;
+        private @RUntainted String m_source;
 
         /** The mapping target. */
         private String m_target;
@@ -291,7 +292,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
          * @param source the mapping source
          * @param target the mapping target
          */
-        public MappingInfo(String source, String target) {
+        public MappingInfo(@RUntainted String source, String target) {
 
             super();
             m_source = source;
@@ -323,7 +324,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
          *
          * @return the mapping source
          */
-        public String getSource() {
+        public @RUntainted String getSource() {
 
             return m_source;
         }
@@ -831,7 +832,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     protected Map<String, CmsXmlContentProperty> m_settings;
 
     /** Path to XSL transform in VFS to use for version transformation. */
-    protected String m_versionTransformation;
+    protected @RUntainted String m_versionTransformation;
 
     /** The configured locale synchronization elements. */
     protected List<String> m_synchronizations;
@@ -840,7 +841,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     protected List<CmsXmlContentTab> m_tabs;
 
     /** The list of mappings to the "Title" property. */
-    protected List<String> m_titleMappings;
+    protected @RUntainted List<@RUntainted String> m_titleMappings;
 
     /** Flag which controls whether the Acacia editor should be disabled for this type. */
     protected boolean m_useAcacia = true;
@@ -902,7 +903,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     /** Message key fallback handler for the editor. */
     private CmsMultiMessages.I_KeyFallbackHandler m_messageKeyHandler = new CmsMultiMessages.I_KeyFallbackHandler() {
 
-        public Optional<String> getFallbackKey(String key) {
+        public @RUntainted Optional<@RUntainted String> getFallbackKey(String key) {
 
             return Optional.absent();
         }
@@ -1010,7 +1011,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
         CmsXmlContent content,
         AttributeType attr,
         List<Locale> resourceLocales,
-        long valueToSet) {
+        @RUntainted long valueToSet) {
 
         MappingInfo info = getAttributeMapping(attr);
         if (!info.canBeUsedForReverseAvailabilityMapping()) {
@@ -1028,7 +1029,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
             default:
                 return false;
         }
-        String mappedElement = info.getSource();
+        @RUntainted String mappedElement = info.getSource();
 
         I_CmsXmlSchemaType type = m_contentDefinition.getSchemaType(mappedElement);
         // change value in the first locale from the list of resource locales that we have in the content
@@ -1075,7 +1076,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
                 }
                 List<String> sortedParents = new ArrayList<>(parentSet);
                 Collections.sort(sortedParents);
-                for (String parent : sortedParents) {
+                for (@RUntainted String parent : sortedParents) {
                     if (!content.hasValue(parent, locale)) {
                         content.addValue(cms, parent, locale, 0);
                     }
@@ -1217,7 +1218,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     /**
      * @see org.opencms.xml.content.I_CmsXmlContentHandler#getDefault(org.opencms.file.CmsObject, org.opencms.file.CmsResource, org.opencms.xml.types.I_CmsXmlSchemaType, java.lang.String, java.util.Locale)
      */
-    public String getDefault(CmsObject cms, CmsResource resource, I_CmsXmlSchemaType type, String path, Locale locale) {
+    public @RUntainted String getDefault(CmsObject cms, CmsResource resource, I_CmsXmlSchemaType type, @RUntainted String path, @RUntainted Locale locale) {
 
         String defaultValue;
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(path)) {
@@ -1282,7 +1283,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     /**
      * @see org.opencms.xml.content.I_CmsXmlContentHandler#getDefault(org.opencms.file.CmsObject, I_CmsXmlContentValue, java.util.Locale)
      */
-    public String getDefault(CmsObject cms, I_CmsXmlContentValue value, Locale locale) {
+    public @RUntainted String getDefault(CmsObject cms, I_CmsXmlContentValue value, @RUntainted Locale locale) {
 
         String path = null;
         if (value.getElement() != null) {
@@ -1478,7 +1479,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     /**
      * @see org.opencms.xml.content.I_CmsXmlContentHandler#getMessages(java.util.Locale)
      */
-    public CmsMessages getMessages(Locale locale) {
+    public CmsMessages getMessages(@RUntainted Locale locale) {
 
         CmsMessages result = null;
         if ((m_messageBundleNames == null) || m_messageBundleNames.isEmpty()) {
@@ -1486,7 +1487,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
         } else {
             // a message bundle was initialized
             CmsMultiMessages multiMessages = new CmsMultiMessages(locale);
-            for (String messageBundleName : m_messageBundleNames) {
+            for (@RUntainted String messageBundleName : m_messageBundleNames) {
                 multiMessages.addMessages(new CmsMessages(messageBundleName, locale));
             }
             if (!m_messageBundleNames.contains(Messages.get().getBundleName())) {
@@ -1509,7 +1510,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     /**
      * @see org.opencms.xml.content.I_CmsXmlContentHandler#getNestedFormatters(org.opencms.file.CmsObject, org.opencms.file.CmsResource, java.util.Locale, javax.servlet.ServletRequest)
      */
-    public List<String> getNestedFormatters(CmsObject cms, CmsResource res, Locale locale, ServletRequest req) {
+    public List<String> getNestedFormatters(CmsObject cms, @RUntainted CmsResource res, Locale locale, ServletRequest req) {
 
         List<String> result = new ArrayList<String>();
         if (hasNestedFormatters()) {
@@ -1525,7 +1526,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
                     matchingLocale = content.getLocales().get(0);
                 }
                 if (matchingLocale != null) {
-                    for (String elementPath : m_nestedFormatterElements) {
+                    for (@RUntainted String elementPath : m_nestedFormatterElements) {
                         List<I_CmsXmlContentValue> values = content.getValues(elementPath, matchingLocale);
                         for (I_CmsXmlContentValue value : values) {
                             if (value instanceof CmsXmlDisplayFormatterValue) {
@@ -1578,7 +1579,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     /**
      * @see org.opencms.xml.content.I_CmsXmlContentHandler#getPreview(org.opencms.file.CmsObject, org.opencms.xml.content.CmsXmlContent, java.lang.String)
      */
-    public String getPreview(CmsObject cms, CmsXmlContent content, String resourcename) {
+    public @RUntainted String getPreview(CmsObject cms, CmsXmlContent content, String resourcename) {
 
         CmsMacroResolver resolver = CmsMacroResolver.newInstance().setCmsObject(cms);
         resolver.addMacro(MACRO_PREVIEW_TEMPFILE, resourcename);
@@ -1601,7 +1602,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     /**
      * @see I_CmsXmlContentHandler#getRelationType(String)
      */
-    public CmsRelationType getRelationType(String xpath) {
+    public CmsRelationType getRelationType(@RUntainted String xpath) {
 
         return getRelationType(xpath, CmsRelationType.XML_WEAK);
     }
@@ -1609,7 +1610,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     /**
      * @see org.opencms.xml.content.I_CmsXmlContentHandler#getRelationType(java.lang.String, org.opencms.relations.CmsRelationType)
      */
-    public CmsRelationType getRelationType(String xpath, CmsRelationType defaultType) {
+    public CmsRelationType getRelationType(@RUntainted String xpath, CmsRelationType defaultType) {
 
         CmsRelationType relationType = null;
         if (xpath != null) {
@@ -1645,7 +1646,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
         SearchContentType searchSetting = m_searchSettings.get(path);
         // if no search setting is found within the root handler, move the path upwards to look for other configurations
         if (searchSetting == null) {
-            String[] pathElements = path.split("/");
+            @RUntainted String[] pathElements = path.split("/");
             I_CmsXmlSchemaType type = value.getDocument().getContentDefinition().getSchemaType(pathElements[0]);
             for (int i = 1; i < pathElements.length; i++) {
                 type = ((CmsXmlNestedContentDefinition)type).getNestedContentDefinition().getSchemaType(
@@ -1712,12 +1713,12 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     /**
      * @see org.opencms.xml.content.I_CmsXmlContentHandler#getTitleMapping(org.opencms.file.CmsObject, org.opencms.xml.content.CmsXmlContent, java.util.Locale)
      */
-    public String getTitleMapping(CmsObject cms, CmsXmlContent document, Locale locale) {
+    public @RUntainted String getTitleMapping(CmsObject cms, CmsXmlContent document, @RUntainted Locale locale) {
 
         String result = null;
         if (m_titleMappings.size() > 0) {
             // a title mapping is available
-            String xpath = m_titleMappings.get(0);
+            @RUntainted String xpath = m_titleMappings.get(0);
             // currently just use the first mapping found, unsure if multiple "Title" mappings would make sense anyway
             result = document.getStringValue(cms, xpath, locale);
             if ((result == null)
@@ -1745,7 +1746,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     /**
      * @see org.opencms.xml.content.I_CmsXmlContentHandler#getVersionTransformation()
      */
-    public String getVersionTransformation() {
+    public @RUntainted String getVersionTransformation() {
 
         return m_versionTransformation;
     }
@@ -1847,7 +1848,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     /**
      * @see org.opencms.xml.content.I_CmsXmlContentHandler#initialize(org.dom4j.Element, org.opencms.xml.CmsXmlContentDefinition)
      */
-    public synchronized void initialize(Element appInfoElement, CmsXmlContentDefinition contentDefinition)
+    public synchronized void initialize(@RUntainted Element appInfoElement, CmsXmlContentDefinition contentDefinition)
     throws CmsXmlException {
 
         if (appInfoElement != null) {
@@ -1857,10 +1858,10 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
             // re-initialize the local variables
             init();
 
-            Iterator<Element> i = CmsXmlGenericWrapper.elementIterator(appInfoElement);
+            @RUntainted Iterator<@RUntainted Element> i = CmsXmlGenericWrapper.elementIterator(appInfoElement);
             while (i.hasNext()) {
                 // iterate all elements in the appinfo node
-                Element element = i.next();
+                @RUntainted Element element = i.next();
                 String nodeName = element.getName();
                 if (nodeName.equals(APPINFO_MAPPINGS)) {
                     initMappings(element, contentDefinition);
@@ -2081,7 +2082,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
             for (CmsRole role : roles) {
                 roleNames.add(role.getRoleName());
             }
-            for (String principal : allowedPrincipals) {
+            for (@RUntainted String principal : allowedPrincipals) {
                 if (CmsRole.hasPrefix(principal)) {
                     // prefixed as a role
                     principal = CmsRole.removePrefix(principal);
@@ -2253,9 +2254,9 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      */
     protected void addCheckRule(
         CmsXmlContentDefinition contentDefinition,
-        String elementName,
+        @RUntainted String elementName,
         String invalidate,
-        String type)
+        @RUntainted String type)
     throws CmsXmlException {
 
         I_CmsXmlSchemaType schemaType = contentDefinition.getSchemaType(elementName);
@@ -2288,7 +2289,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
 
         if (invalidateParent != null) {
             // check the whole xpath hierarchy
-            String path = elementName;
+            @RUntainted String path = elementName;
             while (CmsStringUtil.isNotEmptyOrWhitespaceOnly(path)) {
                 if (!isInvalidateParent(path)) {
                     // if invalidate type = node, then the node needs to be optional
@@ -2320,7 +2321,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      */
     protected void addConfiguration(
         CmsXmlContentDefinition contentDefinition,
-        String elementName,
+        @RUntainted String elementName,
         String configurationValue)
     throws CmsXmlException {
 
@@ -2344,7 +2345,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      */
     protected void addDefault(
         CmsXmlContentDefinition contentDefinition,
-        String elementName,
+        @RUntainted String elementName,
         String defaultValue,
         String resolveMacrosValue)
     throws CmsXmlException {
@@ -2377,7 +2378,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     protected void addDefaultCheckRules(
         CmsXmlContentDefinition rootContentDefinition,
         I_CmsXmlSchemaType schemaType,
-        String elementPath)
+        @RUntainted String elementPath)
     throws CmsXmlException {
 
         if ((schemaType != null) && schemaType.isSimpleType()) {
@@ -2396,10 +2397,10 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
                 CmsXmlNestedContentDefinition nestedDefinition = (CmsXmlNestedContentDefinition)schemaType;
                 nestedContentDefinition = nestedDefinition.getNestedContentDefinition();
             }
-            Iterator<String> itElems = nestedContentDefinition.getSchemaTypes().iterator();
+            @RUntainted Iterator<@RUntainted String> itElems = nestedContentDefinition.getSchemaTypes().iterator();
             while (itElems.hasNext()) {
-                String element = itElems.next();
-                String path = (schemaType != null) ? CmsXmlUtils.concatXpath(elementPath, element) : element;
+                @RUntainted String element = itElems.next();
+                @RUntainted String path = (schemaType != null) ? CmsXmlUtils.concatXpath(elementPath, element) : element;
                 I_CmsXmlSchemaType nestedSchema = nestedContentDefinition.getSchemaType(element);
                 if ((schemaType == null) || !nestedSchema.equals(schemaType)) {
                     addDefaultCheckRules(rootContentDefinition, nestedSchema, path);
@@ -2419,7 +2420,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      */
     protected void addDisplayType(
         CmsXmlContentDefinition contentDefinition,
-        String elementName,
+        @RUntainted String elementName,
         DisplayType displayType)
     throws CmsXmlException {
 
@@ -2461,7 +2462,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      */
     protected void addMapping(
         CmsXmlContentDefinition contentDefinition,
-        String elementName,
+        @RUntainted String elementName,
         String mapping,
         String useDefault)
     throws CmsXmlException {
@@ -2498,7 +2499,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      *
      * @throws CmsXmlException in case something goes wrong
      */
-    protected void addNestedFormatter(String elementName, CmsXmlContentDefinition contentDefinition)
+    protected void addNestedFormatter(@RUntainted String elementName, CmsXmlContentDefinition contentDefinition)
     throws CmsXmlException {
 
         if (contentDefinition.getSchemaType(elementName) == null) {
@@ -2559,7 +2560,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      */
     protected void addSearchSetting(
         CmsXmlContentDefinition contentDefinition,
-        String elementName,
+        @RUntainted String elementName,
         SearchContentType value)
     throws CmsXmlException {
 
@@ -2579,7 +2580,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      * @param value the search setting value
      * @throws CmsXmlException if something goes wrong
      */
-    protected void addSimpleSearchSetting(CmsXmlContentDefinition contentDef, String name, String value)
+    protected void addSimpleSearchSetting(CmsXmlContentDefinition contentDef, @RUntainted String name, String value)
     throws CmsXmlException {
 
         SearchContentType searchContentType = SearchContentType.fromString(value);
@@ -2595,7 +2596,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
                     template.setAttribute("name", CmsEncoder.escapeXml(name));
                     String xml = template.toString();
                     try {
-                        Document doc = DocumentHelper.parseText(xml);
+                        @RUntainted Document doc = DocumentHelper.parseText(xml);
                         initSearchSettings(doc.getRootElement(), contentDef);
                     } catch (DocumentException e) {
                         LOG.error(e.getLocalizedMessage(), e);
@@ -2618,7 +2619,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      */
     protected void addValidationRule(
         CmsXmlContentDefinition contentDefinition,
-        String elementName,
+        @RUntainted String elementName,
         String regex,
         String message,
         boolean isWarning)
@@ -2651,7 +2652,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      *
      * @throws CmsXmlException in case an unknown element name is used
      */
-    protected void addWidget(CmsXmlContentDefinition contentDefinition, String elementName, String name)
+    protected void addWidget(CmsXmlContentDefinition contentDefinition, @RUntainted String elementName, @RUntainted String name)
     throws CmsXmlException {
 
         if (!elementName.contains("/") && (contentDefinition.getSchemaType(elementName) == null)) {
@@ -2722,7 +2723,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     protected MappingInfo getAttributeMapping(AttributeType attr) {
 
         String target = null;
-        String source = null;
+        @RUntainted String source = null;
         switch (attr) {
             case expiration:
                 target = MAPTO_ATTRIBUTE + ATTRIBUTE_DATEEXPIRED;
@@ -2792,7 +2793,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      *
      * @return the category reference path for the given value
      */
-    protected String getReferencePath(CmsObject cms, I_CmsXmlContentValue value) {
+    protected @RUntainted String getReferencePath(CmsObject cms, I_CmsXmlContentValue value) {
 
         // get the original file instead of the temp file
         CmsFile file = value.getDocument().getFile();
@@ -2926,13 +2927,13 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     * @param contentDefinition the content definition the default values belong to
     * @throws CmsXmlException if something goes wrong
     */
-    protected void initDefaultValues(Element root, CmsXmlContentDefinition contentDefinition) throws CmsXmlException {
+    protected void initDefaultValues(@RUntainted Element root, CmsXmlContentDefinition contentDefinition) throws CmsXmlException {
 
         Iterator<Element> i = CmsXmlGenericWrapper.elementIterator(root, APPINFO_DEFAULT);
         while (i.hasNext()) {
             // iterate all "default" elements in the "defaults" node
-            Element element = i.next();
-            String elementName = element.attributeValue(APPINFO_ATTR_ELEMENT);
+            @RUntainted Element element = i.next();
+            @RUntainted String elementName = element.attributeValue(APPINFO_ATTR_ELEMENT);
             String defaultValue = element.attributeValue(APPINFO_ATTR_VALUE);
             String resolveMacrosValue = element.attributeValue(APPINFO_ATTR_RESOLVE_MACROS);
             if ((elementName != null) && (defaultValue != null)) {
@@ -2988,7 +2989,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      *
      * @param element the editorchangehandlers node of the app info
      */
-    protected void initEditorChangeHandlers(Element element) {
+    protected void initEditorChangeHandlers(@RUntainted Element element) {
 
         Iterator<Element> i = CmsXmlGenericWrapper.elementIterator(element, APPINFO_EDITOR_CHANGE_HANDLER);
         while (i.hasNext()) {
@@ -3017,13 +3018,13 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      *
      * @throws CmsXmlException if something goes wrong
      */
-    protected void initField(Element elem, CmsXmlContentDefinition contentDef) throws CmsXmlException {
+    protected void initField(@RUntainted Element elem, CmsXmlContentDefinition contentDef) throws CmsXmlException {
 
-        String nameVal = elem.elementText(CmsConfigurationReader.N_PROPERTY_NAME);
+        @RUntainted String nameVal = elem.elementText(CmsConfigurationReader.N_PROPERTY_NAME);
         if (nameVal == null) {
             throw new CmsXmlException(Messages.get().container(Messages.ERR_XMLCONTENT_BAD_FIELD_NAME_1, nameVal));
         }
-        final String name = nameVal.trim();
+        final @RUntainted String name = nameVal.trim();
 
         String ruleRegex = elem.elementText(CmsConfigurationReader.N_RULE_REGEX);
         String ruleType = elem.elementText(CmsConfigurationReader.N_RULE_TYPE);
@@ -3041,7 +3042,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
             addDefault(contentDef, name, defaultValue, defaultResolveMacros);
         }
 
-        String widget = elem.elementText(CmsConfigurationReader.N_WIDGET);
+        @RUntainted String widget = elem.elementText(CmsConfigurationReader.N_WIDGET);
         String widgetConfig = elem.elementText(CmsConfigurationReader.N_WIDGET_CONFIG);
         if (widget != null) {
             addWidget(contentDef, name, widget);
@@ -3078,8 +3079,8 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
         if (Boolean.parseBoolean(synchronization)) {
             m_synchronizations.add(name);
         }
-        for (Element relElem : elem.elements(FieldSettingElems.Relation.name())) {
-            String type = relElem.elementTextTrim(FieldSettingElems.Type.name());
+        for (@RUntainted Element relElem : elem.elements(FieldSettingElems.Relation.name())) {
+            @RUntainted String type = relElem.elementTextTrim(FieldSettingElems.Type.name());
             String invalidate = relElem.elementTextTrim(FieldSettingElems.Invalidate.name());
             if (type != null) {
                 type = type.toLowerCase();
@@ -3150,7 +3151,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      */
     protected void initFields(Element parent, CmsXmlContentDefinition contentDef) throws CmsXmlException {
 
-        for (Element fieldElem : parent.elements(N_SETTING)) {
+        for (@RUntainted Element fieldElem : parent.elements(N_SETTING)) {
             initField(fieldElem, contentDef);
         }
     }
@@ -3161,7 +3162,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      * @param root the "formatters" element from the appinfo node of the XML content definition
      * @param contentDefinition the content definition the formatters belong to
      */
-    protected void initFormatters(Element root, CmsXmlContentDefinition contentDefinition) {
+    protected void initFormatters(@RUntainted Element root, CmsXmlContentDefinition contentDefinition) {
 
         // reading the include resources common for all formatters
         Iterator<Element> itFormatter = CmsXmlGenericWrapper.elementIterator(root, APPINFO_FORMATTER);
@@ -3196,7 +3197,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      * @param root the "headincludes" element from the appinfo node of the XML content definition
      * @param contentDefinition the content definition the head-includes belong to
      */
-    protected void initHeadIncludes(Element root, CmsXmlContentDefinition contentDefinition) {
+    protected void initHeadIncludes(@RUntainted Element root, CmsXmlContentDefinition contentDefinition) {
 
         Iterator<Element> itInclude = CmsXmlGenericWrapper.elementIterator(root, APPINFO_HEAD_INCLUDE);
         while (itInclude.hasNext()) {
@@ -3256,15 +3257,15 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     *
     * @throws CmsXmlException if something goes wrong
     */
-    protected void initLayouts(Element root, CmsXmlContentDefinition contentDefinition) throws CmsXmlException {
+    protected void initLayouts(@RUntainted Element root, CmsXmlContentDefinition contentDefinition) throws CmsXmlException {
 
         m_useAcacia = safeParseBoolean(root.attributeValue(ATTR_USE_ACACIA), true);
         Iterator<Element> i = CmsXmlGenericWrapper.elementIterator(root, APPINFO_LAYOUT);
         while (i.hasNext()) {
             // iterate all "layout" elements in the "layouts" node
-            Element element = i.next();
-            String elementName = element.attributeValue(APPINFO_ATTR_ELEMENT);
-            String widgetClassOrAlias = element.attributeValue(APPINFO_ATTR_WIDGET);
+            @RUntainted Element element = i.next();
+            @RUntainted String elementName = element.attributeValue(APPINFO_ATTR_ELEMENT);
+            @RUntainted String widgetClassOrAlias = element.attributeValue(APPINFO_ATTR_WIDGET);
             String configuration = element.attributeValue(APPINFO_ATTR_CONFIGURATION);
             String displayStr = element.attributeValue(APPINFO_ATTR_DISPLAY);
             if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(displayStr) && (elementName != null)) {
@@ -3291,14 +3292,14 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     * @param contentDefinition the content definition the mappings belong to
     * @throws CmsXmlException if something goes wrong
     */
-    protected void initMappings(Element root, CmsXmlContentDefinition contentDefinition) throws CmsXmlException {
+    protected void initMappings(@RUntainted Element root, CmsXmlContentDefinition contentDefinition) throws CmsXmlException {
 
         Iterator<Element> i = CmsXmlGenericWrapper.elementIterator(root, APPINFO_MAPPING);
         while (i.hasNext()) {
             // iterate all "mapping" elements in the "mappings" node
-            Element element = i.next();
+            @RUntainted Element element = i.next();
             // this is a mapping node
-            String elementName = element.attributeValue(APPINFO_ATTR_ELEMENT);
+            @RUntainted String elementName = element.attributeValue(APPINFO_ATTR_ELEMENT);
             String maptoName = element.attributeValue(APPINFO_ATTR_MAPTO);
             String useDefault = element.attributeValue(APPINFO_ATTR_USE_DEFAULT);
             if ((elementName != null) && (maptoName != null)) {
@@ -3315,7 +3316,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      * @param contentDefinition the content definition the model folder belongs to
      * @throws CmsXmlException if something goes wrong
      */
-    protected void initModelFolder(Element root, CmsXmlContentDefinition contentDefinition) throws CmsXmlException {
+    protected void initModelFolder(@RUntainted Element root, CmsXmlContentDefinition contentDefinition) throws CmsXmlException {
 
         String master = root.attributeValue(APPINFO_ATTR_URI);
         if (master == null) {
@@ -3336,14 +3337,14 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      *
      * @throws CmsXmlException in case something goes wron
      */
-    protected void initNestedFormatters(Element element, CmsXmlContentDefinition contentDefinition)
+    protected void initNestedFormatters(@RUntainted Element element, CmsXmlContentDefinition contentDefinition)
     throws CmsXmlException {
 
         Iterator<Element> i = CmsXmlGenericWrapper.elementIterator(element, APPINFO_NESTED_FORMATTER);
         while (i.hasNext()) {
             // iterate all "default" elements in the "defaults" node
-            Element handlerElement = i.next();
-            String formatterElement = handlerElement.attributeValue(APPINFO_ATTR_ELEMENT);
+            @RUntainted Element handlerElement = i.next();
+            @RUntainted String formatterElement = handlerElement.attributeValue(APPINFO_ATTR_ELEMENT);
             addNestedFormatter(formatterElement, contentDefinition);
         }
     }
@@ -3371,7 +3372,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      * @param contentDefinition the content definition the validation rules belong to
      * @throws CmsXmlException if something goes wrong
      */
-    protected void initPreview(Element root, CmsXmlContentDefinition contentDefinition) throws CmsXmlException {
+    protected void initPreview(@RUntainted Element root, CmsXmlContentDefinition contentDefinition) throws CmsXmlException {
 
         String preview = root.attributeValue(APPINFO_ATTR_URI);
         if (preview == null) {
@@ -3399,13 +3400,13 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      *
      * @throws CmsXmlException if something goes wrong
      */
-    protected void initRelations(Element root, CmsXmlContentDefinition contentDefinition) throws CmsXmlException {
+    protected void initRelations(@RUntainted Element root, CmsXmlContentDefinition contentDefinition) throws CmsXmlException {
 
         Iterator<Element> i = CmsXmlGenericWrapper.elementIterator(root, APPINFO_RELATION);
         while (i.hasNext()) {
             // iterate all "checkrule" elements in the "checkrule" node
-            Element element = i.next();
-            String elementName = element.attributeValue(APPINFO_ATTR_ELEMENT);
+            @RUntainted Element element = i.next();
+            @RUntainted String elementName = element.attributeValue(APPINFO_ATTR_ELEMENT);
             String invalidate = element.attributeValue(APPINFO_ATTR_INVALIDATE);
             if (invalidate != null) {
                 invalidate = invalidate.toUpperCase();
@@ -3430,7 +3431,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      *
      * @throws CmsXmlException if something goes wrong
      */
-    protected void initResourceBundle(Element root, CmsXmlContentDefinition contentDefinition, boolean single)
+    protected void initResourceBundle(@RUntainted Element root, CmsXmlContentDefinition contentDefinition, boolean single)
     throws CmsXmlException {
 
         if (m_messageBundleNames == null) {
@@ -3476,7 +3477,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
             // get an iterator for all "xmlbundle" subnodes
             Iterator<Element> xmlbundles = CmsXmlGenericWrapper.elementIterator(root, APPINFO_XMLBUNDLE);
             while (xmlbundles.hasNext()) {
-                Element xmlbundle = xmlbundles.next();
+                @RUntainted Element xmlbundle = xmlbundles.next();
                 String xmlBundleName = xmlbundle.attributeValue(APPINFO_ATTR_NAME);
                 // cache the bundle from the XML
                 if (!m_messageBundleNames.contains(xmlBundleName)) {
@@ -3485,11 +3486,11 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
                 }
                 // clear the cached resource bundles for this bundle
                 CmsResourceBundleLoader.flushBundleCache(xmlBundleName, true);
-                Iterator<Element> bundles = CmsXmlGenericWrapper.elementIterator(xmlbundle, APPINFO_BUNDLE);
+                @RUntainted Iterator<@RUntainted Element> bundles = CmsXmlGenericWrapper.elementIterator(xmlbundle, APPINFO_BUNDLE);
                 while (bundles.hasNext()) {
                     // iterate all "bundle" elements in the "xmlbundle" node
-                    Element bundle = bundles.next();
-                    String localeStr = bundle.attributeValue(APPINFO_ATTR_LOCALE);
+                    @RUntainted Element bundle = bundles.next();
+                    @RUntainted String localeStr = bundle.attributeValue(APPINFO_ATTR_LOCALE);
                     Locale locale;
                     if (CmsStringUtil.isEmptyOrWhitespaceOnly(localeStr)) {
                         // no locale set, so use no locale
@@ -3546,7 +3547,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      *
      * @throws CmsXmlException if something goes wrong
      */
-    protected void initSearchSettings(Element root, CmsXmlContentDefinition contentDefinition) throws CmsXmlException {
+    protected void initSearchSettings(@RUntainted Element root, CmsXmlContentDefinition contentDefinition) throws CmsXmlException {
 
         String containerPageOnly = root.attributeValue(APPINFO_ATTR_CONTAINER_PAGE_ONLY);
         if (!CmsStringUtil.isEmpty(containerPageOnly)) {
@@ -3554,15 +3555,15 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
         }
         Iterator<Element> i = CmsXmlGenericWrapper.elementIterator(root, APPINFO_SEARCHSETTING);
         while (i.hasNext()) {
-            Element element = i.next();
-            String elementName = element.attributeValue(APPINFO_ATTR_ELEMENT);
+            @RUntainted Element element = i.next();
+            @RUntainted String elementName = element.attributeValue(APPINFO_ATTR_ELEMENT);
             String searchContent = element.attributeValue(APPINFO_ATTR_SEARCHCONTENT);
             SearchContentType searchContentType = SearchContentType.fromString(searchContent);
             if (elementName != null) {
                 addSearchSetting(contentDefinition, elementName, searchContentType);
             }
             Iterator<Element> it = CmsXmlGenericWrapper.elementIterator(element, APPINFO_SOLR_FIELD);
-            Element solrElement;
+            @RUntainted Element solrElement;
             while (it.hasNext()) {
                 solrElement = it.next();
 
@@ -3578,8 +3579,8 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
                 } else if (locales.isEmpty()) {
                     locales.add(CmsLocaleManager.getDefaultLocale());
                 }
-                for (Locale locale : locales) {
-                    String targetField = solrElement.attributeValue(APPINFO_ATTR_TARGET_FIELD);
+                for (@RUntainted Locale locale : locales) {
+                    @RUntainted String targetField = solrElement.attributeValue(APPINFO_ATTR_TARGET_FIELD);
                     if (localized) {
                         targetField = targetField + "_" + locale.toString();
                     }
@@ -3600,13 +3601,13 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
                     // create the field mappings for this element
                     Iterator<Element> ite = CmsXmlGenericWrapper.elementIterator(solrElement, APPINFO_ATTR_MAPPING);
                     while (ite.hasNext()) {
-                        Element mappingElement = ite.next();
+                        @RUntainted Element mappingElement = ite.next();
                         field.addMapping(createSearchFieldMapping(contentDefinition, mappingElement, locale));
                     }
 
                     // if no mapping was defined yet, create a mapping for the element itself
                     if ((field.getMappings() == null) || field.getMappings().isEmpty()) {
-                        String param = localized ? (locale.toString() + "|" + elementName) : elementName;
+                        @RUntainted String param = localized ? (locale.toString() + "|" + elementName) : elementName;
                         CmsSearchFieldMapping map = new CmsSearchFieldMapping(CmsSearchFieldMappingType.ITEM, param);
                         field.addMapping(map);
                     }
@@ -3625,7 +3626,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      * @param root the "settings" element from the appinfo node of the XML content definition
      * @param contentDefinition the content definition the element settings belong to
      */
-    protected void initSettings(Element root, CmsXmlContentDefinition contentDefinition) {
+    protected void initSettings(@RUntainted Element root, CmsXmlContentDefinition contentDefinition) {
 
         Iterator<Element> itProperties = CmsXmlGenericWrapper.elementIterator(root, APPINFO_SETTING);
         while (itProperties.hasNext()) {
@@ -3655,7 +3656,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      * @param root the synchronizations element of the content schema appinfo.
      * @param contentDefinition the content definition
      */
-    protected void initSynchronizations(Element root, CmsXmlContentDefinition contentDefinition) {
+    protected void initSynchronizations(@RUntainted Element root, CmsXmlContentDefinition contentDefinition) {
 
         List<Element> elements = new ArrayList<Element>(CmsXmlGenericWrapper.elements(root, APPINFO_SYNCHRONIZATION));
         for (Element element : elements) {
@@ -3670,7 +3671,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      * @param root the "tabs" element from the appinfo node of the XML content definition
      * @param contentDefinition the content definition the tabs belong to
      */
-    protected void initTabs(Element root, CmsXmlContentDefinition contentDefinition) {
+    protected void initTabs(@RUntainted Element root, CmsXmlContentDefinition contentDefinition) {
 
         if (Boolean.valueOf(root.attributeValue(APPINFO_ATTR_USEALL, CmsStringUtil.FALSE)).booleanValue()) {
             // all first level elements should be treated as tabs
@@ -3748,15 +3749,15 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      *
      * @throws CmsXmlException if something goes wrong
      */
-    protected void initValidationRules(Element root, CmsXmlContentDefinition contentDefinition) throws CmsXmlException {
+    protected void initValidationRules(@RUntainted Element root, CmsXmlContentDefinition contentDefinition) throws CmsXmlException {
 
-        List<Element> elements = new ArrayList<Element>(CmsXmlGenericWrapper.elements(root, APPINFO_RULE));
+        @RUntainted List<@RUntainted Element> elements = new ArrayList<@RUntainted Element>(CmsXmlGenericWrapper.elements(root, APPINFO_RULE));
         elements.addAll(CmsXmlGenericWrapper.elements(root, APPINFO_VALIDATIONRULE));
-        Iterator<Element> i = elements.iterator();
+        @RUntainted Iterator<@RUntainted Element> i = elements.iterator();
         while (i.hasNext()) {
             // iterate all "rule" or "validationrule" elements in the "validationrules" node
-            Element element = i.next();
-            String elementName = element.attributeValue(APPINFO_ATTR_ELEMENT);
+            @RUntainted Element element = i.next();
+            @RUntainted String elementName = element.attributeValue(APPINFO_ATTR_ELEMENT);
             String regex = element.attributeValue(APPINFO_ATTR_REGEX);
             String type = element.attributeValue(APPINFO_ATTR_TYPE);
             if (type != null) {
@@ -3781,7 +3782,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      * @param root the visibilities appinfo element
      * @param contentDefinition the content definition
      */
-    protected void initVisibilities(Element root, CmsXmlContentDefinition contentDefinition) {
+    protected void initVisibilities(@RUntainted Element root, CmsXmlContentDefinition contentDefinition) {
 
         m_visibilityConfigurations = new HashMap<String, VisibilityConfiguration>();
         String mainHandlerClassName = root.attributeValue(APPINFO_ATTR_CLASS);
@@ -3825,7 +3826,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      *
      * @return the configured is-invalidate-parent flag for the given xpath
      */
-    protected boolean isInvalidateParent(String xpath) {
+    protected boolean isInvalidateParent(@RUntainted String xpath) {
 
         if (!CmsXmlUtils.isDeepXpath(xpath)) {
             return false;
@@ -3861,7 +3862,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      * @see CmsMessages#formatUnknownKey(String)
      * @see CmsMessages#isUnknownKey(String)
      */
-    protected String key(String keyName, Locale locale) {
+    protected String key(@RUntainted String keyName, @RUntainted Locale locale) {
 
         CmsMessages messages = getMessages(locale);
         if (messages != null) {
@@ -3912,7 +3913,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
         Iterator<Map.Entry<String, List<String>>> allMappings = m_elementMappings.entrySet().iterator();
         while (allMappings.hasNext()) {
             Map.Entry<String, List<String>> e = allMappings.next();
-            String path = e.getKey();
+            @RUntainted String path = e.getKey();
             List<String> mappings = e.getValue();
             if (mappings == null) {
                 // nothing to do if we have no mappings at all
@@ -4022,8 +4023,8 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      */
     protected void resolveDefaultMappings(CmsObject cms, CmsFile file, CmsXmlContent content) throws CmsException {
 
-        for (Map.Entry<String, List<String>> e : m_elementMappings.entrySet()) {
-            String path = e.getKey();
+        for (Map.@RUntainted Entry<@RUntainted String, @RUntainted List<@RUntainted String>> e : m_elementMappings.entrySet()) {
+            @RUntainted String path = e.getKey();
             List<String> mappings = e.getValue();
             if (mappings == null) {
                 // nothing to do if we have no mappings at all
@@ -4034,7 +4035,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
                 if (!isMappingUsingDefault(path, mapping)) {
                     continue;
                 }
-                for (Locale locale : content.getLocales()) {
+                for (@RUntainted Locale locale : content.getLocales()) {
                     if (content.hasValue(path, locale)) {
                         continue;
                     } else {
@@ -4106,7 +4107,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
             for (int i = 0; i < values.length; i++) {
                 String val = values[i];
                 String catPath = CmsCategoryService.getInstance().getCategory(cms, val).getPath();
-                String refPath = getReferencePath(cms, value);
+                @RUntainted String refPath = getReferencePath(cms, value);
                 CmsCategoryService.getInstance().readCategory(cms, catPath, refPath);
                 if (((CmsCategoryWidget)widget).isOnlyLeafs()) {
                     if (!CmsCategoryService.getInstance().readCategories(cms, catPath, false, refPath).isEmpty()) {
@@ -4494,8 +4495,8 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      */
     private I_CmsSearchFieldMapping createSearchFieldMapping(
         CmsXmlContentDefinition contentDefinition,
-        Element element,
-        Locale locale)
+        @RUntainted Element element,
+        @RUntainted Locale locale)
     throws CmsXmlException {
 
         I_CmsSearchFieldMapping fieldMapping = null;
@@ -4505,7 +4506,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
             case 0: // content
             case 3: // item
                 // localized
-                String param = locale.toString() + "|" + element.getStringValue();
+                @RUntainted String param = locale.toString() + "|" + element.getStringValue();
                 fieldMapping = new CmsSearchFieldMapping(type, param);
                 break;
             case 1: // property
@@ -4515,7 +4516,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
                 fieldMapping = new CmsSearchFieldMapping(type, element.getStringValue());
                 break;
             case 4: // dynamic
-                String mappingClass = element.attributeValue(APPINFO_ATTR_CLASS);
+                @RUntainted String mappingClass = element.attributeValue(APPINFO_ATTR_CLASS);
                 if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(mappingClass)) {
                     try {
                         fieldMapping = (I_CmsSearchFieldMapping)Class.forName(mappingClass).newInstance();
@@ -4548,7 +4549,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
      * @param target the mapping target
      * @return the xpath mapped to the target
      */
-    private String getMappingSource(String target) {
+    private @RUntainted String getMappingSource(String target) {
 
         for (Map.Entry<String, List<String>> entry : m_elementMappings.entrySet()) {
             if (entry.getValue().contains(target)) {
@@ -4691,10 +4692,10 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     private void resolveMapping(
         CmsObject cms,
         CmsXmlContent content,
-        String valuePath,
+        @RUntainted String valuePath,
         boolean valueIsSimple,
         int valueIndex,
-        Locale valueLocale,
+        @RUntainted Locale valueLocale,
         String originalStringValue)
     throws CmsException {
 
@@ -4732,7 +4733,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
         CmsMappingResolutionContext mappingContext = (CmsMappingResolutionContext)(cms.getRequestContext().getAttribute(
             ATTR_MAPPING_RESOLUTION_CONTEXT));
 
-        for (String mapping : mappings) {
+        for (@RUntainted String mapping : mappings) {
 
             if (CmsStringUtil.isNotEmpty(mapping)) {
 
@@ -4779,7 +4780,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
                 // b) only the "right" locale is mapped to a sibling
                 for (int i = (siblings.size() - 1); i >= 0; i--) {
                     // get filename
-                    String filename = (siblings.get(i)).getRootPath();
+                    @RUntainted String filename = (siblings.get(i)).getRootPath();
                     if (mapping.startsWith(MAPTO_URLNAME)) {
                         // should be written regardless of whether there is a sibling with the correct locale
                         mapToUrlName = true;
@@ -4805,8 +4806,8 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
                         // example of a mapping: mapto="permission:GROUP:+r+v|GROUP.ALL_OTHERS:|GROUP.Projectmanagers:+r+v+w+c"
 
                         // get permission(s) to set
-                        String permissionMappings = mapping.substring(MAPTO_PERMISSION.length());
-                        String mainMapping = permissionMappings;
+                        @RUntainted String permissionMappings = mapping.substring(MAPTO_PERMISSION.length());
+                        @RUntainted String mainMapping = permissionMappings;
                         Map<String, String> permissionsToSet = new HashMap<String, String>();
 
                         // separate permission to set for element value from other permissions to set
@@ -4818,7 +4819,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
                         }
 
                         // determine principal type and permission string to set
-                        String principalType = I_CmsPrincipal.PRINCIPAL_GROUP;
+                        @RUntainted String principalType = I_CmsPrincipal.PRINCIPAL_GROUP;
                         String permissionString = mainMapping;
                         sepIndex = mainMapping.indexOf(':');
                         if (sepIndex != -1) {
@@ -4852,11 +4853,11 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
 
                         // set additional permissions that are defined in mapping
                         for (Iterator<Map.Entry<String, String>> j = permissionsToSet.entrySet().iterator(); j.hasNext();) {
-                            Map.Entry<String, String> entry = j.next();
+                            Map.@RUntainted Entry<@RUntainted String, @RUntainted String> entry = j.next();
                             sepIndex = entry.getKey().indexOf('.');
                             if (sepIndex != -1) {
-                                String type = entry.getKey().substring(0, sepIndex);
-                                String name = entry.getKey().substring(sepIndex + 1);
+                                @RUntainted String type = entry.getKey().substring(0, sepIndex);
+                                @RUntainted String name = entry.getKey().substring(sepIndex + 1);
                                 String permissions = entry.getValue();
                                 if (permissions.toLowerCase().indexOf('o') == -1) {
                                     permissions += "+o";
@@ -4874,7 +4875,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
                         // the set with all selected principals
                         TreeSet<String> allPrincipals = new TreeSet<String>();
                         String path = CmsXmlUtils.removeXpathIndex(valuePath);
-                        List<I_CmsXmlContentValue> values = content.getValues(path, valueLocale);
+                        @RUntainted List<@RUntainted I_CmsXmlContentValue> values = content.getValues(path, valueLocale);
                         Iterator<I_CmsXmlContentValue> j = values.iterator();
                         while (j.hasNext()) {
                             I_CmsXmlContentValue val = j.next();
@@ -4892,10 +4893,10 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
                             }
                         }
                         // iterate over the set with all principals and set the permissions
-                        Iterator<String> iterAllPricinipals = allPrincipals.iterator();
+                        @RUntainted Iterator<@RUntainted String> iterAllPricinipals = allPrincipals.iterator();
                         while (iterAllPricinipals.hasNext()) {
                             // get the next principal
-                            String principal = iterAllPricinipals.next();
+                            @RUntainted String principal = iterAllPricinipals.next();
                             rootCms.chacc(filename, principalType, principal, permissionString);
                         }
                         // special case: permissions are written only to one sibling, end loop

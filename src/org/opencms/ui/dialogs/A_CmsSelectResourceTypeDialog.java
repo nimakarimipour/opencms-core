@@ -86,6 +86,7 @@ import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 public abstract class A_CmsSelectResourceTypeDialog extends CmsBasicDialog {
 
@@ -93,7 +94,7 @@ public abstract class A_CmsSelectResourceTypeDialog extends CmsBasicDialog {
     public static final Boolean DEFAULT_LOCATION_DEFAULT = Boolean.TRUE;
 
     /** Id for the 'All' pseudo-view. */
-    public static final CmsUUID ID_VIEW_ALL = CmsUUID.getConstantUUID("view-all");
+    public static final @RUntainted CmsUUID ID_VIEW_ALL = CmsUUID.getConstantUUID("view-all");
 
     /** Setting name for the standard view. */
     public static final String SETTING_STANDARD_VIEW = "newDialogStandardView";
@@ -224,7 +225,7 @@ public abstract class A_CmsSelectResourceTypeDialog extends CmsBasicDialog {
      *
      * @param ids the ids
      */
-    public void finish(List<CmsUUID> ids) {
+    public void finish(@RUntainted List<@RUntainted CmsUUID> ids) {
 
         if (m_selectedRunnable == null) {
             m_dialogContext.finish(ids);

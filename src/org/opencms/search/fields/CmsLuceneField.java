@@ -34,6 +34,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.index.IndexOptions;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An individual field configuration in a Lucene search index.<p>
@@ -82,7 +83,7 @@ public class CmsLuceneField extends CmsSearchField {
     private boolean m_tokenized;
 
     /** The type used to convert a field to a Solr field. */
-    private String m_type;
+    private @RUntainted String m_type;
 
     /**
      * Creates a new search field configuration.<p>
@@ -104,7 +105,7 @@ public class CmsLuceneField extends CmsSearchField {
      * @param isStored controls if the field is stored and in the excerpt, see {@link #setStored(boolean)}
      * @param isIndexed controls if the field is indexed and tokenized, see {@link #setIndexed(boolean)}
      */
-    public CmsLuceneField(String name, String displayName, boolean isStored, boolean isIndexed) {
+    public CmsLuceneField(@RUntainted String name, String displayName, boolean isStored, boolean isIndexed) {
 
         this(name, displayName, isStored, isIndexed, isIndexed, false, null);
     }
@@ -123,7 +124,7 @@ public class CmsLuceneField extends CmsSearchField {
      * @param defaultValue the default value for the field, see {@link #setDefaultValue(String)}
      */
     public CmsLuceneField(
-        String name,
+        @RUntainted String name,
         String displayName,
         boolean isStored,
         boolean isCompressed,
@@ -155,7 +156,7 @@ public class CmsLuceneField extends CmsSearchField {
      * @param defaultValue the default value for the field, see {@link #setDefaultValue(String)}
      */
     public CmsLuceneField(
-        String name,
+        @RUntainted String name,
         String displayName,
         boolean isStored,
         boolean isIndexed,
@@ -290,7 +291,7 @@ public class CmsLuceneField extends CmsSearchField {
      *
      * @return the type
      */
-    public String getType() {
+    public @RUntainted String getType() {
 
         return m_type;
     }
@@ -540,7 +541,7 @@ public class CmsLuceneField extends CmsSearchField {
      *
      * @param type the type to set
      */
-    public void setType(String type) {
+    public void setType(@RUntainted String type) {
 
         m_type = type;
     }

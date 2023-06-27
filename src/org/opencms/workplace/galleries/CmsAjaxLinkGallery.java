@@ -48,6 +48,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the specific constants, members and helper methods to generate the content of the external link gallery dialog
@@ -96,7 +97,7 @@ public class CmsAjaxLinkGallery extends A_CmsAjaxGallery {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsAjaxLinkGallery(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsAjaxLinkGallery(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
 
@@ -156,7 +157,7 @@ public class CmsAjaxLinkGallery extends A_CmsAjaxGallery {
      *
      */
     @Override
-    protected void buildJsonItemSpecificPart(JSONObject jsonObj, CmsResource res, String sitePath) {
+    protected void buildJsonItemSpecificPart(JSONObject jsonObj, @RUntainted CmsResource res, String sitePath) {
 
         // file target
         String pointer;
@@ -215,7 +216,7 @@ public class CmsAjaxLinkGallery extends A_CmsAjaxGallery {
      *
      * @throws CmsException if sth. goes wrong
      */
-    private void writePointerLink(CmsResource res) throws CmsException {
+    private void writePointerLink(@RUntainted CmsResource res) throws CmsException {
 
         String resPath = getCms().getSitePath(res);
         String currentPropertyValue = getParamPropertyValue();

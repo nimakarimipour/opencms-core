@@ -78,6 +78,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean to be used in JSP scriptlet code that provides
@@ -109,7 +110,7 @@ public class CmsUploadBean extends CmsJspBean {
     private List<FileItem> m_multiPartFileItems;
 
     /** The map of parameters read from the current request. */
-    private Map<String, String[]> m_parameterMap;
+    private @RUntainted Map<@RUntainted String, @RUntainted String[]> m_parameterMap;
 
     /** The names by id of the resources that have been created successfully. */
     private HashMap<CmsUUID, String> m_resourcesCreated = new HashMap<CmsUUID, String>();
@@ -134,7 +135,7 @@ public class CmsUploadBean extends CmsJspBean {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsUploadBean(PageContext context, HttpServletRequest req, HttpServletResponse res)
+    public CmsUploadBean(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res)
     throws CmsException {
 
         super();
@@ -168,9 +169,9 @@ public class CmsUploadBean extends CmsJspBean {
      *
      * @return the VFS path for the given filename and folder
      */
-    public static String getNewResourceName(CmsObject cms, String fileName, String folder, boolean keepFileNames) {
+    public static @RUntainted String getNewResourceName(CmsObject cms, @RUntainted String fileName, @RUntainted String folder, boolean keepFileNames) {
 
-        String newResname = CmsResource.getName(fileName.replace('\\', '/'));
+        @RUntainted String newResname = CmsResource.getName(fileName.replace('\\', '/'));
         if (!keepFileNames) {
             newResname = cms.getRequestContext().getFileTranslator().translateResource(newResname);
         }
@@ -259,7 +260,7 @@ public class CmsUploadBean extends CmsJspBean {
             cms = m_rootCms;
         }
         // get the target folder
-        String targetFolder = getTargetFolder(cms);
+        @RUntainted String targetFolder = getTargetFolder(cms);
         m_uploadHook = OpenCms.getWorkplaceManager().getUploadHook(cms, targetFolder);
 
         List<String> filesToUnzip = getFilesToUnzip();
@@ -272,7 +273,7 @@ public class CmsUploadBean extends CmsJspBean {
                 fileItem.delete();
 
                 // determine the new resource name
-                String fileName = m_parameterMap.get(
+                @RUntainted String fileName = m_parameterMap.get(
                     fileItem.getFieldName() + I_CmsUploadConstants.UPLOAD_FILENAME_ENCODED_SUFFIX)[0];
                 fileName = URLDecoder.decode(fileName, "UTF-8");
 
@@ -310,9 +311,9 @@ public class CmsUploadBean extends CmsJspBean {
                 String className = classAndConfig.getFirst();
                 String config = classAndConfig.getSecond();
                 I_CmsCollectorPostCreateHandler handler = A_CmsResourceCollector.getPostCreateHandler(className);
-                for (Map.Entry<CmsUUID, String> resourceEntry : m_resourcesCreated.entrySet()) {
+                for (Map.@RUntainted Entry<@RUntainted CmsUUID, @RUntainted String> resourceEntry : m_resourcesCreated.entrySet()) {
                     try {
-                        CmsUUID structureId = resourceEntry.getKey();
+                        @RUntainted CmsUUID structureId = resourceEntry.getKey();
                         CmsResource resource = cms.readResource(structureId, CmsResourceFilter.IGNORE_EXPIRATION);
                         if (!resource.isFolder()) {
                             handler.onCreate(cms, resource, false, config);
@@ -343,7 +344,7 @@ public class CmsUploadBean extends CmsJspBean {
      * @throws CmsDbSqlException if something goes wrong
      */
     @SuppressWarnings("deprecation")
-    private CmsResource createSingleResource(CmsObject cms, String fileName, String targetFolder, byte[] content)
+    private CmsResource createSingleResource(CmsObject cms, @RUntainted String fileName, @RUntainted String targetFolder, byte[] content)
     throws CmsException, CmsLoaderException, CmsDbSqlException {
 
         String folderRootPath = cms.getRequestContext().addSiteRoot(targetFolder);
@@ -352,7 +353,7 @@ public class CmsUploadBean extends CmsJspBean {
             return null;
         }
 
-        String newResname = getNewResourceName(cms, fileName, targetFolder, isKeepFileNames());
+        @RUntainted String newResname = getNewResourceName(cms, fileName, targetFolder, isKeepFileNames());
         CmsResource createdResource = null;
 
         // determine Title property value to set on new resource
@@ -457,10 +458,10 @@ public class CmsUploadBean extends CmsJspBean {
      * @return the new folder
      * @throws CmsException if something goes wrong
      */
-    private CmsResource createTargetFolder(CmsObject cms, String targetFolder) throws CmsException {
+    private CmsResource createTargetFolder(CmsObject cms, @RUntainted String targetFolder) throws CmsException {
 
         List<String> parentFolders = new ArrayList<>();
-        String currentFolder = targetFolder;
+        @RUntainted String currentFolder = targetFolder;
         while ((currentFolder != null) && !cms.existsResource(currentFolder, CmsResourceFilter.IGNORE_EXPIRATION)) {
             parentFolders.add(currentFolder);
             currentFolder = CmsResource.getParentFolder(currentFolder);
@@ -468,7 +469,7 @@ public class CmsUploadBean extends CmsJspBean {
         Collections.reverse(parentFolders);
         CmsResource lastCreated = null;
         CmsResource firstCreated = null;
-        for (String parentFolder : parentFolders) {
+        for (@RUntainted String parentFolder : parentFolders) {
 
             CmsResource createdFolder = cms.createResource(
                 parentFolder,
@@ -593,7 +594,7 @@ public class CmsUploadBean extends CmsJspBean {
      *
      * @throws CmsException if something goes wrong
      */
-    private String getTargetFolder(CmsObject cms) throws CmsException {
+    private @RUntainted String getTargetFolder(CmsObject cms) throws CmsException {
 
         // get the target folder on the vfs
         CmsResource target = cms.readResource("/", CmsResourceFilter.IGNORE_EXPIRATION);
@@ -610,7 +611,7 @@ public class CmsUploadBean extends CmsJspBean {
                 }
             }
         }
-        String targetFolder = cms.getRequestContext().removeSiteRoot(target.getRootPath());
+        @RUntainted String targetFolder = cms.getRequestContext().removeSiteRoot(target.getRootPath());
         if (!targetFolder.endsWith("/")) {
             // add folder separator to currentFolder
             targetFolder += "/";

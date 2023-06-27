@@ -28,6 +28,7 @@
 package org.opencms.workplace.editors;
 
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the setup information about a single dialog element.<p>
@@ -43,7 +44,7 @@ public class CmsDialogElement implements Comparable<CmsDialogElement> {
     private boolean m_mandantory;
 
     /** The (system) name of the element. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** The nice "display" name of the element. */
     private String m_niceName;
@@ -61,7 +62,7 @@ public class CmsDialogElement implements Comparable<CmsDialogElement> {
      * @param existing indicates if the element is existing on the xmlPage or not
      */
     public CmsDialogElement(
-        String name,
+        @RUntainted String name,
         String niceName,
         boolean mandantory,
         boolean templateElement,
@@ -126,7 +127,7 @@ public class CmsDialogElement implements Comparable<CmsDialogElement> {
      *
      * @return the name
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }

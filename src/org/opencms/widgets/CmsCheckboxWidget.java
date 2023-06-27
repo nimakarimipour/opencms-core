@@ -38,6 +38,7 @@ import org.opencms.xml.types.CmsXmlBooleanValue;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a standard HTML form checkbox widget, for use on a widget dialog.<p>

@@ -45,6 +45,7 @@ import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -89,7 +90,7 @@ public abstract class A_CmsClientMessageBundle implements I_CmsClientMessageBund
     /**
      * @see org.opencms.gwt.I_CmsClientMessageBundle#export(java.util.Locale, boolean)
      */
-    public String export(Locale locale, boolean wrapScript) {
+    public String export(@RUntainted Locale locale, boolean wrapScript) {
 
         JSONObject keys = new JSONObject();
         try {
@@ -128,7 +129,7 @@ public abstract class A_CmsClientMessageBundle implements I_CmsClientMessageBund
     /**
      * @see org.opencms.gwt.I_CmsClientMessageBundle#export(java.lang.String)
      */
-    public String export(String localeName) {
+    public String export(@RUntainted String localeName) {
 
         return export(CmsLocaleManager.getLocale(localeName));
     }
@@ -157,7 +158,7 @@ public abstract class A_CmsClientMessageBundle implements I_CmsClientMessageBund
      *
      * @return the imported message string
      */
-    public String importMessage(String key, Locale locale) {
+    public String importMessage(String key, @RUntainted Locale locale) {
 
         key = key.trim();
         String[] tokens = key.split("#");
@@ -165,7 +166,7 @@ public abstract class A_CmsClientMessageBundle implements I_CmsClientMessageBund
             return null;
         }
         String className = tokens[0];
-        String messageName = tokens[1];
+        @RUntainted String messageName = tokens[1];
         try {
             Method messagesGet = Class.forName(className).getMethod("get");
             I_CmsMessageBundle bundle = (I_CmsMessageBundle)(messagesGet.invoke(null));

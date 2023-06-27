@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.FastHashMap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The default session storage provider implementation.<p>
@@ -48,7 +49,7 @@ import org.apache.commons.collections.FastHashMap;
 public class CmsDefaultSessionStorageProvider implements I_CmsSessionStorageProvider {
 
     /** Stores the session info objects mapped to the session id. */
-    private FastHashMap m_sessions;
+    private @RUntainted FastHashMap m_sessions;
 
     /**
      * @see org.opencms.main.I_CmsSessionStorageProvider#get(org.opencms.util.CmsUUID)

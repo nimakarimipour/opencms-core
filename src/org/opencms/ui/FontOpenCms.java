@@ -29,6 +29,7 @@ package org.opencms.ui;
 
 import com.vaadin.server.FontIcon;
 import com.vaadin.server.GenericFontIcon;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The available OpenCms workplace icons.<p>
@@ -345,14 +346,14 @@ public enum FontOpenCms implements FontIcon {
     public static final String FONT_FAMILY = "opencms-font";
 
     /** The icon code point. */
-    private int m_codepoint;
+    private @RUntainted int m_codepoint;
 
     /**
      * Constructor.<p>
      *
      * @param codepoint the icon code point
      */
-    FontOpenCms(int codepoint) {
+    FontOpenCms(@RUntainted int codepoint) {
 
         m_codepoint = codepoint;
     }
@@ -371,7 +372,7 @@ public enum FontOpenCms implements FontIcon {
      * @see com.vaadin.server.FontIcon#getCodepoint()
      */
     @Override
-    public int getCodepoint() {
+    public @RUntainted int getCodepoint() {
 
         return m_codepoint;
     }

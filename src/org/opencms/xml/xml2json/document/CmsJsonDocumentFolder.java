@@ -44,6 +44,7 @@ import org.opencms.xml.xml2json.handler.CmsJsonHandlerXmlContent.PathNotFoundExc
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class representing a JSON document for a folder.
@@ -88,7 +89,7 @@ public class CmsJsonDocumentFolder extends A_CmsJsonDocument implements I_CmsJso
 
         List<CmsResource> children = m_context.getCms().readResources(target, CmsResourceFilter.DEFAULT, false);
         JSONObject result = new JSONObject(true);
-        for (CmsResource resource : children) {
+        for (@RUntainted CmsResource resource : children) {
             JSONObject childEntry = formatResource(resource);
             if (resource.isFolder() && (levelsLeft > 1)) {
                 JSONObject childrenJson = folderListingJson(resource, levelsLeft - 1);
@@ -106,7 +107,7 @@ public class CmsJsonDocumentFolder extends A_CmsJsonDocument implements I_CmsJso
      * @return the JSON
      * @throws Exception if something goes wrong
      */
-    private JSONObject formatResource(CmsResource resource) throws Exception {
+    private JSONObject formatResource(@RUntainted CmsResource resource) throws Exception {
 
         boolean isContent = false;
         if (!resource.isFolder()) {

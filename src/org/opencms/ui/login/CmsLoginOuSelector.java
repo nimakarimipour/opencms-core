@@ -38,6 +38,7 @@ import java.util.List;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.v7.shared.ui.combobox.FilteringMode;
 import com.vaadin.v7.ui.ComboBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widget used to allow the user to search and select an organizational unit.<p>
@@ -51,7 +52,7 @@ public class CmsLoginOuSelector extends CustomComponent {
     public static final String OU_NONE = "OU_NONE";
 
     /** The combo box containing the OU options. */
-    private ComboBox m_ouSelect = new ComboBox();
+    private @RUntainted ComboBox m_ouSelect = new ComboBox();
 
     /** Flag to always hide the selector. */
     private boolean m_alwaysHidden;
@@ -72,7 +73,7 @@ public class CmsLoginOuSelector extends CustomComponent {
      *
      * @return the selected OU
      */
-    public String getValue() {
+    public @RUntainted String getValue() {
 
         return (String)m_ouSelect.getValue();
     }
@@ -83,7 +84,7 @@ public class CmsLoginOuSelector extends CustomComponent {
      * @param ou the OU to check
      * @return true if the OU is available
      */
-    public boolean hasOrgUnit(String ou) {
+    public boolean hasOrgUnit(@RUntainted String ou) {
 
         return m_ouSelect.getContainerDataSource().getItem(normalizeOuName(ou)) != null;
     }
@@ -126,7 +127,7 @@ public class CmsLoginOuSelector extends CustomComponent {
      *
      * @param value the OU to select
      */
-    public void setValue(String value) {
+    public void setValue(@RUntainted String value) {
 
         m_ouSelect.setValue(normalizeOuName(value));
     }
@@ -137,7 +138,7 @@ public class CmsLoginOuSelector extends CustomComponent {
      * @param ou the OU name
      * @return the normalized version
      */
-    String normalizeOuName(String ou) {
+    String normalizeOuName(@RUntainted String ou) {
 
         ou = CmsFileUtil.removeLeadingSeparator(ou);
         ou = CmsFileUtil.removeTrailingSeparator(ou);

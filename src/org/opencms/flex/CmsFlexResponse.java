@@ -54,6 +54,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for a HttpServletResponse, required in order to process JSPs from the OpenCms VFS.<p>
@@ -328,11 +329,11 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
     public static void processHeaders(Map<String, List<String>> headers, HttpServletResponse res) {
 
         if (headers != null) {
-            Iterator<Map.Entry<String, List<String>>> i = headers.entrySet().iterator();
+            @RUntainted Iterator<Map.@RUntainted Entry<@RUntainted String, @RUntainted List<@RUntainted String>>> i = headers.entrySet().iterator();
             while (i.hasNext()) {
-                Map.Entry<String, List<String>> entry = i.next();
-                String key = entry.getKey();
-                List<String> l = entry.getValue();
+                Map.@RUntainted Entry<@RUntainted String, @RUntainted List<@RUntainted String>> entry = i.next();
+                @RUntainted String key = entry.getKey();
+                @RUntainted List<@RUntainted String> l = entry.getValue();
                 for (int j = 0; j < l.size(); j++) {
                     if ((j == 0) && ((l.get(0)).startsWith(SET_HEADER))) {
                         String s = l.get(0);
@@ -965,7 +966,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      *
      * @throws CmsFlexCacheException in case the value String had a parse error
      */
-    CmsFlexCacheKey setCmsCacheKey(String resourcename, String cacheDirectives, boolean online)
+    CmsFlexCacheKey setCmsCacheKey(@RUntainted String resourcename, @RUntainted String cacheDirectives, boolean online)
     throws CmsFlexCacheException {
 
         m_key = new CmsFlexCacheKey(resourcename, cacheDirectives, online);
@@ -1125,7 +1126,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      */
     private void processIncludeList() {
 
-        byte[] result = getWriterBytes();
+        @RUntainted byte[] result = getWriterBytes();
         if (!hasIncludeList()) {
             // no include list, so no includes and we just use the bytes as they are in one block
             m_cachedEntry.add(result);
@@ -1169,7 +1170,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
             if (pos < max) {
                 // there is content behind the last include call
                 size = max - pos;
-                byte[] piece = new byte[size];
+                @RUntainted byte[] piece = new byte[size];
                 System.arraycopy(result, pos, piece, 0, size);
                 m_cachedEntry.add(piece);
                 piece = null;

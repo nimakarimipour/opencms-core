@@ -52,6 +52,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * ADE's session cache.<p>
@@ -169,7 +170,7 @@ public final class CmsADESessionCache {
      * @param cms the cms context
      * @param request the current request
      */
-    protected CmsADESessionCache(CmsObject cms, HttpServletRequest request) {
+    protected CmsADESessionCache(CmsObject cms, @RUntainted HttpServletRequest request) {
 
         // container element cache
         m_containerElements = new ConcurrentHashMap<String, CmsContainerElementBean>();
@@ -209,9 +210,9 @@ public final class CmsADESessionCache {
      *
      * @return the ADE session cache for the current session
      */
-    public static CmsADESessionCache getCache(HttpServletRequest request, CmsObject cms) {
+    public static CmsADESessionCache getCache(@RUntainted HttpServletRequest request, @RUntainted CmsObject cms) {
 
-        CmsADESessionCache cache = (CmsADESessionCache)request.getSession().getAttribute(
+        @RUntainted CmsADESessionCache cache = (CmsADESessionCache)request.getSession().getAttribute(
             CmsADESessionCache.SESSION_ATTR_ADE_CACHE);
         if (cache == null) {
             cache = new CmsADESessionCache(cms, request);

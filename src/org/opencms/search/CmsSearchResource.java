@@ -37,6 +37,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.Date;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A resource implementation that combines the Solr document together with a OpenCms VFS resource.<p>
@@ -105,23 +106,23 @@ public class CmsSearchResource extends CmsResource {
      * @param doc the search document
      */
     public CmsSearchResource(
-        CmsUUID structureId,
-        CmsUUID resourceId,
-        String path,
-        int type,
+        @RUntainted CmsUUID structureId,
+        @RUntainted CmsUUID resourceId,
+        @RUntainted String path,
+        @RUntainted int type,
         int flags,
-        CmsUUID projectId,
+        @RUntainted CmsUUID projectId,
         CmsResourceState state,
-        long dateCreated,
-        CmsUUID userCreated,
+        @RUntainted long dateCreated,
+        @RUntainted CmsUUID userCreated,
         long dateLastModified,
-        CmsUUID userLastModified,
+        @RUntainted CmsUUID userLastModified,
         long dateReleased,
         long dateExpired,
         int linkCount,
-        int length,
+        @RUntainted int length,
         long dateContent,
-        int version,
+        @RUntainted int version,
         I_CmsSearchDocument doc) {
 
         super(

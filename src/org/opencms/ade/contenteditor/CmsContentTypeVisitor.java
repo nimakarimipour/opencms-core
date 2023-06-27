@@ -67,6 +67,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Visitor to read all types and attribute configurations within a content definition.<p>
@@ -267,7 +268,7 @@ public class CmsContentTypeVisitor {
     private boolean m_hasInvisible;
 
     /** The content locale. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** The locale synchronized attribute names. */
     private List<String> m_localeSynchronizations;
@@ -439,7 +440,7 @@ public class CmsContentTypeVisitor {
      * @param xmlContentDefinition the content definition
      * @param messageLocale the locale
      */
-    public void visitTypes(CmsXmlContentDefinition xmlContentDefinition, Locale messageLocale) {
+    public void visitTypes(CmsXmlContentDefinition xmlContentDefinition, @RUntainted Locale messageLocale) {
 
         m_rootContentDefinition = xmlContentDefinition;
         m_contentHandler = xmlContentDefinition.getContentHandler();
@@ -646,7 +647,7 @@ public class CmsContentTypeVisitor {
      *
      * @return the attribute configuration
      */
-    private DisplayTypeEvaluator readConfiguration(A_CmsXmlContentValue schemaType, String path) {
+    private DisplayTypeEvaluator readConfiguration(A_CmsXmlContentValue schemaType, @RUntainted String path) {
 
         String widgetName = null;
         String widgetConfig = null;
@@ -763,7 +764,7 @@ public class CmsContentTypeVisitor {
      *
      * @return the default value
      */
-    private String readDefaultValue(I_CmsXmlSchemaType schemaType, String path) {
+    private String readDefaultValue(I_CmsXmlSchemaType schemaType, @RUntainted String path) {
 
         return m_contentHandler.getDefault(getCmsObject(), m_file, schemaType, path, m_locale);
     }

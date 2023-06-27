@@ -32,6 +32,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Memory Monitor configuration class.<p>
@@ -41,7 +42,7 @@ import java.util.List;
 public class CmsMemoryMonitorConfiguration {
 
     /** The memory monitor class name. */
-    private String m_className;
+    private @RUntainted String m_className;
 
     /** The interval to use for sending emails. */
     private int m_emailInterval;
@@ -84,7 +85,7 @@ public class CmsMemoryMonitorConfiguration {
      *
      * @return the name of the memory monitor class
      */
-    public String getClassName() {
+    public @RUntainted String getClassName() {
 
         return m_className;
     }
@@ -160,7 +161,7 @@ public class CmsMemoryMonitorConfiguration {
      * @param warningInterval the interval to warn
      */
     public void initialize(
-        String className,
+        @RUntainted String className,
         String maxUsagePercent,
         String logInterval,
         String emailInterval,

@@ -32,6 +32,7 @@ import org.opencms.i18n.I_CmsMessageContainer;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean that represents a client variant of a template context.<p>

@@ -53,6 +53,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget for group selection multi select boxes.<p>
@@ -97,7 +98,7 @@ public class CmsMultiSelectGroupWidget extends CmsSelectGroupWidget {
     private boolean m_includeSubOus;
 
     /** The fully qualified name of the OU to read the groups from. */
-    private String m_ouFqn;
+    private @RUntainted String m_ouFqn;
 
     /** Flag to indicate if the multi-select needs to be activated by a check box. */
     private boolean m_requiresActivation;
@@ -308,7 +309,7 @@ public class CmsMultiSelectGroupWidget extends CmsSelectGroupWidget {
      * @see org.opencms.widgets.A_CmsWidget#setConfiguration(java.lang.String)
      */
     @Override
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(configuration)) {
             int asCheckBoxesIndex = configuration.indexOf(CmsMultiSelectWidget.CONFIGURATION_ASCHECKBOXES);
@@ -367,8 +368,8 @@ public class CmsMultiSelectGroupWidget extends CmsSelectGroupWidget {
 
             if (isUseGroupNames()) {
                 // a list of group names is configured, show them
-                for (Iterator<String> i = getGroupNames().iterator(); i.hasNext();) {
-                    String groupName = i.next();
+                for (@RUntainted Iterator<@RUntainted String> i = getGroupNames().iterator(); i.hasNext();) {
+                    @RUntainted String groupName = i.next();
                     try {
                         // ensure that only existing groups are available in the select box
                         CmsGroup group = cms.readGroup(getOuFqn() + groupName);
@@ -441,7 +442,7 @@ public class CmsMultiSelectGroupWidget extends CmsSelectGroupWidget {
      *
      * @return configured group names to show in the select box
      */
-    private List<String> getGroupNames() {
+    private @RUntainted List<@RUntainted String> getGroupNames() {
 
         return m_groupNames;
     }
@@ -451,7 +452,7 @@ public class CmsMultiSelectGroupWidget extends CmsSelectGroupWidget {
      *
      * @return the fully qualified name of the OU to read the groups from
      */
-    private String getOuFqn() {
+    private @RUntainted String getOuFqn() {
 
         return m_ouFqn;
     }
@@ -495,7 +496,7 @@ public class CmsMultiSelectGroupWidget extends CmsSelectGroupWidget {
     private void parseConfiguration(CmsObject cms, CmsMessages widgetDialog) {
 
         String configString = CmsMacroResolver.resolveMacros(getConfiguration(), cms, widgetDialog);
-        Map<String, String> config = CmsStringUtil.splitAsMap(configString, "|", "=");
+        @RUntainted Map<@RUntainted String, @RUntainted String> config = CmsStringUtil.splitAsMap(configString, "|", "=");
         // get the list of group names to show
         String groups = config.get(CONFIGURATION_GROUPS);
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(groups)) {

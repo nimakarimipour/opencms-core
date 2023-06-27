@@ -63,6 +63,7 @@ import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.vm.AutoBeanFactorySource;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Separate UI for VAADIN based dialog embedded into a GWT module.<p>
@@ -136,7 +137,7 @@ public class CmsEmbeddedDialogsUI extends A_CmsUI implements I_CmsEmbeddingServe
                 try {
                     List<String> resources = info.getStructureIds();
                     List<CmsResource> resourceList = new ArrayList<>();
-                    for (String uuid : resources) {
+                    for (@RUntainted String uuid : resources) {
                         if (CmsUUID.isValidUUID(uuid)) {
                             resourceList.add(getCmsObject().readResource(new CmsUUID(uuid), CmsResourceFilter.ALL));
                         }
@@ -216,7 +217,7 @@ public class CmsEmbeddedDialogsUI extends A_CmsUI implements I_CmsEmbeddingServe
      * @see org.opencms.ui.A_CmsUI#init(com.vaadin.server.VaadinRequest)
      */
     @Override
-    protected void init(VaadinRequest request) {
+    protected void init(@RUntainted VaadinRequest request) {
 
         super.init(request);
         try {

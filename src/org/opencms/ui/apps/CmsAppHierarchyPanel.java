@@ -38,6 +38,7 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widget used to displays a nested hierarchy of app categories and apps.<p>

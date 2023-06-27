@@ -47,6 +47,7 @@ import org.opencms.main.OpenCms;
 import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic base driver interface.<p>
@@ -234,7 +235,7 @@ public class CmsDefaultPermissionHandler implements I_CmsPermissionHandler {
 
         CmsCacheSettings settings = systemConfiguration.getCacheSettings();
 
-        String className = settings.getCacheKeyGenerator();
+        @RUntainted String className = settings.getCacheKeyGenerator();
         try {
             // initialize the key generator
             m_keyGenerator = (I_CmsCacheKey)Class.forName(className).newInstance();

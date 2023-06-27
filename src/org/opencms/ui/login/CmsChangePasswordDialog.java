@@ -65,6 +65,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Property.ValueChangeEvent;
 import com.vaadin.v7.data.Property.ValueChangeListener;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to change the password.<p>
@@ -84,7 +85,7 @@ public class CmsChangePasswordDialog extends CmsBasicDialog {
     CmsObject m_cms;
 
     /** The locale. */
-    Locale m_locale;
+    @RUntainted Locale m_locale;
 
     /** The user. */
     CmsUser m_user;
@@ -105,7 +106,7 @@ public class CmsChangePasswordDialog extends CmsBasicDialog {
      * @param user the user
      * @param locale the locale
      */
-    public CmsChangePasswordDialog(CmsObject cms, CmsUser user, Locale locale) {
+    public CmsChangePasswordDialog(CmsObject cms, CmsUser user, @RUntainted Locale locale) {
 
         super();
         m_locale = locale;

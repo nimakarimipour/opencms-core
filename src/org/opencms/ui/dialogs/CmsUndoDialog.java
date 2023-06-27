@@ -59,6 +59,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.OptionGroup;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to change resource modification times.<p>

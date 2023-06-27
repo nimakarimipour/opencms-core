@@ -51,6 +51,7 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The sitemap editor app configuration.<p>
@@ -102,7 +103,7 @@ public class CmsSitemapEditorConfiguration extends A_CmsWorkplaceAppConfiguratio
      * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale)
      */
     @Override
-    public String getHelpText(Locale locale) {
+    public String getHelpText(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.GUI_SITEMAP_HELP_0);
     }
@@ -127,7 +128,7 @@ public class CmsSitemapEditorConfiguration extends A_CmsWorkplaceAppConfiguratio
      * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale)
      */
     @Override
-    public String getName(Locale locale) {
+    public String getName(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.GUI_SITEMAP_TITLE_0);
     }

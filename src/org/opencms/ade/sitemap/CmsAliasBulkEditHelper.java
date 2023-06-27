@@ -62,6 +62,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class used by a service to edit or import aliases for a whole site.<p>
@@ -273,7 +274,7 @@ public class CmsAliasBulkEditHelper {
      *
      * @return the message string
      */
-    private String messageDuplicateAliasPath(Locale locale) {
+    private String messageDuplicateAliasPath(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.ERR_ALIAS_DUPLICATE_ALIAS_PATH_0);
     }
@@ -285,7 +286,7 @@ public class CmsAliasBulkEditHelper {
      *
      * @return the message string
      */
-    private String messageInvalidAliasPath(Locale locale) {
+    private String messageInvalidAliasPath(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.ERR_ALIAS_INVALID_ALIAS_PATH_0);
     }
@@ -297,7 +298,7 @@ public class CmsAliasBulkEditHelper {
      *
      * @return the message string
      */
-    private String messageResourceNotFound(Locale locale) {
+    private String messageResourceNotFound(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.ERR_ALIAS_RESOURCE_NOT_FOUND_0);
 

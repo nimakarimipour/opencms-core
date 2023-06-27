@@ -47,6 +47,7 @@ import org.owasp.validator.html.CleanResults;
 import org.owasp.validator.html.Policy;
 import org.owasp.validator.html.PolicyException;
 import org.owasp.validator.html.ScanException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class is responsible for automatically escaping parameters in Flex requests. It keeps track
@@ -167,7 +168,7 @@ public class CmsParameterEscaper {
      *
      * @return the escaped parameter value
      */
-    public String escape(String name, String html) {
+    public String escape(String name, @RUntainted String html) {
 
         if (html == null) {
             return null;
@@ -190,7 +191,7 @@ public class CmsParameterEscaper {
      *
      * @return the escaped parameter values
      */
-    public String[] escape(String name, String[] values) {
+    public String[] escape(String name, @RUntainted String[] values) {
 
         if (values == null) {
             return null;
@@ -217,7 +218,7 @@ public class CmsParameterEscaper {
      *
      * @return the filtered HTML
      */
-    public String filterAntiSamy(String html) {
+    public String filterAntiSamy(@RUntainted String html) {
 
         if (m_antiSamy == null) {
             LOG.warn("Antisamy policy invalid, using escapeXml as a fallback");

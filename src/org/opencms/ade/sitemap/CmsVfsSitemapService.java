@@ -176,6 +176,7 @@ import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles all RPC services related to the vfs sitemap.<p>
@@ -361,7 +362,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
     /**
      * @see org.opencms.ade.sitemap.shared.rpc.I_CmsSitemapService#changeCategory(java.lang.String, org.opencms.util.CmsUUID, java.lang.String, java.lang.String)
      */
-    public void changeCategory(String entryPoint, CmsUUID id, String title, String name) throws CmsRpcException {
+    public void changeCategory(String entryPoint, @RUntainted CmsUUID id, String title, @RUntainted String name) throws CmsRpcException {
 
         try {
             name = OpenCms.getResourceManager().getFileTranslator().translateResource(name.trim().replace('/', '-'));
@@ -391,7 +392,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
     /**
      * @see org.opencms.ade.sitemap.shared.rpc.I_CmsSitemapService#createCategory(java.lang.String, org.opencms.util.CmsUUID, java.lang.String, java.lang.String)
      */
-    public void createCategory(String entryPoint, CmsUUID id, String title, String name) throws CmsRpcException {
+    public void createCategory(String entryPoint, @RUntainted CmsUUID id, @RUntainted String title, @RUntainted String name) throws CmsRpcException {
 
         try {
             if ((name == null) || (name.length() == 0)) {
@@ -435,7 +436,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
     /**
      * @see org.opencms.ade.sitemap.shared.rpc.I_CmsSitemapService#createNewGalleryFolder(java.lang.String, java.lang.String, int)
      */
-    public CmsGalleryFolderEntry createNewGalleryFolder(String parentFolder, String title, int folderTypeId)
+    public CmsGalleryFolderEntry createNewGalleryFolder(@RUntainted String parentFolder, @RUntainted String title, @RUntainted int folderTypeId)
     throws CmsRpcException {
 
         CmsObject cms = getCmsObject();
@@ -478,7 +479,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
         String entryPointUri,
         String title,
         String description,
-        CmsUUID copyId,
+        @RUntainted CmsUUID copyId,
         boolean isModelGroup)
     throws CmsRpcException {
 
@@ -507,7 +508,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
     /**
      * @see org.opencms.ade.sitemap.shared.rpc.I_CmsSitemapService#createSubSitemap(org.opencms.util.CmsUUID)
      */
-    public CmsSitemapChange createSubSitemap(CmsUUID entryId) throws CmsRpcException {
+    public CmsSitemapChange createSubSitemap(@RUntainted CmsUUID entryId) throws CmsRpcException {
 
         CmsObject cms = getCmsObject();
         try {
@@ -538,7 +539,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
     /**
      * @see org.opencms.ade.sitemap.shared.rpc.I_CmsSitemapService#disableModelPage(java.lang.String, org.opencms.util.CmsUUID, boolean)
      */
-    public void disableModelPage(String baseUri, CmsUUID modelPageId, boolean disabled) throws CmsRpcException {
+    public void disableModelPage(String baseUri, @RUntainted CmsUUID modelPageId, boolean disabled) throws CmsRpcException {
 
         try {
             CmsObject cms = getCmsObject();
@@ -556,7 +557,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
     /**
      * @see org.opencms.ade.sitemap.shared.rpc.I_CmsSitemapService#editAttributeData(org.opencms.util.CmsUUID)
      */
-    public CmsSitemapAttributeData editAttributeData(CmsUUID rootId) throws CmsRpcException {
+    public CmsSitemapAttributeData editAttributeData(@RUntainted CmsUUID rootId) throws CmsRpcException {
 
         try {
             CmsObject cms = getCmsObject();
@@ -646,7 +647,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
     /**
      * @see org.opencms.ade.sitemap.shared.rpc.I_CmsSitemapService#getCategoryData(java.lang.String)
      */
-    public CmsSitemapCategoryData getCategoryData(String entryPoint) throws CmsRpcException {
+    public CmsSitemapCategoryData getCategoryData(@RUntainted String entryPoint) throws CmsRpcException {
 
         CmsObject cms = getCmsObject();
         try {
@@ -675,7 +676,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
     /**
      * @see org.opencms.ade.sitemap.shared.rpc.I_CmsSitemapService#getChildren(java.lang.String, org.opencms.util.CmsUUID, int)
      */
-    public CmsClientSitemapEntry getChildren(String entryPointUri, CmsUUID entryId, int levels) throws CmsRpcException {
+    public CmsClientSitemapEntry getChildren(String entryPointUri, @RUntainted CmsUUID entryId, int levels) throws CmsRpcException {
 
         CmsClientSitemapEntry entry = null;
 
@@ -702,7 +703,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
     /**
      * @see org.opencms.ade.sitemap.shared.rpc.I_CmsSitemapService#getGalleryData(java.lang.String)
      */
-    public Map<CmsGalleryType, List<CmsGalleryFolderEntry>> getGalleryData(String entryPointUri) {
+    public Map<CmsGalleryType, List<CmsGalleryFolderEntry>> getGalleryData(@RUntainted String entryPointUri) {
 
         List<String> subSitePaths = OpenCms.getADEManager().getSubSitePaths(
             getCmsObject(),
@@ -724,7 +725,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
     /**
      * @see org.opencms.ade.sitemap.shared.rpc.I_CmsSitemapService#getModelInfos(org.opencms.util.CmsUUID)
      */
-    public CmsModelInfo getModelInfos(CmsUUID rootId) throws CmsRpcException {
+    public CmsModelInfo getModelInfos(@RUntainted CmsUUID rootId) throws CmsRpcException {
 
         try {
             CmsObject cms = getCmsObject();
@@ -741,7 +742,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
     /**
      * @see org.opencms.ade.sitemap.shared.rpc.I_CmsSitemapService#getNewElementInfo(java.lang.String)
      */
-    public List<CmsNewResourceInfo> getNewElementInfo(String entryPointUri) throws CmsRpcException {
+    public List<CmsNewResourceInfo> getNewElementInfo(@RUntainted String entryPointUri) throws CmsRpcException {
 
         try {
             CmsObject cms = getCmsObject();
@@ -758,14 +759,14 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
     /**
      * @see org.opencms.ade.sitemap.shared.rpc.I_CmsSitemapService#getResourceLink(org.opencms.util.CmsUUID, java.lang.String)
      */
-    public String getResourceLink(CmsUUID baseId, String sitePath) throws CmsRpcException {
+    public String getResourceLink(@RUntainted CmsUUID baseId, @RUntainted String sitePath) throws CmsRpcException {
 
         try {
             CmsObject cms = OpenCms.initCmsObject(getCmsObject());
             CmsResource baseResource = cms.readResource(baseId, CmsResourceFilter.IGNORE_EXPIRATION);
             String contextPath = cms.getSitePath(baseResource);
             cms.getRequestContext().setUri(contextPath);
-            Locale locale = CmsJspTagLink.getBaseUriLocale(cms, contextPath);
+            @RUntainted Locale locale = CmsJspTagLink.getBaseUriLocale(cms, contextPath);
             if (locale != null) {
                 cms.getRequestContext().setLocale(locale);
             }
@@ -780,7 +781,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
     /**
      * @see org.opencms.ade.sitemap.shared.rpc.I_CmsSitemapService#loadPropertyDataForLocaleCompareView(org.opencms.util.CmsUUID, org.opencms.util.CmsUUID)
      */
-    public CmsLocaleComparePropertyData loadPropertyDataForLocaleCompareView(CmsUUID id, CmsUUID rootId)
+    public CmsLocaleComparePropertyData loadPropertyDataForLocaleCompareView(@RUntainted CmsUUID id, CmsUUID rootId)
     throws CmsRpcException {
 
         try {
@@ -825,7 +826,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
      * @see org.opencms.ade.sitemap.shared.rpc.I_CmsSitemapService#mergeSubSitemap(java.lang.String, org.opencms.util.CmsUUID)
      */
     @SuppressWarnings("deprecation")
-    public CmsSitemapChange mergeSubSitemap(String entryPoint, CmsUUID subSitemapId) throws CmsRpcException {
+    public CmsSitemapChange mergeSubSitemap(String entryPoint, @RUntainted CmsUUID subSitemapId) throws CmsRpcException {
 
         CmsObject cms = getCmsObject();
         try {
@@ -993,7 +994,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
                 editorMode = EditorMode.navigation;
             }
 
-            String basePath = configData.getBasePath();
+            @RUntainted String basePath = configData.getBasePath();
 
             if (!cms.existsResource(
                 cms.getRequestContext().removeSiteRoot(basePath),
@@ -1058,7 +1059,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
     /**
      * @see org.opencms.ade.sitemap.shared.rpc.I_CmsSitemapService#prepareReloadSitemap(org.opencms.util.CmsUUID, org.opencms.ade.sitemap.shared.CmsSitemapData.EditorMode)
      */
-    public String prepareReloadSitemap(CmsUUID rootId, EditorMode mode) throws CmsRpcException {
+    public String prepareReloadSitemap(@RUntainted CmsUUID rootId, EditorMode mode) throws CmsRpcException {
 
         try {
             CmsObject cms = getCmsObject();
@@ -1135,8 +1136,8 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
      * @see org.opencms.ade.sitemap.shared.rpc.I_CmsSitemapService#savePropertiesForLocaleCompareMode(org.opencms.util.CmsUUID, java.lang.String, java.util.List, boolean)
      */
     public void savePropertiesForLocaleCompareMode(
-        CmsUUID id,
-        String newUrlName,
+        @RUntainted CmsUUID id,
+        @RUntainted String newUrlName,
         List<CmsPropertyModification> propertyChanges,
         boolean editedName)
     throws CmsRpcException {
@@ -1165,7 +1166,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
     /**
      * @see org.opencms.ade.sitemap.shared.rpc.I_CmsSitemapService#saveSitemapAttributes(org.opencms.util.CmsUUID, java.util.Map)
      */
-    public void saveSitemapAttributes(CmsUUID rootId, Map<String, String> attributes) throws CmsRpcException {
+    public void saveSitemapAttributes(@RUntainted CmsUUID rootId, Map<String, String> attributes) throws CmsRpcException {
 
         CmsResource configResource = null;
         try {
@@ -1200,14 +1201,14 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
     /**
      * @see org.opencms.ade.sitemap.shared.rpc.I_CmsSitemapService#setDefaultModel(org.opencms.util.CmsUUID, org.opencms.util.CmsUUID)
      */
-    public CmsModelInfo setDefaultModel(CmsUUID rootId, CmsUUID modelId) throws CmsRpcException {
+    public CmsModelInfo setDefaultModel(@RUntainted CmsUUID rootId, CmsUUID modelId) throws CmsRpcException {
 
         CmsModelInfo result = null;
         try {
             CmsObject cms = getCmsObject();
             CmsResource rootResource = cms.readResource(rootId);
             CmsModelPageHelper modelPageHelper = new CmsModelPageHelper(getCmsObject(), rootResource);
-            CmsResource configFile = OpenCms.getADEManager().lookupConfiguration(
+            @RUntainted CmsResource configFile = OpenCms.getADEManager().lookupConfiguration(
                 cms,
                 rootResource.getRootPath()).getResource();
             ensureLock(configFile);
@@ -1343,9 +1344,9 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
     void ensureSingleLocale(CmsXmlContainerPage containerPage, CmsResource localeRes) throws CmsException {
 
         CmsObject cms = getCmsObject();
-        Locale mainLocale = CmsLocaleManager.getMainLocale(cms, localeRes);
+        @RUntainted Locale mainLocale = CmsLocaleManager.getMainLocale(cms, localeRes);
         OpenCms.getLocaleManager();
-        Locale defaultLocale = CmsLocaleManager.getDefaultLocale();
+        @RUntainted Locale defaultLocale = CmsLocaleManager.getDefaultLocale();
         if (containerPage.hasLocale(mainLocale)) {
             removeAllLocalesExcept(containerPage, mainLocale);
             // remove other locales
@@ -1443,7 +1444,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
      *
      * @throws CmsException if something goes wrong
      */
-    private CmsSitemapChange applyChange(String entryPoint, CmsSitemapChange change) throws CmsException {
+    private CmsSitemapChange applyChange(@RUntainted String entryPoint, CmsSitemapChange change) throws CmsException {
 
         CmsObject cms = getCmsObject();
         CmsResource configFile = null;
@@ -1639,7 +1640,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
             LOG.warn(e.getLocalizedMessage(), e);
         }
 
-        for (Integer typeId : sitemapTypeIds) {
+        for (@RUntainted Integer typeId : sitemapTypeIds) {
             try {
                 I_CmsResourceType sitemapType = OpenCms.getResourceManager().getResourceType(typeId.intValue());
                 String typeName = sitemapType.getTypeName();
@@ -1727,12 +1728,12 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
      *
      * @throws CmsException when unable to create the content elements
      */
-    private boolean createNewContainerElements(CmsObject cms, CmsMutableContainerPage page, String sitePath)
+    private boolean createNewContainerElements(CmsObject cms, CmsMutableContainerPage page, @RUntainted String sitePath)
     throws CmsException {
 
         boolean needsChanges = false;
         CmsADEConfigData configData = OpenCms.getADEManager().lookupConfiguration(cms, cms.addSiteRoot(sitePath));
-        Locale contentLocale = OpenCms.getLocaleManager().getDefaultLocale(cms, CmsResource.getFolderPath(sitePath));
+        @RUntainted Locale contentLocale = OpenCms.getLocaleManager().getDefaultLocale(cms, CmsResource.getFolderPath(sitePath));
         CmsObject cloneCms = OpenCms.initCmsObject(cms);
         cloneCms.getRequestContext().setLocale(contentLocale);
         for (CmsMutableContainer container : page.containers()) {
@@ -1777,11 +1778,11 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
      *
      * @throws CmsException when unable to create the content elements
      */
-    private void createNewContainerElements(CmsObject cms, CmsXmlContainerPage page, String sitePath)
+    private void createNewContainerElements(CmsObject cms, CmsXmlContainerPage page, @RUntainted String sitePath)
     throws CmsException {
 
         CmsADEConfigData configData = OpenCms.getADEManager().lookupConfiguration(cms, cms.addSiteRoot(sitePath));
-        Locale contentLocale = OpenCms.getLocaleManager().getDefaultLocale(cms, CmsResource.getFolderPath(sitePath));
+        @RUntainted Locale contentLocale = OpenCms.getLocaleManager().getDefaultLocale(cms, CmsResource.getFolderPath(sitePath));
         CmsObject cloneCms = OpenCms.initCmsObject(cms);
         cloneCms.getRequestContext().setLocale(contentLocale);
         CmsContainerPageBean pageBean = page.getContainerPage(cms);
@@ -1851,7 +1852,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
             CmsResource newRes = null;
             byte[] content = null;
             List<CmsProperty> properties = Collections.emptyList();
-            CmsResource copyPage = null;
+            @RUntainted CmsResource copyPage = null;
             if (change.getNewCopyResourceId() != null) {
                 copyPage = cms.readResource(change.getNewCopyResourceId(), CmsResourceFilter.ONLY_VISIBLE_NO_DELETED);
                 content = cms.readFile(copyPage).getContents();
@@ -1905,8 +1906,8 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
                         isNavigationLevel = true;
                     }
                 }
-                String folderType = CmsResourceTypeFolder.getStaticTypeName();
-                String createSitemapFolderType = change.getCreateSitemapFolderType();
+                @RUntainted String folderType = CmsResourceTypeFolder.getStaticTypeName();
+                @RUntainted String createSitemapFolderType = change.getCreateSitemapFolderType();
                 if (createSitemapFolderType != null) {
                     folderType = createSitemapFolderType;
                 }
@@ -1962,7 +1963,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
                     if (isFunctionDetail) {
                         String functionDetailContainer = getFunctionDetailContainerName(parentFolder);
                         if (functionDetailContainer != null) {
-                            CmsUUID functionStructureId = new CmsUUID(change.getCreateParameter());
+                            @RUntainted CmsUUID functionStructureId = new CmsUUID(change.getCreateParameter());
                             CmsResource functionRes = cms.readResource(
                                 functionStructureId,
                                 CmsResourceFilter.IGNORE_EXPIRATION);
@@ -2300,7 +2301,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
      *
      * @throws CmsException if something goes wrong reading the properties
      */
-    private Map<String, CmsClientProperty> generateParentProperties(String rootPath) throws CmsException {
+    private Map<String, CmsClientProperty> generateParentProperties(@RUntainted String rootPath) throws CmsException {
 
         CmsObject cms = getCmsObject();
         if (rootPath == null) {
@@ -2332,7 +2333,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
      *
      * @return the sitemap children
      */
-    private List<CmsClientSitemapEntry> getChildren(String root, int levels, String targetPath) {
+    private List<CmsClientSitemapEntry> getChildren(@RUntainted String root, int levels, String targetPath) {
 
         List<CmsClientSitemapEntry> children = new ArrayList<CmsClientSitemapEntry>();
         int i = 0;
@@ -2392,7 +2393,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
                 JSONArray array = new JSONArray((String)obj);
                 for (int i = 0; i < array.length(); i++) {
                     try {
-                        CmsUUID delId = new CmsUUID(array.getString(i));
+                        @RUntainted CmsUUID delId = new CmsUUID(array.getString(i));
                         CmsResource res = cms.readResource(delId, CmsResourceFilter.ALL);
                         if (res.getState().isDeleted()) {
                             // make sure resource is still deleted
@@ -2525,7 +2526,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
                 JSONArray array = new JSONArray((String)obj);
                 for (int i = 0; i < array.length(); i++) {
                     try {
-                        CmsUUID modId = new CmsUUID(array.getString(i));
+                        @RUntainted CmsUUID modId = new CmsUUID(array.getString(i));
                         CmsResource res = cms.readResource(modId, CmsResourceFilter.ONLY_VISIBLE_NO_DELETED);
                         String sitePath = cms.getSitePath(res);
                         CmsJspNavElement navEntry = getNavBuilder().getNavigationForResource(
@@ -2664,7 +2665,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
             if (typeConfig.isDetailPagesDisabled()) {
                 continue;
             }
-            String typeName = typeConfig.getTypeName();
+            @RUntainted String typeName = typeConfig.getTypeName();
             try {
                 I_CmsResourceType resourceType = OpenCms.getResourceManager().getResourceType(typeName);
                 result.add(createResourceTypeInfo(resourceType, modelResource));
@@ -2731,7 +2732,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
     private CmsClientSitemapEntry getRootEntry(String rootPath, String targetPath)
     throws CmsSecurityException, CmsException {
 
-        String sitePath = "/";
+        @RUntainted String sitePath = "/";
         if ((rootPath != null)) {
             sitePath = getCmsObject().getRequestContext().removeSiteRoot(rootPath);
         }
@@ -2756,7 +2757,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
      *
      * @throws CmsException if something goes wrong reading the resources
      */
-    private CmsSitemapInfo getSitemapInfo(String basePath) throws CmsException {
+    private CmsSitemapInfo getSitemapInfo(@RUntainted String basePath) throws CmsException {
 
         CmsObject cms = getCmsObject();
         CmsResource baseFolder = null;
@@ -2949,7 +2950,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
      *
      * @return <code>true</code> if the given open path is valid
      */
-    private boolean isValidOpenPath(CmsObject cms, String openPath) {
+    private boolean isValidOpenPath(CmsObject cms, @RUntainted String openPath) {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(openPath)) {
             return false;
@@ -3105,7 +3106,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
     private void removeAllLocalesExcept(CmsXmlContainerPage page, Locale localeToKeep) throws CmsXmlException {
 
         List<Locale> locales = page.getLocales();
-        for (Locale locale : locales) {
+        for (@RUntainted Locale locale : locales) {
             if (!locale.equals(localeToKeep)) {
                 page.removeLocale(locale);
             }
@@ -3249,14 +3250,14 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
      */
     private CmsClientSitemapEntry toClientEntry(CmsJspNavElement navElement, boolean isRoot) throws CmsException {
 
-        CmsResource entryPage = null;
+        @RUntainted CmsResource entryPage = null;
         CmsObject cms = getCmsObject();
         CmsClientSitemapEntry clientEntry = new CmsClientSitemapEntry();
-        CmsResource entryFolder = null;
+        @RUntainted CmsResource entryFolder = null;
 
         CmsResource ownResource = navElement.getResource();
         clientEntry.setResourceState(ownResource.getState());
-        CmsResource defaultFileResource = null;
+        @RUntainted CmsResource defaultFileResource = null;
         if (ownResource.isFolder() && !navElement.isNavigationLevel()) {
             defaultFileResource = cms.readDefaultFile(ownResource, CmsResourceFilter.ONLY_VISIBLE_NO_DELETED);
         }

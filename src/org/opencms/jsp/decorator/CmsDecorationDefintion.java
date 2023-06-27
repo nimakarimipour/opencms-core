@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class defines text decoration to be made by the postprocessor.<p>
@@ -58,7 +59,7 @@ public class CmsDecorationDefintion {
     private static final Log LOG = CmsLog.getLog(CmsDecorationDefintion.class);
 
     /** The name of the configuration file holding all word substitutions. */
-    private String m_configurationFile;
+    private @RUntainted String m_configurationFile;
 
     /** Flag, signaling if the first occurance of a word must be marked differntly. */
     private boolean m_markFirst;
@@ -110,7 +111,7 @@ public class CmsDecorationDefintion {
         String preTextFirst,
         String postTextFirst,
         boolean markFrist,
-        String configurationFile) {
+        @RUntainted String configurationFile) {
 
         m_configurationFile = configurationFile;
         m_markFirst = markFrist;
@@ -300,7 +301,7 @@ public class CmsDecorationDefintion {
      *
      * @param configurationFile the configurationFile to set
      */
-    public void setConfigurationFile(String configurationFile) {
+    public void setConfigurationFile(@RUntainted String configurationFile) {
 
         m_configurationFile = configurationFile;
     }

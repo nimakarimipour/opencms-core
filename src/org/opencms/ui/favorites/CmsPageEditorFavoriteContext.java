@@ -47,6 +47,7 @@ import java.util.Optional;
 import org.apache.commons.logging.Log;
 
 import com.vaadin.ui.Component;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Favorite dialog context for the case where the dialog is opened from the page editor,
@@ -71,9 +72,9 @@ public class CmsPageEditorFavoriteContext implements I_CmsFavoriteContext {
      */
     public CmsPageEditorFavoriteContext(CmsEmbeddedDialogContext context) {
 
-        CmsUUID detailId = toUuid(context.getParameters().get(CmsGwtConstants.Favorites.PARAM_DETAIL));
-        CmsUUID pageId = toUuid(context.getParameters().get(CmsGwtConstants.Favorites.PARAM_PAGE));
-        CmsUUID project = toUuid(context.getParameters().get(CmsGwtConstants.Favorites.PARAM_PROJECT));
+        @RUntainted CmsUUID detailId = toUuid(context.getParameters().get(CmsGwtConstants.Favorites.PARAM_DETAIL));
+        @RUntainted CmsUUID pageId = toUuid(context.getParameters().get(CmsGwtConstants.Favorites.PARAM_PAGE));
+        @RUntainted CmsUUID project = toUuid(context.getParameters().get(CmsGwtConstants.Favorites.PARAM_PROJECT));
         String siteRoot = context.getParameters().get(CmsGwtConstants.Favorites.PARAM_SITE);
         CmsFavoriteEntry entry = new CmsFavoriteEntry();
         entry.setDetailId(detailId);
@@ -91,7 +92,7 @@ public class CmsPageEditorFavoriteContext implements I_CmsFavoriteContext {
      * @param uuid the potential UUID string
      * @return the UUID, or null if conversion is not possible
      */
-    private static CmsUUID toUuid(String uuid) {
+    private static @RUntainted CmsUUID toUuid(@RUntainted String uuid) {
 
         if ("null".equals(uuid) || CmsStringUtil.isEmpty(uuid)) {
             return null;
@@ -103,7 +104,7 @@ public class CmsPageEditorFavoriteContext implements I_CmsFavoriteContext {
     /**
      * @see org.opencms.ui.favorites.I_CmsFavoriteContext#changeProject(org.opencms.util.CmsUUID)
      */
-    public void changeProject(CmsUUID value) {
+    public void changeProject(@RUntainted CmsUUID value) {
 
         CmsObject cms = A_CmsUI.getCmsObject();
         try {
