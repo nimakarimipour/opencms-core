@@ -39,6 +39,7 @@ import org.opencms.util.CmsUUID;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class is responsbile for creating and parsing links to generated PDFs.<p>

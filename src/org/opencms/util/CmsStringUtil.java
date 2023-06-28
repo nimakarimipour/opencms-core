@@ -68,6 +68,7 @@ import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides String utility functions.<p>
@@ -1207,7 +1208,7 @@ public final class CmsStringUtil {
      *
      * @return the joined path
      */
-    public static String joinPaths(String... paths) {
+    public static @RUntainted String joinPaths(String... paths) {
 
         StringBuffer result = new StringBuffer(paths.length * 32);
         boolean noSlash = true;

@@ -19,7 +19,7 @@ def run_annotator():
     prepare()
     commands = []
     commands += ["java", "-jar", ANNOTATOR_JAR]
-    commands += ['-d', '/tmp/ucr-tainting']
+    commands += ['-d', '/tmp/ucr-tainting/opencms']
     commands += ['-bc', 'cd {} && ./gradlew compileJava'.format(REPO)]
     commands += ['-cp', '/tmp/ucr-tainting/opencms/paths.tsv']
     commands += ['-i', 'edu.ucr.Initializer']
@@ -27,6 +27,10 @@ def run_annotator():
     commands += ['-cn', 'UCRTaint']
     # Uncomment to see build output
     # commands += ['-rboserr']
+    # Uncomment to disable outer loop
+    commands += ['-dol']
+    # Uncomment to disable parallel processing
+    commands += ['-dpp']
 
     subprocess.call(commands)
 

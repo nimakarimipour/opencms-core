@@ -59,6 +59,7 @@ import com.google.common.collect.Sets;
 import com.google.web.bindery.autobean.shared.AutoBean;
 import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.vm.AutoBeanFactorySource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Virtual project which includes the currently edited resource and all its related resources.

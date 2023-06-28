@@ -63,6 +63,7 @@ import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.vm.AutoBeanFactorySource;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Separate UI for VAADIN based dialog embedded into a GWT module.<p>

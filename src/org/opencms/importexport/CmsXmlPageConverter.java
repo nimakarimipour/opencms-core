@@ -40,6 +40,7 @@ import java.util.Locale;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Converts legacy pages (OpenCms 5 and earlier) to XML pages (OpenCms 6).<p>

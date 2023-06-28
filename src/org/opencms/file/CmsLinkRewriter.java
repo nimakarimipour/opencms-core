@@ -72,6 +72,7 @@ import org.dom4j.Document;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class used to rewrite links and relations in one subtree such that relations from that subtree to another given subtree

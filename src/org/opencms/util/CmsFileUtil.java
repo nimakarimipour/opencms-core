@@ -63,6 +63,7 @@ import java.util.Locale;
 
 import org.apache.commons.collections.Closure;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides File utility functions.<p>

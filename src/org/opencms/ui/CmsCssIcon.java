@@ -31,6 +31,7 @@ import org.opencms.ui.components.OpenCmsTheme;
 import org.opencms.util.CmsStringUtil;
 
 import com.vaadin.server.FontIcon;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An icon resource. Will be rendered as &lt;span class="v-icon styleName"&gt;&amp;bnsp;&lt;/span&gt;.<p>
@@ -120,7 +121,7 @@ public class CmsCssIcon implements FontIcon {
      * @see com.vaadin.server.FontIcon#getHtml()
      */
     @Override
-    public String getHtml() {
+    public @RUntainted String getHtml() {
 
         return "<span class=\"v-icon "
             + m_styleName

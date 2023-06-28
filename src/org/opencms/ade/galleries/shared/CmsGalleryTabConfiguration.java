@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean containing a configuration for the gallery dialog's available tabs,
@@ -178,7 +179,7 @@ public class CmsGalleryTabConfiguration implements IsSerializable {
      *
      * @return the gallery tab configuration
      */
-    public static CmsGalleryTabConfiguration resolve(String configStr) {
+    public static @RUntainted CmsGalleryTabConfiguration resolve(String configStr) {
 
         CmsGalleryTabConfiguration tabConfig;
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(configStr)) {

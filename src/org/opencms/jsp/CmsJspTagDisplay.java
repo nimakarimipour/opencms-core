@@ -70,6 +70,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The 'display' tag can be used to display a single resource using a formatter. It also allows to activate direct editing.<p>

@@ -46,6 +46,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the <code>&lt;cms:link&gt;[filename]&lt;/cms:link&gt;</code>

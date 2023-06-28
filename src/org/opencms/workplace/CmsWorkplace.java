@@ -80,6 +80,7 @@ import javax.servlet.jsp.PageContext;
 import org.apache.commons.collections.Buffer;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Master class for the JSP based workplace which provides default methods and
@@ -2297,7 +2298,7 @@ public abstract class CmsWorkplace {
      */
     protected void initTimeWarp(CmsUserSettings settings, HttpSession session) {
 
-        long timeWarpConf = settings.getTimeWarp();
+        @RUntainted long timeWarpConf = settings.getTimeWarp();
         Long timeWarpSetLong = (Long)session.getAttribute(CmsContextInfo.ATTRIBUTE_REQUEST_TIME);
         long timeWarpSet = (timeWarpSetLong != null) ? timeWarpSetLong.longValue() : CmsContextInfo.CURRENT_TIME;
 

@@ -105,6 +105,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic (ANSI-SQL) implementation of the project driver methods.<p>

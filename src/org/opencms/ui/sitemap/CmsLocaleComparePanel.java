@@ -62,6 +62,7 @@ import com.vaadin.v7.data.Property.ValueChangeEvent;
 import com.vaadin.v7.data.Property.ValueChangeListener;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * View used to compare sitemaps across locales.<p>

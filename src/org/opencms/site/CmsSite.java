@@ -50,6 +50,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a configured site in OpenCms.<p>

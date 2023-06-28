@@ -92,6 +92,7 @@ import com.vaadin.server.VaadinServletResponse;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Controller class which actually handles the login dialog logic.<p>
@@ -349,7 +350,7 @@ public class CmsLoginController {
      *
      * @return the login form link
      */
-    public static String getFormLink(CmsObject cms) {
+    public static @RUntainted String getFormLink(CmsObject cms) {
 
         return OpenCms.getLinkManager().substituteLinkForUnknownTarget(
             cms,

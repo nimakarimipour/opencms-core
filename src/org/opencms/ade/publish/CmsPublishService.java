@@ -76,6 +76,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The implementation of the publish service. <p>
@@ -552,7 +553,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
      *
      * @param options the options to save
      */
-    private void setCachedOptions(CmsPublishOptions options) {
+    private void setCachedOptions(@RUntainted CmsPublishOptions options) {
 
         getRequest().getSession().setAttribute(SESSION_ATTR_ADE_PUB_OPTS_CACHE, options);
     }

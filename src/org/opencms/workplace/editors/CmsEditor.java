@@ -60,6 +60,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides basic methods for building the file editors of OpenCms.<p>
@@ -1020,7 +1021,7 @@ public abstract class CmsEditor extends CmsEditorBase {
             // ignore
         }
 
-        CmsEditorSessionInfo info = null;
+        @RUntainted CmsEditorSessionInfo info = null;
         if (editedResource != null) {
             HttpSession session = getSession();
             info = (CmsEditorSessionInfo)session.getAttribute(

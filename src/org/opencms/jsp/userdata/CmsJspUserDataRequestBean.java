@@ -54,6 +54,7 @@ import javax.mail.internet.AddressException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.mail.EmailException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean used by the dynamic function JSP for user data requests.<p>

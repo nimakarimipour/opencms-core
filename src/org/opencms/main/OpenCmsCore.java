@@ -170,6 +170,7 @@ import org.antlr.stringtemplate.StringTemplate;
 import com.google.common.base.Optional;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gwt.user.client.rpc.core.java.util.LinkedHashMap_CustomFieldSerializer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The internal implementation of the core OpenCms "operating system" functions.<p>
@@ -1247,7 +1248,7 @@ public final class OpenCmsCore {
                             || request.getRequestURI().startsWith(OpenCms.getSystemInfo().getWorkplaceContext()))
                             && getRoleManager().hasRole(newCms, CmsRole.ELEMENT_AUTHOR)) {
                             LOG.debug("Handling workplace login for user " + principal);
-                            CmsWorkplaceSettings settings = CmsLoginHelper.initSiteAndProject(newCms);
+                            @RUntainted CmsWorkplaceSettings settings = CmsLoginHelper.initSiteAndProject(newCms);
                             request.getSession(true).setAttribute(
                                 CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS,
                                 settings);
@@ -2235,7 +2236,7 @@ public final class OpenCmsCore {
                     if (OpenCms.getStaticExportManager().isExportLink(cms, uri)) {
                         // if we used the request's query string for getRfsName, clients could cause an unlimited number
                         // of files to be exported just by varying the request parameters!
-                        String url = m_linkManager.getOnlineLink(cms, uri);
+                        @RUntainted String url = m_linkManager.getOnlineLink(cms, uri);
                         res.sendRedirect(url);
                         return;
                     }
@@ -2789,7 +2790,7 @@ public final class OpenCmsCore {
      * @param res the client response
      * @param t the exception that occurred
      */
-    private void errorHandling(CmsObject cms, HttpServletRequest req, HttpServletResponse res, Throwable t) {
+    private void errorHandling(CmsObject cms, HttpServletRequest req, HttpServletResponse res, @RUntainted Throwable t) {
 
         // remove the controller attribute from the request
         CmsFlexController.removeController(req);

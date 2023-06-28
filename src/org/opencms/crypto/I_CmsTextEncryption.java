@@ -29,6 +29,7 @@ package org.opencms.crypto;
 
 import org.opencms.configuration.I_CmsConfigurationParameterHandler;
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interfaces for classes that encrypt text as text.

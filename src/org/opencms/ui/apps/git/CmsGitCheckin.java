@@ -73,6 +73,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** The class provides methods to automatically export modules from OpenCms and check in the exported,
  *  unzipped modules into some git repository.
@@ -917,7 +918,7 @@ public class CmsGitCheckin {
             } else {
                 commandParam = checkinScriptCommand();
             }
-            String[] cmd = {"bash", "-c", commandParam};
+            @RUntainted String[] cmd = {"bash", "-c", commandParam};
             m_logStream.println("Calling the script as follows:");
             m_logStream.println();
             m_logStream.println(cmd[0] + " " + cmd[1] + " " + cmd[2]);

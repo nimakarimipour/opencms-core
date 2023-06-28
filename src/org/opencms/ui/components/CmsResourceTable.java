@@ -102,6 +102,7 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.Table.RowHeaderMode;
 import com.vaadin.v7.ui.Table.TableDragMode;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic table for displaying lists of resources.<p>

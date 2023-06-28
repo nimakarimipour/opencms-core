@@ -126,6 +126,7 @@ import org.apache.chemistry.opencmis.commons.impl.dataobjects.RepositoryCapabili
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.RepositoryInfoImpl;
 import org.apache.chemistry.opencmis.commons.spi.Holder;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Repository instance for CMIS repositories.<p>

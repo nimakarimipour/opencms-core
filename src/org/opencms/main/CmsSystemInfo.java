@@ -39,6 +39,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to system wide "read only" information about the running OpenCms instance.<p>
@@ -387,6 +388,7 @@ public class CmsSystemInfo {
      *
      * @return the default encoding, e.g. "UTF-8" or "ISO-8859-1"
      */
+    @RUntainted
     public String getDefaultEncoding() {
 
         return m_defaultEncoding;

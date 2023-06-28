@@ -53,6 +53,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;cms:usertracking/&gt;</code> tag.<p>
@@ -283,7 +284,7 @@ public class CmsJspTagUserTracking extends TagSupport {
         CmsResource checkResource = cms.readResource(fileName);
 
         HttpSession session = req.getSession(true);
-        String sessionKey = generateSessionKey(SESSION_PREFIX_SUBSCRIBED, fileName, subFolder, user, groups);
+        @RUntainted String sessionKey = generateSessionKey(SESSION_PREFIX_SUBSCRIBED, fileName, subFolder, user, groups);
         // try to get the subscribed resources from a session attribute
         @SuppressWarnings("unchecked")
         List<CmsResource> subscribedResources = (List<CmsResource>)session.getAttribute(sessionKey);
@@ -324,7 +325,7 @@ public class CmsJspTagUserTracking extends TagSupport {
         CmsResource checkResource = cms.readResource(fileName);
 
         HttpSession session = req.getSession(true);
-        String sessionKey = generateSessionKey(SESSION_PREFIX_VISITED, fileName, subFolder, user, null);
+        @RUntainted String sessionKey = generateSessionKey(SESSION_PREFIX_VISITED, fileName, subFolder, user, null);
         // try to get the visited resources from a session attribute
         @SuppressWarnings("unchecked")
         List<CmsResource> visitedResources = (List<CmsResource>)req.getSession(true).getAttribute(sessionKey);

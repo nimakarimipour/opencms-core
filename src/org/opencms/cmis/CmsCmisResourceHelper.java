@@ -90,6 +90,7 @@ import org.apache.chemistry.opencmis.commons.impl.dataobjects.PropertiesImpl;
 import org.apache.chemistry.opencmis.commons.impl.server.ObjectInfoImpl;
 import org.apache.chemistry.opencmis.commons.impl.server.RenditionInfoImpl;
 import org.apache.chemistry.opencmis.commons.server.RenditionInfo;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for CRUD operations on resources.<p>

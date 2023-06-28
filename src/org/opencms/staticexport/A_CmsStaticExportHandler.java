@@ -60,6 +60,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract base implementation for the <code>{@link I_CmsStaticExportHandler}</code> interface.<p>

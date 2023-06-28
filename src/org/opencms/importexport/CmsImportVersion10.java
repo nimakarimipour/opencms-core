@@ -104,6 +104,7 @@ import org.xml.sax.SAXException;
 import com.google.common.base.Objects;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Adds the XML handler rules for import and export of resources and accounts.<p>

@@ -57,6 +57,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;enable-ade/&gt;</code> tag.<p>
@@ -183,7 +184,7 @@ public class CmsJspTagEnableAde extends BodyTagSupport {
                     Boolean.TRUE);
                 String buttonLeft = request.getParameter(CmsGwtConstants.PARAM_BUTTON_LEFT);
                 if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(buttonLeft)) {
-                    Integer left = null;
+                    @RUntainted Integer left = null;
                     try {
                         left = Integer.valueOf(buttonLeft);
                         if (left.intValue() > 0) {
