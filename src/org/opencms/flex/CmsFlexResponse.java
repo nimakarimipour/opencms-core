@@ -54,6 +54,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for a HttpServletResponse, required in order to process JSPs from the OpenCms VFS.<p>
@@ -331,8 +332,8 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
             Iterator<Map.Entry<String, List<String>>> i = headers.entrySet().iterator();
             while (i.hasNext()) {
                 Map.Entry<String, List<String>> entry = i.next();
-                String key = entry.getKey();
-                List<String> l = entry.getValue();
+                @RUntainted String key = entry.getKey();
+                @RUntainted List<@RUntainted String> l = entry.getValue();
                 for (int j = 0; j < l.size(); j++) {
                     if ((j == 0) && ((l.get(0)).startsWith(SET_HEADER))) {
                         String s = l.get(0);

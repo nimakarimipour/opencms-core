@@ -81,6 +81,7 @@ import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The UI class for the Vaadin-based login dialog.<p>
@@ -261,7 +262,7 @@ public class CmsLoginUI extends A_CmsUI {
             response.sendRedirect(target);
             return null;
         }
-        CmsLoginHelper.LoginParameters params = CmsLoginHelper.getLoginParameters(cms, request, false);
+        CmsLoginHelper.@RUntainted LoginParameters params = CmsLoginHelper.getLoginParameters(cms, request, false);
         request.getSession().setAttribute(CmsLoginUI.INIT_DATA_SESSION_ATTR, params);
         try {
             byte[] pageBytes = CmsFileUtil.readFully(

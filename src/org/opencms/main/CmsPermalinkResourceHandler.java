@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource init handler that loads a resource given its permalink.<p>
@@ -152,7 +153,7 @@ public class CmsPermalinkResourceHandler implements I_CmsResourceInit {
                                 parentFolder = pageResource;
                             }
                             String baseLink = OpenCms.getLinkManager().substituteLink(cms, parentFolder);
-                            String redirectLink = baseLink + (baseLink.endsWith("/") ? "" : "/") + detailName;
+                            @RUntainted String redirectLink = baseLink + (baseLink.endsWith("/") ? "" : "/") + detailName;
                             CmsResourceInitException resInitException = new CmsResourceInitException(getClass());
 
                             resInitException.setClearErrors(true);

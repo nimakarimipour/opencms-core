@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The representation of a RFS file along with the settings to provide
@@ -231,7 +232,7 @@ public class CmsRfsFileViewer implements Cloneable {
      *
      * @return the amount of lines to display per page
      */
-    public int getWindowSize() {
+    public @RUntainted int getWindowSize() {
 
         return m_windowSize;
     }

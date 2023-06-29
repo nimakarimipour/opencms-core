@@ -73,6 +73,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** The class provides methods to automatically export modules from OpenCms and check in the exported,
  *  unzipped modules into some git repository.

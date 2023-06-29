@@ -51,6 +51,7 @@ import java.net.URL;
 import org.apache.commons.logging.Log;
 
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Does the link replacement for the &lg;link&gt; tags.<p>
@@ -752,7 +753,7 @@ public class CmsLinkManager {
      * @see I_CmsLinkSubstitutionHandler for the interface that can be used to fully customize the link substitution
      * @see CmsDefaultLinkSubstitutionHandler for the default link substitution handler
      */
-    public String substituteLink(CmsObject cms, String link, String siteRoot, boolean forceSecure) {
+    public @RUntainted String substituteLink(CmsObject cms, String link, String siteRoot, boolean forceSecure) {
 
         return substituteLink(cms, link, siteRoot, null, forceSecure);
     }
@@ -892,7 +893,7 @@ public class CmsLinkManager {
      * @return a link <i>from</i> the URI stored in the provided OpenCms user context
      *      <i>to</i> the given <code>link</code>
      */
-    public String substituteLinkForUnknownTarget(CmsObject cms, String link, boolean forceSecure) {
+    public @RUntainted String substituteLinkForUnknownTarget(CmsObject cms, String link, boolean forceSecure) {
 
         return substituteLinkForUnknownTarget(cms, link, null, forceSecure);
     }

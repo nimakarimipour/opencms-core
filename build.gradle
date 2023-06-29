@@ -1670,7 +1670,7 @@ checkerFramework {
             '-AannotatedPackages=' + 'org.opencms',
             '-AenableCustomCheck=true',
             "-AenableSerialization",
-            "-AserializationConfigPath=/tmp/ucr-tainting/opencms/taint.xml",
+            "-AserializationConfigPath=/tmp/ucr-tainting/opencms-unopt/taint.xml",
     ]
 }
 
@@ -1682,7 +1682,7 @@ tasks.withType(JavaCompile) {
         options.errorprone.disableAllWarnings = true
         options.errorprone {
             check("AnnotatorScanner", CheckSeverity.ERROR)
-            option("AnnotatorScanner:ConfigPath", "/tmp/ucr-tainting/opencms/scanner.xml")
+            option("AnnotatorScanner:ConfigPath", "/tmp/ucr-tainting/opencms-unopt/scanner.xml")
         }
     }
     options.compilerArgs << "-Xmaxerrs" << "100000"
