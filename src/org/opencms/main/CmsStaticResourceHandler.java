@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles the requests for static resources located in the classpath.<p>
@@ -318,7 +319,7 @@ public class CmsStaticResourceHandler implements I_CmsRequestHandler {
         }
 
         // Set type mime type if we can determine it based on the filename
-        String mimetype = OpenCms.getResourceManager().getMimeType(filename, "UTF-8");
+        @RUntainted String mimetype = OpenCms.getResourceManager().getMimeType(filename, "UTF-8");
         if (mimetype != null) {
             response.setContentType(mimetype);
         }

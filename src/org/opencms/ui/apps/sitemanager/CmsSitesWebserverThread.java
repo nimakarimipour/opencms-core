@@ -56,6 +56,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 
 import org.antlr.stringtemplate.StringTemplate;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Executes a script file.<p>
@@ -83,13 +84,13 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
     private String m_scriptPath;
 
     /** The template to be used for secure site configurations. */
-    private String m_secureTemplate;
+    private @RUntainted String m_secureTemplate;
 
     /** The target path. */
     private String m_targetPath;
 
     /** The template path. */
-    private String m_templatePath;
+    private @RUntainted String m_templatePath;
 
     /** The files that have been written. */
     private List<String> m_writtenFiles = new ArrayList<String>();
@@ -179,7 +180,7 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
                 getReport().println(
                     Messages.get().container(Messages.RPT_CREATING_CONFIG_FOR_SITE_2, filename, site),
                     I_CmsReport.FORMAT_OK);
-                File newFile = new File(filename);
+                @RUntainted File newFile = new File(filename);
                 if (!newFile.exists()) {
                     newFile.getParentFile().mkdirs();
                     newFile.createNewFile();

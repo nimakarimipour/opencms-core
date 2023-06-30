@@ -35,6 +35,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Master exception type for all exceptions caused in OpenCms.<p>
@@ -140,7 +141,7 @@ public class CmsException extends Exception implements I_CmsThrowable {
      * @see org.opencms.main.I_CmsThrowable#getLocalizedMessage()
      */
     @Override
-    public String getLocalizedMessage() {
+    public @RUntainted String getLocalizedMessage() {
 
         if (m_message == null) {
             return super.getLocalizedMessage();

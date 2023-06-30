@@ -50,6 +50,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a configured site in OpenCms.<p>
@@ -675,7 +676,7 @@ public final class CmsSite implements Cloneable, Comparable<CmsSite>, Serializab
      *
      * @return the server url
      */
-    public String getUrl() {
+    public @RUntainted String getUrl() {
 
         if (m_siteMatcher == null) {
             return null;

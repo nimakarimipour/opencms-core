@@ -58,6 +58,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.gwt.user.server.rpc.SerializationPolicy;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper for GWT services served through OpenCms.<p>
@@ -218,7 +219,7 @@ public class CmsGwtService extends RemoteServiceServlet {
      * @see javax.servlet.http.HttpServlet#service(javax.servlet.ServletRequest, javax.servlet.ServletResponse)
      */
     @Override
-    public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
+    public void service(@RUntainted ServletRequest request, ServletResponse response) throws ServletException, IOException {
 
         try {
             response.setCharacterEncoding(request.getCharacterEncoding());

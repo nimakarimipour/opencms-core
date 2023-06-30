@@ -41,6 +41,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to generate or parse a link to a PDF thumbnail.<p>
@@ -181,7 +182,7 @@ public class CmsPdfThumbnailLink {
      *
      * @return the image format
      */
-    public String getFormat() {
+    public @RUntainted String getFormat() {
 
         return m_format;
     }

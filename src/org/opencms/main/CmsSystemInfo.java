@@ -39,6 +39,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to system wide "read only" information about the running OpenCms instance.<p>
@@ -516,7 +517,7 @@ public class CmsSystemInfo {
      * @see #getContextPath()
      * @see #getServletPath()
      */
-    public String getOpenCmsContext() {
+    public @RUntainted String getOpenCmsContext() {
 
         return m_servletContainerSettings.getOpenCmsContext();
     }

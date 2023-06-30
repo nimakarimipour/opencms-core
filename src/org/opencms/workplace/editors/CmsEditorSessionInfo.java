@@ -31,6 +31,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.util.CmsUUID;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Stores editor session data.<p>
@@ -101,7 +102,7 @@ public class CmsEditorSessionInfo {
         *
         * @return the session info key for the bean
         */
-    public String getEditorSessionInfoKey() {
+    public @RUntainted String getEditorSessionInfoKey() {
 
         return PREFIX_EDITOR_SESSION_INFO + m_editedStructureId.getStringValue();
     }

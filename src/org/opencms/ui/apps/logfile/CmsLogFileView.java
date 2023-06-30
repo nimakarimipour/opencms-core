@@ -47,6 +47,7 @@ import com.vaadin.v7.shared.ui.combobox.FilteringMode;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the view of log files.<p>
@@ -55,13 +56,13 @@ import com.vaadin.v7.ui.VerticalLayout;
 public class CmsLogFileView extends VerticalLayout {
 
     /**Session attribute to store charset setting.*/
-    protected static String ATTR_FILE_VIEW_CHARSET = "log-file-char";
+    protected static @RUntainted String ATTR_FILE_VIEW_CHARSET = "log-file-char";
 
     /**Session attribute to store currently viewed log file.*/
-    protected static String ATTR_FILE_VIEW_PATH = "log-file";
+    protected static @RUntainted String ATTR_FILE_VIEW_PATH = "log-file";
 
     /**Session attribute to store line number to display. */
-    protected static String ATTR_FILE_VIEW_SIZE = "log-file-size";
+    protected static @RUntainted String ATTR_FILE_VIEW_SIZE = "log-file-size";
 
     /**Window size.*/
     protected static int WINDOW_SIZE = 1000;
@@ -168,7 +169,7 @@ public class CmsLogFileView extends VerticalLayout {
      *
      * @return path of shown file
      */
-    protected String getCurrentFile() {
+    protected @RUntainted String getCurrentFile() {
 
         return (String)m_logfile.getValue();
     }
