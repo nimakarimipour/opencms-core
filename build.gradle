@@ -11,8 +11,8 @@ buildscript {
 }
 
 plugins {
-    id 'org.checkerframework' version '0.6.26'
-    id 'net.ltgt.errorprone' version "2.0.1"
+    id 'org.checkerframework' version '0.6.29'
+    id 'net.ltgt.errorprone' version "3.1.0"
 }
 
 apply plugin: 'java'
@@ -1667,6 +1667,7 @@ checkerFramework {
     ]
 
     extraJavacArgs = [
+            "-Awarns",
             '-AannotatedPackages=' + 'org.opencms',
             '-AenableCustomCheck=true',
             "-AenableSerialization",
