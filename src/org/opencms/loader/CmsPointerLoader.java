@@ -47,6 +47,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Loader for "pointers" to resources in the VFS or to external resources.<p>
@@ -302,7 +303,7 @@ public class CmsPointerLoader extends CmsDumpLoader {
             return;
         }
 
-        String pointer = new String(
+        @RUntainted String pointer = new String(
             cms.readFile(resource).getContents(),
             CmsLocaleManager.getResourceEncoding(cms, resource));
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(pointer)) {

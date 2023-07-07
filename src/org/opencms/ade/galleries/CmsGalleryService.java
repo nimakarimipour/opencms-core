@@ -140,6 +140,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles all RPC services related to the gallery dialog.<p>
@@ -1299,7 +1300,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
                 CmsResource resource = cms.readResource(siteRoot);
                 openItems = Sets.newHashSet(resource.getStructureId());
             }
-            CmsTreeOpenState treeState = new CmsTreeOpenState(treeName, siteRoot, openItems);
+            @RUntainted CmsTreeOpenState treeState = new CmsTreeOpenState(treeName, siteRoot, openItems);
             session.setAttribute(attributeName, treeState);
         } catch (Throwable e) {
             error(e);

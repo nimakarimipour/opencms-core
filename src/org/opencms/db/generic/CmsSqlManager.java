@@ -48,6 +48,7 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic (ANSI-SQL) implementation of the SQL manager.<p>
@@ -287,7 +288,7 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
      * @return PreparedStatement a new PreparedStatement containing the pre-compiled SQL statement
      * @throws SQLException if a database access error occurs
      */
-    public PreparedStatement getPreparedStatementForSql(Connection con, String query) throws SQLException {
+    public PreparedStatement getPreparedStatementForSql(Connection con, @RUntainted String query) throws SQLException {
 
         // unfortunately, this wrapper is essential, because some JDBC driver
         // implementations don't accept the delegated objects of DBCP's connection pool.

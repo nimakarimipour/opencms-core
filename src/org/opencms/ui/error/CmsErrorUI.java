@@ -52,6 +52,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.WrappedSession;
 import com.vaadin.shared.Version;
 import com.vaadin.ui.JavaScript;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Displays the error page.<p>
@@ -136,7 +137,7 @@ public class CmsErrorUI extends A_CmsUI {
         }
 
         // try to get the exception root cause
-        Throwable cause = CmsFlexController.getThrowable(request);
+        @RUntainted Throwable cause = CmsFlexController.getThrowable(request);
         if (cause == null) {
             cause = throwable;
         }

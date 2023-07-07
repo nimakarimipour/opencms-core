@@ -55,6 +55,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generates user ident-icons.<p>
@@ -129,7 +130,7 @@ public class CmsUserIconHelper {
     public static final String TEMP_FOLDER = "temp/";
 
     /** The tiny icon suffix. */
-    public static final String TINY_ICON_SUFFIX = "_tiny_icon.png";
+    public static final @RUntainted String TINY_ICON_SUFFIX = "_tiny_icon.png";
 
     /** The user image folder. */
     public static final String USER_IMAGE_FOLDER = "/system/userimages/";

@@ -170,6 +170,7 @@ import org.antlr.stringtemplate.StringTemplate;
 import com.google.common.base.Optional;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gwt.user.client.rpc.core.java.util.LinkedHashMap_CustomFieldSerializer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The internal implementation of the core OpenCms "operating system" functions.<p>
@@ -1247,7 +1248,7 @@ public final class OpenCmsCore {
                             || request.getRequestURI().startsWith(OpenCms.getSystemInfo().getWorkplaceContext()))
                             && getRoleManager().hasRole(newCms, CmsRole.ELEMENT_AUTHOR)) {
                             LOG.debug("Handling workplace login for user " + principal);
-                            CmsWorkplaceSettings settings = CmsLoginHelper.initSiteAndProject(newCms);
+                            @RUntainted CmsWorkplaceSettings settings = CmsLoginHelper.initSiteAndProject(newCms);
                             request.getSession(true).setAttribute(
                                 CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS,
                                 settings);
@@ -3067,7 +3068,7 @@ public final class OpenCmsCore {
                             Messages.get().container(Messages.ERR_REQUEST_SECURE_RESOURCE_0));
                     } else {
                         // redirect
-                        String target = OpenCms.getLinkManager().getOnlineLink(cms, resourceName);
+                        @RUntainted String target = OpenCms.getLinkManager().getOnlineLink(cms, resourceName);
                         if (!target.toLowerCase().startsWith(secureUrl.toLowerCase())) {
                             Optional<String> targetWithReplacedHost = CmsStringUtil.replacePrefix(
                                 target,

@@ -41,6 +41,7 @@ import org.apache.commons.logging.Log;
 import org.safehaus.uuid.EthernetAddress;
 import org.safehaus.uuid.UUID;
 import org.safehaus.uuid.UUIDGenerator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generates a UUID using spatial and temporal uniqueness.<p>
@@ -252,7 +253,7 @@ public final class CmsUUID extends Object implements Cloneable, Comparable<CmsUU
      * @return a clone of this CmsUUID
      */
     @Override
-    public Object clone() {
+    public @RUntainted Object clone() {
 
         if (this == NULL_UUID) {
             return NULL_UUID;

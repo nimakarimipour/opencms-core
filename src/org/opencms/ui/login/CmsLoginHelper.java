@@ -65,6 +65,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility to login users to the OpenCms workplace.<p>
@@ -550,7 +551,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
     public static void setCookieData(
         String pcType,
         String username,
-        String oufqn,
+        @RUntainted String oufqn,
         HttpServletRequest request,
         HttpServletResponse response) {
 

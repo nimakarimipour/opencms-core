@@ -104,6 +104,7 @@ import org.apache.solr.response.QueryResponseWriter;
 import org.apache.solr.response.SolrQueryResponse;
 
 import com.google.common.base.Objects;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the search within an Solr index.<p>
@@ -1655,7 +1656,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
             try {
                 QueryResponseWriter responseWriter = core.getQueryResponseWriter(queryRequest);
 
-                final String ct = responseWriter.getContentType(queryRequest, queryResponse);
+                final @RUntainted String ct = responseWriter.getContentType(queryRequest, queryResponse);
                 if (null != ct) {
                     response.setContentType(ct);
                 }

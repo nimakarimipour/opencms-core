@@ -81,6 +81,7 @@ import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The UI class for the Vaadin-based login dialog.<p>
@@ -247,7 +248,7 @@ public class CmsLoginUI extends A_CmsUI {
 
         if (!cms.getRequestContext().getCurrentUser().isGuestUser()) {
             String encryptedTarget = request.getParameter(CmsGwtConstants.PARAM_LOGIN_REDIRECT);
-            String target = null;
+            @RUntainted String target = null;
             if (CmsStringUtil.isEmptyOrWhitespaceOnly(encryptedTarget)) {
                 target = CmsLoginController.getLoginTarget(cms, getWorkplaceSettings(cms, request.getSession()), null);
             } else {

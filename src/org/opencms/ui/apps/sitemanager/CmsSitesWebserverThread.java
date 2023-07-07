@@ -56,6 +56,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 
 import org.antlr.stringtemplate.StringTemplate;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Executes a script file.<p>
@@ -290,7 +291,7 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
     private void executeScript() throws IOException, InterruptedException {
 
         File script = new File(m_scriptPath);
-        List<String> params = new LinkedList<String>();
+        @RUntainted List<@RUntainted String> params = new LinkedList<@RUntainted String>();
         params.add(script.getAbsolutePath());
         params.addAll(m_writtenFiles);
         ProcessBuilder pb = new ProcessBuilder(params.toArray(new String[params.size()]));

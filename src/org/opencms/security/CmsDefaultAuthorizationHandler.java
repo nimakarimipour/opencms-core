@@ -57,6 +57,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.codec.binary.Base64;
 
 import com.google.common.base.Joiner;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines default authorization methods.<p>
@@ -264,7 +265,7 @@ public class CmsDefaultAuthorizationHandler extends A_CmsAuthorizationHandler {
      *
      * @throws IOException if something goes wrong
      */
-    public void requestAuthorization(HttpServletRequest req, HttpServletResponse res, String loginFormURL)
+    public void requestAuthorization(HttpServletRequest req, HttpServletResponse res, @RUntainted String loginFormURL)
     throws IOException {
 
         CmsHttpAuthenticationSettings httpAuthenticationSettings = OpenCms.getSystemInfo().getHttpAuthenticationSettings();

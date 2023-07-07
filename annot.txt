@@ -1,0 +1,729 @@
+warning: The following options were not recognized by any processor: '[enableSerialization, serializationConfigPath]'
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsUUID.java:259: warning: [return] incompatible types in return.
+            return NULL_UUID;
+                   ^
+  type of expression: @RTainted CmsUUID
+  method return type: @RUntainted Object
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsUUID.java:261: warning: [return] incompatible types in return.
+        return new CmsUUID((UUID)m_uuid.clone());
+               ^
+  type of expression: @RTainted CmsUUID
+  method return type: @RUntainted Object
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/site/CmsSite.java:684: warning: [return] incompatible types in return.
+        return m_siteMatcher.getUrl();
+                                   ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/site/CmsSiteMatcher.java:344: warning: [return] incompatible types in return.
+        return m_timeOffset;
+               ^
+  type of expression: @RTainted long
+  method return type: @RUntainted long
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexResponse.java:340: warning: [argument] incompatible argument for parameter arg0 of HttpServletResponse.setHeader.
+                        res.setHeader(key, s.substring(SET_HEADER.length()));
+                                      ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexResponse.java:342: warning: [argument] incompatible argument for parameter arg0 of HttpServletResponse.addHeader.
+                        res.addHeader(key, l.get(j));
+                                      ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexResponse.java:342: warning: [argument] incompatible argument for parameter arg1 of HttpServletResponse.addHeader.
+                        res.addHeader(key, l.get(j));
+                                                ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexResponse.java:474: warning: [argument] incompatible argument for parameter arg0 of HttpServletResponse.addHeader.
+            m_res.addHeader(name, value);
+                            ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexResponse.java:474: warning: [argument] incompatible argument for parameter arg1 of HttpServletResponse.addHeader.
+            m_res.addHeader(name, value);
+                                  ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexResponse.java:646: warning: [argument] incompatible argument for parameter location of CmsFlexResponse.sendRedirect.
+        sendRedirect(location, false);
+                     ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexResponse.java:790: warning: [argument] incompatible argument for parameter arg0 of HttpServletResponse.setHeader.
+            m_res.setHeader(name, value);
+                            ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexResponse.java:913: warning: [argument] incompatible argument for parameter location of CmsFlexResponse.sendRedirect.
+                sendRedirect(m_bufferRedirect, m_redirectPermanent);
+                             ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexCacheEntry.java:368: warning: [argument] incompatible argument for parameter location of CmsFlexResponse.sendRedirect.
+            res.sendRedirect(m_redirectTarget, m_redirectPermanent);
+                             ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/userdata/CmsUserDataRequestManager.java:366: warning: [argument] incompatible argument for parameter email of CmsUserDataRequestManager.sendMail.
+        sendMail(cms, config, user.getEmail(), info.getId());
+                                           ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/userdata/CmsUserDataRequestManager.java:412: warning: [argument] incompatible argument for parameter email of CmsUserDataRequestManager.sendMail.
+            sendMail(cms, config, email, info.getId());
+                                  ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/security/CmsDefaultAuthorizationHandler.java:302: warning: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+        res.sendRedirect(loginFormURL);
+                         ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/security/CmsDefaultAuthorizationHandler.java:361: warning: [assignment] incompatible types in assignment.
+                @RUntainted CmsWorkplaceSettings settings = CmsLoginHelper.initSiteAndProject(cms);
+                                                                                             ^
+  found   : @RTainted CmsWorkplaceSettings
+  required: @RUntainted CmsWorkplaceSettings
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsServlet.java:540: warning: [argument] incompatible argument for parameter arg1 of HttpServletResponse.sendError.
+                res.sendError(errorCode, e.getLocalizedMessage());
+                                                              ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspLoginBean.java:365: warning: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+                getResponse().sendRedirect(getFormLink());
+                                                      ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspLoginBean.java:397: warning: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+        getResponse().sendRedirect(getFormLink());
+                                              ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspActionElement.java:730: warning: [return] incompatible types in return.
+        return link(target, null);
+                   ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/xml/containerpage/CmsADESessionCache.java:215: warning: [assignment] incompatible types in assignment.
+        @RUntainted CmsADESessionCache cache = (CmsADESessionCache)request.getSession().getAttribute(
+                                               ^
+  found   : @RTainted CmsADESessionCache
+  required: @RUntainted CmsADESessionCache
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/xml/containerpage/CmsADESessionCache.java:218: warning: [assignment] incompatible types in assignment.
+            cache = new CmsADESessionCache(cms, request);
+                    ^
+  found   : @RTainted CmsADESessionCache
+  required: @RUntainted CmsADESessionCache
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ade/galleries/shared/CmsGalleryTabConfiguration.java:191: warning: [return] incompatible types in return.
+                return tabConfig;
+                       ^
+  type of expression: @RTainted CmsGalleryTabConfiguration
+  method return type: @RUntainted CmsGalleryTabConfiguration
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ade/galleries/shared/CmsGalleryTabConfiguration.java:195: warning: [return] incompatible types in return.
+        return parse(configStr);
+                    ^
+  type of expression: @RTainted CmsGalleryTabConfiguration
+  method return type: @RUntainted CmsGalleryTabConfiguration
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/solr/CmsSolrIndex.java:1659: warning: [assignment] incompatible types in assignment.
+                final @RUntainted String ct = responseWriter.getContentType(queryRequest, queryResponse);
+                                                                           ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspTagUserTracking.java:300: warning: [argument] incompatible argument for parameter arg0 of HttpSession.setAttribute.
+            session.setAttribute(sessionKey, subscribedResources);
+                                 ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspTagUserTracking.java:300: warning: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+            session.setAttribute(sessionKey, subscribedResources);
+                                             ^
+  found   : @RTainted List<@RTainted CmsResource>
+  required: @RUntainted Object
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspTagUserTracking.java:328: warning: [assignment] incompatible types in assignment.
+        @RUntainted String sessionKey = generateSessionKey(SESSION_PREFIX_VISITED, fileName, subFolder, user, null);
+                                                          ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspTagUserTracking.java:339: warning: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+            session.setAttribute(sessionKey, visitedResources);
+                                             ^
+  found   : @RTainted List<@RTainted CmsResource>
+  required: @RUntainted Object
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspTagEnableAde.java:189: warning: [assignment] incompatible types in assignment.
+                        left = Integer.valueOf(buttonLeft);
+                                              ^
+  found   : @RTainted Integer
+  required: @RUntainted Integer
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspLoginPersistingBean.java:83: warning: [return] incompatible types in return.
+        return result;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsAliasResourceHandler.java:114: warning: [argument] incompatible argument for parameter link of CmsAliasResourceHandler.redirectToTarget.
+                        link,
+                        ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsAliasResourceHandler.java:131: warning: [argument] incompatible argument for parameter link of CmsAliasResourceHandler.redirectToTarget.
+                    redirectToTarget(req, res, link, isPermanent);
+                                               ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsAliasResourceHandler.java:175: warning: [compound.assignment] expression type incompatible with left-hand side in compound assignment.
+                link += "?" + query;
+                     ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:1251: warning: [assignment] incompatible types in assignment.
+                            @RUntainted CmsWorkplaceSettings settings = CmsLoginHelper.initSiteAndProject(newCms);
+                                                                                                         ^
+  found   : @RTainted CmsWorkplaceSettings
+  required: @RUntainted CmsWorkplaceSettings
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:2167: warning: [argument] incompatible argument for parameter request of CmsGwtService.service.
+            rpcService.service(req, res);
+                               ^
+  found   : @RTainted HttpServletRequest
+  required: @RUntainted ServletRequest
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:2176: warning: [argument] incompatible argument for parameter arg1 of HttpServletResponse.sendError.
+                res.sendError(status, rv.toString());
+                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:2187: warning: [argument] incompatible argument for parameter arg1 of HttpServletResponse.sendError.
+                res.sendError(status, t.toString());
+                                                ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:2240: warning: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+                        res.sendRedirect(url);
+                                         ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:2257: warning: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+                                m_siteManager.getCurrentSite(cms).getUrl() + req.getContextPath() + req.getPathInfo());
+                                                                                                  ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:2877: warning: [argument] incompatible argument for parameter arg1 of HttpServletResponse.sendError.
+                    res.sendError(status, t.toString());
+                                                    ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:3091: warning: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+                                res.sendRedirect(target);
+                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsLinkManager.java:758: warning: [return] incompatible types in return.
+        return substituteLink(cms, link, siteRoot, null, forceSecure);
+                             ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsLinkManager.java:898: warning: [return] incompatible types in return.
+        return substituteLinkForUnknownTarget(cms, link, null, forceSecure);
+                                             ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsResourceManager.java:1192: warning: [argument] incompatible argument for parameter arg0 of ServletResponse.setContentType.
+        res.setContentType(getMimeType(resource.getName(), cms.getRequestContext().getEncoding()));
+                                      ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsSessionManager.java:748: warning: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+                    session.setAttribute(CLIENT_TOKEN, generateClientToken(req));
+                                                                          ^
+  found   : @RTainted String
+  required: @RUntainted Object
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsUIServlet.java:361: warning: [argument] incompatible argument for parameter arg1 of HttpServletResponse.sendError.
+                response.sendError(status, rv.toString());
+                                                      ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsUIServlet.java:373: warning: [argument] incompatible argument for parameter arg1 of HttpServletResponse.sendError.
+                response.sendError(status, io.toString());
+                                                      ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsUIServlet.java:382: warning: [argument] incompatible argument for parameter arg1 of HttpServletResponse.sendError.
+                response.sendError(status, t.toString());
+                                                     ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/gwt/CmsGwtService.java:222: warning: [override.param] Incompatible parameter type for request.
+    public void service(@RUntainted ServletRequest request, ServletResponse response) throws ServletException, IOException {
+                                                   ^
+  found   : @RUntainted ServletRequest
+  required: @RTainted ServletRequest
+  Consequence: method in @RTainted CmsGwtService
+    void service(@RTainted CmsGwtService this, @RUntainted ServletRequest p0, @RTainted ServletResponse p1) throws @RTainted ServletException@RTainted IOException
+  cannot override method in @RTainted HttpServlet
+    void service(@RTainted HttpServlet this, @RTainted ServletRequest p0, @RTainted ServletResponse p1) throws @RTainted ServletException@RTainted IOException
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsRfsFileViewer.java:237: warning: [return] incompatible types in return.
+        return m_windowSize;
+               ^
+  type of expression: @RTainted int
+  method return type: @RUntainted int
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/CmsDialog.java:1172: warning: [return] incompatible types in return.
+        return m_paramCloseLink;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/CmsWorkplace.java:837: warning: [argument] incompatible argument for parameter settings of CmsWorkplace.storeSettings.
+                storeSettings(session, workplaceSettings);
+                                       ^
+  found   : @RTainted CmsWorkplaceSettings
+  required: @RUntainted CmsWorkplaceSettings
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/CmsWorkplace.java:2124: warning: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+        getJsp().getResponse().sendRedirect(OpenCms.getSystemInfo().getOpenCmsContext() + location);
+                                                                                        ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/CmsWorkplace.java:2314: warning: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+                session.setAttribute(CmsContextInfo.ATTRIBUTE_REQUEST_TIME, new Long(timeWarpConf));
+                                                                            ^
+  found   : @RTainted Long
+  required: @RUntainted Object
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/CmsWorkplace.java:2360: warning: [argument] incompatible argument for parameter settings of CmsWorkplace.storeSettings.
+            storeSettings(m_session, m_settings);
+                                     ^
+  found   : @RTainted CmsWorkplaceSettings
+  required: @RUntainted CmsWorkplaceSettings
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/editors/CmsEditor.java:1040: warning: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+            session.setAttribute(info.getEditorSessionInfoKey(), info);
+                                                                 ^
+  found   : @RTainted CmsEditorSessionInfo
+  required: @RUntainted Object
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/editors/CmsEditorSessionInfo.java:107: warning: [return] incompatible types in return.
+        return PREFIX_EDITOR_SESSION_INFO + m_editedStructureId.getStringValue();
+                                          ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/CmsUserIconHelper.java:73: warning: [assignment] incompatible types in assignment.
+        Small(32, SMALL_ICON_SUFFIX),
+             ^
+  found   : @RTainted IconSize
+  required: @RUntainted IconSize
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/CmsUserIconHelper.java:75: warning: [assignment] incompatible types in assignment.
+        Tiny(23, TINY_ICON_SUFFIX);
+            ^
+  found   : @RTainted IconSize
+  required: @RUntainted IconSize
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsStaticResourceHandler.java:322: warning: [assignment] incompatible types in assignment.
+        @RUntainted String mimetype = OpenCms.getResourceManager().getMimeType(filename, "UTF-8");
+                                                                              ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsPermalinkResourceHandler.java:156: warning: [assignment] incompatible types in assignment.
+                            @RUntainted String redirectLink = baseLink + (baseLink.endsWith("/") ? "" : "/") + detailName;
+                                                                                                             ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesTable.java:142: warning: [assignment] incompatible types in assignment.
+        Icon(null, Label.class, new Label(new CmsCssIcon(OpenCmsTheme.ICON_SITE).getHtml(), ContentMode.HTML)),
+            ^
+  found   : @RTainted TableProperty
+  required: @RUntainted TableProperty
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:189: warning: [assignment] incompatible types in assignment.
+                @RUntainted String content = createConfigForSite(site, FileUtils.readFileToString(new File(m_templatePath)));
+                                                                ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:189: warning: [argument] incompatible argument for parameter file of FileUtils.readFileToString.
+                @RUntainted String content = createConfigForSite(site, FileUtils.readFileToString(new File(m_templatePath)));
+                                                                                                  ^
+  found   : @RTainted File
+  required: @RUntainted File
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:191: warning: [compound.assignment] expression type incompatible with left-hand side in compound assignment.
+                    content += createConfigForSite(site, FileUtils.readFileToString(new File(m_secureTemplate)));
+                            ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:191: warning: [argument] incompatible argument for parameter file of FileUtils.readFileToString.
+                    content += createConfigForSite(site, FileUtils.readFileToString(new File(m_secureTemplate)));
+                                                                                    ^
+  found   : @RTainted File
+  required: @RUntainted File
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:194: warning: [argument] incompatible argument for parameter file of FileUtils.writeStringToFile.
+                FileUtils.writeStringToFile(newFile, content);
+                                            ^
+  found   : @RTainted File
+  required: @RUntainted File
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:297: warning: [argument] incompatible argument for parameter command of ProcessBuilder constructor.
+        ProcessBuilder pb = new ProcessBuilder(params.toArray(new String[params.size()]));
+                                                             ^
+  found   : @RTainted String @RTainted []
+  required: @RUntainted String @RTainted []
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/user/CmsGroupTable.java:79: warning: [assignment] incompatible types in assignment.
+        Description(CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_GROUP_DESCRIPTION_0), String.class, ""),
+                   ^
+  found   : @RTainted TableProperty
+  required: @RUntainted TableProperty
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/user/CmsGroupTable.java:85: warning: [assignment] incompatible types in assignment.
+        Name(CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_GROUP_NAME_0), String.class, ""),
+            ^
+  found   : @RTainted TableProperty
+  required: @RUntainted TableProperty
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/user/CmsGroupTable.java:87: warning: [assignment] incompatible types in assignment.
+        OU(CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_GROUP_OU_0), String.class, "");
+          ^
+  found   : @RTainted TableProperty
+  required: @RUntainted TableProperty
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/user/CmsRoleTable.java:115: warning: [assignment] incompatible types in assignment.
+        Name(CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_USER_NAME_0), String.class, ""),
+            ^
+  found   : @RTainted TableProperty
+  required: @RUntainted TableProperty
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/user/CmsRoleTable.java:117: warning: [assignment] incompatible types in assignment.
+        Description(CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_USER_DESCRIPTION_0), String.class, ""),
+                   ^
+  found   : @RTainted TableProperty
+  required: @RUntainted TableProperty
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/user/CmsRoleTable.java:119: warning: [assignment] incompatible types in assignment.
+        OU(CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_USER_OU_0), String.class, "");
+          ^
+  found   : @RTainted TableProperty
+  required: @RUntainted TableProperty
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsLogFileView.java:114: warning: [argument] incompatible argument for parameter arg0 of HttpSession.setAttribute.
+                ATTR_FILE_VIEW_SIZE,
+                ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsLogFileView.java:132: warning: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+                CmsVaadinUtils.getRequest().getSession().setAttribute(ATTR_FILE_VIEW_PATH, getCurrentFile());
+                                                                                                         ^
+  found   : @RTainted String
+  required: @RUntainted Object
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsLogFileView.java:211: warning: [argument] incompatible argument for parameter arg0 of HttpSession.setAttribute.
+            CmsVaadinUtils.getRequest().getSession().setAttribute(ATTR_FILE_VIEW_CHARSET, defaultCs);
+                                                                  ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsLogFileViewSettings.java:106: warning: [argument] incompatible argument for parameter arg0 of HttpSession.setAttribute.
+                session.setAttribute(CmsLogFileView.ATTR_FILE_VIEW_CHARSET, m_charset.getValue());
+                                                   ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsLogFileViewSettings.java:106: warning: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+                session.setAttribute(CmsLogFileView.ATTR_FILE_VIEW_CHARSET, m_charset.getValue());
+                                                                                              ^
+  found   : @RTainted Object
+  required: @RUntainted Object
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsLogFileViewSettings.java:107: warning: [argument] incompatible argument for parameter arg0 of HttpSession.setAttribute.
+                session.setAttribute(CmsLogFileView.ATTR_FILE_VIEW_SIZE, m_size.getValue());
+                                                   ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsLogFileViewSettings.java:107: warning: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+                session.setAttribute(CmsLogFileView.ATTR_FILE_VIEW_SIZE, m_size.getValue());
+                                                                                        ^
+  found   : @RTainted String
+  required: @RUntainted Object
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/git/CmsGitCheckin.java:921: warning: [array.initializer] incompatible types in array initializer.
+            @RUntainted String[] cmd = {"bash", "-c", commandParam};
+                                                      ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/git/CmsGitCheckin.java:921: warning: [assignment] incompatible types in assignment.
+            @RUntainted String[] cmd = {"bash", "-c", commandParam};
+                                       ^
+  found   : @RTainted String @RTainted []
+  required: @RUntainted String @RTainted []
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/dbmanager/sqlconsole/CmsSqlConsoleExecutor.java:190: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+            stmt = sqlManager.getPreparedStatementForSql(conn, sentence);
+                                                               ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/dbmanager/sqlconsole/CmsSqlConsoleExecutor.java:247: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+            stmt = sqlManager.getPreparedStatementForSql(conn, sentence);
+                                                               ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsSqlManager.java:266: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+        return getPreparedStatementForSql(con, rawSql);
+                                               ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsSqlManager.java:280: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+        return getPreparedStatementForSql(con, rawSql);
+                                               ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/components/codemirror/CmsCodeMirror.java:62: warning: [assignment] incompatible types in assignment.
+        CSS("css", new String[] {"css"}),
+           ^
+  found   : @RTainted CodeMirrorLanguage
+  required: @RUntainted CodeMirrorLanguage
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/components/codemirror/CmsCodeMirror.java:64: warning: [assignment] incompatible types in assignment.
+        HTML("text/html", new String[] {"html", "htm", "xhtml"}),
+            ^
+  found   : @RTainted CodeMirrorLanguage
+  required: @RUntainted CodeMirrorLanguage
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/components/codemirror/CmsCodeMirror.java:66: warning: [assignment] incompatible types in assignment.
+        JAVA("text/x-java", new String[] {"java"}),
+            ^
+  found   : @RTainted CodeMirrorLanguage
+  required: @RUntainted CodeMirrorLanguage
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/components/codemirror/CmsCodeMirror.java:68: warning: [assignment] incompatible types in assignment.
+        JAVASCRIPT("javascript", new String[] {"js"}),
+                  ^
+  found   : @RTainted CodeMirrorLanguage
+  required: @RUntainted CodeMirrorLanguage
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/components/codemirror/CmsCodeMirror.java:70: warning: [assignment] incompatible types in assignment.
+        JSP("application/x-jsp", new String[] {"jsp"}),
+           ^
+  found   : @RTainted CodeMirrorLanguage
+  required: @RUntainted CodeMirrorLanguage
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/components/codemirror/CmsCodeMirror.java:72: warning: [assignment] incompatible types in assignment.
+        XML("application/xml", new String[] {"xml", "xsd"});
+           ^
+  found   : @RTainted CodeMirrorLanguage
+  required: @RUntainted CodeMirrorLanguage
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/error/CmsErrorUI.java:140: warning: [assignment] incompatible types in assignment.
+        @RUntainted Throwable cause = CmsFlexController.getThrowable(request);
+                                                                    ^
+  found   : @RTainted Throwable
+  required: @RUntainted Throwable
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/error/CmsErrorUI.java:142: warning: [assignment] incompatible types in assignment.
+            cause = throwable;
+                    ^
+  found   : @RTainted Throwable
+  required: @RUntainted Throwable
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/error/CmsErrorUI.java:146: warning: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+        request.getSession().setAttribute(PATH, errorUri);
+                                                ^
+  found   : @RTainted String
+  required: @RUntainted Object
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginHelper.java:564: warning: [argument] incompatible argument for parameter newValue of Cookie.setValue.
+            pcTypeCookie.setValue(pcType);
+                                  ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginHelper.java:572: warning: [argument] incompatible argument for parameter newValue of Cookie.setValue.
+            userNameCookie.setValue(username);
+                                    ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginHelper.java:660: warning: [argument] incompatible argument for parameter uri of Cookie.setPath.
+            CmsStringUtil.joinPaths(
+                                   ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginController.java:506: warning: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+            response.sendRedirect(getFormLink(cms));
+                                             ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginController.java:663: warning: [argument] incompatible argument for parameter oufqn of CmsLoginHelper.setCookieData.
+                    ou,
+                    ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginUI.java:262: warning: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+            response.sendRedirect(target);
+                                  ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginUI.java:266: warning: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+        request.getSession().setAttribute(CmsLoginUI.INIT_DATA_SESSION_ATTR, params);
+                                                                             ^
+  found   : @RTainted LoginParameters
+  required: @RUntainted Object
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginUI.java:376: warning: [assignment] incompatible types in assignment.
+        @RUntainted CmsWorkplaceSettings settings = (CmsWorkplaceSettings)session.getAttribute(
+                                                    ^
+  found   : @RTainted CmsWorkplaceSettings
+  required: @RUntainted CmsWorkplaceSettings
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginUI.java:379: warning: [assignment] incompatible types in assignment.
+            settings = CmsLoginHelper.initSiteAndProject(cms);
+                                                        ^
+  found   : @RTainted CmsWorkplaceSettings
+  required: @RUntainted CmsWorkplaceSettings
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsDumpLoader.java:125: warning: [assignment] incompatible types in assignment.
+                @RUntainted String[] parts = CmsStringUtil.splitAsArray(header, ':');
+                                                                       ^
+  found   : @RTainted String @RTainted []
+  required: @RUntainted String @RTainted []
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsPointerLoader.java:306: warning: [assignment] incompatible types in assignment.
+        @RUntainted String pointer = new String(
+                                     ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsPointerLoader.java:314: warning: [assignment] incompatible types in assignment.
+            pointer = OpenCms.getLinkManager().substituteLink(cms, pointer);
+                                                             ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsPointerLoader.java:316: warning: [assignment] incompatible types in assignment.
+            pointer = CmsEncoder.convertHostToPunycode(pointer);
+                                                      ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsPointerLoader.java:320: warning: [assignment] incompatible types in assignment.
+        pointer = appendLinkParams(pointer, req);
+                                  ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/editors/CmsEditorActionDefault.java:112: warning: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+        jsp.getResponse().sendRedirect(publishLink);
+                                       ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsRequestUtil.java:905: warning: [argument] incompatible argument for parameter location of CmsFlexResponse.sendRedirect.
+                ((CmsFlexResponse)jsp.getResponse()).sendRedirect(target, true);
+                                                                  ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsRequestUtil.java:959: warning: [argument] incompatible argument for parameter newValue of Cookie.setValue.
+                cookies[i].setValue(value);
+                                    ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsRequestUtil.java:1001: warning: [argument] incompatible argument for parameter arg0 of HttpSession.setAttribute.
+        session.setAttribute(key, value);
+                             ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsRequestUtil.java:1001: warning: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+        session.setAttribute(key, value);
+                                  ^
+  found   : @RTainted Object
+  required: @RUntainted Object
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/pdftools/CmsPdfResourceHandler.java:70: warning: [assignment] incompatible types in assignment.
+    public static final @RUntainted Map<@RUntainted String, @RUntainted String> IMAGE_MIMETYPES = Collections.unmodifiableMap(
+                                                                                                                             ^
+  found   : @RTainted Map<@RTainted String, @RTainted String>
+  required: @RUntainted Map<@RUntainted String, @RUntainted String>
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsProjectDriver.java:236: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+                    stmt = m_sqlManager.getPreparedStatementForSql(conn, statementText);
+                                                                         ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsProjectDriver.java:700: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+            stmt = m_sqlManager.getPreparedStatementForSql(conn, sql);
+                                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsProjectDriver.java:882: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+            stmt = m_sqlManager.getPreparedStatementForSql(conn, sql);
+                                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsProjectDriver.java:2969: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+            stmt = m_sqlManager.getPreparedStatementForSql(conn, sql);
+                                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsVfsDriver.java:211: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+            stmt = m_sqlManager.getPreparedStatementForSql(conn, query);
+                                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsVfsDriver.java:1041: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+            stmt = m_sqlManager.getPreparedStatementForSql(conn, sql);
+                                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsVfsDriver.java:1224: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+            stmt = m_sqlManager.getPreparedStatementForSql(conn, query);
+                                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsVfsDriver.java:1297: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+                m_sqlManager.readQuery(projectId, "C_READ_RESOURCE_OUS"));
+                                      ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsVfsDriver.java:1775: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+            stmt = m_sqlManager.getPreparedStatementForSql(conn, sql);
+                                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsVfsDriver.java:2675: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+            stmt = m_sqlManager.getPreparedStatementForSql(conn, query);
+                                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsVfsDriver.java:4753: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+        PreparedStatement stmt = m_sqlManager.getPreparedStatementForSql(conn, query);
+                                                                               ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsUserDriver.java:238: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+            stmt = m_sqlManager.getPreparedStatementForSql(conn, queryAndParams.getFirst());
+                                                                                        ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsUserDriver.java:869: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+            stmt = m_sqlManager.getPreparedStatementForSql(conn, sqlQuery);
+                                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsUserDriver.java:1320: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+            stmt = m_sqlManager.getPreparedStatementForSql(conn, sqlQuery);
+                                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsUserDriver.java:1788: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+            stmt = m_sqlManager.getPreparedStatementForSql(conn, queryAndParams.getFirst());
+                                                                                        ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsSubscriptionDriver.java:348: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+            stmt = m_sqlManager.getPreparedStatementForSql(conn, query);
+                                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsSubscriptionDriver.java:582: warning: [argument] incompatible argument for parameter query of CmsSqlManager.getPreparedStatementForSql.
+            stmt = m_sqlManager.getPreparedStatementForSql(conn, queryBuf);
+                                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ade/galleries/CmsGalleryService.java:1296: warning: [assignment] incompatible types in assignment.
+            @RUntainted String attributeName = getTreeOpenStateAttributeName(treeName, treeToken);
+                                                                            ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ade/galleries/CmsGalleryService.java:1304: warning: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+            session.setAttribute(attributeName, treeState);
+                                                ^
+  found   : @RTainted CmsTreeOpenState
+  required: @RUntainted Object
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ade/upload/CmsUploadListener.java:140: warning: [return] incompatible types in return.
+        return m_id;
+               ^
+  type of expression: @RTainted CmsUUID
+  method return type: @RUntainted CmsUUID
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ade/publish/CmsPublishService.java:397: warning: [argument] incompatible argument for parameter options of CmsPublishService.setCachedOptions.
+            setCachedOptions(options);
+                             ^
+  found   : @RTainted CmsPublishOptions
+  required: @RUntainted CmsPublishOptions
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ade/containerpage/CmsContainerpageService.java:1765: warning: [override.param] Incompatible parameter type for tabIndex.
+    public void saveClipboardTab(@RUntainted int tabIndex) {
+                                                 ^
+  found   : @RUntainted int
+  required: @RTainted int
+  Consequence: method in @RTainted CmsContainerpageService
+    void saveClipboardTab(@RTainted CmsContainerpageService this, @RUntainted int p0)
+  cannot override method in @RTainted I_CmsContainerpageService
+    void saveClipboardTab(@RTainted I_CmsContainerpageService this, @RTainted int p0)
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/gwt/CmsMessagesService.java:79: warning: [argument] incompatible argument for parameter arg0 of ServletResponse.setCharacterEncoding.
+            response.setCharacterEncoding(characterEncoding);
+                                          ^
+  found   : @RTainted String
+  required: @RUntainted String
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ugc/CmsUgcSessionFactory.java:108: warning: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+        httpSession.setAttribute("" + session.getId(), session);
+                                                       ^
+  found   : @RTainted CmsUgcSession
+  required: @RUntainted Object
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ugc/CmsUgcSession.java:385: warning: [return] incompatible types in return.
+        return getProject().getUuid();
+                                   ^
+  type of expression: @RTainted CmsUUID
+  method return type: @RUntainted CmsUUID
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+144 warnings

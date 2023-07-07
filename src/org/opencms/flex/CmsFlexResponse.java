@@ -54,6 +54,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for a HttpServletResponse, required in order to process JSPs from the OpenCms VFS.<p>
@@ -653,7 +654,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      *
      * @throws IOException if IO operations on the response fail
      */
-    public void sendRedirect(String location, boolean permanent) throws IOException {
+    public void sendRedirect(@RUntainted String location, boolean permanent) throws IOException {
 
         // Ignore any redirects after the first one
         if (isSuspended() && (!location.equals(m_bufferRedirect))) {
