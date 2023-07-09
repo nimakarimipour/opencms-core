@@ -57,6 +57,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.ComboBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Site selector widget which also optionally offers subsite options.

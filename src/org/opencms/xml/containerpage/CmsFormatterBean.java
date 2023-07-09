@@ -52,6 +52,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ImmutableList;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean containing formatter configuration data as strings.<p>

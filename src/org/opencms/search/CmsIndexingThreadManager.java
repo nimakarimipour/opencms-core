@@ -37,6 +37,7 @@ import org.opencms.report.I_CmsReport;
 import java.io.IOException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the management of indexing threads.<p>

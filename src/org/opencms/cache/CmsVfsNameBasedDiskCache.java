@@ -37,6 +37,7 @@ import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements a name based RFS file based disk cache, that handles parameter based versions of VFS files.<p>

@@ -28,6 +28,7 @@
 package org.opencms.xml.content;
 
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a configured tab to be used in the XML content editor for better usability.<p>

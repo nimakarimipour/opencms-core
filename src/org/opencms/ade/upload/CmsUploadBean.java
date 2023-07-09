@@ -78,6 +78,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean to be used in JSP scriptlet code that provides
@@ -134,7 +135,7 @@ public class CmsUploadBean extends CmsJspBean {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsUploadBean(PageContext context, HttpServletRequest req, HttpServletResponse res)
+    public CmsUploadBean(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res)
     throws CmsException {
 
         super();

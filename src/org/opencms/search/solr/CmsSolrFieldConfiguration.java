@@ -77,6 +77,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.solr.common.SolrInputDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The search field implementation for Solr.<p>

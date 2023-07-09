@@ -34,6 +34,7 @@ import org.opencms.search.I_CmsSearchDocument;
 import org.opencms.search.I_CmsSearchIndex;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used to create index Lucene Documents for OpenCms resources,

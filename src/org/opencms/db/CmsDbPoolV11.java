@@ -45,6 +45,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.Maps;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Database connection pool class using HikariCP.

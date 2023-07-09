@@ -26,6 +26,7 @@
  */
 
 package org.opencms.util;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a macro mapper, which is used to efficiently resolve macros

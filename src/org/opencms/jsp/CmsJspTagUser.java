@@ -41,6 +41,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the data of the currently logged in user.<p>

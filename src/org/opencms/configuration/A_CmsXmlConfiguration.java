@@ -30,6 +30,7 @@ package org.opencms.configuration;
 import org.opencms.main.CmsLog;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract base implementation for xml configurations.<p>

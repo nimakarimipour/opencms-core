@@ -30,6 +30,7 @@ package org.opencms.notification;
 import org.opencms.file.CmsResource;
 
 import java.util.Date;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to encapsulate a resource and the cause of its notification.<p>

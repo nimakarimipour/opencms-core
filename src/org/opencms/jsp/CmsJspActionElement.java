@@ -54,6 +54,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean to be used in JSP scriptlet code that provides direct
@@ -105,7 +106,7 @@ public class CmsJspActionElement extends CmsJspBean {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsJspActionElement(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsJspActionElement(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         super();
         init(context, req, res);
@@ -724,7 +725,7 @@ public class CmsJspActionElement extends CmsJspBean {
      * @see org.opencms.jsp.CmsJspTagLink
      * @see #link(String, String)
      */
-    public String link(String target) {
+    public @RUntainted String link(String target) {
 
         return link(target, null);
     }

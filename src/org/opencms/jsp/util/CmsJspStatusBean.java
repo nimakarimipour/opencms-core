@@ -55,6 +55,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This bean provides methods to generate customized http status error pages, e.g. to handle 404 (not found) errors.<p>
@@ -134,7 +135,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsJspStatusBean(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsJspStatusBean(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         super(context, req, res);
         initMembers(req, null);
@@ -148,7 +149,7 @@ public class CmsJspStatusBean extends CmsJspActionElement {
      * @param res the JSP response
      * @param t the exception that lead to the error
      */
-    public CmsJspStatusBean(PageContext context, HttpServletRequest req, HttpServletResponse res, Throwable t) {
+    public CmsJspStatusBean(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res, Throwable t) {
 
         super(context, req, res);
         initMembers(req, t);

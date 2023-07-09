@@ -69,6 +69,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the general helper methods to generate the content of a gallery dialog used in the XML content editors,
@@ -207,7 +208,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public A_CmsAjaxGallery(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public A_CmsAjaxGallery(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
     }

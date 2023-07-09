@@ -48,6 +48,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to deal with loading and saving user preferences from the ADE user interface.<p>
@@ -69,7 +70,7 @@ public class CmsClientUserSettingConverter {
          * @param req the current request
          * @param res the current response
          */
-        public NoJspActionElement(CmsObject cms, HttpServletRequest req, HttpServletResponse res) {
+        public NoJspActionElement(CmsObject cms, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
             super(null, req, res);
             m_setCms = cms;
@@ -109,7 +110,7 @@ public class CmsClientUserSettingConverter {
     private CmsMacroResolver m_macroResolver = new CmsMacroResolver();
 
     /** The current request. */
-    private HttpServletRequest m_request;
+    private @RUntainted HttpServletRequest m_request;
 
     /**
      * Creates a new instance.<p>
@@ -118,7 +119,7 @@ public class CmsClientUserSettingConverter {
      * @param request the current request
      * @param response the current response
      */
-    public CmsClientUserSettingConverter(CmsObject cms, HttpServletRequest request, HttpServletResponse response) {
+    public CmsClientUserSettingConverter(CmsObject cms, @RUntainted HttpServletRequest request, HttpServletResponse response) {
 
         m_cms = cms;
         m_request = request;

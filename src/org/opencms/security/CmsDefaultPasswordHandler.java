@@ -43,6 +43,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
 
 import com.lambdaworks.crypto.SCryptUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default implementation for OpenCms password validation,

@@ -74,6 +74,7 @@ import org.dom4j.Element;
 import org.dom4j.Node;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.SAXException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of a XML content object,

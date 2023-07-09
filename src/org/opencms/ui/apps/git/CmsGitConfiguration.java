@@ -38,6 +38,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.Properties;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Access to a single git configuration file. */
 public class CmsGitConfiguration {

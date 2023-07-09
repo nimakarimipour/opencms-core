@@ -80,6 +80,7 @@ import javax.servlet.jsp.PageContext;
 import org.apache.commons.collections.Buffer;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Master class for the JSP based workplace which provides default methods and
@@ -332,7 +333,7 @@ public abstract class CmsWorkplace {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsWorkplace(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsWorkplace(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
     }
@@ -851,7 +852,7 @@ public abstract class CmsWorkplace {
      *
      * @see #initWorkplaceSettings(CmsObject, CmsWorkplaceSettings, boolean)
      */
-    public static CmsWorkplaceSettings initUserSettings(CmsObject cms, CmsWorkplaceSettings settings, boolean update) {
+    public static @RUntainted CmsWorkplaceSettings initUserSettings(CmsObject cms, @RUntainted CmsWorkplaceSettings settings, boolean update) {
 
         if (settings == null) {
             settings = new CmsWorkplaceSettings();
@@ -896,9 +897,9 @@ public abstract class CmsWorkplace {
      *
      * @see #initUserSettings(CmsObject, CmsWorkplaceSettings, boolean)
      */
-    public static synchronized CmsWorkplaceSettings initWorkplaceSettings(
+    public static synchronized @RUntainted CmsWorkplaceSettings initWorkplaceSettings(
         CmsObject cms,
-        CmsWorkplaceSettings settings,
+        @RUntainted CmsWorkplaceSettings settings,
         boolean update) {
 
         // init the workplace user settings
@@ -986,13 +987,13 @@ public abstract class CmsWorkplace {
      * @param cms the current cms context
      * @param req the current http request
      */
-    public static void updateUserPreferences(CmsObject cms, HttpServletRequest req) {
+    public static void updateUserPreferences(CmsObject cms, @RUntainted HttpServletRequest req) {
 
-        HttpSession session = req.getSession(false);
+        @RUntainted HttpSession session = req.getSession(false);
         if (session == null) {
             return;
         }
-        CmsWorkplaceSettings settings = (CmsWorkplaceSettings)session.getAttribute(
+        @RUntainted CmsWorkplaceSettings settings = (CmsWorkplaceSettings)session.getAttribute(
             CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS);
         if (settings == null) {
             return;
@@ -2297,7 +2298,7 @@ public abstract class CmsWorkplace {
      */
     protected void initTimeWarp(CmsUserSettings settings, HttpSession session) {
 
-        long timeWarpConf = settings.getTimeWarp();
+        @RUntainted long timeWarpConf = settings.getTimeWarp();
         Long timeWarpSetLong = (Long)session.getAttribute(CmsContextInfo.ATTRIBUTE_REQUEST_TIME);
         long timeWarpSet = (timeWarpSetLong != null) ? timeWarpSetLong.longValue() : CmsContextInfo.CURRENT_TIME;
 

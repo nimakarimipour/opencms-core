@@ -32,6 +32,7 @@ import org.opencms.jsp.util.I_CmsJspDeviceSelector;
 import org.opencms.main.CmsLog;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Flex Cache configuration class.<p>

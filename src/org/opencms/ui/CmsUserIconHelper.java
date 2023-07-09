@@ -55,6 +55,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generates user ident-icons.<p>
@@ -117,19 +118,19 @@ public class CmsUserIconHelper {
     public static final Color ADMIN_COLOR = new Color(0x00, 0x30, 0x82);
 
     /** The big icon suffix. */
-    public static final String BIG_ICON_SUFFIX = "_big_icon.png";
+    public static final @RUntainted String BIG_ICON_SUFFIX = "_big_icon.png";
 
     /** The target folder name. */
     public static final String ICON_FOLDER = "user_icons";
 
     /** The small icon suffix. */
-    public static final String SMALL_ICON_SUFFIX = "_small_icon.png";
+    public static final @RUntainted String SMALL_ICON_SUFFIX = "_small_icon.png";
 
     /** The temp folder name. */
     public static final String TEMP_FOLDER = "temp/";
 
     /** The tiny icon suffix. */
-    public static final String TINY_ICON_SUFFIX = "_tiny_icon.png";
+    public static final @RUntainted String TINY_ICON_SUFFIX = "_tiny_icon.png";
 
     /** The user image folder. */
     public static final String USER_IMAGE_FOLDER = "/system/userimages/";

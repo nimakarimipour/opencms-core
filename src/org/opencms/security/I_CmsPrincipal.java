@@ -32,6 +32,7 @@ import org.opencms.util.CmsUUID;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Representation of an identity in the cms (currently user or group),

@@ -37,6 +37,7 @@ import org.opencms.search.fields.I_CmsSearchFieldMapping;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An individual field for the Solr search index.<p>

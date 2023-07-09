@@ -27,7 +27,7 @@ def run_annotator():
     commands += ['-i', 'edu.ucr.Initializer']
     commands += ['-n', 'edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted']
     commands += ['-cn', 'UCRTaint']
-    commands += ["--depth", "1"]
+    commands += ["--depth", "5"]
     # Uncomment to see build output
     # commands += ['-rboserr']
     # Uncomment to disable outer loop

@@ -58,6 +58,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the Additional User info dialog.<p>

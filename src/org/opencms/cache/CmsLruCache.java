@@ -30,6 +30,7 @@ package org.opencms.cache;
 import org.opencms.main.CmsLog;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements an LRU (last recently used) cache.<p>

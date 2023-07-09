@@ -28,6 +28,7 @@
 package org.opencms.ade.galleries.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Shared constants interface.<p>
@@ -223,7 +224,7 @@ public interface I_CmsGalleryProviderConstants {
     String CONFIG_START_SITE = "startsite";
 
     /** Configuration key. */
-    String CONFIG_TAB_CONFIG = "tabconfig";
+    @RUntainted String CONFIG_TAB_CONFIG = "tabconfig";
 
     /** The key for the tree token. */
     String CONFIG_TREE_TOKEN = "treeToken";

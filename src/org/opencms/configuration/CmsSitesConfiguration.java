@@ -64,6 +64,7 @@ import org.apache.commons.digester3.Rule;
 import org.dom4j.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to read and write the OpenCms site configuration.<p>
@@ -252,11 +253,11 @@ public class CmsSitesConfiguration extends A_CmsXmlConfiguration implements I_Cm
         digester.addRule("*/" + N_SITES + "/" + N_SITE + "/" + N_ALIAS, new Rule() {
 
             @Override
-            public void begin(String namespace, String name, Attributes attributes) throws Exception {
+            public void begin(String namespace, String name, @RUntainted Attributes attributes) throws Exception {
 
                 String server = attributes.getValue(A_SERVER);
                 String redirect = attributes.getValue(A_REDIRECT);
-                String offset = attributes.getValue(A_OFFSET);
+                @RUntainted String offset = attributes.getValue(A_OFFSET);
                 CmsSiteMatcher matcher = CmsSiteManagerImpl.createAliasSiteMatcher(server, redirect, offset);
                 Object[] params = getDigester().peekParams();
                 ((ArrayList)params[13]).add(matcher);

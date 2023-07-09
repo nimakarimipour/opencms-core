@@ -56,6 +56,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods for building the dialog windows of OpenCms.<p>
@@ -248,7 +249,7 @@ public class CmsDialog extends CmsToolDialog {
     private String m_paramAction;
 
     /** The close link parameter. */
-    private String m_paramCloseLink;
+    private @RUntainted String m_paramCloseLink;
 
     /** The dialog type. */
     private String m_paramDialogtype;
@@ -294,7 +295,7 @@ public class CmsDialog extends CmsToolDialog {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsDialog(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsDialog(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
     }
@@ -317,7 +318,7 @@ public class CmsDialog extends CmsToolDialog {
      *
      * @return an initialized CmsDialog instance that is read from the request attributes
      */
-    public static CmsDialog initCmsDialog(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public static CmsDialog initCmsDialog(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         CmsDialog wp = (CmsDialog)req.getAttribute(CmsWorkplace.SESSION_WORKPLACE_CLASS);
         if (wp == null) {
@@ -1163,7 +1164,7 @@ public class CmsDialog extends CmsToolDialog {
      *
      * @return the value of the close link parameter
      */
-    public String getParamCloseLink() {
+    public @RUntainted String getParamCloseLink() {
 
         if ((m_paramCloseLink == null) || "null".equals(m_paramCloseLink)) {
             return null;
@@ -1543,7 +1544,7 @@ public class CmsDialog extends CmsToolDialog {
      *
      * @param value the value to set
      */
-    public void setParamCloseLink(String value) {
+    public void setParamCloseLink(@RUntainted String value) {
 
         // ensure decoded chars are re-encoded again properly
 

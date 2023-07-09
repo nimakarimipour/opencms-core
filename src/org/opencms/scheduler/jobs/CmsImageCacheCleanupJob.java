@@ -36,6 +36,7 @@ import java.io.File;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A schedulable OpenCms job that clear the image cache for the scaled images created by the <code>{@link org.opencms.loader.CmsImageLoader}</code>.<p>

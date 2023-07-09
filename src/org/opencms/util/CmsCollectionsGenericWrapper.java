@@ -39,6 +39,7 @@ import java.util.Set;
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.collections.map.LRUMap;
 import org.apache.commons.collections.map.LazyMap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides Map wrapping utility functions for Java generics.<p>

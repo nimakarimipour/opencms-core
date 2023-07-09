@@ -60,6 +60,7 @@ import org.apache.commons.logging.Log;
 
 import org.quartz.SchedulerConfigException;
 import org.quartz.spi.ThreadPool;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Simple thread pool used for the Quartz scheduler in OpenCms.<p>

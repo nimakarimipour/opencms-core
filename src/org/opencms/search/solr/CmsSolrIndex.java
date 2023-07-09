@@ -104,6 +104,7 @@ import org.apache.solr.response.QueryResponseWriter;
 import org.apache.solr.response.SolrQueryResponse;
 
 import com.google.common.base.Objects;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the search within an Solr index.<p>
@@ -1646,7 +1647,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
      * @throws IOException if sth. goes wrong
      * @throws UnsupportedEncodingException if sth. goes wrong
      */
-    private void writeResp(ServletResponse response, SolrQueryRequest queryRequest, SolrQueryResponse queryResponse)
+    private void writeResp(ServletResponse response, SolrQueryRequest queryRequest, @RUntainted SolrQueryResponse queryResponse)
     throws IOException, UnsupportedEncodingException {
 
         if (m_solr instanceof EmbeddedSolrServer) {
@@ -1655,7 +1656,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
             try {
                 QueryResponseWriter responseWriter = core.getQueryResponseWriter(queryRequest);
 
-                final String ct = responseWriter.getContentType(queryRequest, queryResponse);
+                final @RUntainted String ct = responseWriter.getContentType(queryRequest, queryResponse);
                 if (null != ct) {
                     response.setContentType(ct);
                 }

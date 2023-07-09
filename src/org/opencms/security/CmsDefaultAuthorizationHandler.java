@@ -57,6 +57,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.codec.binary.Base64;
 
 import com.google.common.base.Joiner;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines default authorization methods.<p>
@@ -357,7 +358,7 @@ public class CmsDefaultAuthorizationHandler extends A_CmsAuthorizationHandler {
             LOG.debug("initStartSettings = " + initStartSettings);
             OpenCms.getSiteManager().isWorkplaceRequest(req);
             if (initStartSettings) {
-                CmsWorkplaceSettings settings = CmsLoginHelper.initSiteAndProject(cms);
+                @RUntainted CmsWorkplaceSettings settings = CmsLoginHelper.initSiteAndProject(cms);
                 session.setAttribute(CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS, settings);
             }
 

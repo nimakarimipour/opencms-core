@@ -39,6 +39,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to system wide "read only" information about the running OpenCms instance.<p>
@@ -169,7 +170,7 @@ public class CmsSystemInfo {
     private String m_configurationFileRfsPath;
 
     /** Default encoding, can be set in opencms-system.xml. */
-    private String m_defaultEncoding;
+    private @RUntainted String m_defaultEncoding;
 
     /** The device selector instance. */
     private I_CmsJspDeviceSelector m_deviceSelector;
@@ -387,7 +388,7 @@ public class CmsSystemInfo {
      *
      * @return the default encoding, e.g. "UTF-8" or "ISO-8859-1"
      */
-    public String getDefaultEncoding() {
+    public @RUntainted String getDefaultEncoding() {
 
         return m_defaultEncoding;
     }
@@ -794,7 +795,7 @@ public class CmsSystemInfo {
      *
      * @param encoding the default encoding to set
      */
-    protected void setDefaultEncoding(String encoding) {
+    protected void setDefaultEncoding(@RUntainted String encoding) {
 
         m_defaultEncoding = encoding.intern();
         if (CmsLog.INIT.isInfoEnabled()) {

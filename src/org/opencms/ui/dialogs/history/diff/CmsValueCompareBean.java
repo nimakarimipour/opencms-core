@@ -44,6 +44,7 @@ import java.util.Date;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a row of the XML content value comparison table.<p>

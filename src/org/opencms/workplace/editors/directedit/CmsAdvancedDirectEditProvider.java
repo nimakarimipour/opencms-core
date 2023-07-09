@@ -71,6 +71,7 @@ import org.apache.commons.logging.Log;
 import com.google.web.bindery.autobean.shared.AutoBean;
 import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.vm.AutoBeanFactorySource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provider for the OpenCms AdvancedDirectEdit.<p>
@@ -283,7 +284,7 @@ public class CmsAdvancedDirectEditProvider extends A_CmsDirectEditProvider {
      * @see org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider#insertDirectEditIncludes(javax.servlet.jsp.PageContext, org.opencms.workplace.editors.directedit.CmsDirectEditParams)
      */
     @SuppressWarnings("unused")
-    public void insertDirectEditIncludes(PageContext context, CmsDirectEditParams params) throws JspException {
+    public void insertDirectEditIncludes(@RUntainted PageContext context, CmsDirectEditParams params) throws JspException {
 
         // For Advanced Direct Edit all necessary js and css-code is included by the enableADE tag. Further includes in the head are not needed.
 

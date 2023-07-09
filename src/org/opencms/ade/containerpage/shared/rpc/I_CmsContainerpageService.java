@@ -50,6 +50,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The RPC service interface used by the container-page editor.<p>
@@ -479,7 +480,7 @@ public interface I_CmsContainerpageService extends RemoteService {
      *
      * @param tabIndex the index of the selected clipboard tab
      */
-    void saveClipboardTab(int tabIndex);
+    void saveClipboardTab(@RUntainted int tabIndex);
 
     /**
      * Saves the container-page.<p>

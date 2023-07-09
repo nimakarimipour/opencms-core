@@ -65,6 +65,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility to login users to the OpenCms workplace.<p>
@@ -363,7 +364,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      *
      * @return the login parameters
      */
-    public static LoginParameters getLoginParameters(
+    public static @RUntainted LoginParameters getLoginParameters(
         CmsObject cms,
         HttpServletRequest request,
         boolean workplaceUiRequest) {
@@ -506,9 +507,9 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      * @param cms the CMS context which should be initialized
      * @return the workplace set
      */
-    public static CmsWorkplaceSettings initSiteAndProject(CmsObject cms) {
+    public static @RUntainted CmsWorkplaceSettings initSiteAndProject(CmsObject cms) {
 
-        CmsWorkplaceSettings workplaceSettings = CmsWorkplace.initWorkplaceSettings(cms, null, false);
+        @RUntainted CmsWorkplaceSettings workplaceSettings = CmsWorkplace.initWorkplaceSettings(cms, null, false);
         String startSite = CmsWorkplace.getStartSiteRoot(cms, workplaceSettings);
         // switch to the preferred site
         workplaceSettings.setSite(startSite);
@@ -548,9 +549,9 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      * @param response the current response
      */
     public static void setCookieData(
-        String pcType,
-        String username,
-        String oufqn,
+        @RUntainted String pcType,
+        @RUntainted String username,
+        @RUntainted String oufqn,
         HttpServletRequest request,
         HttpServletResponse response) {
 

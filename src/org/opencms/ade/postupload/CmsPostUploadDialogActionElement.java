@@ -39,6 +39,7 @@ import org.opencms.workplace.CmsWorkplace;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action element class used by the upload hook JSP from the org.opencms.ade.postupload module.<p>
@@ -69,7 +70,7 @@ public class CmsPostUploadDialogActionElement extends CmsGwtActionElement {
      */
     public CmsPostUploadDialogActionElement(
         PageContext pageContext,
-        HttpServletRequest request,
+        @RUntainted HttpServletRequest request,
         HttpServletResponse response) {
 
         super(pageContext, request, response);

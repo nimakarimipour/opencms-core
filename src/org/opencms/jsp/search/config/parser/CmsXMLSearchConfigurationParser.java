@@ -68,6 +68,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Search configuration parser reading XML. */
 public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfigurationParser {

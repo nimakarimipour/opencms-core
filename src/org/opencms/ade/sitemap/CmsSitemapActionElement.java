@@ -45,6 +45,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Sitemap action used to generate the sitemap editor.<p>
@@ -74,7 +75,7 @@ public class CmsSitemapActionElement extends CmsGwtActionElement {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsSitemapActionElement(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsSitemapActionElement(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         super(context, req, res);
     }

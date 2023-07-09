@@ -33,6 +33,7 @@ import org.opencms.report.I_CmsReport;
 import org.opencms.util.CmsUUID;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract implementation for the <code>{@link I_CmsStaticExportHandler}</code> interface.<p>

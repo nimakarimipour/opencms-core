@@ -33,6 +33,7 @@ import org.opencms.main.CmsLog;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The stored information about a user data request.

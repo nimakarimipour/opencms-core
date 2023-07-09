@@ -70,6 +70,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Search configuration parser reading JSON. */
 public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfigurationParser {

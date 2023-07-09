@@ -40,6 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Superclass for OpenCms JSP beans that provides convient access
@@ -76,7 +77,7 @@ public class CmsJspBean {
     private boolean m_isSupressingExceptions;
 
     /** OpenCms JSP request. */
-    private HttpServletRequest m_request;
+    private @RUntainted HttpServletRequest m_request;
 
     /** OpenCms JSP response. */
     private HttpServletResponse m_response;
@@ -122,7 +123,7 @@ public class CmsJspBean {
      *
      * @return the request this bean was initialized with
      */
-    public HttpServletRequest getRequest() {
+    public @RUntainted HttpServletRequest getRequest() {
 
         return m_request;
     }
@@ -157,7 +158,7 @@ public class CmsJspBean {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public void init(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public void init(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         m_controller = CmsFlexController.getController(req);
         if (m_controller == null) {
@@ -198,7 +199,7 @@ public class CmsJspBean {
      *
      * @see javax.servlet.ServletResponse#setContentType(java.lang.String)
      */
-    public void setContentType(String type) {
+    public void setContentType(@RUntainted String type) {
 
         // set the content type on the top level response
         m_controller.getTopResponse().setContentType(type);

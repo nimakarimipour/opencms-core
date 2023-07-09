@@ -31,6 +31,7 @@ import org.opencms.i18n.CmsMessageContainer;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is the interface for the report classes which are used for the output

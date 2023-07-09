@@ -49,6 +49,7 @@ import org.apache.commons.logging.Log;
 
 import org.quartz.CronExpression;
 import org.quartz.Trigger;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a scheduled job for the OpenCms scheduler.<p>

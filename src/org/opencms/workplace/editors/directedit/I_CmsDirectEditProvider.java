@@ -33,6 +33,7 @@ import org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the methods to generate the "direct edit" HTML fragments that are inserted
@@ -96,7 +97,7 @@ public interface I_CmsDirectEditProvider extends I_CmsConfigurationParameterHand
      *
      * @throws JspException in case something goes wrong
      */
-    void insertDirectEditIncludes(PageContext context, CmsDirectEditParams params) throws JspException;
+    void insertDirectEditIncludes(@RUntainted PageContext context, CmsDirectEditParams params) throws JspException;
 
     /**
      * Inserts HTML used as metadata for a collector list in the current JSP context.<p>

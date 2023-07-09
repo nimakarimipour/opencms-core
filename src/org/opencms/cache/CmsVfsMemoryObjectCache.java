@@ -35,6 +35,7 @@ import org.opencms.monitor.CmsMemoryMonitor;
 
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements a memory cache, that stores objects related to VFS files,

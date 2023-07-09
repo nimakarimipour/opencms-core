@@ -32,6 +32,7 @@ import org.opencms.loader.CmsDumpLoader;
 import org.opencms.main.CmsLog;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor used in case the given resource type class in the XML configuration could

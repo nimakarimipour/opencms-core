@@ -57,6 +57,7 @@ import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** View of the message bundle editor options, i.e., language/mode switcher, file name display and "Add key" option. */
 public class CmsMessageBundleEditorOptions {

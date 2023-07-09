@@ -34,6 +34,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.report.A_CmsReportThread;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Imports an OpenCms export file into the VFS.<p>

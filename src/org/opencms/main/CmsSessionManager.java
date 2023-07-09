@@ -61,6 +61,7 @@ import org.apache.commons.collections.Buffer;
 import org.apache.commons.collections.BufferUtils;
 import org.apache.commons.collections.buffer.CircularFifoBuffer;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Keeps track of the sessions running on the OpenCms server and
@@ -1009,7 +1010,7 @@ public class CmsSessionManager {
      *
      * @return the client token
      */
-    private String generateClientToken(HttpServletRequest request) {
+    private @RUntainted String generateClientToken(HttpServletRequest request) {
 
         String ip = request.getHeader(HEADER_TRUE_CLIENT_IP);
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(ip)) {

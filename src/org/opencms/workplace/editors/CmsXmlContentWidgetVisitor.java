@@ -42,6 +42,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Visitor implementation that collects the different widgets for all visited values and all widgets for the found values.<p>

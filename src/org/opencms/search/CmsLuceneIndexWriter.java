@@ -37,6 +37,7 @@ import org.apache.commons.logging.Log;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Delegates indexing to a standard Lucene IndexWriter.<p>

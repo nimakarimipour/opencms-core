@@ -39,6 +39,7 @@ import org.opencms.workplace.CmsWorkplace;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Link substitution handler required to render single tree localized sites.<p>

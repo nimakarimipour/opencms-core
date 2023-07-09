@@ -33,6 +33,7 @@ import org.opencms.report.A_CmsReportThread;
 import org.opencms.util.CmsUUID;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Deletes a project.<p>

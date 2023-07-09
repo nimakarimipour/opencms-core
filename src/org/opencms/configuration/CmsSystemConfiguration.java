@@ -91,6 +91,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Element;
 import org.w3c.dom.Document;
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * System master configuration class.<p>

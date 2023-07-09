@@ -69,6 +69,7 @@ import java.util.Set;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This tag is used to easily create a search form for a Solr search within a JSP.

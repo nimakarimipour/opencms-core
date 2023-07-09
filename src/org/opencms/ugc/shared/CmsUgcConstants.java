@@ -26,6 +26,7 @@
  */
 
 package org.opencms.ugc.shared;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Shared constants used by the client- and server-side components of the form editing module.<p>

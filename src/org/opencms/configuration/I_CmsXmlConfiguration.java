@@ -30,6 +30,7 @@ package org.opencms.configuration;
 import org.apache.commons.digester3.Digester;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Each configurable element in OpenCms must implement this interface.<p>

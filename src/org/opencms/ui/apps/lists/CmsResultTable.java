@@ -50,6 +50,7 @@ import java.util.Map;
 import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.util.converter.StringToDateConverter;
 import com.vaadin.v7.ui.AbstractSelect.ItemDescriptionGenerator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table to display the list manager search results.<p>

@@ -32,6 +32,7 @@ import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.Tree;
 import com.vaadin.ui.UI;
 import com.vaadin.util.ReflectTools;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * ContextMenu is an extension which can be attached to any Vaadin component to

@@ -35,6 +35,7 @@ import org.apache.commons.digester3.AbstractObjectCreationFactory;
 import org.apache.commons.logging.Log;
 
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Factory to create resource type instances from the XML configuration.<p>

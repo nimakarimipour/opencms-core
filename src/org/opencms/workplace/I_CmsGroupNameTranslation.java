@@ -26,6 +26,7 @@
  */
 
 package org.opencms.workplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for transforming group names into a more human-readable form.<p>

@@ -26,6 +26,7 @@
  */
 
 package org.opencms.main;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implement this interface in case your class has to react

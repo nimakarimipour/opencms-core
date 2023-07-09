@@ -37,6 +37,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for locating configuration files by looking up their location in properties of another resource.<p>

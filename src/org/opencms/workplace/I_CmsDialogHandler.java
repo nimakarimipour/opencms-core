@@ -29,6 +29,7 @@ package org.opencms.workplace;
 
 import org.opencms.configuration.I_CmsConfigurationParameterHandler;
 import org.opencms.jsp.CmsJspActionElement;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a method for selecting an individual jsp dialog.<p>

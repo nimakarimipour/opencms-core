@@ -44,6 +44,7 @@ import org.bouncycastle.crypto.generators.HKDFBytesGenerator;
 import org.bouncycastle.crypto.params.HKDFParameters;
 
 import com.google.common.io.BaseEncoding;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default text encryption class using AES, where the encryption key is generated from a string passed in as a parameter.
@@ -116,14 +117,14 @@ public class CmsAESTextEncryption implements I_CmsTextEncryption {
     /**
      * @see org.opencms.crypto.I_CmsTextEncryption#decrypt(java.lang.String)
      */
-    public String decrypt(String input) throws CmsEncryptionException {
+    public @RUntainted String decrypt(String input) throws CmsEncryptionException {
 
         byte[] encryptedBytes = BASE64.decode(input);
         try {
             Cipher cipher = Cipher.getInstance(AES);
             cipher.init(Cipher.DECRYPT_MODE, m_key);
             byte[] decData = cipher.doFinal(encryptedBytes);
-            String result = new String(decData, StandardCharsets.UTF_8);
+            @RUntainted String result = new String(decData, StandardCharsets.UTF_8);
             return result;
         } catch (Exception e) {
             throw new CmsEncryptionException(e.getLocalizedMessage(), e);

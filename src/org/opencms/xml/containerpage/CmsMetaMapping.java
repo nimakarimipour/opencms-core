@@ -26,6 +26,7 @@
  */
 
 package org.opencms.xml.containerpage;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration bean for meta mappings.<p>

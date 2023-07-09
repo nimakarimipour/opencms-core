@@ -30,6 +30,7 @@ package org.opencms.db;
 import org.opencms.main.OpenCms;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the data of a single export point.<p>

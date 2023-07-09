@@ -51,6 +51,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.google.common.base.Joiner;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default implementation of the user query builder.<p>

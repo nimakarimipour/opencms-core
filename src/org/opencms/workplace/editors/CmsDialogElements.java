@@ -54,6 +54,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods for the editor elements dialog.<p>
@@ -120,7 +121,7 @@ public class CmsDialogElements extends CmsDialog {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsDialogElements(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsDialogElements(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
         m_changeElement = "";

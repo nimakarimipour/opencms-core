@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Factory to create the form editing sessions.<p>
@@ -103,7 +104,7 @@ public class CmsUgcSessionFactory {
     public CmsUgcSession createSession(CmsObject cms, HttpServletRequest request, CmsUgcConfiguration config)
     throws CmsUgcException {
 
-        CmsUgcSession session = createSession(cms, config);
+        @RUntainted CmsUgcSession session = createSession(cms, config);
         HttpSession httpSession = request.getSession(true);
         httpSession.setAttribute("" + session.getId(), session);
         return session;
@@ -184,7 +185,7 @@ public class CmsUgcSessionFactory {
      *
      * @throws CmsUgcException if the session creation fails
      */
-    private CmsUgcSession createSession(CmsObject cms, CmsUgcConfiguration config) throws CmsUgcException {
+    private @RUntainted CmsUgcSession createSession(CmsObject cms, CmsUgcConfiguration config) throws CmsUgcException {
 
         if (getQueue(config).waitForSlot()) {
             try {

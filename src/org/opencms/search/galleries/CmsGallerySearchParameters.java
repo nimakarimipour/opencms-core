@@ -54,6 +54,7 @@ import java.util.stream.Collectors;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 
 import com.google.common.base.Joiner;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parameters used for the gallery search index.<p>

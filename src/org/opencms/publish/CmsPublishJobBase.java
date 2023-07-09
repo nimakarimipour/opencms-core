@@ -32,6 +32,7 @@ import org.opencms.main.CmsException;
 import org.opencms.util.CmsUUID;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines a read-only publish job.<p>

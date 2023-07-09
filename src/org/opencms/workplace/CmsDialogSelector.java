@@ -33,6 +33,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Selects the dialog which should be displayed by OpenCms depending on the configuration value.<p>

@@ -94,6 +94,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Monitors OpenCms memory consumption.<p>

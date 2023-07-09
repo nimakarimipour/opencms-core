@@ -77,6 +77,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages all configured sites in OpenCms.<p>
@@ -172,7 +173,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
     public static final String SHARED_FOLDER_TITLE = "%SHARED_FOLDER%";
 
     /** Path to config template. */
-    public static final String WEB_SERVER_CONFIG_CONFIGTEMPLATE = "configtemplate";
+    public static final @RUntainted String WEB_SERVER_CONFIG_CONFIGTEMPLATE = "configtemplate";
 
     /**prefix for files. */
     public static final String WEB_SERVER_CONFIG_FILENAMEPREFIX = "filenameprefix";
@@ -181,7 +182,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
     public static final String WEB_SERVER_CONFIG_LOGGINGDIR = "loggingdir";
 
     /** Path to secure template. */
-    public static final String WEB_SERVER_CONFIG_SECURETEMPLATE = "securetemplate";
+    public static final @RUntainted String WEB_SERVER_CONFIG_SECURETEMPLATE = "securetemplate";
 
     /** Path to target. */
     public static final String WEB_SERVER_CONFIG_TARGETPATH = "targetpath";
@@ -275,9 +276,9 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      *
      * @return the alias site matcher
      */
-    public static CmsSiteMatcher createAliasSiteMatcher(String alias, String redirect, String offset) {
+    public static CmsSiteMatcher createAliasSiteMatcher(String alias, String redirect, @RUntainted String offset) {
 
-        long timeOffset = 0;
+        @RUntainted long timeOffset = 0;
         try {
             timeOffset = Long.parseLong(offset);
         } catch (Throwable e) {

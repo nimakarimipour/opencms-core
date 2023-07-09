@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.solr.uninverting.UninvertingReader.Type;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for search field configurations used by {@link org.opencms.search.I_CmsSearchIndex} and configured in the

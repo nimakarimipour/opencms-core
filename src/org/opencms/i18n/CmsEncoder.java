@@ -55,6 +55,7 @@ import org.apache.commons.logging.Log;
 import org.apache.http.client.utils.URIBuilder;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The OpenCms CmsEncoder class provides static methods to decode and encode data.<p>

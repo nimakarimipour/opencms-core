@@ -30,6 +30,7 @@ package org.opencms.ade.galleries.shared;
 import org.opencms.ade.galleries.shared.I_CmsGalleryProviderConstants.GalleryMode;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The gallery configuration interface.<p>

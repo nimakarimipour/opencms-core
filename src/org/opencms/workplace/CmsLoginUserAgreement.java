@@ -49,6 +49,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods to show a configurable user agreement dialog after a successful workplace login.<p>
@@ -131,7 +132,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsLoginUserAgreement(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsLoginUserAgreement(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
     }

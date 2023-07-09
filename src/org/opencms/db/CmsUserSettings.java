@@ -60,6 +60,7 @@ import java.util.TreeMap;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Object to conveniently access and modify the users workplace settings.<p>
@@ -876,7 +877,7 @@ public class CmsUserSettings {
      * @return the current users time warp time, or
      *      {@link org.opencms.main.CmsContextInfo#CURRENT_TIME} if this feature is disabled
      */
-    public long getTimeWarp() {
+    public @RUntainted long getTimeWarp() {
 
         return m_timeWarp;
     }

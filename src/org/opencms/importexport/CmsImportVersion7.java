@@ -91,6 +91,7 @@ import org.dom4j.Document;
 import org.xml.sax.SAXException;
 
 import com.google.common.collect.ComparisonChain;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Adds the XML handler rules for import and export of resources and accounts.<p>

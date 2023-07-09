@@ -26,6 +26,7 @@
  */
 
 package org.opencms.cache;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines the methods which an object being cached by CmsFlexLruCache must implement.<p>

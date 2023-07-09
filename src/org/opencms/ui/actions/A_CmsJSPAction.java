@@ -34,6 +34,7 @@ import org.opencms.ui.I_CmsDialogContext;
 import org.opencms.ui.components.extensions.CmsJSPBrowserFrameExtension;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract class for actions to display a JSP file in a vaadin window.<p>

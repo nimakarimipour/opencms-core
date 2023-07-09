@@ -47,6 +47,7 @@ import java.util.Optional;
 import org.apache.commons.logging.Log;
 
 import com.vaadin.ui.Component;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Favorite dialog context for the case where the dialog is opened from the page editor,

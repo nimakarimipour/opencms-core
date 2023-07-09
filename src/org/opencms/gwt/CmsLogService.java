@@ -31,6 +31,7 @@ import org.opencms.gwt.shared.rpc.I_CmsLogService;
 import org.opencms.main.CmsLog;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles client side logging.<p>

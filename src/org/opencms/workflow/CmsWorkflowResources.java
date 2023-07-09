@@ -32,6 +32,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.main.OpenCms;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Set of workflow resources, and an optional workflow.<p>

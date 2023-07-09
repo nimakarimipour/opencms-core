@@ -28,6 +28,7 @@
 package org.opencms.ui.actions;
 
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for actions used within the ADE context.<p>

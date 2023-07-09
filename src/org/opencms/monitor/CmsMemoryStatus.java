@@ -28,6 +28,7 @@
 package org.opencms.monitor;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Data structure for dealing with memory status information.<p>

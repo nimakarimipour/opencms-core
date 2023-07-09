@@ -37,6 +37,7 @@ import org.opencms.util.CmsUUID;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The content editor service interface.<p>

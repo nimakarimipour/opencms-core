@@ -35,6 +35,7 @@ import org.opencms.ui.components.CmsRichTextArea;
 import java.util.GregorianCalendar;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A message to display when a user logs in to the system.<p>

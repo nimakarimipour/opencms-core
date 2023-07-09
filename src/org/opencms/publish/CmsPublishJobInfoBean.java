@@ -39,6 +39,7 @@ import org.opencms.report.I_CmsReport;
 import org.opencms.util.CmsUUID;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Publish job information bean.<p>

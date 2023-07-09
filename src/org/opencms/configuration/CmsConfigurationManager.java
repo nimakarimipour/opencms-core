@@ -74,6 +74,7 @@ import org.dom4j.io.XMLWriter;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration manager for digesting the OpenCms XML configuration.<p>

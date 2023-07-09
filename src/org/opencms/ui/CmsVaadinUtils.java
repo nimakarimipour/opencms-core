@@ -121,6 +121,7 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Vaadin utility functions.<p>
@@ -661,7 +662,7 @@ public final class CmsVaadinUtils {
      *
      * @return the message text for the current locale
      */
-    public static String getMessageText(String key, Object... args) {
+    public static @RUntainted String getMessageText(String key, Object... args) {
 
         return getWpMessagesForCurrentLocale().key(key, args);
     }
@@ -848,7 +849,7 @@ public final class CmsVaadinUtils {
      *
      * @return the current request
      */
-    public static HttpServletRequest getRequest() {
+    public static @RUntainted HttpServletRequest getRequest() {
 
         return (HttpServletRequest)VaadinService.getCurrentRequest();
     }

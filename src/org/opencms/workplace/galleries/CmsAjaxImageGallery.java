@@ -48,6 +48,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the specific constants, members and helper methods to generate the content of the image gallery dialog
@@ -124,7 +125,7 @@ public class CmsAjaxImageGallery extends A_CmsAjaxGallery {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsAjaxImageGallery(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsAjaxImageGallery(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
     }

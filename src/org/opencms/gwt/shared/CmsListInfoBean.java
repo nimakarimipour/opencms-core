@@ -33,6 +33,7 @@ import org.opencms.gwt.shared.sort.I_CmsHasType;
 
 import java.util.ArrayList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean holding all info to be displayed in {@link org.opencms.gwt.client.ui.CmsListItemWidget}s.<p>

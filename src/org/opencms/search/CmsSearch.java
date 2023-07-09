@@ -48,6 +48,7 @@ import org.apache.commons.logging.Log;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.Sort;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to access the search facility within a jsp.<p>

@@ -40,6 +40,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.List;
 
 import org.apache.commons.mail.EmailException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Notification class for the workflow 'release' action.<p>

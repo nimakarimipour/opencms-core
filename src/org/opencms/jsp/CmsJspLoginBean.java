@@ -49,6 +49,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides convenient wrappers useful to create user login pages.<p>
@@ -89,7 +90,7 @@ public class CmsJspLoginBean extends CmsJspActionElement {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsJspLoginBean(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsJspLoginBean(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         super();
         init(context, req, res);
@@ -192,7 +193,7 @@ public class CmsJspLoginBean extends CmsJspActionElement {
      *
      * @return the link to the form that contains the login element
      */
-    public String getFormLink() {
+    public @RUntainted String getFormLink() {
 
         return link(getRequestContext().getUri());
     }

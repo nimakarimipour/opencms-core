@@ -43,6 +43,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The content editor action element.<p>
@@ -62,7 +63,7 @@ public class CmsContentEditorActionElement extends CmsGwtActionElement {
      * @param req the servlet request
      * @param res the servlet response
      */
-    public CmsContentEditorActionElement(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsContentEditorActionElement(PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         super(context, req, res);
     }

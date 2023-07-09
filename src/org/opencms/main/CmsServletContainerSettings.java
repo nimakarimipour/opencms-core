@@ -38,6 +38,7 @@ import java.net.URL;
 import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Stores specific servlet container options, that might influence OpenCms behavior.<p>

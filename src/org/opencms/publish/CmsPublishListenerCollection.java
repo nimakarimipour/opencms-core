@@ -36,6 +36,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Publish job information bean.<p>

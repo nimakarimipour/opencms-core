@@ -33,6 +33,7 @@ import org.opencms.util.CmsUUID;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for a DB log entry.<p>
